@@ -1,0 +1,173 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/container/exception_handling.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Boost.Container and C++ exceptions - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html" title="The Boost C++ Libraries BoostBook Documentation Subset">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container.html" title="Chapter&#160;7.&#160;Boost.Container">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/containers_of_incomplete_types.html" title="Containers of Incomplete Types">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/non_standard_containers.html" title="Non-standard containers">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"/><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"/></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/containers_of_incomplete_types.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/non_standard_containers.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="container.exception_handling"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/exception_handling.html" title="Boost.Container and C++ exceptions">Boost.Container and C++ exceptions</a>
+</h2></div></div></div>
+<p>
+      In some environments, such as game development or embedded systems, C++ exceptions
+      are disabled or a customized error handling is needed. According to document
+      <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2271.html" target="_top">N2271
+      EASTL -- Electronic Arts Standard Template Library</a> exceptions can be
+      disabled for several reasons:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>Exception handling incurs some kind of cost in all compiler
+          implementations, including those that avoid the cost during normal execution.
+          However, in some cases this cost may arguably offset the cost of the code
+          that it is replacing.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>Exception handling is often agreed to be a superior solution
+          for handling a large range of function return values. However, avoiding
+          the creation of functions that need large ranges of return values is superior
+          to using exception handling to handle such values.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>Using exception handling correctly can be difficult in
+          the case of complex software.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>The execution of throw and catch can be significantly
+          expensive with some implementations.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>Exception handling violates the don't-pay-for-what-you-don't-use
+          design of C++, as it incurs overhead in any non-leaf function that has
+          destructible stack objects regardless of whether they use exception handling.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>The approach that game software usually takes is to avoid
+          the need for exception handling where possible; avoid the possibility of
+          circumstances that may lead to exceptions. For example, verify up front
+          that there is enough memory for a subsystem to do its job instead of trying
+          to deal with the problem via exception handling or any other means after
+          it occurs.</em></span></span>&#8221;</span>
+        </li>
+<li class="listitem">
+          <span class="quote">&#8220;<span class="quote"><span class="emphasis"><em>However, some game libraries may nevertheless benefit
+          from the use of exception handling. It's best, however, if such libraries
+          keep the exception handling internal lest they force their usage of exception
+          handling on the rest of the application.</em></span></span>&#8221;</span>
+        </li>
+</ul></div>
+<p>
+      In order to support environments without C++ exception support or environments
+      with special error handling needs, <span class="bold"><strong>Boost.Container</strong></span>
+      changes error signalling behaviour when <code class="computeroutput"><span class="identifier">BOOST_CONTAINER_USER_DEFINED_THROW_CALLBACKS</span></code>
+      or <code class="computeroutput"><span class="identifier">BOOST_NO_EXCEPTIONS</span></code> is defined.
+      The former shall be defined by the user and the latter can be either defined
+      by the user or implicitly defined by <span class="bold"><strong>Boost.Confg</strong></span>
+      when the compiler has been invoked with the appropriate flag (like <code class="computeroutput"><span class="special">-</span><span class="identifier">fno</span><span class="special">-</span><span class="identifier">exceptions</span></code> in GCC).
+    </p>
+<p>
+      When dealing with user-defined classes, (e.g. when constructing user-defined
+      classes):
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          If <code class="computeroutput"><span class="identifier">BOOST_NO_EXCEPTIONS</span></code>
+          is defined, the library avoids using <code class="computeroutput"><span class="keyword">try</span></code>/<code class="computeroutput"><span class="keyword">catch</span></code>/<code class="computeroutput"><span class="keyword">throw</span></code>
+          statements. The class writer must handle and propagate error situations
+          internally as no error will be propagated through <span class="bold"><strong>Boost.Container</strong></span>.
+        </li>
+<li class="listitem">
+          If <code class="computeroutput"><span class="identifier">BOOST_NO_EXCEPTIONS</span></code>
+          is <span class="bold"><strong>not</strong></span> defined, the library propagates
+          exceptions offering the exception guarantees detailed in the documentation.
+        </li>
+</ul></div>
+<p>
+      When the library needs to throw an exception (such as <code class="computeroutput"><span class="identifier">out_of_range</span></code>
+      when an incorrect index is used in <code class="computeroutput"><span class="identifier">vector</span><span class="special">::</span><span class="identifier">at</span></code>)], the
+      library calls a throw callback declared in <code class="computeroutput"><span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">container</span><span class="special">/</span><span class="identifier">throw_exception</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span></code>:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          If <code class="computeroutput"><span class="identifier">BOOST_CONTAINER_USER_DEFINED_THROW_CALLBACKS</span></code>
+          is defined, then the programmer must provide its own definition for all
+          <code class="computeroutput"><span class="identifier">throw_xxx</span></code> functions. Those
+          functions can't return, they must throw an exception or call <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">exit</span></code> or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">abort</span></code>.
+        </li>
+<li class="listitem">
+          Else if <code class="computeroutput"><span class="identifier">BOOST_NO_EXCEPTIONS</span></code>
+          is defined, a <code class="computeroutput"><span class="identifier">BOOST_ASSERT_MSG</span></code>
+          assertion is triggered (see <a href="http://www.boost.org/libs/utility/assert.html" target="_top">Boost.Assert</a>
+          for more information). If this assertion returns, then <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">abort</span></code>
+          is called.
+        </li>
+<li class="listitem">
+          Else, an appropriate standard library exception is thrown (like <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">out_of_range</span></code>).
+        </li>
+</ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2012 Ion
+      Gaztanaga<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/containers_of_incomplete_types.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/container/non_standard_containers.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/container/exception_handling.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+</html>

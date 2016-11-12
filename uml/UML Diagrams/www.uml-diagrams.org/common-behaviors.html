@@ -1,0 +1,705 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/common-behaviors.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:16:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Common Behaviors - behavior, behaviored classifier, event, signal, trigger, etc.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Common Behaviors - behavior, Behaviored classifier, signal, reception, etc." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, Common Behaviors, behavior, behaviored classifier, signal, reception" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 101211 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML Diagrams</a>
+</div>
+<div>
+<a href="common-behaviors.html" title="UML Common Behaviors Overview of Graphical Notation" >Common Behaviors</a>
+</div>
+<div>
+<a href="../www.uml-diagrams.org_/common-behaviors-reference.html" title="UML Common Behaviors Graphical Notation Reference" >Common Behaviors Reference</a>
+</div>
+<div>
+<a href="index-references.html" title="Index of UML Elements">UML Index</a>
+</div>
+<div>
+<a href="index-examples.html" title="Index of examples of UML diagrams">Examples</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Common Behaviors</h1>
+
+<p>
+In UML specification, the <strong>common behaviors</strong> specify the core concepts required for
+ dynamic elements and provide the infrastructure to support more detailed definitions of
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>.
+ Elements of the <strong>common behaviors</strong> could be used when creating
+ <a href="uml-25-diagrams.html#behavior-diagram" class="ref-link">behavior diagrams</a>.
+</p>
+
+<p>
+<strong>Common behaviors</strong> include:
+<a href="common-behaviors.html#behavior" class="ref-link">behavior</a>,
+<a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>,
+<a href="common-behaviors.html#event" class="ref-link">event</a>,
+<a href="common-behaviors.html#trigger" class="ref-link">trigger</a>,
+<a href="common-behaviors.html#signal" class="ref-link">signal</a>,
+<a href="common-behaviors.html#reception" class="ref-link">reception</a>,
+<a href="common-behaviors.html#interval-constraint" class="ref-link">interval constraint</a>,
+<a href="common-behaviors.html#duration-constraint" class="ref-link">duration constraint</a>,
+<a href="common-behaviors.html#time-constraint" class="ref-link">time constraint</a>.
+</p>
+
+
+<!--
+*****************
+     Behavior
+*****************
+-->
+ 
+<h2 id="behavior">Behavior</h2>
+
+<p>
+Behavior is a <a href="class-diagrams.html#class" class="ref-link">class</a>
+ which specifies how the
+ <a href="classifier.html" class="ref-link">classifier</a>
+ which owns the behavior changes its state over time.
+ This specification may be either a definition of possible
+ <a href="common-behaviors.html#executing-behavior" class="ref-link">behavior execution</a>
+ or  <a href="common-behaviors.html#emergent-behavior" class="ref-link">emergent behavior</a>,
+ or a selective illustration of an interesting subset of possible executions.
+ The latter form is typically used for capturing examples, such as a trace of a particular execution.
+</p>
+
+<p>
+Any <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ is the direct consequence of the action of at least one object.
+ A behavior describes how the states of these objects, as reflected by their structural features,
+ change over time.
+</p>
+
+<p> 
+Behaviors do not exist on their own, and they do not communicate.
+</p>
+
+<p>
+ Instantiating a behavior is referred to as "<strong>invoking</strong>" the behavior, an
+ instantiated behavior is also called a behavior "<strong>execution</strong>."
+ When a behavior is invoked, its attributes and parameters (if any) are created and appropriately initialized.
+</p>
+
+<p>
+ A behavior can also be instantiated as an <strong>object</strong>, the same way as for common classes.
+ When a behavior is instantiated as an object, it becomes its own context.
+</p>
+
+<p>
+<a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4.1 - Superstructure">[UML 2.4.1 Specification]</a>
+ defines two kinds of behavior:
+ <a href="common-behaviors.html#executing-behavior" class="ref-link">executing behavior</a>
+ and <a href="common-behaviors.html#emergent-behavior" class="ref-link">emergent behavior</a>.
+ Note, that these two kinds of behavior are informal and are not subclasses of behavior.
+</p>
+
+<p>
+Behavior has no specific notation and could be depicted as
+ a <a href="class-diagrams.html#class" class="ref-link">class</a>.
+</p>
+
+<p>
+Behavior can be specialized, with specific notation and the detailed semantics defined by its subclasses.
+ A variety of mechanisms to specify behavior are supported by the UML, such as
+ <strong>automata</strong>
+ for <a href="state-machine-diagrams.html#behavioral-state-machine" class="ref-link">state machines</a>,
+ <strong>Petri-net</strong> like graphs
+ for <a href="activity-diagrams.html#activity" class="ref-link">activities</a>,
+ <strong>informal descriptions</strong>
+ for <a href="use-case.html" class="ref-link">use cases</a>, 
+ <strong>partially-ordered sequences</strong> of event occurrences
+ for <a href="interaction.html" class="ref-link">interaction</a>.
+ <a href="profile-diagrams.html#profile" class="ref-link">Profiles</a>
+ may introduce additional styles of behavioral specification.
+</p>
+
+<p>
+Subclasses of <strong>behavior</strong> are:
+</p>
+<ul>
+<li><a href="activity-diagrams.html#activity" class="ref-link">activity</a>,</li>
+<li><a href="state-machine-diagrams.html#behavioral-state-machine" class="ref-link">state machine</a>,</li>
+<li><a href="interaction.html" class="ref-link">interaction</a>,</li>
+<li><strong>opaque behavior</strong>.</li>
+</ul>
+
+<div class="figure-left-120">
+<img src="behaviors/behaviors.png" width="680" height="412"
+ alt="UML behaviors include activities, interactions and state machines." 
+ title="UML behaviors include activities, interactions and state machines." />
+<p class="figure-text">
+UML Behaviors - Activity, State Machine, Interaction, and Opaque Behavior.
+</p>
+</div>
+
+<p>
+Note, that 
+ <a href="use-case.html" class="ref-link">use case</a>
+ is a <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>,
+ not a <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>.
+</p>
+
+
+<!--
+**********************
+  Executing Behavior
+**********************
+-->
+ 
+<h3 id="executing-behavior">Executing Behavior</h3>
+
+<p>
+An <strong>executing behavior</strong> is a kind of 
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ which is performed by an object (called <strong>host</strong>) and is the description of the behavior
+ of this object.
+ Objects that may host behaviors are specified by the concrete subtypes of the
+ <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>.
+</p>
+
+<p>
+An executing behavior is directly caused either by the invocation
+ of a <a href="uml-core.html#behavioral-feature" class="ref-link">behavioral feature</a>
+ of the host object or by its creation.
+</p>
+
+<p>
+Behavior has access to
+ the <a href="uml-core.html#structural-feature" class="ref-link">structural features</a>
+ of its host object and to <strong>parameters</strong> of the behavior, if any.
+</p>
+
+<p>
+When a behavior is associated with the <strong>method</strong> of a behavioral feature,
+ it defines the implementation of the feature.
+</p>
+
+
+
+<!--
+**********************
+  Emergent Behavior
+**********************
+-->
+ 
+<h3 id="emergent-behavior">Emergent Behavior</h3>
+
+<p>
+<strong>Emergent behavior</strong> is a kind of 
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ which results from the interaction of one or more <strong>participant objects</strong>.
+</p> 
+
+<p>
+The participating objects could be
+ <a href="composite-structure-diagrams.html#part" class="ref-link">parts</a>
+ of a composite object.
+ In this case the emergent behavior indirectly describes the behavior of the composite.
+</p>
+
+
+<!--
+**************************
+   Behaviored Classifier
+**************************
+-->
+ 
+<h2 id="behaviored-classifier">Behaviored Classifier</h2>
+
+<p>
+<strong>Behaviored classifier</strong> is a 
+ <a href="classifier.html" class="ref-link">classifier</a>
+ which can have 
+ <a href="common-behaviors.html#behavior" class="ref-link">behaviors</a> 
+ defined in its context (namespace).
+One of these behaviors owned by the classifier may specify the behavior of the classifier itself.
+</p>
+
+<p>
+When an instance of a <strong>behaviored classifier</strong> is created, its classifier
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ is invoked.
+ Behavior owned by the classifier may reference <strong>features</strong> of the classifier.
+</p>
+
+<p>
+When some <a href="common-behaviors.html#event" class="ref-link">event</a>
+ happens and it is recognized by an instance of behaviored classifier, it may 
+ <a href="common-behaviors.html#trigger" class="ref-link">trigger</a>
+immediate invocation of behavior or this event may be saved to trigger the effect later.
+Whether only one or several appropriate behaviors are triggered and the ordering of the events
+ in the input pool is not defined by UML specification.
+</p>
+
+<p>
+Some examples (subclasses) of <strong>behaviored classifiers</strong> in <strong>UML</strong> are:
+</p>
+<ul>
+<li><a href="use-case-actor.html" class="ref-link">actor</a></li>
+<li><a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a></li>
+<li><a href="use-case.html" class="ref-link">use case</a></li>
+</ul>
+
+<p>
+<strong>Behaviored classifier</strong> has no specific notation, and is notated as
+ <a href="classifier.html" class="ref-link">classifier</a>.
+ Subclasses of <strong>behaviored classifier</strong> could have specific notation,
+ e.g. actors and collaborations. 
+</p>
+
+
+<!--
+********************
+       Event
+*********************
+-->
+ 
+<h2 id="event">Event</h2>
+
+<p>
+<strong>Event</strong> is a subclass of 
+ <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+ which specifies some occurrence or happening. For example,
+</p>
+<ul>
+<li>message event - the receipt by an object of either a call of an operation or a signal,</li>
+<li>signal event - the receipt of an asynchronous signal,</li>
+<li>change event - a change in the system configuration,</li>
+<li>time event - occurs at the specified time,</li>
+<li>creation event (was removed in UML 2.4) - the creation of an object.</li>
+</ul>
+
+<p>
+Upon their occurrences, events are placed into the <strong>input pool</strong> of events
+ of the instance of <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>
+ where they occurred.
+ Event is dispatched when it is taken from the input pool and is processed by the classifier.
+ At this point, the event is considered consumed and is referred to as the <strong>current event</strong>.
+ A consumed event is no longer available for processing.
+ An event identified as <strong>deferred</strong> by a state that does not fire any trigger is not
+dispatched and is therefore never consumed.
+</p>
+
+<p>
+Event may potentially
+ <a href="common-behaviors.html#trigger" class="ref-link">trigger</a>
+some effects. For example, a signal event may cause
+ a <a href="state-machine-diagrams.html#behavioral-state-machine" class="ref-link">state machine</a>
+ to trigger a transition.
+</p>
+
+<p>
+Event has no specific notation, while some of its subclasses have.
+</p>
+
+
+<!--
+**********
+ Trigger
+**********
+-->
+ 
+<h2 id="trigger">Trigger</h2>
+
+<p>
+<strong>Trigger</strong> is
+ a <a href="uml-core.html#named-element" class="ref-link">named element</a>
+ which is used to relate
+ specific <a href="common-behaviors.html#event" class="ref-link">event</a>
+ to a <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ that may affect an instance of 
+ the <a href="classifier.html" class="ref-link">classifier</a>.
+</p>
+
+<p>
+Events may cause execution of behaviors
+ (e.g., the execution of the effect activity of a transition in a state machine).
+ A trigger specifies the event that may trigger a behavior execution.
+Each trigger is associated with exactly one event.
+</p>
+
+<p>
+A trigger is notated as unnamed event it is associated with.
+ The details of the syntax for the event are defined by the different subclasses of event:
+</p>
+
+<p id="trigger-syntax" class="syntax-rule">
+<span class="nonterm">trigger</span> ::=
+ <span class="nonterm">call-event</span>&nbsp;|
+ <span class="nonterm">signal-event</span>&nbsp;|
+ <span class="nonterm">any-receive-event</span>&nbsp;|
+ <span class="nonterm">time-event</span>&nbsp;|
+ <span class="nonterm">change-event</span>
+</p>
+
+
+<!--
+**********
+  Signal
+**********
+-->
+ 
+<h2 id="signal">Signal</h2>
+
+<p>
+A <strong>signal</strong> is a
+ <a href="classifier.html" class="ref-link">classifier</a>
+ which specifies communication of <strong>send request</strong> instances between objects.
+</p>
+
+<p>
+The <strong>receiving object</strong> handles the received request instances as specified by its receptions.
+ The data carried by a <strong>send request</strong> (which was passed to it by the send invocation occurrence
+ that caused that request) are represented as <strong>attributes</strong> of the signal.
+ A signal is defined independently of the classifiers handling the signal occurrence.
+</p>
+
+<p>
+A signal triggers a reaction in the receiver in an asynchronous way and without a reply.
+ The sender of a signal will not block waiting for a reply but continue execution immediately.
+ By declaring a reception associated to a given signal, a classifier specifies that its instances
+  will be able to receive that signal, or a subtype thereof, and will respond to it with the
+designated behavior.
+</p>
+
+<p>
+A signal is depicted by a classifier symbol with the keyword <strong>«signal»</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/behavior-signal.png" width="140" height="100"
+ alt="A signal is depicted by a classifier symbol with the keyword signal." 
+ title="A signal is depicted by a classifier symbol with the keyword signal." />
+<p class="figure-text">
+The <strong>Notify Customer</strong> signal
+</p>
+</div>
+
+<!--
+*********************
+     Reception
+*********************
+-->
+ 
+<h2 id="reception">Reception</h2>
+
+<p>
+A <strong>reception</strong> is <strong>behavioral feature</strong> declaring that 
+a classifier is prepared to react to the receipt of
+ a <a href="common-behaviors.html#signal" class="ref-link">signal</a>.
+ A reception designates a signal and specifies the expected behavioral response.
+ The details of handling a signal are specified by 
+ the <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+associated with the reception or the classifier itself.
+</p>
+
+<p>
+The receipt of a signal instance by the instance of the classifier owning a matching reception will cause
+ the asynchronous
+invocation of the behavior specified as the method of the reception.
+ A reception matches a signal if the received signal is
+a subtype of the signal referenced by the reception.
+</p>
+
+<p>
+ The details of how the behavior responds to the received signal
+ depend on the kind of behavior associated with the reception.
+  (For example, if the reception is implemented by a state
+machine, the signal event will trigger a transition and subsequent effects as specified by that state machine.)
+</p>
+
+<p>
+Reception is shown using the notation for <strong>operations</strong> with the keyword <strong>«signal»</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/behavior-reception.png" width="180" height="102"
+ alt="Reception is shown as operation with the keyword signal." 
+ title="Reception is shown as operation with the keyword signal." />
+<p class="figure-text">
+Customer is prepared to react to the receipt of<br /> the <strong>Notify Customer</strong> signal
+</p>
+</div>
+
+
+<!--
+*****************************
+    Interval Constraint
+*****************************
+-->
+
+<h2 id="interval-constraint">Interval Constraint</h2>
+
+<p>
+<strong>Interval constraint</strong> is <strong>constraint</strong> that refers to an <strong>interval</strong>.
+The interval determines if the constraint is satisfied.
+</p>
+
+<p>
+All traces where the constraints are violated are negative traces, i.e., if they occur in practice
+ the system is considered as failed.
+</p>
+
+<p>
+An interval constraint is shown as a graphical association between an interval and the constructs
+ that this interval constrains. The concrete form is given in its subclasses.
+</p>
+
+<p>
+Some subclasses of interval constraint are:
+</p>
+<ul>
+<li><a href="common-behaviors.html#duration-constraint" class="ref-link">duration constraint</a></li>
+<li><a href="common-behaviors.html#time-constraint" class="ref-link">time constraint</a></li>
+</ul>
+
+
+
+<!--
+*****************************
+     Duration Constraint
+*****************************
+-->
+
+<h3 id="duration-constraint">Duration Constraint</h3>
+
+<p>
+<strong>Duration constraint</strong> is an 
+ <a href="common-behaviors.html#interval-constraint" class="ref-link">interval constraint</a>
+ that refers to a <strong>duration interval</strong>.
+ The duration interval is duration used to determine whether the constraint is satisfied.
+</p>
+
+<p>
+The semantics of a duration constraint is inherited from constraints.
+If constraints are violated, traces become negative which means that system is considered as failed.
+</p>
+
+<p>
+Duration constraint is shown as some graphical association between a <strong>duration interval</strong>
+ and the constructs that it constrains. The notation is specific to the diagram type.
+An example below shows a duration constraint notation for 
+<a href="timing-diagrams.html" class="ref-link">timing diagram</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/timing-duration-constraint.png" width="200" height="144"
+ alt="Duration constraint example - ice should melt into water in 1 to 6 minutes." 
+ title="Duration constraint example - ice should melt into water in 1 to 6 minutes." />
+<p class="figure-text">
+Ice should melt into water in 1 to 6 minutes
+</p>
+</div>
+
+
+<!--
+**********************
+     Time Constraint
+**********************
+-->
+
+<h3 id="time-constraint">Time Constraint</h3>
+
+<p>
+<strong>Time constraint</strong> is an 
+ <a href="common-behaviors.html#interval-constraint" class="ref-link">interval constraint</a>
+ that refers to a <strong>time interval</strong>.
+ The time interval is time expression used to determine whether the constraint is satisfied.
+</p>
+
+<p>
+The semantics of a time constraint is inherited from constraints.
+ All traces where the constraints are violated are negative traces, i.e., if they occur, the system is considered
+ as failed.
+</p>
+
+<p>
+Time constraint is shown as graphical association between a time interval and the construct that it constrains.
+ Typically this graphical association is a small line,
+  e.g., between an occurrence specification and a time interval.
+ An example below shows a time constraint notation for 
+<a href="timing-diagrams.html" class="ref-link">timing diagram</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/timing-time-constraint.png" width="230" height="80"
+ alt="Time constraint example - Person should wake up between 5:40 am and 6 am." 
+ title="Time constraint example - Person should wake up between 5:40 am and 6 am." />
+<p class="figure-text">
+Person should wake up between 5:40 am and 6 am
+</p>
+</div>
+
+
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="common-behaviors.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/common-behaviors.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:16:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

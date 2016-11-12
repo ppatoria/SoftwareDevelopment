@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.47 in css mode. -->
+<html>
+  <head>
+    <title>CalculateDirectorySize.cs</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #839496;
+        background-color: #002b36;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #586e75;
+        font-style: italic;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #586e75;
+        font-style: italic;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #2aa198;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #268bd2;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #859900;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #2aa198;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #b58900;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #268bd2;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="keyword">using</span> <span class="constant">System</span>;
+<span class="keyword">using</span> <span class="constant">System.Collections</span>;
+<span class="keyword">using</span> <span class="constant">System.IO</span>;
+<span class="keyword">using</span> <span class="constant">System.Linq</span>;
+
+<span class="keyword">class</span> <span class="type">CalculateDirectorySize</span>
+{
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">void</span> 
+    <span class="function-name">Main</span>(<span class="type">string</span>[] <span class="variable-name">args</span>) {       
+        <span class="type">string</span> <span class="variable-name">path</span> = <span class="string">"c:\\temp"</span>;
+
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_cpp_style"</span>,          <span class="type">calculate_directory_size_cpp_style</span>,          <span class="type">path</span>);        
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_csharp_style"</span>,       <span class="type">calculate_directory_size_csharp_style</span>,       <span class="type">path</span>);
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_functional_1"</span>,       <span class="type">calculate_directory_size_functional_1</span>,       <span class="type">path</span>);
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_functional_2"</span>,       <span class="type">calculate_directory_size_functional_2</span>,       <span class="type">path</span>);
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_functional_3"</span>,       <span class="type">calculate_directory_size_functional_3</span>,       <span class="type">path</span>);
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_functional_linq"</span>,    <span class="type">calculate_directory_size_functional_linq</span>,    <span class="type">path</span>);
+        <span class="function-name">print</span> (<span class="string">"calculate_directory_size_functional_linq_1"</span>,  <span class="type">calculate_directory_size_functional_linq_1</span>,  <span class="type">path</span>);
+    }
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">void</span>
+    <span class="function-name">print</span> ( <span class="type">string</span> <span class="variable-name">description</span>, 
+            <span class="type">Func</span>&lt;<span class="type">string</span>,<span class="type">long</span>&gt; <span class="variable-name">get_directory_size</span>, 
+            <span class="type">string</span> <span class="variable-name">path</span> ){        
+    
+        <span class="type">Console</span>.<span class="function-name">WriteLine</span>(<span class="string">"{0}: {1}"</span>,<span class="type">description</span>, get_directory_size(<span class="type">path</span>));
+    }
+
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_cpp_style</span>    (<span class="type">string</span> <span class="variable-name">path</span>) {       
+
+        <span class="type">long</span> <span class="variable-name">sum</span> = 0;           
+        <span class="type">IEnumerator</span> <span class="variable-name">iter</span>  =  <span class="type">Directory</span>.<span class="function-name">GetFiles</span>(<span class="type">path</span>).GetEnumerator();
+        <span class="function-name">while</span>(<span class="variable-name">iter</span>.<span class="function-name">MoveNext</span>()) {
+            <span class="type">FileInfo</span> <span class="variable-name">file</span> = <span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="variable-name">iter</span>.Current <span class="keyword">as</span> <span class="type">string</span>);
+            sum += <span class="variable-name">file</span>.<span class="variable-name">Length</span>;
+        }
+        <span class="keyword">return</span> sum;     
+    }
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_csharp_style</span>    (<span class="type">string</span> <span class="variable-name">path</span>)        {
+
+        <span class="type">long</span> <span class="variable-name">sum</span> = 0;                
+        <span class="function-name">foreach</span>(<span class="type">var</span> <span class="variable-name">file</span> <span class="keyword">in</span> <span class="type">Directory</span>.<span class="function-name">GetFiles</span>(<span class="type">path</span>))  
+            sum += (<span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>)).Length;                        
+        <span class="keyword">return</span> sum;     
+    }
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_functional_1</span>    ( <span class="type">string</span> <span class="variable-name">path</span> )        {           
+        <span class="keyword">return</span>          
+            <span class="type">Directory</span>.<span class="function-name">GetFiles</span> (<span class="type">path</span>)
+            .Select (file     =&gt; <span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>))
+            .Select (fileInfo =&gt; <span class="variable-name">fileInfo</span>.<span class="variable-name">Length</span>)
+            .Sum ();                    
+    }    
+
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_functional_2</span>    ( <span class="type">string</span> <span class="variable-name">path</span> )        {           
+        <span class="keyword">return</span>          
+            <span class="type">Directory</span>.<span class="function-name">GetFiles</span> (<span class="type">path</span>)
+            .Select (file     =&gt; <span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>))
+            .Sum    (fileInfo =&gt; <span class="variable-name">fileInfo</span>.<span class="variable-name">Length</span>);            
+    }    
+
+
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_functional_3</span>    ( <span class="type">string</span> <span class="variable-name">path</span> )        {           
+        <span class="keyword">return</span>          
+            <span class="type">Directory</span>.<span class="function-name">GetFiles</span> (<span class="type">path</span>)
+            .Sum (file =&gt; <span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>).Length);            
+    }  
+  
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_functional_linq</span>    ( <span class="type">string</span> <span class="variable-name">path</span> )        {
+ 
+       <span class="type">var</span> <span class="variable-name">fileSizes</span> =
+            <span class="keyword">from</span> file <span class="keyword">in</span> <span class="type">Directory</span>.<span class="function-name">GetFiles</span>(<span class="type">path</span>)            
+            <span class="function-name">select</span>  (<span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>)).Length;
+        <span class="keyword">return</span> <span class="variable-name">fileSizes</span>.<span class="function-name">Sum</span>();
+    }
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> 
+    <span class="function-name">calculate_directory_size_functional_linq_1</span>   ( <span class="type">string</span> <span class="variable-name">path</span> ) {
+     
+        <span class="type">var</span> <span class="variable-name">files</span> =
+            <span class="keyword">from</span> file <span class="keyword">in</span> <span class="type">Directory</span>.<span class="function-name">GetFiles</span>(<span class="type">path</span>)            
+            <span class="keyword">select</span>  <span class="keyword">new</span> <span class="type">FileInfo</span>(<span class="type">file</span>);
+        <span class="keyword">return</span> <span class="variable-name">files</span>.<span class="function-name">Sum</span>(file =&gt; <span class="variable-name">file</span>.<span class="variable-name">Length</span>);
+    }  
+  
+<span class="comment-delimiter">/**************************************************************************</span><span class="comment">/</span>
+}</pre>
+  </body>
+</html>

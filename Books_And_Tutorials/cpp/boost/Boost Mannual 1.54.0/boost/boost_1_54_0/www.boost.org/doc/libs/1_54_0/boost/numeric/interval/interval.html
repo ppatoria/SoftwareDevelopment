@@ -1,0 +1,556 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/interval.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:09 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/numeric/interval/interval.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/numeric/interval/interval.hpp</h3>
+<pre>
+/* Boost interval/interval.hpp header file
+ *
+ * Copyright 2002-2003 Herv&eacute; Br&ouml;nnimann, Guillaume Melquiond, Sylvain Pion
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or
+ * copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ */
+
+#ifndef BOOST_NUMERIC_INTERVAL_INTERVAL_HPP
+#define BOOST_NUMERIC_INTERVAL_INTERVAL_HPP
+
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/interval_prototype.hpp">boost/numeric/interval/detail/interval_prototype.hpp</a>&gt;
+
+namespace boost {
+namespace numeric {
+
+namespace interval_lib {
+    
+class comparison_error
+  : public std::runtime_error 
+{
+public:
+  comparison_error()
+    : std::runtime_error(&quot;boost::interval: uncertain comparison&quot;)
+  { }
+};
+
+} // namespace interval_lib
+
+/*
+ * interval class
+ */
+
+template&lt;class T, class Policies&gt;
+class interval
+{
+private:
+  struct interval_holder;
+  struct number_holder;
+public:
+  typedef T base_type;
+  typedef Policies traits_type;
+
+  T const &amp;lower() const;
+  T const &amp;upper() const;
+
+  interval();
+  interval(T const &amp;v);
+  template&lt;class T1&gt; interval(T1 const &amp;v);
+  interval(T const &amp;l, T const &amp;u);
+  template&lt;class T1, class T2&gt; interval(T1 const &amp;l, T2 const &amp;u);
+  interval(interval&lt;T, Policies&gt; const &amp;r);
+  template&lt;class Policies1&gt; interval(interval&lt;T, Policies1&gt; const &amp;r);
+  template&lt;class T1, class Policies1&gt; interval(interval&lt;T1, Policies1&gt; const &amp;r);
+
+  interval &amp;operator=(T const &amp;v);
+  template&lt;class T1&gt; interval &amp;operator=(T1 const &amp;v);
+  interval &amp;operator=(interval&lt;T, Policies&gt; const &amp;r);
+  template&lt;class Policies1&gt; interval &amp;operator=(interval&lt;T, Policies1&gt; const &amp;r);
+  template&lt;class T1, class Policies1&gt; interval &amp;operator=(interval&lt;T1, Policies1&gt; const &amp;r);
+ 
+  void assign(const T&amp; l, const T&amp; u);
+
+  static interval empty();
+  static interval whole();
+  static interval hull(const T&amp; x, const T&amp; y);
+
+  interval&amp; operator+= (const T&amp; r);
+  interval&amp; operator+= (const interval&amp; r);
+  interval&amp; operator-= (const T&amp; r);
+  interval&amp; operator-= (const interval&amp; r);
+  interval&amp; operator*= (const T&amp; r);
+  interval&amp; operator*= (const interval&amp; r);
+  interval&amp; operator/= (const T&amp; r);
+  interval&amp; operator/= (const interval&amp; r);
+
+  bool operator&lt; (const interval_holder&amp; r) const;
+  bool operator&gt; (const interval_holder&amp; r) const;
+  bool operator&lt;= (const interval_holder&amp; r) const;
+  bool operator&gt;= (const interval_holder&amp; r) const;
+  bool operator== (const interval_holder&amp; r) const;
+  bool operator!= (const interval_holder&amp; r) const;
+
+  bool operator&lt; (const number_holder&amp; r) const;
+  bool operator&gt; (const number_holder&amp; r) const;
+  bool operator&lt;= (const number_holder&amp; r) const;
+  bool operator&gt;= (const number_holder&amp; r) const;
+  bool operator== (const number_holder&amp; r) const;
+  bool operator!= (const number_holder&amp; r) const;
+
+  // the following is for internal use only, it is not a published interface
+  // nevertheless, it's public because friends don't always work correctly.
+  interval(const T&amp; l, const T&amp; u, bool): low(l), up(u) {}
+  void set_empty();
+  void set_whole();
+  void set(const T&amp; l, const T&amp; u);
+
+private:
+  struct interval_holder {
+    template&lt;class Policies2&gt;
+    interval_holder(const interval&lt;T, Policies2&gt;&amp; r)
+      : low(r.lower()), up(r.upper())
+    {
+      typedef typename Policies2::checking checking2;
+      if (checking2::is_empty(low, up))
+        throw interval_lib::comparison_error();
+    }
+
+    const T&amp; low;
+    const T&amp; up;
+  };
+
+  struct number_holder {
+    number_holder(const T&amp; r) : val(r)
+    {
+      typedef typename Policies::checking checking;
+      if (checking::is_nan(r))
+        throw interval_lib::comparison_error();
+    }
+    
+    const T&amp; val;
+  };
+
+  typedef typename Policies::checking checking;
+  typedef typename Policies::rounding rounding;
+
+  T low;
+  T up;
+};
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;::interval():
+  low(static_cast&lt;T&gt;(0)), up(static_cast&lt;T&gt;(0))
+{}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;::interval(T const &amp;v): low(v), up(v)
+{
+  if (checking::is_nan(v)) set_empty();
+}
+
+template&lt;class T, class Policies&gt; template&lt;class T1&gt; inline
+interval&lt;T, Policies&gt;::interval(T1 const &amp;v)
+{
+  if (checking::is_nan(v)) set_empty();
+  else {
+    rounding rnd;
+    low = rnd.conv_down(v);
+    up  = rnd.conv_up  (v);
+  }
+}
+
+template&lt;class T, class Policies&gt; template&lt;class T1, class T2&gt; inline
+interval&lt;T, Policies&gt;::interval(T1 const &amp;l, T2 const &amp;u)
+{
+  if (checking::is_nan(l) || checking::is_nan(u) || !(l &lt;= u)) set_empty();
+  else {
+    rounding rnd;
+    low = rnd.conv_down(l);
+    up  = rnd.conv_up  (u);
+  }
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;::interval(T const &amp;l, T const &amp;u): low(l), up(u)
+{
+  if (checking::is_nan(l) || checking::is_nan(u) || !(l &lt;= u))
+    set_empty();
+}
+
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;::interval(interval&lt;T, Policies&gt; const &amp;r): low(r.lower()), up(r.upper())
+{}
+
+template&lt;class T, class Policies&gt; template&lt;class Policies1&gt; inline
+interval&lt;T, Policies&gt;::interval(interval&lt;T, Policies1&gt; const &amp;r): low(r.lower()), up(r.upper())
+{
+  typedef typename Policies1::checking checking1;
+  if (checking1::is_empty(r.lower(), r.upper())) set_empty();
+}
+
+template&lt;class T, class Policies&gt; template&lt;class T1, class Policies1&gt; inline
+interval&lt;T, Policies&gt;::interval(interval&lt;T1, Policies1&gt; const &amp;r)
+{
+  typedef typename Policies1::checking checking1;
+  if (checking1::is_empty(r.lower(), r.upper())) set_empty();
+  else {
+    rounding rnd;
+    low = rnd.conv_down(r.lower());
+    up  = rnd.conv_up  (r.upper());
+  }
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; &amp;interval&lt;T, Policies&gt;::operator=(T const &amp;v)
+{
+  if (checking::is_nan(v)) set_empty();
+  else low = up = v;
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; template&lt;class T1&gt; inline
+interval&lt;T, Policies&gt; &amp;interval&lt;T, Policies&gt;::operator=(T1 const &amp;v)
+{
+  if (checking::is_nan(v)) set_empty();
+  else {
+    rounding rnd;
+    low = rnd.conv_down(v);
+    up  = rnd.conv_up  (v);
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; &amp;interval&lt;T, Policies&gt;::operator=(interval&lt;T, Policies&gt; const &amp;r)
+{
+  low = r.lower();
+  up  = r.upper();
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; template&lt;class Policies1&gt; inline
+interval&lt;T, Policies&gt; &amp;interval&lt;T, Policies&gt;::operator=(interval&lt;T, Policies1&gt; const &amp;r)
+{
+  typedef typename Policies1::checking checking1;
+  if (checking1::is_empty(r.lower(), r.upper())) set_empty();
+  else {
+    low = r.lower();
+    up  = r.upper();
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; template&lt;class T1, class Policies1&gt; inline
+interval&lt;T, Policies&gt; &amp;interval&lt;T, Policies&gt;::operator=(interval&lt;T1, Policies1&gt; const &amp;r)
+{
+  typedef typename Policies1::checking checking1;
+  if (checking1::is_empty(r.lower(), r.upper())) set_empty();
+  else {
+    rounding rnd;
+    low = rnd.conv_down(r.lower());
+    up  = rnd.conv_up  (r.upper());
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+void interval&lt;T, Policies&gt;::assign(const T&amp; l, const T&amp; u)
+{
+  if (checking::is_nan(l) || checking::is_nan(u) || !(l &lt;= u))
+    set_empty();
+  else set(l, u);
+}
+
+template&lt;class T, class Policies&gt; inline
+void interval&lt;T, Policies&gt;::set(const T&amp; l, const T&amp; u)
+{
+  low = l;
+  up  = u;
+}
+
+template&lt;class T, class Policies&gt; inline
+void interval&lt;T, Policies&gt;::set_empty()
+{
+  low = checking::empty_lower();
+  up  = checking::empty_upper();
+}
+
+template&lt;class T, class Policies&gt; inline
+void interval&lt;T, Policies&gt;::set_whole()
+{
+  low = checking::neg_inf();
+  up  = checking::pos_inf();
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; interval&lt;T, Policies&gt;::hull(const T&amp; x, const T&amp; y)
+{
+  bool bad_x = checking::is_nan(x);
+  bool bad_y = checking::is_nan(y);
+  if (bad_x)
+    if (bad_y) return interval::empty();
+    else       return interval(y, y, true);
+  else
+    if (bad_y) return interval(x, x, true);
+  if (x &lt;= y) return interval(x, y, true);
+  else        return interval(y, x, true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; interval&lt;T, Policies&gt;::empty()
+{
+  return interval&lt;T, Policies&gt;(checking::empty_lower(),
+                               checking::empty_upper(), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; interval&lt;T, Policies&gt;::whole()
+{
+  return interval&lt;T, Policies&gt;(checking::neg_inf(), checking::pos_inf(), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+const T&amp; interval&lt;T, Policies&gt;::lower() const
+{
+  return low;
+}
+
+template&lt;class T, class Policies&gt; inline
+const T&amp; interval&lt;T, Policies&gt;::upper() const
+{
+  return up;
+}
+
+/*
+ * interval/interval comparisons
+ */
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&lt; (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt; r.low) return true;
+    else if (low &gt;= r.up) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&gt; (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (low &gt; r.up) return true;
+    else if (up &lt;= r.low) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&lt;= (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt;= r.low) return true;
+    else if (low &gt; r.up) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&gt;= (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (low &gt;= r.up) return true;
+    else if (up &lt; r.low) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator== (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up == r.low &amp;&amp; low == r.up) return true;
+    else if (up &lt; r.low || low &gt; r.up) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator!= (const interval_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt; r.low || low &gt; r.up) return true;
+    else if (up == r.low &amp;&amp; low == r.up) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+/*
+ * interval/number comparisons
+ */
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&lt; (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt; r.val) return true;
+    else if (low &gt;= r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&gt; (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (low &gt; r.val) return true;
+    else if (up &lt;= r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&lt;= (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt;= r.val) return true;
+    else if (low &gt; r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator&gt;= (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (low &gt;= r.val) return true;
+    else if (up &lt; r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator== (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up == r.val &amp;&amp; low == r.val) return true;
+    else if (up &lt; r.val || low &gt; r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool interval&lt;T, Policies&gt;::operator!= (const number_holder&amp; r) const
+{
+  if (!checking::is_empty(low, up)) {
+    if (up &lt; r.val || low &gt; r.val) return true;
+    else if (up == r.val &amp;&amp; low == r.val) return false;
+  }
+  throw interval_lib::comparison_error();
+}
+
+} // namespace numeric
+} // namespace boost
+
+#endif // BOOST_NUMERIC_INTERVAL_INTERVAL_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/interval.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:09 GMT -->
+</html>

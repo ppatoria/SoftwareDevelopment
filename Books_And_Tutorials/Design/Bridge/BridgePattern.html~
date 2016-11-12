@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Bridge Pattern</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-04-06 10:04:57 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Bridge Pattern</h1>
+
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 What Is a Bridge Pattern? </a></li>
+<li><a href="#sec-2">2 Problem: We need to allow a class to use functionality from a series of class types without using direct inheritance </a>
+<ul>
+<li><a href="#sec-2_1">2.1 we have a class that has a single method and inherits a base. </a></li>
+<li><a href="#sec-2_2">2.2 We have an instance where our implementor is another class type that we do not want to inherit, probably because the methods do not match exactly. </a></li>
+<li><a href="#sec-2_3">2.3 You have two class types that have similar functionality, but the method, property, or event names, input parameters, etc., are slightly different. We call this an inexact match. Inexact matches occur when two class types are similar but not enough so for the compiler to recognize. This is a good case for refactoring into a bridge, as opposed to inheriting directly. </a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 Solution: Create a series of classes and allow a bridge class to hold the desired instance of the series and adapt its methods, properties, and events through the bridge’s methods, properties, and events </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> What Is a Bridge Pattern? </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Another instance of where simple inheritance cannot meet the immediate needs of the programmer is one where abstraction is not desired. When you use abstraction or inheritance, you are tied to the exact definition of that abstraction. Sometimes you would like this to be more flexible. Some cases would require classes to not be inherited, but instead we would like to adapt other classes to act as the desired type without modifying either class.
+</p>
+<p>
+Usually an Adapter pattern would suffice to join different class types when inheritance is not desired. However, in some cases the actual implementation of the adapter needs to be more flexible. It is then that the adapter’s cousin, the Bridge pattern, comes into play. As we saw in the “Adapter Pattern” section, the adapter houses an instance variable of the desired type to adapt as an intrinsic variable, or a private instance variable. This instance variable is not changeable in the class. This means it is not set as an abstract or base variable but as a concrete type. We hide this instance variable’s methods, properties, and events behind overridden methods, properties, and events matching the adapter’s base, thus making it compatible with the expected class type the adapter is inheriting.
+</p>
+<p>
+In the Bridge pattern we expand on this, allowing the instance variable to be not a concrete type but an abstract type, thus giving us a variance on which class we wish to adapt, or bridge. We still inherit the bridge from the expected base type and override the methods, properties, and events of that type. The difference here is that we are dependent on which concrete implementation of the abstract instance inside the bridge we have selected. Let’s talk about the actual parts of the pattern and then we can find out more about this in detail.
+</p>
+<p>
+The Bridge pattern has four main parts. The first is the Abstraction, which is the base for the bridge that holds the abstracted instance variable for the class to be adapted. The next part is the Refined Abstraction, which is the concrete implementation of the abstracted bridge. This part of the pattern is where we define the methods, properties, and events for which we wish to provide a bridge. The other half of the pattern is the Abstract Implementor and the Concrete Implementor. These two classes define the abstraction and concrete interface for the class for which we wish to bridge into the new type. The abstract implementor is the abstract instance variable to be set as the concrete implementor type at run time.
+</p>
+<p>
+So in short, we provide a way to encapsulate a desired implementation of a class from which we do not wish to inherit. We provide methods, properties, and events in the concrete bridge based on another base type. We encapsulate the methods, properties, and events of the desired implementation class inside the bridged methods, properties, and events. The instance of the internal abstract implementation is interchangeable because of its abstract status. This allows not only polymorphism of the bridge, but also of the desired encapsulated instance implementation class inside the bridge. 
+</p>
+
+
+<p>
+Figure 4-3. UML for Bridge pattern
+<img src="./bridgeimpl.png"  alt="./bridgeimpl.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Problem: We need to allow a class to use functionality from a series of class types without using direct inheritance </h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+For our functional problem, 
+</p>
+</div>
+
+<div id="outline-container-2_1" class="outline-3">
+<h3 id="sec-2_1"><span class="section-number-3">2.1</span> we have a class that has a single method and inherits a base. </h3>
+<div class="outline-text-3" id="text-2_1">
+
+<p>This is a good starting point for making a bridge, because we can
+easily refactor the base class to be our bridge’s abstraction to hold
+our implementor. 
+</p></div>
+
+</div>
+
+<div id="outline-container-2_2" class="outline-3">
+<h3 id="sec-2_2"><span class="section-number-3">2.2</span> We have an instance where our implementor is another class type that we do not want to inherit, probably because the methods do not match exactly. </h3>
+<div class="outline-text-3" id="text-2_2">
+
+<p>This is usually the case when using a bridge. 
+</p></div>
+
+</div>
+
+<div id="outline-container-2_3" class="outline-3">
+<h3 id="sec-2_3"><span class="section-number-3">2.3</span> You have two class types that have similar functionality, but the method, property, or event names, input parameters, etc., are slightly different. We call this an inexact match. Inexact matches occur when two class types are similar but not enough so for the compiler to recognize. This is a good case for refactoring into a bridge, as opposed to inheriting directly. </h3>
+<div class="outline-text-3" id="text-2_3">
+
+
+<p>
+Below we see our implementor class types. Notice the method ProcessRequest(). This method, as we will see in our next code example, is mirrored in the bridge class, but with a slightly different name. For this example, we don’t want to change any method names, and because of that the two class types cannot inherit directly. The reason for this is that compilers require that method names match in inherited instances.
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #859900;">class</span> <span style="color: #b58900;">HttpRequest</span>
+{
+    <span style="color: #859900;">public</span> override <span style="color: #b58900;">void</span> ProcessRequest(<span style="color: #b58900;">string</span> request)
+    {
+        .......
+    }
+}
+<span style="color: #859900;">class</span> <span style="color: #b58900;">ISAPIRequest</span>
+{
+    <span style="color: #859900;">public</span> override <span style="color: #b58900;">void</span> ProcessRequest(<span style="color: #b58900;">string</span> request)
+    {
+        .......
+    }
+}
+</pre>
+
+
+
+<p>
+Here we see the class we have targeted to turn into our bridge. Notice this class has a method similar to the implementation class but named differently. For this example, the method’s internal functionality is similar, and so meets the requirements of the Bridge pattern:
+</p>
+
+
+
+<pre class="src src-cpp">class RequestHandler : Request
+{
+    public override void Process(string request)
+    {
+        //some implementation code
+    }
+}
+</pre>
+
+
+
+<p>
+What we wish to do is to make the RequestHandler class use our implementor handler types, without the overhead of actual inheritance from these types. Next, we will see how we can accomplish this and not have direct inheritance using the RequestHandler class as a bridge.
+</p>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Solution: Create a series of classes and allow a bridge class to hold the desired instance of the series and adapt its methods, properties, and events through the bridge’s methods, properties, and events </h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+The first step after deciding to use the pattern in our refactoring effort is to identify the classes that we wish to make implementors and the classes that will act as the bridge. Since we have done this in our problem section, we will start by refactoring our implementors. This is usually not a difficult task, as they only need to inherit from a common base. 
+</p>
+
+<p>
+Figure 4-4. UML for Bridge pattern example
+<img src="./bridgeuml.png"  alt="./bridgeuml.png" />
+Below, we add a base and make both implementors inherit from that base. This allows for the concrete instance, which we will house inside the bridge class. We provide an abstract method for inherited types to share: ProcessRequest(). This enables this method to be called from any concrete instance we select inside our bridge.
+</p>
+
+
+
+<pre class="src src-cpp">abstract class RequestImplementor
+{
+    public abstract void ProcessRequest(string request);
+}
+</pre>
+
+
+
+<p>
+Next, we refactor our implementor classes to have the abstract RequestImplementor class as their base. We override the RequestImplementor class’s abstract method ProcessRequest(), which gives us our polymorphic implementation: 
+</p>
+
+
+
+<pre class="src src-cpp">class HttpRequest : RequestImplementor
+{
+    public override void ProcessRequest(string request)
+    {
+        ......
+    }
+}
+class ISAPIRequest : RequestImplementor
+{
+    public override void ProcessRequest(string request)
+    {
+        ......
+    }
+}
+</pre>
+
+
+
+<p>
+Next we need to refactor our bridge’s base class. We have determined that the Request class is a good case for this. We provide a private instance variable for the abstract implementor. We provide a getter and a way to set the actual concrete implementation of our abstract implementor to the instance variable. We also provide an abstract method, Process(), which will be used to allow the inherited instances of Request to have a common method. This method is refactored from the original method.
+</p>
+
+
+
+<pre class="src src-c++">abstract <span style="color: #859900;">class</span> <span style="color: #b58900;">Request</span>
+{
+    <span style="color: #859900;">private</span> RequestImplementor _implementor;
+
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> SetImplementor(<span style="color: #b58900;">RequestImplementor</span> implementor)
+    {
+        _implementor = implementor;
+    }
+
+    <span style="color: #859900;">protected</span> RequestImplementor Implementor
+    {
+        get{<span style="color: #859900;">return</span> _implementor;}
+    }
+    <span style="color: #859900;">public</span> abstract <span style="color: #b58900;">void</span> Process(<span style="color: #b58900;">string</span> request);
+
+}
+</pre>
+
+
+
+<p>
+In Request’s inherited classes we will then override the Process() method. Inside the method we will call the instance class of the implementor and pass our arguments from the Process() method to the implementor’s desired method to bridge to — ProcessRequest():
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">Refined Abstraction
+</span><span style="color: #859900;">class</span> <span style="color: #b58900;">RequestHandler</span> : <span style="color: #b58900;">Request</span>
+{
+    <span style="color: #859900;">public</span> override <span style="color: #b58900;">void</span> Process(<span style="color: #b58900;">string</span> request)
+    {
+        Implementor.ProcessRequest(request);
+    }
+}
+</pre>
+
+
+
+
+<p>
+Thus we have performed a complete refactoring of the implementor into our bridge class without using direct inheritance. Now we can call our bridge, set the desired implementor, and call the Process() method, which calls the implementor’s intrinsic method ProcessRequest(). This gives us a complete bridge between classes without the need for any direct inheritance.
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #b58900;">Request</span> request = <span style="color: #859900;">new</span> <span style="color: #b58900;">RequestHandler</span>();
+request.SetImplementor (<span style="color: #859900;">new</span> <span style="color: #b58900;">HttpRequest</span>());
+request.Process (<span style="color: #2aa198;">"This is a HTTP request stream.."</span>);
+
+request.SetImplementor(<span style="color: #859900;">new</span> <span style="color: #b58900;">ISAPIRequest</span>());
+request.Process(<span style="color: #2aa198;">"This is a ISAPI request stream.."</span>);
+</pre>
+
+
+
+<p>
+Comparison to Similar Patterns
+</p>
+<p>
+The Adapter pattern is most like the Bridge pattern, in that it uses a host class or facade class to house an instance of the actual desired class, calling the housed methods, properties, and events and hiding these events inside the corresponding methods, properties, and events that exist as public methods for the adapter. The main difference in the two patterns is the adapter’s lack of abstraction and inheritance in regard to its internal implementation and the outside adapter. A Bridge pattern might be more useful if several different types of classes or implementations are required for a particular problem. Proxies and facades are also very similar to bridges in that they house some functionality that external sources could not use easily. They basically act as an interface or adapter for subsets of functionality, expanding on the control of the scope and domain from a single class or class type as in the bridge and adapter to more complex subsets of classes and expanded domains.
+</p>
+
+<p>
+What We Have Learned
+</p>
+<p>
+The Bridge pattern is a useful pattern for making slightly incompatible classes and their subclasses more compatible. It gives us a way to do this without using inheritance and by minimizing the abstracted functionality between classes to expected methods, properties, and events. It takes a series of abstracted class types and adapts their functionality to another series of unrelated classes with a minimum of actual cohesion between the two class structures, while providing all the functionality between the two classes that is desired. 
+</p>
+
+
+
+
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: 
+</p>
+<p class="date"> Date: 2014-04-06 10:04:57 </p>
+<p class="creator">HTML generated by org-mode 7.01 in emacs 24</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ptr.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/gil/example/interleaved_ptr.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/gil/example/interleaved_ptr.cpp</h3>
+<pre>
+/*
+    Copyright 2005-2007 Adobe Systems Incorporated
+   
+    Use, modification and distribution are subject to the Boost Software License,
+    Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+
+    See <a href="http://opensource.adobe.com/gil">http://opensource.adobe.com/gil</a> for most recent version including documentation.
+*/
+
+/*************************************************************************************************/
+
+/// \file
+/// \brief Example file to demonstrate how to create a model of a pixel iterator
+/// \author Lubomir Bourdev and Hailin Jin
+/// \date February 27, 2007
+
+#ifdef WIN32
+#define _CRT_SECURE_NO_DEPRECATE 1
+#pragma warning(disable : 4244) // 
+#pragma warning(disable : 4996) // MSFT declared it deprecated
+#endif
+
+// gcc doesn't compile unless we forward-declare at_c before we include gil...
+namespace boost { namespace gil {
+    template &lt;typename ChannelReference, typename Layout&gt; struct interleaved_ref;
+    template &lt;typename ColorBase&gt; struct element_reference_type;
+
+    template &lt;int K, typename ChannelReference, typename Layout&gt;
+    typename element_reference_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt;::type
+    at_c(const interleaved_ref&lt;ChannelReference,Layout&gt;&amp; p);
+} }
+
+#include &lt;iostream&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/io/jpeg_dynamic_io.hpp">boost/gil/extension/io/jpeg_dynamic_io.hpp</a>&gt;
+#include &quot;interleaved_ptr.hpp&quot;
+
+int main(int argc, unsigned char* argv[])
+{
+    using namespace boost::gil;
+
+    typedef interleaved_ptr&lt;unsigned char*, rgb_layout_t&gt; rgb8_interleaved_ptr;
+    typedef interleaved_ptr&lt;const unsigned char*, rgb_layout_t&gt; rgb8c_interleaved_ptr;
+
+    boost::function_requires&lt;MutablePixelIteratorConcept&lt;rgb8_interleaved_ptr&gt; &gt;();
+    boost::function_requires&lt;PixelIteratorConcept&lt;rgb8c_interleaved_ptr&gt; &gt;();
+    boost::function_requires&lt;MemoryBasedIteratorConcept&lt;memory_based_step_iterator&lt;rgb8_interleaved_ptr&gt; &gt; &gt;();
+
+    boost::function_requires&lt;MutablePixelConcept&lt;rgb8_interleaved_ptr::value_type&gt; &gt;();
+    boost::function_requires&lt;PixelConcept&lt;rgb8c_interleaved_ptr::value_type&gt; &gt;();
+
+    typedef type_from_x_iterator&lt;rgb8_interleaved_ptr &gt;::view_t rgb8_interleaved_view_t;
+    typedef type_from_x_iterator&lt;rgb8c_interleaved_ptr&gt;::view_t rgb8c_interleaved_view_t;
+
+    boost::function_requires&lt;MutableImageViewConcept&lt;rgb8_interleaved_view_t&gt; &gt;();
+    boost::function_requires&lt;ImageViewConcept&lt;rgb8c_interleaved_view_t&gt; &gt;();
+
+    rgb8_image_t img;
+    jpeg_read_image(&quot;test.jpg&quot;, img);
+
+    // Get a raw pointer to the RGB buffer
+    unsigned char* raw_ptr=&amp;view(img)[0][0];
+
+    // Construct a view from it, without casting it to rgb8_pixel_t*
+    rgb8_interleaved_view_t src_view=interleaved_view(img.width(),img.height(),rgb8_interleaved_ptr(raw_ptr),
+                                                      view(img).pixels().row_size());
+
+    // Apply view transformations and algorithms on it
+    jpeg_write_view(&quot;out-interleaved_ptr.jpg&quot;,nth_channel_view(flipped_up_down_view(src_view),1));
+
+    return 0;
+}
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ptr.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+</html>

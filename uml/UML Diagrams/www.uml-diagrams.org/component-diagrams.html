@@ -1,0 +1,856 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/component-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:10:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML component diagram shows components, provided and required interfaces, ports, and relationships between them.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML 2 Component Diagrams - overview of graphical notation: component, port, connector, component realization, etc." />
+<meta name="keywords" content="UML 2, UML 2.4, component diagram, component, port, connector, component realization" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130418 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="component-diagrams.html" 
+ title="UML component diagrams overview" class="active-nav" >Component diagrams</a>
+</div>
+<div>
+ <a href="component-diagrams.html#component" title="UML component" >Component</a>
+</div>
+<div>
+ <a href="component-diagrams.html#connector" title="UML connector" >Connector</a>
+</div>
+<div>
+ <a href="component-diagrams.html#component-realization" title="UML component realization" >Realization</a>
+</div>
+<div>
+ <a href="component-diagrams-reference.html"
+  title="UML component diagrams reference"  >Component dagrams reference</a>
+</div>
+<div>
+ <a href="component-diagrams-examples.html" 
+  title="UML component diagrams examples"  >Component diagrams examples</a>
+</div>  
+<div>
+  <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+
+<h1>UML Component Diagrams</h1>
+
+<p>
+<strong>Component diagram</strong> shows components, provided and required interfaces, ports,
+ and relationships between them.
+ This type of diagrams is used in <strong>Component-Based Development</strong> (<strong>CBD</strong>)
+ to describe systems with <strong>Service-Oriented Architecture</strong> (<strong>SOA</strong>).
+</p>
+
+<p>
+Component-based development is based on assumptions that previously constructed
+ components could be reused and that components could be replaced by some other "equivalent"
+ or "conformant" components, if needed.
+</p>
+
+<p>
+The artifacts that implement component are intended to be capable of being
+deployed and re-deployed independently, for instance to update an existing system.
+</p>
+
+<p>
+<strong>Components</strong> in UML could represent
+</p>
+<ul>
+<li><strong>logical components</strong> (e.g., business components, process components), and</li>
+<li><strong>physical components</strong> (e.g., CORBA components, EJB components, COM+ and .NET components, WSDL components, etc.),</li>
+</ul>
+<p>
+along with the artifacts that implement them and the nodes on which they are deployed and executed.
+It is anticipated that profiles based around components will be developed for specific component
+ technologies and associated hardware and software environments.
+</p>
+
+<p>
+The following nodes and edges are typically drawn in a <strong>component diagram</strong>:
+<a href="component-diagrams.html#component" class="ref-link">component</a>,
+<a href="class-diagrams.html#interface" class="ref-link">interface</a>,
+<a href="component-diagrams.html#provided-interface" class="ref-link">provided interface</a>,
+<a href="component-diagrams.html#required-interface" class="ref-link">required interface</a>,
+<a href="class-diagrams.html#class" class="ref-link">class</a>,
+<a href="composite-structure-diagrams.html#port" class="ref-link">port</a>,
+<a href="component-diagrams.html#connector" class="ref-link">connector</a>,
+<a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>,
+<a href="component-diagrams.html#component-realization" class="ref-link">component realization</a>,
+<a href="dependency.html" class="ref-link">dependency</a>,
+<a href="dependency.html#usage" class="ref-link">usage</a>.
+These major elements are shown on the picture below.
+</p>
+
+<div class="figure-left-20" itemscope itemtype="http://schema.org/ImageObject">
+<img src="component-diagrams/component-diagram-overview.png" width="940" height="521"
+ alt="The major elements of UML component diagram - component, provided interface, required interface, port, connectors." 
+ title="The major elements of UML component diagram - component, provided interface, required interface, port, connectors."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+The major elements of UML component diagram - component, provided interface, required interface, port, connectors.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2013-11-28" />
+</div>
+
+
+
+<!--
+******************
+  Component
+******************
+-->
+ 
+<h2 id="component">Component</h2>
+
+<p>
+A <strong>component</strong> is a
+ <a href="composite-structure-diagrams.html#structured-class" class="ref-link">structured class</a>
+ representing a modular part of a system with encapsulated content and whose
+ <a href="deployment-diagrams.html#manifestation" class="ref-link">manifestation</a>
+ is replaceable within its environment.
+</p>
+
+<p>
+A component has its behavior defined in terms of
+<a href="component-diagrams.html#provided-interface" class="ref-link">provided interfaces</a> and
+ <a href="component-diagrams.html#required-interface" class="ref-link">required interfaces</a>
+ (potentially exposed via <strong>ports</strong>).
+</p>
+
+<p>  
+ Component serves as a type whose conformance is defined by these provided and
+  required interfaces (encompassing both their static as well as dynamic semantics).
+   One component may therefore be substituted by another only if the two are
+    type conformant.
+</p>
+
+<p>
+ Larger pieces of a system’s functionality may be assembled by reusing components as parts 
+in an encompassing component or assembly of components, and wiring together their required
+ and provided interfaces.
+</p>
+
+<p>
+A component is modeled throughout the development life cycle and successively refined
+ into deployment and run-time. A component may be manifested by one or more artifacts.
+</p>
+
+<p>
+<strong>Indirectly instantiated component</strong> is defined at design time
+ but does not exist as addressable object at execution time.
+ Runtime behavior of the component and its ports is defined by the runtime behavior
+ of classifiers or parts realizing it. Several standard stereotypes assume
+ this attribute, e.g.,
+ <a href="component-diagrams.html#specification" class="ref-link">«specification»</a>,
+ <a href="class-diagrams.html#focus" class="ref-link">«focus»</a>,
+ <a href="component-diagrams.html#subsystem" class="ref-link">«subsystem»</a>.
+</p>
+
+<p>
+ Internals of component are hidden and inaccessible other than as provided by its interfaces.
+ Although it may be dependent on other elements in terms of interfaces
+ that are required, a component is encapsulated and its dependencies are designed such
+ that it can be treated as independently as possible.
+</p>
+
+<p>
+A component is shown as a classifier rectangle with the keyword <strong>«component»</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-general.png" width="140" height="74"
+ alt="A component is shown as a Classifier rectangle with the keyword component"
+ title="A component is shown as a Classifier rectangle with the keyword component" />
+<p class="figure-text">
+Component WeatherService
+</p>
+</div>
+
+<p>
+ Optionally, a component icon similar to the <strong>UML 1.4</strong>
+  icon can be displayed in the right hand corner.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-normal.png" width="140" height="73"
+ alt="A component as a Classifier with component icon in right hand corner"
+ title="A component as a Classifier with component icon in right hand corner" />
+<p class="figure-text">
+Component UserService
+</p>
+</div>
+
+<p>
+For backward compatibility reasons, the <strong>UML 1.4</strong> notation
+ with protruding rectangles can still be used.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-obsolete.png" width="140" height="66"
+ alt="UML 1.4 component notation with protruding rectangles can still be used"
+ title="UML 1.4 component notation with protruding rectangles can still be used" />
+<p class="figure-text">
+Component CustomerEJB in UML 1.x notation
+</p>
+</div>
+
+<p>
+A component may be manifested by one or more <strong>artifacts</strong>, and in turn,
+  that artifact may be deployed to its execution environment.
+   A <strong>deployment specification</strong> may
+   define values that parameterize the component’s execution.
+</p>
+
+
+<!--
+*************************
+  Standard Stereotypes
+*************************
+-->
+ 
+<h3>Standard Component Stereotypes</h3>
+
+<p>
+There are several standard UML stereotypes that apply to components:
+</p>
+
+<ul>
+<li><a href="component-diagrams.html#subsystem" class="ref-link">«subsystem»</a></li>
+<li><a href="component-diagrams.html#process" class="ref-link">«process»</a></li>
+<li><a href="component-diagrams.html#service" class="ref-link">«service»</a></li>
+<li><a href="component-diagrams.html#specification" class="ref-link">«specification»</a></li>
+<li><a href="component-diagrams.html#realization" class="ref-link">«realization»</a></li>
+<li><a href="component-diagrams.html#implement" class="ref-link">«implement»</a></li>
+</ul>
+
+
+<h4 id="subsystem">«subsystem»</h4>
+
+<p>
+<strong>Subsystem</strong> is 
+ a <a href="component-diagrams.html#component" class="ref-link">component</a>
+ representing unit of hierarchical decomposition for large systems,
+ and is used to model large scale components.
+Definitions of subsystems may vary among different domains and software methods.
+It is expected that domain and method profiles will specialize this element.
+</p>
+
+<p>
+A subsystem is usually indirectly instantiated.  A subsystem may have specification and
+realization elements.
+</p>
+
+<h4 id="process">«process»</h4>
+
+<p>
+UML Standard Profile defines <strong>process</strong> as a transaction based
+ <a href="component-diagrams.html#component" class="ref-link">component</a>.
+</p>
+
+<h4 id="service">«service»</h4>
+
+<p>
+<strong>Service</strong> is a stateless, functional
+ <a href="component-diagrams.html#component" class="ref-link">component</a>.
+</p>
+
+<h4 id="specification">«specification»</h4>
+
+<p>
+Specification is 
+ a <a href="classifier.html" class="ref-link">classifier</a>
+ that specifies a domain of objects without defining the physical implementation of those objects.
+</p>
+
+<p> 
+ For example, a component stereotyped by «specification» will only have
+ provided and required interfaces, and is not intended to have any realizing classifiers
+ as part of its definition. This differs from «type» because a «type» can have features such as attributes and
+ methods that are useful to analysts modeling systems.
+</p>
+
+<p>
+«Specification» and «realization» are used to model components with distinct specification and realization
+definitions, where one specification may have multiple realizations.
+</p>
+
+
+<h4 id="realization">«realization»</h4>
+
+<p>
+<strong>Realization</strong> is
+ a <a href="classifier.html" class="ref-link">classifier</a>
+ that specifies a domain of objects and that also defines the physical implementation of those objects.
+</p>
+
+<p> 
+For example, a component stereotyped by «realization» will only have realizing classifiers that
+ implement behavior specified 
+ by a separate <a href="component-diagrams.html#specification" class="ref-link">«specification»</a>
+ component. This differs from «implementation class» because an «implementation class» is a realization of a class
+ that can have features such as attributes and methods that are useful to system designers.
+</p>
+
+
+<h4 id="implement">«implement»</h4>
+
+<p>
+<strong>Implement</strong> is 
+ a <a href="component-diagrams.html#component" class="ref-link">component</a>
+ definition that is not intended to have a specification itself. Rather, it is an implementation for 
+ a separate <a href="component-diagrams.html#specification" class="ref-link">«specification»</a>
+ to which it has 
+ a <a href="dependency.html" class="ref-link">dependency</a>.
+</p>
+
+<p>
+It seems to duplicate <a href="component-diagrams.html#realization" class="ref-link">«realization»</a>.
+</p>
+
+
+<!--
+************************
+  Provided Interface
+************************
+-->
+ 
+<h3 id="provided-interface">Provided Interface</h3>
+
+<p>
+A <strong>provided interface</strong> is the one that is either
+</p>
+<ul>
+<li><a href="abstraction.html#interface-realization" class="ref-link">realized</a>
+ directly by the component itself, or</li>
+<li><a href="abstraction.html#interface-realization" class="ref-link">realized</a>
+ by one of the classifiers realizing component, or</li>
+<li>is provided by a public port of the component.</li>
+</ul>
+
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-provided-interface.png" width="190" height="70"
+ alt="Component provided interface in lollipop notation."
+ title="Component provided interface in lollipop notation." />
+<p class="figure-text">
+Weather Services component provides (implements)<br /> Weather Forecast interface
+</p>
+</div>
+
+
+<!--
+**********************
+  Required Interface
+**********************
+-->
+ 
+<h3 id="required-interface">Required Interface</h3>
+
+<p>
+A <strong>required interface</strong> is either 
+</p>
+<ul>
+<li>designated by usage dependency from the component itself, or</li>
+<li>designated by usage dependency from one of the classifiers realizing component, or</li>
+<li>is required by a public port  of the component.</li>
+</ul>
+
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-required-interface.png" width="190" height="77"
+ alt="Component required interface in socket notation."
+ title="Component required interface in socket notation." />
+<p class="figure-text">
+User Services component requires IOrderServices interface
+</p>
+</div>
+
+
+<!--
+*****************
+ External View
+*****************
+-->
+ 
+<h3 id="external-view">External View of Component</h3>
+
+<p>
+A component has an <strong>external view</strong> or <strong>"black-box"</strong> view
+ by means of interface symbols sticking out of the component box
+ exposing its publicly visible properties and operations.
+</p>
+
+<p>
+Optionally, a behavior such as a protocol state machine may be attached to an interface,
+ port, and to the component itself,
+to define the external view more precisely by making dynamic constraints in the sequence
+ of operation calls explicit.
+Other behaviors may also be associated with interfaces or connectors to define the "contract"
+ between participants in a collaboration
+  (e.g., in terms of use case, activity, or interaction specifications).
+</p>
+
+<p>
+Alternatively, the interfaces and/or individual operations and attributes can be listed in the compartments of a
+component box (for scalability, tools may offer a way of listing and abbreviating component properties and behavior).
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-external-view-compartments.png" width="156" height="132"
+ alt="Provided and required interfaces can be listed in the component compartment."
+ title="Provided and required interfaces can be listed in the component compartment." />
+<p class="figure-text">
+External view of User Services component - it provides<br />
+ IUserServices interface and requires IOrderServices interface
+</p>
+</div>
+
+<p>
+For displaying the full signature of an interface of a component, the interfaces can also be displayed as typical classifier
+rectangles that can be expanded to show details of operations and events.
+</p>
+
+
+<!--
+*************
+ Connector
+*************
+-->
+ 
+<h2 id="connector">Connector</h2>
+
+<p>
+<strong>Connector</strong> in components extends 
+ <a href="composite-structure-diagrams.html#connector" class="ref-link">connector</a>
+ from <a href="composite-structure-diagrams.html#internal-structure-diagrams" class="ref-link">internal structures</a>.
+ It specifies a <strong>link</strong> that enables communication between two or more instances.
+ Connector was extended in the components to include <strong>contracts</strong> and specific notation.
+</p>
+
+<p>
+Connector linking components could be either:
+</p>
+<ul>
+<li><a href="component-diagrams.html#delegation-connector" class="ref-link">delegation connector</a>, or</li>
+<li><a href="component-diagrams.html#assembly-connector" class="ref-link">assembly connector</a>.</li>
+</ul>
+
+<p>
+Kind of connector attribute is derived: a connector with one or more ends connected to a port that is not on
+a part and that is not a behavior port is a delegation; otherwise it is an assembly.
+</p>
+
+<p>
+Connector's <strong>contract</strong> is set of behaviors that specify the valid interaction patterns
+ across the connector.
+</p>
+
+<!--
+************************
+  Delegation Connector
+************************
+-->
+ 
+<h3 id="delegation-connector">Delegation Connector</h3>
+
+<p>
+A <strong>delegation connector</strong> is a connector that links the external contract
+ of a component (as specified by its ports) to the realization of that behavior.
+ It represents the forwarding of events (operation requests and events):
+ a signal that arrives at a port that has a delegation connector to one or more parts or 
+ ports on parts will be passed on to those targets for handling.
+</p>
+
+<p>
+A delegation connector is a declaration that behavior that is available on a component instance is not actually realized by
+that component itself, but by one or more instances that have “compatible” capabilities. These situations are modeled
+through a delegation connector from a Port to compatible Ports or Parts.
+</p>
+
+<p>
+Delegation connectors can be used to model the hierarchical decomposition of behavior, where services provided by a
+component may ultimately be realized by one that is nested multiple levels deep within it. The word delegation suggests
+that concrete message and signal flow will occur between the connected ports, possibly over multiple levels. It should be
+noted that such signal flow is not always realized in all system environments or implementations (i.e., it may be design
+time only).
+</p>
+
+<p>
+A port may delegate to a set of ports on subordinate components. In that case, these subordinate ports must collectively
+offer the delegated functionality of the delegating port. At execution time, signals will be delivered to the appropriate
+port. In cases where multiple target ports support the handling of the same signal, the signal will be delivered to all these
+subordinate ports.
+</p>
+
+<p>
+A delegation connector is notated as a connector from the delegating port to the handling port or part.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/delegation-connector-part.png" width="260" height="118"
+ alt="Delegation connector from the delegating port to the UserServlet part."
+ title="Delegation connector from the delegating port to the UserServlet part." />
+<p class="figure-text">
+Delegation connector from the delegating port to the UserServlet part
+</p>
+</div>
+
+<p>
+ If the delegation is handled by a simple port, then the connector may optionally be shown connected
+  to the single lollipop or socket.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/delegation-connector-provided.png" width="268" height="130"
+ alt="Delegation connector from the delegating port to the simple port of SearchEngine."
+ title="Delegation connector from the delegating port to the simple port of SearchEngine." />
+<p class="figure-text">
+Delegation connector from the delegating port to the simple port of SearchEngine
+</p>
+</div>
+
+
+<div class="figure-left-80">
+<img src="component-diagrams/delegation-connector-required.png" width="274" height="132"
+ alt="Delegation connector from the simple port of Authentication component to the delegating port."
+ title="Delegation connector from the simple port of Authentication component to the delegating port." />
+<p class="figure-text">
+Delegation connector from the simple port of Authentication component to the delegating port
+</p>
+</div>
+
+
+<!--
+************************
+   Assembly Connector
+************************
+-->
+ 
+<h3 id="assembly-connector">Assembly Connector</h3>
+
+<p>
+An <strong>assembly connector</strong> is a connector between two or more parts
+ or ports on parts that defines that one or more parts
+ provide the services that other parts use.
+</p>
+
+<p>
+The execution time semantics for an assembly connector are that signals travel along an instance of a connector. Multiple
+connectors directed to and from different parts, or n-ary connectors where n &gt; 2, indicates that the instance that will
+originate or handle the signal will be determined at execution time.
+</p>
+
+<p>
+The interface compatibility between ports that are connected enables an existing component in a system to be replaced by
+one that (minimally) offers the same set of services. Also, in contexts where components are used to extend a system by
+offering existing services, but also adding new functionality, connectors can be used to link in the new component
+definition.
+</p>
+
+<p>
+Assembly connector is notated as a connector between two or more parts or ports on parts.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/assembly-connector.png" width="320" height="106"
+ alt="Assembly connector notated as a connector between two ports on parts."
+ title="Assembly connector notated as a connector between two ports on parts." />
+<p class="figure-text">
+Assembly connector between ports of Authentication and Customers components
+</p>
+</div>
+
+<p>
+When an assembly connector connects simple ports (ports that provide or require a single interface),
+ it may be notated by a "ball-and-socket" connection between a provided interface and a required interface.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/assembly-connector-simple-port.png" width="320" height="107"
+ alt="Assembly connector notated as ball-and-socket connection."
+ title="Assembly connector notated as ball-and-socket connection." />
+<p class="figure-text">
+Assembly connector between simple ports of Authentication and Customers components
+</p>
+</div>
+
+<p>
+Ball-and-socket notation may not be used to connect "complex" ports or parts without ports.
+</p>
+
+<p>
+Where multiple components have simple ports that provide or require the same interface,
+ a single symbol representing the  interface can be shown, and lines from the components can be drawn
+ to that symbol. This presentation option is applicable whether the interface is shown using
+ "ball-and-socket" notation, or just using a required or provided interface symbol.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/assembly-connector-multiple-ports.png" width="320" height="155"
+ alt="Assembly connector notated n-ary connector."
+ title="Assembly connector notated n-ary connector." />
+<p class="figure-text">
+Assembly connector that assembles three parts
+</p>
+</div>
+
+
+
+<!--
+*************************
+  Component Realization
+*************************
+-->
+ 
+<h2 id="component-realization">Component Realization</h2>
+
+<p>
+<strong>Component Realization</strong> is specialized
+<a href="abstraction.html#realization" class="ref-link">realization</a> dependency used 
+  to (optionally) define 
+  <a href="classifier.html" class="ref-link">classifiers</a> 
+  that realize the contract offered by a component in terms of 
+ its <a href="class-diagrams.html#provided-interface" class="ref-link">provided interfaces</a>
+  and <a href="component-diagrams.html#required-interface" class="ref-link">required interfaces</a>. 
+</p>
+
+<p>
+A component’s behavior may typically be realized (or implemented) by a number of Classifiers.
+ In effect, it forms an <strong>abstraction</strong> for a collection of model elements.
+ In that case, a component owns a set of component realization dependencies to these classifiers.
+</p>
+
+<p>
+A <strong>component realization</strong> is notated in the same way as the
+ <a href="abstraction.html#realization" class="ref-link">realization</a> dependency,
+ i.e., as a general dashed line from implementing classifiers to realized component with
+ hollow triangle as an arrowhead.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-realization.png" width="260" height="167"
+ alt="Component realization notated in the same way as the realization dependency"
+ title="Component realization notated in the same way as the realization dependency" />
+<p class="figure-text">
+Component UserService realized by UserServlet and UserDAO.
+</p>
+</div>
+
+
+<p>
+For the purpose of applications that require multiple different sets of realizations for a single
+component specification, a set of standard stereotypes are defined in the
+ UML Standard Profile. In particular,
+<strong>«specification»</strong> and <strong>«realization»</strong> are defined
+ there for this purpose.
+</p>
+
+<p>
+Component could be shown using <strong>internal view</strong> or "<strong>white-box</strong>" view
+ exposing its private properties and realizing classifiers.
+ This view shows how the external behavior is realized internally.
+ The realizing classifiers could be listed in an additional <strong>«realizations»</strong> compartment.
+ Compartments may also be used to display a listing of any parts and connectors, or any implementing
+ <strong>artifacts</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-realization-compartments.png" width="156" height="236"
+ alt="Realizing classifiers listed in the additional «realizations» compartment."
+ title="Realizing classifiers listed in the additional «realizations» compartment." />
+<p class="figure-text">
+White box view of User Services component - it is realized by UserServlet and UserDAO
+ and manifested by UserService.jar artifact
+</p>
+</div>
+
+<p>
+Alternatively, the internal classifiers that realize the behavior of a component
+ may be displayed nested within the component shape.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-realization-nested.png" width="168" height="220"
+ alt="Classifiers that realize the behavior of a component displayed nested within the component shape."
+ title="Classifiers that realize the behavior of a component displayed nested within the component shape." />
+<p class="figure-text">
+White box view of User Services component - it is realized by UserServlet and UserDAO
+</p>
+</div>
+
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="component-diagrams.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/component-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:10:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

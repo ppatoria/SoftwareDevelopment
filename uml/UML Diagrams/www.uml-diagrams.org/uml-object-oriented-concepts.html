@@ -1,0 +1,945 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/uml-object-oriented-concepts.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>Object-Oriented Analisys and Design (OOAD) Concepts in UML, inherently object-oriented modeling language designed for use in object-oriented software applications.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Object-Oriented Design Concepts in UML - inherently object-oriented modeling language designed for use in object-oriented software applications. It uses encapsulation, inheritance, abstraction, polymorphism, etc." />
+<meta name="keywords" content="UML, UML 2, 2.4, object-oriented, modeling language, encapsulation, generalization, inheritance, abstraction, polymorphism." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+  class="active-nav" >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Object-Oriented Design Concepts in UML</h1>
+
+<p>
+The <strong>Unified Modeling Language</strong>&trade; (<strong>UML</strong>&reg;) is inherently
+ <strong>object-oriented modeling language</strong>
+ and was designed for use in object-oriented software applications.
+ The applications could be based on the <strong>object-oriented technologies</strong>
+ recommended by the <strong>Object Management Group</strong> (OMG), which owns the UML. 
+ The initial versions of UML (UML 1.x) were based on three leading object-oriented methods - Booch, OMT, and OOSE,
+ to represent
+ "<span class="citation">the culmination of best practices in practical object-oriented modeling</span>".
+ UML 2.x is still object-oriented in its core (though there were some apparently unsuccessful attempts
+ to extend UML to support other development methods).
+</p>
+
+<p>
+Here's some illustration of this object orientation of UML from
+<a href="references.html#ref-uml-142" class="external-ref" title="UML 1.4.2 Specification">UML 1.4.2 Specification</a>:
+</p>
+<p class="citation">
+A frequently asked question has been: Why doesn’t UML support data-flow diagrams?
+Simply put, data-flow and other diagram types that were not included in the UML do
+not fit as cleanly into a consistent object-oriented paradigm.
+</p>
+
+<p>
+This might explain why UML does not care for example to support <strong>database modeling</strong>,
+ which is still mostly based on <strong>relational models</strong> to describe relational databases.
+ It does not explain why UML ignores modeling of object relational databases or
+ modeling of Graphical User Interfaces (GUI).
+ GUI designs were and still are prominent examples of object-oriented design and programming,
+ while completely neglected by UML.
+</p>
+
+<p>
+To understand and use UML as intended by its authors, software architects and developers should be
+ familiar with general concepts and methods of <strong>object-oriented analysis and design</strong>
+ (<strong>OOAD</strong>) and/or 
+ of the <strong>object-oriented development</strong> (<strong>OOD</strong>),
+ and how those were applied to UML itself.
+ There is one problem with this requirement: though OOAD/OOD is being used
+ for several decades, there is still <strong>no concensus on what is OOAD</strong> and even what are
+ the fundamental concepts ("quarks") of the OOAD.
+ See one nice but pedantic attempt to define fundamental OOD concepts in  
+ <a href="references.html#ref-quarks-ood" class="external-ref" 
+ title="Deborah J. Armstrong, The Quarks of Object-Oriented Development.">[DJA 06]</a>.
+</p>
+
+<p>
+A problem is that UML specification uses some OOD concepts assuming that there are some generally accepted 
+ definitions of those concepts, which is a mistaken assumption.
+ To make things even worse, the <strong>Glossary</strong>
+ that was present in UML 1.x specifications and included terms from OMG standards
+ and object-oriented analysis and design methods in addition to UML and MOF specific terminology,
+ was <strong>removed</strong> from all UML 2.x specifications.
+ Removing Glossary from UML specification was really wicked decision.
+</p>
+
+<p>
+Ok, so we are really in trouble: UML specifications use OOAD concepts which have no clear and
+ generally accepted definitions without providing own interpretations or definitions of those concepts.
+ Wait, sometimes they do provide some definitions. Let's see what do we have.
+</p>
+
+<h2>Object-Oriented Design</h2>
+
+<p>
+Whether you agree or not, there is no commonly accepted definition of Object-Oriented Design
+ (or Development, or Programming) (OOD, OOP).
+ So I will make up some definition:
+</p>
+
+<p class="definition">
+<strong>Object-Oriented Design</strong> is a software development approach to design and implement 
+ software system as a collection of interacting stateful objects with specified structure and behavior.
+</p>
+
+<p>
+There are several fundamental concepts defining OOD but there is no agreement on the exact list of the concepts,
+ their definition and taxonomy (classification).
+ We will take a look at some of OOD concepts that seem relevant to the UML:
+</p>
+<ul>
+<li><a href="uml-object-oriented-concepts.html#class-object" class="ref-link">class and object</a>,</li>
+<li><a href="uml-object-oriented-concepts.html#message" class="ref-link">message</a>,
+ operation, method,</li>
+<li><a href="uml-object-oriented-concepts.html#encapsulation" class="ref-link">encapsulation</a>,</li>
+<li><a href="uml-object-oriented-concepts.html#abstraction" class="ref-link">abstraction</a>,</li>
+<li><a href="uml-object-oriented-concepts.html#inheritance" class="ref-link">inheritance</a>,</li>
+<li><a href="uml-object-oriented-concepts.html#polymorphism" class="ref-link">polymorphism</a>.</li>
+</ul>
+
+
+<!--
+*****************
+  Class, Object
+******************
+-->
+
+<h2 id="class-object">Class and Object</h2>
+
+<p>
+The origin of <strong>classes</strong> introduced in Simula 67 was computer <strong>simulation</strong>.
+</p>
+
+<p>
+The <strong>classes</strong> in Simula 67 (called <strong>processes</strong> in Simula) 
+  <a href="references.html#ref-sk-03" class="external-ref" title="Stein Krogdahl. The birth of Simula.">[SK 03]</a>,
+ have a list of statements with execution started when object is created.
+ When the execution of the statements ends, object becomes terminated.
+ Object's local data and procedures can still be accessed from outside of the object after termination.
+ During execution objects may choose to temporarily suspend their execution 
+ (even if it is currently inside one or more procedure calls) and let another
+ object to take control. If the control is later returned back to the object,
+ it will resume execution from the point where it was suspended.
+ For the Java or C# programmer this concept will sound like as a <strong>Thread</strong>.
+</p>
+
+<p>
+Note, that the process concept of Simula was based on the <strong>block</strong> in Algol-60.
+ Block in Algol-60 allowed declaration of local variables, local procedures and a list of executable statements.
+ But execution of block could not be suspended, and once it is finished, local variables and procedures are
+ removed from execution stack and no longer available.
+</p>
+
+<!--
+*****************
+     Message
+******************
+-->
+
+<h2 id="message">Message</h2>
+
+<p>
+<strong>Message</strong> concept is probably one of the most confusing in OOAD, especially for
+ the software developers familiar with modern messaging systems and APIs such as the Java Message Service (JMS)
+ or Microsoft Message Queuing (MSMQ), which allow separate, uncoupled applications or components
+ to reliably communicate asynchronously.
+ Message concept in OOAD and UML is quite a different thing.
+</p>
+
+<p>
+If we search language specifications of
+ <strong>C++</strong>
+ <a href="references.html#ref-bstr-cpp" class="external-ref" title="B. Stroustrup, The C++ Programming Language.">[BSC 77]</a>,
+ <strong>Java</strong> <a href="references.html#ref-java-sp3" class="external-ref" 
+ title="James Gosling et al., The Java Language Specification. 3rd Ed.">[JGJ 05]</a>, 
+ or <strong>C#</strong> <a href="references.html#ref-csharp-sp4" class="external-ref" 
+ title="C# Language Specification. Version 4.0.">[CSH 10]</a>
+ - there is no concept of <strong>message</strong>.
+ So let's travel back in time to
+ <strong>Smalltalk</strong> <a href="references.html#ref-smalltalk-80" class="external-ref" 
+ title="A. Goldberg and D. Robson. Smalltalk-80: The Language and its Implementation.">[A. Goldberg and D. Robson. Smalltalk-80: The Language and its Implementation.]</a>.
+</p>
+
+<p>
+<strong>Messages</strong> in Smalltalk-80 represent two-way communications between the objects of the system.
+ Note, that "in Smalltalk everything is an object", including primitive values and classes.
+ A message requests an operation from the receiver.
+ Object selector and arguments transmit information to the receiver about what type of response to make.
+ It is up to the receiver to decide how to respond to the message.
+ The receiver returns an object back that becomes the value of the message expression.
+</p> 
+
+<p>
+Let's consider simple Smalltalk example of a binary message to request arithmetic operation:
+</p>
+<div class="code-example">
+3 + 4
+</div>
+<p>
+ In this case, object '3' is the <strong>receiver</strong> of the <strong>message</strong> '+ 4'.
+ The message contains <strong>selector</strong> '+' and <strong>argument</strong> '4'.
+ Selector of the message is a name (or symbol) for the type of interaction required from the receiver.
+ The receiver of the message ('3') returns back an object ('7') that becomes the value of the message expression.
+</p>
+
+<p>
+ If a message expression includes an assignment prefix, the object returned by the receiver will become
+ the new object referred to by the variable.
+ Even if no information needs to be communicated back to the sender, a receiver always returns a value
+ for the message expression.
+ Returning a value indicates that the response to the message is complete. For example,
+</p>
+<div class="code-example">
+sum &#x2190; 3 + 4
+</div>
+<p>
+makes 7 to be the new value of the variable sum.
+</p>
+
+
+<h3>Object Creation Message</h3>
+
+<p>
+<strong>Classes</strong> are components of the Smalltalk-80 system, and they are represented
+ by the <strong>objects</strong> as all other components.
+ Each class has a name that describes the type of component its instances represent.
+ A class name is a way for instances to identify themselves, and it provides a way
+ to refer to the class in expressions.
+ Class name becomes the name of a globally shared variable, and it must be capitalized.
+</p>
+
+<p>
+<strong>New objects</strong> in Smalltalk-80 are created by sending messages <strong>to classes</strong>.
+ Note, this approach resolves the dilemma of sending create message to nonexisting object to create itself.
+ In Smalltalk the message is actually sent to the class object to create an instance of the class.
+ Most classes respond to the unary message <strong>new</strong> by creating a new instance of themselves.
+ For example,
+</p>
+<div class="code-example">
+users &#x2190; Dictionary new
+</div>
+<p>
+ sends the 'new' message to the Dictionary class which creates and returns back an instance of itself
+ to be assigned to the variable users.
+</p>
+
+<p>
+Note, that some Smalltalk classes could create instances in response to other messages.
+ For example, the standard class Date responds to the message <strong>today</strong> with an instance
+ representing the current day.
+ In C# the same result could be achieved by using <strong>static property</strong> Today of the DateTime structure.
+</p>
+<div class="code-example">
+DateTime thisDay = DateTime.Today;
+</div>
+
+
+<h3>Message in UML</h3>
+
+<p>
+Messages are intrinsic elements of UML 
+ <a href="uml-25-diagrams.html#interaction-diagram" class="ref-link">interaction diagrams</a>.
+ A <a href="sequence-diagrams.html#message" class="ref-link">message</a>
+ defines a specific kind of communication
+ between <a href="sequence-diagrams.html#lifeline" class="ref-link">lifelines</a>
+ of an interaction.
+ A communication can be, for example, invoking an operation, replying back, creating or destroying an instance,
+ raising a signal. It also specifies the sender and the receiver of the message.
+</p>
+
+<p>
+<a href="sequence-diagrams.html#create" class="ref-link">Create message</a>
+ is shown as a dashed line with open arrowhead, and pointing to the created lifeline's head.
+</p> 
+
+<div class="figure-left-80">
+<img src="notation/sequence-message-create.png" width="220" height="144"
+ alt="Online Bookshop creates Account." title="Online Bookshop creates Account." />
+<p class="figure-text">
+Online Bookshop creates Account.
+</p>
+</div>
+
+<p>
+Note, that this weird convention to send a message to a nonexisting object to create itself
+ is used both in UML 1.x and 2.x.
+ As we saw above, in Smalltalk-80 new objects are created by sending messages to <strong>classes</strong>,
+ with instance of the class created and returned back.
+ So one way to interpret UML create message notation is probably as a shortcut for these actions.
+</p>
+
+
+<!--
+*****************
+   Operation
+******************
+-->
+
+<h2 id="operation">Operation and Method</h2>
+
+
+<h3>Operation and Method in UML</h3>
+
+<p>
+<strong>Operation</strong> is defined in <strong>UML 1.4.2</strong> as a service that can be requested
+ from an object to effect behavior. An operation has a <strong>signature</strong>,
+ which may restrict the actual parameters that are possible.
+</p>
+
+<p>
+<strong>Method</strong> is defined as the implementation of an operation.
+ It specifies the algorithm or procedure associated with an operation.
+</p>
+
+<!--
+*****************
+   Encapsulation
+******************
+-->
+
+<h2 id="encapsulation">Encapsulation</h2>
+
+<p>
+Encapsulation is one of the loosely defined OOAD concepts. The term is known in software development
+ for many years but I can't find any reliable origin. Encapsulation was mentioned in the article 
+ <a href="references.html#ref-clu-77" class="external-ref" 
+  title="Barbara Liskov, et al., Abstraction Mechanisms in CLU.">[CLU 77]</a>
+  describing <strong>abstraction</strong> mechanisms in programming language CLU in the context of
+  <strong>hiding details of implementation</strong>.
+</p>
+
+<p>
+CLU restricted access to the implementation by allowing to use only (public) cluster operations, i.e.
+ public <strong>interface</strong>.
+ It promoted design practices where abstractions are used to define and simplify the connections between
+ system modules and to <strong>encapsulate</strong> implementation decisions that are likely to change.
+</p>
+
+<p>
+If we look up the English word <strong>encapsulate</strong> in a dictionary, we will find two meanings:
+ (1) to encase or become enclosed in a capsule (2) to express in a brief summary, epitomise.
+ Both of these meanings of encapsulation seem appropriate in the context of OOAD.
+</p>
+
+<p>
+Let's assume that the definition of encapsulation in OOAD is something like:
+</p>
+
+<div class="definition">
+<strong>Encapsulation</strong> is a development technique which includes
+<ul>
+<li>creating new data types (<strong>classes</strong>) by combining both information (structure)
+ and behaviors, and</li>
+<li>restricting access to implementation details.</li>
+</ul>
+</div>
+
+<p>
+Encapsulation is very close or similar to
+ the <a href="uml-object-oriented-concepts.html#abstraction" class="ref-link">abstraction</a> concept.
+ The difference is probably in "direction" -
+ encapsulation is more about hiding (encapsulating) implementation details
+ while abstraction is about finding and exposing public interfaces.
+ The two concepts are supported by access control.
+</p>
+
+<p>
+ <strong>Access control</strong> allows both to hide implementation (<strong>implementation hiding</strong> or
+ <strong>information hiding</strong>) and to expose public interface of a class.
+</p>
+
+
+<!--
+**********************
+ Encapsulation in UML
+**********************
+-->
+
+<h3>Encapsulation in UML</h3>
+
+<p>
+UML specifications provide no definition of <strong>encapsulation</strong> but use it loosely in several contexts.
+</p>
+
+<p>
+For example, in UML 1.4
+<strong>object</strong> is defined as an entity with a well defined boundary and identity that
+ <strong>encapsulates</strong> state (attributes and relationships) and behavior
+ (operations, methods, and state machines).
+ Elements in peer packages are <strong>encapsulated</strong> and are not a priori <strong>visible</strong>
+ to each other.
+</p>
+
+<p>
+In UML 2.4 and 2.5 <span class="citation">a component represents a modular part of a system that encapsulates
+ its contents and whose manifestation is replaceable within its environment</span>, and also
+ <span class="citation">a Component is encapsulated and ... as a result, Components and subsystems
+ can be flexibly reused and replaced by connecting ("wiring") them together</span>.
+</p>
+
+<p>
+<a href="composite-structure-diagrams.html#encapsulated-classifier" class="ref-link">Encapsulated classifier</a>
+ in UML 2.4 and 2.5 is a structured classifier isolated from its environment (encapsulated ?) by using
+ <a href="composite-structure-diagrams.html#port" class="ref-link">ports</a>.
+ Each port specifies a distinct interaction point between classifier and its environment.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-interfaces.png" width="250" height="108"
+ alt="Library Services is classifier encapsulated through Search Port."
+ title="Library Services is classifier encapsulated through Search Port." />
+<p class="figure-text">
+Library Services is classifier encapsulated through Search Port
+</p>
+</div>
+
+<p>
+UML 2.4 specification also used term <strong>completely encapsulated</strong>
+ without providing any explanation. It was removed in UML 2.5.
+</p>
+
+
+<!--
+*****************
+   Abstraction
+******************
+-->
+
+<h2 id="abstraction">Abstraction</h2>
+
+<p>
+There is no single commonly accepted definition of <strong>abstraction</strong> in OOD.
+Some sources define abstraction as a way or mechanism to represent complex reality
+ using simplified model. It could be also defined as a way to capture only those details
+ about an object that are relevant to the current perspective.
+ We can try to go back to origins - sometime in 70s - when programming languages CLU, Alphard, Modula-2, etc.
+ introduced abstraction mechanisms.
+</p>
+
+<p>
+Data abstractions in CLU were introduced with <strong>abstract data type</strong> construct
+ called a <strong>cluster</strong>.
+ Data abstractions required that the behavior of the data objects were
+ completely characterized by the set of <strong>operations</strong>.
+ Classical example is definition of stack cluster using only push and pop operations.
+</p>
+
+<p>
+CLU also introduced separation of abstraction from its implementation(s):
+</p>
+
+<div class="definition">
+An abstraction isolates use from implementation:
+ an abstraction can be used without knowledge of its implementation and implemented
+ without knowledge of its use.
+</div>
+
+<p>
+Description unit of the cluster is <strong>interface specification</strong> of the abstraction.
+ For the data abstractions it included the number and types of parameters, constraints on type parameters,
+ and the name and interface specification of each operation.
+ The <strong>implementation</strong> involved both selecting a representation for
+ the data objects and implementing each cluster operation in terms of that data representation.
+ Ultimately, there can be many implementations of an abstraction. Each implementation must satisfy
+ the interface specification of the cluster.
+</p>
+
+
+<h3>Abstraction in UML</h3>
+
+<p>
+Abstraction in UML corresponds to the concept of abstraction in OOD (as described above).
+ UML provides different types (subclasses) of abstraction, including realizations (i.e. implementations).
+</p>
+
+<p>
+<a href="abstraction.html" class="ref-link">Abstraction</a> is 
+ a <a href="dependency.html" class="ref-link">dependency relationship</a>
+ that relates two elements or sets of elements (called <strong>client</strong> and <strong>supplier</strong>)
+ representing the <strong>same concept</strong>
+ but at <strong>different levels</strong> of abstraction or from <strong>different viewpoints</strong>.
+</p>
+
+<p>
+<a href="abstraction.html#realization" class="ref-link">Realization</a> is a specialized
+ abstraction relationship between two sets of model elements, one representing a <strong>specification</strong>
+(the <strong>supplier</strong>) and the other represents an <strong>implementation</strong> of the latter
+ (the <strong>client</strong>).
+</p>
+
+<!--
+*****************
+   Inheritance
+******************
+-->
+
+<h2 id="inheritance">Inheritance</h2>
+
+<p>
+In OOAD and in UML 1.4 <strong>inheritance</strong> is defined
+  as a mechanism by which more specific classes
+ (called <strong>subclasses</strong> or <strong>derived classes</strong>) incorporate
+  structure and behavior of the more general classes
+ (called <strong>superclasses</strong> or <strong>base classes</strong>).
+</p>
+
+
+<h3>Inheritance in UML 1.4</h3>
+
+<p>
+Glossary of the <strong>UML 1.4.2</strong> defines <strong>inheritance</strong> as
+ <span class="citation">"the mechanism by which those more specific elements 
+ incorporate structure and behavior of the more general elements"</span>.
+ Inheritance supplements
+ <a href="generalization.html" class="ref-link">generalization</a> relationship.
+</p>
+
+<p>
+<strong>Generalization</strong> is defined as a taxonomic relationship between a more general element
+ and a more specific element. The more specific element is fully consistent with the more general
+ element and contains some additional information.
+ An instance of the more specific element may be used where the more general element is allowed.
+</p>
+
+<p>
+Inheritance was explained in <strong>UML 1.4.2</strong> using the concepts of a
+ <strong>full descriptor</strong> and a <strong>segment descriptor</strong>.
+A full descriptor contains a description of all of
+ the attributes, associations, operations, and constraints that the object contains,
+ and is usually implicit because it is built out of incremental segments combined together using inheritance.
+</p>
+
+<p class="citation">
+In an object-oriented language, the description of an object is built out of incremental segments
+ that are combined using inheritance to produce a full descriptor for an object.
+ The segments are the modeling elements that are actually declared in a model.
+ They include elements such as class and other generalizable elements.
+ Each generalizable element contains a list of features and other
+ relationships that it adds to what it inherits from its ancestors.
+ </p>
+ 
+<p class="citation">
+Each kind of generalizable element has a set of inheritable features.
+ For any model element, these include constraints.
+ For classifiers, these include features ( attributes, operations, signal receptions, and methods)
+ and participation in associations.
+ [<a href="references.html#ref-uml-142" class="external-ref" title="UML 1.4.2 Specification">UML 1.4.2 Specification</a>]
+</p>
+
+<p>
+If a generalizable element has more than one parent (<strong>multiple inheritance</strong>),
+ then its full descriptor contains the union of the features from its own segment descriptor and the
+ segment descriptors of all of its ancestors.
+</p>
+
+<p>
+Attributes in UML 1.4 could not be redefined but a method may be declared in more than one subclass.
+ A method declared in any segment supersedes and replaces a method with the same signature declared in
+any ancestor.
+</p>
+
+
+<h3>Inheritance in UML 2.x</h3>
+
+<p>
+<strong>UML 2.4</strong> and the newest <strong>UML 2.5</strong> specifications provide no definition
+ for <strong>inheritance</strong>.
+ UML 2.x specifications say that with generalization specializing classifier <strong>inherits</strong>
+ <a href="uml-core.html#feature" class="ref-link">features</a>
+ of the more general classifier.
+ Also, any <a href="class-diagrams.html#constraint" class="ref-link">constraint</a>
+ applying to instances of the general classifier also applies to instances of the specific classifier.
+</p>
+
+<p>
+<strong>UML 2.5</strong> provides some vague and incomplete explanation of how <strong>inheritance</strong>
+ works in UML:
+</p>
+
+<p class="citation"> 
+When a Classifier is generalized, certain members of its generalizations are inherited,
+ that is they behave as though they were defined in the inheriting Classifier itself.
+ For example, an inherited member that is an attribute has a value or collection of values
+ in any instance of the inheriting Classifier, and an inherited member that is an Operation
+ may be invoked on an instance of the inheriting Classifier.
+ [UML 2.5 Specification]
+</p>
+
+
+<!--
+*****************
+  Polymorphism
+******************
+-->
+
+<h2 id="polymorphism">Polymorphism</h2>
+
+<p>
+As it is usual with other OOAD concepts, <strong>polymorphism</strong> is also poorly defined.
+You can find all kinds of strange definitions of polymorphism, and there is no agreement which one is the best.
+To make things even worse, I will add my own definition of polymorphism:
+</p>
+
+<div class="definition">
+Polymorphism is ability to apply different meaning (semantics, implementation)
+ to the same symbol (message, operation) in different contexts. 
+</div>
+
+<p>
+When context is defined at compile time, it is called <strong>static</strong> or 
+<strong>compile-time polymorphism</strong>. When context is defined during program execution,
+it is <strong>dynamic</strong> or <strong>run-time polymorphism</strong>.
+</p>
+
+<p>
+It is believed that term "polymorphism" was introduced by Strachey in 1967
+ <a href="references.html#ref-cs-67" class="external-ref" 
+ title="C. Strachey, Fundamental concepts in programming languages.">[CS 67]</a>
+ to describe operations and functions that could be applied to more than one type of arguments.
+</p>
+
+<p>
+A typical example of static "ad hoc" polymorphism in procedural languages like ALGOL-60 or ALGOL-68 is:
+</p>
+<div class="code-example">
+sum := x + y;
+</div>
+<p>
+In this example "+" is <strong>polymorphic operation</strong> which could be used with different types of operands -
+ integer, real, string, complex, vector, etc. Specific static context - types of operands x and y -
+ will determine at compile time which implementation of "+" is to be used.
+</p>
+
+<p>
+This kind of static polymorphism is usually called <strong>overloading</strong> and means
+ using the same operation symbol or function name on different types.
+ Note, that overloading also allows different number of parameters
+ and sometimes (ALGOL-68) even different priorities.
+</p>
+
+<p>
+Another kind of static polymorphism is <strong>parametric polymorphism</strong>
+ <a href="references.html#ref-bstr-cpp" class="external-ref" title="B. Stroustrup, The C++ Programming Language.">[BSC 77]</a>
+ and is based on <strong>templates</strong>. In C++ example below, Vector template defines
+ generic method 'elem' and operator '[ ]':
+</p>
+<div class="code-example">
+template&lt;class T&gt; class Vector {<br />
+&nbsp;&nbsp;T* v;<br />
+&nbsp;&nbsp;int size;<br />
+public:<br />
+&nbsp;&nbsp;Vector();<br />
+&nbsp;&nbsp;Vector(int);<br />
+&nbsp;&nbsp;T&amp; elem(int i) { return v[i]; }<br />
+&nbsp;&nbsp;T&amp; operator[] (int i);<br />
+&nbsp;&nbsp;/* ... */<br />
+};<br />
+Vector&lt;int&gt; vi;<br />
+Vector&lt;Shape*&gt; vps;<br />
+</div>
+
+<p>
+In OOAD <strong>polymorphism</strong> means <strong>dynamic polymorphism</strong> and
+ is commonly related to as <strong>late binding</strong> or <strong>dynamic binding</strong>.
+ It could be defined as:
+</p>
+
+<div class="definition">
+(Dynamic) Polymorphism is ability of objects of different classes to respond to the same message
+ in a different way.
+</div>
+
+
+<h3>Virtual Functions</h3>
+
+<p>
+Procedural language Algol-60 allowed to pass a procedure as a parameter to another procedure.
+ In Simula 67 
+ classes may, like procedures, have formal parameters but they did not allow procedures as
+ parameters to classes. Simula 67 authors found another way to have the same statements to have slightly different
+ effect in different objects 
+ <a href="references.html#ref-sk-03" class="external-ref" title="Stein Krogdahl. The birth of Simula.">[SK 03]</a>
+ <span class="citation">by declaring a procedure in a class C as "virtual", it could be redefined (overridden)
+ in a subclass D. ... Thus, the same procedure call could activate different “versions” of the procedure,
+ at least in objects of different subclasses.</span>
+</p>
+
+
+<p>
+Dynamic binding mechanism in C++, Java, C# allows to determine behavior (implementation) to be invoked
+ in response to the message received by a specific object.
+ To get this kind of polymorphic behavior in C++, the member functions must be <strong>virtual</strong>
+ and objects must be manipulated through pointers or references
+ <a href="references.html#ref-bstr-cpp" class="external-ref" title="B. Stroustrup, The C++ Programming Language.">[BSC 77]</a>.
+</p>
+
+
+<!--
+**********************
+ Polymorphism in UML
+**********************
+-->
+
+<h3>Polymorphism in UML</h3>
+
+<p>
+There is no definition of polymorphism in UML specifications but there are some differences
+ in how this term is used in different versions of UML.
+</p>
+
+<p>
+In <strong>UML 1.4.2</strong> operation declares whether or not it may be realized
+ by a different method in a subclass (which looks very similar to virtual functions in C++)
+ by using <strong>isPolymorphic</strong> attribute. 
+ Methods realizing polymorphic operation have the same signature as the operation and have a body implementing
+ the specification of the operation.
+ Methods in descendants override and replace methods inherited from ancestors.
+</p>
+
+<p>
+The <strong>isPolymorphic</strong> attribute is no longer present in <strong>UML 2.4</strong> and
+ <strong>UML 2.5</strong>, without any explanation.
+ Does it mean that all operations are now polymorphic (virtual), as if inspired by Java language?
+ The <strong>UML 2.4.1</strong> specification had one obscure statement mentioning <strong>polymorphism</strong>
+ in Chapter 11, Actions, and this statement is now removed from <strong>UML 2.5</strong>:
+</p>
+
+<p class="citation">
+Operations are specified in the model and can be dynamically selected only through polymorphism.
+</p>
+
+<p>
+I remember long time ago, Pascal language was promoted fiercely as a significant simplification
+ compared to the huge, too formal, and complex Algol-68.
+ The result was plain, restrained, and poorly defined language with ambiguous semantics.
+ Hope, UML 2.5 simplification effort will not end up the same way, simple is not always lucid.
+</p>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="uml-object-oriented-concepts.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/uml-object-oriented-concepts.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

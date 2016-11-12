@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/circular_buffer/test/bounded_buffer_comparison.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:43 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/circular_buffer/test/bounded_buffer_comparison.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/circular_buffer/test/bounded_buffer_comparison.cpp</h3>
+<pre>
+// Comparison of bounded buffers based on different containers.
+
+// Copyright (c) 2003-2008 Jan Gaspar
+
+// Use, modification, and distribution is subject to the Boost Software
+// License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+#define BOOST_CB_DISABLE_DEBUG
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/circular_buffer.hpp">boost/circular_buffer.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/thread/mutex.hpp">boost/thread/mutex.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/thread/condition.hpp">boost/thread/condition.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/thread/thread.hpp">boost/thread/thread.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/call_traits.hpp">boost/call_traits.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/progress.hpp">boost/progress.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/bind.hpp">boost/bind.hpp</a>&gt;
+#include &lt;deque&gt;
+#include &lt;list&gt;
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+const unsigned long QUEUE_SIZE     = 1000L;
+const unsigned long TOTAL_ELEMENTS = QUEUE_SIZE * 1000L;
+
+template &lt;class T&gt;
+class bounded_buffer {
+public:
+
+    typedef boost::circular_buffer&lt;T&gt; container_type;
+    typedef typename container_type::size_type size_type;
+    typedef typename container_type::value_type value_type;
+    typedef typename boost::call_traits&lt;value_type&gt;::param_type param_type;
+
+    explicit bounded_buffer(size_type capacity) : m_unread(0), m_container(capacity) {}
+
+    void push_front(param_type item) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_full.wait(lock, boost::bind(&amp;bounded_buffer&lt;value_type&gt;::is_not_full, this));
+        m_container.push_front(item);
+        ++m_unread;
+        lock.unlock();
+        m_not_empty.notify_one();
+    }
+
+    void pop_back(value_type* pItem) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_empty.wait(lock, boost::bind(&amp;bounded_buffer&lt;value_type&gt;::is_not_empty, this));
+        *pItem = m_container[--m_unread];
+        lock.unlock();
+        m_not_full.notify_one();
+    }
+
+private:
+    bounded_buffer(const bounded_buffer&amp;);              // Disabled copy constructor
+    bounded_buffer&amp; operator = (const bounded_buffer&amp;); // Disabled assign operator
+
+    bool is_not_empty() const { return m_unread &gt; 0; }
+    bool is_not_full() const { return m_unread &lt; m_container.capacity(); }
+
+    size_type m_unread;
+    container_type m_container;
+    boost::mutex m_mutex;
+    boost::condition m_not_empty;
+    boost::condition m_not_full;
+};
+
+template &lt;class T&gt;
+class bounded_buffer_space_optimized {
+public:
+
+    typedef boost::circular_buffer_space_optimized&lt;T&gt; container_type;
+    typedef typename container_type::size_type size_type;
+    typedef typename container_type::value_type value_type;
+    typedef typename boost::call_traits&lt;value_type&gt;::param_type param_type;
+
+    explicit bounded_buffer_space_optimized(size_type capacity) : m_container(capacity) {}
+
+    void push_front(param_type item) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_full.wait(lock, boost::bind(&amp;bounded_buffer_space_optimized&lt;value_type&gt;::is_not_full, this));
+        m_container.push_front(item);
+        lock.unlock();
+        m_not_empty.notify_one();
+    }
+
+    void pop_back(value_type* pItem) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_empty.wait(lock, boost::bind(&amp;bounded_buffer_space_optimized&lt;value_type&gt;::is_not_empty, this));
+        *pItem = m_container.back();
+        m_container.pop_back();
+        lock.unlock();
+        m_not_full.notify_one();
+    }
+
+private:
+
+    bounded_buffer_space_optimized(const bounded_buffer_space_optimized&amp;);              // Disabled copy constructor
+    bounded_buffer_space_optimized&amp; operator = (const bounded_buffer_space_optimized&amp;); // Disabled assign operator
+
+    bool is_not_empty() const { return m_container.size() &gt; 0; }
+    bool is_not_full() const { return m_container.size() &lt; m_container.capacity(); }
+
+    container_type m_container;
+    boost::mutex m_mutex;
+    boost::condition m_not_empty;
+    boost::condition m_not_full;
+};
+
+template &lt;class T&gt;
+class bounded_buffer_deque_based {
+public:
+
+    typedef std::deque&lt;T&gt; container_type;
+    typedef typename container_type::size_type size_type;
+    typedef typename container_type::value_type value_type;
+    typedef typename boost::call_traits&lt;value_type&gt;::param_type param_type;
+
+    explicit bounded_buffer_deque_based(size_type capacity) : m_capacity(capacity) {}
+
+    void push_front(param_type item) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_full.wait(lock, boost::bind(&amp;bounded_buffer_deque_based&lt;value_type&gt;::is_not_full, this));
+        m_container.push_front(item);
+        lock.unlock();
+        m_not_empty.notify_one();
+    }
+
+    void pop_back(value_type* pItem) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_empty.wait(lock, boost::bind(&amp;bounded_buffer_deque_based&lt;value_type&gt;::is_not_empty, this));
+        *pItem = m_container.back();
+        m_container.pop_back();
+        lock.unlock();
+        m_not_full.notify_one();
+    }
+
+private:
+
+    bounded_buffer_deque_based(const bounded_buffer_deque_based&amp;);              // Disabled copy constructor
+    bounded_buffer_deque_based&amp; operator = (const bounded_buffer_deque_based&amp;); // Disabled assign operator
+
+    bool is_not_empty() const { return m_container.size() &gt; 0; }
+    bool is_not_full() const { return m_container.size() &lt; m_capacity; }
+
+    const size_type m_capacity;
+    container_type m_container;
+    boost::mutex m_mutex;
+    boost::condition m_not_empty;
+    boost::condition m_not_full;
+};
+
+template &lt;class T&gt;
+class bounded_buffer_list_based {
+public:
+
+    typedef std::list&lt;T&gt; container_type;
+    typedef typename container_type::size_type size_type;
+    typedef typename container_type::value_type value_type;
+    typedef typename boost::call_traits&lt;value_type&gt;::param_type param_type;
+
+    explicit bounded_buffer_list_based(size_type capacity) : m_capacity(capacity) {}
+
+    void push_front(param_type item) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_full.wait(lock, boost::bind(&amp;bounded_buffer_list_based&lt;value_type&gt;::is_not_full, this));
+        m_container.push_front(item);
+        lock.unlock();
+        m_not_empty.notify_one();
+    }
+
+    void pop_back(value_type* pItem) {
+        boost::mutex::scoped_lock lock(m_mutex);
+        m_not_empty.wait(lock, boost::bind(&amp;bounded_buffer_list_based&lt;value_type&gt;::is_not_empty, this));
+        *pItem = m_container.back();
+        m_container.pop_back();
+        lock.unlock();
+        m_not_full.notify_one();
+    }
+
+private:
+
+    bounded_buffer_list_based(const bounded_buffer_list_based&amp;);              // Disabled copy constructor
+    bounded_buffer_list_based&amp; operator = (const bounded_buffer_list_based&amp;); // Disabled assign operator
+
+    bool is_not_empty() const { return m_container.size() &gt; 0; }
+    bool is_not_full() const { return m_container.size() &lt; m_capacity; }
+
+    const size_type m_capacity;
+    container_type m_container;
+    boost::mutex m_mutex;
+    boost::condition m_not_empty;
+    boost::condition m_not_full;
+};
+
+template&lt;class Buffer&gt;
+class Consumer {
+
+    typedef typename Buffer::value_type value_type;
+    Buffer* m_container;
+    value_type m_item;
+
+public:
+    Consumer(Buffer* buffer) : m_container(buffer) {}
+
+    void operator()() {
+        for (unsigned long i = 0L; i &lt; TOTAL_ELEMENTS; ++i) {
+            m_container-&gt;pop_back(&amp;m_item);
+        }
+    }
+};
+
+template&lt;class Buffer&gt;
+class Producer {
+
+    typedef typename Buffer::value_type value_type;
+    Buffer* m_container;
+
+public:
+    Producer(Buffer* buffer) : m_container(buffer) {}
+
+    void operator()() {
+        for (unsigned long i = 0L; i &lt; TOTAL_ELEMENTS; ++i) {
+            m_container-&gt;push_front(value_type());
+        }
+    }
+};
+
+template&lt;class Buffer&gt;
+void fifo_test(Buffer* buffer) {
+
+    // Start of measurement
+    boost::progress_timer progress;
+
+    // Initialize the buffer with some values before launching producer and consumer threads.
+    for (unsigned long i = QUEUE_SIZE / 2L; i &gt; 0; --i) {
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x581))
+        buffer-&gt;push_front(Buffer::value_type());
+#else
+        buffer-&gt;push_front(BOOST_DEDUCED_TYPENAME Buffer::value_type());
+#endif
+    }
+
+    Consumer&lt;Buffer&gt; consumer(buffer);
+    Producer&lt;Buffer&gt; producer(buffer);
+
+    // Start the threads.
+    boost::thread consume(consumer);
+    boost::thread produce(producer);
+
+    // Wait for completion.
+    consume.join();
+    produce.join();
+
+    // End of measurement
+}
+
+int main(int /*argc*/, char* /*argv*/[]) {
+
+    bounded_buffer&lt;int&gt; bb_int(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer&lt;int&gt; &quot;;
+    fifo_test(&amp;bb_int);
+
+    bounded_buffer_space_optimized&lt;int&gt; bb_space_optimized_int(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_space_optimized&lt;int&gt; &quot;;
+    fifo_test(&amp;bb_space_optimized_int);
+
+    bounded_buffer_deque_based&lt;int&gt; bb_deque_based_int(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_deque_based&lt;int&gt; &quot;;
+    fifo_test(&amp;bb_deque_based_int);
+
+    bounded_buffer_list_based&lt;int&gt; bb_list_based_int(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_list_based&lt;int&gt; &quot;;
+    fifo_test(&amp;bb_list_based_int);
+
+    bounded_buffer&lt;std::string&gt; bb_string(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer&lt;std::string&gt; &quot;;
+    fifo_test(&amp;bb_string);
+
+    bounded_buffer_space_optimized&lt;std::string&gt; bb_space_optimized_string(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_space_optimized&lt;std::string&gt; &quot;;
+    fifo_test(&amp;bb_space_optimized_string);
+
+    bounded_buffer_deque_based&lt;std::string&gt; bb_deque_based_string(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_deque_based&lt;std::string&gt; &quot;;
+    fifo_test(&amp;bb_deque_based_string);
+
+    bounded_buffer_list_based&lt;std::string&gt; bb_list_based_string(QUEUE_SIZE);
+    std::cout &lt;&lt; &quot;bounded_buffer_list_based&lt;std::string&gt; &quot;;
+    fifo_test(&amp;bb_list_based_string);
+
+    return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/circular_buffer/test/bounded_buffer_comparison.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:43 GMT -->
+</html>

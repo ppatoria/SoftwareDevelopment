@@ -1,0 +1,781 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch02.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+
+<h2>Chapter 2: C# Language Basics</h2>
+<p>A first C# program:</p>
+<pre>using System;                     // importing namespace
+
+class Test                        // class declaration
+{                      
+  static void Main ()             //   method declaration
+  {
+    int x = 12 * 30;              //     statement 1
+    Console.WriteLine (x);        //     statement 2
+  }                               //   end of method
+}                                 // end of class</pre>
+<p>Refactoring with a method:</p>
+<pre>using System;
+
+class Test
+{
+  static void Main ()
+  {
+    Console.WriteLine (FeetToInches (30));      // 360
+    Console.WriteLine (FeetToInches (100));     // 1200
+  }
+
+  static int FeetToInches (int feet)
+  {
+    int inches = feet * 12;
+    return inches;
+  }
+}</pre>
+<p>Syntax example program:</p>
+<pre>using System;
+
+class Test
+{
+  static void Main ()
+  {
+    int x = 12 * 30;
+    Console.WriteLine (x);
+  }
+}</pre>
+<p>Custom types:</p>
+<pre>using System;
+
+public class UnitConverter
+{                       
+  int ratio;                                                 // field
+  public UnitConverter (int unitRatio) {ratio = unitRatio; } // constructor
+  public int Convert   (int unit)    {return unit * ratio; } // method
+}                                           
+
+class Test 
+{
+  static void Main ()
+  {
+    UnitConverter feetToInchesConverter = new UnitConverter(12);
+    UnitConverter milesToFeetConverter  = new UnitConverter(5280);
+
+    Console.WriteLine (feetToInchesConverter.Convert(30));    // 360
+    Console.WriteLine (feetToInchesConverter.Convert(100));   // 1200
+    Console.WriteLine (feetToInchesConverter.Convert(
+                         milesToFeetConverter.Convert(1)));   // 63360               
+  }
+}</pre>
+<p>Instance vs. Static Members:</p>
+<pre>using System;
+
+public class Panda
+{
+  public string Name;             // instance field
+  public static int Population;   // static field    
+
+  public Panda (string n)         // constructor
+  {
+    Name = n;                     // assign the instance field
+    Population = Population + 1;  // increment the static Population field
+  } 
+}
+
+class Test
+{
+  static void Main()
+  {
+    Panda p1 = new Panda (&quot;Pan Dee&quot;);      // create new Panda instance
+    Panda p2 = new Panda (&quot;Pan Dah&quot;);      // create new Panda instance
+    Console.WriteLine (p1.Name);           // access instance field
+    Console.WriteLine (p2.Name);           // access instance field
+    Console.WriteLine (Panda.Population);  // access static field
+  }
+}</pre>
+<p>Conversions:</p>
+<pre>int x = 123456;      // int is a 32-bit integer
+long y = x;          // implicit conversion to 64-bit integer
+short z = (short)x;   // explicit conversion to 16-bit integer</pre>
+<p>Value Types vs. Reference Types:</p>
+<pre>static void Main ()
+{
+  Point p1 = new Point();
+  p1.X = 7;
+
+  Point p2 = p1;             // assignment causes copy
+
+  Console.WriteLine (p1.X);  // 7
+  Console.WriteLine (p2.X);  // 7
+
+  p1.X = 9;                  // change p1.X
+
+  Console.WriteLine (p1.X);  // 9
+  Console.WriteLine (p2.X);  // 7
+}</pre>
+<pre>static void Main ()
+{
+  Point p1 = new Point();
+  p1.X = 7;
+
+  Point p2 = p1;             // copies p1 reference
+
+  Console.WriteLine (p1.X);  // 7
+  Console.WriteLine (p2.X);  // 7
+
+  p1.X = 9;                  // change p1.X
+
+  Console.WriteLine (p1.X);  // 9
+  Console.WriteLine (p2.X);  // 9
+}</pre>
+<p>Numeric literals:</p>
+<pre>Console.WriteLine (        1.0.GetType());  // Double  (double)
+Console.WriteLine (       1E06.GetType());  // Double  (double)
+Console.WriteLine (          1.GetType());  // Int32   (int)
+Console.WriteLine ( 0xF0000000.GetType());  // UInt32  (uint)</pre>
+<p>checked operator:</p>
+<pre>int a = 1000000;
+int b = 1000000;
+ 
+// Check an expression
+int c = checked (a*b);
+ 
+// Check every expression in a statement block
+checked
+{
+   // ...
+   c = a * b;
+   // ...
+}</pre>
+<pre>int x = int.MaxValue;
+int y = unchecked (x + 1);
+unchecked { int z = x + 1; }</pre>
+<pre>int x = int.MaxValue + 1;               // Compile-time error
+int y = unchecked (int.MaxValue + 1);   // No errors</pre>
+<p>Special float and double values:</p>
+<pre>Console.WriteLine ( 1.0 /  0.0);                  //  Infinity
+Console.WriteLine (-1.0 /  0.0);                  // -Infinity
+Console.WriteLine ( 1.0 / -0.0);                  // -Infinity
+Console.WriteLine (-1.0 / -0.0);                  //  Infinity</pre>
+<pre>Console.WriteLine ( 0.0 /  0.0);                  //  NaN
+Console.WriteLine ((1.0 /  0.0) - (1.0 / 0.0));   //  NaN</pre>
+<pre>Console.WriteLine (0.0 / 0.0 == double.NaN);   // False
+Console.WriteLine (double.IsNaN(0.0 / 0.0));   // True</pre>
+<p>Real number rounding errors:</p>
+<pre>float tenth = 0.1f;                       // Not quite 0.1
+float one   = 1f;
+Console.WriteLine (one - tenth * 10f);    // -1.490116E-08</pre>
+<pre>decimal m = 1M / 6M;               // 0.1666666666666666666666666667M
+double  d = 1.0 / 6.0;             // 0.16666666666666666
+
+decimal notQuiteWholeM = m+m+m+m+m+m;  // 1.0000000000000000000000000002M
+double  notQuiteWholeD = d+d+d+d+d+d;  // 0.99999999999999989
+
+Console.WriteLine (notQuiteWholeM == 1M);   // False
+Console.WriteLine (notQuiteWholeD &lt; 1.0);   // True</pre>
+<p>Equality and comparison pperators:</p>
+<pre>public class Dude
+{
+  public string Name;
+  public Dude (string n) { Name = n; }
+}
+
+Dude d1 = new Dude (&quot;John&quot;);
+Dude d2 = new Dude (&quot;John&quot;);
+Console.WriteLine (d1 == d2);       // False
+Dude d3 = d1;  
+Console.WriteLine (d1 == d3);       // True</pre>
+<p>Conditional operators:</p>
+<pre>static bool UseUmbrella (bool rainy, bool sunny, bool windy)
+{
+  return ! windy &amp;&amp; (rainy || sunny);
+}</pre>
+<pre>static int Max (int a, int b)
+{
+  return (a &gt; b) ? a : b; 
+}</pre>
+<p>Arrays:</p>
+<pre>char[] vowels = new char[5];    // Declare an array of 5 characters
+
+vowels [0] = 'a';
+vowels [1] = 'e';
+vowels [2] = 'i';
+vowels [3] = 'o';
+vowels [4] = 'u';
+Console.WriteLine (vowels [1]);      // e
+
+for (int i = 0; i &lt; vowels.Length; i++)
+  Console.Write (vowels [i]);            // aeiou</pre>
+<pre>char[] vowels = new char[] {'a','e','i','o','u'};</pre>
+<p>Multidimensional arrays, rectangular:</p>
+<pre>int [,] matrix = new int [3, 3];
+
+for (int i = 0; i &lt; matrix.GetLength(0); i++)
+  for (int j = 0; j &lt; matrix.GetLength(1); j++)
+    matrix[i, j] = i * 3 + j;</pre>
+<pre>int[,] matrix = new int[,]
+{
+  {0,1,2},
+  {3,4,5},
+  {6,7,8}
+};</pre>
+<p>Multidimensional arrays, jagged:</p>
+<pre>int [][] matrix = new int [3][];
+
+for (int i = 0; i &lt; matrix.Length; i++)
+{
+  matrix[i] = new int [3];                    // create inner array
+  for (int j = 0; j &lt; matrix[i].Length; j++)
+    matrix[i][j] = i * 3 + j;
+}</pre>
+<pre>int[][] matrix = new int[][]
+{
+  new int[] {0,1,2},
+  new int[] {3,4,5},
+  new int[] {6,7,8}
+};</pre>
+<p>Simplified array initialization expressions:</p>
+<pre>char[] vowels = {'a','e','i','o','u'};
+
+int[,]rectangularMatrix =
+{
+  {0,1,2},
+  {3,4,5},
+  {6,7,8}
+};
+
+int[][]jaggedMatrix =
+{
+  new int[] {0,1,2},
+  new int[] {3,4,5},
+  new int[] {6,7,8}
+};</pre>
+<pre>var i = 3;           // i is implicitly of type int
+var s = &quot;sausage&quot;;   // s is implicitly of type string
+
+// Therefore:
+
+var rectMatrix = new int[,]    // rectMatrix is implicitly of type int[,]
+{
+  {0,1,2},
+  {3,4,5},
+  {6,7,8}
+};
+
+var jaggedMat = new int[][]    // jaggedMat is implicitly of type int[][]
+{
+  new int[] {0,1,2},
+  new int[] {3,4,5},
+  new int[] {6,7,8}
+};</pre>
+<p>Stack and Heap:</p>
+<pre>using System;
+using System.Text;
+
+class Test
+{
+  static void Main ()
+  {
+    StringBuilder ref1 = new StringBuilder(&quot;object1&quot;);
+    StringBuilder ref2 = new StringBuilder(&quot;object2&quot;);
+    StringBuilder ref3 = ref2;
+    ref1 = ref2 = null;                           
+    Console.WriteLine(ref3);                   // object2
+  }  
+}</pre>
+<p>Passing arguments by value:</p>
+<pre>class Test 
+{
+  static void Foo(int p)
+  {
+    p = p + 1;              // increment p by 1
+    Console.WriteLine(p);   // write p to screen
+  }
+
+  static void Main()
+  {
+    int x = 8;
+    Foo(x);                // make a copy of x
+    Console.WriteLine(x);  // x will still be 8
+  }
+}</pre>
+<pre>class Test 
+{
+  static void Foo (StringBuilder fooSB)
+  {
+    fooSB.Append (&quot;test&quot;);
+    fooSB = null;
+  }
+
+  static void Main()
+  {
+    StringBuilder sb = new StringBuilder();
+    Foo (sb);
+    Console.WriteLine (sb.ToString());    // test
+  }
+}</pre>
+<p>Passing arguments by reference:</p>
+<pre>class Test
+{
+  static void Foo (ref int p)
+  {
+    p = p + 1;              // increment p by 1
+    Console.WriteLine(p);   // write p to screen
+  }
+
+  static void Main ()
+  {
+    int x = 8;
+    Foo (ref x);            // Ask Foo to deal directly with x
+    Console.WriteLine(x);   // x is now 9
+  }
+}</pre>
+<pre>using System;
+
+class Test
+{
+  static void Swap (ref string a, ref string b)
+  {
+    string temp = a;
+    a = b;
+    b = temp;
+  }
+
+  static void Main ()
+  {
+    string x = &quot;Penn&quot;;
+    string y = &quot;Teller&quot;;
+    Swap (ref x, ref y);
+    Console.WriteLine (x);   // Teller
+    Console.WriteLine (y);   // Penn
+  }
+}</pre>
+<p>The <b>out</b> modifier:</p>
+<pre>using System;
+
+class Test
+{
+  static void Split (string name, out string firstNames, 
+                     out string lastName)
+  {
+     int i = name.LastIndexOf(' ');
+     firstNames = name.Substring (0, i);
+     lastName   = name.Substring (i + 1);
+  }
+
+  static void Main()
+  {
+    string a, b;
+    Split (&quot;Stevie Ray Vaughn&quot;, out a, out b);
+    Console.WriteLine (a);                      // Stevie Ray
+    Console.WriteLine (b);                      // Vaughn
+  }
+}</pre>
+<p>Implications of passing by reference:</p>
+<pre>using System;
+
+class Test
+{
+  static int x;
+
+  static void Main() { Foo(out x); }
+
+  static void Foo(out int y)
+  {
+    Console.WriteLine (x);                // x is 0
+    y = 1;                                // mutate y
+    Console.WriteLine (x);                // x is 1
+  }
+}</pre>
+<p>The params modifier:</p>
+<pre>using System;
+
+class Test
+{
+  static int Sum (params int[] ints)
+  {
+    int sum = 0;
+    for (int i = 0; i &lt; ints.Length; i++)
+      sum += ints[i];                       // increase sum by ints[i]
+    return sum;
+  }
+
+  static void Main()
+  {
+    int total = Sum (1, 2, 3, 4);
+    Console.WriteLine(total);              // 10
+  }
+}</pre>
+<p>var: implicity typed local variables:</p>
+<pre>var x = 5;
+var y = &quot;hello&quot;;
+var z = new System.Text.StringBuilder();
+var req = (System.Net.FtpWebRequest) System.Net.WebRequest.Create (&quot;...&quot;);</pre>
+<p>The switch statement:</p>
+<pre>static void ShowCard(int cardNumber)
+{
+  switch(cardNumber)
+  {
+    case 13:
+      Console.WriteLine(&quot;King&quot;);
+      break;
+    case 12:
+      Console.WriteLine(&quot;Queen&quot;);
+      break;
+    case 11:
+      Console.WriteLine(&quot;Jack&quot;);
+      break;
+    case -1:                         // joker is -1
+      goto case 12;                  // in this game joker counts as queen
+    default:                         // executes for any other cardNumber
+      Console.WriteLine(cardNumber);
+      break;
+  }
+}</pre>
+<p>Listing common cases sequentially:</p>
+<pre>switch (cardNumber)
+{
+  case 13:
+  case 12:
+  case 11:
+    Console.WriteLine (&quot;Face card&quot;);
+    break;
+  default:
+    Console.WriteLine (&quot;Plain card&quot;);
+    break;
+}</pre>
+<p>break and continue:</p>
+<pre>int x = 0;
+while (true)
+{
+  if (x++ &gt; 5)
+    break;      // break from the loop
+}
+</pre>
+<pre>for (int i = 0; i &lt; 4; i++)
+{
+  if ((i % 2) == 0)       // true if i is even
+    continue;             // continue with next iteration
+  Console.WriteLine (i);
+}</pre>
+<p>goto:</p>
+<pre>int i = 0;
+startLoop:
+if (i &lt; 3 )
+{
+  Console.WriteLine(i);
+  i++;
+  goto startLoop;
+}</pre>
+<p>Advanced namespace features: extern</p>
+<pre>// csc target:library /out:Widgets1.dll widgetsv1.cs
+
+namespace Widgets
+{
+  public class Widget {}
+}</pre>
+<pre>// csc target:library /out:Widgets2.dll widgetsv2.cs
+
+namespace Widgets
+{
+  public class Widget {}
+}</pre>
+<pre>// csc /r:W1=Widgets1.dll /r:W2=Widgets2.dll application.cs 
+
+extern alias W1;
+extern alias W2;
+
+class Test
+{
+  static void Main()
+  {
+    W1.Widgets.Widget w1 = new W1.Widgets.Widget();
+    W2.Widgets.Widget w2 = new W2.Widgets.Widget();
+  }
+}</pre>
+<p>Namespace alias qualifiers:</p>
+<pre>namespace N
+{
+  class A
+  {
+    public class B {}                   // Nested type
+    static void Main() { new A.B(); }   // Instantiate class B
+  }
+}
+
+namespace A
+{
+  class B {}
+}</pre>
+<p>namespace <b>::</b> token:</p>
+<pre>namespace N
+{
+  class A
+  {
+    static void Main()
+    {
+      System.Console.WriteLine(new A.B());
+      System.Console.WriteLine(new global::A.B());
+    }
+
+    public class B {}
+  }
+}
+
+namespace A
+{
+  class B {}
+}</pre>
+<pre>extern alias W1;
+extern alias W2;
+
+class Test
+{
+  static void Main()
+ {
+    W1::Widgets.Widget w1 = new W1::Widgets.Widget();
+    W2::Widgets.Widget w2 = new W2::Widgets.Widget();
+  }
+}</pre>
+<p>&nbsp;</p>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch02.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,25 @@
+
+class Async_Result : public OVERLAPPED 
+{
+   // The Win32 OVERLAPPED struct stores the file offset
+   // returned when an asynchronous operation completes.
+public:
+   // Dispatch to completion handler hook method.
+   virtual void complete () = 0;
+   // Set/get number of bytes transferred by an
+   // asynchronous operation.
+   void bytes_transferred (u_long);
+   u_long bytes_transferred () const;
+ 
+   // Set/get the status of the asynchronous operation,
+   // i.e., whether it succeeded or failed.
+   void status (u_long);
+   u_long status () const;
+ 
+   // Set/get error value if the asynchronous operation
+   // failed or was canceled by the initiator.
+   void error (u_long);
+   u_long error () const;
+private:
+   // … data members omitted for brevity …
+};

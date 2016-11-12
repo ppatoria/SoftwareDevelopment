@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/utility/value_init.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:00 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/utility/value_init.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/utility/value_init.hpp</h3>
+<pre>
+// (C) Copyright 2002-2008, Fernando Luis Cacciola Carballal.
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+// 21 Ago 2002 (Created) Fernando Cacciola
+// 24 Dec 2007 (Refactored and worked around various compiler bugs) Fernando Cacciola, Niels Dekker
+// 23 May 2008 (Fixed operator= const issue, added initialized_value) Niels Dekker, Fernando Cacciola
+// 21 Ago 2008 (Added swap) Niels Dekker, Fernando Cacciola
+// 20 Feb 2009 (Fixed logical const-ness issues) Niels Dekker, Fernando Cacciola
+// 03 Apr 2010 (Added initialized&lt;T&gt;, suggested by Jeffrey Hellrung, fixing #3472) Niels Dekker
+// 30 May 2010 (Made memset call conditional, fixing #3869) Niels Dekker
+//
+#ifndef BOOST_UTILITY_VALUE_INIT_21AGO2002_HPP
+#define BOOST_UTILITY_VALUE_INIT_21AGO2002_HPP
+
+// Note: The implementation of boost::value_initialized had to deal with the
+// fact that various compilers haven't fully implemented value-initialization.
+// The constructor of boost::value_initialized&lt;T&gt; works around these compiler
+// issues, by clearing the bytes of T, before constructing the T object it
+// contains. More details on these issues are at libs/utility/value_init.htm
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/aligned_storage.hpp">boost/aligned_storage.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt; // For BOOST_NO_COMPLETE_VALUE_INITIALIZATION.
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/static_assert.hpp">boost/static_assert.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/cv_traits.hpp">boost/type_traits/cv_traits.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/alignment_of.hpp">boost/type_traits/alignment_of.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/swap.hpp">boost/swap.hpp</a>&gt;
+#include &lt;cstring&gt;
+#include &lt;new&gt;
+
+#ifdef BOOST_MSVC
+#pragma warning(push)
+#if _MSC_VER &gt;= 1310
+// It is safe to ignore the following warning from MSVC 7.1 or higher:
+// &quot;warning C4351: new behavior: elements of array will be default initialized&quot;
+#pragma warning(disable: 4351)
+// It is safe to ignore the following MSVC warning, which may pop up when T is 
+// a const type: &quot;warning C4512: assignment operator could not be generated&quot;.
+#pragma warning(disable: 4512)
+#endif
+#endif
+
+#ifdef BOOST_NO_COMPLETE_VALUE_INITIALIZATION
+  // Implementation detail: The macro BOOST_DETAIL_VALUE_INIT_WORKAROUND_SUGGESTED 
+  // suggests that a workaround should be applied, because of compiler issues 
+  // regarding value-initialization.
+  #define BOOST_DETAIL_VALUE_INIT_WORKAROUND_SUGGESTED
+#endif
+
+// Implementation detail: The macro BOOST_DETAIL_VALUE_INIT_WORKAROUND
+// switches the value-initialization workaround either on or off.
+#ifndef BOOST_DETAIL_VALUE_INIT_WORKAROUND
+  #ifdef BOOST_DETAIL_VALUE_INIT_WORKAROUND_SUGGESTED
+  #define BOOST_DETAIL_VALUE_INIT_WORKAROUND 1
+  #else
+  #define BOOST_DETAIL_VALUE_INIT_WORKAROUND 0
+  #endif
+#endif
+
+namespace boost {
+
+template&lt;class T&gt;
+class initialized
+{
+  private :
+    struct wrapper
+    {
+#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
+      typename
+#endif 
+      remove_const&lt;T&gt;::type data;
+
+      wrapper()
+      :
+      data()
+      {
+      }
+
+      wrapper(T const &amp; arg)
+      :
+      data(arg)
+      {
+      }
+    };
+
+    mutable
+#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
+      typename
+#endif 
+      aligned_storage&lt;sizeof(wrapper), alignment_of&lt;wrapper&gt;::value&gt;::type x;
+
+    wrapper * wrapper_address() const
+    {
+      return static_cast&lt;wrapper *&gt;( static_cast&lt;void*&gt;(&amp;x));
+    }
+
+  public :
+
+    initialized()
+    {
+#if BOOST_DETAIL_VALUE_INIT_WORKAROUND
+      std::memset(&amp;x, 0, sizeof(x));
+#endif
+      new (wrapper_address()) wrapper();
+    }
+
+    initialized(initialized const &amp; arg)
+    {
+      new (wrapper_address()) wrapper( static_cast&lt;wrapper const &amp;&gt;(*(arg.wrapper_address())));
+    }
+
+    explicit initialized(T const &amp; arg)
+    {
+      new (wrapper_address()) wrapper(arg);
+    }
+
+    initialized &amp; operator=(initialized const &amp; arg)
+    {
+      // Assignment is only allowed when T is non-const.
+      BOOST_STATIC_ASSERT( ! is_const&lt;T&gt;::value );
+      *wrapper_address() = static_cast&lt;wrapper const &amp;&gt;(*(arg.wrapper_address()));
+      return *this;
+    }
+
+    ~initialized()
+    {
+      wrapper_address()-&gt;wrapper::~wrapper();
+    }
+
+    T const &amp; data() const
+    {
+      return wrapper_address()-&gt;data;
+    }
+
+    T&amp; data()
+    {
+      return wrapper_address()-&gt;data;
+    }
+
+    void swap(initialized &amp; arg)
+    {
+      ::boost::swap( this-&gt;data(), arg.data() );
+    }
+
+    operator T const &amp;() const
+    {
+      return wrapper_address()-&gt;data;
+    }
+
+    operator T&amp;()
+    {
+      return wrapper_address()-&gt;data;
+    }
+
+} ;
+
+template&lt;class T&gt;
+T const&amp; get ( initialized&lt;T&gt; const&amp; x )
+{
+  return x.data() ;
+}
+
+template&lt;class T&gt;
+T&amp; get ( initialized&lt;T&gt;&amp; x )
+{
+  return x.data() ;
+}
+
+template&lt;class T&gt;
+void swap ( initialized&lt;T&gt; &amp; lhs, initialized&lt;T&gt; &amp; rhs )
+{
+  lhs.swap(rhs) ;
+}
+
+template&lt;class T&gt;
+class value_initialized
+{
+  private :
+
+    // initialized&lt;T&gt; does value-initialization by default.
+    initialized&lt;T&gt; m_data;
+
+  public :
+    
+    value_initialized()
+    :
+    m_data()
+    { }
+    
+    T const &amp; data() const
+    {
+      return m_data.data();
+    }
+
+    T&amp; data()
+    {
+      return m_data.data();
+    }
+
+    void swap(value_initialized &amp; arg)
+    {
+      m_data.swap(arg.m_data);
+    }
+
+    operator T const &amp;() const
+    {
+      return m_data;
+    }
+
+    operator T&amp;()
+    {
+      return m_data;
+    }
+} ;
+
+
+template&lt;class T&gt;
+T const&amp; get ( value_initialized&lt;T&gt; const&amp; x )
+{
+  return x.data() ;
+}
+
+template&lt;class T&gt;
+T&amp; get ( value_initialized&lt;T&gt;&amp; x )
+{
+  return x.data() ;
+}
+
+template&lt;class T&gt;
+void swap ( value_initialized&lt;T&gt; &amp; lhs, value_initialized&lt;T&gt; &amp; rhs )
+{
+  lhs.swap(rhs) ;
+}
+
+
+class initialized_value_t
+{
+  public :
+    
+    template &lt;class T&gt; operator T() const
+    {
+      return initialized&lt;T&gt;().data();
+    }
+};
+
+initialized_value_t const initialized_value = {} ;
+
+
+} // namespace boost
+
+#ifdef BOOST_MSVC
+#pragma warning(pop)
+#endif
+
+#endif
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/utility/value_init.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:00 GMT -->
+</html>

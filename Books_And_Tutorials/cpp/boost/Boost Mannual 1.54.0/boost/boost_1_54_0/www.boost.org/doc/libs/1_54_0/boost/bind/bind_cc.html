@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/bind_cc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/bind/bind_cc.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/bind/bind_cc.hpp</h3>
+<pre>
+//
+//  bind/bind_cc.hpp - support for different calling conventions
+//
+//  Do not include this header directly.
+//
+//  Copyright (c) 2001 Peter Dimov and Multi Media Ltd.
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+//  See <a href="http://www.boost.org/libs/bind/bind.html">http://www.boost.org/libs/bind/bind.html</a> for documentation.
+//
+
+template&lt;class R&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (), _bi::list0&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) ())
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) ();
+    typedef _bi::list0 list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt; (f, list_type());
+}
+
+template&lt;class R, class B1, class A1&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1), typename _bi::list_av_1&lt;A1&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1), A1 a1)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1);
+    typedef typename _bi::list_av_1&lt;A1&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt; (f, list_type(a1));
+}
+
+template&lt;class R, class B1, class B2, class A1, class A2&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2), typename _bi::list_av_2&lt;A1, A2&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2), A1 a1, A2 a2)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2);
+    typedef typename _bi::list_av_2&lt;A1, A2&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt; (f, list_type(a1, a2));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3,
+    class A1, class A2, class A3&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3), typename _bi::list_av_3&lt;A1, A2, A3&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3), A1 a1, A2 a2, A3 a3)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3);
+    typedef typename _bi::list_av_3&lt;A1, A2, A3&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4,
+    class A1, class A2, class A3, class A4&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4), typename _bi::list_av_4&lt;A1, A2, A3, A4&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4), A1 a1, A2 a2, A3 a3, A4 a4)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4);
+    typedef typename _bi::list_av_4&lt;A1, A2, A3, A4&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4, class B5,
+    class A1, class A2, class A3, class A4, class A5&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4, B5), typename _bi::list_av_5&lt;A1, A2, A3, A4, A5&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4, B5), A1 a1, A2 a2, A3 a3, A4 a4, A5 a5)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4, B5);
+    typedef typename _bi::list_av_5&lt;A1, A2, A3, A4, A5&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4, a5));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4, class B5, class B6,
+    class A1, class A2, class A3, class A4, class A5, class A6&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4, B5, B6), typename _bi::list_av_6&lt;A1, A2, A3, A4, A5, A6&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4, B5, B6), A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4, B5, B6);
+    typedef typename _bi::list_av_6&lt;A1, A2, A3, A4, A5, A6&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4, a5, a6));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4, class B5, class B6, class B7,
+    class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4, B5, B6, B7), typename _bi::list_av_7&lt;A1, A2, A3, A4, A5, A6, A7&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4, B5, B6, B7), A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4, B5, B6, B7);
+    typedef typename _bi::list_av_7&lt;A1, A2, A3, A4, A5, A6, A7&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4, a5, a6, a7));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8,
+    class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4, B5, B6, B7, B8), typename _bi::list_av_8&lt;A1, A2, A3, A4, A5, A6, A7, A8&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4, B5, B6, B7, B8), A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4, B5, B6, B7, B8);
+    typedef typename _bi::list_av_8&lt;A1, A2, A3, A4, A5, A6, A7, A8&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4, a5, a6, a7, a8));
+}
+
+template&lt;class R,
+    class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8, class B9,
+    class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9&gt;
+    _bi::bind_t&lt;R, BOOST_BIND_ST R (BOOST_BIND_CC *) (B1, B2, B3, B4, B5, B6, B7, B8, B9), typename _bi::list_av_9&lt;A1, A2, A3, A4, A5, A6, A7, A8, A9&gt;::type&gt;
+    BOOST_BIND(BOOST_BIND_ST R (BOOST_BIND_CC *f) (B1, B2, B3, B4, B5, B6, B7, B8, B9), A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9)
+{
+    typedef BOOST_BIND_ST R (BOOST_BIND_CC *F) (B1, B2, B3, B4, B5, B6, B7, B8, B9);
+    typedef typename _bi::list_av_9&lt;A1, A2, A3, A4, A5, A6, A7, A8, A9&gt;::type list_type;
+    return _bi::bind_t&lt;R, F, list_type&gt;(f, list_type(a1, a2, a3, a4, a5, a6, a7, a8, a9));
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/bind_cc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:37 GMT -->
+</html>

@@ -1,0 +1,1857 @@
+﻿<!DOCTYPE HTML>
+<!-- saved from url=(0052)http://www.slideshare.net/Arbow/the-proactor-pattern -->
+<!DOCTYPE html PUBLIC "" ""><HTML lang="en" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# slideshare: http://ogp.me/ns/fb/slideshare#"><HEAD 
+prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# slideshare-dev: http://ogp.me/ns/fb/slideshare-dev#"><META 
+content="IE=11.0000" http-equiv="X-UA-Compatible">
+    
+<META charset="utf-8">    <!--
+   __________.__SlideShare_______               __
+   \______   \__| ____ \______   \ ____   _____/  |_
+    |    |  _/  |/ ___\ |    |  _//  _ \ /  _ \   __\
+    |    |   \  / /_/  >|    |   (  <_> |  <_> )  |
+    |______  /__\___  / |______  /\____/ \____/|__|
+           \/  /_____/         \/
+   --> 
+       <!-- SL:start:notranslate -->   <TITLE>The Proactor Pattern</TITLE>   <!-- SL:end:notranslate --> 
+  
+<META name="viewport" content="width=1024">   <!-- SL:start:notranslate -->   
+<META name="description" content="Intro Making things work            Verdict The Proactor Pattern           Ant´nio Sousa              o                       UU  30 de Setembro de 2005     ..."> 
+  
+<META name="thumbnail" content="http://cdn.slidesharecdn.com/ss_thumbnails/the-proactor-pattern4606-thumbnail-2.jpg?cb=1181900099"> 
+  <!-- SL:end:notranslate -->   <!--[if !IE]>-->   <LINK href="//www.slideshare.net" 
+rel="dns-prefetch">   <LINK href="//public.slidesharecdn.com" 
+rel="dns-prefetch">   <LINK href="//image.slidesharecdn.com" rel="dns-prefetch"> 
+  <LINK href="//cdn.slidesharecdn.com" rel="dns-prefetch">   <LINK href="//cdn01.smartling.com" 
+rel="dns-prefetch">   <!--<![endif]-->   <!--[if IE 9]>
+  <link rel="prefetch" href="//www.slideshare.net">
+  <link rel="prefetch" href="//public.slidesharecdn.com">
+  <link rel="prefetch" href="//image.slidesharecdn.com">
+  <link rel="prefetch" href="//cdn.slidesharecdn.com">
+  <link rel="prefetch" href="//cdn01.smartling.com">
+  <![endif]--> 
+  <LINK href="The%20Proactor%20Pattern_files/sv-core.css" rel="stylesheet" type="text/css" 
+media="screen">   
+<META name="robots" content="index"><LINK href="The%20Proactor%20Pattern_files/combined.css" 
+rel="stylesheet" type="text/css" media="all">       <!--<link rel="stylesheet" media="all and (min-width: 748px) and (max-width: 977px)" href="grid-748.css">
+  <link rel="stylesheet" media="all and (min-width: 0px) and (max-width: 747px)" href="grid-300.css">--> 
+  <LINK href="The%20Proactor%20Pattern_files/combined_presentation.css" rel="stylesheet" 
+type="text/css" media="screen">   
+<SCRIPT id="page-load" type="text/javascript">
+  // <![CDATA[
+    var timer = (new Date()).getTime();
+    var _jspl = {}
+    _jspl.pageInitTime = timer;
+    var _ssPageMetrics = {};
+  // ]]>
+  </SCRIPT>
+   
+<SCRIPT type="text/javascript">
+  var jQl={q:[],dq:[],ready:function(a){typeof a=="function"&&jQl.q.push(a);return jQl},unq:function(){for(var a=0;a<jQl.q.length;a++)jQl.q[a]();jQl.q=[]},bId:null,boot:function(a){if(typeof window.jQuery.fn=="undefined"){if(!jQl.bId)jQl.bId=setInterval(function(){jQl.boot(a)},25)}else{jQl.bId&&clearInterval(jQl.bId);jQl.bId=0;jQl.unqjQdep();$(jQl.unq());typeof a=="function"&&a()}},booted:function(){return jQl.bId===0},loadjQ:function(a,c){setTimeout(function(){var b=document.createElement("script"); b.src=a;document.getElementsByTagName("head")[0].appendChild(b)},1);jQl.boot(c)},loadjQdep:function(a){jQl.loadxhr(a,jQl.qdep)},qdep:function(a){if(a)typeof window.jQuery.fn!=="undefined"&&!jQl.dq.length?jQl.rs(a):jQl.dq.push(a)},unqjQdep:function(){if(typeof window.jQuery.fn=="undefined")setTimeout(jQl.unqjQdep,50);else{for(var a=0;a<jQl.dq.length;a++)jQl.rs(jQl.dq[a]);jQl.dq=[]}},rs:function(a){var c=document.createElement("script");document.getElementsByTagName("head")[0].appendChild(c);c.text= a},loadxhr:function(a,c){var b;b=jQl.getxo();b.onreadystatechange=function(){b.readyState!=4||200!=b.status||c(b.responseText,a)};try{b.open("GET",a,true);b.send("")}catch(d){}},getxo:function(){var a=false;try{a=new XMLHttpRequest}catch(c){for(var b=["MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"],d=0;d<b.length;++d){try{a=new ActiveXObject(b[d])}catch(e){continue}break}}finally{return a}}}; if(typeof window.jQuery=="undefined")var $=jQl.ready,jQuery=$;
+  </SCRIPT>
+   
+<SCRIPT id="page-json" type="text/javascript"><!--
+ var slideshare_object =  {"flagging":{"flagged_value":null},"is_free_author":false,"facebook_app_id":2490221586,"category":{"featured":0},"presentationId":64862,"relative_static_origin_server":"//public.slidesharecdn.com/b/","slideshow_placeholder":"//public.slidesharecdn.com/b/images/thumbnail.png","stats":{"url":"http://www.slideshare.net/~/slideshow/stats/64862.json"},"gam_cat_name":"technology","comments":{"slideview_template":"\u003Cli\u003E\n                    \u003Ca href=\"#\" title=\"Commenter Title\" class=\"notranslate commenter h-commenter j-author-photo\" rel=\"nofollow\"\u003E\n                        \u003Cimg class=\"nickname\" src=\"/images/user-48x48.png\" height=\"48\" alt=\"Full Name\" width=\"48\" original=\"/images/user-48x48.png\" /\u003E\n                        \u003Cstrong class=\"h-username j-username notranslate\"\u003EFull Name\u003C/strong\u003E\u003Cspan class=\"bioStub notranslate\"\u003E\u003Cspan class=\"h-commenter-role\"\u003E\u003C/span\u003E\u003Cspan class=\"h-commenter-org\"\u003E\u003C/span\u003E\u003C/span\u003E\n                    \u003C/a\u003E\n                    \u003Cspan class=\"commentText h-comment-text notranslate\"\u003E\n                        Comment goes here.\n                    \u003C/span\u003E\n                    \u003Cspan class=\"commentMeta h-comment-meta\"\u003E\n                      \u003Cspan class=\"commentTimestamp h-timestamp\"\u003E12 hours ago\u003C/span\u003E\n                      \u003Cspan class=\"commentActions h-comment-actions hide\"\u003E\n                        \u003Cbutton class=\"j-reply\"\u003EReply\u003C/button\u003E\n                        \u003Cbutton class=\"action-edit\"\u003EEdit\u003C/button\u003E\n                        \u003Cbutton class=\"action-delete\"\u003EDelete\u003C/button\u003E\n                        \u003Cbutton class=\"action-spam\"\u003ESpam\u003C/button\u003E\n                        \u003Cbutton class=\"action-block\"\u003EBlock\u003C/button\u003E\n                      \u003C/span\u003E\n                    \u003C/span\u003E\n                    \u003Cdiv class=\"alertMessage blockMessage warning\" id=\"confirmDialog\"\u003E\n                        \u003Cspan class=\"title\"\u003EAre you sure you want to\u003C/span\u003E\n                        \u003Cbutton class=\"btn btn-mini\" id=\"yes\"\u003EYes\u003C/button\u003E\n                        \u003Cbutton class=\"btn btn-mini\" id=\"no\"\u003ENo\u003C/button\u003E\n                    \u003C/div\u003E\n                    \u003Cdiv class=\"alertMessage blockMessage warning\" id=\"messageDialog\"\u003E\n                        Your message goes here\n                    \u003C/div\u003E\n\n                    \u003Cspan class=\"j-loading hide\"\u003E \u003Cimg src=\"\u003C%= $slideshare_conf['static-origin-server'] %\u003Eimages/indicator.gif\" height=\"5\" alt=\"Processing\u0026hellip;\" width=\"21\" /\u003E \u003C/span\u003E\n\n                \u003C/li\u003E","ajaxurl":"/~/slideshow/comments/64862.json","total_count":0,"captcha_url":"http://s3.amazonaws.com/ss-captchas/"},"downloads":{"allow":true,"sp_isdwnl":true},"doc":"the-proactor-pattern4606","embeds_count":2,"jsplayer":{"disable_eagerload":false,"hosted_in":"slideview","iframe_url":"http://www.slideshare.net/slideshow/embed_code/64862","start_slide":1,"shareoptions":{"html":"\u003C!-- \u003Cscript\u003E\n(function(){  var FBInitParams = {\n    appId  : '2490221586',\n    status : true, // check login status\n    cookie : true, // enable cookies to allow the server to access the session\n    xfbml  : true, // parse XFBML\n    oauth  : true,  // to enable OAuth 2.0\n    channelUrl  : '//public.slidesharecdn.com/b/channel.html'\n  };\n  if(typeof(FB) === \"object\"){\n    window.setTimeout(function(){\n      FB.XFBML.parse();\n      FB.Event.subscribe('edge.create',fbLike);\n    },50);\n  }else{\n    window.fbAsyncInit = function() {\n      FB.init(FBInitParams);\n      FB.Event.subscribe('edge.create',fbLike);\n    }\n  }\n})();\n\u003C/script\u003E --\u003E\n\n\u003Cdiv class=\"shareoptions\"\u003E\n  \u003Cul class=\"thirdPartyShare\"\u003E\n  \t\u003Cli\u003E\u003Ca href=\"#\" class=\"shareSprite Twitter\"\u003E\u0026nbsp; \u003C/a\u003E\u003C/li\u003E\n    \u003Cli\u003E\u003Ca href=\"#\" class=\"shareSprite Linkedin\"\u003E\u0026nbsp; \u003C/a\u003E\u003C/li\u003E\n    \u003Cli\u003E\u003Ca href=\"#\" class=\"fb-like\"/\u003E\u003C/li\u003E\n  \u003C/ul\u003E\n\u003C/div\u003E\n","linkedin_share":"http://www.slideshare.net/share/linkedin/64862/SlideShare:%20The%20Proactor%20Pattern","facebook_like_button":"\u003Ciframe class=\"fb-like\" src=\"//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern\u0026amp;width=50\u0026amp;height=21\u0026amp;colorscheme=light\u0026amp;layout=button_count\u0026amp;action=like\u0026amp;show_faces=false\u0026amp;send=false\u0026amp;appId=2490221586\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:50px; height:25px;\" allowTransparency=\"true\"\u003E\u003C/iframe\u003E","facebook_share":"http://www.slideshare.net/share/facebook/64862/Check%20out%20this%20SlideShare%20presentation%20:%20The%20Proactor%20Pattern","googleplus_share":"http://plus.google.com/share?url=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern","twitter_share":"http://www.slideshare.net/share/tweet/64862/The%20Proactor%20Pattern%20%23pattern%20%23proactor"},"html_ttffont_url_suffix":".js","image_ready":true,"embed_code":"\u003Ciframe src=\"http://www.slideshare.net/slideshow/embed_code/64862\" width=\"427\" height=\"356\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;\" allowfullscreen\u003E \u003C/iframe\u003E \u003Cdiv style=\"margin-bottom:5px\"\u003E \u003Cstrong\u003E \u003Ca href=\"https://www.slideshare.net/Arbow/the-proactor-pattern\" title=\"The Proactor Pattern\" target=\"_blank\"\u003EThe Proactor Pattern\u003C/a\u003E \u003C/strong\u003E from \u003Cstrong\u003E\u003Ca href=\"http://www.slideshare.net/Arbow\" target=\"_blank\"\u003El xf\u003C/a\u003E\u003C/strong\u003E \u003C/div\u003E","bucket_location":"//html.slidesharecdn.com/the-proactor-pattern4606/","iframe_code":"\u003Ciframe src=\"{iframe_url}\" width=\"{width}\" height=\"{height}\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;\" allowfullscreen\u003E \u003C/iframe\u003E \u003Cdiv style=\"margin-bottom:5px\"\u003E \u003Cstrong\u003E \u003Ca href=\"https://www.slideshare.net/Arbow/the-proactor-pattern\" title=\"The Proactor Pattern\" target=\"_blank\"\u003EThe Proactor Pattern\u003C/a\u003E \u003C/strong\u003E from \u003Cstrong\u003E\u003Ca href=\"http://www.slideshare.net/Arbow\" target=\"_blank\"\u003El xf\u003C/a\u003E\u003C/strong\u003E \u003C/div\u003E","pin_image_url":"http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-728.jpg?cb=1181900099","twitter_recommended_users":null,"video_slides_count":0,"spinner_url":"//public.slidesharecdn.com/b/images/ssplayer/loading_bigfoot.gif?8d8fb5905f","show_image_player":true,"sharescreen":{"html":"\u003Cdiv class=\"shareScreen\"\u003E\n  \u003Ca href=\"#\" class=\"close\"\u003E\u0026times;\u003C/a\u003E\n  \u003Cul class=\"shareMethods\"\u003E\n    \u003Cli class=\"embed\"\u003E\n      \u003Clabel for=\"embed-code\"\u003EEmbed\u003C/label\u003E\n      \u003Cinput type='text' class=\"shareScreenEmbedCode\" value=\"code\" name=\"embed-code\" /\u003E\n    \u003C/li\u003E\n    \u003Cli class=\"url last\"\u003E\n      \u003Clabel for=\"embed-url\"\u003EURL\u003C/label\u003E\n      \u003Cinput type='text' class=\"shareScreenSSUrl\" value=\"code\" name=\"embed-url\" /\u003E\n\t\u003C/li\u003E\n  \u003C/ul\u003E\n  \u003Cform class=\"emailShare\"\u003E\n    \u003Cfieldset\u003E\n      \u003Clegend\u003EEmail this\u003C/legend\u003E\n      \u003Cinput type=\"hidden\" class=\"shareDefaultMessage\" value=\"I think you will find this useful.\" /\u003E\n      \u003Cul\u003E\n        \u003Cli\u003E\n          \u003Clabel for=\"name\"\u003EYour name\u003C/label\u003E\n          \u003Cinput class='shareScreenFromName' type=\"text\" value=\"\" /\u003E\n        \u003C/li\u003E\n        \u003Cli\u003E\n          \u003Clabel for=\"mailID\"\u003EEmail to\u003C/label\u003E\n          \u003Cinput class=\"shareScreenMailID\" type=\"text\" value=\"\" /\u003E\n        \u003C/li\u003E\n        \u003Cli class=\"submit\"\u003E\n          \u003Clabel\u003E\u0026nbsp;\u003C/label\u003E\n          \u003Cinput class=\"shareSprite\" type=\"submit\" value=\"\" /\u003E\n        \u003C/li\u003E        \n      \u003C/ul\u003E\n      \u003C/fieldset\u003E\n  \u003C/form\u003E\n\u003C/div\u003E\u003C!-- shareScreen ends here --\u003E","slideshow_id":64862,"title":"The Proactor Pattern","url":"http://www.slideshare.net/Arbow/the-proactor-pattern","user_name":""},"slide_error_template":"\u003Cstyle type=\"text/css\"\u003E\n  .jsplayer-slide-error {\n    background-color: #000;\n    padding: 20% 0 13% !important;\n  }\n  .jsplayer-slide-error div {\n    text-align: center;\n  }\n  .jsplayer-slide-error img {\n    height: 79px !important;\n    margin: 0 0 10px;\n    width: 80px !important;\n  }\n  .jsplayer-slide-error .slide-error-body {\n    color: #eee;\n    font-family: 'Lucida Grande',Verdana, Arial, Helvetica, sans-serif;\n    padding: 0 !important;\n  }\n  .jsplayer-slide-error .slide-error-body p {\n    font-size: 0.8em;\n    line-height: 1.1em;\n    margin: 7px 0 11px;\n  }\n  .jsplayer-slide-error .slide-error-body input[type=button] {\n    margin: 7px 0 0;\n    padding: 7px 14px;\n  }\n\u003C/style\u003E\n\u003Cdiv class=\"jsplayer-slide-error\"\u003E\n  \u003Cdiv style=\"position:relative;\"\u003E\n    \u003Cimg src='//public.slidesharecdn.com/b/images/ssplayer/error_dudes-80x79.png' height=\"79\" width=\"80\" /\u003E\n    \u003Cdiv class=\"slide-error-body\"\u003E\n      \u003Cp\u003EWe were unable to load the slide.\u003C/p\u003E\n      \u003Cinput class=\"btn btn-large\" type=\"button\" value=\"Reload slide\" /\u003E\n    \u003C/div\u003E\n  \u003C/div\u003E\n\u003C/div\u003E\n","fullscreen_url":"/fullscreen/Arbow/the-proactor-pattern","timestamp":1181900099,"meta_error_template":"\u003Cstyle type=\"text/css\"\u003E\n  .jsplayer-slide-error {\n    background-color: #000;\n    padding: 20% 0 13% !important;\n  }\n  .jsplayer-slide-error div {\n    text-align: center;\n  }\n  .jsplayer-slide-error img {\n    height: 79px !important;\n    margin: 0 0 10px;\n    width: 80px !important;\n  }\n  .jsplayer-slide-error .slide-error-body {\n    color: #eee;\n    font-family: 'Lucida Grande',Verdana, Arial, Helvetica, sans-serif;\n    padding: 0 !important;\n  }\n  .jsplayer-slide-error .slide-error-body p {\n    font-size: 0.8em;\n    line-height: 1.1em;\n    margin: 8px 0;\n  }   \n  .jsplayer-slide-error .slide-error-body input[type=button] {\n    margin: 7px 0 0;\n    padding: 7px 14px;\n  }\n\u003C/style\u003E\n\u003Cdiv class=\"jsplayer-slide-error\"\u003E\n  \u003Cdiv style=\"position:relative;\"\u003E\n    \u003Cimg src='//public.slidesharecdn.com/b/images/ssplayer/error_dudes-80x79.png' height=\"79\" width=\"80\" /\u003E\n    \u003Cdiv class=\"slide-error-body\"\u003E\n      \u003Cp\u003EWe have encountered an error.\u003C/p\u003E\n      \u003Cp\u003EPlease refresh the page.\u003C/p\u003E\n    \u003C/div\u003E\n  \u003C/div\u003E\n\u003C/div\u003E\n","ppt_location":"the-proactor-pattern4606","has_video":false,"is_private":false,"slide_count":40,"preload_after_pageload":true,"has_lead":false,"container":"svPlayerId","mode":"image","show_related_content":"1","player_bgcolor":"jsplBgColorBigfoot","lastscreen":{"related":[{"author_login":"DenisM","title":"C++ N Pv2","author":"DenisM","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/c-n-pv24599-thumbnail.jpg?cb=1185288373","url":"/DenisM/c-n-pv2","views":5183},{"author_login":"osandairanga","title":"Ace tutorial c","author":"osandairanga","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/ace-tutorialc-121024103236-phpapp02-thumbnail.jpg?cb=1351092790","url":"/osandairanga/ace-tutorial-c","views":1503},{"author_login":"XebiaFrance","title":"Java Nio 2","author":"Xebia France","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/nio2-110729145101-phpapp01-thumbnail.jpg?cb=1312222232","url":"/XebiaFrance/java-nio2","views":14183},{"author_login":"pepsixp","title":"Java nio\u5f00\u53d1 ","author":"cheney s","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/javanio-100701052238-phpapp02-thumbnail.jpg?cb=1277979880","url":"/pepsixp/java-nio","views":1364},{"author_login":"liqingfang126","title":"Server Tips","author":"liqingfang126","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/server-tips-100102045305-phpapp02-thumbnail.jpg?cb=1262429599","url":"/liqingfang126/server-tips","views":1520},{"author_login":"Ciklum_Kyiv","title":"CiklumCPPSat: Eugene Kulak \"Stackle...","author":"Ciklum","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/kulak-111124040156-phpapp02-thumbnail.jpg?cb=1322239439","url":"/Ciklum_Kyiv/kulakstackoutstack-coroutines-and-boostasio","views":606},{"author_login":"charsyam2","title":"Server","author":"Dae Myung Kang","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/server-101119164658-phpapp01-thumbnail.jpg?cb=1290206857","url":"/charsyam2/server-5839210","views":808},{"author_login":"tutorialsruby","title":"09J1_ACG_Prospect","author":"tutorialsruby","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/2620858-thumbnail.jpg?cb=1259654176","url":"/tutorialsruby/09j1acgprospect-2620858","views":5576},{"author_login":"tutorialsruby","title":"09J1_ACG_Prospect","author":"tutorialsruby","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/2620859-thumbnail.jpg?cb=1259654114","url":"/tutorialsruby/09j1acgprospect-2620859","views":4648},{"author_login":"georgiksk","title":"Libraries and tools for C++","author":"Juraj Mich\u00e1lek","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/2012-11-26-libraries-and-tools-for-cpp-121126103057-phpapp01-thumbnail.jpg?cb=1353947584","url":"/georgiksk/libraries-and-tools-for-c","views":1404},{"author_login":"renatoelias","title":"Tomando controle","author":"Renato Elias","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/tomandocontrole-110902122912-phpapp02-thumbnail.jpg?cb=1314985329","url":"/renatoelias/tomando-controle","views":426},{"author_login":"adorepump","title":"Tricks and Tips With NIO Using the ...","author":"elliando dias","thumbnail":"//cdn.slidesharecdn.com/ss_thumbnails/ts-2992-100131100224-phpapp01-thumbnail.jpg?cb=1264954701","url":"/adorepump/tricks-and-tips-with-nio-using-the-grizzly-framework","views":6869}],"url":"http://www.slideshare.net/Arbow/the-proactor-pattern"},"player_type":"presentation","toolbar_html":"\u003C!--[if IE 7]\u003E\n  \u003Cstyle\u003E\n    .toolbar .navActions { position: relative; top: -28px; }\n    div.toolbar .nav {margin-left : 37%; }\n  \u003C/style\u003E\n\u003C![endif]--\u003E\n  \u003Ca href=\"#\" class=\"sprite btnViewOnSS\" title=\"View on SlideShare\"\u003E\u0026nbsp;\u003C/a\u003E\u003C!-- view on SS --\u003E\n  \u003Cdiv class=\"nav\"\u003E\n    \u003Ca href=\"#btnFirst\" class=\"btnFirst\" title=\"First Slide\" rel=\"nofollow\"\u003E\u0026laquo;\u003C/a\u003E\n    \u003Ca href=\"#btnPrevious\" class=\"btnPrevious\" title=\"Previous Slide\" rel=\"nofollow\"\u003E\u0026lsaquo;\u003C/a\u003E\n    \u003Ca href=\"#btnNext\" class=\"btnNext\" title=\"Next Slide\" rel=\"nofollow\"\u003E\u0026rsaquo;\u003C/a\u003E\n    \u003Ca href=\"#btnLast\" class=\"btnLast\" title=\"Last Slide\" rel=\"nofollow\"\u003E\u0026raquo;\u003C/a\u003E\n  \u003C/div\u003E\n  \u003Cdiv class=\"navActions\"\u003E\n    \u003Ca href=\"#\" class=\"btnFullScreen\" title=\"View Fullscreen\" rel=\"nofollow\"\u003E\u0026nbsp;\u003C/a\u003E\n    \u003Ca href=\"#\" class=\"btnLeaveFullScreen\" title=\"Exit Fullscreen\" rel=\"nofollow\"\u003E\u0026nbsp;\u003C/a\u003E\n    \u003Clabel class=\"goToSlideLabel\"\u003E\u003Cinput type=\"text\" name=\"goToSlide\" value=\"1\" /\u003E\u003Cspan\u003E/ 123\u003C/span\u003E\u003C/label\u003E\n  \u003C/div\u003E\n","html_eotfont_url_suffix":"-eot.js","embed_sizes":{"presets":{"preset3":{"size":{"height":420,"width":510},"displaySize":{"height":45,"width":60}},"preset4":{"size":{"height":485,"width":595},"displaySize":{"height":53,"width":70}},"preset1":{"size":{"height":290,"width":340},"displaySize":{"height":30,"width":40}},"preset2":{"size":{"height":355,"width":425},"displaySize":{"height":38,"width":50}}},"config":{"defaultPreset":"preset2"}},"twitter_share_text":"The Proactor Pattern #pattern #proactor","id":64862,"page":1,"has_audio":false,"referer":"http://www.google.co.in/url?sa=t\u0026rct=j\u0026q=\u0026esrc=s\u0026source=web\u0026cd=3\u0026cad=rja\u0026uact=8\u0026ved=0CDsQFjAC\u0026url=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern\u0026ei=tes_U63uDOXoiAf2iIHgBw\u0026usg=AFQjCNHvx-7fVo7ORPdHf47_HYYX7v26Mg\u0026sig2=gh-lZg9UZIJ_oyhW4UI0eQ\u0026bvm=bv.64125504,d.aGc","spinner_url_fullscreen":"//public.slidesharecdn.com/b/images/ssplayer/loading_white.gif?5889cf60da","disable_share":false,"share_text":"The Proactor Pattern by l xf via slideshare","share_cta":{"html":"\u003Cdiv class=\"action-btns-container persistent\"\u003E\n    \u003Ca rel=\"nofollow\" title=\"Like this presentation\" href = \"/login\" target=\"_blank\" class=\"action-btn favorite j-favorite ss-action\" data-ssid=\"64862\"\u003E\n      \u003Cspan class=\"action-btn-icon\"\u003E\u003C/span\u003E\n      \u003Cspan class=\"action-btn-text\"\u003ELike\u003C/span\u003E\n    \u003C/a\u003E\n\n  \u003Ca rel=\"nofollow\" href=\"#\" title=\"Share this presentation\" class=\"action-btn share j-share\" data-ssid=\"64862\"\u003E\n    \u003Cspan class=\"action-btn-icon\"\u003E\u003C/span\u003E\n    \u003Cspan class=\"action-btn-text\"\u003EShare\u003C/span\u003E\n  \u003C/a\u003E\n\n    \u003Ca rel=\"nofollow\" href=\"/signup?from=download\u0026amp;from_source=%2Fsavedfiles%3Fs_title%3Dthe-proactor-pattern%26user_login%3DArbow\u0026amp;download_id=64862-55a9bf8403feb0045e097627b614dcc8b4e01469-slideshow\" target=\"_blank\" title=\"Save this presentation\" class=\"action-btn save j-save ss-action\"\u003E\n      \u003Cspan class=\"save action-btn-icon\"\u003E\u003C/span\u003E\n      \u003Cspan class=\"action-btn-text\"\u003ESave\u003C/span\u003E\n    \u003C/a\u003E\n\u003C/div\u003E\n"},"stripped_title":"the-proactor-pattern","is_only_private":false,"track_slide_enable":1,"replayscreen":{"html":"\u003Ca href=\"#\" class=\"replayScreenReplay\" \u003EView again\u003C/a\u003E"},"image_bucket_location":"//image.slidesharecdn.com/the-proactor-pattern4606","author_id":46050,"inpage_full_screen":true,"beacon_url":"stats.slideshare.net/1.gif","render_links":"default","use_ssl":false,"wp_code":"[slideshare id=64862\u0026doc=the-proactor-pattern4606]","slideview_url":"/Arbow/the-proactor-pattern","fullscreen_bgcolor":"jsplBgColorWhite"},"default_tab":".svMoreAuthor","pvt":0,"slideshow":{"iframe_url":"http://www.slideshare.net/slideshow/embed_code/64862","total_slides":40,"iframe_code":"\u003Ciframe src=\"{iframe_url}\" width=\"{width}\" height=\"{height}\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;\" allowfullscreen\u003E \u003C/iframe\u003E \u003Cdiv style=\"margin-bottom:5px\"\u003E \u003Cstrong\u003E \u003Ca href=\"https://www.slideshare.net/Arbow/the-proactor-pattern\" title=\"The Proactor Pattern\" target=\"_blank\"\u003EThe Proactor Pattern\u003C/a\u003E \u003C/strong\u003E from \u003Cstrong\u003E\u003Ca href=\"http://www.slideshare.net/Arbow\" target=\"_blank\"\u003El xf\u003C/a\u003E\u003C/strong\u003E \u003C/div\u003E","pin_image_url":"http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-728.jpg?cb=1181900099","title":"The Proactor Pattern","form_after_slide_number":null,"user_login":"Arbow","show_related_content":"1","fullscreen_bg_color":"White","is_author_premium":false,"embed_sizes":{"presets":{"preset3":{"size":{"height":420,"width":510},"displaySize":{"height":45,"width":60}},"preset4":{"size":{"height":485,"width":595},"displaySize":{"height":53,"width":70}},"preset1":{"size":{"height":290,"width":340},"displaySize":{"height":30,"width":40}},"preset2":{"size":{"height":355,"width":425},"displaySize":{"height":38,"width":50}}},"config":{"defaultPreset":"preset2"}},"id":"64862","type":"presentation","view_action_state":"unpublished","is_audio":false,"allow_embeds":true,"user_name":"l xf","zeroclipboard_url":"http://static.slidesharecdn.com/ZeroClipboard.swf","form_is_blocking":false,"facade_slide_url":"http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-728.jpg?cb=1181900099","ss_url":"http://www.slideshare.net/Arbow/the-proactor-pattern","wp_code":"[slideshare id=64862\u0026doc=the-proactor-pattern4606]"},"fb_app_name":"slideshare","related_type":"related","sharing_more":{"url":"http://www.slideshare.net/~/slideshow/sharing_more/64862.html"},"userimage_placeholder":"//public.slidesharecdn.com/b/images/user-48x48.png","activities":{"favorites":{"total":9,"url":"/~/slideshow/favorites_list/64862.json","count":9}},"startSlide":1,"show_ads":{},"top_nav":{"get_url":"/top_nav"},"show_branding":1,"stripped_title":"the-proactor-pattern","preview":"no","li_bar":{"get_url":"/li_bar"},"useHttp":1,"totalSlides":40,"key":false,"user":{"member_type":"non-member"},"beacon_url":"stats.slideshare.net/1.gif","asset_id":"a0d89d2b94c980982228bf3ab296bf3558040e4f","version_no":"1181900099","dev":false}; var user_info =  {"name":null,"userGroup":"non-member","is_pro":"false","su":false,"fb_access_token":null,"id":null,"is_opengraph_user":false,"has_uploads":null,"is_fbuser":null,"login":"guest","loggedin":false,"opengraph_permissions":{},"fb_userid":null,"is_li_connected":false}; 
+//--></SCRIPT>
+   
+<SCRIPT id="adQueue" type="text/javascript"><!--
+ if(!slideshare_object.delayedLIAd){ slideshare_object._adQueue = []; } 
+//--></SCRIPT>
+   
+<SCRIPT type="text/javascript">
+//<![CDATA[
+jQl.loadjQ("http://public.slidesharecdn.com/b/slideview/scripts/combined_presentation_init.js?8bdea2bc3a");
+//]]>
+</SCRIPT>
+   
+<SCRIPT id="ga-init" type="text/javascript">
+  // <![CDATA[
+    window._gaq = [];
+    window._gaq.push(['_trackEvent', 'bigfoot_slideview', 'pageload', slideshare_object.gam_cat_name, undefined, true]);
+    window._sstq && _sstq.push(['track', 'player_share_cta', 'slideview_pageload']);
+    if(slideshare_object.user.member_type === "non-member"){
+      window._gaq.push(['_trackEvent', 'bigfoot_slideview', 'loggedout_pageload', slideshare_object.gam_cat_name, undefined, true]);
+    }
+  // ]]>
+  </SCRIPT>
+   
+<SCRIPT id="h-qu-experiment-instrumentation"></SCRIPT>
+   
+<SCRIPT id="rails_environment" type="text/javascript"><!--
+ slideshare_object.deploy_environment = 'production';
+//--></SCRIPT>
+     <!--[if lt IE 9]><script src="//public.slidesharecdn.com/b/javascripts/plugins/html5.js"></script><![endif]--> 
+  
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var smtId = "ab5bb963d";
+var smtDefaultStyles = false;
+var smtRedirect = true;
+var smtProt = (("https:" == document.location.protocol) ? "https://" : "http://");
+
+var smtPreRender = function(data) {
+  for (i in data) {
+    if (data[i].code === "en-us") {
+      data[i].name = "English";
+    }
+  }
+};
+
+var smtRedirectMapper = function(locale, sites) {
+  if (/^es/i.test(locale)){ //disable redirect to spanish site
+    return null;
+  }
+  if (locale in sites) {
+    return sites[locale];
+  }
+  if (/^fr/i.test(locale)) {
+    return sites['fr-fr'] || null;
+  }
+  if (/^de/i.test(locale)) {
+    return sites['de-de'] || null;
+  }
+  return null;
+};
+
+document.write(unescape("%3Cscript src='" + smtProt + "cdn01.smartling.com/ls/"+ smtId +".js' type='text/javascript'%3E%3C/script%3E"));
+
+//]]>
+</SCRIPT>
+   <LINK href="//public.slidesharecdn.com/images/favicon.ico" rel="Shortcut Icon"> 
+  <LINK href="http://www.slideshare.net/Arbow/the-proactor-pattern" rel="canonical"> 
+  <LINK title="RSS" href="/rss/latest" rel="alternate" type="application/rss+xml"> 
+  <LINK title="SlideShare Search" href="/search/opensearch.xml" rel="search" 
+type="application/opensearchdescription+xml">   <LINK title="Slideshow oEmbed Profile" 
+href="http://www.slideshare.net/api/oembed/2?format=json&amp;url=http://www.slideshare.net/Arbow/the-proactor-pattern" 
+rel="alternate" type="application/json+oembed">   <LINK title="Slideshow oEmbed Profile" 
+href="http://www.slideshare.net/api/oembed/2?format=xml&amp;url=http://www.slideshare.net/Arbow/the-proactor-pattern" 
+rel="alternate" type="text/xml+oembed">   <LINK href="http://www.slideshare.net/mobile/Arbow/the-proactor-pattern" 
+rel="alternate" media="handheld">   <LINK id="android-deep-link" href="slideshare-app://net.slideshare.android/ss/64862" 
+rel="alternate">     <!-- fb open graph meta tags -->   
+<META name="fb_app_id" class="fb_og_meta" content="2490221586" property="fb:app_id"> 
+  
+<META name="og_type" class="fb_og_meta" content="slideshare:presentation" 
+property="og:type">   
+<META name="og_url" class="fb_og_meta" content="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+property="og:url">   
+<META name="og_image" class="fb_og_meta" content="http://cdn.slidesharecdn.com/ss_thumbnails/the-proactor-pattern4606-thumbnail-4.jpg?cb=1181900099" 
+property="og:image">   <!-- SL:start:notranslate -->   
+<META name="og_title" class="fb_og_meta" content="The Proactor Pattern" 
+property="og:title">   
+<META name="og_description" class="fb_og_meta" content="Intro Making things work            Verdict The Proactor Pattern           Ant´nio Sousa              o                       UU  30 de Setembro de 2005     ..." 
+property="og:description">   <!-- SL:end:notranslate -->   
+<META name="slideshow_published_time" class="fb_og_meta" content="2007-06-15T09:34:59Z" 
+property="slideshare:published">   
+<META name="slideshow_author" class="fb_og_meta" content="http://www.slideshare.net/Arbow" 
+property="slideshare:author">   
+<META name="slideshow_view_count" class="fb_og_meta" content="7947" property="slideshare:view_count"> 
+  
+<META name="slideshow_embed_count" class="fb_og_meta" content="2" property="slideshare:embed_count"> 
+  
+<META name="slideshow_comment_count" class="fb_og_meta" content="0" property="slideshare:comment_count"> 
+  
+<META name="slideshow_download_count" class="fb_og_meta" content="169" property="slideshare:download_count"> 
+  
+<META name="slideshow_created_at" class="fb_og_meta" content="2007-06-15 09:34:59 UTC" 
+property="slideshare:created_at">   
+<META name="slideshow_updated_at" class="fb_og_meta" content="2007-06-15 09:34:59 UTC" 
+property="slideshare:updated_at">   
+<META name="slideshow_featured_on" class="fb_og_meta" content="" property="slideshare:featured_on"> 
+  
+<META name="slideshow_favorites_count" class="fb_og_meta" content="9" property="slideshare:favorites_count"> 
+  
+<META name="slideshow_category" class="fb_og_meta" content="" property="slideshare:category"> 
+  <!-- SL:start:notranslate -->   
+<META name="twitter:card" value="player">   
+<META name="twitter:site" value="@slideshare">   
+<META name="twitter:player" class="twitter_player" value="https://www.slideshare.net/slideshow/embed_code/64862"> 
+  
+<META name="twitter:player:width" value="342">   
+<META name="twitter:player:height" value="291">   
+<META name="twitter:title" class="twitter_title" value="The Proactor Pattern">   
+<META name="twitter:image" class="twitter_image" value="http://cdn.slidesharecdn.com/ss_thumbnails/the-proactor-pattern4606-thumbnail-4.jpg?cb=1181900099"> 
+  <!-- SL:end:notranslate -->   
+<META name="GENERATOR" content="MSHTML 11.00.9600.16521"></HEAD>   
+<BODY class="sticky_navbar "><!-- Navbar -->     
+<DIV class="navbar new_navbar mobile-hide" id="main_navbar">
+<DIV class="tos_update_banner j-tos_update_banner desktop j-desktop"><A class="tos_close j-tos_close" 
+href="http://www.slideshare.net/Arbow/the-proactor-pattern#">×</A>   
+<DIV class="main_div">
+<DIV class="text_div">
+<P class="desktop_text">SlideShare is part of LinkedIn. Your continued use means 
+you agree to our integrated LinkedIn           <A href="http://www.linkedin.com/legal/user-agreement" 
+target="_blank">Terms of Service</A>.         </P></DIV></DIV></DIV>
+<DIV class="navbar-inner">
+<DIV class="container"><!-- Logo -->       
+<DIV class="logo-wrapper" itemtype="http://schema.org/Organization" 
+itemscope=""><A title="Homepage" class="sprite-brand" id="j-slideshare-logo" 
+href="http://www.slideshare.net/?ss" rel="tooltip" data-placement="bottom" 
+data-ga="homepage" itemprop="url"><IMG width="185" height="38" alt="SlideShare" 
+src="The%20Proactor%20Pattern_files/logo.png" itemprop="logo">         
+</A></DIV>
+<UL class="nav"><!-- Updates -->         
+  <LI class="nav_divider"></LI><!-- Explore -->         
+  <LI class="dropdown" id="browse"><A class="dropdown-toggle" href="http://www.slideshare.net/featured" 
+  data-toggle="dropdown">Explore&nbsp;<B class="caret"></B></A>
+  <UL class="dropdown-menu">
+    <LI><A href="http://www.slideshare.net/featured" 
+    data-ga="featured">Featured</A></LI>
+    <LI><A href="http://www.slideshare.net/popular" 
+    data-ga="popular">Popular</A></LI>
+    <LI><A href="http://www.slideshare.net/most-liked" data-ga="most_liked">Most 
+    Liked</A></LI>
+    <LI><A href="http://www.slideshare.net/featured/media/infographics" data-ga="infographics">Infographics</A></LI>
+    <LI><A href="http://www.slideshare.net/popular/media/videos" data-ga="videos">Videos</A></LI></UL></LI>
+  <LI class="nav_divider"></LI><!-- Search -->         
+  <FORM class="navbar-search pull-left" action="/search/slideshow" method="get" 
+  data-ga="search_submit"><INPUT class="iconTemp-search iconTemp-gray hide-text" type="submit" value="Submit Query"> 
+            <INPUT name="searchfrom" type="hidden" value="header">           
+<INPUT name="q" class="search-query" id="search_query_top" type="text" placeholder="Search" value="" data-ga="search" autocomplete="off"> 
+            
+  <DIV class="suggestionContainer"></DIV></FORM></UL>
+<DIV class="pull-right" id="topNavLinks-11"><!-- New navbar -->    
+<UL class="nav pull-right" id="login_link"><!-- Upload button -->     
+  <LI><SPAN><A class="btn btn-primary void_fancybox" id="upload-link" href="http://www.slideshare.net/upload?from_source=loggedout_slideview_navbar" 
+  data-ga="upload">Upload</A>       </SPAN>     </LI>
+  <LI><A title="Upgrade to SlideShare PRO" class="goPro j-tooltip" id="go-pro" 
+  onclick="window._gaq = _gaq || []; _gaq.push(['_trackEvent', 'top_nav','topnav','business-index']);" 
+  href="http://www.slideshare.net/business/premium/plans?cmp_src=general&amp;cmp_src_from=main_nav" 
+  data-ga="go_pro">              Go <SPAN class="goProLabel">Pro</SPAN>          
+   </A></LI>
+  <LI><A class="void_fancybox void_redirect_link" id="login" href="https://www.slideshare.net/login" 
+  data-ga="login">Login</A></LI>
+  <LI><A title="Signup now for a SlideShare account" class="void_fancybox void_redirect_link j-icon_Notification" 
+  id="signup" href="https://www.slideshare.net/signup" 
+  data-ga="signup">Signup</A></LI></UL></DIV></DIV></DIV></DIV>
+<DIV id="fb-root"></DIV><SECTION>
+<DIV class="sectionElements container">
+<DIV id="h-modal-flash"></DIV>
+<DIV class="playerWrapper" style="width: 728px;">
+<DIV class="actions">
+<UL class="ssActions h-tools">
+  <LI class="action-mshare h-action-mshare public-only"><A title="Share this presentation" 
+  class="sprite iconShare j-tooltip" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow">Share</A></LI>                     
+  <LI class="action-share h-action-share public-only"><A title="Email this presentation to your contacts" 
+  class="sprite iconEmail j-tooltip" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow">Email</A></LI>                     
+  <LI class="action-embed h-action-embed"><A title="Embed this presentation" 
+  class="sprite iconEmbed j-tooltip" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow">Embed</A></LI>                     
+  <LI class="action-addfav h-action-addfav public-only"><A title="Like this presentation" 
+  class="sprite iconFav j-tooltip j-favorite" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow">Like</A></LI>                     
+  <LI class="action-fav h-action-fav public-only" style="display: none;"><A 
+  title="You have liked this presentation" class="sprite removeFav delete iconFavOn j-tooltip" 
+  href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow">Liked <STRONG>×</STRONG></A>                       <SPAN class="j-favPulse fav-pulse"></SPAN> 
+                      </LI>
+  <LI class="action-download h-action-download"><A title="Save this presentation" 
+  class="sprite iconDownload j-tooltip j-download" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow" data-href="/signup?login_source=slideview.popup.download&amp;from=download&amp;from_source=%2Fsavedfiles%3Fs_title%3Dthe-proactor-pattern%26user_login%3DArbow&amp;download_id=64862-55a9bf8403feb0045e097627b614dcc8b4e01469-slideshow" 
+  data-target="#login_modal">Save</A></LI>                                       
+    
+  <LI class="hide h-private-notice last"><SPAN title="Private Content" class="iconPrivate">Private 
+  Content</SPAN></LI>
+  <LI class="expandedOverlay action-embed-code embedPanel h-embed-allow" style="display: none;">Loading 
+  embed code…</LI>
+  <LI class="expandedOverlay action-addfav-new public-only" style="display: none;"><A 
+  class="close cancel">×</A>                     <I 
+  class="linkedin-picture"></I>                     
+  <P class="linkedin-shared">This activity has also been shared with your 
+  LinkedIn network</P><SPAN data-original-title="You can undo LinkedIn share from the activity feed on your LinkedIn profile." 
+  rel="tooltip"><A class="iconTemp-question-sign" href="http://www.slideshare.net/Arbow/the-proactor-pattern#"></A></SPAN>&nbsp;<A 
+  class="muted text-info" href="http://www.linkedin.com/" target="_blank">Undo 
+  LinkedIn share</A>&nbsp;<A class="fav-settings" href="http://www.slideshare.net/Arbow/the-proactor-pattern#"><I 
+  class="iconTemp-cog"></I>Settings</A>                   </LI>
+  <LI class="expandedOverlay action-unverified-download public-only" style="display: none;">
+  <P>                        We have emailed the verification/download link to 
+  <STRONG>"<SPAN class="user-email"></SPAN>"</STRONG>.                         
+  <BR>                        Login to your email and click the link to download 
+  the file directly.                       </P>
+  <FORM class="changeEmail change-unverified-email">
+  <FIELDSET><LEGEND>To request the link at a different email address, update it 
+  here.</LEGEND><INPUT name="unverified-email" class="text unverified-email">    
+                       <INPUT class="submit btn" type="submit" value="Update">   
+                        <A class="ilink cancel" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow">Close</A><BR><SPAN class="change-unverified-email-validate" 
+  style="display: none;">Validation messages.</SPAN>                         
+  <SPAN class="change-unverified-email-win" style="color: rgb(0, 170, 0); display: none;">Success 
+  message.</SPAN>                         <SPAN class="change-unverified-email-fail" 
+  style="color: rgb(170, 0, 0); display: none;">Fail message.</SPAN>             
+              </FIELDSET></FORM>
+  <P style="margin: 0px;"><SPAN class="hint">Check your bulk/spam folders if you 
+  can't find our mail.</SPAN></P></LI>
+  <LI class="expandedOverlay action-leads-contact" style="display: none;"></LI>
+  <LI class="expandedOverlay j-menu-loading" style="display: none;">
+  <DIV class="svLightBox"><SPAN class="h-loading">Loading <IMG width="21" 
+  height="5" style="margin: 0px; vertical-align: middle; float: none;" alt="Loading…" 
+  src="The%20Proactor%20Pattern_files/indicator.gif"></SPAN>                     
+  </DIV></LI></UL></DIV>
+<DIV class="h-js-player"><!-- For slideview page , combined js for player is now combined with slideview javascripts for logged out users--> 
+<DIV class="player lightPlayer fluidImage presentation_player" id="svPlayerId">
+<DIV class="stage valign-first-slide"><A class="exit-fullscreen j-exit-fullscreen"></A> 
+    
+<DIV class="slide_container">
+<DIV class="slide show" data-index="1"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/slide-1-728.jpg" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="2"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-2-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-2-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="3"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-3-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-3-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="4"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-4-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-4-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="5"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-5-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-5-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="6"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-6-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-6-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="7"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-7-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-7-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="8"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-8-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-8-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="9"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-9-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-9-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="10"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-10-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-10-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="11"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-11-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-11-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="12"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-12-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-12-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="13"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-13-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-13-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="14"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-14-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-14-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="15"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-15-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-15-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="16"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-16-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-16-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="17"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-17-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-17-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="18"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-18-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-18-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="19"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-19-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-19-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="20"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-20-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-20-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="21"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-21-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-21-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="22"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-22-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-22-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="23"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-23-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-23-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="24"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-24-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-24-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="25"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-25-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-25-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="26"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-26-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-26-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="27"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-27-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-27-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="28"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-28-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-28-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="29"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-29-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-29-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="30"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-30-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-30-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="31"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-31-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-31-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="32"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-32-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-32-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="33"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-33-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-33-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="34"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-34-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-34-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="35"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-35-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-35-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="36"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-36-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-36-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="37"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-37-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-37-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="38"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-38-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-38-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="39"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-39-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-39-728.jpg?cb=1181900099"> 
+            </DIV>
+<DIV class="slide" data-index="40"><IMG class="slide_image" src="The%20Proactor%20Pattern_files/Arbow.htm" 
+data-full="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-40-1024.jpg?cb=1181900099" 
+data-normal="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-40-728.jpg?cb=1181900099"> 
+            </DIV></DIV></DIV><!-- end stage -->     
+<DIV class="toolbar_wrapper">
+<DIV class="toolbar normal"><!--[if IE 7]>
+  <style>
+    .toolbar .navActions { position: relative; top: -28px; }
+    div.toolbar .nav {margin-left : 37%; }
+  </style>
+<![endif]--> 
+  <A title="View on SlideShare" class="sprite btnViewOnSS" href="http://www.slideshare.net/Arbow/the-proactor-pattern#">&nbsp;</A><!-- view on SS --> 
+  
+<DIV class="nav"><A title="First Slide" class="btnFirst" href="http://www.slideshare.net/Arbow/the-proactor-pattern#btnFirst" 
+rel="nofollow">«</A>     <A title="Previous Slide" class="btnPrevious" href="http://www.slideshare.net/Arbow/the-proactor-pattern#btnPrevious" 
+rel="nofollow">‹</A>     <A title="Next Slide" class="btnNext" href="http://www.slideshare.net/Arbow/the-proactor-pattern#btnNext" 
+rel="nofollow">›</A>     <A title="Last Slide" class="btnLast" href="http://www.slideshare.net/Arbow/the-proactor-pattern#btnLast" 
+rel="nofollow">»</A>   </DIV>
+<DIV class="navActions"><A title="View Fullscreen" class="btnFullScreen" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+rel="nofollow">&nbsp;</A>     <A title="Exit Fullscreen" class="btnLeaveFullScreen" 
+href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+rel="nofollow">&nbsp;</A>     <LABEL class="goToSlideLabel"><INPUT name="goToSlide" type="text" value="1"><SPAN>/ 
+40</SPAN></LABEL></DIV></DIV></DIV>
+<DIV class="image_maps"></DIV></DIV>
+<SCRIPT type="text/javascript">
+
+  $(document).ready(function() {
+    var ele = $('#svPlayerId');
+
+    player = new SSPlayer(slideshare_object.jsplayer);
+    $(player).bind('slidechanged', function(e){
+      if(typeof(loadDataForSlide) === 'function'){
+      loadDataForSlide(e.ssData.index);
+     }
+    });
+
+    /* Infographics experiment */
+
+    setupInfographicPlayer = function() {
+      // Add proper class to the player
+      $(".player").addClass("infographic_player");
+
+      var $toolBar = $(".toolbar_wrapper");
+      var $topToolBar = $(".playerWrapper .actions");
+      var $toolBarClone = $toolBar.clone(true);
+
+      // Tweak bottom toolbar
+      $toolBar.children(".toolbar").empty().height(10).css({
+        "border-radius" : "0 0 3px 3px",
+        "border-bottom" : "none"
+      });
+
+      // Tweak new toolbar
+      $toolBarClone.find(".toolbar").css({
+        "background" : "none",
+        "border-top" : "none"
+      });
+      $toolBarClone.find(".nav").remove();
+      $toolBarClone.find(".goToSlideLabel").remove();
+
+      // Tweak top toolbar
+      $topToolBar.height(34);
+      $topToolBar.children(".ssActions").css({
+        "float"      : "left",
+        "margin-top" : "8px"
+      });
+
+      // Add new toolbar
+      $topToolBar.append($toolBarClone);
+
+      // Add exit fullscreen button, show it on mousemove, hide it after 2 seconds
+      var exitFullscreenOverlay = $("<div><div></div></div>").addClass("exit_fullscreen_overlay").appendTo($(".stage"));
+
+      exitFullscreenOverlay.on("click", function() {
+        $(".btnLeaveFullScreen").trigger("click");
+      });
+
+      var countdown;
+      var startCountDown = function() {
+        countdown = setTimeout(function() {
+          exitFullscreenOverlay.removeClass("show");
+        }, 2000);
+      }
+      $(".player").mousemove(function() {
+        exitFullscreenOverlay.addClass("show");
+        clearTimeout(countdown);
+        startCountDown();
+      })
+
+      // Set max height to prevent zooming from growing the player viewport
+      $(window).load(function() {
+        $(".stage").css({
+          "max-height" : $(".slide").first().height() + "px"
+        });
+      });
+    }
+
+    if (false && player.config.show_image_player && player.config.player_type === "document" && slideshare_object.totalSlides === 1) {
+      setupInfographicPlayer();
+    }
+
+    switch (player.config.player_type) {
+      case 'document':
+        $('.player').addClass('document_player');
+        break;
+      case 'infographic':
+        $('.player').addClass('infographic_player');
+        break;
+      case 'video':
+        $('.player').addClass('video_player');
+        break;
+    }
+  });
+</SCRIPT>
+ </DIV></DIV>
+<DIV class="hide" id="lastScreen">
+<DIV class="lastScreen">
+<DIV class="jsplLastScreenOverlay j-last-screen-overlay"></DIV>
+<DIV class="pro-overlay j-lastscreen">
+<DIV class="proSharingText">Like this presentation? Why not share!</DIV>
+<UL class="lastActions j-last-screen-actions">
+  <LI class="share-cta j-share-cta lastscreen-share-cta"><A 
+  class="share-btn"><SPAN class="lastScreen-sprite"></SPAN>Share</A></LI>       
+  <LI class="email-cta j-email-cta"><A class="email-btn"><SPAN class="lastScreen-sprite"></SPAN>Email</A></LI> 
+        
+  <LI class="replay last"><A title="View again" class="replay-btn lastScreenReplay j-tooltip j-last-screen-replay" 
+  data-original-title="View again"><SPAN 
+  class="lastScreen-sprite">&nbsp;</SPAN></A></LI>       
+  <LI class="close-btn lastScreen-sprite j-lastscreen-close"><A>&nbsp;</A></LI>  
+     </UL>
+<DIV class="related-presentations j-lastscreen-related">
+<UL class="presentation-list">
+  <LI><A title="C++ N Pv2" href="http://www.slideshare.net/DenisM/c-n-pv2"><IMG 
+  alt="C++ N Pv2" 
+  src="The%20Proactor%20Pattern_files/c-n-pv24599-thumbnail.jpg">            
+  <SPAN class="presentation-meta"><SPAN class="title">C++ N Pv2</SPAN><SPAN 
+  class="author">by&nbsp;DenisM</SPAN><SPAN 
+  class="view-count">5183&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="Ace tutorial c" href="http://www.slideshare.net/osandairanga/ace-tutorial-c"><IMG 
+  alt="Ace tutorial c" src="The%20Proactor%20Pattern_files/ace-tutorialc-121024103236-phpapp02-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Ace tutorial 
+  c</SPAN><SPAN class="author">by&nbsp;osandairanga</SPAN><SPAN class="view-count">1503&nbsp;views</SPAN></SPAN> 
+           </A></LI>
+  <LI><A title="Java Nio 2" href="http://www.slideshare.net/XebiaFrance/java-nio2"><IMG 
+  alt="Java Nio 2" src="The%20Proactor%20Pattern_files/nio2-110729145101-phpapp01-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Java Nio 
+  2</SPAN><SPAN class="author">by&nbsp;Xebia France</SPAN><SPAN class="view-count">14183&nbsp;views</SPAN></SPAN> 
+           </A></LI>
+  <LI><A title="Java nio开发 " 
+  href="http://www.slideshare.net/pepsixp/java-nio"><IMG alt="Java nio开发 " src="The%20Proactor%20Pattern_files/javanio-100701052238-phpapp02-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Java nio开发 
+  </SPAN><SPAN class="author">by&nbsp;cheney s</SPAN><SPAN 
+  class="view-count">1364&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="Server Tips" href="http://www.slideshare.net/liqingfang126/server-tips"><IMG 
+  alt="Server Tips" src="The%20Proactor%20Pattern_files/server-tips-100102045305-phpapp02-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Server 
+  Tips</SPAN><SPAN class="author">by&nbsp;liqingfang126</SPAN><SPAN class="view-count">1520&nbsp;views</SPAN></SPAN> 
+           </A></LI>
+  <LI><A title='CiklumCPPSat: Eugene Kulak "Stackle...' href="http://www.slideshare.net/Ciklum_Kyiv/kulakstackoutstack-coroutines-and-boostasio"><IMG 
+  alt='CiklumCPPSat: Eugene Kulak "Stackle...' src="The%20Proactor%20Pattern_files/kulak-111124040156-phpapp02-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">CiklumCPPSat: 
+  Eugene Kulak "Stackle...</SPAN><SPAN class="author">by&nbsp;Ciklum</SPAN><SPAN 
+  class="view-count">606&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="Server" href="http://www.slideshare.net/charsyam2/server-5839210"><IMG 
+  alt="Server" src="The%20Proactor%20Pattern_files/server-101119164658-phpapp01-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN 
+  class="title">Server</SPAN><SPAN class="author">by&nbsp;Dae Myung 
+  Kang</SPAN><SPAN class="view-count">808&nbsp;views</SPAN></SPAN>          
+  </A></LI>
+  <LI><A title="09J1_ACG_Prospect" href="http://www.slideshare.net/tutorialsruby/09j1acgprospect-2620858"><IMG 
+  alt="09J1_ACG_Prospect" src="The%20Proactor%20Pattern_files/2620858-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN 
+  class="title">09J1_ACG_Prospect</SPAN><SPAN 
+  class="author">by&nbsp;tutorialsruby</SPAN><SPAN 
+  class="view-count">5576&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="09J1_ACG_Prospect" href="http://www.slideshare.net/tutorialsruby/09j1acgprospect-2620859"><IMG 
+  alt="09J1_ACG_Prospect" src="The%20Proactor%20Pattern_files/2620859-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN 
+  class="title">09J1_ACG_Prospect</SPAN><SPAN 
+  class="author">by&nbsp;tutorialsruby</SPAN><SPAN 
+  class="view-count">4648&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="Libraries and tools for C++" href="http://www.slideshare.net/georgiksk/libraries-and-tools-for-c"><IMG 
+  alt="Libraries and tools for C++" src="The%20Proactor%20Pattern_files/2012-11-26-libraries-and-tools-for-cpp-121126103057-phpapp01-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Libraries and 
+  tools for C++</SPAN><SPAN class="author">by&nbsp;Juraj Michálek</SPAN><SPAN 
+  class="view-count">1404&nbsp;views</SPAN></SPAN>          </A></LI>
+  <LI><A title="Tomando controle" href="http://www.slideshare.net/renatoelias/tomando-controle"><IMG 
+  alt="Tomando controle" src="The%20Proactor%20Pattern_files/tomandocontrole-110902122912-phpapp02-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Tomando 
+  controle</SPAN><SPAN class="author">by&nbsp;Renato Elias</SPAN><SPAN class="view-count">426&nbsp;views</SPAN></SPAN> 
+           </A></LI>
+  <LI><A title="Tricks and Tips With NIO Using the ..." href="http://www.slideshare.net/adorepump/tricks-and-tips-with-nio-using-the-grizzly-framework"><IMG 
+  alt="Tricks and Tips With NIO Using the ..." src="The%20Proactor%20Pattern_files/ts-2992-100131100224-phpapp01-thumbnail.jpg"> 
+             <SPAN class="presentation-meta"><SPAN class="title">Tricks and Tips 
+  With NIO Using the ...</SPAN><SPAN class="author">by&nbsp;elliando 
+  dias</SPAN><SPAN class="view-count">6869&nbsp;views</SPAN></SPAN>          
+  </A></LI></UL></DIV></DIV><!-- end of div class pro-overlay -->   
+<DIV class="j-modal-share modal-share mobile-hide" id="last-screen-modal-share" 
+style="display: none;" data-ga-track-action="" data-ga-track-category="">
+<DIV class="j-modal-popup modal-popup">
+<DIV class="j-modal-close modal-close"></DIV>
+<DIV class="j-modal-content modal-content" id="modal-content" data-slideshowid=""><HEADER 
+class="j-tabs tabs"><A class="selected j-button-share-tab" 
+id="button-share-tab">Share</A>         <A class="j-button-embed-tab" id="button-embed-tab">Embed</A> 
+        
+<HR class="divider">
+</HEADER>
+<DIV class="j-share-tab share-tab"><SECTION class="section share-social">
+<DIV>
+<UL class="j-share-social-list share-social-list">
+  <LI class="facebook">
+  <DIV class="social-hover"><A class="share-link" rel="nofollow" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern">Facebook</A></DIV></LI>
+  <LI class="twitter">
+  <DIV class="social-hover"><A class="share-link" rel="nofollow" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+  data-via="SlideShare" data-related="" data-text="The Proactor Pattern #pattern #proactor">Twitter</A></DIV></LI>
+  <LI class="linkedin">
+  <DIV class="social-hover"><A class="share-link" rel="nofollow" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+  data-text="The Proactor Pattern by l xf via slideshare">LinkedIn</A></DIV></LI>
+  <LI class="pinterest">
+  <DIV class="social-hover"><A class="share-link" rel="nofollow" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+  data-pin-config="above" data-pin-do="buttonPin" data-description="The Proactor Pattern by l xf via slideshare" 
+  data-media="http://image.slidesharecdn.com/the-proactor-pattern4606/95/slide-1-728.jpg?cb=1181900099">Pinterest</A></DIV></LI>
+  <LI class="wordpress">
+  <DIV class="social-hover"><A rel="nofollow">Wordpress</A></DIV></LI>
+  <LI class="googleplus">
+  <DIV class="social-hover"><A class="share-link" rel="nofollow" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern">Google</A></DIV></LI></UL></DIV>
+<DIV class="share-link-container"><INPUT class="j-share-link-url" id="share-link-url" type="input" readonly="" data-ga="link"> 
+          </DIV></SECTION>
+<HR class="divider">
+<SECTION class="section share-email"><HEADER>
+<H3>Email this SlideShare</H3>             <SPAN class="j-email-flash email-flash"></SPAN> 
+          </HEADER>
+<FORM class="j-share-email-form" 
+id="share-email-form"><INPUT name="recipients" class="j-share-email-to j-email-clear" id="share-email-to" required="" type="email" placeholder="Recipient Email or Username" value="" data-ga="to"> 
+            <INPUT name="name" class="j-share-email-name j-email-clear" id="share-email-name" required="" type="text" placeholder="Your Name" value="" data-ga="name"> 
+            <TEXTAREA name="msg" class="j-share-email-msg j-email-clear" id="share-email-msg" placeholder="I think you will find this useful." data-ga="msg">I think you will find this useful.</TEXTAREA> 
+            
+<DIV class="share-email-expand">
+<DIV class="j-add-msg" id="add-msg" data-ga="add-msg">Add 
+Message</DIV><INPUT class="j-share-email-send button" id="share-email-send" type="submit" value="Send" data-ga="send"> 
+            </DIV></FORM>
+<DIV class="j-email-sent section" id="email-sent">
+<DIV><SPAN class="success-text">Email Sent!</SPAN>             <BUTTON class="j-send-another-email button btn" 
+id="send-another-email" data-ga="another-email">Send 
+Another</BUTTON></DIV></DIV></SECTION></DIV>
+<DIV class="j-embed-tab embed-tab"><SECTION class="j-share-embed section share-embed"><TEXTAREA class="j-share-embed-link" id="share-embed-link" readonly="" data-ga="link"></TEXTAREA> 
+          
+<DIV class="share-embed-options">
+<DIV title="Check only if the site on which the embed code will be placed begins with 'https://'" 
+class="embed-use-ssl"><INPUT name="use-ssl" class="j-embed-use-ssl-cbox embed-use-ssl-cbox" 
+type="checkbox" data-ga="ssl">               <SPAN>Generate embed code for https 
+site</SPAN>             </DIV>
+<DIV class="embed-size"><SPAN class="title">Size (px):</SPAN>               
+<SELECT class="j-embed-size-picker embed-size-picker" id="embed-size-picker" 
+data-ga="size-picker"></SELECT>             </DIV>
+<DIV class="embed-start"><SPAN class="title">Start on Slide:</SPAN>              
+ 
+<INPUT class="j-embed-start-picker embed-start-picker" id="embed-start-picker" pattern="\d+" value="1" data-ga="start-picker"> 
+            </DIV>
+<DIV class="embed-show-related"><INPUT name="related-content" class="j-embed-related-cbox embed-related-cbox" 
+type="checkbox" checked="checked" data-ga="related">               <SPAN>Show 
+related SlideShares at end</SPAN>             </DIV></DIV></SECTION>
+<HR class="divider">
+<SECTION class="section share-wp"><SPAN>Shortcode for WordPress.com blogs</SPAN> 
+           [ <A href="http://help.slideshare.com/entries/20117147-can-i-embed-slideshare-presentations-in-wordpress-blogs-or-which-embed-code-should-i-use-for-my-word" 
+target="_blank" rel="nofollow">?</A> ]           <INPUT name="embed-code" class="j-share-embed-wp text quiet h-wpembedcode" id="share-embed-wp" type="text" readonly="readonly" data-ga="wp-link"> 
+        </SECTION></DIV></DIV></DIV></DIV><!-- share modal --> </DIV><!-- last screen ends here --> 
+        </DIV><ASIDE class="h-related-more-tab j-related-more-tab">
+<UL class="tabs">
+  <LI title="" class="active j-related-slideshows h-related-tab"><A href="http://www.slideshare.net/Arbow/the-proactor-pattern#">Related</A></LI>
+  <LI class="h-more-tab j-more-slideshows"><A class="j-tooltip" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+  rel="nofollow" data-original-title="More by l xf">More</A></LI></UL>
+<UL class="notranslate relatedContent thumbnailGrid h-related-slideshows j-tab-content activeContent" 
+id="relatedList">
+  <LI><A title="C++ N Pv2" href="http://www.slideshare.net/DenisM/c-n-pv2"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="C++ N Pv2" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/c-n-pv24599-thumbnail-2.jpg?cb=1185288373"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">C++ N Pv2</SPAN>  
+                         <SPAN 
+  class="h-related-views view-count">5183&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="81997">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="81997">Liked</A> 
+                  </LI>
+  <LI><A title="Ace tutorial c" href="http://www.slideshare.net/osandairanga/ace-tutorial-c"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Ace tutorial c" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/ace-tutorialc-121024103236-phpapp02-thumbnail-2.jpg?cb=1351092790"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Ace tutorial 
+  c</SPAN>                         <SPAN 
+  class="h-related-views view-count">1503&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="14868257">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="14868257">Liked</A> 
+                  </LI>
+  <LI><A title="Java Nio 2" href="http://www.slideshare.net/XebiaFrance/java-nio2"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Java Nio 2" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/nio2-110729145101-phpapp01-thumbnail-2.jpg?cb=1312222232"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Java Nio 2</SPAN> 
+                          <SPAN 
+  class="h-related-views view-count">14183&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="8727513">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="8727513">Liked</A> 
+                  </LI>
+  <LI><A title="Java nio开发 " 
+  href="http://www.slideshare.net/pepsixp/java-nio"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Java nio开发 " 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/javanio-100701052238-phpapp02-thumbnail-2.jpg?cb=1277979880"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Java nio开发 
+  </SPAN>                         <SPAN 
+  class="h-related-views view-count">1364&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="4657827">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="4657827">Liked</A> 
+                  </LI>
+  <LI><A title="Server Tips" href="http://www.slideshare.net/liqingfang126/server-tips"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Server Tips" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/server-tips-100102045305-phpapp02-thumbnail-2.jpg?cb=1262429599"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Server 
+  Tips</SPAN>                         <SPAN 
+  class="h-related-views view-count">1520&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2815097">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2815097">Liked</A> 
+                  </LI>
+  <LI><A title='CiklumCPPSat: Eugene Kulak "Stackless/stackfull coroutines and boost.asio"' 
+  href="http://www.slideshare.net/Ciklum_Kyiv/kulakstackoutstack-coroutines-and-boostasio"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt='CiklumCPPSat: Eugene Kulak "Stackless/stackfull coroutines and boost.asio"' 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/kulak-111124040156-phpapp02-thumbnail-2.jpg?cb=1322239439"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">CiklumCPPSat: 
+  Eugene Kulak "Stackless/stackfull coroutines and boost.asio"</SPAN>            
+               <SPAN class="h-related-views view-count">606&nbsp;views</SPAN>    
+                   </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="10304282">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="10304282">Liked</A> 
+                  </LI>
+  <LI><A title="Server" href="http://www.slideshare.net/charsyam2/server-5839210"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Server" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/server-101119164658-phpapp01-thumbnail-2.jpg?cb=1290206857"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Server</SPAN>     
+                      <SPAN 
+  class="h-related-views view-count">808&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="5839210">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="5839210">Liked</A> 
+                  </LI>
+  <LI><A title="09J1_ACG_Prospect" href="http://www.slideshare.net/tutorialsruby/09j1acgprospect-2620858"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="09J1_ACG_Prospect" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/2620858-thumbnail-2.jpg?cb=1259654176"></SPAN> 
+                          </SPAN><SPAN 
+  class="h-related-title">09J1_ACG_Prospect</SPAN>                         <SPAN 
+  class="h-related-views view-count">5576&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2620858">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2620858">Liked</A> 
+                  </LI>
+  <LI><A title="09J1_ACG_Prospect" href="http://www.slideshare.net/tutorialsruby/09j1acgprospect-2620859"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="09J1_ACG_Prospect" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/2620859-thumbnail-2.jpg?cb=1259654114"></SPAN> 
+                          </SPAN><SPAN 
+  class="h-related-title">09J1_ACG_Prospect</SPAN>                         <SPAN 
+  class="h-related-views view-count">4648&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2620859">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2620859">Liked</A> 
+                  </LI>
+  <LI><A title="Libraries and tools for C++" href="http://www.slideshare.net/georgiksk/libraries-and-tools-for-c"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Libraries and tools for C++" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/2012-11-26-libraries-and-tools-for-cpp-121126103057-phpapp01-thumbnail-2.jpg?cb=1353947584"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Libraries and 
+  tools for C++</SPAN>                         <SPAN class="h-related-views view-count">1404&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="15353815">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="15353815">Liked</A> 
+                  </LI>
+  <LI><A title="Tomando controle" href="http://www.slideshare.net/renatoelias/tomando-controle"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Tomando controle" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/tomandocontrole-110902122912-phpapp02-thumbnail-2.jpg?cb=1314985329"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Tomando 
+  controle</SPAN>                         <SPAN class="h-related-views view-count">426&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="9112243">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="9112243">Liked</A> 
+                  </LI>
+  <LI><A title="Tricks and Tips With NIO Using the Grizzly Framework" href="http://www.slideshare.net/adorepump/tricks-and-tips-with-nio-using-the-grizzly-framework"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Tricks and Tips With NIO Using the Grizzly Framework" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/ts-2992-100131100224-phpapp01-thumbnail-2.jpg?cb=1264954701"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Tricks and Tips 
+  With NIO Using the Grizzly Framework</SPAN>                         <SPAN 
+  class="h-related-views view-count">6869&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="3040662">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="3040662">Liked</A> 
+                  </LI>
+  <LI><A title="Ts 2992" 
+  href="http://www.slideshare.net/shaobin0604/ts-2992"><SPAN class="thumbWrapper"><SPAN><IMG 
+  width="120" class="h-thumbnail" alt="Ts 2992" src="The%20Proactor%20Pattern_files/thumbnail.png" 
+  original="http://cdn.slidesharecdn.com/ss_thumbnails/ts-2992-1198847466137040-3-thumbnail-2.jpg?cb=1198840267"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Ts 2992</SPAN>    
+                       <SPAN 
+  class="h-related-views view-count">1425&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="213939">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="213939">Liked</A> 
+                  </LI>
+  <LI><A title="Half-Push/Half-Polling" href="http://www.slideshare.net/arload/halfpushhalfpolling"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Half-Push/Half-Polling" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/son-091213004322-phpapp01-thumbnail-2.jpg?cb=1260686614"></SPAN> 
+                          </SPAN><SPAN 
+  class="h-related-title">Half-Push/Half-Polling</SPAN>                         
+  <SPAN class="h-related-views view-count">1112&nbsp;views</SPAN>                
+       </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2707555">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2707555">Liked</A> 
+                  </LI>
+  <LI><A title="NIO and NIO2" href="http://www.slideshare.net/BalamuruganSoundararajan/nio-and-nio2"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="NIO and NIO2" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/whatsnewinniolatest-110709104308-phpapp02-thumbnail-2.jpg?cb=1310227816"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">NIO and 
+  NIO2</SPAN>                         <SPAN 
+  class="h-related-views view-count">6505&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="8552304">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="8552304">Liked</A> 
+                  </LI>
+  <LI><A title="Nio nio2" href="http://www.slideshare.net/BalamuruganSoundararajan/nio-nio2"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Nio nio2" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/nionio2-110709105939-phpapp02-thumbnail-2.jpg?cb=1310228539"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Nio nio2</SPAN>   
+                        <SPAN 
+  class="h-related-views view-count">1225&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="8552394">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="8552394">Liked</A> 
+                  </LI>
+  <LI><A title="Half-Push/Half-Polling pattern" href="http://www.slideshare.net/arload/halfpushhalfpolling-pattern"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Half-Push/Half-Polling pattern" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/son-091214123516-phpapp02-thumbnail-2.jpg?cb=1260815729"></SPAN> 
+                          </SPAN><SPAN 
+  class="h-related-title">Half-Push/Half-Polling pattern</SPAN>                  
+         <SPAN class="h-related-views view-count">1474&nbsp;views</SPAN>         
+              </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2716747">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2716747">Liked</A> 
+                  </LI>
+  <LI><A title="Retargeting Embedded Software Stack for Many-Core Systems" href="http://www.slideshare.net/SumantTambe/retargeting-embedded-software-stack-for-manycore-systems"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Retargeting Embedded Software Stack for Many-Core Systems" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/esc-204slidestambe-120406161205-phpapp02-thumbnail-2.jpg?cb=1333746898"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Retargeting 
+  Embedded Software Stack for Many-Core Systems</SPAN>                         
+  <SPAN class="h-related-views view-count">1399&nbsp;views</SPAN>                
+       </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="12303486">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="12303486">Liked</A> 
+                  </LI>
+  <LI><A title="Distributedsystems 100912185813-phpapp01" href="http://www.slideshare.net/xuqianghitsoft/distributedsystems-100912185813phpapp01"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Distributedsystems 100912185813-phpapp01" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/distributedsystems-100912185813-phpapp01-111206053841-phpapp01-thumbnail-2.jpg?cb=1323173984"></SPAN> 
+                          </SPAN><SPAN 
+  class="h-related-title">Distributedsystems 100912185813-phpapp01</SPAN>        
+                   <SPAN 
+  class="h-related-views view-count">338&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="10480538">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="10480538">Liked</A> 
+                  </LI>
+  <LI><A title="My new title" href="http://www.slideshare.net/Moverinfo/my-new-title-2796250"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="My new title" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/my-new-title4410-thumbnail-2.jpg?cb=1262164544"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">My new 
+  title</SPAN>                         <SPAN 
+  class="h-related-views view-count">1863&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2796250">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2796250">Liked</A> 
+                  </LI>
+  <LI><A title="My new title" href="http://www.slideshare.net/Moverinfo/my-new-title-2796029"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="My new title" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/my-new-title153-thumbnail-2.jpg?cb=1262157273"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">My new 
+  title</SPAN>                         <SPAN 
+  class="h-related-views view-count">1949&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2796029">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2796029">Liked</A> 
+                  </LI>
+  <LI><A title="Java 7 - short intro to NIO.2" href="http://www.slideshare.net/martijnverburg/back-to-thefuturewithjava-7v0-6nio2"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Java 7 - short intro to NIO.2" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/backtothefuturewithjava7v06nio2-110419061234-phpapp02-thumbnail-2.jpg?cb=1324310928"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Java 7 - short 
+  intro to NIO.2</SPAN>                         <SPAN class="h-related-views view-count">3471&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="7672841">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="7672841">Liked</A> 
+                  </LI>
+  <LI><A title="NIO.2, the I/O API for the future" href="http://www.slideshare.net/MasoudKalali/nio2-the-io-api-for-the-future"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="NIO.2, the I/O API for the future" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/nio-2masoud-kalalifinal-100930063359-phpapp01-thumbnail-2.jpg?cb=1285848028"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">NIO.2, the I/O 
+  API for the future</SPAN>                         <SPAN class="h-related-views view-count">3265&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="5322995">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="5322995">Liked</A> 
+                  </LI>
+  <LI><A title="Head first in xmemcached yanf4j" href="http://www.slideshare.net/wavefly/head-first-in-xmemcached-yanf4j"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Head first in xmemcached yanf4j" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/headfirstinxmemcached-yanf4j-120209034957-phpapp02-thumbnail-2.jpg?cb=1328781169"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Head first in 
+  xmemcached yanf4j</SPAN>                         <SPAN class="h-related-views view-count">1716&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="11494822">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="11494822">Liked</A> 
+                  </LI>
+  <LI><A title="TERA Server Architecture" href="http://www.slideshare.net/ujentus/cgdc2010"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="TERA Server Architecture" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/cgdc2010-120613093941-phpapp02-thumbnail-2.jpg?cb=1339598660"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">TERA Server 
+  Architecture</SPAN>                         <SPAN class="h-related-views view-count">3301&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="13310517">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="13310517">Liked</A> 
+                  </LI>
+  <LI><A title="Reactor Design Pattern" href="http://www.slideshare.net/liminescence/reactor-design-pattern"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Reactor Design Pattern" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/reactordesignpattern-110614145127-phpapp02-thumbnail-2.jpg?cb=1308081153"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Reactor Design 
+  Pattern</SPAN>                         <SPAN class="h-related-views view-count">4143&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="8307601">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="8307601">Liked</A> 
+                  </LI>
+  <LI><A title="Rapid Network Application Development with Apache MINA" href="http://www.slideshare.net/trustinlee/rapid-network-application-development-with-apache-mina"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Rapid Network Application Development with Apache MINA" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/javaone2008-090415044508-phpapp01-thumbnail-2.jpg?cb=1239788891"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Rapid Network 
+  Application Development with Apache MINA</SPAN>                         <SPAN 
+  class="h-related-views view-count">5727&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="1292642">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="1292642">Liked</A> 
+                  </LI>
+  <LI><A title="Morgan kaufmann-tcp-ip-sockets-in-java-2nd-edition-feb-2008" 
+  href="http://www.slideshare.net/AnneManik/morgan-kaufmanntcpipsocketsinjava2ndeditionfeb2008"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Morgan kaufmann-tcp-ip-sockets-in-java-2nd-edition-feb-2008" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/morgan-kaufmann-tcp-ip-sockets-in-java-2nd-edition-feb-2008-121228102242-phpapp01-thumbnail-2.jpg?cb=1356712435"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Morgan 
+  kaufmann-tcp-ip-sockets-in-java-2nd-edition-feb-2008</SPAN>                    
+       <SPAN class="h-related-views view-count">1133&nbsp;views</SPAN>           
+            </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="15786562">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="15786562">Liked</A> 
+                  </LI>
+  <LI><A title="Clases 30 05" href="http://www.slideshare.net/rcanelon_DCYT/clases-30-05"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Clases 30 05" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/clases3005-111016210709-phpapp02-thumbnail-2.jpg?cb=1318818708"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Clases 30 
+  05</SPAN>                         <SPAN 
+  class="h-related-views view-count">741&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="9724822">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="9724822">Liked</A> 
+                  </LI>
+  <LI><A title="Best Of Jdk 7" href="http://www.slideshare.net/kaniskamandal/best-of-jdk-7"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Best Of Jdk 7" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/bestofjdk7-1299778792565-phpapp02-thumbnail-2.jpg?cb=1299779455"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Best Of Jdk 
+  7</SPAN>                         <SPAN 
+  class="h-related-views view-count">1405&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="7221012">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="7221012">Liked</A> 
+                  </LI>
+  <LI><A title="Best practices for &#11;building usable  &amp; accessible Web content" 
+  href="http://www.slideshare.net/teaguese/webcontent05202008-4796038"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Best practices for &#11;building usable  &amp; accessible Web content" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/webcontent05202008-100720080126-phpapp02-thumbnail-2.jpg?cb=1279637066"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Best practices 
+  for building usable  &amp; accessible Web content</SPAN>                      
+     <SPAN class="h-related-views view-count">1669&nbsp;views</SPAN>             
+          </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="4796038">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="4796038">Liked</A> 
+                  </LI>
+  <LI><A title="spChains: A Declarative Framework for Data Stream Processing in Pervasive Applications" 
+  href="http://www.slideshare.net/fulvio.corno/sp-chains-ant2012"><SPAN class="thumbWrapper"><SPAN><IMG 
+  width="120" class="h-thumbnail" alt="spChains: A Declarative Framework for Data Stream Processing in Pervasive Applications" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/spchains-ant2012-120828132254-phpapp02-thumbnail-2.jpg?cb=1346178329"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">spChains: A 
+  Declarative Framework for Data Stream Processing in Pervasive App...…</SPAN>   
+                        <SPAN 
+  class="h-related-views view-count">784&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="14097465">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="14097465">Liked</A> 
+                  </LI>
+  <LI><A title="There is much more to C" href="http://www.slideshare.net/georgiksk/thereismuchmoretocpp"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="There is much more to C" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/2011-11-28-there-is-much-more-to-cpp-111127164214-phpapp01-thumbnail-2.jpg?cb=1322435722"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">There is much 
+  more to C</SPAN>                         <SPAN class="h-related-views view-count">1151&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="10355190">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="10355190">Liked</A> 
+                  </LI>
+  <LI><A title="Programovanie v C++" href="http://www.slideshare.net/georgiksk/2010-1129programovaniecpp"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Programovanie v C++" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/2010-11-29-programovanie-cpp-101128154011-phpapp01-thumbnail-2.jpg?cb=1290980666"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Programovanie v 
+  C++</SPAN>                         <SPAN 
+  class="h-related-views view-count">2468&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="5953970">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="5953970">Liked</A> 
+                  </LI>
+  <LI><A title="j2ee" href="http://www.slideshare.net/syedmujahedali/j2ee-2660717"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="j2ee" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/cfakepathjava2enterpriseedition1-4bible-091206110507-phpapp01-thumbnail-2.jpg?cb=1260119193"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">j2ee</SPAN>       
+                    <SPAN 
+  class="h-related-views view-count">7931&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2660717">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2660717">Liked</A> 
+                  </LI>
+  <LI><A title="Wrox  Professional  Java  J D K 6  Edition" href="http://www.slideshare.net/syedmujahedali/wrox-professional-java-j-d-k-6-edition"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Wrox  Professional  Java  J D K 6  Edition" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/wroxprofessionaljavajdk6edition-091004153641-phpapp02-thumbnail-2.jpg?cb=1282854392"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Wrox  
+  Professional  Java  J D K 6  Edition</SPAN>                         <SPAN 
+  class="h-related-views view-count">9632&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="2122941">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="2122941">Liked</A> 
+                  </LI>
+  <LI><A title="Lecture 20" href="http://www.slideshare.net/Softwarecentral/lecture-20-3745383"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Lecture 20" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/lecture-203593-thumbnail-2.jpg?cb=1271409560"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Lecture 20</SPAN> 
+                          <SPAN 
+  class="h-related-views view-count">1670&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="3745383">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="3745383">Liked</A> 
+                  </LI>
+  <LI><A title="Javase7 1641812" href="http://www.slideshare.net/vinayhulgar/javase7-1641812"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Javase7 1641812" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/javase7-1641812-121128050659-phpapp01-thumbnail-2.jpg?cb=1354100902"></SPAN> 
+                          </SPAN><SPAN class="h-related-title">Javase7 
+  1641812</SPAN>                         <SPAN class="h-related-views view-count">621&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="15384648">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="15384648">Liked</A> 
+                  </LI></UL>
+<UL class="notranslate  moreContent thumbnailGrid h-author-slideshows j-tab-content" 
+id="moreList" style="display: none;">
+  <LI><A title="Asynchronous Io Programming" href="http://www.slideshare.net/Arbow/asynchronous-io-programming"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Asynchronous Io Programming" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/asynchronous-io-programming1322-thumbnail-2.jpg?cb=1225432115"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Asynchronous Io 
+  Programming</SPAN>                         <SPAN class="h-more-views view-count">19594&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64870">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64870">Liked</A> 
+                  </LI>
+  <LI><A title="Scalable Networking" href="http://www.slideshare.net/Arbow/scalable-networking"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Scalable Networking" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/scalable-networking729-thumbnail-2.jpg?cb=1181899867"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Scalable 
+  Networking</SPAN>                         <SPAN class="h-more-views view-count">5318&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64863">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64863">Liked</A> 
+                  </LI>
+  <LI><A title="Erlang  Message  Passing  Concurrency,  For  The  Win" href="http://www.slideshare.net/Arbow/erlang-message-passing-concurrency-for-the-win"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Erlang  Message  Passing  Concurrency,  For  The  Win" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/erlang-message-passing-concurrency-for-the-win3536-thumbnail-2.jpg?cb=1181899835"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Erlang  Message  
+  Passing  Concurrency,  For  The  Win</SPAN>                         <SPAN 
+  class="h-more-views view-count">11600&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64857">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64857">Liked</A> 
+                  </LI>
+  <LI><A title="Stackless Python In Eve" href="http://www.slideshare.net/Arbow/stackless-python-in-eve"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Stackless Python In Eve" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/stackless-python-in-eve892-thumbnail-2.jpg?cb=1181898543"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Stackless Python In 
+  Eve</SPAN>                         <SPAN 
+  class="h-more-views view-count">35676&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64850">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64850">Liked</A> 
+                  </LI>
+  <LI><A title="Comparing Cpp And Erlang For Motorola Telecoms Software" href="http://www.slideshare.net/Arbow/comparing-cpp-and-erlang-for-motorola-telecoms-software"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Comparing Cpp And Erlang For Motorola Telecoms Software" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/comparing-cpp-and-erlang-for-motorola-telecoms-software3122-thumbnail-2.jpg?cb=1181898178"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Comparing Cpp And 
+  Erlang For Motorola Telecoms Software</SPAN>                         <SPAN 
+  class="h-more-views view-count">19311&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64848">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64848">Liked</A> 
+                  </LI>
+  <LI><A title="The Migration From Erlang To Otp   A Case Study Of A Heavy Duty Tcpip Clientserver Application" 
+  href="http://www.slideshare.net/Arbow/the-migration-from-erlang-to-otp-a-case-study-of-a-heavy-duty-tcpip-clientserver-application"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="The Migration From Erlang To Otp   A Case Study Of A Heavy Duty Tcpip Clientserver Application" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/the-migration-from-erlang-to-otp-a-case-study-of-a-heavy-duty-tcpip-clientserver-application3243-thumbnail-2.jpg?cb=1181898003"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">The Migration From 
+  Erlang To Otp   A Case Study Of A Heavy Duty Tcpip Clients...…</SPAN>          
+                 <SPAN class="h-more-views view-count">3018&nbsp;views</SPAN>    
+                   </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64849">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64849">Liked</A> 
+                  </LI>
+  <LI><A title="Messaging With  Erlang And  Jabber" href="http://www.slideshare.net/Arbow/messaging-with-erlang-and-jabber"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Messaging With  Erlang And  Jabber" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/messaging-with-erlang-and-jabber890-thumbnail-2.jpg?cb=1181895337"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Messaging With  
+  Erlang And  Jabber</SPAN>                         <SPAN class="h-more-views view-count">12960&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64824">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64824">Liked</A> 
+                  </LI>
+  <LI><A title="Improving Robustness In Distributed Systems" href="http://www.slideshare.net/Arbow/improving-robustness-in-distributed-systems"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Improving Robustness In Distributed Systems" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/improving-robustness-in-distributed-systems4041-thumbnail-2.jpg?cb=1181895289"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Improving Robustness 
+  In Distributed Systems</SPAN>                         <SPAN class="h-more-views view-count">2889&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64821">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64821">Liked</A> 
+                  </LI>
+  <LI><A title="Concurrency And Erlang" href="http://www.slideshare.net/Arbow/concurrency-and-erlang-lca2007-andrep"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Concurrency And Erlang" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/concurrency-and-erlang-lca2007-andrep2175-thumbnail-2.jpg?cb=1181895105"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Concurrency And 
+  Erlang</SPAN>                         <SPAN 
+  class="h-more-views view-count">4569&nbsp;views</SPAN>                     
+  </A>                     <A class="h-favorite j-favorite favorite-cta" href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64820">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64820">Liked</A> 
+                  </LI>
+  <LI><A title="Learning Erlang And Developing A Sip Server Stack With 30k Potential Users" 
+  href="http://www.slideshare.net/Arbow/learning-erlang-and-developing-a-sip-server-stack-with-30k-potential-users"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="Learning Erlang And Developing A Sip Server Stack With 30k Potential Users" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/learning-erlang-and-developing-a-sip-server-stack-with-30k-potential-users4712-thumbnail-2.jpg?cb=1181895064"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">Learning Erlang And 
+  Developing A Sip Server Stack With 30k Potential Users</SPAN>                  
+         <SPAN class="h-more-views view-count">4706&nbsp;views</SPAN>            
+           </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64819">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64819">Liked</A> 
+                  </LI>
+  <LI><A title="A Virtual World Distributed Server Developed In Erlang As A Tool For Analysing Needs Of Massively Multiplayer Online Game Servers" 
+  href="http://www.slideshare.net/Arbow/a-virtual-world-distributed-server-developed-in-erlang-as-a-tool-for-analysing-needs-of-massively-multiplayer-online-game-servers"><SPAN 
+  class="thumbWrapper"><SPAN><IMG width="120" class="h-thumbnail" alt="A Virtual World Distributed Server Developed In Erlang As A Tool For Analysing Needs Of Massively Multiplayer Online Game Servers" 
+  src="The%20Proactor%20Pattern_files/thumbnail.png" original="http://cdn.slidesharecdn.com/ss_thumbnails/a-virtual-world-distributed-server-developed-in-erlang-as-a-tool-for-analysing-needs-of-massively-multiplayer-online-game-servers4588-thumbnail-2.jpg?cb=1181894471"></SPAN> 
+                          </SPAN><SPAN class="h-more-title">A Virtual World 
+  Distributed Server Developed In Erlang As A Tool For Analysin...…</SPAN>       
+                    <SPAN class="h-more-views view-count">8907&nbsp;views</SPAN> 
+                      </A>                     <A class="h-favorite j-favorite favorite-cta" 
+  href="http://www.slideshare.net/signup?login_source=slideview.popup.like&amp;from=favorite&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+  rel="nofollow" data-ssid="64816">Like</A>                     <A class="h-favorited j-favorited favorite-cta" 
+  style="display: none;" href="javascript:void();" rel="nofollow" data-ssid="64816">Liked</A> 
+                  </LI></UL></ASIDE></DIV><!-- .sectionElements -->     
+</SECTION><ARTICLE>
+<DIV class="articleElements container">
+<DIV class="articleCore">
+<DIV>
+<DIV class="author"><A title="Arbow" class="notranslate h-author" href="http://www.slideshare.net/Arbow"><IMG 
+width="72" height="72" class="h-author-image photo" alt="l xf" src="The%20Proactor%20Pattern_files/profile-photo-Arbow-96x96.jpg"></A><SPAN 
+class="j-follow"><A class="btn btn-inverse h-follow" href="http://www.slideshare.net/signup?login_source=slideview.popup.follow&amp;from=addcontact&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+rel="nofollow" data-contactee="46050">Follow</A></SPAN>             <SPAN class="hide indicator j-follow-progress h-follow-progress"><IMG 
+width="21" height="5" style="float: none;" alt="Processing..." src="The%20Proactor%20Pattern_files/indicator(1).gif"></SPAN> 
+          </DIV>
+<DIV class="title">
+<H1 class="h-slideshow-title notranslate">The Proactor Pattern</H1>
+<DIV class="h-slideview_likes" id="slideview_likes">
+<DIV class="fb-like" id="slideview_fb_like" data-href="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+data-share="false" data-show-faces="false" data-action="like" data-layout="button_count"></DIV><A 
+class="twitter-share-button" id="slideview_tweet" style="display: inline-block;" 
+href="https://twitter.com/share" data-url="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+data-lang="en">Tweet</A>               
+<DIV class="g-plusone" id="slideview_gp_plusone" style="display: inline-block;" 
+data-callback="plusone_success" href="http://www.slideshare.net/Arbow/the-proactor-pattern" 
+data-size="medium"></DIV></DIV>
+<H2>by <A title="Arbow" class="j-tooltip h-author-name notranslate" href="http://www.slideshare.net/Arbow?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideview" 
+rel="author">l xf</A><SPAN class="job-title-wrapper"><SPAN>,&nbsp;</SPAN><SPAN 
+class="job-title">coder</SPAN></SPAN><SPAN 
+class="company-wrapper"><SPAN>&nbsp;at&nbsp;</SPAN><SPAN 
+class="company">Guangzhou, China</SPAN></SPAN><SPAN class="h-date-container"> on 
+<EM class="h-slideshow-created-at">Jun 15, 2007</EM></SPAN>                      
+   <SPAN class="totalSocial"></SPAN>             </H2></DIV></DIV>
+<UL class="basicStats">
+  <LI><STRONG title="7947 views" 
+  class="j-tooltip h-view-count notranslate">7,947</STRONG> views</LI></UL>
+<DIV class="descToggleMore"><BUTTON class="j-desc-more btn btn-mini" type="button">Show 
+more</BUTTON>         </DIV>
+<P class="descriptionExpanded notranslate">&nbsp;</P>
+<DIV class="row detailedStats h-detail-stats">
+<DIV class="performance-stats">
+<H3><SPAN class="sprite iconAnalytics">Statistics</SPAN></H3></DIV>
+<DIV class="row stats-wrapper">
+<DIV class="h-stats">
+<DIV class="span info-stats">
+<H3>Views</H3>
+<DL class="statistics">
+  <DT class="sprite iconViews">Total Views</DT>
+  <DD class="notranslate views">7,947</DD>
+  <DT class="sprite iconSSViews">Views on SlideShare</DT>
+  <DD class="notranslate on-site">7,943</DD>
+  <DT class="sprite iconEmbedViews">Embed Views</DT>
+  <DD class="notranslate from-embed">4</DD></DL></DIV>
+<DIV class="span info-stats">
+<H3>Actions</H3>
+<DL class="statistics">
+  <DT class="sprite iconFav">Likes</DT>
+  <DD class="notranslate favorites">9</DD>
+  <DT class="sprite iconDownload">Downloads</DT>
+  <DD class="notranslate downloads">169</DD>
+  <DT class="sprite iconComment">Comments</DT>
+  <DD class="notranslate comments">0</DD></DL></DIV>
+<DIV class="span info-stats h-embed-wrapper">
+<H3 class="h-embed-heading embedHeading"><SPAN class="embed-count">2 
+Embeds</SPAN> <SPAN class="notranslate from-embed hint">4</SPAN></H3>
+<DIV class="h-embeds infoEmbeds">
+<TABLE class="notranslate embedDetails">
+  <TBODY>
+  <TR>
+    <TD class="url h-url">http://www.slideshare.net</TD>
+    <TD class="count h-views">3</TD></TR>
+  <TR>
+    <TD class="url h-url">http://www.linkedin.com</TD>
+    <TD class="count h-views">1</TD></TR></TBODY></TABLE></DIV><IMG class="j-waiting-embeds" 
+style="display: none;" src="The%20Proactor%20Pattern_files/indicator(1).gif">    
+           </DIV></DIV></DIV>
+<DIV class="h-generic info-generic">
+<DIV class="span2">
+<H3>Accessibility</H3>
+<UL>
+  <LI class="h-view-text"><A class="j-text-version" href="http://www.slideshare.net/Arbow/the-proactor-pattern#text-version">View 
+  text version</A></LI></UL></DIV>
+<DIV class="span2">
+<H3 class="h-categories-label">Categories</H3>
+<UL class="h-slideshow-categories">
+  <LI class="su-category"><A href="http://www.slideshare.net/category/technology">Technology</A></LI>
+  <LI class="category"><A href="http://www.slideshare.net/category/" rel="nofollow"></A></LI></UL></DIV>
+<DIV class="span2">
+<H3>Upload Details</H3>
+<P>Uploaded via <A class="api-credit-text" href="http://www.slideshare.net/" 
+rel="nofollow">SlideShare</A> <SPAN class="h-as-text">as </SPAN><A class="uploaded-as" 
+href="http://www.slideshare.net/">Adobe PDF</A></P></DIV>
+<DIV class="span2">
+<H3>Usage Rights</H3>
+<P class="license">© All Rights Reserved</P></DIV><!-- Flag begins here-->       
+        
+<DIV class="span2">
+<H3>Report content</H3>
+<DIV class="flag flag-inappropriate"><A class="action-flag" href="http://www.slideshare.net/signup?login_source=slideview.popup.flags&amp;from=flagss&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+rel="nofollow"><SPAN title="This presentation has been flagged" class="j-tooltip flagged">Flagged 
+as inappropriate</SPAN>                     <SPAN title="Flag this presentation as inappropriate" 
+class="j-tooltip flag">Flag as inappropriate</SPAN>                   </A>       
+            
+<FORM style="display: none;" action="#" method="post" accept-charset="utf-8">
+<FIELDSET><LEGEND>Flag as inappropriate</LEGEND>
+<P>Select your reason for flagging this <SPAN 
+class="type-string-down">presentation</SPAN> as inappropriate.</P><SELECT name="ia_value"><OPTION 
+  value="0">None</OPTION>                           <OPTION 
+  value="1">Pornographic</OPTION>                           <OPTION 
+  value="3">Defamatory</OPTION>                           <OPTION 
+  value="4">Illegal/Unlawful</OPTION>                                   <OPTION 
+  value="6">Spam</OPTION>                           <OPTION value="5">Other 
+  Terms Of Service Violation</OPTION>                                            
+                                                                                 
+                                  </SELECT>                       <INPUT class="button action-submit" type="submit" value="Flag"> 
+                      <A class="ilink action-cancel" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+rel="nofollow">Cancel</A>                     </FIELDSET></FORM></DIV><!-- Other issues similar to flagging begins here --> 
+                
+<DIV><A href="http://www.linkedin.com/legal/copyright-policy" 
+rel="nofollow">File a copyright complaint</A>                 </DIV><!-- End other issues --> 
+              </DIV><!-- Flag ends here-->               <!-- SuperUser actions being here--> 
+              <!-- SuperUser actions end here-->           </DIV></DIV>
+<DIV class="descToggle"><BUTTON class="j-desc-less btn btn-mini" 
+type="button">Show less</BUTTON>         </DIV></DIV><!-- .articleCore -->       
+  </DIV><!-- .articleElements -->     </ARTICLE>
+<DIV class="assets container">
+<DIV class="commentsNotes">
+<UL class="tabs">
+  <LI class="active h-comments-tab j-comments"><A class="j-comments-tab" href="http://www.slideshare.net/Arbow/the-proactor-pattern#"><EM 
+  class="h-comments-count">No comments yet</EM></A></LI>
+  <LI class="j-notes"><A class="j-notes-tab" href="http://www.slideshare.net/Arbow/the-proactor-pattern#">Notes 
+  on Slide <EM class="which-slide-value notranslate">1</EM></A></LI></UL>
+<DIV class="commentsWrapper">
+<UL class="commentWrapper h-comment-list" id="commentsList" style="display: none;"></UL>
+<FORM class="postComment h-comment-post" id="postComment" action="#" method="post" 
+accept-charset="utf-8">
+<FIELDSET><TEXTAREA class="h-post-comment-textarea j-post-comment-textarea" rows="4" cols="40"></TEXTAREA>
+<DIV class="h-non-user-message postCommentSubmit"><LABEL class="comments-subscribe checkbox"><INPUT 
+id="followupComments" type="checkbox" checked="checked"> Subscribe to 
+comments</LABEL><A class="btn btn-inverse" id="login-provider-slideshare" href="http://www.slideshare.net/signup?login_source=slideview.popup.comment&amp;from=comments&amp;from_source=http%3A%2F%2Fwww.slideshare.net%2FArbow%2Fthe-proactor-pattern" 
+rel="nofollow">Post Comment</A>                 </DIV><!-- .h-non-user-message --> 
+                              </FIELDSET></FORM>
+<FORM class="updateComment update-form" action="#" method="post" accept-charset="utf-8">
+<FIELDSET><LEGEND>Edit your 
+comment</LEGEND><TEXTAREA rows="4" cols="40"></TEXTAREA><INPUT class="btn btn-mini action-update" type="submit" value="Update"> 
+                <BUTTON class="btn btn-mini action-cancel">Cancel</BUTTON>       
+        </FIELDSET></FORM></DIV>
+<UL class="notranslate tabContent h-notes notesWrapper" 
+id="notesList"></UL></DIV><!-- Favorites and Downloads start -->         
+<DIV class="favsDownloads">
+<UL class="tabs">
+  <LI class="active h-favorites-tab j-favorites"><A href="http://www.slideshare.net/Arbow/the-proactor-pattern#favsList" 
+  rel="nofollow"><EM class="h-favorites-count">9 Likes</EM></A></LI></UL>
+<UL class="favWrapper h-favs-list" id="favsList">
+  <LI><A title="hayaya" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/hayaya?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="hayaya" src="The%20Proactor%20Pattern_files/user-48x48.png" 
+  original="//cdn.slidesharecdn.com/profile-photo-hayaya-48x48.jpg?cb=1396180945"><STRONG 
+  class="h-username ">Peng Kai</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role">, 
+  software engineering </SPAN><SPAN class="h-favoriter-org"> at seeyon 
+  software</SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">5 days ago</SPAN>             </LI>
+  <LI><A title="nagarakesh4" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/nagarakesh4?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="nagarakesh4" 
+  src="The%20Proactor%20Pattern_files/user-48x48.png" original="//cdn.slidesharecdn.com/profile-photo-nagarakesh4-48x48.jpg?cb=1396395192"><STRONG 
+  class="h-username ">Naga Rakesh</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role">, 
+  Systems Engineer </SPAN><SPAN class="h-favoriter-org"> at Tata Consultancy 
+  Services</SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">2 weeks ago</SPAN>             </LI>
+  <LI><A title="andreas-darsh" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/andreas-darsh?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="andreas-darsh" 
+  src="The%20Proactor%20Pattern_files/user-48x48.png" original="//public.slidesharecdn.com/b/images/user-48x48.png"><STRONG 
+  class="h-username ">andreas-darsh</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role"></SPAN><SPAN 
+  class="h-favoriter-org"></SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">1 month ago</SPAN>             </LI>
+  <LI><A title="andrecs2" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/andrecs2?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="andrecs2" 
+  src="The%20Proactor%20Pattern_files/user-48x48.png" original="//public.slidesharecdn.com/b/images/user-48x48.png"><STRONG 
+  class="h-username ">andrecs2</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role"></SPAN><SPAN 
+  class="h-favoriter-org"></SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">4 months ago</SPAN>             </LI>
+  <LI><A title="handol" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/handol?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="handol" src="The%20Proactor%20Pattern_files/user-48x48.png" 
+  original="//cdn.slidesharecdn.com/profile-photo-handol-48x48.jpg?cb=1395376675"><STRONG 
+  class="h-username ">Daehee Han</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role">, 
+  SW &amp; Service Designer/Developer, Mentor </SPAN><SPAN class="h-favoriter-org"> 
+  at Software Maestro</SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">1 year ago</SPAN>             </LI>
+  <LI><A title="norwaywoods" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/norwaywoods?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="norwaywoods" 
+  src="The%20Proactor%20Pattern_files/user-48x48.png" original="//cdn.slidesharecdn.com/profile-photo-norwaywoods-48x48.jpg?cb=1395760772"><STRONG 
+  class="h-username ">Jian Liao</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role">, 
+  Software Engineer </SPAN><SPAN class="h-favoriter-org"> at 
+  Oracle</SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate">Tags 
+  <STRONG><A href="http://www.slideshare.net/tag/proactor-scalable-i-o" rel="nofollow">proactor 
+  scalable i/o</A></STRONG></SPAN><SPAN class="favoriteMeta">2 years ago</SPAN>  
+             </LI>
+  <LI><A title="guhelouis" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/guhelouis?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="guhelouis" 
+  src="The%20Proactor%20Pattern_files/user-48x48.png" original="//cdn.slidesharecdn.com/profile-photo-guhelouis-48x48.jpg?cb=1387335297"><STRONG 
+  class="h-username ">Guhe Louis</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role"></SPAN><SPAN 
+  class="h-favoriter-org"></SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN 
+  class="favoriteMeta">2 years ago</SPAN>             </LI>
+  <LI><A title="dissert" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/dissert?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="dissert" src="The%20Proactor%20Pattern_files/user-48x48.png" 
+  original="//public.slidesharecdn.com/b/images/user-48x48.png"><STRONG class="h-username ">dissert</STRONG><SPAN 
+  class="bioStub"><SPAN class="h-favoriter-role"></SPAN><SPAN class="h-favoriter-org"></SPAN></SPAN> 
+                </A><SPAN class="favTags h-tags notranslate"></SPAN><SPAN class="favoriteMeta">3 
+  years ago</SPAN>             </LI>
+  <LI><A title="cpunion" class="notranslate favoriter h-favoriter" href="http://www.slideshare.net/cpunion?utm_campaign=profiletracking&amp;utm_medium=sssite&amp;utm_source=ssslideshow" 
+  rel="nofollow"><IMG width="48" height="48" class="nickname" alt="cpunion" src="The%20Proactor%20Pattern_files/user-48x48.png" 
+  original="//public.slidesharecdn.com/b/images/user-48x48.png"><STRONG class="h-username ">Li 
+  Jie</STRONG><SPAN class="bioStub"><SPAN class="h-favoriter-role"></SPAN><SPAN 
+  class="h-favoriter-org"></SPAN></SPAN>               </A><SPAN class="favTags h-tags notranslate">Tags 
+  <STRONG><A href="http://www.slideshare.net/tag/proactor" 
+  rel="nofollow">proactor</A></STRONG> <STRONG><A href="http://www.slideshare.net/tag/pattern" 
+  rel="nofollow">pattern</A></STRONG></SPAN><SPAN class="favoriteMeta">5 years 
+  ago</SPAN>             </LI></UL>
+<DIV class="viewMore action-morefavs j-favs-more" style="display: none;"><A 
+class="btn btn-inverse" href="http://www.slideshare.net/Arbow/the-proactor-pattern#" 
+rel="nofollow">More…</A></DIV></DIV><!-- Favorites and Downloads end -->         
+<DIV class="notranslate transcript h-slideshow-transcript-bottom"><A id="text-version" 
+rel="nofollow"></A>             
+<H2 class="h-slideshow-title"><SPAN class="slideshow-thumb"><IMG width="90" alt="The Proactor Pattern" 
+src="The%20Proactor%20Pattern_files/the-proactor-pattern4606-thumbnail-2.jpg">   
+            </SPAN><SPAN class="presentation-title notranslate">The Proactor 
+Pattern</SPAN><SPAN class="h-title-meta title-meta">Presentation 
+Transcript</SPAN></H2>
+<UL class="transcripts h-transcripts">
+  <LI>Intro Making things work           Verdict The Proactor Pattern          
+  Ant´nio Sousa             o                      UU 30 de Setembro de 2005     
+  Ant´nio Sousa        o                  The Proactor Pattern</LI>
+  <LI>Intro                                              Proactor?               
+           Making things work                                              In 
+  detail...                                   Verdict Outline      Intro  1      
+     Proactor?         In detail...      Making things work  2       JAVA!       
+  Some code      Verdict  3        Consequences        Finale                    
+           Ant´nio Sousa                                o             The 
+  Proactor Pattern</LI>
+  <LI>Intro                                             Proactor?                
+         Making things work                                             In 
+  detail...                                  Verdict Dictionary deﬁnition  
+  proactive  adjective  (of a person, policy or action) creating or controlling 
+  a situation by  causing something to happen rather than responding to it after 
+  it  has happened: be proactive in identifying and preventing potential  
+  problems                            Ant´nio Sousa                              
+   o             The Proactor Pattern</LI>
+  <LI>Intro                                            Proactor?                 
+       Making things work                                            In 
+  detail...                                 Verdict My deﬁnition  proactor  
+  pattern  allows an eﬃcient use of the asynchronous mechanisms provided  by 
+  operating systems in event-driven applications, by integrating  the 
+  demultiplexing of completion events and the dispatching of  their event 
+  handlers;                           Ant´nio Sousa                              
+  o             The Proactor Pattern</LI>
+  <LI>Intro                                             Proactor?                
+         Making things work                                             In 
+  detail...                                  Verdict A little background      
+  Asynchronous I/O          Operations run in the background and do not block 
+  user          applications (libaio, linux kernel 2.6, Windows NT)      
+  Completion events          When an asynchronous I/O operation ﬁnishes a 
+  completion          event is generated saying that the operation is completed 
+  (or          not)      Event handlers          The application-speciﬁc 
+  component that processes the results          of the asynchronous operations   
+                           Ant´nio Sousa                               o         
+      The Proactor Pattern</LI>
+  <LI>Intro                                            Proactor?                 
+       Making things work                                            In 
+  detail...                                 Verdict Why do we need this?  In 
+  multithreaded or reactive concurrency designs we have:      Synchronization 
+  complexity      Performance overhead (context switching)      Complex 
+  programming  Proactor Pattern!  Performance in concurrency without its 
+  liabilities                           Ant´nio Sousa                            
+    o             The Proactor Pattern</LI>
+  <LI>Intro                                           Proactor?                  
+     Making things work                                           In detail...   
+                               Verdict Participants  Asynchronous operations  
+  Potentially long-duration operations implementing some kind of  service 
+  (invoked on a handle) that executes without blocking  Completion handlers  
+  Interface deﬁning the hook methods for processing the completion  events 
+  generated by asynchronous operations  Asynchronous operation processor  
+  Executes the asynchronous operations to completion generating  and queuing the 
+  corresponding completion events                          Ant´nio Sousa         
+                      o             The Proactor Pattern</LI>
+  <LI>Intro                                           Proactor?                  
+     Making things work                                           In detail...   
+                               Verdict Participants  Completion event queue  
+  Buﬀer where the asynchronous operation processor queues the  completion events 
+  associated with a speciﬁc handle  Completion Dispatcher (Proactor)  Makes use 
+  of the asynchronous event demultiplexer to dequeue  completion event and then 
+  dispatches them to the correspondent  hook method of the completion handler  
+  Initiator  Any entity in the application that invokes an asynchronous  
+  operation                          Ant´nio Sousa                             o 
+              The Proactor Pattern</LI>
+  <LI>Intro                                       Proactor?                 
+  Making things work                                       In detail...          
+                    Verdict Collaborations                      Ant´nio Sousa    
+                       o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                         Proactor?                   
+  Making things work                                         In detail...        
+                        Verdict A little analogy                        Ant´nio 
+  Sousa                           o             The Proactor Pattern</LI>
+  <LI>Intro                                              JAVA!                   
+       Making things work                                              Some code 
+                                    Verdict java.nio.*  Features  The NIO APIs 
+  include the following features:       Buﬀers for data of primitive types       
+  Character-set encoders and decoders       A pattern-matching facility based on 
+  Perl-style regular       expressions       Channels, a new primitive I/O 
+  abstraction       A ﬁle interface that supports locks and memory mapping       
+  A multiplexed, non-blocking I/O facility for writing scalable       servers  
+  source: http://java.sun.com/j2se/1.4.2/docs/guide/nio/                         
+      Ant´nio Sousa                                o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                              JAVA!                   
+       Making things work                                              Some code 
+                                    Verdict java.nio.*  Features  The NIO APIs 
+  include the following features:       Buﬀers for data of primitive types       
+  Character-set encoders and decoders       A pattern-matching facility based on 
+  Perl-style regular       expressions       Channels, a new primitive I/O 
+  abstraction       A ﬁle interface that supports locks and memory mapping       
+  A multiplexed, non-blocking I/O facility for writing scalable       servers  
+  source: http://java.sun.com/j2se/1.4.2/docs/guide/nio/                         
+      Ant´nio Sousa                                o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                            JAVA!                     
+   Making things work                                            Some code       
+                            Verdict This sounds interesting!  java.nio.channels  
+  Deﬁnes channels, which represent connections to entities that are  capable of 
+  performing I/O operations, such as ﬁles and sockets;  deﬁnes selectors, for 
+  multiplexed, non-blocking I/O operations.   SocketChannel              
+  Selector                             SelectionKey   A selectable               
+  A multiplexor of                     A token   channel for                
+  SelectableChan-                      representing the   stream-oriented        
+      nel                                  registration of a   connecting        
+           objects.                             SelectableChan-    sockets.      
+                                                    nel with a                   
+                                                  Selector.                      
+       Ant´nio Sousa                              o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                            JAVA!                     
+   Making things work                                            Some code       
+                            Verdict Completion handler      Type for the results 
+   SelectionKey  Allows: deﬁning operation type; obtaining the selector and the  
+  channel associated; include any Object as an attachment      Type of 
+  dispatching (objects/function pointers)      Dispatch strategy 
+  (single/multimethod)  CompletionHandler.java  public interface 
+  CompletionHandler {    public void handleEvent(SelectionKey sk);  }            
+                 Ant´nio Sousa                              o             The 
+  Proactor Pattern</LI>
+  <LI>Intro                                         JAVA!                   
+  Making things work                                         Some code           
+                     Verdict Asynchronous operation processor     Asynchronous 
+  operation interface (Wrapper facade/ACT)     Asynchronous operation processor 
+  mechanism                        Ant´nio Sousa                           o     
+          The Proactor Pattern</LI>
+  <LI>Intro                                            JAVA!                     
+   Making things work                                            Some code       
+                            Verdict Proactor      Hierarchy (multi-plattform 
+  proactors)      Completion event queue and demultiplexing mechanisms  Selector 
+   Queue: key set, selected-key set, cancelled-key set  Demultiplexing: select() 
+  method      Dispatch strategy      Concrete implementation                     
+        Ant´nio Sousa                              o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                           JAVA!                     
+  Making things work                                           Some code         
+                         Verdict Proactor  Proactor.java  public class Proactor 
+  {    private Selector selector;    public Proactor() {      selector =        
+  SelectorProvider.provider().openSelector();    }    public void 
+  register(SelectableChannel handle,               int eventType, Object 
+  completionHandler) {      handle.register(selector, eventType, 
+  completionHandler);    }    (...)                          Ant´nio Sousa       
+                        o             The Proactor Pattern</LI>
+  <LI>Intro                                             JAVA!                    
+     Making things work                                             Some code    
+                                Verdict Proactor  Proactor.java      (...)      
+  public void handleEvent() {        while (selector.select() &gt; 0) {          
+  Set readyKeys = selector.selectedKeys();          Iterator i = 
+  readyKeys.iterator();          while (i.hasNext()) {            SelectionKey 
+  sk = (SelectionKey) i.next();            i.remove();            
+  (CompletionHandler) sk.attachment()).handleEvent(sk);          }        }      
+  }  }                            Ant´nio Sousa                               o  
+             The Proactor Pattern</LI>
+  <LI>Intro                                           JAVA!                     
+  Making things work                                           Some code         
+                         Verdict Concrete completion handlers      State      
+  Handles      Implementation  Acceptor.java  public class Acceptor implements 
+  CompletionHandler{    private SocketAddress address;    private 
+  ServerSocketChannel ssc;    private Proactor proactor;    (...)                
+            Ant´nio Sousa                             o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                          JAVA!                    
+  Making things work                                          Some code          
+                       Verdict Concrete completion handlers  Acceptor.java   
+  (...)   public Acceptor(Proactor p, String host, int port) {     address = new 
+  InetSocketAddress(host, port);     proactor = p;   }   public void accept() {  
+     ssc = ServerSocketChannel.open();     ssc.configureBlocking(false);     
+  ssc.socket().bind(this.address);     proactor.register(ssc, 
+  SelectionKey.OP_ACCEPT, this);   }   (...)                         Ant´nio 
+  Sousa                            o             The Proactor Pattern</LI>
+  <LI>Intro                                             JAVA!                    
+     Making things work                                             Some code    
+                                Verdict Concrete completion handlers  
+  Acceptor.java      (...)      public void handleEvent(SelectionKey sk) {       
+   ServerSocketChannel handle =          (ServerSocketChannel) sk.channel();     
+     SocketChannel s = null;        s = handle.accept();        
+  s.configureBlocking(false);        Worker w = new Worker(proactor, s);        
+  w.work();      }  }                            Ant´nio Sousa                   
+              o             The Proactor Pattern</LI>
+  <LI>Intro                                           JAVA!                     
+  Making things work                                           Some code         
+                         Verdict Concrete completion handlers  Worker.java  
+  public class Worker implements CompletionHandler {    private Proactor 
+  proactor;    private SocketChannel socket;    private ByteBuffer b_read;    
+  private ByteBuffer b_write;    public Worker(Proactor p, SocketChannel s) {    
+    proactor = p;      socket = s;      b_read = 
+  ByteBuffer.allocateDirect(1024);    }    (...)                          
+  Ant´nio Sousa                             o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                             JAVA!                    
+     Making things work                                             Some code    
+                                Verdict Concrete completion handlers  
+  Worker.java      (...)      public void work() {        socket.read(b_read);   
+       proactor.register(socket, SelectionKey.OP_READ, this);  }      public 
+  void handleEvent(SelectionKey sk) {        System.out.println(new 
+  String(b_read.array()));      }  }                            Ant´nio Sousa    
+                             o             The Proactor Pattern</LI>
+  <LI>Intro                                           JAVA!                     
+  Making things work                                           Some code         
+                         Verdict Server  Server.java  public class Server {    
+  public static void main(String args[]) {      Proactor proactor = new 
+  Proactor();      Acceptor acceptor =        new Acceptor(proactor, 
+  quot;localhostquot;, 9999);      acceptor.accept();      
+  proactor.handleEvent();    }  }                          Ant´nio Sousa         
+                      o             The Proactor Pattern</LI>
+  <LI>Intro                                          Consequences                
+      Making things work                                          Finale         
+                        Verdict Beneﬁts     Separation of concerns     
+  Portability     Diﬀerent concurrency mechanisms     Simpliﬁcation of 
+  application synchronization                         Ant´nio Sousa              
+                o             The Proactor Pattern</LI>
+  <LI>Intro                                         Consequences                 
+    Making things work                                         Finale            
+                    Verdict Drawbacks     Eﬃciency depends on the platform     
+  Complexity of programming, debugging and testing     Scheduling and 
+  controlling asynchronous operations                        Ant´nio Sousa       
+                      o             The Proactor Pattern</LI>
+  <LI>Intro                                            Consequences              
+          Making things work                                            Finale   
+                                Verdict Variants  Asynchronous Completion 
+  Handlers  All completion handlers are required to act as initiators  
+  Concurrent Asynchronous Event Demultiplexer  The proactor demultiplexes and 
+  dispatches completion handlers  concurrently  Shared Completion Handlers  
+  Initiators can invoke multiple asynchronous operations at the same  time 
+  sharing the same completion handler  Asynchronous Operation Processor 
+  Emulation  When asynchronous operations are not available in the OS, it’s  
+  possible to emulate them (thread per operation,thread pool)                    
+         Ant´nio Sousa                              o             The Proactor 
+  Pattern</LI>
+  <LI>Intro                                           Consequences               
+        Making things work                                           Finale      
+                            Verdict Known uses  Completion ports in Windows NT  
+  Windows NT acts as an asynchronous operation processor:  supports various 
+  types of asynchronous operations; generates  completion events and queues them 
+  in completion ports  POSIX AIO  aio*() family APIs; similar to Windows NT  ACE 
+  Proactor Framework  ACE provides a portable Proactor framework (AceProactor)  
+  Device driver interrupt-handling mechanisms  Hardware devices driven by 
+  asynchronous interrupts                          Ant´nio Sousa                 
+              o             The Proactor Pattern</LI>
+  <LI>Intro                                           Consequences               
+        Making things work                                           Finale      
+                            Verdict Related patterns  Asynchronous completion 
+  token  Usually used in conjunction with the Proactor pattern. For every  
+  asynch op invoked, an ACT is created and returned to the caller  when the 
+  operation ﬁnishes  Observer  All dependents are updated automatically when a 
+  change occurs;  in the Proactor handlers are informed automatically when 
+  events  occur  Reactor  Considered an asynchronous version of the Reactor 
+  Pattern                          Ant´nio Sousa                             o   
+            The Proactor Pattern</LI>
+  <LI>Intro                                           Consequences               
+        Making things work                                           Finale      
+                            Verdict Related patterns  Active Object  Decouples 
+  method execution from invocation; in Proactor Pattern  the asynchronous 
+  processor performs operation on behalf of the  initiators  Chain of 
+  Responsability  Decouples event handlers from event sources; initiators and  
+  completion handlers in Proactor (although in CoR the source has  no knowledge 
+  about which handler will be executed)  Leader/Followers and 
+  Half-Sync/Half-Async  Demultiplex and process various types of events 
+  synchronously                          Ant´nio Sousa                           
+    o             The Proactor Pattern</LI>
+  <LI>Intro                                       Consequences             
+  Making things work                                       Finale                
+          Verdict Questions?                                   ?                 
+   Ant´nio Sousa                     o                 The Proactor Pattern</LI>
+  <LI>Intro                                            Consequences              
+          Making things work                                            Finale   
+                                Verdict Question  Considerer the following 
+  Proactor design decisions:      Multiple-proactor implementation      Spawned 
+  thread per event  Describe the diﬀerent uses, advantages and disadvantages of 
+  both  decisions                           Ant´nio Sousa                        
+        o             The Proactor Pattern</LI></UL></DIV><!-- .transcript -->     
+</DIV><!-- .assets -->            <FOOTER>
+<DIV class="footerWrapper">
+<DIV class="footer">
+<DIV class="footerLeft"><!-- .social-links -->            
+<DIV class="social-links">
+<UL>
+  <LI><A class="iconLinkedInFooter" href="http://www.linkedin.com/company/slideshare" 
+  target="_blank" rel="nofollow">Follow us on LinkedIn</A></LI>
+  <LI><A class="iconTwitterFooter" href="http://twitter.com/SlideShare" target="_blank" 
+  rel="nofollow">Follow us on Twitter</A></LI>
+  <LI><A class="iconFacebookFooter" href="http://www.facebook.com/slideshare" 
+  target="_blank" rel="nofollow">Find us on Facebook</A></LI>
+  <LI><A class="iconGooglePlusFooter" href="http://www.google.com/+SlideShare" 
+  target="_blank" rel="publisher">Find us on Google+</A></LI></UL></DIV><!-- /.social-links --> 
+            </DIV>
+<DIV class="links footerRight">
+<DIV class="fColumn fColumnSmall">
+<UL class="linksList">
+  <LI><STRONG>Learn About Us</STRONG></LI>
+  <LI><A title="About us" href="http://www.slideshare.net/about">About</A></LI>
+  <LI><A title="Careers" 
+  href="http://www.slideshare.net/about/workatslideshare">Careers</A></LI>
+  <LI><A title="Our Blog" href="http://blog.slideshare.net/">Our Blog</A></LI>
+  <LI><A title="Press" href="http://www.slideshare.net/about/press" rel="nofollow">Press</A></LI>
+  <LI><A title="Contact us" href="http://www.slideshare.net/about/contactus" 
+  rel="nofollow">Contact Us</A></LI>
+  <LI><A title="Get Help" id="j-helpLink" href="http://help.slideshare.com/home" 
+  rel="nofollow">Help &amp; Support</A></LI></UL></DIV><!-- .fColumn -->           
+    
+<DIV class="fColumn fColumnMid">
+<UL class="linksList">
+  <LI><STRONG>Using SlideShare</STRONG></LI>
+  <LI><A title="SlideShare 101" href="http://www.slideshare.net/about" rel="nofollow">SlideShare 
+  101</A></LI>
+  <LI><A title="Terms of Use" href="http://www.linkedin.com/legal/user-agreement" 
+  rel="nofollow">Terms of Use</A></LI>
+  <LI><A title="Privacy Policy" href="http://www.linkedin.com/legal/privacy-policy" 
+  rel="nofollow">Privacy Policy</A></LI>
+  <LI><A title="Copyright &amp; DMCA" href="http://www.linkedin.com/legal/copyright-policy" 
+  rel="nofollow">Copyright &amp; DMCA</A></LI>
+  <LI><A title="Community Guidelines" href="http://www.slideshare.net/community_guidelines" 
+  rel="nofollow">Community Guidelines</A></LI>
+  <LI><A title="SlideShare Mobile" href="http://www.slideshare.net/mobile?enable_mobile=true" 
+  rel="nofollow">SlideShare on Mobile</A></LI></UL></DIV><!-- .fColumn -->         
+      
+<DIV class="fColumn">
+<UL class="linksList">
+  <LI><STRONG>Pro &amp; more</STRONG></LI>
+  <LI><A title="Go PRO" href="http://www.slideshare.net/business/premium/plans?cmp_src=general&amp;cmp_src_from=footer">Go 
+  PRO</A></LI>
+  <LI><A title="PRO Features" href="http://www.slideshare.net/features?cmp_src=general&amp;cmp_src_from=footer&amp;tabs=true" 
+  rel="nofollow">PRO Features</A></LI></UL></DIV><!-- .fColumn -->               
+<DIV class="fColumn last">
+<UL class="linksList">
+  <LI><STRONG>Developers &amp; API</STRONG></LI>
+  <LI><A href="http://www.slideshare.net/developers" rel="nofollow">Developers 
+  Section</A></LI>
+  <LI><A href="http://groups.google.com/group/slideshare-developers?lnk=srg" 
+  rel="nofollow">Developers Group</A></LI>
+  <LI><A title="Engineering Blog" 
+  href="http://engineering.slideshare.net/">Engineering Blog</A></LI>
+  <LI><A title="Widgets for your blog" href="http://www.slideshare.net/widgets/blogbadge">Blog 
+  Widgets</A></LI></UL></DIV><!-- .fColumn -->             </DIV><!-- .links -->   
+          
+<DIV class="copyright">
+<P>LinkedIn Corporation © 2014</P><A class="rssFooter" href="http://www.slideshare.net/rss/latest" 
+rel="nofollow">RSS Feed</A>
+<DIV id="smt-lang-selector"></DIV></DIV></DIV><!-- .footer -->             <IMG 
+width="1" height="1" alt="" src="The%20Proactor%20Pattern_files/noauthtracker.gif"> 
+           </DIV><!-- .footerWrapper -->            </FOOTER>
+<SCRIPT id="page-load-loggedout" type="text/javascript" charset="utf-8">
+    // <![CDATA[
+      $(document).ready(function() {
+        var loadAdditionalFunctionality = function(){
+          e = document.createElement('script');
+          e.type = 'text/javascript';
+          e.async = true;
+          e.src =  '//public.slidesharecdn.com/b/slideview/scripts/combined_loggedout.js?be233e3f';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(e, s);
+        };
+        if(document.readyState === 'complete'){
+          loadAdditionalFunctionality();
+        }else{
+          if(window.addEventListener){
+            window.addEventListener('load', loadAdditionalFunctionality, false);
+          }else if(window.attachEvent){
+            window.attachEvent('onload', loadAdditionalFunctionality);
+          }
+        }
+      });
+    // ]]>
+    </SCRIPT>
+                                                                                 
+                                                                                 
+  </BODY></HTML>

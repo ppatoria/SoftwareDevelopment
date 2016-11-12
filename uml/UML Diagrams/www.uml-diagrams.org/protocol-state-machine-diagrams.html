@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/protocol-state-machine-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:16:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML protocol state machine diagrams overview, show usage protocol or a lifecycle of a classifier, operations of the classifier called in each state of the classifier and under which specific conditions.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML protocol state machine diagrams are used to show usage protocol or a lifecycle of a classifier, which operations of the classifier may be called in each state of the classifier and under which specific conditions." />
+<meta name="keywords" content="UML, 2.5, diagrams, protocol, state machine" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 121221 -->
+<div id="globalNav">
+  <div>
+    <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+  </div>
+<div>
+ <a href="state-machine-diagrams.html"
+  title="UML state machine diagrams - overview of graphical notation"  >State machine diagrams</a>
+</div>
+<div>
+ <a href="protocol-state-machine-diagrams.html"
+  title="UML protocol state machine diagrams - overview of graphical notation" class="active-nav" >Protocol state machines</a>
+</div>
+<div>
+ <a href="state-machine-diagrams-reference.html"
+   title="UML state machine diagrams reference"  >Reference</a>
+</div>
+<div>
+    <a href="state-machine-diagrams-examples.html"
+     title="Examples of UML state machine diagrams"  >State machine examples</a>
+</div>
+  <div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Protocol State Machine Diagrams</h1>
+
+<p>
+UML protocol state machine diagrams are used to express
+ a <strong>usage protocol</strong> or a <strong>lifecycle</strong>
+ of some <a href="classifier.html" class="ref-link">classifier</a>.
+ It shows which operations of the classifier may be called in each state of the classifier,
+ under which specific conditions, and satisfying some optional postconditions 
+ after the classifier transitions to a target state.
+</p>
+
+<p>
+Because these diagrams show lifecycle, they are useful to show different stable states
+ of a class of objects which could exist for some time, and to explain how objects could change
+ their states over the time.
+ For example, we can show how User Account could be created, activated, suspended, and cancelled.
+</p>
+
+<p>
+Major elements of the protocol state machine diagram are 
+ <a href="protocol-state-machine-diagrams.html#protocol-state" class="ref-link">protocol state</a>,
+ <a href="protocol-state-machine-diagrams.html#protocol-transition" class="ref-link">protocol transition</a>,
+ and different <a href="state-machine-diagrams.html#pseudostate" class="ref-link">pseudostates</a>,
+ as shown on the overview diagram below.
+</p>
+
+<div class="figure-left-120">
+<img src="state-machine-diagrams/protocol-state-machine-diagram-overview.png" width="700" height="686"
+ alt="UML protocol state machine diagram overview, major elements." 
+ title="UML protocol state machine diagram overview, major elements." />
+<p class="figure-text">
+Protocol state machine diagram overview.
+</p>
+</div>
+
+<p>
+Protocol state machine diagram is virtually synonym of the
+ <a href="protocol-state-machine-diagrams.html#protocol-state-machine" class="ref-link">protocol state machine</a>
+ as one diagram usually shows one protocol machine.
+</p>
+
+
+<!--
+***********************
+ Protocol State Machine
+***********************
+-->
+
+<h2 id="protocol-state-machine">Protocol State Machine</h2>
+
+<p>
+<strong>Protocol state machine</strong> is a specialization of
+ <a href="state-machine-diagrams.html#behavioral-state-machine" class="ref-link">behavioral state machine</a>
+ and is used to express <strong>usage protocol</strong> or <strong>lifecycle</strong>
+ of a <a href="classifier.html" class="ref-link">classifier</a>.
+ It specifies which operations of the classifier can be called in which state and under which condition,
+ thus specifying the allowed call sequences on the classifier’s operations.  
+Protocol state machines express the legal transitions that a classifier can trigger.
+</p>
+ 
+<p>
+Protocol state machine is always defined in the <strong>context</strong> of a classifier.
+ A classifier may have several protocol state machines.
+</p>
+
+<p>
+All transitions of a protocol state machine must be
+ <a href="protocol-state-machine-diagrams.html#protocol-transition" class="ref-link">protocol transitions</a>.
+</p>
+
+<p>
+The notation for protocol state machine is similar to the one of behavioral state machines.
+ The keyword <strong>{protocol}</strong> is placed close to the name of the state machine to differentiate 
+ protocol state machine diagrams.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/protocol-state-machine-frame.png" width="300" height="211"
+ alt="Protocol state machine for URLConnection class." 
+ title="Protocol state machine for URLConnection class." />
+<p class="figure-text">
+Protocol state machine for URLConnection class
+</p>
+</div>
+
+
+<!--
+****************
+ Protocol State
+****************
+-->
+
+<h2 id="protocol-state">Protocol State</h2>
+
+<p>
+The states of a protocol state machine (protocol states) present an <strong>external view</strong> of the class
+ that is exposed to its clients.
+Depending on the context, protocol states can correspond to the internal states of the instances
+ as expressed by behavioral state machines, or they can be different.
+</p>
+
+<p>
+The states of protocol state machines are exposed to the users of their context classifiers.
+ A protocol state represents an exposed stable situation of its context classifier:
+ When an instance of the classifier is not processing any operation, users
+ of this instance can always know its state configuration.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/protocol-state-simple.png" width="100" height="56"
+ alt="Simple protocol state Running." 
+ title="Simple protocol state Running." />
+<p class="figure-text">
+Simple protocol state <strong>Running</strong>.
+</p>
+</div>
+
+<p>
+States of a protocol state machine cannot have entry, exit, or do activity actions.
+Protocol state machines also cannot have deep or shallow history pseudostates.
+</p>
+
+<p>
+Protocol state machines can have
+ <a href="state-machine-diagrams.html#submachine-state" class="ref-link">submachine states</a>,
+ <a href="state-machine-diagrams.html#composite-state" class="ref-link">composite states</a>,
+ and concurrent regions.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/protocol-state-composite.png" width="340" height="208"
+ alt="Simple composite protocol state Runnable." 
+ title="Simple composite protocol state Runnable." />
+<p class="figure-text">
+Simple composite protocol state <strong>Runnable</strong>.
+</p>
+</div>
+
+<p>
+For example, concurrent regions make it possible to express protocol where an instance can have several
+ active states simultaneously. Substate machines and compound
+transitions are used as in behavioral state machines for factorizing complex protocol state machines.
+</p>
+
+
+<!--
+*********************
+ Protocol Transition
+*********************
+-->
+
+<h2 id="protocol-transition">Protocol Transition</h2>
+
+<p>
+A <strong>protocol transition</strong> is specialization of
+ <a href="state-machine-diagrams.html#behavioral-transition" class="ref-link">(behavioral) transition</a>
+ used for the protocol state machines which specifies a legal transition
+ for an <a href="class-diagrams.html#operation" class="ref-link">operation</a>.
+ Protocol transition has
+ the following <a href="uml-core.html#feature" class="ref-link">features</a>:
+ a pre-condition (guard),
+ <a href="common-behaviors.html#trigger" class="ref-link">trigger</a>,
+ and a post-condition.
+</p>
+
+<p>
+Protocol transition is usually associated with some operation that belongs
+ to the context classifier of the protocol state machine.
+ The protocol transition specifies that the associated (referred) operation can be called for an instance
+ in the origin state under the initial condition (guard), and that at the end of the transition,
+ the destination state will be reached with the post condition satisfied.
+</p>
+
+<p>
+Compound transitions can also be used for protocol state machines.
+</p>
+
+<p>
+Protocol transition is rendered as a transition arrow
+ from the source <a href="state-machine-diagrams.html#vertex" class="ref-link">vertex</a> 
+ to the target vertex, with optional text describing transition.
+</p>
+
+<div class="figure-left-80">
+<img src="state-machine-diagrams/protocol-transition.png" width="315" height="101" 
+ alt="Protocol transition from New to the Active state with pre-condition (guard), trigger, and a post-condition." 
+ title="Protocol transition from New to the Active state with pre-condition (guard), trigger, and a post-condition." />
+<p class="figure-text">
+Protocol transition from New to the Active state<br />
+ with pre-condition (guard), trigger, and a post-condition.
+</p>
+</div>
+
+<p>
+The textual notation for a protocol transition is described by the following syntax rules
+ (note, there are no syntax rules for protocol transition in UML 2.5 specification,
+ so I made those up):
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">protocol-transition</span> ::=
+  [&nbsp;<span class="nonterm">pre-condition</span>&nbsp;]&nbsp;
+  <span class="nonterm"><a href="common-behaviors.html#trigger-syntax" class="ref-link">trigger</a></span>&nbsp;'/'&nbsp;
+  [&nbsp;<span class="nonterm">post-condition</span>&nbsp;]&nbsp;
+<br />
+<span class="nonterm">pre-condition</span>&nbsp;::=
+&nbsp;'['&nbsp;<span class="nonterm"><a href="constraint.html#constraint-syntax" class="ref-link">constraint</a></span>&nbsp;']'
+<br />
+<span class="nonterm">post-condition</span>&nbsp;::=
+&nbsp;'['&nbsp;<span class="nonterm"><a href="constraint.html#constraint-syntax" class="ref-link">constraint</a></span>&nbsp;']'
+</p>
+
+<p>
+Note, that though UML 2.5 specification says that
+ <span class="citation">"the usual StateMachine notation applies"</span>,
+ and it is rather jocose statement as protocol transition syntax (shown above)
+ is quite different from the 
+ <a href="state-machine-diagrams.html#transition-syntax" class="ref-link">behavioral transition syntax</a>.
+</p>
+
+<p>
+The <span class="nonterm">guard</span>
+ of the  <a href="state-machine-diagrams.html#transition-syntax" class="ref-link">behavioral transitions</a>
+ for the protocol transitions is named <span class="nonterm">pre-condition</span>, and 
+ is placed <strong>before</strong> the trigger.
+ <span class="nonterm">Post-condition</span> was added to protocol transitions and
+ appear <strong>after</strong> the trigger.
+ Protocol transitions have no <span class="nonterm">behavior-expression</span>.
+ It is not clear whether
+ <span class="nonterm">trigger</span> is optional for protocol transitions
+ as it is for behavioral transitions.
+ Both protocol transition syntax and examples show '/' after the trigger, which is different from 
+ behavioral transitions, where '/' is the token placed before <span class="nonterm">behavior-expression</span>.
+ Everything else is "the usual StateMachine notation". :o)
+</p>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="protocol-state-machine-diagrams.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/protocol-state-machine-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:16:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

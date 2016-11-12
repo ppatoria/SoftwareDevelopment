@@ -1,0 +1,41 @@
+* _Low Latency System_
+
+  (*) _Meaning:_ 
+  Latency is the time required to perform some action or to produce some result. 
+  Data latency may refer to the time between a query and the results arriving at the screen or the time between initiating a transaction that modifies one or more databases and its completion.
+  Latency is measured in units of time -- hours, minutes, seconds, nanoseconds or clock periods. 
+  
+  (*) _How to measure:_
+  (a) Latency of HermesAPI: Time taken to process/enrich/convert client request and send/write to socket for Agora.
+  (b) Latency of Agora: Time taken to process client request and send/write acknowledgment/tisreply to socket.
+  (c) Latency of Hermes + Agora: Time taken to process/enrich/convert client request and send/write to socket and acknowledgment/tisreply received from Agora.
+  
+  (*) _What is the latency  of your current system ?_ 
+  Agora: 33 microseconds for 16 instances.
+
+
+* _High Throughput System_
+
+
+  (*) _Meaning:_ 
+  Throughput is the number of such actions executed or results produced per unit of time. 
+  This is measured in units of whatever is being produced (cars, motorcycles, I/O samples, memory words, iterations) per unit of time. 
+  The term "memory bandwidth" is sometimes used to specify the throughput of memory systems. 
+
+
+  (*) _How to measure:_ 
+  (a) Throughput of Hermes: Number of messages Hermes process and send to agora per second.
+  (b) Throughout of Agora:  Number of messages agora process and send the reply back to Hermes.
+  (c) Throughput clients perspective: (a) + (b) 
+
+  (*) _What is the throughput of your current system ?_ 
+  30,000~ messages when there are 16 instances.
+
+
+
+* _A simple generic example_
+
+  The following manufacturing example should clarify these two concepts: 
+  An assembly line is manufacturing cars. It takes eight hours to manufacture a car and that the factory produces one hundred and twenty cars per day. 
+  The latency is: 8 hours. 
+  The throughput is: 120 cars / day or 5 cars / hour.

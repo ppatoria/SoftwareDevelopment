@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/test/minimal.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:19 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/test/minimal.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/test/minimal.hpp</h3>
+<pre>
+//  (C) Copyright Gennadiy Rozental 2002-2008.
+//  Distributed under the Boost Software License, Version 1.0.
+//  (See accompanying file LICENSE_1_0.txt or copy at 
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/test">http://www.boost.org/libs/test</a> for the library home page.
+//
+//  File        : $RCSfile$
+//
+//  Version     : $Revision: 49312 $
+//
+//  Description : simple minimal testing definitions and implementation
+// ***************************************************************************
+
+#ifndef BOOST_TEST_MINIMAL_HPP_071894GER
+#define BOOST_TEST_MINIMAL_HPP_071894GER
+
+#define BOOST_CHECK(exp)       \
+  ( (exp)                      \
+      ? static_cast&lt;void&gt;(0)   \
+      : boost::minimal_test::report_error(#exp,__FILE__,__LINE__, BOOST_CURRENT_FUNCTION) )
+
+#define BOOST_REQUIRE(exp)     \
+  ( (exp)                      \
+      ? static_cast&lt;void&gt;(0)   \
+      : boost::minimal_test::report_critical_error(#exp,__FILE__,__LINE__,BOOST_CURRENT_FUNCTION))
+
+#define BOOST_ERROR( msg_ )    \
+        boost::minimal_test::report_error( (msg_),__FILE__,__LINE__, BOOST_CURRENT_FUNCTION, true )
+#define BOOST_FAIL( msg_ )     \
+        boost::minimal_test::report_critical_error( (msg_),__FILE__,__LINE__, BOOST_CURRENT_FUNCTION, true )
+
+//____________________________________________________________________________//
+
+// Boost.Test
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/detail/global_typedef.hpp">boost/test/detail/global_typedef.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/impl/execution_monitor.ipp">boost/test/impl/execution_monitor.ipp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/impl/debug.ipp">boost/test/impl/debug.ipp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/utils/class_properties.hpp">boost/test/utils/class_properties.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/utils/basic_cstring/io.hpp">boost/test/utils/basic_cstring/io.hpp</a>&gt;
+
+// Boost
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdlib.hpp">boost/cstdlib.hpp</a>&gt;            // for exit codes#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdlib.hpp">boost/cstdlib.hpp</a>&gt;            // for exit codes
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/current_function.hpp">boost/current_function.hpp</a>&gt;   // for BOOST_CURRENT_FUNCTION
+
+// STL
+#include &lt;iostream&gt;                     // std::cerr, std::endl
+#include &lt;string&gt;                       // std::string
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/detail/suppress_warnings.hpp">boost/test/detail/suppress_warnings.hpp</a>&gt;
+
+//____________________________________________________________________________//
+
+int test_main( int argc, char* argv[] );  // prototype for users test_main()
+
+namespace boost {
+namespace minimal_test {
+
+typedef boost::unit_test::const_string const_string;
+
+inline unit_test::counter_t&amp; errors_counter() { static unit_test::counter_t ec = 0; return ec; }
+
+inline void
+report_error( const char* msg, const char* file, int line, const_string func_name, bool is_msg = false )
+{
+    ++errors_counter();
+    std::cerr &lt;&lt; file &lt;&lt; &quot;(&quot; &lt;&lt; line &lt;&lt; &quot;): &quot;;
+
+    if( is_msg )
+        std::cerr &lt;&lt; msg;
+    else
+        std::cerr &lt;&lt; &quot;test &quot; &lt;&lt; msg &lt;&lt; &quot; failed&quot;;
+
+    if( func_name != &quot;(unknown)&quot; )
+        std::cerr &lt;&lt; &quot; in function: '&quot; &lt;&lt; func_name &lt;&lt; &quot;'&quot;;
+
+    std::cerr &lt;&lt; std::endl;
+}
+
+inline void
+report_critical_error( const char* msg, const char* file, int line, const_string func_name, bool is_msg = false )
+{
+    report_error( msg, file, line, func_name, is_msg );
+
+    throw boost::execution_aborted();
+}
+
+class caller {
+public:
+    // constructor
+    caller( int argc, char** argv )
+    : m_argc( argc ), m_argv( argv ) {}
+
+    // execution monitor hook implementation
+    int operator()() { return test_main( m_argc, m_argv ); }
+
+private:
+    // Data members
+    int         m_argc;
+    char**      m_argv;
+}; // monitor
+
+} // namespace minimal_test
+
+} // namespace boost
+
+//____________________________________________________________________________//
+
+int BOOST_TEST_CALL_DECL main( int argc, char* argv[] )
+{
+    using namespace boost::minimal_test;
+
+    try {
+        ::boost::execution_monitor ex_mon;
+        int run_result = ex_mon.execute( caller( argc, argv ) );
+
+        BOOST_CHECK( run_result == 0 || run_result == boost::exit_success );
+    }
+    catch( boost::execution_exception const&amp; exex ) {
+        if( exex.code() != boost::execution_exception::no_error )
+            BOOST_ERROR( (std::string( &quot;exception \&quot;&quot; ).
+                            append( exex.what().begin(), exex.what().end() ).
+                            append( &quot;\&quot; caught&quot; ) ).c_str() );
+        std::cerr &lt;&lt; &quot;\n**** Testing aborted.&quot;;
+    }
+
+    if( boost::minimal_test::errors_counter() != 0 ) {
+        std::cerr &lt;&lt; &quot;\n**** &quot; &lt;&lt; errors_counter()
+                  &lt;&lt; &quot; error&quot; &lt;&lt; (errors_counter() &gt; 1 ? &quot;s&quot; : &quot;&quot; ) &lt;&lt; &quot; detected\n&quot;;
+
+        return boost::exit_test_failure;
+    }
+
+    std::cout &lt;&lt; &quot;\n**** no errors detected\n&quot;;
+    
+    return boost::exit_success;
+}
+
+//____________________________________________________________________________//
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/detail/enable_warnings.hpp">boost/test/detail/enable_warnings.hpp</a>&gt;
+
+#endif // BOOST_TEST_MINIMAL_HPP_071894GER
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/test/minimal.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:19 GMT -->
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch22.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 4.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch22.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkP8Wj6Oouq3c4aw1jQLmeoD8qA8Q=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 22: Parallel Programming</h2>
+
+<p>PLINQ: AsParallel</p>
+
+<pre>// Calculate prime numbers using a simple (unoptimized) algorithm.
+
+IEnumerable&lt;int&gt; numbers = Enumerable.Range (3, 100000-3);
+
+var parallelQuery = 
+  from n in numbers.AsParallel()
+  where Enumerable.Range (2, (int) Math.Sqrt (n)).All (i => n % i > 0)
+  select n;
+
+int[] primes = parallelQuery.ToArray();
+</pre>
+
+<p>When (not) to call .AsParallel</p>
+
+<pre>mySequence.AsParallel()           // Wraps sequence in ParallelQuery&lt;int&gt;
+          .Where (n => n > 100)   // Outputs another ParallelQuery&lt;int&gt;
+          .AsParallel()           // Unnecessary - and inefficient!
+          .Select (n => n * n)
+</pre>
+
+<p>Parallel Spellchecker</p>
+
+<pre>if (!File.Exists ("WordLookup.txt"))    // Contains about 150,000 words
+  new WebClient().DownloadFile (
+    "http://www.albahari.com/ispell/allwords.txt", "WordLookup.txt");
+
+var wordLookup = new HashSet&lt;string&gt; (
+  File.ReadAllLines ("WordLookup.txt"),
+  StringComparer.InvariantCultureIgnoreCase);
+  
+var random = new Random();
+string[] wordList = wordLookup.ToArray();
+
+string[] wordsToTest = Enumerable.Range (0, 1000000)
+  .Select (i => wordList [random.Next (0, wordList.Length)])
+  .ToArray();
+
+wordsToTest [12345] = "woozsh";     // Introduce a couple
+wordsToTest [23456] = "wubsie";     // of spelling mistakes.
+
+var query = wordsToTest
+  .AsParallel()
+  .Select  ((word, index) => new IndexedWord { Word=word, Index=index })
+  .Where   (iword => !wordLookup.Contains (iword.Word))
+  .OrderBy (iword => iword.Index);
+
+foreach (var mistake in query)
+  Console.WriteLine (mistake.Word + " - index = " + mistake.Index);
+</pre>
+<pre>struct IndexedWord { public string Word; public int Index; }</pre>
+
+<p>Using ThreadLocal to parallelize creation of wordlist</p>
+
+<pre>var localRandom = new ThreadLocal&lt;Random&gt;
+ ( () => new Random (Guid.NewGuid().GetHashCode()) );
+
+string[] wordsToTest = Enumerable.Range (0, 1000000).AsParallel()
+  .Select (i => wordList [localRandom.Value.Next (0, wordList.Length)])
+  .ToArray();
+</pre>
+
+<p>Functional purity - wrong</p>
+
+<pre>// The following query multiplies each element by its position.
+// Given an input of Enumerable.Range(0,999), it should output squares.
+int i = 0;
+var query = from n in Enumerable.Range(0,999).AsParallel() select n * i++;
+</pre>
+
+<p>Functional purity - right</p>
+
+<pre>var query = Enumerable.Range(0,999).AsParallel().Select ((n, i) => n * i);</pre>
+
+<p>Calling Blocking or I/O-Intensive Functions</p>
+
+<pre>from site in new[]
+{
+  <a href="../index.html">"www.albahari.com"</a>,
+  <a href="http://www.linqpad.net/">"www.linqpad.net"</a>,
+  <a href="http://www.oreilly.com/">"www.oreilly.com"</a>,
+  <a href="http://www.takeonit.com/">"www.takeonit.com"</a>,
+  <a href="http://stackoverflow.com/">"stackoverflow.com"</a>,
+  <a href="http://www.rebeccarey.com/">"www.rebeccarey.com"</a>  
+}
+.AsParallel().WithDegreeOfParallelism(6)
+let p = new Ping().Send (site)
+select new
+{
+  site,
+  Result = p.Status,
+  Time = p.RoundtripTime
+}
+</pre>
+
+<p>Camera class</p>
+
+<pre>class Camera
+{
+  public readonly int CameraID;
+  public Camera (int cameraID) { CameraID = cameraID; }
+
+  // Get image from camera: return a simple string rather than an image
+  public string GetNextFrame()
+  {
+    Thread.Sleep (123);       // Simulate time taken to get snapshot
+    return "Frame from camera " + CameraID;
+  }
+}
+</pre>
+
+<p>Frame composition - with PLINQ</p>
+
+<pre>Camera[] cameras = Enumerable.Range (0, 4)    // Create 4 camera objects.
+  .Select (i => new Camera (i))
+  .ToArray();
+
+while (true)
+{
+  string[] data = cameras
+    .AsParallel().AsOrdered().WithDegreeOfParallelism (4)
+    .Select (c => c.GetNextFrame()).ToArray();
+
+  Console.WriteLine (string.Join (", ", data));   // Display data...
+}
+</pre>
+
+<p>Changing the degree of parallelism</p>
+
+<pre>"The Quick Brown Fox"
+  .AsParallel().WithDegreeOfParallelism (2)
+  .Where (c => !char.IsWhiteSpace (c))
+  .AsParallel().WithDegreeOfParallelism (3)   // Forces Merge + Partition
+  .Select (c => char.ToUpper (c))
+</pre>
+
+<p>Cancellation</p>
+
+<pre>IEnumerable&lt;int&gt; million = Enumerable.Range (3, 1000000);
+
+var cancelSource = new CancellationTokenSource();
+
+var primeNumberQuery = 
+  from n in million.AsParallel().WithCancellation (cancelSource.Token)
+  where Enumerable.Range (2, (int) Math.Sqrt (n)).All (i => n % i > 0)
+  select n;
+
+new Thread (() => {
+                    Thread.Sleep (100);      // Cancel query after
+                    cancelSource.Cancel();   // 100 milliseconds.
+                  }
+           ).Start();
+try 
+{
+  // Start query running:
+  int[] primes = primeNumberQuery.ToArray();
+  // We'll never get here because the other thread will cancel us.
+}
+catch (OperationCanceledException)
+{
+  Console.WriteLine ("Query canceled");
+}
+</pre>
+
+<p>Optimizing PLINQ: output-side optimization</p>
+
+<pre>"abcdef".AsParallel().Select (c => char.ToUpper(c)).ForAll (Console.Write);</pre>
+
+<p>Forcing chunk partitioning</p>
+
+<pre>int[] numbers = { 3, 4, 5, 6, 7, 8, 9 };
+var parallelQuery =
+  Partitioner.Create (numbers, true).AsParallel()
+  .Where (...)
+</pre>
+
+<p>Aggregate operator - recap</p>
+
+<pre>int[] numbers = { 1, 2, 3 };
+int sum = numbers.Aggregate (0, (total, n) => total + n);   // 6
+</pre>
+
+<p>Calculating letter frequencies - sequential imperative</p>
+
+<pre>string text = "Let’s suppose this is a really long string";
+var letterFrequencies = new int[26];
+foreach (char c in text)
+{
+  int index = char.ToUpper (c) - 'A';
+  if (index >= 0 && index &lt;= 26) letterFrequencies [index]++;
+};
+</pre>
+
+<p>Calculating letter frequencies - sequential with Aggregate</p>
+
+<pre>int[] result =
+  text.Aggregate (
+    new int[26],                // Create the "accumulator"
+    (letterFrequencies, c) =>   // Aggregate a letter into the accumulator
+    {
+      int index = char.ToUpper (c) - 'A';
+      if (index >= 0 && index &lt;= 26) letterFrequencies [index]++;
+      return letterFrequencies;
+    });
+</pre>
+
+<p>Calculating letter frequencies - parallel with Aggregate</p>
+
+<pre>int[] result =
+  text.AsParallel().Aggregate (
+   () => new int[26],             // Create a new local accumulator
+
+    (localFrequencies, c) =>       // Aggregate into the local accumulator
+    {
+      int index = char.ToUpper (c) - 'A';
+      if (index >= 0 && index &lt;= 26) localFrequencies [index]++;
+      return localFrequencies;
+    },
+                                   // Aggregate local->main accumulator
+    (mainFreq, localFreq) =>
+      mainFreq.Zip (localFreq, (f1, f2) => f1 + f2).ToArray(),
+
+    finalResult => finalResult     // Perform any final transformation
+  );                               // on the end result.
+</pre>
+
+<p>TPL Parallel Class - Parallel.Invoke</p>
+
+<pre>Parallel.Invoke (
+ () => new WebClient().DownloadFile ("http://www.linqpad.net", "lp.html"),
+ () => new WebClient().DownloadFile ("http://www.jaoo.dk", "jaoo.html"));
+</pre>
+
+<p>Parallel.For</p>
+
+<pre>var keyPairs = new string[6];
+
+Parallel.For (0, keyPairs.Length,
+              i => keyPairs[i] = RSA.Create().ToXmlString (true));
+</pre>
+
+<p>PLINQ solution</p>
+
+<pre>string[] keyPairs =
+  ParallelEnumerable.Range (0, 6)
+  .Select (i => RSA.Create().ToXmlString (true))
+  .ToArray();
+</pre>
+
+<p>Parallel.For - outer vs inner loops</p>
+<pre>Parallel.For (0, 100, i =>
+{
+  Parallel.For (0, 50, j => Foo (i, j));   // Sequential would be better
+});                                        // for the inner loop.
+</pre>
+
+<p>Indexed Parallel.ForEach</p>
+
+<pre>Parallel.ForEach ("Hello, world", (c, state, i) =>
+{
+   Console.WriteLine (c.ToString() + i);
+});
+</pre>
+
+<p>Parallel Spellchecker with TPL</p>
+
+<pre>if (!File.Exists ("WordLookup.txt"))    // Contains about 150,000 words
+  new WebClient().DownloadFile (
+    "http://www.albahari.com/ispell/allwords.txt", "WordLookup.txt");
+
+var wordLookup = new HashSet&lt;string&gt; (
+  File.ReadAllLines ("WordLookup.txt"),
+  StringComparer.InvariantCultureIgnoreCase);
+
+var random = new Random();
+string[] wordList = wordLookup.ToArray();
+
+string[] wordsToTest = Enumerable.Range (0, 1000000)
+  .Select (i => wordList [random.Next (0, wordList.Length)])
+  .ToArray();
+
+wordsToTest [12345] = "<a href="http://woozsh.com/">woozsh</a>";     // Introduce a couple
+wordsToTest [23456] = "wubsie";     // of spelling mistakes.
+
+var misspellings = new ConcurrentBag&lt;Tuple&lt;int,string&gt;&gt;();
+
+Parallel.ForEach (wordsToTest, (word, state, i) =>
+{
+  if (!wordLookup.Contains (word))
+    misspellings.Add (Tuple.Create ((int) i, word));
+});
+</pre>
+
+<p>ParallelLoopState: Breaking early out of loops </p>
+
+<pre>Parallel.ForEach ("Hello, world", (c, loopState) =>
+{
+  if (c == ',')
+    loopState.Break();
+  else
+    Console.Write (c);
+});
+</pre>
+
+<p>Optimization with local values</p>
+
+<pre>object locker = new object();
+double grandTotal = 0;
+
+Parallel.For (1, 10000000,
+
+  () => 0.0,                        // Initialize the local value.
+
+  (i, state, localTotal) =>         // Body delegate. Notice that it
+     localTotal + Math.Sqrt (i),    // returns the new local total.
+
+  localTotal =>                                    // Add the local value
+    { lock (locker) grandTotal += localTotal; }    // to the master value.
+);
+</pre>
+
+<p>Tasks - creating and starting tasks</p>
+
+<pre>Task.Factory.StartNew (() => Console.WriteLine ("Hello from a task!"));</pre>
+
+<p>Getting data back:</p>
+<pre>Task&lt;string&gt; task = Task.Factory.StartNew&lt;string&gt; (() =>    // Begin task
+{
+  using (var wc = new System.Net.WebClient())
+    return wc.DownloadString ("http://www.linqpad.net");
+});
+
+RunSomeOtherMethod();         // We can do other work in parallel...
+
+string result = task.Result;  // Wait for task to finish and fetch result.
+</pre>
+
+<p>Specifying a state object</p>
+
+<pre>static void Main()
+{
+  var task = Task.Factory.StartNew (Greet, "Hello");
+  task.Wait();  // Wait for task to complete.
+}
+</pre>
+
+<p>Putting it to better use:</p>
+
+<pre>static void Main()
+{
+  var task = Task.Factory.StartNew (state => Greet ("Hello"), "Greeting");
+  Console.WriteLine (task.AsyncState);   // Greeting
+  task.Wait();
+}
+
+static void Greet (string message) { Console.Write (message); }
+</pre>
+
+<p>Child tasks</p>
+
+<pre>Task parent = Task.Factory.StartNew (() =>
+{
+  Console.WriteLine ("I am a parent");
+
+  Task.Factory.StartNew (() =>        // Detached task
+  {
+    Console.WriteLine ("I am detached");
+  });
+
+  Task.Factory.StartNew (() =>        // Child task
+  {
+    Console.WriteLine ("I am a child");
+  }, TaskCreationOptions.AttachedToParent);
+});
+</pre>
+
+<p>Watiing on tasks</p>
+
+<pre>// Assume t1, t2 and t3 are tasks:
+var exceptions = new List&lt;Exception&gt;();
+try { t1.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+try { t2.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+try { t3.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+if (exceptions.Count > 0) throw new AggregateException (exceptions);
+</pre>
+
+<p>Exception-handling tasks</p>
+
+<pre>int x = 0;
+Task&lt;int&gt; calc = Task.Factory.StartNew (() => 7 / x);
+try
+{
+  Console.WriteLine (calc.Result);
+}
+catch (AggregateException aex)
+{
+  Console.Write (aex.InnerException.Message);  // Attempted to divide by 0
+}
+</pre>
+
+<p>Child exceptions bubbling</p>
+
+<pre>TaskCreationOptions atp = TaskCreationOptions.AttachedToParent;
+var parent = Task.Factory.StartNew (() => 
+{
+  Task.Factory.StartNew (() =>   // Child
+  {
+    Task.Factory.StartNew (() => { throw null; }, atp);   // Grandchild
+  }, atp);
+});
+
+// The following call throws a NullReferenceException (wrapped
+// in nested AggregateExceptions):
+parent.Wait();
+</pre>
+
+<p>Canceling tasks</p>
+
+<pre>var cancelSource = new CancellationTokenSource();
+CancellationToken token = cancelSource.Token;
+
+Task task = Task.Factory.StartNew (() => 
+{
+  // Do some stuff...
+  token.ThrowIfCancellationRequested();  // Check for cancellation request
+  // Do some stuff...
+}, token);
+...
+cancelSource.Cancel();
+</pre>
+
+<pre>try 
+{
+  task.Wait();
+}
+catch (AggregateException ex)
+{
+  if (ex.InnerException is OperationCanceledException)
+    Console.Write ("Task canceled!");
+}
+</pre>
+
+<p>Propogating cancellations</p>
+
+<pre>var cancelSource = new CancellationTokenSource();
+CancellationToken token = cancelSource.Token;
+
+Task task = Task.Factory.StartNew (() =>
+{
+  // Pass our cancellation token into a PLINQ query:
+  var query = someSequence.AsParallel().WithCancellation (token)...
+  ... enumerate query ...
+});
+</pre>
+
+<p>Task continuations</p>
+<pre>Task task1 = Task.Factory.StartNew (() => Console.Write ("antecedant.."));
+Task task2 = task1.ContinueWith (ant => Console.Write ("..continuation"));
+</pre>
+
+<p>Continuations and Task&lt;TResult&gt;</p>
+
+<pre>Task.Factory.StartNew&lt;int&gt; (() => 8)
+  .ContinueWith (ant => ant.Result * 2)
+  .ContinueWith (ant => Math.Sqrt (ant.Result))
+  .ContinueWith (ant => Console.WriteLine (ant.Result));   // 4
+</pre>
+
+<p>Continuations and exceptions</p>
+
+<pre>Task task1 = Task.Factory.StartNew (() => { throw null; });
+Task task2 = task1.ContinueWith (ant => Console.Write (ant.Exception));
+</pre>
+
+<p>Re-throwing</p>
+
+<pre>Task continuation = Task.Factory.StartNew     (()  => { throw null; })
+                                .ContinueWith (ant =>
+  {
+    if (ant.Exception != null) throw ant.Exception;
+    // Continue processing...
+  });
+
+continuation.Wait();    // Exception is now thrown back to caller.
+</pre>
+
+<p>TaskContinuationOptions</p>
+
+<pre>Task task1 = Task.Factory.StartNew (() => { throw null; });
+
+Task error = task1.ContinueWith (ant => Console.Write (ant.Exception),
+                                 TaskContinuationOptions.OnlyOnFaulted);
+
+Task ok = task1.ContinueWith (ant => Console.Write ("Success!"),
+                              TaskContinuationOptions.NotOnFaulted);
+</pre>
+
+<p>Ignoring exceptions</p>
+
+<pre>public static void IgnoreExceptions (this Task task)
+{
+  // This could be improved by adding code to log the exception
+  task.ContinueWith (t => { var ignore = t.Exception; },
+    TaskContinuationOptions.OnlyOnFaulted);
+} 
+</pre>
+
+<p>Continuations and child tasks</p>
+
+<pre>TaskCreationOptions atp = TaskCreationOptions.AttachedToParent;
+Task.Factory.StartNew (() =>
+{
+  Task.Factory.StartNew (() => { throw null; }, atp);
+  Task.Factory.StartNew (() => { throw null; }, atp);
+  Task.Factory.StartNew (() => { throw null; }, atp);
+})
+.ContinueWith (p => Console.WriteLine (p.Exception),
+                    TaskContinuationOptions.OnlyOnFaulted);
+</pre>
+
+<p>Conditional continuations</p>
+
+<pre>Task t1 = Task.Factory.StartNew (...);
+
+Task fault = t1.ContinueWith (ant => Console.WriteLine ("fault"),
+                              TaskContinuationOptions.OnlyOnFaulted);
+
+Task t3 = fault.ContinueWith (ant => Console.WriteLine ("t3"));
+</pre>
+
+<p>Continuations with multiple antecedents</p>
+
+<pre>var task1 = Task.Factory.StartNew (() => Console.Write ("X"));
+var task2 = Task.Factory.StartNew (() => Console.Write ("Y"));
+
+var continuation = Task.Factory.ContinueWhenAll (
+  new[] { task1, task2 }, tasks => Console.WriteLine ("Done"));
+</pre>
+
+<pre>// task1 and task2 would call complex functions in real life:
+Task&lt;int&gt; task1 = Task.Factory.StartNew (() => 123);
+Task&lt;int&gt; task2 = Task.Factory.StartNew (() => 456);
+
+Task&lt;int&gt; task3 = Task.Factory.ContinueWhenAll (
+  new[] { task1, task2 }, tasks => tasks.Sum (t => t.Result));
+
+Console.WriteLine (task3.Result);           // 579
+</pre>
+
+<p>Multiple continuations on a single antecedent</p>
+
+<pre>var t = Task.Factory.StartNew (() => Thread.Sleep (1000));
+t.ContinueWith (ant => Console.Write ("X"));
+t.ContinueWith (ant => Console.Write ("Y"));
+</pre>
+
+<p>Task Schedulers and UIs</p>
+
+<pre>public partial class MyWindow : Window
+{
+  TaskScheduler _uiScheduler;   // Declare this as a field so we can use
+                                // it throughout our class.
+  public MyWindow()
+  {    
+    InitializeComponent();
+
+    // Get the UI scheduler for the thread that created the form:
+    _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+    Task.Factory.StartNew&lt;string&gt; (SomeComplexWebService)
+      .ContinueWith (ant => lblResult.Content = ant.Result, _uiScheduler);
+  }
+
+  string SomeComplexWebService() { ... }
+}
+</pre>
+
+<p>TaskFactory - creating your own</p>
+
+<pre>var factory = new TaskFactory (
+  TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent,
+  TaskContinuationOptions.None);
+</pre>
+
+<p>TaskCompletionSource</p>
+
+<pre>var source = new TaskCompletionSource&lt;int&gt;();
+
+new Thread (() => { Thread.Sleep (5000); source.SetResult (123); })
+  .Start();
+
+Task&lt;int&gt; task = source.Task;      // Our "slave" task.
+Console.WriteLine (task.Result);   // 123 
+</pre>
+
+<p>Working with AggregateException</p>
+
+<pre>try
+{
+  var query = from i in Enumerable.Range (0, 1000000)
+              select 100 / i;
+  // Enumerate query
+  ...
+}
+catch (AggregateException aex)
+{
+  foreach (Exception ex in aex.InnerExceptions)
+    Console.WriteLine (ex.Message);
+}
+</pre>
+
+<p>Working with AggregateException - Flatten</p>
+
+<pre>catch (AggregateException aex)
+{
+  foreach (Exception ex in aex.Flatten().InnerExceptions)
+    myLogWriter.LogException (ex);
+}
+</pre>
+
+<p>Working with AggregateException - Handle</p>
+
+<pre>var parent = Task.Factory.StartNew (() => 
+{
+  // We’ll throw 3 exceptions at once using 3 child tasks:
+
+  int[] numbers = { 0 };
+
+  var childFactory = new TaskFactory
+   (TaskCreationOptions.AttachedToParent, TaskContinuationOptions.None);
+
+  childFactory.StartNew (() => 5 / numbers[0]);   // Division by zero
+  childFactory.StartNew (() => numbers [1]);      // Index out of range
+  childFactory.StartNew (() => { throw null; });  // Null reference
+});
+
+try { parent.Wait(); }
+catch (AggregateException aex)
+{
+  aex.Flatten().Handle (ex =>   // Note that we still need to call Flatten
+  {
+    if (ex is DivideByZeroException)
+    {
+      Console.WriteLine ("Divide by zero");
+      return true;                           // This exception is "handled"
+    }
+    if (ex is IndexOutOfRangeException)
+    {
+      Console.WriteLine ("Index out of range");
+      return true;                           // This exception is "handled"   
+    }
+    return false;    // All other exceptions will get rethrown
+  });
+}
+</pre>
+
+<p>Concurrent collections - spellchecker example</p>
+
+<pre>var misspellings = new ConcurrentBag&lt;Tuple&lt;int,string&gt;&gt;();
+
+Parallel.ForEach (wordsToTest, (word, state, i) =>
+{
+  if (!wordLookup.Contains (word))
+    misspellings.Add (Tuple.Create ((int) i, word));
+});</pre>
+
+<p>Concurrent collections - BlockingCollection</p>
+
+<pre>public class PCQueue : IDisposable
+{
+  BlockingCollection&lt;Action&gt; _taskQ = new BlockingCollection&lt;Action&gt;();
+
+  public PCQueue (int workerCount)
+  {
+    // Create and start a separate Task for each consumer:
+    for (int i = 0; i &lt; workerCount; i++)
+      Task.Factory.StartNew (Consume);
+  }
+
+  public void Dispose() { _taskQ.CompleteAdding(); }
+
+  public void EnqueueTask (Action action) { _taskQ.Add (action); }
+
+  void Consume()
+  {
+    // This sequence that we’re enumerating will block when no elements
+    // are available and will end when CompleteAdding is called.
+
+    foreach (Action action in _taskQ.GetConsumingEnumerable())
+      action();     // Perform task.
+  }
+}
+</pre>
+
+<p>BlockingCollection - leveraging TaskCompletionSource</p>
+
+<pre>public class PCQueue : IDisposable
+{
+  class WorkItem
+  {
+    public readonly TaskCompletionSource&lt;object&gt; TaskSource;
+    public readonly Action Action;
+    public readonly CancellationToken? CancelToken;
+
+    public WorkItem (
+      TaskCompletionSource&lt;object&gt; taskSource,
+      Action action,
+      CancellationToken? cancelToken)
+    {
+      TaskSource = taskSource;
+      Action = action;
+      CancelToken = cancelToken;
+    }
+  }
+
+  BlockingCollection&lt;WorkItem&gt; _taskQ = new BlockingCollection&lt;WorkItem&gt;();
+
+  public PCQueue (int workerCount)
+  {
+    // Create and start a separate Task for each consumer:
+    for (int i = 0; i &lt; workerCount; i++)
+      Task.Factory.StartNew (Consume);
+  }
+
+  public void Dispose() { _taskQ.CompleteAdding(); }
+
+  public Task EnqueueTask (Action action) 
+  {
+    return EnqueueTask (action, null);
+  }
+
+  public Task EnqueueTask (Action action, CancellationToken? cancelToken)
+  {
+    var tcs = new TaskCompletionSource&lt;object&gt;();
+    _taskQ.Add (new WorkItem (tcs, action, cancelToken));
+    return tcs.Task;
+  }
+
+  void Consume()
+  {
+    foreach (WorkItem workItem in _taskQ.GetConsumingEnumerable())
+      if (workItem.CancelToken.HasValue && 
+          workItem.CancelToken.Value.IsCancellationRequested)
+      {
+        workItem.TaskSource.SetCanceled();
+      }
+      else
+        try
+        {
+          workItem.Action();
+          workItem.TaskSource.SetResult (null);   // Indicate completion
+        }
+        catch (Exception ex)
+        {
+          workItem.TaskSource.SetException (ex);
+        }
+  }
+}
+</pre>
+
+<p>SpinLock</p>
+
+<pre>var spinLock = new SpinLock (true);   // Enable owner tracking
+bool lockTaken = false;
+try
+{
+  spinLock.Enter (ref lockTaken);
+  // Do stuff...
+}
+finally
+{
+  if (lockTaken) spinLock.Exit();
+}
+</pre>
+
+<p>SpinWait</p>
+
+<pre>bool _proceed;
+void Test()
+{
+  SpinWait.SpinUntil (() => { Thread.MemoryBarrier(); return _proceed; });
+  ...
+}
+</pre>
+
+<p>Better:</p>
+
+<pre>bool _proceed;
+void Test()
+{
+  var spinWait = new SpinWait();
+  while (!_proceed) { Thread.MemoryBarrier(); spinWait.SpinOnce(); }
+  ...
+}
+</pre>
+
+<p>Lock-free updates with SpinWait and Interlocked.CompareExchange</p>
+<pre>int x;
+
+void MultiplyXBy (int factor)
+{
+  var spinWait = new SpinWait();
+  while (true)
+  {
+    int snapshot1 = x;
+    Thread.MemoryBarrier();
+    int calc = snapshot1 * factor;
+    int snapshot2 = Interlocked.CompareExchange (ref x, calc, snapshot1);
+    if (snapshot1 == snapshot2) return;   // No one preempted us.
+    spinWait.SpinOnce();
+  }
+}
+</pre>
+
+<p>Generic version</p>
+
+<pre>static void LockFreeUpdate&lt;T&gt; (ref T field, Func &lt;T, T&gt; updateFunction)
+  where T : class
+{
+  var spinWait = new SpinWait();
+  while (true)
+  {
+    T snapshot1 = field;
+    T calc = updateFunction (snapshot1);
+    T snapshot2 = Interlocked.CompareExchange (ref field, calc, snapshot1);
+    if (snapshot1 == snapshot2) return;
+    spinWait.SpinOnce();
+  }
+}
+</pre>
+
+<p>With immutable class</p>
+<pre>class Test
+{
+  ProgressStatus _status = new ProgressStatus (0, "Starting");
+
+  class ProgressStatus    // Immutable class
+  {
+    public readonly int PercentComplete;
+    public readonly string StatusMessage;
+
+    public ProgressStatus (int percentComplete, string statusMessage)
+    {
+      PercentComplete = percentComplete;
+      StatusMessage = statusMessage;
+    }
+  }
+}
+</pre>
+<pre>LockFreeUpdate (ref _status,
+  s => new ProgressStatus (s.PercentComplete + 1, s.StatusMessage));
+</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch22.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

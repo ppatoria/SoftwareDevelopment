@@ -1,0 +1,1019 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch18.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch18.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkYKl6MJK4K/dqqMOeyUrqiHkGgjU=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Reflection and Metadata</h2>
+<p>Dynamically instantiating a delegate:</p>
+<pre>class Program
+{
+  delegate int IntFunc (int x);
+
+  static int Square (int x) { return x * x; }       // Static method
+  int        Cube   (int x) { return x * x * x; }   // Instance method
+
+  static void Main()
+  {
+    Delegate staticD = Delegate.CreateDelegate
+      (typeof (IntFunc), typeof (Program), &quot;Square&quot;);
+
+    Delegate instanceD = Delegate.CreateDelegate
+      (typeof (IntFunc), new Program(), &quot;Cube&quot;);
+
+    Console.WriteLine (staticD.DynamicInvoke (3));      // 9
+    Console.WriteLine (instanceD.DynamicInvoke (3));    // 27
+  }
+}</pre>
+<pre>IntFunc f = (IntFunc) staticD;
+Console.WriteLine (f(3));         // 9 (but much faster!)</pre>
+<p>DeclaringType vs. ReflectedType:</p>
+<pre>class Program
+{
+  static void Main()
+  {
+    // MethodInfo is a subclass of MemberInfo; see Figure 17-1.
+
+    MethodInfo test = typeof (Program).GetMethod (&quot;ToString&quot;);
+    MethodInfo obj  = typeof (object) .GetMethod (&quot;ToString&quot;);
+
+    Console.WriteLine (test.DeclaringType);      // System.Object
+    Console.WriteLine (obj.DeclaringType);       // System.Object
+
+    Console.WriteLine (test.ReflectedType);      // Program
+    Console.WriteLine (obj.ReflectedType);       // System.Object
+
+    Console.WriteLine (test == obj);             // False
+  }
+}</pre>
+<pre>Console.WriteLine (test.MethodHandle == obj.MethodHandle);    // True
+
+Console.WriteLine (test.MetadataToken == obj.MetadataToken    // True
+                   &amp;&amp; test.Module == obj.Module);</pre>
+<p>Generic type members:</p>
+<pre>PropertyInfo open   = typeof (IEnumerator&lt;&gt;)   .GetProperty (&quot;Current&quot;);
+PropertyInfo closed = typeof (IEnumerator&lt;int&gt;).GetProperty (&quot;Current&quot;);
+
+Console.WriteLine (open);    // T Current
+Console.WriteLine (closed);  // Int32 Current
+
+Console.WriteLine (open  .PropertyType.IsGenericParameter);  // True
+Console.WriteLine (closed.PropertyType.IsGenericParameter);  // False</pre>
+<pre>PropertyInfo open   = typeof (List&lt;&gt;)   .GetProperty (&quot;Count&quot;);
+PropertyInfo closed = typeof (List&lt;int&gt;).GetProperty (&quot;Count&quot;);
+
+Console.WriteLine (open);      // Int32 Count
+Console.WriteLine (closed);    // Int32 Count
+
+Console.WriteLine (open == closed);   // False
+
+Console.WriteLine (open  .DeclaringType.IsGenericTypeDefinition); // True
+Console.WriteLine (closed.DeclaringType.IsGenericTypeDefinition); // False</pre>
+<p>Method parameters:</p>
+<pre>Type type = typeof (string);
+Type[] parameterTypes = { typeof (int) };
+MethodInfo method = type.GetMethod (&quot;Substring&quot;, parameterTypes);
+
+object[] arguments = { 2 };
+object returnValue = method.Invoke (&quot;stamp&quot;, arguments);
+Console.WriteLine (returnValue);                           // &quot;amp&quot;</pre>
+<pre>ParameterInfo[] paramList = method.GetParameters();
+foreach (ParameterInfo x in paramList)
+{
+  Console.WriteLine (x.Name);                 // startIndex
+  Console.WriteLine (x.ParameterType);        // System.Int32
+}</pre>
+<p>Passing by reference:</p>
+<pre>object[] args = { &quot;23&quot;, 0 };
+Type[] argTypes = { typeof (string), typeof (int).MakeByRefType() };
+MethodInfo tryParse = typeof (int).GetMethod (&quot;TryParse&quot;, argTypes);
+bool successfulParse = (bool) tryParse.Invoke (null, args);
+
+Console.WriteLine (successfulParse + &quot; &quot; + args[1]);       // True 23</pre>
+<p>Using delegates for performance:</p>
+<pre>delegate string StringToString (string s);
+
+static void Main()
+{
+  MethodInfo trimMethod = typeof (string).GetMethod (&quot;Trim&quot;, new Type[0]);
+  var trim = (StringToString) Delegate.CreateDelegate
+                                    (typeof (StringToString), trimMethod);
+  for (int i = 0; i &lt; 1000000; i++)
+    trim (&quot;test&quot;);
+}</pre>
+<p>Accessing nonpublic members:</p>
+<pre>class Walnut
+{
+  private bool cracked;
+  public void Crack() { cracked = true; }
+
+  public override string ToString() { return cracked.ToString(); }
+}</pre>
+<pre>
+Type t = typeof (Walnut);
+Walnut w = new Walnut();
+w.Crack();
+FieldInfo f = t.GetField (&quot;cracked&quot;, BindingFlags.NonPublic |
+                                     BindingFlags.Instance);
+f.SetValue (w, false);
+Console.WriteLine (w);         // False</pre>
+<p>Generic methods:</p>
+<pre>class Program
+{
+  public static T Echo&lt;T&gt; (T x) { return x; }
+
+  static void Main()
+  {
+    MethodInfo echo = typeof (Program).GetMethod (&quot;Echo&quot;);
+    Console.WriteLine (echo.IsGenericMethodDefinition);    // True
+    echo.Invoke (null, new object[] { 123 } );             // Exception
+  }
+}</pre>
+<pre>MethodInfo echo = typeof (Program).GetMethod (&quot;Echo&quot;);
+MethodInfo intEcho = echo.MakeGenericMethod (typeof (int));
+Console.WriteLine (intEcho.IsGenericMethodDefinition);            // False
+Console.WriteLine (intEcho.Invoke (null, new object[] { 3 } ));   // 3</pre>
+<p>Anonymously calling members of a generic type:</p>
+<pre>public static string ToStringEx (object value)
+{
+  if (value == null) return &quot;&lt;null&gt;&quot;;
+  if (value.GetType().IsPrimitive) return value.ToString();
+
+  StringBuilder sb = new StringBuilder();
+
+  if (value is IList)
+    sb.Append (&quot;List of &quot; + ((IList)value).Count + &quot; items: &quot;);
+
+  Type closedIGrouping = value.GetType().GetInterfaces()
+    .Where (t =&gt; t.IsGenericType &amp;&amp;
+                 t.GetGenericTypeDefinition() == typeof (IGrouping&lt;,&gt;))
+    .FirstOrDefault();
+
+  if (closedIGrouping != null)   // Call the Key property on IGrouping&lt;,&gt;
+  {
+    PropertyInfo pi = closedIGrouping.GetProperty (&quot;Key&quot;);
+    object key = pi.GetValue (value, null);
+    sb.Append (&quot;Group with key=&quot; + key + &quot;: &quot;);
+  }
+
+  if (value is IEnumerable)
+    foreach (object element in ((IEnumerable)value))
+      sb.Append (ToStringEx (element) + &quot; &quot;);
+
+  if (sb.Length == 0) sb.Append (value.ToString());
+
+  return &quot;\r\n&quot; + sb.ToString();
+}</pre>
+<p>Defining your own attribute:</p>
+<pre>[AttributeUsage (AttributeTargets.Method)]
+public sealed class TestAttribute : Attribute
+{
+  public int     Repetitions;
+  public string  FailureMessage;
+
+  public TestAttribute () : this (1)     {}
+  public TestAttribute (int repetitions) { Repetitions = repetitions; }
+}</pre>
+<p>Applying the custom attribute:</p>
+<pre>class Foo
+{
+  [Test]
+  public void Method1() { ... }
+  
+  [Test(20)]
+  public void Method2() { ... }
+  
+  [Test(20, FailureMessage=&quot;Debugging Time!&quot;)]
+  public void Method3() { ... }
+}</pre>
+<p>Reflecting over the custom attribute:</p>
+<pre>foreach (MethodInfo mi in typeof (Foo).GetMethods())
+{
+  TestAttribute att = (TestAttribute) Attribute.GetCustomAttribute
+    (mi, typeof (TestAttribute));
+  
+  if (att != null)
+    Console.WriteLine (&quot;Method {0} will be tested; reps={1}; msg={2}&quot;,
+                        mi.Name, att.Repetitions, att.FailureMessage);
+}</pre>
+<pre>foreach (MethodInfo mi in typeof (Foo).GetMethods())
+{
+  TestAttribute att = (TestAttribute) Attribute.GetCustomAttribute
+    (mi, typeof (TestAttribute));
+
+  if (att != null)
+    for (int i = 0; i &lt; att.Repetitions; i++)
+      try
+      {
+        mi.Invoke (new Foo(), null);    // Call method with no arguments
+      }
+      catch (Exception ex)       // Wrap exception in att.FailureMessage
+      {
+        throw new Exception (&quot;Error: &quot; + att.FailureMessage, ex);
+      }
+}</pre>
+<pre>[Serializable, Obsolete]
+class Test
+{
+  static void Main()
+  {
+    object[] atts = Attribute.GetCustomAttributes (typeof (Test));
+    foreach (object att in atts) Console.WriteLine (att);
+  }
+}</pre>
+<p>Retrieving attributes in the reflection-only context:</p>
+<pre>IList&lt;CustomAttributeData&gt; atts = CustomAttributeData.GetCustomAttributes
+                                  (myReflectionOnlyType);
+foreach (CustomAttributeData att in atts)
+{
+  Console.Write (att.GetType());               // Attribute type
+
+  Console.WriteLine (&quot; &quot; + att.Constructor);   // ConstructorInfo object
+
+  foreach (CustomAttributeTypedArgument arg in att.ConstructorArguments)
+    Console.WriteLine (&quot;  &quot; +arg.ArgumentType + &quot;=&quot; + arg.Value);
+
+  foreach (CustomAttributeNamedArgument arg in att.NamedArguments)
+    Console.WriteLine (&quot;  &quot; + arg.MemberInfo.Name + &quot;=&quot; + arg.TypedValue);
+}</pre>
+<p>Adding an assembly resolution event handler:</p>
+<pre>ResolveEventHandler handler = (object sender, ResolveEventArgs args)
+                            =&gt; Assembly.ReflectionOnlyLoad (args.Name);
+
+AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += handler;
+
+// Reflect over attributes...
+
+AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= handler;</pre>
+<p>Dynamic code generation with DynamicMethod:</p>
+<pre>public class Test
+{
+  static void Main()
+  {
+    var dynMeth = new DynamicMethod (&quot;Foo&quot;, null, null, typeof (Test));
+    ILGenerator gen = dynMeth.GetILGenerator(); 
+    gen.EmitWriteLine (&quot;Hello world&quot;);
+    gen.Emit (OpCodes.Ret);
+    dynMeth.Invoke (null, null);                    // Hello world
+  }
+}</pre>
+<p>Accessing private members of a type:</p>
+<pre>public class Test
+{
+  static void Main()
+  {
+    var dynMeth = new DynamicMethod (&quot;Foo&quot;, null, null, typeof (Test));
+    ILGenerator gen = dynMeth.GetILGenerator();
+
+    MethodInfo privateMethod = typeof(Test).GetMethod (&quot;HelloWorld&quot;,
+     BindingFlags.Static | BindingFlags.NonPublic);
+
+    gen.Emit (OpCodes.Call, privateMethod);     // Call HelloWorld
+    gen.Emit (OpCodes.Ret);
+
+    dynMeth.Invoke (null, null);                // Hello world
+  }
+
+  static void HelloWorld()       // private method, yet we can call it
+  {
+    Console.WriteLine (&quot;Hello world&quot;);
+  }
+}</pre>
+<p>The evaluation stack:</p>
+<pre>var dynMeth = new DynamicMethod (&quot;Foo&quot;, null, null, typeof(void));
+ILGenerator gen = dynMeth.GetILGenerator(); 
+MethodInfo writeLineInt = typeof (Console).GetMethod (&quot;WriteLine&quot;,
+                                        new Type[] { typeof (int) });
+
+// The Ldc* op-codes load numeric literals of various types and sizes.
+
+gen.Emit (OpCodes.Ldc_I4, 123);        // Push a 4-byte integer onto stack
+gen.Emit (OpCodes.Call, writeLineInt);
+
+gen.Emit (OpCodes.Ret);
+dynMeth.Invoke (null, null);           // 123</pre>
+<p>Adding 2 + 2:</p>
+<pre>gen.Emit (OpCodes.Ldc_I4, 2);           // Push a 4-byte integer, value=2
+gen.Emit (OpCodes.Ldc_I4, 2);           // Push a 4-byte integer, value=2
+gen.Emit (OpCodes.Add);                 // Add the result together
+gen.Emit (OpCodes.Call, writeLineInt);</pre>
+<p>Calculating 10 / 2 + 1, option A:</p>
+<pre>gen.Emit (OpCodes.Ldc_I4, 10);
+gen.Emit (OpCodes.Ldc_I4, 2);
+gen.Emit (OpCodes.Div);
+gen.Emit (OpCodes.Ldc_I4, 1);
+gen.Emit (OpCodes.Add);
+gen.Emit (OpCodes.Call, writeLineInt);</pre>
+<p>Calculating 10 / 2 + 1, option B:</p>
+<pre>gen.Emit (OpCodes.Ldc_I4, 1);
+gen.Emit (OpCodes.Ldc_I4, 10);
+gen.Emit (OpCodes.Ldc_I4, 2);
+gen.Emit (OpCodes.Div);
+gen.Emit (OpCodes.Add);
+gen.Emit (OpCodes.Call, writeLineInt);</pre>
+<p>Passing arguments to a DynamicMethod:</p>
+<pre>DynamicMethod dynMeth = new DynamicMethod (&quot;Foo&quot;,
+  typeof (int),                              // Return type = int
+  new[] { typeof (int), typeof (int) },      // Parameter types = int, int
+  typeof (void));
+
+ILGenerator gen = dynMeth.GetILGenerator();
+
+gen.Emit (OpCodes.Ldarg_0);      // Push first arg onto eval stack
+gen.Emit (OpCodes.Ldarg_1);      // Push second arg onto eval stack
+gen.Emit (OpCodes.Add);          // Add them together (result on stack)
+gen.Emit (OpCodes.Ret);          // Return with stack having 1 value
+
+int result = (int) dynMeth.Invoke (null, new object[] { 3, 4 } );   // 7</pre>
+<p>Generating local variables:</p>
+<pre>var dynMeth = new DynamicMethod (&quot;Test&quot;, null, null, typeof (void));
+ILGenerator gen = dynMeth.GetILGenerator();
+
+LocalBuilder localX = gen.DeclareLocal (typeof (int));    // Declare x
+LocalBuilder localY = gen.DeclareLocal (typeof (int));    // Declare y
+
+gen.Emit (OpCodes.Ldc_I4, 6);        // Push literal 6 onto eval stack
+gen.Emit (OpCodes.Stloc, localX);    // Store in localX
+gen.Emit (OpCodes.Ldc_I4, 7);        // Push literal 7 onto eval stack
+gen.Emit (OpCodes.Stloc, localY);    // Store in localY
+
+gen.Emit (OpCodes.Ldloc, localX);    // Push localX onto eval stack
+gen.Emit (OpCodes.Ldloc, localY);    // Push localY onto eval stack
+gen.Emit (OpCodes.Mul);              // Multiply values together
+gen.Emit (OpCodes.Stloc, localX);    // Store the result to localX
+
+gen.EmitWriteLine (localX);          // Write the value of localX
+gen.Emit (OpCodes.Ret);
+
+dynMeth.Invoke (null, null);         // 42</pre>
+<p>Branching:</p>
+<pre>ILGenerator gen = ...
+
+Label startLoop = gen.DefineLabel();                  // Declare labels
+Label endLoop = gen.DefineLabel();
+
+LocalBuilder x = gen.DeclareLocal (typeof (int));     // int x
+gen.Emit (OpCodes.Ldc_I4, 5);                         //
+gen.Emit (OpCodes.Stloc, x);                          // x = 5
+
+gen.MarkLabel (startLoop); 
+  gen.Emit (OpCodes.Ldc_I4, 10);              // Load 10 onto eval stack
+  gen.Emit (OpCodes.Ldloc, x);                // Load x onto eval stack
+
+  gen.Emit (OpCodes.Blt, endLoop);            // if (x &gt; 10) goto endLoop
+
+  gen.EmitWriteLine (x);                      // Console.WriteLine (x)   
+
+  gen.Emit (OpCodes.Ldloc, x);                // Load x onto eval stack
+  gen.Emit (OpCodes.Ldc_I4, 1);               // Load 1 onto the stack
+  gen.Emit (OpCodes.Add);                     // Add them together
+  gen.Emit (OpCodes.Stloc, x);                // Save result back to x
+
+  gen.Emit (OpCodes.Br, startLoop);           // return to start of loop
+gen.MarkLabel (endLoop);
+
+gen.Emit (OpCodes.Ret);</pre>
+<p>Instanting objects and calling instance methods:</p>
+<pre>var dynMeth = new DynamicMethod (&quot;Test&quot;, null, null, typeof (void));
+ILGenerator gen = dynMeth.GetILGenerator();
+
+ConstructorInfo ci = typeof (StringBuilder).GetConstructor (new Type[0]);
+
+gen.Emit (OpCodes.Newobj, ci);
+
+gen.Emit (OpCodes.Callvirt, typeof (StringBuilder)
+                            .GetProperty (&quot;MaxCapacity&quot;).GetGetMethod());
+
+gen.Emit (OpCodes.Call, typeof (Console).GetMethod (&quot;WriteLine&quot;,
+                                         new[] { typeof (int) } ));
+gen.Emit (OpCodes.Ret);
+dynMeth.Invoke (null, null);              // 2147483647</pre>
+<p>Constructing and using a StringBuilder:</p>
+<pre>// We will call:   new StringBuilder (&quot;Hello&quot;, 1000)
+
+ConstructorInfo ci = typeof (StringBuilder).GetConstructor (
+                     new[] { typeof (string), typeof (int) } );
+
+gen.Emit (OpCodes.Ldstr, &quot;Hello&quot;);   // Load a string onto the eval stack
+gen.Emit (OpCodes.Ldc_I4, 1000);     // Load an int onto the eval stack
+gen.Emit (OpCodes.Newobj, ci);       // Construct the StringBuilder
+
+Type[] strT = { typeof (string) };
+gen.Emit (OpCodes.Ldstr, &quot;, world!&quot;);
+gen.Emit (OpCodes.Call, typeof (StringBuilder).GetMethod (&quot;Append&quot;, strT));
+gen.Emit (OpCodes.Callvirt, typeof (object).GetMethod (&quot;ToString&quot;));
+gen.Emit (OpCodes.Call, typeof (Console).GetMethod (&quot;WriteLine&quot;, strT));
+gen.Emit (OpCodes.Ret);
+dynMeth.Invoke (null, null);        // Hello, world!</pre>
+<p>Exception handling:</p>
+<pre>MethodInfo getMessageProp = typeof (NotSupportedException)
+                            .GetProperty (&quot;Message&quot;).GetGetMethod();
+
+MethodInfo writeLineString = typeof (Console).GetMethod (&quot;WriteLine&quot;,
+                                             new[] { typeof (object) } );
+gen.BeginExceptionBlock();
+  ConstructorInfo ci = typeof (NotSupportedException).GetConstructor (
+                                                        new Type[0] );
+  gen.Emit (OpCodes.Newobj, ci);
+  gen.Emit (OpCodes.Throw);
+gen.BeginCatchBlock (typeof (NotSupportedException));
+  gen.Emit (OpCodes.Callvirt, getMessageProp);
+  gen.Emit (OpCodes.Call, writeLineString);
+gen.BeginFinallyBlock();
+  gen.EmitWriteLine (&quot;Finally&quot;);
+gen.EndExceptionBlock();</pre>
+<p>Emitting assemblies and types:</p>
+<pre>AppDomain appDomain = AppDomain.CurrentDomain;
+
+AssemblyName aname = new AssemblyName (&quot;MyDynamicAssembly&quot;);
+
+AssemblyBuilder assemBuilder =
+  appDomain.DefineDynamicAssembly (aname, AssemblyBuilderAccess.Run);
+
+ModuleBuilder modBuilder = assemBuilder.DefineDynamicModule (&quot;DynModule&quot;);
+
+TypeBuilder tb = modBuilder.DefineType (&quot;Widget&quot;, TypeAttributes.Public);
+
+MethodBuilder methBuilder = tb.DefineMethod (&quot;SayHello&quot;,
+                                             MethodAttributes.Public,
+                                             null, null);
+ILGenerator gen = methBuilder.GetILGenerator();
+gen.EmitWriteLine (&quot;Hello world&quot;);
+gen.Emit (OpCodes.Ret);  
+
+Type t = tb.CreateType();
+
+object o = Activator.CreateInstance (t);
+t.GetMethod (&quot;SayHello&quot;).Invoke (o, null);        // Hello world</pre>
+<p>Saving emitted assemblies:</p>
+<pre>AppDomain domain = AppDomain.CurrentDomain;
+
+AssemblyName aname = new AssemblyName (&quot;MyEmissions&quot;);
+aname.Version = new Version (2, 13, 0, 1);
+
+AssemblyBuilder assemBuilder = domain.DefineDynamicAssembly (
+  aname, AssemblyBuilderAccess.RunAndSave);
+
+ModuleBuilder modBuilder = assemBuilder.DefineDynamicModule (
+  &quot;MainModule&quot;, &quot;MyEmissions.dll&quot;);
+
+// Create types as we did previously...
+// ...
+
+assemBuilder.Save (&quot;MyEmissions.dll&quot;);</pre>
+<p>Emitting type members: boilerplate declarations:</p>
+<pre>AppDomain domain = AppDomain.CurrentDomain;
+AssemblyName aname = new AssemblyName (&quot;MyEmissions&quot;);
+
+AssemblyBuilder assemBuilder = domain.DefineDynamicAssembly (
+  aname, AssemblyBuilderAccess.RunAndSave);
+
+ModuleBuilder modBuilder = assemBuilder.DefineDynamicModule (
+  &quot;MainModule&quot;, &quot;MyEmissions.dll&quot;);
+
+TypeBuilder tb = modBuilder.DefineType (&quot;Widget&quot;, TypeAttributes.Public);</pre>
+<p>Emitting methods:</p>
+<pre>MethodBuilder mb = tb.DefineMethod (&quot;SquareRoot&quot;,
+  MethodAttributes.Static | MethodAttributes.Public,
+  CallingConventions.Standard,
+  typeof (double),                     // Return type
+  new[]  { typeof (double) } );        // Parameter types
+
+mb.DefineParameter (1, ParameterAttributes.None, &quot;value&quot;);  // Assign name 
+
+ILGenerator gen = mb.GetILGenerator();
+gen.Emit (OpCodes.Ldarg_0);                                // Load 1st arg
+gen.Emit (OpCodes.Call, typeof(Math).GetMethod (&quot;Sqrt&quot;));
+gen.Emit (OpCodes.Ret);
+
+Type realType = tb.CreateType();
+double x = (double) tb.GetMethod (&quot;SquareRoot&quot;).Invoke (null,
+                                                new object[] { 10.0 });
+Console.WriteLine (x);   // 3.16227766016838</pre>
+<p>Passing by reference:</p>
+<pre>MethodBuilder mb = tb.DefineMethod (&quot;SquareRoot&quot;,
+  MethodAttributes.Static | MethodAttributes.Public,
+  CallingConventions.Standard,
+  null,
+  new Type[] { typeof (double).MakeByRefType() } );
+
+mb.DefineParameter (1, ParameterAttributes.None, &quot;value&quot;);
+
+ILGenerator gen = mb.GetILGenerator();
+gen.Emit (OpCodes.Ldarg_0);
+gen.Emit (OpCodes.Ldarg_0);
+gen.Emit (OpCodes.Ldind_R8);
+gen.Emit (OpCodes.Call, typeof (Math).GetMethod (&quot;Sqrt&quot;));
+gen.Emit (OpCodes.Stind_R8);
+gen.Emit (OpCodes.Ret);
+
+Type realType = tb.CreateType();
+object[] args = { 10.0 };
+tb.GetMethod (&quot;SquareRoot&quot;).Invoke (null, args);
+Console.WriteLine (args[0]);                     // 3.16227766016838</pre>
+<p>Emitting fields and properties:</p>
+<pre>FieldBuilder field = tb.DefineField (&quot;_text&quot;, typeof (string),
+                                      FieldAttributes.Private);
+PropertyBuilder prop = tb.DefineProperty (
+                         &quot;Text&quot;,                      // Name of property 
+                         PropertyAttributes.None,      
+                         typeof (string),             // Property type
+                         new Type[0]);                // Indexer types
+
+MethodBuilder getter = tb.DefineMethod (
+  &quot;get_Text&quot;,                                         // Method name
+  MethodAttributes.Public | MethodAttributes.SpecialName,
+  typeof (string),                                    // Return type
+  new Type[0]);                                       // Parameter types
+
+ILGenerator getGen = getter.GetILGenerator();
+getGen.Emit (OpCodes.Ldarg_0);        // Load &quot;this&quot; onto eval stack
+getGen.Emit (OpCodes.Ldfld, field);   // Load field value onto eval stack
+getGen.Emit (OpCodes.Ret);            // Return
+
+MethodBuilder setter = tb.DefineMethod (
+  &quot;set_Text&quot;,
+  MethodAttributes.Assembly | MethodAttributes.SpecialName,
+  null,                                                 // Return type
+  new Type[] { typeof (string) } );                     // Parameter types
+
+ILGenerator setGen = setter.GetILGenerator();
+setGen.Emit (OpCodes.Ldarg_0);        // Load &quot;this&quot; onto eval stack
+setGen.Emit (OpCodes.Ldarg_1);        // Load 2nd arg, i.e., value
+setGen.Emit (OpCodes.Stfld, field);   // Store value into field
+setGen.Emit (OpCodes.Ret);            // return
+
+prop.SetGetMethod (getter);           // Link the get method and property
+prop.SetSetMethod (setter);           // Link the set method and property</pre>
+<pre>Type t = tb.CreateType();
+object o = Activator.CreateInstance (t);
+t.GetProperty (&quot;Text&quot;).SetValue (o, &quot;Good emissions!&quot;, new object[0]);
+string text = (string) t.GetProperty (&quot;Text&quot;).GetValue (o, null);
+
+Console.WriteLine (text);             // Good emissions!</pre>
+<p>Emitting constructors:</p>
+<pre>FieldBuilder field = tb.DefineField (&quot;_capacity&quot;, typeof (int),
+                                      FieldAttributes.Private);
+ConstructorBuilder c = tb.DefineConstructor (
+  MethodAttributes.Public,
+  CallingConventions.Standard,
+  new Type[0]);                  // Constructor parameters
+
+ILGenerator gen = c.GetILGenerator();
+
+gen.Emit (OpCodes.Ldarg_0);             // Load &quot;this&quot; onto eval stack
+gen.Emit (OpCodes.Ldc_I4, 4000);        // Load 4000 onto eval stack
+gen.Emit (OpCodes.Stfld, field);        // Store it to our field
+gen.Emit (OpCodes.Ret);</pre>
+<p>Calling base constructors:</p>
+<pre>gen.Emit (OpCodes.Ldarg_0);
+ConstructorInfo baseConstr = typeof (B).GetConstructor (new Type[0]);
+gen.Emit (OpCodes.Call, baseConstr);</pre>
+<p>Attaching attributes:</p>
+<pre>Type attType = typeof (XmlElementAttribute);
+
+ConstructorInfo attConstructor = attType.GetConstructor (
+  new Type[] { typeof (string) } );
+
+var att = new CustomAttributeBuilder (
+  attConstructor,                        // Constructor
+  new object[] { &quot;FirstName&quot; },          // Constructor arguments      
+  new PropertyInfo[] { 
+    attType.GetProperty (&quot;Namespace&quot;),   // Properties
+    attType.GetProperty (&quot;Order&quot;)
+  },
+  new object[] { &quot;FirstName&quot;, 3 }        // Property values
+);
+
+myFieldBuilder.SetCustomAttribute (att);
+// or propBuilder.SetCustomAttribute (att);
+// or typeBuilder.SetCustomAttribute (att);  etc</pre>
+<p>Emitting generic types and methods: boilerplate declarations:</p>
+<pre>AppDomain domain = AppDomain.CurrentDomain;
+AssemblyName aname = new AssemblyName (&quot;MyEmissions&quot;);
+
+AssemblyBuilder assemBuilder = domain.DefineDynamicAssembly (
+  aname, AssemblyBuilderAccess.RunAndSave);
+
+ModuleBuilder modBuilder = assemBuilder.DefineDynamicModule (
+  &quot;MainModule&quot;, &quot;MyEmissions.dll&quot;);</pre>
+<p>Defining generic methods:</p>
+<pre>TypeBuilder tb = modBuilder.DefineType (&quot;Widget&quot;, TypeAttributes.Public);
+
+MethodBuilder mb = tb.DefineMethod (&quot;Echo&quot;, MethodAttributes.Public |
+                                            MethodAttributes.Static);
+GenericTypeParameterBuilder[] genericParams 
+  = mb.DefineGenericParameters (&quot;T&quot;);
+
+mb.SetSignature (genericParams[0],     // Return type
+                 null, null,
+                 genericParams,        // Parameter types
+                 null, null);
+
+mb.DefineParameter (1, ParameterAttributes.None, &quot;value&quot;);   // Optional
+
+ILGenerator gen = mb.GetILGenerator();
+gen.Emit (OpCodes.Ldarg_1);
+gen.Emit (OpCodes.Ret);</pre>
+<p>Defining generic types:</p>
+<pre>TypeBuilder tb = modBuilder.DefineType (&quot;Widget&quot;, TypeAttributes.Public);
+
+GenericTypeParameterBuilder[] genericParams
+  = tb.DefineGenericParameters (&quot;T&quot;);
+
+tb.DefineField (&quot;Value&quot;, genericParams[0], FieldAttributes.Public);</pre>
+<p>Awkward emission targets—uncreated closed generics:</p>
+<pre>TypeBuilder tb = modBuilder.DefineType (&quot;Widget&quot;, TypeAttributes.Public);
+
+MethodBuilder mb = tb.DefineMethod (&quot;Test&quot;, MethodAttributes.Public |
+                                            MethodAttributes.Static);
+ILGenerator gen = mb.GetILGenerator();
+
+Type variableType = typeof (List&lt;&gt;).MakeGenericType (tb);
+
+ConstructorInfo open = typeof (List&lt;&gt;).GetConstructor (new Type[0]);
+ConstructorInfo ci   = TypeBuilder.GetConstructor (variableType, open);
+
+LocalBuilder listVar = gen.DeclareLocal (variableType);
+gen.Emit (OpCodes.Newobj, ci);
+gen.Emit (OpCodes.Stloc, listVar);
+gen.Emit (OpCodes.Ret);</pre>
+<p>Awkward emission targets—circular dependencies:</p>
+<pre>var publicAtt = FieldAttributes.Public;
+
+TypeBuilder aBuilder = modBuilder.DefineType (&quot;A&quot;);
+TypeBuilder bBuilder = modBuilder.DefineType (&quot;B&quot;);
+
+FieldBuilder bee = aBuilder.DefineField (&quot;Bee&quot;, bBuilder, publicAtt);
+FieldBuilder aye = bBuilder.DefineField (&quot;Aye&quot;, aBuilder, publicAtt);
+
+Type realA = aBuilder.CreateType();
+Type realB = bBuilder.CreateType();</pre>
+<pre>var pub = FieldAttributes.Public;
+
+TypeBuilder aBuilder = modBuilder.DefineType (&quot;A&quot;);
+TypeBuilder bBuilder = modBuilder.DefineType (&quot;B&quot;);
+
+aBuilder.DefineField (&quot;Bee&quot;, typeof(S&lt;&gt;).MakeGenericType (bBuilder), pub);
+bBuilder.DefineField (&quot;Aye&quot;, typeof(S&lt;&gt;).MakeGenericType (aBuilder), pub);</pre>
+<pre>TypeBuilder[] uncreatedTypes = { aBuilder, bBuilder };
+
+ResolveEventHandler handler = delegate (object o, ResolveEventArgs args)
+{
+  var type = uncreatedTypes.FirstOrDefault (t =&gt; t.FullName == args.Name);
+  return type == null ? null : type.CreateType().Assembly;
+};
+
+AppDomain.CurrentDomain.TypeResolve += handler;
+
+Type realA = aBuilder.CreateType();
+Type realB = bBuilder.CreateType();
+
+AppDomain.CurrentDomain.TypeResolve -= handler;</pre>
+<p>Writing an IL disassembler:</p>
+<pre>using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Xml;
+
+class Disassembler
+{
+  public static string Disassemble (MethodBase method)
+  {
+    return new Disassembler (method).Dis ();
+  }
+
+  static Dictionary&lt;short, OpCode&gt; _opcodes = new Dictionary&lt;short, OpCode&gt; ();
+  static Disassembler ()
+  {
+    foreach (FieldInfo fi in typeof (OpCodes).GetFields
+                             (BindingFlags.Public | BindingFlags.Static))
+      if (typeof (OpCode).IsAssignableFrom (fi.FieldType))
+      {
+        OpCode code = (OpCode)fi.GetValue (null);
+        if (code.OpCodeType != OpCodeType.Nternal)
+          _opcodes.Add (code.Value, code);
+      }
+  }
+
+  StringBuilder _output;
+  Module _module;
+  byte[] _il;
+  int _pos;
+
+  Disassembler (MethodBase method)
+  {
+    _module = method.DeclaringType.Module;
+    _il = method.GetMethodBody ().GetILAsByteArray ();
+  }
+
+  string Dis ()
+  {
+    _output = new StringBuilder ();
+    while (_pos &lt; _il.Length) DisassembleNextInstruction ();
+    return _output.ToString ();
+  }
+
+  void DisassembleNextInstruction ()
+  {
+    int opStart = _pos;
+
+    OpCode code = ReadOpCode ();
+    string operand = ReadOperand (code);
+
+    _output.AppendFormat (&quot;IL_{0:X4}:  {1,-12} {2}&quot;,
+                           opStart, code.Name, operand);
+    _output.AppendLine ();
+  }
+
+  string ReadOperand (OpCode c)
+  {
+    int operandLength =
+      c.OperandType == OperandType.InlineNone
+        ? 0 :
+      c.OperandType == OperandType.ShortInlineBrTarget
+      || c.OperandType == OperandType.ShortInlineI
+      || c.OperandType == OperandType.ShortInlineVar
+        ? 1 :
+      c.OperandType == OperandType.InlineVar
+        ? 2 :
+      c.OperandType == OperandType.InlineI8
+      || c.OperandType == OperandType.InlineR
+        ? 8 :
+      c.OperandType == OperandType.InlineSwitch
+        ? 4 * (BitConverter.ToInt32 (_il, _pos) + 1)
+        : 4;
+    
+    if (_pos + operandLength &gt; _il.Length)
+      throw new Exception (&quot;Unexpected end of IL&quot;);
+
+    string result = FormatOperand (c, operandLength);
+    if (result == null)
+    {
+      result = &quot;&quot;;
+      for (int i = 0; i &lt; operandLength; i++)
+        result += _il[_pos + i].ToString (&quot;X2&quot;) + &quot; &quot;;
+    }
+    _pos += operandLength;
+    return result;
+  }  
+
+  OpCode ReadOpCode ()
+  {
+    byte byteCode = _il[_pos++];
+    if (_opcodes.ContainsKey (byteCode)) return _opcodes[byteCode];
+
+    if (_pos == _il.Length)
+      throw new Exception (&quot;Cannot find opcode &quot; + byteCode);
+
+    short shortCode = (short)(byteCode * 256 + _il[_pos++]);
+
+    if (!_opcodes.ContainsKey (shortCode))
+      throw new Exception (&quot;Cannot find opcode &quot; + shortCode);
+
+    return _opcodes[shortCode];
+  }
+
+  string FormatOperand (OpCode c, int operandLength)
+  {
+    if (operandLength == 0) return &quot;&quot;;
+
+    if (operandLength == 4)
+      return Get4ByteOperand (c);
+    else if (c.OperandType == OperandType.ShortInlineBrTarget)
+      return GetShortRelativeTarget();
+    else if (c.OperandType == OperandType.InlineSwitch)
+      return GetSwitchTarget (operandLength);
+    else
+      return null;
+  }
+
+  string Get4ByteOperand (OpCode c)
+  {
+    int intOp = BitConverter.ToInt32 (_il, _pos);
+   
+    switch (c.OperandType)
+    {
+      case OperandType.InlineTok:
+      case OperandType.InlineMethod:
+      case OperandType.InlineField:
+      case OperandType.InlineType:
+        MemberInfo mi;
+        try   { mi = _module.ResolveMember (intOp); }
+        catch { return null; }
+        if (mi == null) return null;
+
+        if (mi.ReflectedType != null)
+          return mi.ReflectedType.FullName + &quot;.&quot; + mi.Name;
+        else if (mi is Type)
+          return ((Type)mi).FullName;
+        else
+          return mi.Name;
+
+      case OperandType.InlineString:
+        string s = _module.ResolveString (intOp);
+        if (s != null) s = &quot;\&quot;&quot; + s + &quot;\&quot;&quot;;
+        return s;
+
+      case OperandType.InlineBrTarget:
+        return &quot;IL_&quot; + (_pos + intOp + 4).ToString (&quot;X4&quot;);
+
+      default:
+        return null;
+    }
+  }
+
+  string GetShortRelativeTarget()
+  {
+    return &quot;IL_&quot; + (_pos + (sbyte)_il[_pos] + 1).ToString (&quot;X4&quot;);
+  }
+
+  string GetSwitchTarget (int operandLength)
+  {
+    int targetCount = BitConverter.ToInt32 (_il, _pos);
+    string [] targets = new string [targetCount];
+    for (int i = 0; i &lt; targetCount; i++)
+    {
+      int ilTarget = BitConverter.ToInt32 (_il, _pos + (i + 1) * 4);
+      targets [i] = &quot;IL_&quot; + (_pos + ilTarget + operandLength).ToString (&quot;X4&quot;);
+    }
+    return &quot;(&quot; + string.Join (&quot;, &quot;, targets) + &quot;)&quot;;
+  }
+}
+</pre>
+</div>
+
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch18.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

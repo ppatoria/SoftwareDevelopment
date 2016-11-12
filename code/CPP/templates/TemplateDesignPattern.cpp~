@@ -1,0 +1,68 @@
+#include <iostream>
+#include <functional>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void Open () = 0;
+    
+    template <class MessageType>
+    void SendMessage (MessageType message){
+	cout << "Base: " << message << endl;
+	//this->message = message;
+	fun(message);
+    }
+    
+//    virtual void Send () = 0;
+    // template <class MessageType>
+    // void Send (MessageType message)=0{
+    //  	cout << "Base: " << message << endl;
+    //  }
+
+    virtual void Close () = 0;
+protected:
+    template <class MessageType>
+    function<void(MessageType m)> fun;
+};
+
+class Derived : public Base{
+public:
+
+    Derived (){
+	fun = [] (string message){
+	    cout << message << endl;
+	};
+    }
+	
+
+    void Open (){
+	cout << "Derived Open" << endl; 
+    }
+
+    template <class MessageType>
+    void SendMessage (MessageType message){
+	cout << "Derived: "  << message << endl;
+    }
+
+    //template <class MessageType>
+    //void Send (MessageType message){
+    //	cout << "Derived Send: " << message << endl;
+    //}
+
+    // void Send (){
+    // 	cout << "Derived Send: " << message << endl;
+    // }
+
+    void Close (){
+	cout << "Derived Close" << endl;
+    }
+};
+
+
+int main (){
+    Base* b = new Derived();
+    string message = "message text";
+    b->SendMessage<string> (message);
+    return 1;
+}

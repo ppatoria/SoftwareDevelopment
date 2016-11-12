@@ -1,0 +1,31 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+#+END_HTML
+#+TITLE: Database Questions 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil
+
+[TABLE-OF-CONTENTS]
+
+* Test-Driven Development
+
+Instead of designing a module, then coding it and then testing it, you turn the process around and do the testing first. To put it another way, you don't write a single line of production code until you have a test that fails. The typical programming sequence is something like this: 
+
+ 1. Write a test. 
+ 2. Run the test. It fails to compile because the code you're trying to test doesn't even exist yet! (This is the same thing as failing.) 
+ 3. Write a bare-bones stub to make the test compile. 
+ 4. Run the test. It should fail. (If it doesn't, then the test wasn't very good.) 
+ 5. Implement the code to make the test pass. 
+ 6. Run the test. It should pass. (If it doesn't, back up one step and try again.) 
+ 7. Start over with a new test! 
+
+While you are doing step #5, you create your code using a process called *Coding by Intent*. When you practice **Coding by Intention** you **write your code top-down instead of bottom up**. Instead of thinking, "I'm going to need this class with these methods," you just write the code that you want... before the class you need actually exists. If you try to compile your code, it fails because the compiler can't find the missing class. This is a good thing, because as I said above, failing to compile counts as a failing test. What you are doing here is expressing the intention of the code that you are writing. Not only does this help produce well-tested code, it also results in code that is easier to read, easier to debug and has a better design. In traditional software development, tests were thought to verify that an existing bit of code was written correctly. When you do TDD, however, your tests are used to define the behavior of a class before you write it. I won't suggest that this is easier than the old ways, but in my experience it is vastly better. If you have read about Extreme Programming, then this is primarity a review. However, if this is new to you, here is a sample. Suppose the application that I'm writing has to allow the user to make a deposit in a bank account. Before creating a BankAccount class, I create a class in my testing library called BankAccountTests. The first thing I need my bank account class to do is be able to take a deposit and show the correct balance. So I write the following code: 

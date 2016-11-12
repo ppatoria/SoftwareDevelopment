@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch19.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch19.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkmWSetfD6+cokffCk4OzLO7DCfjQ=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Dynamic Programming</h2>
+
+<p>Numeric type unification</p>
+
+<pre>static dynamic Mean (dynamic x, dynamic y)
+{
+  return (x + y) / 2;
+}
+
+static void Main()
+{ 
+  int x = 3, y = 5;
+  Console.WriteLine (Mean (x, y));
+}
+</pre>
+
+<p>Numeric type unification - typesafe</p>
+
+<pre>static T Mean&lt;T&gt; (T x, T y)
+{
+  dynamic result = ((dynamic) x + y) / 2;
+  return (T) result;
+}
+</pre>
+
+<p>Visitor pattern - setup</p>
+
+<pre>class Person
+{
+  public string FirstName { get; set; }
+  public string LastName  { get; set; }
+
+  // The Friends collection may contain Customers & Employees:
+  public readonly IList&lt;Person&gt; Friends = new Collection&lt;Person&gt; ();
+}
+
+class Customer : Person { public decimal CreditLimit { get; set; } }
+class Employee : Person { public decimal Salary      { get; set; } }
+</pre>
+
+<p>Visitor pattern - single class</p>
+
+<pre>class ToXElementPersonVisitor
+{
+  public XElement DynamicVisit (Person p)  
+  {
+    return Visit ((dynamic)p);
+  }
+
+  XElement Visit (Person p)
+  {
+    return new XElement ("Person",
+      new XAttribute ("Type", p.GetType().Name),
+      new XElement ("FirstName", p.FirstName),
+      new XElement ("LastName", p.LastName),
+      p.Friends.Select (f => DynamicVisit (f))
+    );
+  }
+
+  XElement Visit (Customer c)   // Specialized logic for customers
+  {
+    XElement xe = Visit ((Person)c);   // Call "base" method
+    xe.Add (new XElement ("CreditLimit", c.CreditLimit));
+    return xe;
+  }
+
+  XElement Visit (Employee e)   // Specialized logic for employees
+  {
+    XElement xe = Visit ((Person)e);   // Call "base" method
+    xe.Add (new XElement ("Salary", e.Salary));
+    return xe;
+  }
+}
+</pre>
+
+<p>Demo:</p>
+
+<pre>var cust = new Customer
+{
+  FirstName = "Joe", LastName = "Bloggs", CreditLimit = 123
+};
+cust.Friends.Add (
+  new Employee { FirstName = "Sue", LastName = "Brown", Salary = 50000 }
+);
+
+Console.WriteLine (new ToXElementPersonVisitor().DynamicVisit (cust));
+</pre>
+
+<p>Visitor - abstract base class</p>
+
+<pre>abstract class PersonVisitor&lt;T&gt;
+{
+  public T DynamicVisit (Person p) { return Visit ((dynamic)p); }
+
+  protected abstract T Visit (Person p);
+  protected virtual T Visit (Customer c) { return Visit ((Person) c); }
+  protected virtual T Visit (Employee e) { return Visit ((Person) e); }
+}
+</pre>
+
+<p>Visitor - subclass</p>
+
+<pre>class ToXElementPersonVisitor : PersonVisitor&lt;XElement&gt;
+{
+  protected override XElement Visit (Person p)
+  {
+    return new XElement ("Person",
+      new XAttribute ("Type", p.GetType().Name),
+      new XElement ("FirstName", p.FirstName),
+      new XElement ("LastName", p.LastName),
+      p.Friends.Select (f => DynamicVisit (f))
+    );
+  }
+
+  protected override XElement Visit (Customer c)
+  {
+    XElement xe = base.Visit (c);
+    xe.Add (new XElement ("CreditLimit", c.CreditLimit));
+    return xe;
+  }
+
+  protected override XElement Visit (Employee e)
+  {
+    XElement xe = base.Visit (e);
+    xe.Add (new XElement ("Salary", e.Salary));
+    return xe;
+  }
+}
+</pre>
+
+<p>Anonymously Calling Members of a Generic Type</p>
+
+<pre>static void Write (dynamic obj)
+{
+  try { Console.WriteLine (obj.Value); }
+  catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException) {...}
+}
+</pre>
+
+<p>Better solution:</p>
+
+<pre>static void Write (dynamic obj)
+{
+  object result = GetFooValue (obj);
+  if (result != null) Console.WriteLine (result);
+}
+
+static T GetFooValue&lt;T&gt; (Foo&lt;T&gt;  foo) { return foo.Value; }
+static object GetFooValue (object foo) { return null; }
+</pre>
+
+<p>Solving the IGrouping problem:</p>
+
+<pre>static string GetGroupKey&lt;TKey,TElement&gt; (IGrouping&lt;TKey,TElement&gt; group)
+{
+  return "Group with key=" + group.Key + ": ";
+}
+
+static string GetGroupKey (object source) { return null; }
+
+public static string ToStringEx (object value)
+{
+  if (value == null) return "{null}";
+  if (value is string) return (string) value;
+  if (value.GetType().IsPrimitive) return value.ToString();
+
+  StringBuilder sb = new StringBuilder();
+
+  string groupKey = GetGroupKey ((dynamic)value);   // Dynamic dispatch
+  if (groupKey != null) sb.Append (groupKey);
+
+  if (value is IEnumerable)
+    foreach (object element in ((IEnumerable)value))
+      sb.Append (ToStringEx (element) + " ");
+
+  if (sb.Length == 0) sb.Append (value.ToString());
+
+  return "\r\n" + sb.ToString();
+}
+</pre>
+
+<p>Implementing dynamic objects:</p>
+
+<pre>static void Main()
+{
+  dynamic d = new Duck();
+  d.Quack();                  // Quack method was called
+  d.Waddle();                 // Waddle method was called
+}
+
+public class Duck : DynamicObject
+{
+  public override bool TryInvokeMember (
+    InvokeMemberBinder binder, object[] args, out object result)
+  {
+    Console.WriteLine (binder.Name + " method was called");
+    result = null;
+    return true;
+  }
+}
+</pre>
+
+<p>Dynamic Attributes</p>
+
+<pre>static class XExtensions
+{
+  public static dynamic DynamicAttributes (this XElement e)
+  {
+    return new XWrapper (e);
+  }
+  
+  class XWrapper : DynamicObject
+  {
+    XElement _element;
+    public XWrapper (XElement e) { _element = e; }
+
+    public override bool TryGetMember (GetMemberBinder binder,
+                                       out object result)
+    {
+      result = _element.Attribute (binder.Name).Value;
+      return true;
+    }
+
+    public override bool TrySetMember (SetMemberBinder binder,
+                                       object value)
+    {
+      _element.SetAttributeValue (binder.Name, value);
+      return true;
+    }
+  }
+}
+</pre>
+
+<p>DynamicReader</p>
+
+<pre>public class DynamicReader : DynamicObject
+{
+  readonly IDataRecord _dataRecord;
+  public DynamicReader (IDataRecord dr) { _dataRecord = dr; }
+
+  public override bool TryGetMember (GetMemberBinder binder,
+                                     out object result)
+  {
+    result = _dataRecord [binder.Name];
+    return true;
+  }
+}
+...
+using (IDataReader reader = someDbCommand.ExecuteReader())
+{
+  dynamic dr = new DynamicReader (reader);
+  while (reader.Read())
+  {
+    int id = dr.ID;
+    string firstName = dr.FirstName;
+    DateTime dob = dr.DateOfBirth;
+    ...
+  }
+}
+</pre>
+
+<p>TryBinaryOperation and TryInvoke</p>
+
+<pre>static void Main()
+{
+  dynamic d = new Duck();
+  Console.WriteLine (d + d);          // foo
+  Console.WriteLine (d (78, 'x'));    // 123
+}
+
+public class Duck : DynamicObject
+{
+  public override bool TryBinaryOperation (BinaryOperationBinder binder,
+                                           object arg, out object result)
+  {
+    Console.WriteLine (binder.Operation);   // Add
+    result = "foo";
+    return true;
+  }
+
+  public override bool TryInvoke (InvokeBinder binder,
+                                  object[] args, out object result)
+  {
+    Console.WriteLine (args[0]);    // 78
+    result = 123;
+    return true;
+  }
+}
+</pre>
+
+<p>ExpandoObject</p>
+
+<pre>dynamic x = new ExpandoObject();
+x.FavoriteColor = ConsoleColor.Green;
+x.FavoriteNumber = 7;
+Console.WriteLine (x.FavoriteColor);    // Green
+Console.WriteLine (x.FavoriteNumber);   // 7
+</pre>
+
+<pre>var dict = (IDictionary&lt;string,object&gt;) x;
+Console.WriteLine (dict ["FavoriteColor"]);    // Green
+Console.WriteLine (dict ["FavoriteNumber"]);   // 7
+Console.WriteLine (dict.Count);                // 2
+</pre>
+
+<p>Python interop</p>
+
+<pre>using System;
+using IronPython.Hosting;
+using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
+
+class Calculator
+{
+  static void Main()
+  {
+    int result = (int) Calculate ("2 * 3");
+    Console.WriteLine (result);              // 6
+  }
+
+  static object Calculate (string expression)
+  {
+    ScriptEngine engine = Python.CreateEngine();
+    return engine.Execute (expression);
+  }
+}
+</pre>
+
+<p>Passing state to Python:</p>
+
+<pre>// The following string could come from a file or database:
+string auditRule = "taxPaidLastYear / taxPaidThisYear > 2";
+
+ScriptEngine engine = Python.CreateEngine ();    
+
+ScriptScope scope = engine.CreateScope ();        
+scope.SetVariable ("taxPaidLastYear", 20000m);
+scope.SetVariable ("taxPaidThisYear", 8000m);
+
+ScriptSource source = engine.CreateScriptSourceFromString (
+                      auditRule, SourceCodeKind.Expression);
+
+bool auditRequired = (bool) source.Execute (scope);
+Console.WriteLine (auditRequired);   // True
+</pre>
+
+<p>Getting variables back:</p>
+
+<pre>string code = "result = input * 3";
+
+ScriptEngine engine = Python.CreateEngine();
+
+ScriptScope scope = engine.CreateScope();
+scope.SetVariable ("input", 2);
+
+ScriptSource source = engine.CreateScriptSourceFromString (code,
+                                  SourceCodeKind.SingleStatement);
+source.Execute (scope);
+Console.WriteLine (engine.GetVariable (scope, "result"));   // 6
+</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch19.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

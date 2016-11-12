@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Factory Method vs Abastract Factory </title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-28 12:57:58 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Factory Method vs Abastract Factory </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../../CSS/org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Factory Method</th><th scope="col">Abstract Factory</th></tr>
+</thead>
+<tbody>
+<tr><td>Factory method is a single method</td><td>Abstract factory is an object</td></tr>
+<tr><td>Because the factory method is just a method, it can be overridden in a subclass, hence the Factory Method pattern uses inheritance and relies on a subclass to handle the desired object instantiation. The quote assumes that an object is calling it's own factory method here. Therefor the only thing that could change the return value would be a subclass. The main difference between a "factory method" and an "abstract factory" is that , and an abstract factory is an object.</td><td>The abstract factory is an object that has multiple factory methods on it. With the Abstract Factory pattern, a class delegates the responsibility of object instantiation to another object via composition &hellip; What they're saying is that there is an object A, who wants to make a Foo object. Instead of making Foo object itself (e.g. with a factory method), it's going get a different object (the abstract factory) to create the Foo object.</td></tr>
+</tbody>
+</table>
+
+
+
+
+<pre class="src src-csharp"><span style="color: #586e75; font-style: italic;">/************************************************</span><span style="color: #586e75; font-style: italic;">
+ *            factory method                    *
+ ***********************************************/</span>
+
+<span style="color: #859900;">class</span> <span style="color: #b58900;">A</span> 
+{
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>() 
+        {
+            <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">f</span> = makeFoo();
+            f.whatever();   
+        }
+
+    <span style="color: #859900;">protected</span> <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">makeFoo</span>() 
+        {
+            <span style="color: #859900;">return</span> <span style="color: #859900;">new</span> <span style="color: #b58900;">RegularFoo</span>();
+        }
+}
+
+<span style="color: #859900;">class</span> <span style="color: #b58900;">B</span> <span style="color: #859900;">extends</span> A 
+{
+    <span style="color: #859900;">protected</span> <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">makeFoo</span>() 
+    {
+        <span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">subclass is overriding the factory method to return something different
+</span>        <span style="color: #859900;">return</span> <span style="color: #859900;">new</span> <span style="color: #b58900;">SuperFoo</span>();
+    }
+}
+
+<span style="color: #586e75; font-style: italic;">/************************************************</span><span style="color: #586e75; font-style: italic;">
+ *             abstract factory                 *
+ ***********************************************/</span>
+
+<span style="color: #859900;">class</span> <span style="color: #b58900;">A</span> 
+{
+    <span style="color: #859900;">private</span> <span style="color: #b58900;">Factory</span> <span style="color: #268bd2;">factory</span>;
+
+    <span style="color: #859900;">public</span> <span style="color: #268bd2;">A</span>(<span style="color: #b58900;">Factory</span> <span style="color: #268bd2;">factory</span>) 
+        {
+            <span style="color: #859900;">this</span>.factory = factory;
+        }
+
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>() 
+        {
+            <span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">The concrete class of "f" depends on the concrete class
+</span>            <span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">of the factory passed into the constructor. If you provide a
+</span>            <span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">different factory, you get a different Foo object.
+</span>            <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">f</span> = factory.makeFoo();
+            f.whatever();
+        }
+}
+
+<span style="color: #859900;">interface</span> <span style="color: #b58900;">Factory</span> 
+{
+    <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">makeFoo</span>();
+    <span style="color: #b58900;">Bar</span> <span style="color: #268bd2;">makeBar</span>();
+    <span style="color: #b58900;">Aycufcn</span> <span style="color: #268bd2;">makeAmbiguousYetCommonlyUsedFakeClassName</span>();
+}
+
+<span style="color: #586e75; font-style: italic;">//</span><span style="color: #586e75; font-style: italic;">need to make concrete factories that implement the "Factory" interface here
+</span></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="postamble">
+<p class="date"> Date: 2013-12-28 12:57:58 </p>
+</div>
+</div>
+</body>
+</html>

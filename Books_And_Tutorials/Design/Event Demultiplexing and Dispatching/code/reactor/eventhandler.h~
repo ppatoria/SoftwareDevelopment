@@ -1,0 +1,36 @@
+/*
+ * Types of indication events.
+ * These values are powers of two so
+ * their bits can be “or’d” together efficiently.
+ */
+enum 
+{
+    READ_EVENT		= 01,    // ACCEPT_EVENT aliases READ_EVENT
+    ACCEPT_EVENT	= 01,	 // due to <select> semantics.
+    WRITE_EVENT		= 02, 
+    TIMEOUT_EVENT	= 04,
+    SIGNAL_EVENT	= 010, 
+    CLOSE_EVENT		= 020
+    
+};
+
+// Single-method interface.
+class Event_Handler 
+{
+public:
+    /*    
+    * Hook method dispatched by <Reactor> to handle
+    * events of a particular type.
+    */
+    virtual void handle_event (HANDLE handle, Event_Type et) = 0;
+    /*
+     * Hook method that returns the I/O <HANDLE>.
+     */
+    virtual HANDLE get_handle () const = 0;
+protected:
+    /*
+     * Virtual destructor is protected to ensure
+     * dynamic allocation.
+     */
+    virtual ~Event_Handler ();
+};

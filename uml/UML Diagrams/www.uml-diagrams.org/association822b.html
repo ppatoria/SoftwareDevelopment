@@ -1,0 +1,821 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/association.html??context=class-diagrams by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Association - relationship between classifiers to show that instances of classifiers could be either linked to each other or combined into some aggregation.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Association - relationship between classifiers to show that instances of classifiers could be either linked to each other or combined into some aggregation." />
+<meta name="keywords" content="UML, UML 2, 2.4, relationship, association, arity, aggregation type, association end ownership, navigability." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association" class="active-nav" >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Association</h1>
+
+<p>
+<strong>Association</strong> is
+ a <a href="uml-core.html#relationship" class="ref-link">relationship</a>
+ between <a href="classifier.html" class="ref-link">classifiers</a>
+which is used to show that instances of classifiers could be
+ either <a href="association.html#link" class="ref-link">linked</a> to each other
+ or <a href="association.html#aggregation" class="ref-link">combined</a>
+ logically or physically into some aggregation.
+</p>
+
+<p>
+UML specification categorizes association as 
+ <a href="uml-core.html#semantic-relationship" class="ref-link">semantic relationship</a>.
+ Some other UML sources also categorize association as a <strong>structural relationship</strong>.
+Wikipedia states that association is <strong>instance level</strong> relationship and
+ that associations can only be shown on <strong>class diagrams</strong>.
+ Not sure where they got that information from but it is not based on UML specification.
+<a href="association.html" class="ref-link">Association</a>
+ could be used on different types of UML 
+ <a href="uml-25-diagrams.html#structure-diagram" class="ref-link">structure diagrams</a>:
+</p>
+<ul>
+<li><a href="class-diagrams-overview.html" class="ref-link">class diagram associations</a>,</li>
+<li><a href="use-case-actor-association.html" class="ref-link">use case diagram associations</a>,</li>
+<li><a href="deployment-diagrams.html#artifact-association" class="ref-link">deployment diagram artifact associations</a>,</li>
+<li><a href="deployment-diagrams.html#communication-path" class="ref-link">deployment diagram communication path</a>.</li>
+</ul>
+
+<p>
+There are several concepts related to association:
+</p>
+<ul>
+<li><a href="association.html#association-end" class="ref-link">association end ownership</a>,</li>
+<li><a href="association.html#navigability" class="ref-link">navigability</a>,</li>
+<li><a href="association.html#arity" class="ref-link">association arity</a>,</li>
+<li><a href="association.html#aggregation" class="ref-link">aggregation type</a>.</li>
+</ul>
+
+<p>
+<a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">UML 2.4 specification</a>
+ states that for the association:
+"<span class="citation">Aggregation type, navigability, and end ownership are orthogonal concepts, ...</span>"
+which is clearly an overstatement. Orthogonal usually means completely independent. While notation for
+ <a href="association.html#aggregation" class="ref-link">aggregation type</a>,
+ <a href="association.html#navigability" class="ref-link">navigability</a>, and
+ <a href="association.html#association-end" class="ref-link">association end ownership</a>
+ could be applied independently, the concepts themselves are not orthogonal.
+ For example, in UML 2.4 end property of association owned by an end class is navigable,
+ which clearly makes navigability dependent on ownership.
+</p>
+
+<div class="figure-left-240">
+<img src="association/class-association-overview.png" width="360" height="273"
+ alt="UML Association relationship overview diagram." 
+ title="Uml Association relationship overview diagram." />
+<p class="figure-text">
+<strong>Association</strong> relationship overview diagram
+</p>
+</div>
+
+<p>
+An association is usually drawn as a solid line connecting two classifiers or a single
+ classifier to itself. 
+ Name of the association can be shown somewhere near the middle of the association line but not too close
+ to any of the ends of the line.
+ Each end of the line could be decorated  with the name of the
+<a href="association.html#association-end" class="ref-link">association end</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="association/association.png" width="330" height="52"
+ alt="Association Wrote between Professor and Book."
+ title="Association Wrote between Professor and Book." />
+<p class="figure-text">
+Association <strong>Wrote</strong> between <strong>Professor</strong> and <strong>Book</strong><br />
+ with association ends <strong>author</strong> and <strong>textbook</strong>.
+</p>
+</div>
+
+
+
+<!--
+**********************
+  Association End 
+**********************
+-->
+
+<h2 id="association-end">Association End</h2>
+
+<p>
+<strong>Association end</strong> is a connection between the line depicting
+ an <a href="association.html" class="ref-link">association</a>
+ and the icon depicting the connected
+ <a href="classifier.html" class="ref-link">classifier</a>.
+ Name of the association end may be placed near the end of the line.
+ The association end name is commonly referred to as <strong>role</strong> name
+ (but it is not defined as such in the UML 2.4 standard).
+ The role name is optional and suppressible.
+</p>
+
+<div class="figure-left-80">
+<img src="association/association.png" width="330" height="52"
+ alt="Professor playing the role of author associated with textbook end typed as Book."
+ title="Professor playing the role of author associated with textbook end typed as Book." />
+<p class="figure-text">
+<strong>Professor</strong> "playing the role" of <strong>author</strong> is associated<br />
+ with <strong>textbook</strong> end typed as <strong>Book</strong>.
+</p>
+</div>
+
+<p>
+The idea of the <strong>role</strong> is that the same classifier can play the same or different roles
+ in other associations. For example, Professor could be an author of some Books or an editor.
+</p>
+
+<p>
+Association end could be <strong>owned</strong> either by
+</p>
+<ul>
+<li><strong>end classifier</strong>, or</li>
+<li><strong>association</strong> itself</li>
+</ul>
+
+<p>
+Association ends of associations with <strong>more than two ends</strong> must be
+ <strong>owned by the association</strong>.
+</p>
+
+<p>
+Ownership of association ends by an associated <strong>classifier</strong> may be indicated graphically by a
+ <strong>small filled circle</strong> (aka <strong>dot</strong>).
+  The dot is drawn at the point where line meets the classifier.
+It could be interpreted as showing that the model includes a property of the type
+ represented by the classifier touched by the dot.
+  This property is owned by the classifier <strong>at the other end</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-association-ownership.png" width="290" height="50"
+ alt="Ownership of association ends by association and classifier"
+ title="Ownership of association ends by association and classifier" />
+<p class="figure-text">
+Association end <strong>query</strong> is owned by classifier <strong>QueryBuilder</strong><br /> 
+and association end <strong>qbuilder</strong> is owned by association <strong>Builds</strong> itself
+</p>
+</div>
+
+<p>
+The "ownership" dot may be used in combination with the other graphic line-path notations
+ for properties of associations and association ends. These include aggregation type and navigability.
+</p>
+
+<p>
+UML standard does not mandate the use of explicit end-ownership notation,
+ but defines a notation which shall apply in models where such use is elected.
+ The dot notation must be applied at the level of complete associations or higher, so that
+the <strong>absence of the dot signifies ownership by the association</strong>.
+ In other words, in binary associations the dot will be omitted only for the ends
+  which are <strong>not owned by a classifier</strong>.
+</p>
+
+<p>
+Attribute notation can be used for an association end <strong>owned by a class</strong>, because an association
+end owned by a class is also an <strong>attribute</strong>.
+ This notation may be used in conjunction with the line arrow notation to make
+it perfectly clear that the attribute is also an <strong>association end</strong>.
+</p>
+
+
+<div class="figure-left-80">
+<img src="association/class-association-ownership-attribute.png" width="290" height="64"
+ alt="Ownership of association end by classifier."
+ title="Ownership of association end by classifier." />
+<p class="figure-text">
+<strong>Association end</strong> qb is an <strong>attribute</strong> of SearchService class<br />
+ and is <strong>owned</strong> by the class.
+</p>
+</div>
+
+
+
+<!--
+****************************
+  Association Navigability
+**************************** 
+-->
+
+<h2 id="navigability">Navigability</h2>
+
+<p>
+End property of association is <strong>navigable</strong> from the opposite end(s) of association
+if instances of the classifier at this end
+of the <a href="association.html#link" class="ref-link">link</a>
+ can be accessed efficiently at runtime from instances at the other ends of the link.
+</p>
+
+<p>
+UML specification does not dictate how efficient this access should be or any specific mechanism
+ to achieve the efficiency. It is implementation specific.
+</p>
+
+<p>
+When end property of association is marked as <strong>not navigable</strong>, in
+<a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4]</a>
+it means that
+<span class="citation">"access from the other ends may or may not be possible, and if it is,
+it might not be efficient."</span>
+The problem with this definition of <strong>not navigable</strong> is that it actually means "whatever"
+ or "who cares?" navigability.
+</p>
+
+<p>
+<strong>UML 2.4</strong> also provides another definition of <strong>navigability</strong>:
+</p>
+
+<p class="citation">An end property of association that is owned by an end class, or that is
+a navigable owned end of the association indicates that
+the association is <strong>navigable</strong> from the opposite ends;
+otherwise, the association is <strong>not navigable</strong> from the opposite ends.
+</p>
+
+<p>
+This definition is odd because it makes <strong>navigability</strong> strongly dependent on <strong>ownership</strong>,
+while these are assumed to be <strong>orthogonal</strong> concepts;
+some examples in UML 2.4 specs show end properties owned by a class as <strong>not navigable</strong>,
+which contradicts to the definition above;
+and navigability is defined using "<strong>navigable</strong> owned end of the association".
+</p>
+
+
+<p>
+<strong>Deprecated navigability convention:</strong>
+</p>
+<ul>
+<li>non-navigable ends were assumed to be owned by the association
+</li>
+<li>navigable ends were assumed to be owned by the classifier at the opposite end. 
+</li>
+</ul>
+
+<p>
+<strong>Notation:</strong>
+</p>
+<ul>
+<li><strong>navigable</strong> end is indicated by an <strong>open arrowhead</strong> on the end of an association</li>
+<li><strong>not navigable</strong> end is indicated with a <strong>small x</strong> on the end of an association</li>
+<li>no adornment on the end of an association means <strong>unspecified navigability</strong>
+</li>
+</ul>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-unspecified.png" width="270" height="54"
+ alt="Unspecified navigability - no adornment." 
+ title="Unspecified navigability - no adornment." />
+<p class="figure-text">
+Both ends of association have <strong>unspecified navigability</strong>.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-navigable.png" width="270" height="55"
+ alt="A2 has unspecified navigability while B2 is navigable." 
+ title="A2 has unspecified navigability while B2 is navigable." />
+<p class="figure-text">
+A2 has <strong>unspecified navigability</strong> while B2 is <strong>navigable</strong> from A2.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-not-navigable.png" width="270" height="55"
+ alt="A3 is not navigable while B3 has unspecified navigability." 
+ title="A3 is not navigable while B3 has unspecified navigability." />
+<p class="figure-text">
+A3 is <strong>not navigable</strong> from B3 while B3 has <strong>unspecified navigability</strong>.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-not-navigable-navigable.png" width="270" height="54"
+ alt="A4 is not navigable from B4 while B4 is navigable from A4." 
+ title="A4 is not navigable from B4 while B4 is navigable from A4." />
+<p class="figure-text">
+A4 is <strong>not navigable</strong> from B4 while B4 is <strong>navigable</strong> from A4.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-navigable-both.png" width="270" height="54"
+ alt="A5 is navigable from B5 and B5 is navigable from A5." 
+ title="A5 is navigable from B5 and B5 is navigable from A5." />
+<p class="figure-text">
+A5 is <strong>navigable</strong> from B5 and B5 is <strong>navigable</strong> from A5.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="association/class-navigability-not-navigable-both.png" width="270" height="54"
+ alt="A6 is not navigable from B6 and B6 is not navigable from A6." 
+ title="A6 is not navigable from B6 and B6 is not navigable from A6." />
+<p class="figure-text">
+A6 is <strong>not navigable</strong> from B6 and B6 is <strong>not navigable</strong> from A6.
+</p>
+</div>
+
+<p>
+A <strong>visibility</strong> symbol can be added as an adornment on a navigable end to show the end’s
+visibility as an attribute of the featuring classifier.
+</p>
+
+
+
+<!--
+*************************
+   Association Arity
+*************************
+-->
+
+<h2 id="arity">Arity</h2>
+
+<p>
+Each association has specific <strong>arity</strong> as it could relate two or more items.
+</p>
+
+<h4 id="binary-association">Binary Association</h4>
+
+<p>
+<strong>Binary association</strong> relates <strong>two</strong> typed instances.
+It is normally rendered as a solid line connecting two classifiers,
+ or a solid line connecting a single classifier to itself (the two ends are distinct).
+  The line may consist of one or more connected segments.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-binary-association.png" width="300" height="62"
+ alt="Binary association connecting two classifiers"
+ title="Binary association connecting two classifiers" />
+<p class="figure-text">
+Job and Year classifiers are associated
+</p>
+</div>
+
+<p>
+ A small solid triangle could be placed next to or in place of the name of <strong>binary association</strong>
+ (drawn as a solid line) to show the <strong>order of the ends</strong> of the association.
+ The arrow points along the line
+  in the direction of <strong>the last end</strong> in the order of the association ends.
+ This notation also indicates that the association is to be <strong>read</strong> from the first end to the last end.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-binary-ordered-association.png" width="330" height="60"
+ alt="Binary association connecting two classifiers"
+ title="Binary ordered association connecting two classifiers" />
+<p class="figure-text">
+Order of the ends and reading: <strong>Car</strong> - <strong>was designed in</strong> - <strong>Year</strong>
+</p>
+</div>
+
+<p>
+UML 2.4 specification states that this arrow is used <strong>for documentation purposes only</strong>
+and <strong>has no general semantic interpretation</strong>.
+This is an odd clarification as UML diagrams are in fact used mostly for documentation purposes but
+even more important, this arrow according to the UML spec defines the <strong>order</strong> 
+of association ends - which does belong to semantics.
+</p>
+
+<h4 id="nary-association">N-ary Association</h4>
+
+<p>
+Any association may be drawn as a <strong>diamond</strong> (larger than a terminator on a line)
+ with a solid line for each association end connecting the diamond to the classifier
+ that is the end’s type. <strong>N-ary association</strong> with more than two ends
+ can <strong>only</strong> be drawn this way.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-ternary-association.png" width="290" height="131"
+ alt="Ternary association connecting 3 classifiers."
+ title="Ternary association connecting 3 classifiers." />
+<p class="figure-text">
+<strong>Ternary association</strong> <strong>Design</strong> relates three classifiers
+</p>
+</div>
+
+
+<!--
+******************************
+   Association Aggregation
+******************************
+-->
+
+<h2 id="aggregation">Shared and Composite Aggregation</h2>
+
+<p>
+<strong>Aggregation</strong> is
+ a <a href="association.html#binary-association" class="ref-link">binary association</a>
+ representing some <strong>whole/part relationship</strong>. Aggregation type could be either:
+</p>
+<ul>
+<li><a href="association.html#shared-aggregation" class="ref-link">shared aggregation</a> (aka <strong>aggregation</strong>), or</li>
+<li><a href="association.html#composition" class="ref-link">composite aggregation</a> (aka <strong>composition</strong>).</li>
+</ul>
+
+
+<!--
+***************************
+   Shared Aggregation
+***************************
+-->
+
+<h3 id="shared-aggregation">Aggregation</h3>
+
+<p>
+<strong>Aggregation</strong> (<strong>shared aggregation</strong>) is a "weak" form
+ of <a href="association.html#aggregation" class="ref-link">aggregation</a>
+  when part instance is independent of the composite:
+</p>
+<ul>
+<li>the same (shared) part could be included in several composites, and</li>
+<li>if composite is deleted, shared parts may still exist.</li>
+</ul>
+
+<p>Shared aggregation is shown as binary association decorated with a <strong>hollow diamond</strong> as
+a terminal adornment at the aggregate end of the association line.
+ The diamond should be noticeably smaller than the diamond notation for N-ary associations.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-aggregation.png" width="360" height="77"
+ alt="Shared aggregation is shown as binary association decorated with a hollow diamond"
+ title="Shared aggregation is shown as binary association decorated with a hollow diamond" />
+<p class="figure-text">
+<strong>Search Service</strong> has a <strong>Query Builder</strong> using shared <strong>aggregation</strong>
+</p>
+</div>
+
+
+<!--
+*********************
+   Composition
+*********************
+-->
+
+<h3 id="composition">Composition</h3>
+
+<p>
+<strong>Composition</strong> (<strong>composite aggregation</strong>) is a "strong" form
+ of <a href="association.html#aggregation" class="ref-link">aggregation</a>.
+Composition requirements/features listed in UML specification are:
+</p>
+<ul>
+<li>it is a <strong>whole/part relationship</strong>,</li>
+<li>it is <a href="association.html#binary-association" class="ref-link">binary association</a>,</li>
+<li>part could be included in <strong>at most one</strong> composite (whole) at a time, and</li>
+<li>if a composite (whole) is deleted, all of its composite parts are "normally" deleted with it.</li>
+</ul>
+
+<p>
+Note, that UML does not define how, when and specific order in which parts of the composite are created.
+Also, in some cases a part can be removed from a composite before the composite is deleted,
+and so is not necessarily deleted as part of the composite.
+</p>
+
+<p>
+Composite aggregation is depicted as a binary association decorated with a <strong>filled black diamond</strong>
+ at the aggregate (whole) end.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-composition.png" width="270" height="51"
+ alt="Composite aggregation is depicted as binary associations with filled black diamond"
+ title="Composite aggregation is depicted as binary associations with filled black diamond" />
+<p class="figure-text">
+Folder could contain many files, while each File has exactly one Folder parent.<br />
+If Folder is deleted, all contained Files are deleted as well.
+</p>
+</div>
+
+<p>
+When composition is used in <strong>domain models</strong>, both whole/part relationship as well 
+as event of composite "deletion" should be interpreted figuratively,
+not necessarily as physical containment and/or termination.
+UML specification needs to be updated to explicitly allow this interpretation.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-composition-domain.png" width="280" height="49"
+ alt="Composite aggregation could be used in domain models."
+ title="Composite aggregation could be used in domain models." />
+<p class="figure-text">
+Hospital has 1 or more Departments, and<br />
+each Department belongs to exactly one Hospital.<br />
+If Hospital is closed, so are all of its Departments.
+</p>
+</div>
+
+<p>
+Note, that though it seems odd, multiplicity of the composite (whole) could be specified as
+<strong>0..1</strong> ("at most one") which means that part is allowed to be a "stand alone",
+ not owned by any specific composite.
+</p>
+
+<div class="figure-left-80">
+<img src="association/class-composition-optional.png" width="280" height="49"
+ alt="Multiplicity of composite (whole) could be 0..1 (at most one)."
+ title="Multiplicity of composite (whole) could be 0..1 (at most one)." />
+<p class="figure-text">
+Each Department has some Staff, and each Staff could be<br />
+a member of one Department (or none). If Department is closed,<br />
+its Staff is relieved (but excluding the "stand alone" Staff).
+</p>
+</div>
+
+
+
+<!--
+*******************
+ Association Class
+*******************
+-->
+
+<h2>Association Class</h2>
+
+<p>
+An association may be refined to have its <strong>own set of features</strong>;
+ that is, features that do not belong to any of the connected
+classifiers but rather to the association itself.
+ Such an association is called an <strong>association class</strong>.
+  It is both an association, connecting a set of classifiers and a class,
+ and as such could have features and might be included in other associations.
+</p>
+
+<p>
+ An association class can be seen as an association that
+also has class properties, or as a class that also has association properties.
+</p>
+
+<p>
+An association class is shown as a class symbol attached to the association path by a dashed line.
+ The association path and the association class symbol represent the same underlying model element,
+ which has a single name. The association name may
+be placed on the path, in the class symbol, or on both, but they must be the same name.
+</p>
+
+
+
+<!--
+*****************
+       Link
+******************
+-->
+ 
+<h2 id="link">Link</h2>
+
+<p>
+<strong>Link</strong> is an instance of
+ an <a href="association.html" class="ref-link">association</a>.
+ It is a tuple with one value for the each end of the association,
+ where each value is an instance of the type of the end.
+ Association has at least two ends, represented by properties (<strong>end properties</strong>).
+</p>
+
+<p>
+Link is rendered using the same notation as for an association.
+ Solid line connects <a href="uml-core.html#instance-core" class="ref-link">instances</a>
+ rather than classifiers.
+ Name of the link could be shown underlined though it is not required.
+ End names (<a href="association.html#association-end" class="ref-link">roles</a>)
+ and navigation arrows can be shown.
+</p>
+
+<div class="figure-left-80">
+<img src="association/link.png" width="330" height="52"
+ alt="Link Wrote between instances of Professor and Book."
+ title="Link Wrote between instances of Professor and Book." />
+<p class="figure-text">
+Link <strong>Wrote</strong> between instance <strong>p</strong> of <strong>Professor</strong>
+ playing <strong>author</strong> role<br /> and instance <strong>b</strong> of <strong>Book</strong>
+ in the <strong>textbook</strong> role.
+</p>
+</div>
+
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="generalization.html" title="UML generalization">Generalization</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'association.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/association.html??context=class-diagrams by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

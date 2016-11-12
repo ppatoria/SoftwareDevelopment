@@ -1,0 +1,42 @@
+#include <set>
+#include <algorithm>
+#include </bind.hpp>
+#include </type_traits/remove_pointer.hpp>
+#include <cassert>
+
+template <class T>
+struct ptr_cmp                                     : public binary_function<T, T, bool> {
+    template <class T1>
+    bool operator       ()(const T1& v1, const T1& v2) const {
+        return operator ()(*v1, *v2);
+    }
+
+    bool operator       ()(const T& v1, const T& v2) const {
+        return less<T>  ()(v1, v2);
+    }
+};
+
+void example1           () {
+    set<int*, ptr_cmp<int> > s;
+    s.insert            (new int(1));
+    s.insert            (new int(0));
+    // ...
+    assert              (**s.begin() == 0);
+    // ...
+    // Deallocating resources
+    // Any exception in this code will lead to
+    // memory leak
+    for_each            (s.begin(), s.end(), bind(::operator delete, _1));
+}
+
+
+ void example2_a() {
+    typedef auto_ptr<int> int_aptr_t;
+    set<int_aptr_t, ptr_cmp<int> > s;
+    s.insert(int_aptr_t(new int(1)));
+    s.insert(int_aptr_t(new int(0)));
+    // ...
+    assert(**s.begin() == 0);
+    // ...
+    // resources will be deallocated by auto_ptr<>
+}

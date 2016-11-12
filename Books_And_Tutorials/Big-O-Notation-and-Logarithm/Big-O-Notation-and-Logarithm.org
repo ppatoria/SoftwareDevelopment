@@ -1,0 +1,74 @@
+#+title: Big 0 notiation and Logarithm
+
+* Reference:
+- https://justin.abrah.ms/computer-science/big-o-notation-explained.html
+
+* Big O Notation.
+- aka Order of (magnitude)  
+- Used to show the time or space complexity always considering _worst case scenario_ .
+
+** O( 1 )  or Constant
+- Irrespective of the size of the data set the time complexity is always 1.
+  Example:
+
+  #+BEGIN_SRC cpp
+  int getFirstElement( std::vector<int> list )
+  {
+      return list[0];
+  }
+  #+END_SRC
+
+  #+BEGIN_SRC cpp
+  /* get value from hash table. */
+  auto value = hash_table[ key ];
+  #+END_SRC
+** O( n ) or Linear
+- Time complexity depends on the size the data set. It grows linearly with the size of the data structure.
+  /Performance is directly proportion to the number of elements in the data set./
+  #+BEGIN_SRC 
+  bool contains( const std::vector<std::string>& list, const std::string& value )
+  {
+      for( const auto& elem : list )
+      {
+          if( elem == value ) return true;
+      }
+      return false;
+  }
+  #+END_SRC
+ 
+** O( n^2 ) or Quadratic
+- When Iteration is involved.
+- In a data set of n elements . If computation in worst case scenario requires n interations than the order is  O (n * n) = O( n2 )  
+#+BEGIN_SRC 
+std::vector<vector<int>> getCombination( const std::vector<int>& list )
+{
+    std::vector<vector<int>> result;
+    for( const auto& outer : list )
+    {
+        for( const auto& inner : list )
+        {
+            result.add( std::vector<int>{ outer, inner } );
+        }
+    }
+    return result;
+}
+#+END_SRC
+
+
+** O( 2^n )
+
+* Logarithm
+
+
+
+
+Complexity of data structures.
+
+* Array/Vector
+- search : O( n )
+- append : O( 1 )
+- insert : O( n )
+- delete at end  : O( 1 )
+- delete in middle : O( n )
+ 
+* map

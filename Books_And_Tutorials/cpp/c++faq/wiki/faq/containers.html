@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/containers by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="032207ed9494c06534dd9527334355f42a0484c7" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="c43b4dd58fce2c6bdbb2ea6d3a9715adfa4f04cf" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="379676fe891faf5a6d71259f878d398d56052808" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        containers
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="containers.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    containers
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=containers" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="containers">Container Classes</h2>
+
+<h3 id="arrays-are-evil">Why should I use container classes rather than simple arrays?</h3>
+
+<p>In terms of time and space, a contiguous array of any kind is just about the optimal construct for accessing a sequence of objects in memory, and if you are serious about performance in any language you will &#8220;often&#8221; use arrays.</p>
+
+<p>However, there are good arrays (e.g., containers with contiguous storage such as <code>std::array</code> and <code>std::vector</code>) and there are bad arrays (e.g., C <code>[]</code> arrays). Simple C <code>[]</code> arrays are <a href="big-picture.html#defn-evil" title="FAQ: What does the FAQ mean by 'such and such is evil'?">evil</a> because a C array is a very low level data structure with a vast potential for misuse and errors and in essentially all cases there are better alternatives &#8211; where &#8220;better&#8221; means easier to write, easier to read, less error prone, and as fast.</p>
+
+<p>The two fundamental problems with C arrays are that</p>
+
+<ul>
+<li>a C array doesn&#8217;t know its own size</li>
+<li>the name of a C array converts to a pointer to its first element at the slightest provocation</li>
+</ul>
+
+<p>Consider some examples:</p>
+
+<pre><code>void f(int a[], int s)
+{
+    // do something with a; the size of a is s
+    for (int i = 0; i&lt;s; ++i) a[i] = i;
+}
+
+int arr1[20];
+int arr2[10];
+
+void g()
+{
+    f(arr1,20);
+    f(arr2,20);
+}
+</code></pre>
+
+<p>The second call will scribble all over memory that doesn&#8217;t belong to <code>arr2</code>. Naturally, a programmer usually gets the size right, but it&#8217;s extra work and every so often someone makes a mistake. You should prefer the simpler and cleaner version using the standard library <code>vector</code> or <code>array</code>:</p>
+
+<pre><code>void f(vector&lt;int&gt;&amp; v)
+{
+    // do something with v
+    for (int i = 0; i&lt;v.size(); ++i) v[i] = i;
+}
+
+vector&lt;int&gt; v1(20);
+vector&lt;int&gt; v2(10);
+
+void g()
+{
+    f(v1);
+    f(v2);
+}
+</code></pre>
+
+<pre><code>template&lt;size_t N&gt; void f(array&lt;int, N&gt;&amp; v)
+{
+    // do something with v
+    for (int i = 0; i&lt;N; ++i) v[i] = i;
+}
+
+array&lt;int, 20&gt; v1;
+array&lt;int, 10&gt; v2;
+
+void g()
+{
+    f(v1);
+    f(v2);
+}
+</code></pre>
+
+<p>Since a C array doesn&#8217;t know its size, there can be no array assignment:</p>
+
+<pre><code>void f(int a[], int b[], int size)
+{
+    a = b;            // not array assignment
+    memcpy(a,b,size); // a = b
+    // ...
+}
+</code></pre>
+
+<p>Again, prefer <code>vector</code> or <code>array</code>:</p>
+
+<pre><code>// This one can result in a changing size
+void g(vector&lt;int&gt;&amp; a, vector&lt;int&gt;&amp; b)
+{
+    a = b;  
+    // ...
+}
+
+// In this one, a and b must be the same size
+template&lt;size_t N&gt;
+void g(array&lt;int, N&gt;&amp; a, array&lt;int, N&gt;&amp; b)
+{
+    a = b;  
+    // ...
+}
+</code></pre>
+
+<p>Another advantage of <code>vector</code> here is that <code>memcpy()</code> is not going to do the right thing for elements with copy constructors, such as strings.</p>
+
+<pre><code>void f(string a[], string b[], int size)
+{
+    a = b;            // not array assignment
+    memcpy(a,b,size); // disaster
+    // ...
+}
+
+void g(vector&lt;string&gt;&amp; a, vector&lt;string&gt;&amp; b)
+{
+    a = b;  
+    // ...
+}
+</code></pre>
+
+<p>A normal C array is of a fixed size determined at compile time (ignoring C99 VLAs, which currently have no analog in ISO C++):</p>
+
+<pre><code>const int S = 10;
+
+void f(int s)
+{
+    int a1[s];    // error
+    int a2[S];    // ok
+
+    // if I want to extend a2, I'll have to change to an array
+    // allocated on free store using malloc() and use realloc()
+    // ...
+}
+</code></pre>
+
+<p>To contrast:</p>
+
+<pre><code>const int S = 10;
+
+void g(int s)
+{
+    vector&lt;int&gt; v1(s);    // ok
+    vector&lt;int&gt; v2(S);    // ok
+    v2.resize(v2.size()*2);
+    // ...
+}
+</code></pre>
+
+<p>C99 allows variable array bounds for local arrays, but those VLAs have their own problems.
+The way that array names &#8220;decay&#8221; into pointers is fundamental to their use in C and C++. However, array decay interacts very badly with inheritance. Consider:</p>
+
+<pre><code>class Base { void fct(); /* ... */ };
+class Derived : Base { /* ... */ };
+
+void f(Base* p, int sz)
+{
+    for (int i=0; i&lt;sz; ++i) p[i].fct();
+}
+
+Base ab[20];
+Derived ad[20];
+
+void g()
+{
+    f(ab,20);
+    f(ad,20);    // disaster!
+}
+</code></pre>
+
+<p>In the last call, the <code>Derived[]</code> is treated as a <code>Base[]</code> and the subscripting no longer works correctly when <code>sizeof(Derived)!=sizeof(Base)</code> &#8211; as will be the case in most cases of interest. If we used <code>vector</code>s instead, the error would be caught at compile time:</p>
+
+<pre><code>void f(vector&lt;Base&gt;&amp; v)
+{
+    for (int i=0; i&lt;v.size(); ++i) v[i].fct();
+}
+
+vector&lt;Base&gt; ab(20);
+vector&lt;Derived&gt; ad(20);
+
+void g()
+{
+    f(ab);
+    f(ad);    // error: cannot convert a vector&lt;Derived&gt; to a vector&lt;Base&gt;
+}
+</code></pre>
+
+<p>We find that an astonishing number of novice programming errors in C and C++ relate to (mis)uses of C arrays. Use <code>std::vector</code> or <code>std::array</code> instead.</p>
+
+<p>Let&#8217;s assume the best case scenario: you&#8217;re an experienced C programmer, which almost by definition means you&#8217;re pretty good at working with arrays. You know you can handle the complexity; you&#8217;ve done it for years. And you&#8217;re smart &#8212; the smartest on the team &#8212; the smartest in the whole company. But even given all that, <em>please</em> read this entire FAQ and think very carefully about it before you go into &#8220;business as usual&#8221; mode.</p>
+
+<p>Fundamentally it boils down to this simple fact: C++ is not C. That means (this might be painful for you!!) you&#8217;ll need to set aside some of your hard earned wisdom from your vast experience in C. The two languages simply are different. The &#8220;best&#8221; way to do something in C is not always the same as the &#8220;best&#8221; way to do it in C++. If you really want to program in C, please do yourself a favor and program in C. But if you want to be really good at C++, then learn the C++ ways of doing things. You may be a C guru, but if you&#8217;re just learning C++, you&#8217;re just learning C++ &#8212; you&#8217;re a newbie. (Ouch; I know that had to hurt. Sorry.)</p>
+
+<p>Here&#8217;s what you need to realize about containers vs. arrays:</p>
+
+<ol>
+<li>Container classes make programmers more productive. So if you insist on using arrays while those around are willing to use container classes, you&#8217;ll probably be less productive than they are (even if you&#8217;re smarter and more experienced than they are!).</li>
+<li>Container classes let programmers write more robust code. So if you insist on using arrays while those around are willing to use container classes, your code will probably have more bugs than their code (even if you&#8217;re smarter and more experienced).</li>
+<li>And if you&#8217;re <em>so</em> smart and <em>so</em> experienced that you can use arrays as fast and as safe as they can use container classes, someone else will probably end up maintaining your code and <em>they&#8217;ll</em> probably introduce bugs. Or worse, you&#8217;ll be the only one who can maintain your code so management will yank you from development and move you into a full-time maintenance role &#8212; just what you always wanted!</li>
+</ol>
+
+<p>Here are some specific problems with arrays:</p>
+
+<ol>
+<li>Subscripts don&#8217;t get checked to see if they are out of bounds. (Note that some container classes, such as
+<code>std::vector</code>, have methods to access elements with or without bounds checking on subscripts.)</li>
+<li>Arrays often require you to allocate memory from the heap (see below for examples), in which case you must manually
+make sure the allocation is eventually <code>delete</code>d (even when someone <code>throw</code>s an exception). When you use container
+classes, this memory management is handled automatically, but when you use arrays, you have to manually write a
+bunch of code (and <a href="exceptions.html#use-string-not-char-ptr" title="FAQ: How do I change the string-length of an array of char to prevent memory leaks even if/when someone throws an exception?">unfortunately that code is often subtle and tricky</a>) to deal with this.
+For example, in addition to writing the code that destroys all the objects and <code>delete</code>s the memory, arrays often
+also force you you to write an extra <code>try</code> block with a <code>catch</code> clause that destroys all the objects, <code>delete</code>s the
+memory, then re-throws the exception. This is a real pain in the neck, <a href="freestore-mgmt.html#multidim-arrays" title="FAQ: How do I allocate multidimensional arrays using new?">as shown here</a>. When using
+container classes, <a href="freestore-mgmt.html#multidim-arrays2" title="FAQ: But the previous FAQ's code is SOOOO tricky and error prone! Isn't there a simpler way?">things are much easier</a>.</li>
+<li>You can&#8217;t insert an element into the middle of the array, or even add one at the end, unless you allocate the array
+via the heap, and even then you must allocate a new array and copy the elements.</li>
+<li>Container classes give you the choice of passing them by reference or by value, but arrays do not give you that
+choice: they are always passed by reference. If you want to simulate pass-by-value with an array, you have to
+manually write code that explicitly copies the array&#8217;s elements (possibly allocating from the heap), along with code
+to clean up the copy when you&#8217;re done with it. All this is handled automatically for you if you use a container
+class.</li>
+<li>If your function has a non-<code>static</code> local array (i.e., an &#8220;automatic&#8221; array), you cannot return that array, whereas the
+same is not true for objects of container classes.</li>
+</ol>
+
+<p>Here are some things to think about when using containers:</p>
+
+<ol>
+<li>Different C++ containers have different strengths and weaknesses, but for any given job there&#8217;s usually one of them that is better &#8212; clearer, safer, easier/cheaper to maintain, and often more efficient &#8212; than an array. For instance,
+
+<ul>
+<li>You might consider a <code>std::map</code> instead of manually writing code for a lookup table.</li>
+<li>A <code>std::map</code> might also be used for a sparse array or sparse matrix.</li>
+<li>A <code>std::array</code> is the most array-like of the standard container classes, but it also offers various extra features such as bounds checking via the <code>at()</code> member function, automatic memory management even if someone throws an exception, ability to be passed both by reference and by value, etc.</li>
+<li>A <code>std::vector</code> is the second-most array-like of the standard container classes, and offers additional extra features over <code>std::array</code> such as insertions/removals of elements.</li>
+<li>A <code>std::string</code> is <a href="exceptions.html#use-string-not-char-ptr" title="FAQ: How do I change the string-length of an array of char to prevent memory leaks even if/when someone throws an exception?">almost always better than an array of <code>char</code></a> (you can think of a <code>std::string</code> as a &#8220;container class&#8221; for the sake of this discussion).</li>
+</ul></li>
+<li>Container classes aren&#8217;t best for <em>everything</em>, and sometimes you may need to use arrays. But that should be very rare, and if/when it happens:
+
+<ul>
+<li>Please design your container class&#8217;s <code>public</code> interface in such a way that the code that uses the container class is unaware of the fact that there is an array inside.</li>
+<li>The goal is to &#8220;bury&#8221; the array inside a container class. In other words, make sure there is a very small number of lines of code that directly touch the array (just your own methods of your container class) so everyone else (the users of your container class) can write code that doesn&#8217;t depend on there being an array inside your container class.</li>
+</ul></li>
+</ol>
+
+<p>To net this out, arrays really are <a href="big-picture.html#defn-evil" title="FAQ: What does the FAQ mean by 'such and such is evil'?">evil</a>. You may not think so if you&#8217;re new to C++. But after you write a big pile of code that uses arrays (especially if you make your code leak-proof and exception-safe), you&#8217;ll learn &#8212; the hard way. Or you&#8217;ll learn the easy way by believing those who&#8217;ve already done things like that. The choice is yours.</p>
+
+<h3 id="associative-array">How can I make a <code>perl</code>-like associative array in C++?</h3>
+
+<p>Use the standard class template <code>std::map&lt;Key,Val&gt;</code>:</p>
+
+<pre><code>#include &lt;string&gt;
+#include &lt;map&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  // age is a map from string to int
+  std::map&lt;std::string, int, std::less&lt;std::string&gt;&gt;  age;
+
+  age["Fred"] = 42;                     // Fred is 42 years old
+  age["Barney"] = 37;                   // Barney is 37
+
+  if (todayIsFredsBirthday())           // On Fred's birthday...
+    ++ age["Fred"];                     // ...increment Fred's age
+
+  std::cout &lt;&lt; "Fred is " &lt;&lt; age["Fred"] &lt;&lt; " years old\n";
+  // ...
+}
+</code></pre>
+
+<p>Nit: the order of elements in a <code>std::map&lt;Key,Val&gt;</code> are in the sort order based on the key, so from a strict standpoint, that is different from Perl&#8217;s associative arrays which are unordered.  If you want an unsorted version for a closer match, you can use <code>std::unordered_map&lt;Key,Val&gt;</code> instead.</p>
+
+<h3 id="vector-is-contiguous">Is the storage for a <code>std::vector&lt;T&gt;</code> or a <code>std::array&lt;T,N&gt;</code> guaranteed to be contiguous?</h3>
+
+<p>Yes.</p>
+
+<p>This means the following technique is safe:</p>
+
+<pre><code>#include &lt;vector&gt;
+#include &lt;array&gt;
+#include "Foo.h"  /* get class Foo */
+
+// old-style code that wants an array
+void f(Foo* array, unsigned numFoos);
+
+void g()
+{
+  std::vector&lt;Foo&gt; v;
+  std::array&lt;Foo, 10&gt; a;
+  // ...
+  f(v.data(), v.size());  // Safe
+  f(a.data(), a.size());  // Safe
+}
+</code></pre>
+
+<p>In general, it means you are guaranteed that <code>&amp;v[0] + n == &amp;v[n]</code>, where <code>v</code> is a non-empty <code>std::vector&lt;T&gt;</code> or <code>std::array&lt;T,N&gt;</code> and <code>n</code> is an integer in the range <code>0 .. v.size()-1</code>.</p>
+
+<p><em>However</em> <code>v.begin()</code> is <em>not</em> guaranteed to be a <code>T*</code>, which means <code>v.begin()</code> is not guaranteed to be the same as <code>&amp;v[0]</code>:</p>
+
+<pre><code>void g()
+{
+  std::vector&lt;Foo&gt; v;
+  // ...
+  f(v.begin(), v.size());  // error, not guaranteed to be the same as &amp;v[0]
+    ↑↑↑↑↑↑↑↑↑ // cough, choke, gag; use v.data() instead
+}
+</code></pre>
+
+<p>Also, using &amp;v[0] is undefined behavior if the <code>std::vector</code> or <code>std::array</code> is empty, while it is always safe to use the <code>.data()</code> function.</p>
+
+<p>Note: It&#8217;s possible the above code might compile for you today. If your compiler vendor happens to implement <code>std::vector</code> or <code>std::array</code> iterators as <code>T*</code>&#8217;s, the above may happen to work on that compiler &#8211; and at that, possibly only in release builds, because vendors often supply debug iterators that carry more information than a <code>T*</code>. But even if this code happens to compile for you today, it&#8217;s only by chance because of a particular implementation. It&#8217;s not portable C++ code. Use <code>.data()</code> for these situations.</p>
+
+<h3 id="heterogeneous-containers">Why doesn&#8217;t C++ provide heterogeneous containers?</h3>
+
+<p>The C++ standard library provides a set of useful, statically type-safe, and efficient containers. Examples are <code>vector</code>, <code>list</code>, and <code>map</code>:</p>
+
+<pre><code>vector&lt;int&gt; vi(10);
+vector&lt;Shape*&gt; vs;
+list&lt;string&gt; lst;
+list&lt;double&gt; l2
+map&lt;string,Record*&gt; tbl;
+unordered_map&lt;Key,vector&lt;Record*&gt; &gt; t2;
+</code></pre>
+
+<p>These containers are described in all good C++ textbooks, and should be preferred over arrays and &#8220;home cooked&#8221; containers unless there is a good reason not to.</p>
+
+<p>These containers are homogeneous; that is, they hold elements of the same type. If you want a container to hold elements of several different types, you must express that either as a union or (usually much better) as a container of pointers to a polymorphic type. The classical example is:</p>
+
+<pre><code>vector&lt;Shape*&gt; vi;  // vector of pointers to Shapes
+</code></pre>
+
+<p>Here, <code>vi</code> can hold elements of any type derived from <code>Shape</code>. That is, <code>vi</code> is homogeneous in that all its elements are Shapes (to be precise, pointers to <code>Shape</code>s) and heterogeneous in the sense that <code>vi</code> can hold elements of a wide variety of <code>Shape</code>s, such as <code>Circle</code>s, <code>Triangle</code>s, etc.</p>
+
+<p>So, in a sense all containers (in every language) are homogeneous because to use them there must be a common interface to all elements for users to rely on. Languages that provide containers deemed heterogeneous simply provide containers of elements that all provide a standard interface. For example, Java collections provide containers of (references to) <code>Object</code>s and you use the (common) Object interface to discover the real type of an element.</p>
+
+<p>The C++ standard library provides homogeneous containers because those are the easiest to use in the vast majority of cases, gives the best compile-time error message, and imposes no unnecessary run-time overheads.</p>
+
+<p>If you need a heterogeneous container in C++, define a common interface for all the elements and make a container of those. For example:</p>
+
+<pre><code>class Io_obj { /* ... */ };    // the interface needed to take part in object I/O
+
+vector&lt;Io_obj*&gt; vio;           // if you want to manage the pointers directly
+vector&lt;shared_ptr&lt;Io_obj&gt;&gt; v2; // if you want a "smart pointer" to handle the objects
+</code></pre>
+
+<p>Don&#8217;t drop to the lowest level of implementation detail unless you have to:</p>
+
+<pre><code>vector&lt;void*&gt; memory;          // rarely needed
+</code></pre>
+
+<p>A good indication that you have &#8220;gone too low level&#8221; is that your code gets littered with casts.</p>
+
+<p>Using an <code>Any</code> class, such as <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/any.html"><code>boost::any</code></a>, can be an alternative in some programs:</p>
+
+<pre><code>vector&lt;any&gt; v = { 5, "xyzzy", 3.14159 };
+</code></pre>
+
+<p>If all objects you want to store in a container are publicly derived from a common base class, you can then declare/define your container to hold pointers to the base class. You indirectly store a derived class object in a container by storing the object&#8217;s address as  an element in the container. You can then access objects in the container indirectly through the pointers (enjoying polymorphic behavior). If you need to know the exact type of the object in the container you can use <code>dynamic_cast&lt;&gt;</code> or <code>typeid()</code>. You&#8217;ll probably need the <a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">Virtual Constructor Idiom</a> to copy a container of disparate object types. The downside of this approach is that it makes memory management a little more problematic (who &#8220;owns&#8221; the pointed-to objects? if you <code>delete</code> these pointed-to
+objects when you destroy the container, how can you guarantee that no one else has a copy of one of these pointers? if you don&#8217;t <code>delete</code> these pointed-to objects when you destroy the container, how can you be sure that someone else will eventually do the <code>delete</code>ing?). It also makes copying the container more complex (may actually break the container&#8217;s
+copying functions since you don&#8217;t want to copy the pointers, at least not when the container &#8220;owns&#8221; the pointed-to objects).  In that case, you can use <code>std::shared_ptr</code> to manage the objects, and the containers will copy correctly.</p>
+
+<p>The second case occurs when the object types are disjoint &#8212; they do not share a common base class. The approach here is to use a handle class. The container is a container of handle objects (by value or by pointer, your choice; by value is easier). Each handle object knows how to &#8220;hold on to&#8221; (i.e., maintain a pointer to) one of the objects you want to put in the container. You can use either a single handle class with several different types of pointers as instance data, or a hierarchy of handle classes that shadow the various types you wish to contain (requires the container be of handle base class pointers). The downside of this approach is that it opens up the handle class(es) to maintenance every time you change the set of types that can be contained. The benefit is that you can use the handle class(es) to encapsulate most of the ugliness of memory management and object lifetime.</p>
+
+<h3 id="heterogeneous-list">How can I build a heterogeneous &lt;favorite container&gt; of objects of different types?</h3>
+
+<p>See <a href="containers.html#heterogeneous-containers" title="FAQ: Why doesn't C++ provide heterogeneous containers?">heterogeneous containers</a>.</p>
+
+<h3 id="container-ptr-conversion">Why can&#8217;t I assign a <code>vector&lt;Apple*&gt;</code> to a <code>vector&lt;Fruit*&gt;</code>?</h3>
+
+<p>Because that would open a hole in the type system. For example:</p>
+
+<pre><code>class Apple : public Fruit { void apple_fct(); /* ... */ };
+class Orange : public Fruit { /* ... */ }; // Orange doesn't have apple_fct()
+
+vector&lt;Apple*&gt; v;             // vector of Apples
+
+void f(vector&lt;Fruit*&gt;&amp; vf)    // innocent Fruit manipulating function
+{
+    vf.push_back(new Orange); // add orange to vector of fruit
+}
+
+void h()
+{
+    f(v);    // error: cannot pass a vector&lt;Apple*&gt; as a vector&lt;Fruit*&gt;
+    for (int i=0; i&lt;v.size(); ++i) v[i]-&gt;apple_fct();
+}
+</code></pre>
+
+<p>Had the call <code>f(v)</code> been legal, we would have had an <code>Orange</code> pretending to be an <code>Apple</code>.</p>
+
+<p>An alternative language design decision would have been to allow the unsafe conversion, but rely on dynamic checking. That would have required a run-time check for each access to <code>v</code>&#8217;s members, and <code>h()</code> would have had to throw an exception upon encountering the last element of <code>v</code>.</p>
+
+<h3 id="iterators">How can I insert/access/change elements from a linked list/hashtable/etc?</h3>
+
+<p>The most important thing to remember is this: don&#8217;t roll your own from scratch unless there is a compelling reason to
+do so. In other words, instead of creating your own list or hashtable, use one of the standard class templates such as
+<code>std::vector&lt;T&gt;</code> or <code>std::list&lt;T&gt;</code> or whatever.</p>
+
+<p>Assuming you have a compelling reason to build your own container, here&#8217;s how to handle inserting (or accessing,
+changing, etc.) the elements.</p>
+
+<p>To make the discussion concrete, I&#8217;ll discuss how to insert an element into a linked list. This example is just complex
+enough that it generalizes pretty well to things like vectors, hash tables, binary trees, etc.</p>
+
+<p>A linked list makes it easy to insert an element before the first or after the last element of the list, but limiting
+ourselves to these would produce a library that is too weak (a weak library is almost worse than no library). This
+answer will be a lot to swallow for novice C++&#8217;ers, so I&#8217;ll give a couple of options. The first option is easiest; the
+second and third are better.</p>
+
+<ol>
+<li>Empower the <code>List</code> with a &#8220;current location,&#8221; and member functions such as <code>advance()</code>, <code>backup()</code>, <code>atEnd()</code>,
+<code>atBegin()</code>, <code>getCurrElem()</code>, <code>setCurrElem(Elem)</code>, <code>insertElem(Elem)</code>, and <code>removeElem()</code>. Although this works in
+small examples, the notion of <em>a</em> current position makes it difficult to access elements at two or more positions
+within the list (e.g., &#8220;for all pairs x,y do the following&#8230;&#8221;).</li>
+<li>Remove the above member functions from <code>List</code> itself, and move them to a separate class, <code>ListPosition</code>.
+<code>ListPosition</code> would act as a &#8220;current position&#8221; within a list. This allows multiple positions within the same list.
+<code>ListPosition</code> would be a <a href="friends.html" title="Section: Friends"><code>friend</code></a> of <code>class</code> <code>List</code>, so <code>List</code> can hide its innards from the outside
+world (else the innards of <code>List</code> would have to be publicized via <code>public</code> member functions in <code>List</code>). Note:
+<code>ListPosition</code> can use <code>operator</code> overloading for things like <code>advance()</code> and <code>backup()</code>, since <code>operator</code>
+overloading is syntactic sugar for normal member functions.</li>
+<li>Consider the entire iteration as an atomic event, and create a class template that embodies this event. This
+enhances performance by allowing the public access member functions (which may be <a href="virtual-functions.html" title="Section: Inheritance — virtual functions"><code>virtual</code></a>
+functions) to be avoided during the access, and this access often occurs within an inner loop. Unfortunately the
+class template will increase the size of your object code, since templates gain speed by duplicating code. For more,
+see [Koenig, &#8220;Templates as interfaces,&#8221; JOOP, 4, 5 (Sept 91)], and [Stroustrup, &#8220;The C++ Programming Language
+Third Edition,&#8221; under &#8220;Comparator&#8221;].</li>
+</ol>
+
+<h3 id="container-of-smart-ptr">Can I have a container of smart pointers to my objects?</h3>
+
+<p>Yes, and you really want to do this, as smart pointers make your life easier and make your code more robust compared to the alternatives.</p>
+
+<p>Note: forget that <code>std::auto_ptr</code> ever existed.  Really.  You don&#8217;t want to use it, ever, especially in containers.  It is broken in too many ways.</p>
+
+<p>Let&#8217;s motivate this discussion with an example. This first section shows why you&#8217;d want to use smart pointers in the first place - this is what <em>not</em> to do:</p>
+
+<pre><code>#include &lt;vector&gt;
+
+class Foo {
+public:
+  // ...blah blah...
+};
+
+void foo(std::vector&lt;Foo*&gt;&amp; v)  // ← BAD FORM: a vector of dumb pointers to Foo objects
+{
+  v.push_back(new Foo());
+  // ...
+  delete v.back();  // you have a leak if this line is skipped
+  v.pop_back();     // you have a "dangling pointer" if control-flow doesn't reach this line
+}
+</code></pre>
+
+<p>If control flow doesn&#8217;t reach either of the last two lines, either because you don&#8217;t have it in your code or you do a <code>return</code> or something throws an exception, you will have a leak or a &#8220;dangling pointer&#8221;; bad news. The destructor of <code>std::vector</code> cleans up whatever allocations were made by the <code>std::vector</code> object itself, but it will not clean up the
+allocation that <em>you</em> made when <em>you</em> allocated a <code>Foo</code> object, even though you put a pointer to that allocated <code>Foo</code> object into the <code>std::vector</code> object.</p>
+
+<p>That&#8217;s <em>why</em> you&#8217;d want to use a smart pointer.</p>
+
+<p>Now let&#8217;s talk about <em>how</em> to use a smart pointer.  There are lots of smart pointers that
+can be copied and still maintain shared ownership semantics, such as <code>std::shared_ptr</code> and many others. For this example, we will use <code>std::shared_ptr</code>, though you might choose another based on the semantics and performance trade-offs you desire.</p>
+
+<pre><code>typedef std::shared_ptr&lt;Foo&gt; FooPtr;  // ← GOOD: using a smart-pointer
+
+void foo(std::vector&lt;FooPtr&gt;&amp; v)  // ← GOOD: using a container of smart-pointer
+{
+  // ...
+}
+</code></pre>
+
+<p>This just works safely with all operations.  The object is destroyed when the last <code>shared_ptr</code> to it is destroyed or set to point to something else.</p>
+
+<p>Using a <code>std::unique_ptr</code> in a <code>std::vector</code> is safe, but it has some restrictions.  The <code>unique_ptr</code> is a move-only type, it can&#8217;t be copied.  This move-only restriction then applies to the <code>std::vector</code> containing them as well.</p>
+
+<pre><code>void create_foo(std::vector&lt;std::unique_ptr&lt;Foo&gt;&gt; &amp;v)
+{
+    v.emplace_back(std::make_unique&lt;Foo&gt;(/* ... */));
+}
+</code></pre>
+
+<p>If you want to put an element from this vector into another vector, you must move it to the other vector, as only one <code>unique_ptr</code> at a time can point to the same <code>Foo</code> object.</p>
+
+<p>There are lots of good articles on this general topic, such as <a href="http://www.drdobbs.com/cpp/184401839">Herb Sutter&#8217;s in Dr.
+Dobbs</a> and many others.</p>
+
+<h3 id="slow-containers">Why are the standard containers so slow?</h3>
+
+<p>They aren&#8217;t, they&#8217;re among the fastest on the planet.</p>
+
+<p>Probably &#8220;compared to what?&#8221; is a more useful question (and answer). When people complain about standard-library container performance, we usually find one of three genuine problems (or one of the many myths and red herrings):</p>
+
+<ul>
+<li>I suffer copy overhead</li>
+<li>I suffer slow speed for lookup tables</li>
+<li>My hand-coded (intrusive) lists are much faster than <code>std::list</code></li>
+</ul>
+
+<p>Before trying to optimize, consider if you have a genuine performance problem. In most of the cases sent to me, the performance problem is theoretical or imaginary: First measure, then optimize only if needed.</p>
+
+<p>Let&#8217;s look at those problems in turn. Often, a <code>vector&lt;X&gt;</code> is slower than somebody&#8217;s specialized <code>My_container&lt;X&gt;</code> because <code>My_container&lt;X&gt;</code> is implemented as a container of pointers to <code>X</code> (brief spoiler: if you want that, you have it too: <code>vector&lt;X*&gt;</code> &#8211; more on this in a moment). A <code>vector&lt;X&gt;</code> (no <code>*</code>) holds copies of values, and copies a value when you put it into the container. This is essentially unbeatable for small values, but can be quite unsuitable for huge objects:</p>
+
+<pre><code>vector&lt;int&gt; vi;
+vector&lt;Image&gt; vim;
+// ...
+int i = 7;
+Image im("portrait.jpg");    // initialize image from file
+// ...
+vi.push_back(i);             // put (a copy of) i into vi
+vim.push_back(im);           // put (a copy of) im into vim
+</code></pre>
+
+<p>Now, if <code>portrait.jpg</code> is a couple of megabytes and <code>Image</code> has value semantics (i.e., copy assignment and copy construction make copies) then <code>vim.push_back(im)</code> will indeed be expensive. But &#8211; as the saying goes &#8211; if it hurts so much, just don&#8217;t do it.</p>
+
+<p>Move semantics and in-place construction can negate many of these costs if the vector is going to own the object, and you don&#8217;t need copies of it elsewhere.</p>
+
+<pre><code>vector&lt;Image&gt; vim;
+vim.emplace_back("portrait.jpg"); // create image from file in place in the vector
+</code></pre>
+
+<p>Alternatively, either use a container of handles or a container of pointers. For example, if <code>Image</code> had reference semantics, the code above would incur only the cost of a copy constructor call, which would be trivial compared to most image manipulation operators. If some class, say <code>Image</code> again, does have copy semantics for good reasons, a container of pointers is often a reasonable solution:</p>
+
+<pre><code>vector&lt;int&gt; vi;
+vector&lt;Image*&gt; vim;
+// ...
+Image im("portrait.jpg");    // initialize image from file
+// ...
+vi.push_back(7);             // put (a copy of) 7 into vi
+vim.push_back(&amp;im);          // put (a copy of) &amp;im into vim
+</code></pre>
+
+<p>Naturally, if you use pointers, you have to think about resource management, but containers of pointers can themselves be effective and cheap resource handles (often, you need a container with a destructor for deleting the &#8220;owned&#8221; objects), or you can simply use a <a href="containers.html#container-of-smart-ptr" title="FAQ: Can I have a container of smart pointers to my objects?">container of smart pointers</a>.</p>
+
+<p>The second frequently occurring genuine performance problem is the use of a <code>map&lt;string,X&gt;</code> for a large number of <code>(string,X)</code> pairs. Maps are fine for relatively small containers (say a few hundred or few thousand elements &#8211; access to an element of a <code>map</code> of 10000 elements costs about 9 comparisons), where less-than is cheap, and where no good hash-function can be constructed. If you have lots of strings and a good hash function, use an <code>unordered_map</code>.</p>
+
+<p>Sometimes, you can speed up things by using <code>(const char*,X)</code> pairs rather than <code>(string,X)</code> pairs, but remember that <code>&lt;</code> doesn&#8217;t do lexicographical comparison for C-style strings. Also, if <code>X</code> is large, you may have the copy problem also (solve it in one of the usual ways).</p>
+
+<p>Intrusive lists can be really fast. However, consider whether you need a list at all: A <code>vector</code> is more compact and is therefore smaller and faster in many cases &#8211; even when you do inserts and erases. For example, if you logically have a list of a few integer elements, a <code>vector</code> is significantly faster than a list (any list). Also, intrusive lists cannot hold built-in types directly (an <code>int</code> does not have a link member). So, assume that you really need a list and that you can supply a link field for every element type. The standard-library <code>list</code> by default performs an allocation followed by a copy for each operation inserting an element (and a deallocation for each operation removing an element). For <code>std::list</code> with the default allocator, this can be significant. For small elements where the copy overhead is not significant, consider using an optimized allocator. Use a hand-crafted intrusive lists only where a list and the last ounce of performance is needed.</p>
+
+<p>People sometimes worry about the cost of <code>std::vector</code> growing incrementally. Many C++ programmers used to worry about that and used <code>reserve()</code> to optimize the growth. After measuring their code and repeatedly having trouble finding the performance benefits of <code>reserve()</code> in real programs, they stopped using it except where it is needed to avoid iterator invalidation (a rare case in most code). Again: measure before you optimize.</p>
+
+<p>The cost of <code>std::vector</code> growing incrementally in C++11 can be a <em>lot</em> less than it was in C++98/03 when you are using move-aware types, such as <code>std::string</code> or even <code>std::vector&lt;T&gt;</code>, as when the <code>vector</code> is reallocated, the objects are moved into the new storage instead of copied.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/containers",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/containers",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/containers by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

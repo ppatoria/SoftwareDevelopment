@@ -1,0 +1,41 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../../CSS/org-style.css" type="text/css"/>
+<style type="text/css"/>
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+</style>
+#+END_HTML
+#+TITLE: Singleton vs Static class 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil, toc:5
+
+* Difference between Singleton and Static class
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Singleton Class                                                                                                                                                       | Static Class                                                                                                                                                                                                                                                                                 |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Singletons can *implement interfaces* or *inherit/derive* from useful base classes, so you can pass around the singleton as if it were "just another" implementation. | When a class is static (never instantiated as an object), only its static methods can be called. These static methods are limited to the ones that are defined in the class itself; they cannot be inherited from other classes, nor can they be enforced by the definition of an interface. |
+| Singleton might be less efficient due to the overhead of calling the getInstance() method each time you want to use it.                                               |                                                                                                                                                                                                                                                                                              |
+| Singleton object stores in Heap                                                                                                                                       | Static object stores in stack                                                                                                                                                                                                                                                                |
+| A singleton can be initialized lazily or asynchronously.                                                                                                              | Static class is generally initialized when it is first loaded, leading to potential class loader issues.                                                                                                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+* _Do not abuse singleton pattern ._
+The singleton pattern is appropriately used when you have an interface and multiple implementations of that interface.  Lets extend this example slightly, and imagine that the system can be configured to either store user information in a XML file, or in a database.  You will also need a Factory class that determines which of several implementations to instantiate, in this case based on system configuration values, and returns the correct, single instance.
+
+** [[http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/][Don't abuse singleton pattern (Web Link)]]
+** [[file:Dont_abuse_singleton_pattern.html][Don't abuse singleton pattern (Local LInk)]]

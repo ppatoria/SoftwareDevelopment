@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/crc/test/crc_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:59 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/crc/test/crc_test.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/crc/test/crc_test.cpp</h3>
+<pre>
+//  Boost CRC test program file  ---------------------------------------------//
+
+//  Copyright 2001, 2003, 2004 Daryle Walker.  Use, modification, and
+//  distribution are subject to the Boost Software License, Version 1.0.  (See
+//  accompanying file LICENSE_1_0.txt or a copy at
+//  &lt;<a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>&gt;.)
+
+//  See &lt;<a href="http://www.boost.org/libs/crc/">http://www.boost.org/libs/crc/</a>&gt; for the library's home page.
+
+//  Revision History
+//  28 Aug 2004  Added CRC tests for polynominals shorter than 8 bits
+//               (Daryle Walker, by patch from Bert Klaps)
+//  23 Aug 2003  Adjust to updated Test framework (Daryle Walker)
+//  14 May 2001  Initial version (Daryle Walker)
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;                      // for BOOST_MSVC, etc.
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/crc.hpp">boost/crc.hpp</a>&gt;                         // for boost::crc_basic, etc.
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp">boost/cstdint.hpp</a>&gt;                     // for boost::uint16_t, etc.
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdlib.hpp">boost/cstdlib.hpp</a>&gt;                     // for boost::exit_success
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/integer.hpp">boost/integer.hpp</a>&gt;                     // for boost::uint_t
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/random/linear_congruential.hpp">boost/random/linear_congruential.hpp</a>&gt;  // for boost::minstd_rand
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/minimal.hpp">boost/test/minimal.hpp</a>&gt;                // for main, etc.
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/timer.hpp">boost/timer.hpp</a>&gt;                       // for boost::timer
+
+#include &lt;algorithm&gt;  // for std::for_each, std::generate_n, std::count
+#include &lt;climits&gt;    // for CHAR_BIT
+#include &lt;cstddef&gt;    // for std::size_t
+#include &lt;iostream&gt;   // for std::cout (std::ostream and std::endl indirectly)
+
+
+#if CHAR_BIT != 8
+#error The expected results assume an eight-bit byte.
+#endif
+
+#if !(defined(BOOST_NO_DEPENDENT_TYPES_IN_TEMPLATE_VALUE_PARAMETERS) || (defined(BOOST_MSVC) &amp;&amp; (BOOST_MSVC &lt;= 1300)))
+#define CRC_PARM_TYPE  typename boost::uint_t&lt;Bits&gt;::fast
+#else
+#define CRC_PARM_TYPE  unsigned long
+#endif
+
+#if !defined(BOOST_MSVC) &amp;&amp; !defined(__GNUC__)
+#define PRIVATE_DECLARE_BOOST( TypeName )  using boost:: TypeName
+#else
+#define PRIVATE_DECLARE_BOOST( TypeName )  typedef boost:: TypeName  TypeName
+#endif
+
+
+// Types
+template &lt; std::size_t Bits, CRC_PARM_TYPE TrPo, CRC_PARM_TYPE InRe,
+           CRC_PARM_TYPE FiXo, bool ReIn, bool ReRe &gt;
+class crc_tester
+{
+public:
+    // All the following were separate function templates, but they have
+    // been moved to class-static member functions of a class template
+    // because MS VC++ 6 can't handle function templates that can't
+    // deduce all their template arguments from their function arguments.
+
+    typedef typename boost::uint_t&lt;Bits&gt;::fast  value_type;
+
+    static  void  master_test( char const *test_name, value_type expected );
+
+private:
+    typedef boost::crc_optimal&lt;Bits, TrPo, InRe, FiXo, ReIn, ReRe&gt;
+      optimal_crc_type;
+    typedef boost::crc_basic&lt;Bits&gt;  basic_crc_type;
+
+    static  void  compute_test( value_type expected );
+    static  void  interrupt_test( value_type expected );
+    static  void  error_test();
+
+};  // crc_tester
+
+// Global data
+unsigned char const  std_data[] = { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+                      0x38, 0x39 };
+std::size_t const    std_data_len = sizeof( std_data ) / sizeof( std_data[0] );
+
+boost::uint16_t const  std_crc_ccitt_result = 0x29B1;
+boost::uint16_t const  std_crc_16_result = 0xBB3D;
+boost::uint32_t const  std_crc_32_result = 0xCBF43926;
+
+// Function prototypes
+void             timing_test();
+boost::uint32_t  basic_crc32( void const *buffer, std::size_t byte_count );
+boost::uint32_t  optimal_crc32( void const *buffer, std::size_t byte_count );
+boost::uint32_t  quick_crc32( void const *buffer, std::size_t byte_count );
+boost::uint32_t  quick_reflect( boost::uint32_t value, std::size_t bits );
+double           time_trial( char const *name,
+ boost::uint32_t (*crc_func)(void const *, std::size_t),
+ boost::uint32_t expected, void const *data, std::size_t length );
+
+void             augmented_tests();
+boost::uint32_t  native_to_big( boost::uint32_t x );
+boost::uint32_t  big_to_native( boost::uint32_t x );
+
+void  small_crc_test1();
+void  small_crc_test2();
+
+
+// Macro to compact code
+#define PRIVATE_TESTER_NAME  crc_tester&lt;Bits, TrPo, InRe, FiXo, ReIn, ReRe&gt;
+
+// Run a test on slow and fast CRC computers and function
+template &lt; std::size_t Bits, CRC_PARM_TYPE TrPo, CRC_PARM_TYPE InRe,
+           CRC_PARM_TYPE FiXo, bool ReIn, bool ReRe &gt;
+void
+PRIVATE_TESTER_NAME::compute_test
+(
+    typename PRIVATE_TESTER_NAME::value_type  expected
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing computation tests.&quot; &lt;&lt; std::endl;
+
+    optimal_crc_type  fast_crc;
+    basic_crc_type    slow_crc( TrPo, InRe, FiXo, ReIn, ReRe );
+    value_type const  func_result = boost::crc&lt;Bits, TrPo, InRe, FiXo, ReIn,
+     ReRe&gt;( std_data, std_data_len );
+
+    fast_crc.process_bytes( std_data, std_data_len );
+    slow_crc.process_bytes( std_data, std_data_len );
+    BOOST_CHECK( fast_crc.checksum() == expected );
+    BOOST_CHECK( slow_crc.checksum() == expected );
+    BOOST_CHECK( func_result == expected );
+}
+
+// Run a test in two runs, and check all the inspectors
+template &lt; std::size_t Bits, CRC_PARM_TYPE TrPo, CRC_PARM_TYPE InRe,
+           CRC_PARM_TYPE FiXo, bool ReIn, bool ReRe &gt;
+void
+PRIVATE_TESTER_NAME::interrupt_test
+(
+    typename PRIVATE_TESTER_NAME::value_type  expected
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing interrupt tests.&quot; &lt;&lt; std::endl;
+
+    // Process the first half of the data (also test accessors)
+    optimal_crc_type  fast_crc1;
+    basic_crc_type    slow_crc1( fast_crc1.get_truncated_polynominal(),
+     fast_crc1.get_initial_remainder(), fast_crc1.get_final_xor_value(),
+     fast_crc1.get_reflect_input(), fast_crc1.get_reflect_remainder() );
+
+    BOOST_CHECK( fast_crc1.get_interim_remainder() ==
+     slow_crc1.get_initial_remainder() );
+
+    std::size_t const            mid_way = std_data_len / 2;
+    unsigned char const * const  std_data_end = std_data + std_data_len;
+
+    fast_crc1.process_bytes( std_data, mid_way );
+    slow_crc1.process_bytes( std_data, mid_way );
+    BOOST_CHECK( fast_crc1.checksum() == slow_crc1.checksum() );
+
+    // Process the second half of the data (also test accessors)
+    boost::crc_optimal&lt;optimal_crc_type::bit_count,
+     optimal_crc_type::truncated_polynominal, optimal_crc_type::initial_remainder,
+     optimal_crc_type::final_xor_value, optimal_crc_type::reflect_input,
+     optimal_crc_type::reflect_remainder&gt;
+      fast_crc2( fast_crc1.get_interim_remainder() );
+    boost::crc_basic&lt;basic_crc_type::bit_count&gt;  slow_crc2(
+     slow_crc1.get_truncated_polynominal(), slow_crc1.get_interim_remainder(),
+     slow_crc1.get_final_xor_value(), slow_crc1.get_reflect_input(),
+     slow_crc1.get_reflect_remainder() );
+
+    fast_crc2.process_block( std_data + mid_way, std_data_end );
+    slow_crc2.process_block( std_data + mid_way, std_data_end );
+    BOOST_CHECK( fast_crc2.checksum() == slow_crc2.checksum() );
+    BOOST_CHECK( fast_crc2.checksum() == expected );
+    BOOST_CHECK( slow_crc2.checksum() == expected );
+}
+
+// Run a test to see if a single-bit error is detected
+template &lt; std::size_t Bits, CRC_PARM_TYPE TrPo, CRC_PARM_TYPE InRe,
+           CRC_PARM_TYPE FiXo, bool ReIn, bool ReRe &gt;
+void
+PRIVATE_TESTER_NAME::error_test
+(
+)
+{
+    PRIVATE_DECLARE_BOOST( uint32_t );
+
+    // A single-bit error is ensured to be detected if the polynominal
+    // has at least two bits set.  The highest bit is what is removed
+    // to give the truncated polynominal, and it is always set.  This
+    // means that the truncated polynominal needs at least one of its
+    // bits set, which implies that it cannot be zero.
+    if ( !(TrPo &amp; boost::detail::mask_uint_t&lt;Bits&gt;::sig_bits_fast) )
+    {
+        BOOST_FAIL( &quot;truncated CRC polymonial is zero&quot; );
+    }
+
+    std::cout &lt;&lt; &quot;\tDoing error tests.&quot; &lt;&lt; std::endl;
+
+    // Create a random block of data
+    uint32_t           ran_data[ 256 ];
+    std::size_t const  ran_length = sizeof(ran_data) / sizeof(ran_data[0]);
+
+    std::generate_n( ran_data, ran_length, boost::minstd_rand() );
+
+    // Create computers and compute the checksum of the data
+    optimal_crc_type  fast_tester;
+    basic_crc_type    slow_tester( TrPo, InRe, FiXo, ReIn, ReRe );
+
+    fast_tester.process_bytes( ran_data, sizeof(ran_data) );
+    slow_tester.process_bytes( ran_data, sizeof(ran_data) );
+
+    uint32_t const  fast_checksum = fast_tester.checksum();
+    uint32_t const  slow_checksum = slow_tester.checksum();
+
+    BOOST_CHECK( fast_checksum == slow_checksum );
+
+    // Do the checksum again (and test resetting ability)
+    fast_tester.reset();
+    slow_tester.reset( InRe );
+    fast_tester.process_bytes( ran_data, sizeof(ran_data) );
+    slow_tester.process_bytes( ran_data, sizeof(ran_data) );
+    BOOST_CHECK( fast_tester.checksum() == slow_tester.checksum() );
+    BOOST_CHECK( fast_tester.checksum() == fast_checksum );
+    BOOST_CHECK( slow_tester.checksum() == slow_checksum );
+
+    // Produce a single-bit error
+    ran_data[ ran_data[0] % ran_length ] ^= ( 1 &lt;&lt; (ran_data[1] % 32) );
+
+    // Compute the checksum of the errorenous data
+    // (and continue testing resetting ability)
+    fast_tester.reset( InRe );
+    slow_tester.reset();
+    fast_tester.process_bytes( ran_data, sizeof(ran_data) );
+    slow_tester.process_bytes( ran_data, sizeof(ran_data) );
+    BOOST_CHECK( fast_tester.checksum() == slow_tester.checksum() );
+    BOOST_CHECK( fast_tester.checksum() != fast_checksum );
+    BOOST_CHECK( slow_tester.checksum() != slow_checksum );
+}
+
+// Run the other CRC object tests
+template &lt; std::size_t Bits, CRC_PARM_TYPE TrPo, CRC_PARM_TYPE InRe,
+           CRC_PARM_TYPE FiXo, bool ReIn, bool ReRe &gt;
+void
+PRIVATE_TESTER_NAME::master_test
+(
+    char const *                              test_name,
+    typename PRIVATE_TESTER_NAME::value_type  expected
+)
+{
+    std::cout &lt;&lt; &quot;Doing test suite for &quot; &lt;&lt; test_name &lt;&lt; '.' &lt;&lt; std::endl;
+    compute_test( expected );
+    interrupt_test( expected );
+    error_test();
+}
+
+// Undo limited macros
+#undef PRIVATE_TESTER_NAME
+
+
+// A CRC-32 computer based on crc_basic, for timing
+boost::uint32_t
+basic_crc32
+(
+    void const *  buffer,
+    std::size_t   byte_count
+)
+{
+    static  boost::crc_basic&lt;32&gt;  computer( 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF,
+     true, true );
+
+    computer.reset();
+    computer.process_bytes( buffer, byte_count );
+    return computer.checksum();
+}
+
+// A CRC-32 computer based on crc_optimal, for timing
+inline
+boost::uint32_t
+optimal_crc32
+(
+    void const *  buffer,
+    std::size_t   byte_count
+)
+{
+    static  boost::crc_32_type  computer;
+
+    computer.reset();
+    computer.process_bytes( buffer, byte_count );
+    return computer.checksum();
+}
+
+// Reflect the lower &quot;bits&quot; bits of a &quot;value&quot;
+boost::uint32_t
+quick_reflect
+(
+    boost::uint32_t  value,
+    std::size_t      bits
+)
+{
+    boost::uint32_t  reflection = 0;
+    for ( std::size_t i = 0 ; i &lt; bits ; ++i )
+    {
+        if ( value &amp; (1u &lt;&lt; i) )
+        {
+            reflection |= 1 &lt;&lt; ( bits - 1 - i );
+        }
+    }
+
+    return reflection;
+}
+
+// A customized CRC-32 computer, for timing
+boost::uint32_t
+quick_crc32
+(
+    void const *  buffer,
+    std::size_t   byte_count
+)
+{
+    PRIVATE_DECLARE_BOOST( uint32_t );
+    typedef unsigned char  byte_type;
+
+    // Compute the CRC table (first run only)
+    static  bool      did_init = false;
+    static  uint32_t  crc_table[ 1ul &lt;&lt; CHAR_BIT ];
+    if ( !did_init )
+    {
+        uint32_t const  value_high_bit = static_cast&lt;uint32_t&gt;(1) &lt;&lt; 31u;
+
+        byte_type  dividend = 0;
+        do
+        {
+            uint32_t  remainder = 0;
+            for ( byte_type mask = 1u &lt;&lt; (CHAR_BIT - 1u) ; mask ; mask &gt;&gt;= 1 )
+            {
+                if ( dividend &amp; mask )
+                {
+                    remainder ^= value_high_bit;
+                }
+
+                if ( remainder &amp; value_high_bit )
+                {
+                    remainder &lt;&lt;= 1;
+                    remainder ^= 0x04C11DB7u;
+                }
+                else
+                {
+                    remainder &lt;&lt;= 1;
+                }
+            }
+
+            crc_table[ quick_reflect(dividend, CHAR_BIT) ]
+             = quick_reflect( remainder, 32 );
+        }
+        while ( ++dividend );
+
+        did_init = true;
+    }
+
+    // Compute the CRC of the data
+    uint32_t  rem = 0xFFFFFFFF;
+
+    byte_type const * const  b_begin = static_cast&lt;byte_type const *&gt;( buffer );
+    byte_type const * const  b_end = b_begin + byte_count;
+    for ( byte_type const *p = b_begin ; p &lt; b_end ; ++p )
+    {
+        byte_type const  byte_index = *p ^ rem;
+        rem &gt;&gt;= CHAR_BIT;
+        rem ^= crc_table[ byte_index ];
+    }
+
+    return ~rem;
+}
+
+// Run an individual timing trial
+double
+time_trial
+(
+    char const *       name,
+    boost::uint32_t  (*crc_func)(void const *, std::size_t),
+    boost::uint32_t    expected,
+    void const *       data,
+    std::size_t        length
+)
+{
+    PRIVATE_DECLARE_BOOST( uint32_t );
+    using std::cout;
+
+    // Limits of a trial
+    static uint32_t const  max_count = 1L &lt;&lt; 16;  // ~square-root of max
+    static double const    max_time = 3.14159;    // easy as pi(e)
+
+    // Mark the trial
+    cout &lt;&lt; '\t' &lt;&lt; name &lt;&lt; &quot; CRC-32: &quot;;
+
+    // Trial loop
+    uint32_t      trial_count = 0, wrong_count = 0;
+    double        elapsed_time = 0.0;
+    boost::timer  t;
+
+    do
+    {
+        uint32_t const  scratch = (*crc_func)( data, length );
+
+        if ( scratch != expected )
+        {
+            ++wrong_count;
+        }
+        elapsed_time = t.elapsed();
+        ++trial_count;
+    } while ( (trial_count &lt; max_count) &amp;&amp; (elapsed_time &lt; max_time) );
+
+    if ( wrong_count )
+    {
+        BOOST_ERROR( &quot;at least one time trial didn't match expected&quot; );
+    }
+
+    // Report results
+    double const  rate = trial_count / elapsed_time;
+
+    cout &lt;&lt; trial_count &lt;&lt; &quot; runs, &quot; &lt;&lt; elapsed_time &lt;&lt; &quot; s, &quot; &lt;&lt; rate
+     &lt;&lt; &quot; run/s&quot; &lt;&lt; std::endl;
+    return rate;
+}
+
+// Time runs of Boost CRCs vs. a customized CRC function
+void
+timing_test
+(
+)
+{
+    PRIVATE_DECLARE_BOOST( uint32_t );
+    using std::cout;
+    using std::endl;
+
+    cout &lt;&lt; &quot;Doing timing tests.&quot; &lt;&lt; endl;
+
+    // Create a random block of data
+    boost::int32_t     ran_data[ 256 ];
+    std::size_t const  ran_length = sizeof(ran_data) / sizeof(ran_data[0]);
+
+    std::generate_n( ran_data, ran_length, boost::minstd_rand() );
+
+    // Use the first runs as a check.  This gives a chance for first-
+    // time static initialization to not interfere in the timings.
+    uint32_t const  basic_result = basic_crc32( ran_data, sizeof(ran_data) );
+    uint32_t const  optimal_result = optimal_crc32( ran_data, sizeof(ran_data) );
+    uint32_t const  quick_result = quick_crc32( ran_data, sizeof(ran_data) );
+
+    BOOST_CHECK( basic_result == optimal_result );
+    BOOST_CHECK( optimal_result == quick_result );
+    BOOST_CHECK( quick_result == basic_result );
+
+    // Run trials
+    double const  basic_rate = time_trial( &quot;Boost-Basic&quot;, basic_crc32,
+     basic_result, ran_data, sizeof(ran_data) );
+    double const  optimal_rate = time_trial( &quot;Boost-Optimal&quot;, optimal_crc32,
+     optimal_result, ran_data, sizeof(ran_data) );
+    double const  quick_rate = time_trial( &quot;Reference&quot;, quick_crc32,
+     quick_result, ran_data, sizeof(ran_data) );
+
+    // Report results
+    cout &lt;&lt; &quot;\tThe optimal Boost version is &quot; &lt;&lt; (quick_rate - optimal_rate)
+     / quick_rate * 100.0 &lt;&lt; &quot;% slower than the reference version.\n&quot;;
+    cout &lt;&lt; &quot;\tThe basic Boost version is &quot; &lt;&lt; (quick_rate - basic_rate)
+     / quick_rate * 100.0 &lt;&lt; &quot;% slower than the reference version.\n&quot;;
+    cout &lt;&lt; &quot;\tThe basic Boost version is &quot; &lt;&lt; (optimal_rate - basic_rate)
+     / optimal_rate * 100.0 &lt;&lt; &quot;% slower than the optimal Boost version.&quot;
+     &lt;&lt; endl;
+}
+
+
+// Reformat an integer to the big-endian storage format
+boost::uint32_t
+native_to_big
+(
+    boost::uint32_t  x
+)
+{
+    boost::uint32_t  temp;
+    unsigned char *  tp = reinterpret_cast&lt;unsigned char *&gt;( &amp;temp );
+
+    for ( std::size_t i = sizeof(x) ; i &gt; 0 ; --i )
+    {
+        tp[ i - 1 ] = static_cast&lt;unsigned char&gt;( x );
+        x &gt;&gt;= CHAR_BIT;
+    }
+
+    return temp;
+}
+
+// Restore an integer from the big-endian storage format
+boost::uint32_t
+big_to_native
+(
+    boost::uint32_t  x
+)
+{
+    boost::uint32_t  temp = 0;
+    unsigned char *  xp = reinterpret_cast&lt;unsigned char *&gt;( &amp;x );
+
+    for ( std::size_t i = 0 ; i &lt; sizeof(x) ; ++i )
+    {
+        temp &lt;&lt;= CHAR_BIT;
+        temp |= xp[ i ];
+    }
+
+    return temp;
+}
+
+// Run tests on using CRCs on augmented messages
+void
+augmented_tests
+(
+)
+{
+    #define PRIVATE_ACRC_FUNC  boost::augmented_crc&lt;32, 0x04C11DB7&gt;
+
+    using std::size_t;
+    PRIVATE_DECLARE_BOOST( uint32_t );
+
+    std::cout &lt;&lt; &quot;Doing CRC-augmented message tests.&quot; &lt;&lt; std::endl;
+
+    // Create a random block of data, with space for a CRC.
+    uint32_t      ran_data[ 257 ];
+    size_t const  ran_length = sizeof(ran_data) / sizeof(ran_data[0]);
+    size_t const  data_length = ran_length - 1;
+
+    std::generate_n( ran_data, data_length, boost::minstd_rand() );
+
+    // When creating a CRC for an augmented message, use
+    // zeros in the appended CRC spot for the first run.
+    uint32_t &amp;  ran_crc = ran_data[ data_length ];
+
+    ran_crc = 0;
+
+    // Compute the CRC with augmented-CRC computing function
+    typedef boost::uint_t&lt;32&gt;::fast  return_type;
+
+    ran_crc = PRIVATE_ACRC_FUNC( ran_data, sizeof(ran_data) );
+
+    // With the appended CRC set, running the checksum again should get zero.
+    // NOTE: CRC algorithm assumes numbers are in big-endian format
+    ran_crc = native_to_big( ran_crc );
+
+    uint32_t  ran_crc_check = PRIVATE_ACRC_FUNC( ran_data, sizeof(ran_data) );
+
+    BOOST_CHECK( 0 == ran_crc_check );
+
+    // Compare that result with other CRC computing functions
+    // and classes, which don't accept augmented messages.
+    typedef boost::crc_optimal&lt;32, 0x04C11DB7&gt;  fast_crc_type;
+    typedef boost::crc_basic&lt;32&gt;                slow_crc_type;
+
+    fast_crc_type   fast_tester;
+    slow_crc_type   slow_tester( 0x04C11DB7 );
+    size_t const    data_size = data_length * sizeof(ran_data[0]);
+    uint32_t const  func_tester = boost::crc&lt;32, 0x04C11DB7, 0, 0, false,
+     false&gt;( ran_data, data_size );
+
+    fast_tester.process_bytes( ran_data, data_size );
+    slow_tester.process_bytes( ran_data, data_size );
+    BOOST_CHECK( fast_tester.checksum() == slow_tester.checksum() );
+    ran_crc = big_to_native( ran_crc );
+    BOOST_CHECK( fast_tester.checksum() == ran_crc );
+    BOOST_CHECK( func_tester == ran_crc );
+
+    // Do a single-bit error test
+    ran_crc = native_to_big( ran_crc );
+    ran_data[ ran_data[0] % ran_length ] ^= ( 1 &lt;&lt; (ran_data[1] % 32) );
+    ran_crc_check = PRIVATE_ACRC_FUNC( ran_data, sizeof(ran_data) );
+    BOOST_CHECK( 0 != ran_crc_check );
+
+    // Run a version of these tests with a nonzero initial remainder.
+    uint32_t const  init_rem = ran_data[ ran_data[2] % ran_length ];
+
+    ran_crc = 0;
+    ran_crc = PRIVATE_ACRC_FUNC( ran_data, sizeof(ran_data), init_rem );
+
+    // Have some fun by processing data in two steps.
+    size_t const  mid_index = ran_length / 2;
+
+    ran_crc = native_to_big( ran_crc );
+    ran_crc_check = PRIVATE_ACRC_FUNC( ran_data, mid_index
+     * sizeof(ran_data[0]), init_rem );
+    ran_crc_check = PRIVATE_ACRC_FUNC( &amp;ran_data[mid_index], sizeof(ran_data)
+     - mid_index * sizeof(ran_data[0]), ran_crc_check );
+    BOOST_CHECK( 0 == ran_crc_check );
+
+    // This substep translates an augmented-CRC initial
+    // remainder to an unaugmented-CRC initial remainder.
+    uint32_t const  zero = 0;
+    uint32_t const  new_init_rem = PRIVATE_ACRC_FUNC( &amp;zero, sizeof(zero),
+     init_rem );
+    slow_crc_type   slow_tester2( 0x04C11DB7, new_init_rem );
+
+    slow_tester2.process_bytes( ran_data, data_size );
+    ran_crc = big_to_native( ran_crc );
+    BOOST_CHECK( slow_tester2.checksum() == ran_crc );
+
+    // Redo single-bit error test
+    ran_data[ ran_data[3] % ran_length ] ^= ( 1 &lt;&lt; (ran_data[4] % 32) );
+    ran_crc_check = PRIVATE_ACRC_FUNC( ran_data, sizeof(ran_data), init_rem );
+    BOOST_CHECK( 0 != ran_crc_check );
+
+    #undef PRIVATE_ACRC_FUNC
+}
+
+
+// Run tests on CRCs below a byte in size (here, 3 bits)
+void
+small_crc_test1
+(
+)
+{
+    std::cout &lt;&lt; &quot;Doing short-CRC (3-bit augmented) message tests.&quot;
+     &lt;&lt; std::endl;
+
+    // The CRC standard is a SDH/SONET Low Order LCAS control word with CRC-3
+    // taken from ITU-T G.707 (12/03) XIII.2.
+
+    // Four samples, each four bytes; should all have a CRC of zero
+    unsigned char const  samples[4][4]
+      = {
+            { 0x3A, 0xC4, 0x08, 0x06 },
+            { 0x42, 0xC5, 0x0A, 0x41 },
+            { 0x4A, 0xC5, 0x08, 0x22 },
+            { 0x52, 0xC4, 0x08, 0x05 }
+        };
+
+    // Basic computer
+    boost::crc_basic&lt;3&gt;  tester1( 0x03 );
+
+    tester1.process_bytes( samples[0], 4 );
+    BOOST_CHECK( tester1.checksum() == 0 );
+
+    tester1.reset();
+    tester1.process_bytes( samples[1], 4 );
+    BOOST_CHECK( tester1.checksum() == 0 );
+
+    tester1.reset();
+    tester1.process_bytes( samples[2], 4 );
+    BOOST_CHECK( tester1.checksum() == 0 );
+
+    tester1.reset();
+    tester1.process_bytes( samples[3], 4 );
+    BOOST_CHECK( tester1.checksum() == 0 );
+
+    // Optimal computer
+    #define PRIVATE_CRC_FUNC   boost::crc&lt;3, 0x03, 0, 0, false, false&gt;
+    #define PRIVATE_ACRC_FUNC  boost::augmented_crc&lt;3, 0x03&gt;
+
+    BOOST_CHECK( 0 == PRIVATE_CRC_FUNC(samples[0], 4) );
+    BOOST_CHECK( 0 == PRIVATE_CRC_FUNC(samples[1], 4) );
+    BOOST_CHECK( 0 == PRIVATE_CRC_FUNC(samples[2], 4) );
+    BOOST_CHECK( 0 == PRIVATE_CRC_FUNC(samples[3], 4) );
+
+    // maybe the fix to CRC functions needs to be applied to augmented CRCs?
+
+    #undef PRIVATE_ACRC_FUNC
+    #undef PRIVATE_CRC_FUNC
+}
+
+// Run tests on CRCs below a byte in size (here, 7 bits)
+void
+small_crc_test2
+(
+)
+{
+    std::cout &lt;&lt; &quot;Doing short-CRC (7-bit augmented) message tests.&quot;
+     &lt;&lt; std::endl;
+
+    // The CRC standard is a SDH/SONET J0/J1/J2/N1/N2/TR TTI (trace message)
+    // with CRC-7, o.a. ITU-T G.707 Annex B, G.832 Annex A.
+
+    // Two samples, each sixteen bytes
+    // Sample 1 is '\x80' + ASCII(&quot;123456789ABCDEF&quot;)
+    // Sample 2 is '\x80' + ASCII(&quot;TTI UNAVAILABLE&quot;)
+    unsigned char const  samples[2][16]
+      = {
+            { 0x80, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41,
+              0x42, 0x43, 0x44, 0x45, 0x46 },
+            { 0x80, 0x54, 0x54, 0x49, 0x20, 0x55, 0x4E, 0x41, 0x56, 0x41, 0x49,
+              0x4C, 0x41, 0x42, 0x4C, 0x45 }
+        };
+    unsigned const       results[2] = { 0x62, 0x23 };
+
+    // Basic computer
+    boost::crc_basic&lt;7&gt;  tester1( 0x09 );
+
+    tester1.process_bytes( samples[0], 16 );
+    BOOST_CHECK( tester1.checksum() == results[0] );
+
+    tester1.reset();
+    tester1.process_bytes( samples[1], 16 );
+    BOOST_CHECK( tester1.checksum() == results[1] );
+
+    // Optimal computer
+    #define PRIVATE_CRC_FUNC   boost::crc&lt;7, 0x09, 0, 0, false, false&gt;
+    #define PRIVATE_ACRC_FUNC  boost::augmented_crc&lt;7, 0x09&gt;
+
+    BOOST_CHECK( results[0] == PRIVATE_CRC_FUNC(samples[0], 16) );
+    BOOST_CHECK( results[1] == PRIVATE_CRC_FUNC(samples[1], 16) );
+
+    // maybe the fix to CRC functions needs to be applied to augmented CRCs?
+
+    #undef PRIVATE_ACRC_FUNC
+    #undef PRIVATE_CRC_FUNC
+}
+
+
+#ifndef BOOST_MSVC
+// Explicit template instantiations
+// (needed to fix a link error in Metrowerks CodeWarrior Pro 5.3)
+template class crc_tester&lt;16, 0x1021, 0xFFFF, 0, false, false&gt;;
+template class crc_tester&lt;16, 0x8005, 0, 0, true, true&gt;;
+template class crc_tester&lt;32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true&gt;;
+#endif
+
+// Main testing function
+int
+test_main
+(
+    int         ,   // &quot;argc&quot; is unused
+    char *      []  // &quot;argv&quot; is unused
+)
+{
+    using std::cout;
+    using std::endl;
+
+    // Run simulations on some CRC types
+    typedef crc_tester&lt;16, 0x1021, 0xFFFF, 0, false, false&gt;  crc_ccitt_tester;
+    typedef crc_tester&lt;16, 0x8005, 0, 0, true, true&gt;         crc_16_tester;
+    typedef crc_tester&lt;32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true&gt;
+      crc_32_tester;
+
+    crc_ccitt_tester::master_test( &quot;CRC-CCITT&quot;, std_crc_ccitt_result );
+    crc_16_tester::master_test( &quot;CRC-16&quot;, std_crc_16_result );
+    crc_32_tester::master_test( &quot;CRC-32&quot;, std_crc_32_result );
+
+    // Run a timing comparison test
+    timing_test();
+
+    // Test using augmented messages
+    augmented_tests();
+
+    // Test with CRC types smaller than a byte
+    small_crc_test1();
+    small_crc_test2();
+
+    // Try a CRC based on the (x + 1) polynominal, which is a factor in
+    // many real-life polynominals and doesn't fit evenly in a byte.
+    cout &lt;&lt; &quot;Doing one-bit polynominal CRC test.&quot; &lt;&lt; endl;
+    boost::crc_basic&lt;1&gt;  crc_1( 1 );
+    crc_1.process_bytes( std_data, std_data_len );
+    BOOST_CHECK( crc_1.checksum() == 1 );
+
+    // Test the function object interface
+    cout &lt;&lt; &quot;Doing functional object interface test.&quot; &lt;&lt; endl;
+    boost::crc_optimal&lt;16, 0x8005, 0, 0, true, true&gt;  crc_16;
+    crc_16 = std::for_each( std_data, std_data + std_data_len, crc_16 );
+    BOOST_CHECK( crc_16() == std_crc_16_result );
+
+    return boost::exit_success;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/crc/test/crc_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:59 GMT -->
+</html>

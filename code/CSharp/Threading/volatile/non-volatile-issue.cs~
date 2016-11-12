@@ -1,0 +1,22 @@
+class Worker
+{
+    private bool stop = false;
+    private Task task;
+
+    public void Start()
+    {
+        task = Task.Run(new Action(Loop));
+    }
+
+    private void Loop()
+    {
+        while (!stop)
+            ;
+    }
+
+    public void Stop()
+    {
+        stop = true;
+        task.Wait();
+    }
+}

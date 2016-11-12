@@ -1,0 +1,60 @@
+cmake_minimum_required( VERSION 2.8.12 )
+
+project( tests )
+
+###################
+# Set C++11 flag  #
+###################
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+else()
+    message(FATAL_ERROR "Compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
+endif()
+
+#################
+# find packages #
+#################
+set( CMAKE_MODULE_PATH  ${CMAKE_SOURCE_DIR}/cmake )
+include( ${CMAKE_MODULE_PATH}/FindGMock.cmake )
+find_package( GTest REQUIRED )
+find_package( GMock REQUIRED )
+
+set( test-files
+  main-gtest.cpp
+  gtest-test.cpp
+  # gmock-test.cpp
+  # hackerrank.cpp
+  )
+
+add_executable( tests
+  ${test-files}
+  )
+SET(GTEST_LINK "-lgtest")
+SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GTEST_LINK}" )
+
+message( "GTEST[${GTEST_LIBRARIES}] : GMOCK[${GMOCK_LIBRARIES}]" )
+target_link_libraries( tests
+  ${GTEST_LIBRARIES}
+  pthread 
+  # ${GMOCK_LIBRARIES}
+  )
+
+#########
+# CTEST #
+#########
+include( CTest )
+enable_testing()
+foreach( test-file ${test-files} )
+  get_filename_component( test ${test-file} NAME_WE )
+  add_test( ${test} tests )
+endforeach()
+
+# message("running ctest")
+# execute_process( COMMAND ctest )
+# add_test(NAME runtestprog
+#     COMMAND ${CMAKE_COMMAND}
+#     -DTEST_PROG=${CMAKE_BINARY_DIR}/tests --gtest_output=xml:test-result.xml
+#     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+#     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake)

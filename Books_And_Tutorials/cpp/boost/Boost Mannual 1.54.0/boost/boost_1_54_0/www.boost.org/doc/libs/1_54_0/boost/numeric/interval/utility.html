@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/utility.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:10 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/numeric/interval/utility.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/numeric/interval/utility.hpp</h3>
+<pre>
+/* Boost interval/utility.hpp template implementation file
+ *
+ * Copyright 2000 Jens Maurer
+ * Copyright 2002-2003 Herv&eacute; Br&ouml;nnimann, Guillaume Melquiond, Sylvain Pion
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or
+ * copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ */
+
+#ifndef BOOST_NUMERIC_INTERVAL_UTILITY_HPP
+#define BOOST_NUMERIC_INTERVAL_UTILITY_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/interval_prototype.hpp">boost/numeric/interval/detail/interval_prototype.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/test_input.hpp">boost/numeric/interval/detail/test_input.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/bugs.hpp">boost/numeric/interval/detail/bugs.hpp</a>&gt;
+#include &lt;algorithm&gt;
+#include &lt;utility&gt;
+
+/*
+ * Implementation of simple functions
+ */
+
+namespace boost {
+namespace numeric {
+
+/*
+ * Utility Functions
+ */
+
+template&lt;class T, class Policies&gt; inline
+const T&amp; lower(const interval&lt;T, Policies&gt;&amp; x)
+{
+  return x.lower();
+}
+
+template&lt;class T, class Policies&gt; inline
+const T&amp; upper(const interval&lt;T, Policies&gt;&amp; x)
+{
+  return x.upper();
+}
+
+template&lt;class T, class Policies&gt; inline
+T checked_lower(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (empty(x)) {
+    typedef typename Policies::checking checking;
+    return checking::nan();
+  }
+  return x.lower();
+}
+
+template&lt;class T, class Policies&gt; inline
+T checked_upper(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (empty(x)) {
+    typedef typename Policies::checking checking;
+    return checking::nan();
+  }
+  return x.upper();
+}
+
+template&lt;class T, class Policies&gt; inline
+T width(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (interval_lib::detail::test_input(x)) return static_cast&lt;T&gt;(0);
+  typename Policies::rounding rnd;
+  return rnd.sub_up(x.upper(), x.lower());
+}
+
+template&lt;class T, class Policies&gt; inline
+T median(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (interval_lib::detail::test_input(x)) {
+    typedef typename Policies::checking checking;
+    return checking::nan();
+  }
+  typename Policies::rounding rnd;
+  return rnd.median(x.lower(), x.upper());
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; widen(const interval&lt;T, Policies&gt;&amp; x, const T&amp; v)
+{
+  if (interval_lib::detail::test_input(x))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T, Policies&gt;(rnd.sub_down(x.lower(), v),
+                               rnd.add_up  (x.upper(), v), true);
+}
+
+/*
+ * Set-like operations
+ */
+
+template&lt;class T, class Policies&gt; inline
+bool empty(const interval&lt;T, Policies&gt;&amp; x)
+{
+  return interval_lib::detail::test_input(x);
+}
+
+template&lt;class T, class Policies&gt; inline
+bool zero_in(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (interval_lib::detail::test_input(x)) return false;
+  return (!interval_lib::user::is_pos(x.lower())) &amp;&amp;
+         (!interval_lib::user::is_neg(x.upper()));
+}
+
+template&lt;class T, class Policies&gt; inline
+bool in_zero(const interval&lt;T, Policies&gt;&amp; x) // DEPRECATED
+{
+  return zero_in&lt;T, Policies&gt;(x);
+}
+
+template&lt;class T, class Policies&gt; inline
+bool in(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y)) return false;
+  return y.lower() &lt;= x &amp;&amp; x &lt;= y.upper();
+}
+
+template&lt;class T, class Policies&gt; inline
+bool subset(const interval&lt;T, Policies&gt;&amp; x,
+            const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (empty(x)) return true;
+  return !empty(y) &amp;&amp; y.lower() &lt;= x.lower() &amp;&amp; x.upper() &lt;= y.upper();
+}
+
+template&lt;class T, class Policies1, class Policies2&gt; inline
+bool proper_subset(const interval&lt;T, Policies1&gt;&amp; x,
+                   const interval&lt;T, Policies2&gt;&amp; y)
+{
+  if (empty(y)) return false;
+  if (empty(x)) return true;
+  return y.lower() &lt;= x.lower() &amp;&amp; x.upper() &lt;= y.upper() &amp;&amp;
+         (y.lower() != x.lower() || x.upper() != y.upper());
+}
+
+template&lt;class T, class Policies1, class Policies2&gt; inline
+bool overlap(const interval&lt;T, Policies1&gt;&amp; x,
+             const interval&lt;T, Policies2&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y)) return false;
+  return (x.lower() &lt;= y.lower() &amp;&amp; y.lower() &lt;= x.upper()) ||
+         (y.lower() &lt;= x.lower() &amp;&amp; x.lower() &lt;= y.upper());
+}
+
+template&lt;class T, class Policies&gt; inline
+bool singleton(const interval&lt;T, Policies&gt;&amp; x)
+{
+ return !empty(x) &amp;&amp; x.lower() == x.upper();
+}
+
+template&lt;class T, class Policies1, class Policies2&gt; inline
+bool equal(const interval&lt;T, Policies1&gt;&amp; x, const interval&lt;T, Policies2&gt;&amp; y)
+{
+  if (empty(x)) return empty(y);
+  return !empty(y) &amp;&amp; x.lower() == y.lower() &amp;&amp; x.upper() == y.upper();
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; intersect(const interval&lt;T, Policies&gt;&amp; x,
+                                const interval&lt;T, Policies&gt;&amp; y)
+{
+  BOOST_USING_STD_MIN();
+  BOOST_USING_STD_MAX();
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  const T&amp; l = max BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y.lower());
+  const T&amp; u = min BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y.upper());
+  if (l &lt;= u) return interval&lt;T, Policies&gt;(l, u, true);
+  else        return interval&lt;T, Policies&gt;::empty();
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; hull(const interval&lt;T, Policies&gt;&amp; x,
+                           const interval&lt;T, Policies&gt;&amp; y)
+{
+  BOOST_USING_STD_MIN();
+  BOOST_USING_STD_MAX();
+  bool bad_x = interval_lib::detail::test_input(x);
+  bool bad_y = interval_lib::detail::test_input(y);
+  if (bad_x)
+    if (bad_y) return interval&lt;T, Policies&gt;::empty();
+    else       return y;
+  else
+    if (bad_y) return x;
+  return interval&lt;T, Policies&gt;(min BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y.lower()),
+                               max BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; hull(const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{
+  BOOST_USING_STD_MIN();
+  BOOST_USING_STD_MAX();
+  bool bad_x = interval_lib::detail::test_input(x);
+  bool bad_y = interval_lib::detail::test_input&lt;T, Policies&gt;(y);
+  if (bad_y)
+    if (bad_x) return interval&lt;T, Policies&gt;::empty();
+    else       return x;
+  else
+    if (bad_x) return interval&lt;T, Policies&gt;(y, y, true);
+  return interval&lt;T, Policies&gt;(min BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y),
+                               max BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; hull(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  BOOST_USING_STD_MIN();
+  BOOST_USING_STD_MAX();
+  bool bad_x = interval_lib::detail::test_input&lt;T, Policies&gt;(x);
+  bool bad_y = interval_lib::detail::test_input(y);
+  if (bad_x)
+    if (bad_y) return interval&lt;T, Policies&gt;::empty();
+    else       return y;
+  else
+    if (bad_y) return interval&lt;T, Policies&gt;(x, x, true);
+  return interval&lt;T, Policies&gt;(min BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.lower()),
+                               max BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.upper()), true);
+}
+
+template&lt;class T&gt; inline
+interval&lt;T&gt; hull(const T&amp; x, const T&amp; y)
+{
+  return interval&lt;T&gt;::hull(x, y);
+}
+
+template&lt;class T, class Policies&gt; inline
+std::pair&lt;interval&lt;T, Policies&gt;, interval&lt;T, Policies&gt; &gt;
+bisect(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return std::pair&lt;I,I&gt;(I::empty(), I::empty());
+  const T m = median(x);
+  return std::pair&lt;I,I&gt;(I(x.lower(), m, true), I(m, x.upper(), true));
+}
+
+/*
+ * Elementary functions
+ */
+
+template&lt;class T, class Policies&gt; inline
+T norm(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x)) {
+    typedef typename Policies::checking checking;
+    return checking::nan();
+  }
+  BOOST_USING_STD_MAX();
+  return max BOOST_PREVENT_MACRO_SUBSTITUTION(static_cast&lt;T&gt;(-x.lower()), x.upper());
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; abs(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  if (!interval_lib::user::is_neg(x.lower())) return x;
+  if (!interval_lib::user::is_pos(x.upper())) return -x;
+  BOOST_USING_STD_MAX();
+  return I(static_cast&lt;T&gt;(0), max BOOST_PREVENT_MACRO_SUBSTITUTION(static_cast&lt;T&gt;(-x.lower()), x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; max BOOST_PREVENT_MACRO_SUBSTITUTION (const interval&lt;T, Policies&gt;&amp; x,
+                                                            const interval&lt;T, Policies&gt;&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MAX();
+  return I(max BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y.lower()), max BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; max BOOST_PREVENT_MACRO_SUBSTITUTION (const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MAX();
+  return I(max BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y), max BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; max BOOST_PREVENT_MACRO_SUBSTITUTION (const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MAX();
+  return I(max BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.lower()), max BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; min BOOST_PREVENT_MACRO_SUBSTITUTION (const interval&lt;T, Policies&gt;&amp; x,
+                                                            const interval&lt;T, Policies&gt;&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MIN();
+  return I(min BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y.lower()), min BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; min BOOST_PREVENT_MACRO_SUBSTITUTION (const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MIN();
+  return I(min BOOST_PREVENT_MACRO_SUBSTITUTION(x.lower(), y), min BOOST_PREVENT_MACRO_SUBSTITUTION(x.upper(), y), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; min BOOST_PREVENT_MACRO_SUBSTITUTION (const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  BOOST_USING_STD_MIN();
+  return I(min BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.lower()), min BOOST_PREVENT_MACRO_SUBSTITUTION(x, y.upper()), true);
+}
+
+} // namespace numeric
+} // namespace boost
+
+#endif // BOOST_NUMERIC_INTERVAL_UTILITY_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/utility.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:10 GMT -->
+</html>

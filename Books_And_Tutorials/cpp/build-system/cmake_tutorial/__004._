@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html id="ie8" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CMake Tutorial - Chapter&nbsp;4: Libraries and Subdirectories - JohnLamp.netJohnLamp.net</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="pingback" href="https://www.johnlamp.net/xmlrpc.php" />
+  <!--[if lt IE 9]>
+  <script src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  
+<!-- This site is optimized with the Yoast SEO plugin v3.0.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CMake Tutorial - Chapter&nbsp;4: Libraries and Subdirectories - JohnLamp.net" />
+<meta property="og:description" content="So far our project is rather simple. A real project would be more
+    complicated than the one we&#039;ve created. Let&#039;s add subdirectories, libraries,
+    and proper unit tests to make our project more realistic.
+  
+  
+    In this chapter we will split up our project to have a library which we can
+    put in a subdirectory. Then we &hellip;Continue reading &quot;CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories&quot;" />
+<meta property="og:url" content="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" />
+<meta property="og:site_name" content="JohnLamp.net" />
+<meta property="article:tag" content="CMake" />
+<meta property="article:tag" content="long" />
+<meta property="article:tag" content="tutorial" />
+<meta property="article:section" content="CMake Tutorial" />
+<meta property="article:published_time" content="2013-05-05T15:12:48+00:00" />
+<meta property="article:modified_time" content="2014-12-28T10:52:39+00:00" />
+<meta property="og:updated_time" content="2014-12-28T10:52:39+00:00" />
+<meta property="og:image" content="https://www.johnlamp.net/images/zip.png" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Feed" href="https://www.johnlamp.net/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Comments Feed" href="https://www.johnlamp.net/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories Comments Feed" href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.johnlamp.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='style-css'  href='https://www.johnlamp.net/wp-content/themes/tutorial-theme/style.css?ver=4.3.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel='shortlink' href='https://www.johnlamp.net/?p=22' />
+<style type="text/css">.site-title a,.site-description{color: #f57900 !important;\n}</style></head>
+<body class="single single-post postid-22 single-format-standard">
+<div id="page" class="hfeed site">
+  <header id="masthead" class="site-header" role="banner">
+    <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home"><img src="https://www.johnlamp.net/wp-content/uploads/2014/09/JL-Symbol.png" width="87" height="90" style="width: 87px; height: 90px;" alt="" /></a>    <div class="hgroup">
+      <h1 class="site-title">
+        <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home">JohnLamp.net</a>
+      </h1>
+      <h2 class="site-description">
+              </h2>
+    </div>
+
+    <div id="search">
+      <form method="get" id="searchform" action="https://www.johnlamp.net/" role="search"><label for="searchInput" class="assistive-text">Search</label><input type="text" class="field" name="searchInput" value="" id="searchInput" placeholder="Search &hellip;" /><input type="submit" id="searchsubmit" class="submit" value="Search" /></form>    </div>
+
+    <nav id="site-navigation" role="navigation" class="main-navigation">
+      <h1 class="assistive-text">
+        Menu      </h1>
+      <div class="assistive-text skip-link">
+        <a href="#content" title="Skip to content">Skip to content</a>
+      </div>
+      <div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-4" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4"><a href="https://www.johnlamp.net/">Home</a></li>
+<li id="menu-item-10" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-10"><a href="https://www.johnlamp.net/cmake-tutorial.html">CMake Tutorial</a></li>
+</ul></div>    </nav>
+    <div class="cleared"></div>
+  </header>
+  <div id="main" class="site-main">
+
+<div id="primary" class="content-area">
+  <div id="content" class="site-content" role="main">
+
+    <nav role="navigation" id="nav-above" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-3-gui-tool.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;3: GUI Tool</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing <span class="meta-nav">&rarr;</span></a></div></nav>
+
+<article id="post-22" class="post-22 post type-post status-publish format-standard hentry category-cmake-tutorial tag-cmake tag-long tag-tutorial">
+  <header class="entry-header">
+    <h1 class="entry-title">
+      CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories    </h1>
+
+    <div class="entry-meta">
+      Posted on <a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" title="15:12:48" rel="bookmark"><time class="entry-date" datetime="2013-05-05T15:12:48+00:00">2013-05-05</time></a> <span class="byline">by <span class="author vcard"><a class="url fn n" href="https://www.johnlamp.net/author/john" title="View all posts by John Lamp" rel="author">John Lamp</a></span></span>    </div>
+  </header>
+
+  <div class="entry-content">
+    <nav class="contents"><h1>Contents</h1><ol><li><a href="#section-Introduction">Introduction</a></li><li><a href="#section-TheLibraryInASubdirectory">The Library in a Subdirectory</a></li><li><a href="#section-TestingForReal">Testing &ndash; for Real</a></li></ol></nav>
+<section>
+  <h1 id="section-Introduction">Introduction</h1>
+  <p>
+    So far our project is rather simple. A real project would be more
+    complicated than the one we&#8217;ve created. Let&#8217;s add subdirectories, libraries,
+    and proper unit tests to make our project more realistic.
+  </p>
+  <p>
+    In this chapter we will split up our project to have a library which we can
+    put in a subdirectory. Then we will use
+    <a href="https://code.google.com/p/googletest/">Google Test</a>    and
+    <a href="https://code.google.com/p/googlemock/">Google Mock</a>    to add a more realistic unit test.
+  </p>
+</section>
+
+<section>
+  <h1 id="section-TheLibraryInASubdirectory">The Library in a Subdirectory</h1>
+  <p>
+    We will make the ToDo class its own library, and put it in a subdirectory. Even
+    though it is a single source file making it a library actually has one
+    significant advantage. CMake will compile source files once for each target
+    that includes them. So if the ToDo class is used by our command line tool, a
+    unit test, and perhaps a GUI App it would be compiled three times. Imagine
+    if we had a collection of classes instead of just one. This results in a
+    lot of unnecessary compilation.
+  </p>
+
+  <p>
+    There were some minor changes to the C++, grab the files here:
+    <a class="sources" href="https://www.johnlamp.net/sources/chapter4-1.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>    <br />
+    (<code>CMakeLists.txt</code> listed below)
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="CMakeLists.txt-1" class="line-number" href="#CMakeLists.txt-1"></a><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<a id="CMakeLists.txt-2" class="line-number" href="#CMakeLists.txt-2"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_LEGACY_CYGWIN_WIN32</span> <span class="s">0</span><span class="p">)</span>
+<a id="CMakeLists.txt-3" class="line-number" href="#CMakeLists.txt-3"></a>
+<a id="CMakeLists.txt-4" class="line-number" href="#CMakeLists.txt-4"></a><span class="nb">project</span><span class="p">(</span><span class="s2">&quot;To Do List&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-5" class="line-number" href="#CMakeLists.txt-5"></a>
+<a id="CMakeLists.txt-6" class="line-number" href="#CMakeLists.txt-6"></a><span class="nb">enable_testing</span><span class="p">()</span>
+<a id="CMakeLists.txt-7" class="line-number" href="#CMakeLists.txt-7"></a>
+<a id="CMakeLists.txt-8" class="line-number" href="#CMakeLists.txt-8"></a>
+<a id="CMakeLists.txt-9" class="line-number" href="#CMakeLists.txt-9"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;GNU&quot;</span> <span class="s">OR</span>
+<a id="CMakeLists.txt-10" class="line-number" href="#CMakeLists.txt-10"></a>    <span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-11" class="line-number" href="#CMakeLists.txt-11"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;-Wall -Wextra -Werror&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-12" class="line-number" href="#CMakeLists.txt-12"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-13" class="line-number" href="#CMakeLists.txt-13"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;/W4 /WX /EHsc&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-14" class="line-number" href="#CMakeLists.txt-14"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="CMakeLists.txt-15" class="line-number" href="#CMakeLists.txt-15"></a><span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">CONFIGURED_ONCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-16" class="line-number" href="#CMakeLists.txt-16"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${warnings}&quot;</span>
+<a id="CMakeLists.txt-17" class="line-number" href="#CMakeLists.txt-17"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-18" class="line-number" href="#CMakeLists.txt-18"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_FLAGS</span>   <span class="s2">&quot;${warnings}&quot;</span>
+<a id="CMakeLists.txt-19" class="line-number" href="#CMakeLists.txt-19"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-20" class="line-number" href="#CMakeLists.txt-20"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="CMakeLists.txt-21" class="line-number" href="#CMakeLists.txt-21"></a>
+<a id="CMakeLists.txt-22" class="line-number" href="#CMakeLists.txt-22"></a>
+<a id="CMakeLists.txt-23" class="line-number" href="#CMakeLists.txt-23"></a><span class="hll"><span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-24" class="line-number" href="#CMakeLists.txt-24"></a><span class="hll">
+</span><a id="CMakeLists.txt-25" class="line-number" href="#CMakeLists.txt-25"></a><span class="hll"><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">ToDoCore</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-26" class="line-number" href="#CMakeLists.txt-26"></a><span class="hll">
+</span><a id="CMakeLists.txt-27" class="line-number" href="#CMakeLists.txt-27"></a><span class="hll"><span class="nb">add_executable</span><span class="p">(</span><span class="s">toDo</span> <span class="s">main.cc</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-28" class="line-number" href="#CMakeLists.txt-28"></a><span class="hll"><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">toDo</span> <span class="s">toDoCore</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-29" class="line-number" href="#CMakeLists.txt-29"></a>
+<a id="CMakeLists.txt-30" class="line-number" href="#CMakeLists.txt-30"></a><span class="nb">add_test</span><span class="p">(</span><span class="s">toDoTest</span> <span class="s">toDo</span><span class="p">)</span>
+<a id="CMakeLists.txt-31" class="line-number" href="#CMakeLists.txt-31"></a>
+<a id="CMakeLists.txt-32" class="line-number" href="#CMakeLists.txt-32"></a>
+<a id="CMakeLists.txt-33" class="line-number" href="#CMakeLists.txt-33"></a><span class="nb">set</span><span class="p">(</span><span class="s">CONFIGURED_ONCE</span> <span class="s">TRUE</span> <span class="s">CACHE</span> <span class="s">INTERNAL</span>
+<a id="CMakeLists.txt-34" class="line-number" href="#CMakeLists.txt-34"></a>    <span class="s2">&quot;A flag showing that CMake has configured at least once.&quot;</span><span class="p">)</span>
+</pre></div>
+</section>  <p>
+    So now our executable &#8220;toDo&#8221; only depends on the file &#8220;main.cc&#8221; and the new
+    library &#8220;toDoCore&#8221;. Our project also has a new subdirectory &#8220;ToDoCore&#8221;.
+  </p>
+  <dl>
+    <dt class="code">
+      include_directories(<span class="arg">directories</span>)
+    </dt>
+    <dd>
+      Add <code class="arg">directories</code> to the end of this directory&#8217;s
+      include paths. We didn&#8217;t need this before because all of our files were in
+      the same directory.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories"><code>include_directories()</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+
+    <dt class="code">
+      CMAKE_CURRENT_SOURCE_DIR
+    </dt>
+    <dd>
+      The full path to the source directory that CMake is currently processing.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#variable:CMAKE_CURRENT_SOURCE_DIR"><code>CMAKE_CURRENT_SOURCE_DIR</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+
+    <dt class="code">
+      add_subdirectory(<span class="arg">source_dir</span>)
+    </dt>
+    <dd>
+      Include the directory <code class="arg">source_dir</code> in your
+      project. This directory <em>must</em> contain a
+      <code>CMakeLists.txt</code> file.
+    </dd>
+    <dd class="note">
+      <em class="call-out">Note:</em> We&#8217;re omitting the optional second
+      parameter.  This only works with subdirectories of the current directory.
+      We will see how to add external directories later.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_subdirectory"><code>add_subdirectory</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+
+    <dt class="code">
+      target_link_libraries(<span class="arg">target</span>
+      <span class="arg">library&hellip;</span>)
+    </dt>
+    <dd>
+      Specify that <code class="arg">target</code> needs to be linked against
+      one or more libraries. If a library name matches another target
+      dependencies are setup automatically so that the libraries will be built
+      first and <code class="arg">target</code> will be updated whenever any of
+      the libraries are.
+    </dd>
+    <dd>
+      If the <code class="arg">target</code> is an executable then it will be
+      linked against the listed libraries.
+    </dd>
+    <dd>
+      If the target is a library then its dependency on these libraries will
+      be recorded. Then when something else links against
+      <code class="arg">target</code> it will also link against
+      <code class="arg">target</code>&#8216;s dependencies. This makes it much easier
+      to handle a library&#8217;s dependencies since you only have to define them once
+      when you define library itself.
+    </dd>
+    <dd>
+      For the moment we are using the simplest form of this command. For more
+      information see the
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:target_link_libraries">documentation</a>      <time class="access">(2013-04-20)</time>.
+    </dd>
+  </dl>
+
+  <p>
+    When describing <code>add_subdirectory()</code> I stated that the
+    subdirectory must contain a <code>CMakeLists.txt</code> file. So here&#8217;s the
+    new file.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/CMakeLists.txt</h1>
+</header><div class="highlight"><pre><a id="ToDoCore/CMakeLists.txt-1" class="line-number" href="#ToDoCore/CMakeLists.txt-1"></a><span class="nb">add_library</span><span class="p">(</span><span class="s">toDoCore</span> <span class="s">ToDo.cc</span><span class="p">)</span>
+</pre></div>
+</section>  <p>
+    Conveniently this file is rather simple.
+  </p>
+  <dl>
+    <dt class="code">
+      add_library(<span class="arg">target</span>
+      <span class="optional">STATIC | SHARED | MODULE</span>
+      <span class="arg">sources&hellip;</span>)
+    </dt>
+    <dd>
+      This command creates a new library <code class="arg">target</code> built
+      from <code class="arg">sources</code>. As you may have noticed
+      this command is very similar to <code>add_executable</code>.
+    </dd>
+    <dd>
+      With <code>STATIC</code>, <code>SHARED</code>, and <code>MODULE</code> you
+      can specify what kind of library to build. <code>STATIC</code> libraries
+      are archives of object files that are linked directly into other targets.
+      <code>SHARED</code> libraries are linked dynamically and loaded at
+      runtime. <code>MODULE</code> libraries are plug-ins that aren&#8217;t linked
+      against but can be loaded dynamically at runtime.
+    </dd>
+    <dd>
+      If the library type is not specified it will be either <code>STATIC</code>
+      or <code>SHARED</code>. The default type is controlled by the
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#variable:BUILD_SHARED_LIBS"><code>BUILD_SHARED_LIBS</code></a>      variable. By default static libraries are created.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_library"><code>add_library()</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+  </dl>
+</section>
+
+<section>
+  <h1 id="section-TestingForReal">Testing &ndash; for Real</h1>
+  <p>
+    We have a rudimentary test but if we were really developing software we&#8217;d
+    write a real test using a real testing framework. As mentioned earlier we
+    will use
+    <a href="https://code.google.com/p/googletest/">Google Test 1.6.0</a> and    <a href="https://code.google.com/p/googlemock/">Google Mock 1.6.0</a>.    Conveniently they include their own
+    <code>CMakeLists.txt</code> files, which makes them easy for us to use.
+  </p>
+
+  <p>
+    First the test:
+  </p>
+  <section class="code">
+<header class="clear-after"><h1>ToDoCore/unit_test/ToDoTest.cc</h1>
+</header><div class="highlight"><pre><a id="ToDoCore/unit_test/ToDoTest.cc-1" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-1"></a><span class="cp">#include &quot;ToDoCore/ToDo.h&quot;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-2" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-2"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-3" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-3"></a><span class="cp">#include &lt;string&gt;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-4" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-4"></a>  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-5" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-5"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-6" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-6"></a><span class="cp">#include &lt;gmock/gmock.h&gt;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-7" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-7"></a>  <span class="k">using</span> <span class="o">::</span><span class="n">testing</span><span class="o">::</span><span class="n">Eq</span><span class="p">;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-8" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-8"></a><span class="cp">#include &lt;gtest/gtest.h&gt;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-9" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-9"></a>  <span class="k">using</span> <span class="o">::</span><span class="n">testing</span><span class="o">::</span><span class="n">Test</span><span class="p">;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-10" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-10"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-11" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-11"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-12" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-12"></a><span class="k">namespace</span> <span class="n">ToDoCore</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-13" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-13"></a><span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-14" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-14"></a><span class="k">namespace</span> <span class="n">testing</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-15" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-15"></a><span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-16" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-16"></a>    <span class="k">class</span> <span class="nc">ToDoTest</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Test</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-17" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-17"></a>    <span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-18" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-18"></a>    <span class="nl">protected:</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-19" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-19"></a>        <span class="n">ToDoTest</span><span class="p">(){}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-20" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-20"></a>        <span class="o">~</span><span class="n">ToDoTest</span><span class="p">(){}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-21" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-21"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-22" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-22"></a>        <span class="k">virtual</span> <span class="kt">void</span> <span class="n">SetUp</span><span class="p">(){}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-23" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-23"></a>        <span class="k">virtual</span> <span class="kt">void</span> <span class="n">TearDown</span><span class="p">(){}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-24" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-24"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-25" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-25"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-26" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-26"></a>        <span class="n">ToDo</span> <span class="n">list</span><span class="p">;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-27" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-27"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-28" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-28"></a>        <span class="k">static</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">taskCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-29" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-29"></a>        <span class="k">static</span> <span class="k">const</span> <span class="n">string</span> <span class="n">tasks</span><span class="p">[</span><span class="n">taskCount</span><span class="p">];</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-30" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-30"></a>    <span class="p">};</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-31" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-31"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-32" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-32"></a>    <span class="k">const</span> <span class="n">string</span> <span class="n">ToDoTest</span><span class="o">::</span><span class="n">tasks</span><span class="p">[</span><span class="n">taskCount</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;write code&quot;</span><span class="p">,</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-33" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-33"></a>                                               <span class="s">&quot;compile&quot;</span><span class="p">,</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-34" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-34"></a>                                               <span class="s">&quot;test&quot;</span><span class="p">};</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-35" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-35"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-36" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-36"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-37" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-37"></a>    <span class="n">TEST_F</span><span class="p">(</span><span class="n">ToDoTest</span><span class="p">,</span> <span class="n">constructor_createsEmptyList</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-38" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-38"></a>    <span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-39" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-39"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">Eq</span><span class="p">(</span><span class="kt">size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-40" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-40"></a>    <span class="p">}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-41" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-41"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-42" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-42"></a>    <span class="n">TEST_F</span><span class="p">(</span><span class="n">ToDoTest</span><span class="p">,</span> <span class="n">addTask_threeTimes_sizeIsThree</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-43" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-43"></a>    <span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-44" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-44"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-45" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-45"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-46" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-46"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-47" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-47"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-48" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-48"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">Eq</span><span class="p">(</span><span class="n">taskCount</span><span class="p">));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-49" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-49"></a>    <span class="p">}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-50" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-50"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-51" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-51"></a>    <span class="n">TEST_F</span><span class="p">(</span><span class="n">ToDoTest</span><span class="p">,</span> <span class="n">getTask_withOneTask_returnsCorrectString</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-52" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-52"></a>    <span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-53" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-53"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-54" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-54"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-55" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-55"></a>        <span class="n">ASSERT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>     <span class="n">Eq</span><span class="p">(</span><span class="kt">size_t</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-56" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-56"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Eq</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-57" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-57"></a>    <span class="p">}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-58" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-58"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-59" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-59"></a>    <span class="n">TEST_F</span><span class="p">(</span><span class="n">ToDoTest</span><span class="p">,</span> <span class="n">getTask_withThreeTasts_returnsCorrectStringForEachIndex</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-60" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-60"></a>    <span class="p">{</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-61" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-61"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-62" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-62"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-63" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-63"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-64" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-64"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-65" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-65"></a>        <span class="n">ASSERT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>     <span class="n">Eq</span><span class="p">(</span><span class="n">taskCount</span><span class="p">));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-66" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-66"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Eq</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-67" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-67"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Eq</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-68" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-68"></a>        <span class="n">EXPECT_THAT</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Eq</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">2</span><span class="p">]));</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-69" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-69"></a>    <span class="p">}</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-70" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-70"></a>
+<a id="ToDoCore/unit_test/ToDoTest.cc-71" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-71"></a><span class="p">}</span> <span class="c1">// namespace testing</span>
+<a id="ToDoCore/unit_test/ToDoTest.cc-72" class="line-number" href="#ToDoCore/unit_test/ToDoTest.cc-72"></a><span class="p">}</span> <span class="c1">// namespace ToDoCore</span>
+</pre></div>
+</section>  <p>
+    This is a rather simple test, but <code>ToDo</code> is still a rather simple
+    class. It may look strange if you are unfamiliar with Google Test, taking a
+    look at
+    <a href="https://code.google.com/p/googletest/wiki/V1_6_Primer">Google Test Primer</a>    may be helpful. I also use a little functionality from Google Mock so
+    <a href="https://code.google.com/p/googlemock/wiki/V1_6_ForDummies">Google Mock for Dummies</a>    may also be useful.
+  </p>
+
+  <p>
+    Now we need to build the test:
+  </p>
+  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="ToDoCore/CMakeLists.txt-1-1" class="line-number" href="#ToDoCore/CMakeLists.txt-1-1"></a><span class="nb">add_library</span><span class="p">(</span><span class="s">toDoCore</span> <span class="s">ToDo.cc</span><span class="p">)</span>
+<a id="ToDoCore/CMakeLists.txt-1-2" class="line-number" href="#ToDoCore/CMakeLists.txt-1-2"></a><span class="hll">
+</span><a id="ToDoCore/CMakeLists.txt-1-3" class="line-number" href="#ToDoCore/CMakeLists.txt-1-3"></a><span class="hll"><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">unit_test</span><span class="p">)</span>
+</span></pre></div>
+</section>  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/unit_test/CMakeLists.txt</h1>
+</header><div class="highlight"><pre><a id="ToDoCore/unit_test/CMakeLists.txt-1" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">GMOCK_DIR</span> <span class="s2">&quot;../../../../../gmock/gmock-1.6.0&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-2" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-2"></a>    <span class="s">CACHE</span> <span class="s">PATH</span> <span class="s2">&quot;The path to the GoogleMock test framework.&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-3" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-3"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-4" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-4"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-5" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-5"></a>    <span class="c"># force this option to ON so that Google Test will use /MD instead of /MT</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-6" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-6"></a>    <span class="c"># /MD is now the default for Visual Studio, so it should be our default, too</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-7" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-7"></a>    <span class="nb">option</span><span class="p">(</span><span class="s">gtest_force_shared_crt</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-8" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-8"></a>           <span class="s2">&quot;Use shared (DLL) run-time lib even when Google Test is built as static lib.&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-9" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-9"></a>           <span class="s">ON</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-10" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-10"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-11" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-11"></a>    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DGTEST_USE_OWN_TR1_TUPLE=1</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-12" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-12"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-13" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-13"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/gmock</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-14" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-14"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-15" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-15"></a><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/gtest/include</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-16" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-16"></a>                           <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/include</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-17" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-17"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-18" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-18"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-19" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-19"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest.cc</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-20" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-20"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">toDoCore</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-21" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-21"></a>                               <span class="s">gmock_main</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-22" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-22"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-23" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-23"></a><span class="nb">add_test</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest</span><span class="p">)</span>
+</pre></div>
+</section>  <p>
+    First we add the Google Mock directory to our project then we add our
+    test. The path to Google Mock is stored in a cached variable so that you can
+    easily set it to the correct value either from the command line or via one
+    of the GUIs. There are several potential problems with that line but we will
+    worry about those later, for now it&#8217;s good enough. Okay I oversimplified a
+    little. We don&#8217;t just add the Google Mock directory, we also work around
+    some OS-specific problems.
+  </p>
+  <p>
+    When using Visual Studio to build our test we would run into a problem. Even
+    when building static libraries, CMake&#8217;s default, MSVC defaults to linking
+    against the multi-threaded, DLL-specific version of the standard library. By
+    default Google Test overrides this so that the non-DLL version of the
+    multi-threaded standard library is used. Then when our test links against
+    both <code>toDoCore</code> and <code>gmock_main</code> the linker will
+    output a large number of errors since we would be linking against two
+    different copies of the standard library. To avoid this problem we force
+    Google Test to use the DLL-specific version to match Visual Studio&#8217;s default
+    by setting the <code>gtest_force_shared_crt</code> option to
+    <code>ON</code>. See
+    <a href="http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx">Microsoft C/C++ Compiler Run-Time Library</a>.  </p>
+  <p>
+    The second problem occurs on newer version of Mac OS X which default to
+    using a different standard library that fully supports C++11. GTest uses the
+    <code>tuple</code> class from the draft TR1 standard and therefore looks for
+    it in the <code>std::tr1</code> namespace. The <code>tr1</code> namespace is
+    not present in the C++11 standard library that Apple uses so GTest cannot
+    find it and won&#8217;t compile. We fix this by telling GTest to use its own
+    <code>tuple</code> implementation.
+  </p>
+
+  <dl>
+    <dt class="code">
+      add_subdirectory(<span class="arg">source_dir</span>
+      <span class="optional arg">binary_dir</span>)
+    </dt>
+    <dd>
+      Add the directory <code class="arg">source_dir</code> to the current
+      project with <code class="arg">binary_dir</code> as its corresponding
+      binary output directory. When adding a directory that is a subdirectory of
+      the current directory CMake will automatically determine what the binary
+      output directory should be, making the second argument optional. However
+      if you add a directory that isn&#8217;t a subdirectory you need to specify the
+      binary output directory.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_subdirectory"><code>add_subdirectory</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+
+    <dt class="code">
+      CMAKE_BINARY_DIR
+    </dt>
+    <dd>
+      This variable holds the path to the top level binary output directory,
+      i.e. the directory in which you ran the <kbd>cmake</kbd> command or the
+      path you chose for &#8220;Where to build the binaries&#8221; in the GUI.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#variable:CMAKE_BINARY_DIR"><code>CMAKE_BINARY_DIR</code> documentation</a>      <time class="access">(2013-04-27)</time>
+    </dd>
+
+    <dt class="code">
+      include_directories(<span class="optional">AFTER|BEFORE</span>
+      <span class="optional">SYSTEM</span>
+      <span class="arg">directory&hellip;</span>)
+    </dt>
+    <dd>
+      <dl>
+        <dt class="code">
+          AFTER|BEFORE
+        </dt>
+        <dd>
+          Specify whether or not these include directories should be appended or
+          prepended to the list of include directories. If omitted then the
+          default behavior is used.
+        </dd>
+        <dd>
+          By default directories are appended to the list. This behavior can be
+          changed by setting <code>CMAKE_INCLUDE_DIRECTORIES_BEFORE</code> to
+          <code>TRUE</code>.
+        </dd>
+
+        <dt class="code">
+          SYSTEM
+        </dt>
+        <dd>
+          Specify that these directories are system include directories. This
+          only has an affect on compilers that support the distinction. This can
+          change the order in which the compiler searches include directories or
+          the handling of warnings from headers found in these directories.
+        </dd>
+
+        <dt class="code arg">
+          directory&hellip;
+        </dt>
+        <dd>
+          The directories to be added to the list of include directories.
+        </dd>
+      </dl>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories"><code>include_directories()</code> documentation</a>      <time class="access">(2013-04-20)</time>
+    </dd>
+
+    <dt class="code">
+      option(<span class="arg">name</span>
+      <span class="arg">docstring</span>
+      <span class="optional arg">initialValue</span>)
+    </dt>
+    <dd>
+      Provide a boolean option to the user. This will be displayed in the GUI as
+      a checkbox. Once created the value of the option can be accessed as the
+      variable <code class="arg">name</code>. The
+      <code class="arg">docstring</code> will be displayed in the GUI to tell
+      the user what this option does. If no initial value is provided it
+      defaults to OFF.
+    </dd>
+    <dd>
+      While this boolean option is stored in the cache and accessible as a
+      variable you cannot override the <code class="arg">initialValue</code> by
+      setting a variable of the same name beforehand, not even by passing a
+      <kbd>-D</kbd> command line option to CMake. Which is why we have to define
+      the option ourselves before Google Test does.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:option"><code>option()</code> documentation</a>      <time class="access">(2013-05-3)</time>
+    </dd>
+
+    <dt class="code">
+      add_definitions(<span class="arg">flags&hellip;</span>)
+    </dt>
+    <dd>
+      Add preprocessor definitions to the compiler command line for targets in
+      the current directory and those below it. While this command is intended
+      for adding definitions you still need to precede them with
+      <code>-D</code>.
+    </dd>
+    <dd>
+      Because this command modifies the <code>COMPILE_DEFINITIONS</code>
+      directory property it affects <em>all</em> targets in the directory, even
+      those that were defined <strong>before</strong> this command was used. If
+      this is not the desired effect then modifying the
+      <code>COMPILE_DEFINITIONS</code> property of particular targets or source
+      files will work better. (Properties are introduced below.)
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_definitions"><code>add_definitions()</code> documentation</a>      <time class="access">(2014-09-28)</time>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#prop_dir:COMPILE_DEFINITIONS"><code>COMPILE_DEFINITIONS</code> directory property documentation</a>      <time class="access">(2014-09-28)</time>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#prop_tgt:COMPILE_DEFINITIONS"><code>COMPILE_DEFINITIONS</code> target property documentation</a>      <time class="access">(2014-09-28)</time>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#prop_sf:COMPILE_DEFINITIONS"><code>COMPILE_DEFINITIONS</code> source file property documentation</a>      <time class="access">(2014-09-28)</time>
+    </dd>
+  </dl>
+
+  <p>
+    Let&#8217;s go ahead and try out our new test!
+    <br />
+    <a class="sources" href="https://www.johnlamp.net/sources/chapter4-2.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>  </p>
+  <section class="terminal">
+    <pre>
+ <span class="ansiBold ansiForeground-blue">&gt;</span> mkdir build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cmake -G &quot;Unix Makefiles&quot; ..
+-- The C compiler identification is Clang 4.2.0
+-- The CXX compiler identification is Clang 4.2.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found PythonInterp: /usr/local/bin/python (found version &quot;2.7.3&quot;)
+-- Looking for include file pthread.h
+-- Looking for include file pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - found
+-- Found Threads: TRUE
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Documents/Programming/C++/CMake Tutorial/flavors/part4_step2/build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> make
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDoCore
+</span>[ 14%] <span class="ansiForeground-green">Building CXX object ToDoCore/CMakeFiles/toDoCore.dir/ToDo.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libtoDoCore.a
+</span>[ 14%] Built target toDoCore
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>[ 28%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>[ 28%] Built target toDo
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gtest
+</span>[ 42%] <span class="ansiForeground-green">Building CXX object gmock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+</span>In file included from /Documents/Programming/C++/gmock/gmock-1.6.0/gtest/src/gtest-all.cc:42:
+In file included from /Documents/Programming/C++/gmock/gmock-1.6.0/gtest/src/gtest.cc:132:
+<span class="ansiBold">/Documents/Programming/C++/gmock/gmock-1.6.0/gtest/src/gtest-internal-inl.h:206:8: </span><span class="ansiBold ansiForeground-red">error: </span><span class="ansiBold">
+      private field 'pretty_' is not used [-Werror,-Wunused-private-field]</span>
+  bool pretty_;
+<span class="ansiBold ansiForeground-green">       ^
+</span>1 error generated.
+make[2]: *** [gmock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o] Error 1
+make[1]: *** [gmock/gtest/CMakeFiles/gtest.dir/all] Error 2
+make: *** [all] Error 2
+</pre>
+  </section>
+  <p>
+    Oh noes! Newer versions of Clang have some pretty strict warnings and we
+    have just run afoul of one. So we have a problem: we want to use strict
+    compiler settings to ensure we write good code but we also don&#8217;t want to go
+    changing Google Test. As it turns out CMake actually provides us the
+    flexibility we need to disable warnings for just the <code>gtest</code>
+    target.
+  </p>
+  <p>
+    This is a capability that can easily be abused. In the case of Google Test
+    we didn&#8217;t write it and we know, or at least assume, that it works
+    fine. Because of that we don&#8217;t care about any warnings we might find in
+    Google Test&#8217;s code. We need to be careful not to use this feature to allow
+    ourselves to write poor code.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/unit_test/CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="ToDoCore/unit_test/CMakeLists.txt-1-1" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">GMOCK_DIR</span> <span class="s2">&quot;../../../../../gmock/gmock-1.6.0&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-2" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-2"></a>    <span class="s">CACHE</span> <span class="s">PATH</span> <span class="s2">&quot;The path to the GoogleMock test framework.&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-3" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-3"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-4" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-4"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-5" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-5"></a>    <span class="c"># force this option to ON so that Google Test will use /MD instead of /MT</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-6" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-6"></a>    <span class="c"># /MD is now the default for Visual Studio, so it should be our default, too</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-7" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-7"></a>    <span class="nb">option</span><span class="p">(</span><span class="s">gtest_force_shared_crt</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-8" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-8"></a>           <span class="s2">&quot;Use shared (DLL) run-time lib even when Google Test is built as static lib.&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-9" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-9"></a>           <span class="s">ON</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-10" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-10"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-11" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-11"></a>    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DGTEST_USE_OWN_TR1_TUPLE=1</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-12" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-12"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-13" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-13"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/gmock</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-14" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-14"></a><span class="hll"><span class="nb">set_property</span><span class="p">(</span><span class="s">TARGET</span> <span class="s">gtest</span> <span class="s">APPEND_STRING</span> <span class="s">PROPERTY</span> <span class="s">COMPILE_FLAGS</span> <span class="s2">&quot; -w&quot;</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-1-15" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-15"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-16" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-16"></a><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/gtest/include</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-17" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-17"></a>                           <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/include</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-18" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-18"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-19" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-19"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-20" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-20"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest.cc</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-21" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-21"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">toDoCore</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-22" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-22"></a>                               <span class="s">gmock_main</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-23" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-23"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-1-24" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1-24"></a><span class="nb">add_test</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest</span><span class="p">)</span>
+</pre></div>
+</section>
+  <dl>
+    <dt class="code">
+      set_property(TARGET gtest APPEND_STRING PROPERTY COMPILE_FLAGS &#8221; -w&#8221;)
+    </dt>
+    <dd>
+      There are a variety of things that have properties in CMake, in this case
+      we are interested in a target&#8217;s properties. Each target can have it&#8217;s own
+      compiler flags in addition the ones set in
+      <code>CMAKE_<i>&lt;LANG&gt;</i>_FLAGS</code>. Here we append
+      &#8220;<code class="nw"> -w</code>&#8221; to <code>gtest</code>&#8216;s
+      <code>COMPILE_FLAGS</code>. The flag &#8220;<code>-w</code>&#8221; disables all
+      warnings for both GCC and Clang. When compiling with MSVC the
+      &#8220;<code class="nw">-w</code>&#8221; will be automatically converted to
+      &#8220;<code class="nw">/w</code>&#8221; which has the same function.
+      <span class="subtle">(Although it will warn that
+      &#8220;<code class="nw">/w</code>&#8221; is overriding
+      &#8220;<code class="nw">/W4</code>&#8220;)</span>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#prop_tgt:COMPILE_FLAGS"><code>COMPILE_FLAGS</code> documentation</a>      <time class="access">(2013-04-28)</time>
+    </dd>
+    <dd>
+      <a href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">GCC Warning Options</a>      <time class="access">(2013-04-28)</time>, currently these work for Clang too.
+    </dd>
+    <dd>
+      <a href="http://msdn.microsoft.com/en-us/library/thxezb7y.aspx">Microsoft C/C++ Compiler Warning Level</a>      <time class="access">(2013-04-28)</time>
+    </dd>
+  </dl>
+
+  <dl>
+    <dt class="code">
+      set_property(TARGET
+      <span class="arg">target_name&hellip;</span>
+      <span class="optional">APPEND|APPEND_STRING</span>
+      PROPERTY <span class="arg">name</span> <span class="arg">value&hellip;</span>)
+    </dt>
+    <dd>
+      <dl>
+        <dt class="code">
+          TARGET
+        </dt>
+        <dd>
+          Specify that we want to set the property of a target. Several other
+          types of things have properties you can set. For the moment we are
+          only going to deal with targets, but the concept is the same for the
+          rest.
+        </dd>
+
+        <dt class="code arg">
+          target_name&hellip;
+        </dt>
+        <dd>
+          The name of the target whose property you want to set. You can list
+          multiple targets and all will have the property set the same way for
+          each.
+        </dd>
+
+        <dt class="code optional">
+          APPEND | APPEND_STRING
+        </dt>
+        <dd>
+          Append to the property&#8217;s existing value instead of setting
+          it. <code>APPEND</code> appends to the property as a
+          list. <code>APPEND_STRING</code> appends to the property as a string.
+        </dd>
+        <dd class="note">
+          <em class="call-out">Note:</em> Do not provide a multiple values when
+          using <code>APPEND_STRING</code> as the results will not be what you
+          expect.
+        </dd>
+        <dd class="subtle">
+          Don&#8217;t worry about lists we will cover them in the next
+          <a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#section-Lists!">chapter</a>.        </dd>
+
+        <dt class="code">
+          PROPERTY
+        </dt>
+
+        <dt class="code arg">
+          name
+        </dt>
+        <dd>
+          The name of the property you want to set. See
+          <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#section_PropertiesonTargets">Properties on Targets</a>.        </dd>
+
+        <dt class="code arg">
+          value&hellip;
+        </dt>
+        <dd>
+          The value to set for the property. If multiple values are provided
+          they are treated as a list. Only provide one value if also using
+          <code>APPEND_STRING</code>.
+        </dd>
+        <dd class="subtle">
+          Don&#8217;t worry about
+          <a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#section-Lists!">lists</a>          yet.
+        </dd>
+      </dl>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:set_property"><code>set_property()</code> documentation</a>      <time class="access">(2013-04-28)</time>
+    </dd>
+  </dl>
+
+  <p>
+    Let&#8217;s give this version a try.
+    <br />
+    <a class="sources" href="https://www.johnlamp.net/sources/chapter4-3.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>  </p>
+  <section class="terminal">
+    <pre>
+ <span class="ansiBold ansiForeground-blue">&gt;</span> mkdir build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cmake -G &quot;Unix Makefiles&quot; ..
+-- The C compiler identification is Clang 4.2.0
+-- The CXX compiler identification is Clang 4.2.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found PythonInterp: /usr/local/bin/python (found version &quot;2.7.3&quot;)
+-- Looking for include file pthread.h
+-- Looking for include file pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - found
+-- Found Threads: TRUE
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Documents/Programming/C++/CMake Tutorial/flavors/part4_step3/build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> make
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDoCore
+</span>[ 14%] <span class="ansiForeground-green">Building CXX object ToDoCore/CMakeFiles/toDoCore.dir/ToDo.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libtoDoCore.a
+</span>[ 14%] Built target toDoCore
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>[ 28%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>[ 28%] Built target toDo
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gtest
+</span>[ 42%] <span class="ansiForeground-green">Building CXX object gmock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgtest.a
+</span>[ 42%] Built target gtest
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gmock
+</span>[ 57%] <span class="ansiForeground-green">Building CXX object gmock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgmock.a
+</span>[ 57%] Built target gmock
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gmock_main
+</span>[ 71%] <span class="ansiForeground-green">Building CXX object gmock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgmock_main.a
+</span>[ 71%] Built target gmock_main
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target ToDoTest
+</span>[ 85%] <span class="ansiForeground-green">Building CXX object ToDoCore/unit_test/CMakeFiles/ToDoTest.dir/ToDoTest.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable ToDoTest
+</span>[ 85%] Built target ToDoTest
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gtest_main
+</span>[100%] <span class="ansiForeground-green">Building CXX object gmock/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgtest_main.a
+</span>[100%] Built target gtest_main
+ <span class="ansiBold ansiForeground-blue">&gt;</span> make test
+<span class="ansiForeground-cyan">Running tests...
+</span>Test project /Documents/Programming/C++/CMake Tutorial/flavors/part4_step3/build
+    Start 1: ToDoTest
+1/1 Test #1: ToDoTest .........................   Passed    0.00 sec
+100% tests passed, 0 tests failed out of 1
+Total Test time (real) =   0.01 sec
+ <span class="ansiBold ansiForeground-blue">&gt;</span> ToDoCore/unit_test/ToDoTest
+Running main() from gmock_main.cc
+<span class="ansiForeground-green">[==========] </span>Running 4 tests from 1 test case.
+<span class="ansiForeground-green">[----------] </span>Global test environment set-up.
+<span class="ansiForeground-green">[----------] </span>4 tests from ToDoTest
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.constructior_createsEmptyList
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.constructior_createsEmptyList (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.addTask_threeTimes_sizeIsThree
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.addTask_threeTimes_sizeIsThree (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.getTask_withOneTask_returnsCorrectString
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.getTask_withOneTask_returnsCorrectString (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.getTask_withThreeTasts_returnsCorrectStringForEachIndex
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.getTask_withThreeTasts_returnsCorrectStringForEachIndex (1 ms)
+<span class="ansiForeground-green">[----------] </span>4 tests from ToDoTest (1 ms total)
+<span class="ansiForeground-green">[----------] </span>Global test environment tear-down
+<span class="ansiForeground-green">[==========] </span>4 tests from 1 test case ran. (1 ms total)
+<span class="ansiForeground-green">[  PASSED  ] </span>4 tests.
+</pre>
+  </section>
+  <p>
+    Yay! Everything works now and our test passes, too.
+  </p>
+  <p>
+    Next we will focus on how we could add more unit tests
+    <span class="subtle">(if we had more units)</span> without duplicating the
+    work we&#8217;ve done here. Also we will make it so that our unit tests are
+    automatically run as needed whenever we build.
+  </p>
+</section>
+
+<section id="revision-history"><span class="heading">Revision History</span><table summary="Revision History"><thead><tr><td>Version</td><td>Date</td><td>Comment</td></tr></thead><tbody><tr><td>1</td><td>2013-05-05</td><td>Original version.</td></tr><tr><td>2</td><td>2013-07-14</td><td>Added line numbers and indication of changes to code samples. Added a link to the section on lists.</td></tr><tr><td>3</td><td>2014-10-01</td><td>Added the work around for a problem with Google Test and newer versions of Mac OS X along with an explanation and a description of <code>add_definitions()</code></td></tr></tbody></table></section>
+
+  </div>
+
+  <footer class="entry-meta">
+    This entry was tagged <a href="https://www.johnlamp.net/tag/cmake" rel="tag">CMake</a>, <a href="https://www.johnlamp.net/tag/long" rel="tag">long</a>, <a href="https://www.johnlamp.net/tag/tutorial" rel="tag">tutorial</a>. Bookmark the <a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" title="Permalink to CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories" rel="bookmark">permalink</a>.     </footer>
+     <footer class="entry-license"><div class="license"><a class="no-decoration" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width: 0;" width="80" height="15" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/by-nc-sa-r.png" /></a>This entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories</span>," by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> is licensed under a <a rel="license" href="http://creativecommons.org/licensesby-nc-sa/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</div><div class="code-license"><span xmlns:dct="http://purl.org/dc/terms/"><a class="no-decoration" rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/cc-zero-r.png" width="80" height="15" style="border-style: none;" alt="CC0" /></a>To the extent possible under law, <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> has waived all copyright and related or neighboring rights to the code samples in this entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories</span>".</span></div></footer></article>
+<nav role="navigation" id="nav-below" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-3-gui-tool.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;3: GUI Tool</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing <span class="meta-nav">&rarr;</span></a></div></nav>
+<div id="comments" class="comments-area">
+          <h2 class="comments-title">
+          14 thoughts on &ldquo;<span>CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories</span>&rdquo;        </h2>
+
+        
+        <ol class="commentlist">
+          <li id="li-comment-794" class="comment even thread-even depth-1"><article id="comment-794" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-794"><time pubdate date-time="2014-09-09T05:15:58+00:00">2014-09-09 at 05:15:58</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://adamgetchell.org' rel='external nofollow' class='url'>Adam Getchell</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>This is a great tutorial. Unfortunately, gmock 1.6 doesn&#8217;t build on my Mac.<br />
+Gmock 1.7.0 does, but produces the error output listed in this gist:</p>
+<p><a href="https://gist.github.com/acgetchell/004242400a17d8bd72fc" rel="nofollow">https://gist.github.com/acgetchell/004242400a17d8bd72fc</a></p>
+<p>The source files I am working with is listed here:</p>
+<p><a href="https://github.com/acgetchell/cmake-tutorial" rel="nofollow">https://github.com/acgetchell/cmake-tutorial</a></p>
+<p>Thanks for any suggestions!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=794#respond' onclick='return addComment.moveForm( "comment-794", "794", "respond", "22" )' aria-label='Reply to Adam Getchell'>Reply</a></div></article><ul class="children">
+<li id="li-comment-795" class="comment byuser comment-author-john bypostauthor odd alt depth-2"><article id="comment-795" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-795"><time pubdate date-time="2014-09-09T20:28:38+00:00">2014-09-09 at 20:28:38</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Which version of OS X are you using?</p>
+<p>Regardless this was written on OS X 10.8 and with 10.9 Apple switched the default standard library to one that fully supports C++11. This causes issues with GTest/GMock 1.6 because it was designed before C++11 was commonly available. Oddly enough the solution is to tell GTest to use its own tuple implementation. Simply add the following before you add the GMock directory.<br />
+<code>add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)</code></p>
+<p>I will update this page to add that. As to your issue with GTest/GMock 1.7 I&#8217;m not sure off the top of my head but I will look into it.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=795#respond' onclick='return addComment.moveForm( "comment-795", "795", "respond", "22" )' aria-label='Reply to John Lamp'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-807" class="comment byuser comment-author-john bypostauthor even depth-2"><article id="comment-807" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-807"><time pubdate date-time="2014-09-18T20:08:33+00:00">2014-09-18 at 20:08:33</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>As for the problem with GMock 1.7.0 they are related to the above line<br />
+<code>set_property(TARGET gtest APPEND_STRING PROPERTY COMPILE_FLAGS " -w")</code><br />
+and a fix to GMock that allows you to link against it as a DLL. To fix a very peculiar linking problem on Windows when building <code>gmock</code> as a DLL <code>gmock</code> and <code>gmock_main</code> no longer link against <code>gtest</code> instead they compile GTest in directly. However this means the problem in <code>gtest</code> we sidestepped now appears in <code>gmock</code> and <code>gmock_main</code>. So if we modify our workaround to be<br />
+<code>set_property(TARGET gtest gmock gmock_main APPEND_STRING PROPERTY COMPILE_FLAGS " -w")</code><br />
+it should all build again!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=807#respond' onclick='return addComment.moveForm( "comment-807", "807", "respond", "22" )' aria-label='Reply to John Lamp'>Reply</a></div></article><ul class="children">
+<li id="li-comment-986" class="comment odd alt depth-3"><article id="comment-986" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-986"><time pubdate date-time="2015-02-11T18:07:40+00:00">2015-02-11 at 18:07:40</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/2e0681faba8eeefa837e950bbd004043?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/2e0681faba8eeefa837e950bbd004043?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://www.salgat.net' rel='external nofollow' class='url'>Austin Salgat</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thanks John for the update, once I updated the TARGET to include gmock and gmock_main the compilation worked fine.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=986#respond' onclick='return addComment.moveForm( "comment-986", "986", "respond", "22" )' aria-label='Reply to Austin Salgat'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1088" class="comment even depth-4"><article id="comment-1088" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-1088"><time pubdate date-time="2015-06-16T08:46:09+00:00">2015-06-16 at 08:46:09</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/842c79bb42104837cd3e109f381c5691?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/842c79bb42104837cd3e109f381c5691?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Romain Dambreville</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Hi, I had to update the TARGET too and it&#8217;s fine now, anyone knows why?</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=1088#respond' onclick='return addComment.moveForm( "comment-1088", "1088", "respond", "22" )' aria-label='Reply to Romain Dambreville'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-833" class="comment byuser comment-author-john bypostauthor odd alt depth-2"><article id="comment-833" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-833"><time pubdate date-time="2014-10-01T20:00:14+00:00">2014-10-01 at 20:00:14</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thanks for commenting about this issue, I have update the post with the fix.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=833#respond' onclick='return addComment.moveForm( "comment-833", "833", "respond", "22" )' aria-label='Reply to John Lamp'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-818" class="comment even thread-odd thread-alt depth-1"><article id="comment-818" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-818"><time pubdate date-time="2014-09-25T21:22:31+00:00">2014-09-25 at 21:22:31</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://adamgetchell.org' rel='external nofollow' class='url'>Adam Getchell</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Hi John!</p>
+<p>Thanks for the suggestion! </p>
+<p>I reverted from using Yosemite to using OS X 10.9.5.</p>
+<p>I believe I made the changes you suggested (feel free to check my source files):</p>
+<p><a href="https://github.com/acgetchell/cmake-tutorial" rel="nofollow">https://github.com/acgetchell/cmake-tutorial</a></p>
+<p>Here are my results:</p>
+<p><a href="https://gist.github.com/acgetchell/12abdc4681c700543d2a" rel="nofollow">https://gist.github.com/acgetchell/12abdc4681c700543d2a</a></p>
+<p>Thanks again for your comments, this is the closest I&#8217;ve come to getting GMock to work.</p>
+<p>Regards,</p>
+<p>Adam</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=818#respond' onclick='return addComment.moveForm( "comment-818", "818", "respond", "22" )' aria-label='Reply to Adam Getchell'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-849" class="comment odd alt thread-even depth-1"><article id="comment-849" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-849"><time pubdate date-time="2014-10-09T16:59:06+00:00">2014-10-09 at 16:59:06</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://adamgetchell.org' rel='external nofollow' class='url'>Adam Getchell</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Works now!</p>
+<p>Thanks to this tutorial, David Alfonso&#8217;s GMock/CMake skeleton project:</p>
+<p><a href="https://github.com/davidag/gtestmock-cmake-template" rel="nofollow">https://github.com/davidag/gtestmock-cmake-template</a></p>
+<p>And Jeff Langr&#8217;s &#8220;Modern C++ Programming with Test-Driven Development&#8221;, in particular the errata:</p>
+<p><a href="https://pragprog.com/titles/lotdd/errata" rel="nofollow">https://pragprog.com/titles/lotdd/errata</a></p>
+<p>I&#8217;ve got a working CMake/GMock project:</p>
+<p><a href="https://github.com/acgetchell" rel="nofollow">https://github.com/acgetchell</a></p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=849#respond' onclick='return addComment.moveForm( "comment-849", "849", "respond", "22" )' aria-label='Reply to Adam Getchell'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-970" class="comment even thread-odd thread-alt depth-1"><article id="comment-970" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-970"><time pubdate date-time="2015-01-21T14:21:27+00:00">2015-01-21 at 14:21:27</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/488ad187368e301cd3b03428dbcd9967?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/488ad187368e301cd3b03428dbcd9967?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Vollaro</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Hi John, thx for this tuto realy nice (and better than the official documentation ^^).</p>
+<p>I have a question about the first example. It should be include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ToDoCore) instead of include_directories(${CMAKE_CURRENT_SOURCE_DIR}) ?</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=970#respond' onclick='return addComment.moveForm( "comment-970", "970", "respond", "22" )' aria-label='Reply to Vollaro'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-971" class="comment odd alt thread-even depth-1"><article id="comment-971" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-971"><time pubdate date-time="2015-01-21T14:34:18+00:00">2015-01-21 at 14:34:18</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/488ad187368e301cd3b03428dbcd9967?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/488ad187368e301cd3b03428dbcd9967?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Vollaro</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Forget what I said, it is because you set the full path to the header into your main.cc, and not in my own file.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=971#respond' onclick='return addComment.moveForm( "comment-971", "971", "respond", "22" )' aria-label='Reply to Vollaro'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1037" class="comment even thread-odd thread-alt depth-1"><article id="comment-1037" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-1037"><time pubdate date-time="2015-04-01T15:59:38+00:00">2015-04-01 at 15:59:38</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/07f2c1a43e916213a87dc15253b162fe?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/07f2c1a43e916213a87dc15253b162fe?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Red Baron</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>This is one hell of a great tutorial. Although to be honest it would have been easier to first show how to include all the libraries and then add a separate chapter dedicated to testing only. Imho that&#8217;s a good way of separating the two and making it easier to follow. Anyways thanks a lot!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=1037#respond' onclick='return addComment.moveForm( "comment-1037", "1037", "respond", "22" )' aria-label='Reply to Red Baron'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1094" class="comment odd alt thread-even depth-1"><article id="comment-1094" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-1094"><time pubdate date-time="2015-07-02T04:31:11+00:00">2015-07-02 at 04:31:11</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/c8fb832acb94a9050b4302e115052c35?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c8fb832acb94a9050b4302e115052c35?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://www.albertotaiuti.com' rel='external nofollow' class='url'>Snowzurfer</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Amazing tutorial, thank you so much for this. Keep it up!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=1094#respond' onclick='return addComment.moveForm( "comment-1094", "1094", "respond", "22" )' aria-label='Reply to Snowzurfer'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1165" class="comment even thread-odd thread-alt depth-1"><article id="comment-1165" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-1165"><time pubdate date-time="2015-10-19T05:13:09+00:00">2015-10-19 at 05:13:09</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/13c6d477e622b7a710ef99d0dc3e63a3?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/13c6d477e622b7a710ef99d0dc3e63a3?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Scott</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Following this on Windows, I downloaded the latest version of googletest (which now includes googlemock) and when generating the solution for Visual Studio, it generated new projects for gmock, gmock_main, gtest, and gtest_main &#8212; none of which do anything when I run them. And I&#8217;m pretty sure that the RUN_TESTS project is still doing the old tests. At least, it doesn&#8217;t say anything specific about doing google tests, and the output looks nothing like what is in the example output.</p>
+<p>Am I doing something wrong (I mean, aside from not following the tutorial exactly, but the tutorial tells me to use old versions and I&#8217;d rather learn the newer versions&#8230;)?</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=1165#respond' onclick='return addComment.moveForm( "comment-1165", "1165", "respond", "22" )' aria-label='Reply to Scott'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1166" class="comment odd alt depth-2"><article id="comment-1166" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html#comment-1166"><time pubdate date-time="2015-10-19T18:31:43+00:00">2015-10-19 at 18:31:43</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/13c6d477e622b7a710ef99d0dc3e63a3?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/13c6d477e622b7a710ef99d0dc3e63a3?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Scott</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>After sleeping on it and coming back, I figured out that I need to select the unit test project (ToDoTest), build it, and then running it shows up a command prompt briefly. But if I run that from the prompt itself, I see all the output as it should be.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html?replytocom=1166#respond' onclick='return addComment.moveForm( "comment-1166", "1166", "respond", "22" )' aria-label='Reply to Scott'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+        </ol>
+
+        						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/cmake-tutorial-4-libraries-and-subdirectories.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="https://www.johnlamp.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="e5932-comment" cols="45" rows="8"  aria-required="true" required="required"></textarea><textarea name="comment" style="display:none" rows="1" cols="1"></textarea></p>						
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='22' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>					</form>
+							</div><!-- #respond -->
+			</div>
+
+  </div>
+</div>
+
+
+<div id="secondary" class="widget-area" role="complementary">
+  <aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+	<li><a href='https://www.johnlamp.net/2015/03'>March 2015</a></li>
+	<li><a href='https://www.johnlamp.net/2013/07'>July 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/05'>May 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/03'>March 2013</a></li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-4"><a href="https://www.johnlamp.net/category/cmake-tutorial" >CMake Tutorial</a>
+</li>
+		</ul>
+</aside></div>
+
+<div id="tertiary" class="widget-area" role="supplementary">
+  <aside id="meta-2" class="widget widget_meta"><h1 class="widget-title">Meta</h1>			<ul>
+						<li><a rel="nofollow" href="https://www.johnlamp.net/wp-login.php">Log in</a></li>
+			<li><a href="https://www.johnlamp.net/feed">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.johnlamp.net/comments/feed">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+</aside></div>
+
+      </div> <!-- #main .site-main -->
+
+      <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="copyright">
+          Site Copyrighted &copy; 2013-2014 John Lamp all rights reserved.        </div>
+
+        <div class="site-info">
+          <a class="no-decoration" href="http://wordpress.org/" title="A Semantic Personal Publishing Platform" rel="generator"><img id="codeIsPoetry" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/images/codeIsPoetry.png" alt="Code is Poetry" /></a>        </div>
+
+        <nav class="footer-navigation">
+                    </nav>
+
+        <div class="cleared"></div>
+      </footer>
+    </div> <!-- #page .hfeed .site -->
+
+    <script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/comment-reply.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/navigation.js?ver=20120206'></script>
+
+  </body>
+</html>

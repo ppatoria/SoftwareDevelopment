@@ -1,0 +1,1153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/mem_fn_template.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:38 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/bind/mem_fn_template.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/bind/mem_fn_template.hpp</h3>
+<pre>
+//
+//  bind/mem_fn_template.hpp
+//
+//  Do not include this header directly
+//
+//  Copyright (c) 2001 Peter Dimov and Multi Media Ltd.
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+//  See <a href="http://www.boost.org/libs/bind/mem_fn.html">http://www.boost.org/libs/bind/mem_fn.html</a> for documentation.
+//
+
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING)
+# define BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+#endif
+
+// mf0
+
+template&lt;class R, class T BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf0)
+{
+public:
+
+    typedef R result_type;
+    typedef T * argument_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) ())
+    F f_;
+
+    template&lt;class U&gt; R call(U &amp; u, T const *) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)();
+    }
+
+    template&lt;class U&gt; R call(U &amp; u, void const *) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)();
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf0)(F f): f_(f) {}
+
+    R operator()(T * p) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)();
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p);
+    }
+
+#endif
+
+    R operator()(T &amp; t) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)();
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf0) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf0) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf0
+
+template&lt;class R, class T BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf0)
+{
+public:
+
+    typedef R result_type;
+    typedef T const * argument_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) () const)
+    F f_;
+
+    template&lt;class U&gt; R call(U &amp; u, T const *) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)();
+    }
+
+    template&lt;class U&gt; R call(U &amp; u, void const *) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)();
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf0)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p);
+    }
+
+    R operator()(T const &amp; t) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)();
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf0) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf0) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf1
+
+template&lt;class R, class T, class A1 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf1)
+{
+public:
+
+    typedef R result_type;
+    typedef T * first_argument_type;
+    typedef A1 second_argument_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1))
+    F f_;
+
+    template&lt;class U, class B1&gt; R call(U &amp; u, T const *, B1 &amp; b1) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1);
+    }
+
+    template&lt;class U, class B1&gt; R call(U &amp; u, void const *, B1 &amp; b1) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf1)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf1) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf1) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf1
+
+template&lt;class R, class T, class A1 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf1)
+{
+public:
+
+    typedef R result_type;
+    typedef T const * first_argument_type;
+    typedef A1 second_argument_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1) const)
+    F f_;
+
+    template&lt;class U, class B1&gt; R call(U &amp; u, T const *, B1 &amp; b1) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1);
+    }
+
+    template&lt;class U, class B1&gt; R call(U &amp; u, void const *, B1 &amp; b1) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf1)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1);
+    }
+
+    R operator()(T const &amp; t, A1 a1) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf1) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf1) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf2
+
+template&lt;class R, class T, class A1, class A2 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf2)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2))
+    F f_;
+
+    template&lt;class U, class B1, class B2&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2);
+    }
+
+    template&lt;class U, class B1, class B2&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf2)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf2) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf2) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf2
+
+template&lt;class R, class T, class A1, class A2 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf2)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2);
+    }
+
+    template&lt;class U, class B1, class B2&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf2)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf2) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf2) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf3
+
+template&lt;class R, class T, class A1, class A2, class A3 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf3)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3);
+    }
+
+    template&lt;class U, class B1, class B2, class B3&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf3)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf3) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf3) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf3
+
+template&lt;class R, class T, class A1, class A2, class A3 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf3)
+{
+public:
+
+    typedef R result_type;
+
+private:
+
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3);
+    }
+
+    template&lt;class U, class B1, class B2, class B3&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3);
+    }
+
+public:
+
+    explicit BOOST_MEM_FN_NAME(cmf3)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf3) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf3) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf4
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf4)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf4)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf4) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf4) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf4
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf4)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf4)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf4) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf4) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf5
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf5)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf5)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4, a5);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf5) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf5) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf5
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf5)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf5)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf5) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf5) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf6
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf6)
+{
+public:
+
+    typedef R result_type;
+
+private:
+
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6);
+    }
+
+public:
+
+    explicit BOOST_MEM_FN_NAME(mf6)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4, a5, a6);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf6) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf6) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf6
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf6)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf6)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf6) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf6) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf7
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf7)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6, A7))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6, b7);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6, b7);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf7)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf7) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf7) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf7
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf7)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6, A7) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6, b7);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6, b7);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf7)(F f): f_(f) {}
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf7) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf7) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// mf8
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(mf8)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6, A7, A8))
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7, B8 &amp; b8) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6, b7, b8);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7, B8 &amp; b8) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6, b7, b8);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(mf8)(F f): f_(f) {}
+
+    R operator()(T * p, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    template&lt;class U&gt; R operator()(U &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+#ifdef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+#endif
+
+    R operator()(T &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(mf8) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(mf8) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+// cmf8
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8 BOOST_MEM_FN_CLASS_F&gt; class BOOST_MEM_FN_NAME(cmf8)
+{
+public:
+
+    typedef R result_type;
+
+private:
+    
+    BOOST_MEM_FN_TYPEDEF(R (BOOST_MEM_FN_CC T::*F) (A1, A2, A3, A4, A5, A6, A7, A8) const)
+    F f_;
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8&gt; R call(U &amp; u, T const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7, B8 &amp; b8) const
+    {
+        BOOST_MEM_FN_RETURN (u.*f_)(b1, b2, b3, b4, b5, b6, b7, b8);
+    }
+
+    template&lt;class U, class B1, class B2, class B3, class B4, class B5, class B6, class B7, class B8&gt; R call(U &amp; u, void const *, B1 &amp; b1, B2 &amp; b2, B3 &amp; b3, B4 &amp; b4, B5 &amp; b5, B6 &amp; b6, B7 &amp; b7, B8 &amp; b8) const
+    {
+        BOOST_MEM_FN_RETURN (get_pointer(u)-&gt;*f_)(b1, b2, b3, b4, b5, b6, b7, b8);
+    }
+
+public:
+    
+    explicit BOOST_MEM_FN_NAME(cmf8)(F f): f_(f) {}
+
+    R operator()(T const * p, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        BOOST_MEM_FN_RETURN (p-&gt;*f_)(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    template&lt;class U&gt; R operator()(U const &amp; u, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        U const * p = 0;
+        BOOST_MEM_FN_RETURN call(u, p, a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    R operator()(T const &amp; t, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+    {
+        BOOST_MEM_FN_RETURN (t.*f_)(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    bool operator==(BOOST_MEM_FN_NAME(cmf8) const &amp; rhs) const
+    {
+        return f_ == rhs.f_;
+    }
+
+    bool operator!=(BOOST_MEM_FN_NAME(cmf8) const &amp; rhs) const
+    {
+        return f_ != rhs.f_;
+    }
+};
+
+#undef BOOST_MEM_FN_ENABLE_CONST_OVERLOADS
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/mem_fn_template.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:38 GMT -->
+</html>

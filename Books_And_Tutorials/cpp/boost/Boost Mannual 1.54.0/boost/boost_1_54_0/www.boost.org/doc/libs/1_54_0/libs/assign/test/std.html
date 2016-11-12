@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/std.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:26 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/assign/test/std.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/assign/test/std.cpp</h3>
+<pre>
+// Boost.Assign library
+//
+//  Copyright Thorsten Ottosen 2003-2004. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+// For more information, see <a href="http://www.boost.org/libs/assign/">http://www.boost.org/libs/assign/</a>
+//
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#  pragma warn -8091 // supress warning in Boost.Test
+#  pragma warn -8057 // unused argument argc/argv in Boost.Test
+#endif
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/assign/std.hpp">boost/assign/std.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/test_tools.hpp">boost/test/test_tools.hpp</a>&gt;
+#include &lt;utility&gt;
+#include &lt;string&gt;
+
+using namespace std;
+using namespace boost::assign;  
+    
+template&lt; typename K, typename V &gt;
+inline pair&lt;K,V&gt; P( K k, V v )
+{
+    return make_pair( k, v );
+}
+
+struct three
+{
+    three( int, int, int ) { }
+    three( const string&amp;, const string&amp;, const string&amp; ) { }
+};
+
+struct four
+{
+    four( int, int, int, int ) { }
+    four( const string&amp;, const string&amp;, const string&amp;, const string&amp; ) { }
+};
+
+struct five
+{
+    five( int, int, int, int, int ) { }
+    five( const string&amp;, const string&amp;, const string&amp;,  
+          const string&amp;, const string&amp; ) { }
+};
+
+
+
+template&lt; class C &gt;
+void test_int_sequence()
+{
+    C c;
+    
+    BOOST_CHECK_EQUAL( c.size(), 0u );
+    c +=1,2,3,4,5,6,7,8,9,10;
+    BOOST_CHECK_EQUAL( c.size(), 10u );
+}
+
+
+
+template&lt; class C &gt;
+void test_string_sequence()
+{
+    C c;
+
+    BOOST_CHECK_EQUAL( c.size(), 0u );
+    c += &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;10&quot;;
+    BOOST_CHECK_EQUAL( c.size(), 10u );
+}
+
+
+
+typedef pair&lt;string,int&gt; tuple; 
+
+template&lt; class C &gt;
+void test_tuple_sequence()
+{
+    C c;
+    
+    BOOST_CHECK_EQUAL( c.size(), 0u );
+    c += P(&quot;1&quot;,1), P(&quot;2&quot;,2), P(&quot;3&quot;,3), P(&quot;4&quot;,4), P(&quot;5&quot;,5), P(&quot;6&quot;,6), 
+         P(&quot;7&quot;,7), P(&quot;8&quot;,8), P(&quot;9&quot;,9), P(&quot;10&quot;,10);
+    BOOST_CHECK_EQUAL( c.size(), 10u );
+}
+
+
+
+template&lt; class M &gt;
+void test_map()
+{
+    M m;
+    m += P( &quot;january&quot;,   31 ), P( &quot;february&quot;, 28 ),
+         P( &quot;march&quot;,     31 ), P( &quot;april&quot;,    30 ),
+         P( &quot;may&quot;,       31 ), P( &quot;june&quot;,     30 ),
+         P( &quot;july&quot;,      31 ), P( &quot;august&quot;,   31 ),
+         P( &quot;september&quot;, 30 ), P( &quot;october&quot;,  31 ),
+         P( &quot;november&quot;,  30 ), P( &quot;december&quot;, 31 );
+    BOOST_CHECK_EQUAL( m.size(), 12u );
+    m.clear();
+    insert( m )
+        ( &quot;january&quot;,   31 )( &quot;february&quot;, 28 )
+        ( &quot;march&quot;,     31 )( &quot;april&quot;,    30 )
+        ( &quot;may&quot;,       31 )( &quot;june&quot;,     30 )
+        ( &quot;july&quot;,      31 )( &quot;august&quot;,   31 )
+        ( &quot;september&quot;, 30 )( &quot;october&quot;,  31 )
+        ( &quot;november&quot;,  30 )( &quot;december&quot;, 31 );
+    BOOST_CHECK_EQUAL( m.size(), 12u );
+}
+
+
+
+void test_tuple()
+{
+    vector&lt;three&gt;    v_three;
+    vector&lt;four&gt;     v_four;
+    vector&lt;five&gt;     v_five;
+
+    push_back( v_three ) (1,2,3) (&quot;1&quot;,&quot;2&quot;,&quot;3&quot;);
+    push_back( v_four ) (1,2,3,4) (&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;);
+    push_back( v_five ) (1,2,3,4,5) (&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;);
+    BOOST_CHECK_EQUAL( v_three.size(), 2u );
+    BOOST_CHECK_EQUAL( v_four.size(), 2u );
+    BOOST_CHECK_EQUAL( v_five.size(), 2u );
+
+}
+
+
+
+void check_std()
+{
+    test_int_sequence&lt; deque&lt;int&gt; &gt;();
+    test_int_sequence&lt; list&lt;int&gt; &gt;();          
+    test_int_sequence&lt; vector&lt;int&gt; &gt;();       
+    test_int_sequence&lt; set&lt;int&gt; &gt;();          
+    test_int_sequence&lt; multiset&lt;int&gt; &gt;();     
+    test_int_sequence&lt; stack&lt;int&gt; &gt;();        
+    test_int_sequence&lt; queue&lt;int&gt; &gt;();        
+    test_int_sequence&lt; priority_queue&lt;int&gt; &gt;();
+            
+    test_string_sequence&lt; deque&lt;string&gt; &gt;();             
+    test_string_sequence&lt; list&lt;string&gt; &gt;();              
+    test_string_sequence&lt; vector&lt;string&gt; &gt;();            
+    test_string_sequence&lt; set&lt;string&gt; &gt;();               
+    test_string_sequence&lt; multiset&lt;string&gt; &gt;();          
+    test_string_sequence&lt; stack&lt;string&gt; &gt;();             
+    test_string_sequence&lt; queue&lt;string&gt; &gt;();             
+    test_string_sequence&lt; priority_queue&lt;string&gt; &gt;();    
+
+    test_tuple_sequence&lt; deque&lt;tuple&gt; &gt;();             
+    test_tuple_sequence&lt; list&lt;tuple&gt; &gt;();              
+    test_tuple_sequence&lt; vector&lt;tuple&gt; &gt;();            
+    test_tuple_sequence&lt; set&lt;tuple&gt; &gt;();               
+    test_tuple_sequence&lt; multiset&lt;tuple&gt; &gt;();          
+    test_tuple_sequence&lt; stack&lt;tuple&gt; &gt;();             
+    test_tuple_sequence&lt; queue&lt;tuple&gt; &gt;();             
+    test_tuple_sequence&lt; priority_queue&lt;tuple&gt; &gt;();    
+    test_tuple();
+    
+    deque&lt;int&gt;          di; 
+    push_back( di )( 1 );
+    push_front( di )( 2 );
+    BOOST_CHECK_EQUAL( di[0], 2 );
+    BOOST_CHECK_EQUAL( di[1], 1 );
+    
+    list&lt;int&gt;           li; 
+    push_back( li )( 2 );
+    push_front( li )( 1 );
+    BOOST_CHECK_EQUAL( li.front(), 1 );
+    BOOST_CHECK_EQUAL( li.back(), 2 );
+    
+    vector&lt;int&gt;         vi; 
+    push_back( vi ) = 2,3;
+    BOOST_CHECK_EQUAL( vi[0], 2 );
+    BOOST_CHECK_EQUAL( vi[1], 3 );
+    
+    set&lt;int&gt;            si; 
+    insert( si )( 4 );
+    BOOST_CHECK_EQUAL( *si.find( 4 ), 4 );
+    
+    multiset&lt;int&gt;       msi; 
+    insert( msi )( 5 );
+    BOOST_CHECK_EQUAL( *msi.find( 5 ), 5 );
+    
+    stack&lt;int&gt;          sti; 
+    push( sti )( 6 );
+    BOOST_CHECK_EQUAL( sti.top(), 6 );
+    
+    queue&lt;int&gt;          qi; 
+    push( qi )( 7 );
+    BOOST_CHECK_EQUAL( qi.back(), 7 );
+    
+    priority_queue&lt;int&gt; pqi; 
+    push( pqi )( 8 );
+    BOOST_CHECK_EQUAL( pqi.top(), 8 );
+    
+    test_map&lt; map&lt;string,int&gt; &gt;();
+    test_map&lt; multimap&lt;string,int&gt; &gt;();
+
+}
+
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/unit_test.hpp">boost/test/unit_test.hpp</a>&gt;
+using boost::unit_test::test_suite;
+
+test_suite* init_unit_test_suite( int argc, char* argv[] )
+{
+    test_suite* test = BOOST_TEST_SUITE( &quot;List Test Suite&quot; );
+
+    test-&gt;add( BOOST_TEST_CASE( &amp;check_std ) );
+
+    return test;
+}
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/std.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:26 GMT -->
+</html>

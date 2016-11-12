@@ -1,0 +1,406 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/linqkit.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 5.0/4.0 in a Nutshell - LINQKit
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/linqkit.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTcwODg1MTE2Ng9kFgJmD2QWAgIDD2QWAgILDxYCHgRUZXh0BYwYDQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iYWJvdXQuYXNweCI+QWJvdXQgdGhlIEJvb2s8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb2RlLmFzcHgiPkNvZGUgTGlzdGluZ3M8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rYSIgaHJlZj0iZXh0cmFzLmFzcHgiPkV4dHJhczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5MSU5RUGFkPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iV2hhdHNOZXdDczQuYXNweCIgY2xhc3M9InN1YmxpbmsiPlZJREVPOiBXaGF0J3MgbmV3IGluIEMjIDQuMDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFraXQuYXNweCIgY2xhc3M9InN1YmxpbmsiPkxJTlFLaXQ8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJwcmVkaWNhdGVidWlsZGVyLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5QcmVkaWNhdGVCdWlsZGVyPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0ibGlucWJyaWRnZS5hc3B4IiBjbGFzcz0ic3VibGluayI+TElOUUJyaWRnZTwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFxdWl6LmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5UaGUgTElOUSBRdWl6PC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iMTBsaW5xbXl0aHMuYXNweCIgY2xhc3M9InN1YmxpbmsiPlRlbiBMSU5RIE15dGhzPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5Bc3luY2hyb25hdG9yPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdCBBdXRob3JzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+ZGRT340UINg9aUgmBz5dcw4vnD+jxA==" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Extras</h1>
+
+<h2>What is LINQKit?</h2>
+<p>LINQKit is a free set of extensions for LINQ to SQL and Entity Framework power users. It comprises the 
+following:</p>
+<ul>
+	<li>An extensible implementation of <b>AsExpandable()</b></li>
+	<li>A public expression visitor base class (<b>ExpressionVisitor</b>)</li>
+	<li><a href="predicatebuilder.html">PredicateBuilder</a></li>
+	<li><a href="http://tomasp.net/blog/dynamic-linq-queries.aspx">Linq.Expr and 
+	Linq.Func</a> shortcut methods</li>
+</ul>
+<p>With LINQKit, you can:</p>
+<ul>
+	<li>Plug expressions into <b>EntitySet</b>s and <b>EntityCollection</b>s</li>
+	<li>Use expression variables in subqueries</li>
+	<li>Combine expressions (have one expression call another)</li>
+	<li><a href="predicatebuilder.html">Dynamically build predicates</a></li>
+	<li>Leverage <b>AsExpandable</b> to add your own extensions.</li>
+</ul>
+<p><b>AsExpandable</b> is based on a 
+<a href="http://tomasp.net/blog/linq-expand.aspx">very clever project</a> by Tomas Petricek.<b> 
+ExpressionVisitor</b> comes from a
+<a href="http://blogs.msdn.com/mattwar/archive/2007/07/31/linq-building-an-iqueryable-provider-part-ii.aspx">
+sample by Matt Warren</a>.</p>
+<p>LINQKit includes full source code, and is released under a <i>permissive free 
+license</i>.</p>
+
+<h2>Plugging Expressions into EntitySets / EntityCollections: The Problem</h2>
+
+<p>We'll assume two very simple LINQ to SQL entities: <b>Customer</b> and <b>
+Purchase</b>, in a one-to-many relationship. (Entity Framework works in exactly the same way in these examples).</p>
+<p>Suppose we wanted to write a method called <b>QueryCustomers</b> that 
+returned the names of all customers who'd made at least one purchase that 
+satisfied a particular criteria.&nbsp; So, if we wanted all customers who'd made 
+a purchase over $1000, we'd call this hypothetical <b>QueryCustomer</b> method 
+as follows:</p>
+<pre>string[] bigSpenders = QueryCustomers (p =&gt; p.Price &gt; 1000);</pre>
+<p>Here's what the method's signature might look like:</p>
+<pre>static string[] QueryCustomers (<i><b>some-type</b></i> purchaseCriteria)
+{
+   ...
+}</pre>
+<p>Because we're querying a database, <i><b>some-type</b></i> must be <b>Expression&lt;Func&lt;&gt;&gt;</b> rather than just <b>Func&lt;&gt;</b>. This ensures our 
+query will end up as an expression tree that LINQ to SQL or Entity Framework can traverse and 
+convert to a SQL statement. In other words:</p>
+<pre>static string[] QueryCustomers (<b>Expression&lt;Func&lt;Purchase,bool&gt;&gt;</b> purchaseCriteria)
+{
+   ...
+}</pre>
+<p>We chose Expression&lt;Func&lt;<b>Purchase,bool</b>&gt;&gt; because our pluggable 
+criteria will accept a <b>Purchase</b> object and return <b>true</b> or <b>false</b>, 
+depending on whether or not to include that <b>Purchase</b> object. Here's how 
+we might write the whole method:</p>
+<pre>static string[] QueryCustomers (Expression&lt;Func&lt;Purchase, bool&gt;&gt; purchaseCriteria)
+{
+  var data = new MyDataContext();    // or MyObjectContext()
+
+  var query =
+    from c in data.Customers
+    where <b>c.Purchases.Any (purchaseCriteria)  // will not compile</b>
+    select c.Name;
+
+  return query.ToArray();
+}</pre>
+<p>But there's a problem: <b>Customer.Purchases</b> is of type <b>EntitySet&lt;&gt;</b> 
+(or <b>EntityCollection&lt;&gt;</b> with EF) neither of which implements <b>IQueryable&lt;&gt;</b>. This means that we 
+can't call <b>Queryable</b>'s <b>Any</b> method (the one that accepts an <b>
+Expression&lt;Func&lt;&gt;&gt;</b>) and our query won't compile!</p>
+<p class="note">It would be a different story if we were querying the <b>
+Purchases</b> table directly (rather the via the <b>Customer.Purchases</b> 
+association property). The <b>Purchases</b> property is of type <b>
+Table&lt;Purchase&gt;</b> which implements <b>IQueryable</b>, allowing us to do the 
+following:<br>
+<br>
+<b>bool any = data.Purchases.Any (purchaseCriteria);</b></p>
+<p>Of course, we could rewrite <b>QueryCustomers</b> to accept a Func&lt;Purchase,bool&gt; 
+instead:</p>
+<pre>static string[] QueryCustomers (<b>Func&lt;Purchase,bool&gt;</b> purchaseCriteria)
+...</pre>
+<p>Everything would then compile, but LINQ to SQL or Entity Framework would throw an exception 
+because it wouldn't be able to understand what was inside the <b>Func</b> 
+delegate. And fair enough too: the query pipeline would have to disassemble IL code to 
+work around that!</p>
+
+<h2>Plugging Expressions into EntitySets / EntityCollections: The Solution</h2>
+
+<p>Here's how to solve the above problem with LINQKit:</p>
+<ol>
+	<li>Call <b>AsExpandable()</b> on the <b>Table&lt;&gt;</b> object</li>
+	<li>Call <b>Compile()</b> on the expression variable, when used on an <b>
+	EntitySet</b> or <b>EntityCollection</b>.</li>
+</ol>
+<pre>static string[] QueryCustomers (Expression&lt;Func&lt;Purchase, bool&gt;&gt; purchaseCriteria)
+{
+  var data = new MyDataContext();
+
+  var query =
+    from c in data.Customers<b>.AsExpandable()</b>
+    where c.Purchases.Any (purchaseCriteria<b>.Compile()</b>)
+    select c.Name;
+
+  return query.ToArray();
+}</pre>
+<p><b>Compile</b> is an inbuilt method in the <b>Expression</b> class. It 
+converts the <b>Expression&lt;Func&lt;Purchase,bool&gt;</b> into a plain <b>Func&lt;Purchase,bool&gt;</b> 
+which satisfies the compiler. Of course, if this method actually <i>ran</i>, 
+we'd end up with compiled IL code instead of an <i>expression tree</i>, and LINQ 
+to SQL or Entity Framework would throw an exception. But here's the clever part: <b>Compile</b> 
+never actually runs; nor does LINQ to SQL or Entity Framework ever get to see it. The call to <b>
+Compile</b> gets stripped out entirely by a special wrapper that was created by 
+calling <b>AsExpandable</b>, and substituted for a correct expression tree. </p>
+<p>You can find out more about how <b>AsExpandable</b> works in
+<a href="http://tomasp.net/blog/linq-expand.aspx">Tomas Petricek's blog</a>.</p>
+
+<h2>Using Expression Variables in Subqueries</h2>
+
+<p>Suppose we want to write our previous example without using the <b>
+Customer.Purchases</b> association property. (This might happen in real life if 
+querying an ad-hoc relationship.) To recap, our query is to retrieve the names 
+of all customers who have had made at least one purchase satisfying a particular 
+criteria. Here's how we might proceed:</p>
+<pre>static string[] QueryCustomers (Expression&lt;Func&lt;Purchase, bool&gt;&gt; purchaseCriteria)
+{
+  var data = new MyDataContext();
+
+  var query =
+    from c in data.Customers
+    let custPurchases = data.Purchases.Where (p =&gt; p.CustomerID == c.ID)
+    where custPurchases.Any (purchaseCriteria)
+    select c.Name;
+
+  return query.ToArray();
+}</pre>
+<p>Seem reasonable enough? Entity Framework handles this query without error but LINQ to SQL throws an 
+exception:</p>
+<p>&nbsp;&nbsp;&nbsp; <b>Unsupported overload used for query operator 'Any'.</b></p>
+<p>The problem is that LINQ to SQL cannot handle <i>references to</i> 
+expressions (such as <b>purchaseCriteria</b>) within subqueries. &quot;But where is 
+the subquery,&quot; you might ask! The answer lies in the compiler: C# generates a 
+subquery when it translates the <b>let</b> clause into lambda/method syntax.</p>
+<p>The solution, with LINQKit, is simply to call <b>AsExpandable(</b>) on the 
+first table in the query:</p>
+<pre>static string[] QueryCustomers (Expression&lt;Func&lt;Purchase, bool&gt;&gt; purchaseCriteria)
+{
+  var data = new MyDataContext();
+
+  var query =
+    from c in data.Customers<b>.AsExpandable()</b>
+    let custPurchases = data.Purchases.Where (p =&gt; p.CustomerID == c.ID)
+    where custPurchases.Any (purchaseCriteria)
+    select c.Name;
+
+  return query.ToArray();
+}</pre>
+<p>Nothing else needs to be changed. The wrapper that <b>AsExpandable</b> 
+generates looks specifically for references to expressions, and substitutes the 
+expression in place of the reference. Voila!</p>
+
+<h2>Combining Expressions</h2>
+
+<p>The <b>AsExpandable</b> wrapper also lets you write expressions that call 
+other expressions. All you need to do is:</p>
+<ol>
+	<li>Call <b>Invoke</b> to call the inner expression</li>
+	<li>Call <b>Expand</b> on the final result.</li>
+</ol>
+<p>For example:</p>
+<pre>Expression&lt;Func&lt;Purchase,bool&gt;&gt; criteria1 = p =&gt; p.Price &gt; 1000;
+Expression&lt;Func&lt;Purchase,bool&gt;&gt; criteria2 = p =&gt; <b>criteria1.Invoke (p)
+                                                </b> || p.Description.Contains (&quot;a&quot;);
+
+Console.WriteLine (criteria2<b>.Expand()</b>.ToString());</pre>
+<p>(<b>Invoke</b> and <b>Expand</b> are extension methods in LINQKit.) Here's 
+the output:</p>
+<pre>p =&gt; ((p.Price &gt; 1000) || p.Description.Contains(&quot;a&quot;))</pre>
+<p>Notice that we have a nice clean expression: the call to <b>Invoke</b> has 
+been stripped away.</p>
+<p>If you're using an <b>Invoke</b>d expression within a LINQ to SQL or Entity Framework query, and 
+have called <b>AsExpandable</b> on the <b>Table</b>, you can optionally skip 
+step 2. This is because <b>AsExpandable</b> automatically calls <b>Expand</b> on 
+expressions. This means either of the following is valid: </p>
+<pre>var query = data.Purchases<b>.AsExpandable()</b>.Where (criteria2);</pre>
+<pre>var query = data.Purchases<b>.</b>Where (criteria2<b>.Expand()</b>);</pre>
+<p class="note"><b>AsExpandable()</b> works on <b>IQueryable&lt;T&gt;<br>
+</b><br>
+<b>Expand()</b> works on <b>Expression&lt;TDelegate&gt;</b></p>
+<p>The one thing to watch is recursive expressions: these cannot be <b>Expand</b>ed! 
+Recursive expressions usually happen by accident when you reuse a variable. It's 
+an easy mistake to make:</p>
+<pre>Expression&lt;Func&lt;Purchase,bool&gt;&gt; criteria = p =&gt; p.Price &gt; 1000;
+criteria = p =&gt; <b>criteria.Invoke (p)</b> || p.Description.Contains (&quot;a&quot;);</pre>
+<p>That last line recursively calls itself and the original predicate (p.Price&gt;1000) 
+is lost!</p>
+
+<h2>PredicateBuilder</h2>
+
+<p><a href="predicatebuilder.html">Click here</a> for information on how to use 
+PredicateBuilder.</p>
+
+<p class="note">When applying expressions built with PredicateBuilder to an Entity Framework query, remember to call
+<b>AsExpandable</b> on the first table in the query.</p>
+
+<h2>Licensing</h2>
+<p>LINQKit is free. The source code is issued under a permissive free license, 
+which means you can modify it as you please, and incorporate it into your own 
+commercial or non-commercial software.</p>
+<p>As a power user, I appreciate that you'll have your own ideas on how LINQKit should 
+be changed or extended! For this reason, I've kept the source code simple—so 
+it's easy to modify.&nbsp;Enjoy!</p>
+
+<h2>Using LINQKit within LINQPad</h2>
+	<p>With <a href="http://www.linqpad.net/">LINQPad</a>, you can develop your queries 
+		much faster than with Visual Studio&#39;s build/run/debug cycle. To use 
+		LINQKit within LINQPad:</p>
+	<ul>
+		<li>Press F4 for the <b>Query Properties</b> dialog</li>
+		<li><b>Uncheck</b> &#39;Include PredicateBuilder&#39; and add a reference to <b>LinqKit.dll</b></li>
+	</ul>
+<h2>Download</h2>
+<p><a href="LinqKit.zip">Click here to download LinqKit.dll</a></p>
+<p><a href="LinqKitSource.zip">Click here to download source code and demo project</a>. </p>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="extras.html" class="sublink">LINQPad</a></td></tr>
+       <tr><td align="right"><a href="WhatsNewCs4-2.html" class="sublink">VIDEO: What's new in C# 4.0</a></td></tr>
+       <tr><td align="right"><a href="linqkit.html" class="sublink">LINQKit</a></td></tr>
+       <tr><td align="right"><a href="predicatebuilder.html" class="sublink">PredicateBuilder</a></td></tr>
+       <tr><td align="right"><a href="linqbridge.html" class="sublink">LINQBridge</a></td></tr>
+       <tr><td align="right"><a href="linqquiz.html" class="sublink">The LINQ Quiz</a></td></tr>
+       <tr><td align="right"><a href="10linqmyths.html" class="sublink">Ten LINQ Myths</a></td></tr>
+       <tr><td align="right"><a href="extras.html" class="sublink">Asynchronator</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/linqkit.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

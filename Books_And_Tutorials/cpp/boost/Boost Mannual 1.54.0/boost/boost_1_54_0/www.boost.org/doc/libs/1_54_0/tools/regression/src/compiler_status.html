@@ -1,0 +1,1219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/tools/regression/src/compiler_status.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>tools/regression/src/compiler_status.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>tools/regression/src/compiler_status.cpp</h3>
+<pre>
+//  Generate Compiler Status HTML from jam regression test output  -----------//
+
+//  Copyright Beman Dawes 2002.
+
+//  Distributed under the Boost Software License, Version 1.0.
+//  See <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+
+//  See <a href="http://www.boost.org/tools/regression/">http://www.boost.org/tools/regression/</a> for documentation.
+
+/*******************************************************************************
+
+    Please contact the maintainer, bdawes &lt;at&gt; acm &lt;dot&gt; org, before making
+    any non-trivial changes.
+
+    This program was designed to work unchanged on all platforms and
+    configurations.  All output which is platform or configuration dependent
+    is obtained from external sources such as the .xml file from
+    process_jam_log execution, the tools/build/xxx-tools.jam files, or the
+    output of the config_info tests.
+
+    Please avoid adding platform or configuration dependencies during
+    program maintenance.
+
+*******************************************************************************/
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config/warning_disable.hpp">boost/config/warning_disable.hpp</a>&gt;
+
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/operations.hpp">boost/filesystem/operations.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/convenience.hpp">boost/filesystem/convenience.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/fstream.hpp">boost/filesystem/fstream.hpp</a>&quot;
+#include &quot;detail/tiny_xml.hpp&quot;
+namespace fs = boost::filesystem;
+namespace xml = boost::tiny_xml;
+
+#include &lt;cstdlib&gt;  // for abort, exit
+#include &lt;cctype&gt;   // for toupper
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;set&gt;
+#include &lt;map&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;ctime&gt;
+#include &lt;stdexcept&gt;
+#include &lt;cassert&gt;
+
+using std::string;
+
+const string pass_msg( &quot;Pass&quot; );
+const string warn_msg( &quot;&lt;i&gt;Warn&lt;/i&gt;&quot; );
+const string fail_msg( &quot;&lt;font color=\&quot;#FF0000\&quot;&gt;&lt;i&gt;Fail&lt;/i&gt;&lt;/font&gt;&quot; );
+const string note_msg( &quot;&lt;sup&gt;*&lt;/sup&gt;&quot; );
+const string missing_residue_msg( &quot;&lt;i&gt;Missing&lt;/i&gt;&quot; );
+
+const std::size_t max_compile_msg_size = 10000;
+
+namespace
+{
+  fs::path boost_root;  // boost-root complete path
+  fs::path locate_root; // locate-root (AKA ALL_LOCATE_TARGET) complete path
+
+  bool compile_time;
+  bool run_time;
+  bool ignore_pass;
+  bool no_warn;
+  bool no_links;
+  bool boost_build_v2 = true;
+
+  fs::path jamfile_path;
+
+  fs::directory_iterator end_itr;
+
+  // It's immportant for reliability that we find the same compilers for each
+  // test, and that they match the column header.  So save the names at the
+  // time column headings are generated.
+  std::vector&lt;string&gt; toolsets;
+
+  fs::ifstream jamfile;
+  fs::ofstream report;
+  fs::ofstream links_file;
+  string links_name;
+
+  fs::path notes_path;
+  string notes_html;
+
+  fs::path notes_map_path;
+  typedef std::multimap&lt; string, string &gt; notes_map; // key is test_name-toolset,
+                                                // value is note bookmark
+  notes_map notes;
+
+  string specific_compiler; // if running on one toolset only
+
+  const string empty_string;
+
+  std::vector&lt;int&gt; error_count;
+
+  // prefix for library and test hyperlink prefix
+  string svn_root ( &quot;<a href="http://svn.boost.org/trac/boost/browser/trunk/">http://svn.boost.org/trac/boost/browser/trunk/</a>&quot; );
+  string url_prefix_dir_view( svn_root );
+  string url_prefix_checkout_view( svn_root );
+  string url_suffix_text_view( &quot;&quot; );
+
+//  get revision number (as a string) if boost_root is svn working copy  -----//
+
+  string revision( const fs::path &amp; boost_root )
+  {
+    string rev;
+    fs::path entries( boost_root / &quot;.svn&quot; / &quot;entries&quot; );
+    fs::ifstream entries_file( entries );
+    if ( entries_file )
+    {
+      std::getline( entries_file, rev );
+      std::getline( entries_file, rev );
+      std::getline( entries_file, rev );
+      std::getline( entries_file, rev );  // revision number as a string
+    }
+    return rev;
+  }
+
+
+//  build notes_bookmarks from notes HTML  -----------------------------------//
+
+  void build_notes_bookmarks()
+  {
+    if ( notes_map_path.empty() ) return;
+    fs::ifstream notes_map_file( notes_map_path );
+    if ( !notes_map_file )
+    {
+      std::cerr &lt;&lt; &quot;Could not open --notes-map input file: &quot; &lt;&lt; notes_map_path.string() &lt;&lt; std::endl;
+      std::exit( 1 );
+    }
+    string line;
+    while( std::getline( notes_map_file, line ) )
+    {
+      string::size_type pos = 0;
+      if ( (pos = line.find( ',', pos )) == string::npos ) continue;
+      string key(line.substr( 0, pos ) );
+      string bookmark( line.substr( pos+1 ) );
+
+//      std::cout &lt;&lt; &quot;inserting \&quot;&quot; &lt;&lt; key &lt;&lt; &quot;\&quot;,\&quot;&quot; &lt;&lt; bookmark &lt;&lt; &quot;\&quot;\n&quot;;
+      notes.insert( notes_map::value_type( key, bookmark ) );
+    }
+  }
+
+//  load_notes_html  ---------------------------------------------------------//
+
+  bool load_notes_html()
+  {
+    if ( notes_path.empty() ) return false;
+    fs::ifstream notes_file( notes_path );
+    if ( !notes_file )
+    {
+      std::cerr &lt;&lt; &quot;Could not open --notes input file: &quot; &lt;&lt; notes_path.string() &lt;&lt; std::endl;
+      std::exit( 1 );
+    }
+    string line;
+    bool in_body( false );
+    while( std::getline( notes_file, line ) )
+    {
+      if ( in_body &amp;&amp; line.find( &quot;&lt;/body&gt;&quot; ) != string::npos ) in_body = false;
+      if ( in_body ) notes_html += line;
+      else if ( line.find( &quot;&lt;body&gt;&quot; ) ) in_body = true;
+    }
+    return true;
+  }
+
+//  relative path between two paths  -----------------------------------------//
+
+  void relative_path( const fs::path &amp; from, const fs::path &amp; to,
+    fs::path &amp; target )
+  {
+    if ( from.string().size() &lt;= to.string().size() ) return;
+    target /= &quot;..&quot;;
+    relative_path( from.branch_path(), to, target );
+    return;
+  }
+
+//  extract object library name from target directory string  ----------------//
+
+  string extract_object_library_name( const string &amp; s )
+  {
+    string t( s );
+    string::size_type pos = t.find( &quot;/build/&quot; );
+    if ( pos != string::npos ) pos += 7;
+    else if ( (pos = t.find( &quot;/test/&quot; )) != string::npos ) pos += 6;
+    else return &quot;&quot;;
+    return t.substr( pos, t.find( &quot;/&quot;, pos ) - pos );
+  }
+
+//  find_file  ---------------------------------------------------------------//
+//  given a directory to recursively search
+
+  bool find_file( const fs::path &amp; dir_path, const string &amp; name,
+    fs::path &amp; path_found, const string &amp; ignore_dir_named=&quot;&quot; )
+  {
+    if ( !fs::exists( dir_path ) ) return false;
+    for ( fs::directory_iterator itr( dir_path ); itr != end_itr; ++itr )
+      if ( fs::is_directory( *itr )
+        &amp;&amp; itr-&gt;path().filename() != ignore_dir_named )
+      {
+        if ( find_file( *itr, name, path_found ) ) return true;
+      }
+      else if ( itr-&gt;path().filename() == name )
+      {
+        path_found = *itr;
+        return true;
+      }
+    return false;
+  }
+
+//  platform_desc  -----------------------------------------------------------//
+
+  string platform_desc()
+  {
+    string result = BOOST_PLATFORM;
+    result[0] = std::toupper( result[0] );
+    return result;
+  }
+
+//  version_desc  ------------------------------------------------------------//
+//  from locate-root/status/bin/config_info.test/xxx/.../config_info.output
+
+  string version_desc( const string &amp; compiler_name )
+  {
+    string result;
+    fs::path dot_output_path;
+    if ( find_file( locate_root / &quot;bin/boost/status/config_info.test&quot;
+      / compiler_name, &quot;config_info.output&quot;, dot_output_path )
+      || find_file( locate_root / &quot;status/bin/config_info.test&quot;
+      / compiler_name, &quot;config_info.output&quot;, dot_output_path ) )
+    {
+      fs::ifstream file( dot_output_path );
+      if ( file )
+      {
+        if( std::getline( file, result ) )
+        {
+          string::size_type pos = result.find( &quot;version &quot; );
+          if ( pos != string::npos )
+          {
+            result.erase( 0, pos+8 );
+          }
+          else result.clear();
+        }
+      }
+    }
+    return result;
+  }
+
+//  compiler_desc  -----------------------------------------------------------//
+//  from boost-root/tools/build/xxx-tools.jam
+
+  string compiler_desc( const string &amp; compiler_name )
+  {
+    string result;
+    fs::path tools_path( boost_root / &quot;tools/build/v1&quot; / (compiler_name
+      + &quot;-tools.jam&quot;) );
+    if ( !fs::exists( tools_path ) )
+      tools_path = boost_root / &quot;tools/build&quot; / (compiler_name + &quot;-tools.jam&quot;);
+    fs::ifstream file( tools_path );
+    if ( file )
+    {
+      while( std::getline( file, result ) )
+      {
+        if ( result.substr( 0, 3 ) == &quot;#//&quot; )
+        {
+          result.erase( 0, 3 );
+          return result;
+        }
+      }
+      result.clear();
+    }
+    return result;
+  }
+
+//  target_directory  --------------------------------------------------------//
+//  this amounts to a request to find a unique leaf directory
+
+  fs::path target_directory( const fs::path &amp; root )
+  {
+    if ( !fs::exists( root ) ) return fs::path(&quot;no-such-path&quot;);
+    fs::path child;
+    for ( fs::directory_iterator itr( root ); itr != end_itr; ++itr )
+    {
+      if ( fs::is_directory( *itr ) )
+      {
+        // SunCC creates an internal subdirectory everywhere it writes
+        // object files.  This confuses the target_directory() algorithm.
+        // This patch ignores the SunCC internal directory. Jens Maurer
+        if ( itr-&gt;path().filename() == &quot;SunWS_cache&quot; ) continue;
+        // SGI does something similar for template instantiations. Jens Maurer
+        if(  itr-&gt;path().filename() == &quot;ii_files&quot; ) continue; 
+
+        if ( child.empty() ) child = *itr;
+        else
+        {
+          std::cout &lt;&lt; &quot;Warning: only first of two target possibilities will be reported for: \n &quot;
+            &lt;&lt; root.string() &lt;&lt; &quot;: &quot; &lt;&lt; child.filename()
+            &lt;&lt; &quot; and &quot; &lt;&lt; itr-&gt;path().filename() &lt;&lt; &quot;\n&quot;;
+        }
+      }
+    }
+    if ( child.empty() ) return root; // this dir has no children
+    return target_directory( child );
+  }
+
+//  element_content  ---------------------------------------------------------//
+
+  const string &amp; element_content(
+    const xml::element &amp; root, const string &amp; name )
+  {
+    static string empty_string;
+    xml::element_list::const_iterator itr;
+    for ( itr = root.elements.begin();
+          itr != root.elements.end() &amp;&amp; (*itr)-&gt;name != name;
+          ++itr ) {}
+    return itr != root.elements.end() ? (*itr)-&gt;content : empty_string;
+  }
+
+//  find_element  ------------------------------------------------------------//
+
+  const xml::element empty_element;
+
+  const xml::element &amp; find_element(
+    const xml::element &amp; root, const string &amp; name )
+  {
+    xml::element_list::const_iterator itr;
+    for ( itr = root.elements.begin();
+          itr != root.elements.end() &amp;&amp; (*itr)-&gt;name != name;
+          ++itr ) {}
+    return itr != root.elements.end() ? *((*itr).get()) : empty_element;
+  }
+
+//  attribute_value  ----------------------------------------------------------//
+
+const string &amp; attribute_value( const xml::element &amp; element,
+                                const string &amp; attribute_name )
+{
+  static const string empty_string;
+  xml::attribute_list::const_iterator atr;
+  for ( atr = element.attributes.begin();
+        atr != element.attributes.end() &amp;&amp; atr-&gt;name != attribute_name;
+        ++atr ) {}
+  return atr == element.attributes.end() ? empty_string : atr-&gt;value;
+}
+
+//  find_bin_path  -----------------------------------------------------------//
+
+// Takes a relative path from boost root to a Jamfile.
+// Returns the directory where the build targets from
+// that Jamfile are located. If not found, emits a warning 
+// and returns empty path.
+const fs::path find_bin_path(const string&amp; relative)
+{
+  fs::path bin_path;
+  if (boost_build_v2)
+  {
+    if ( relative == &quot;status&quot; )
+      bin_path = locate_root / &quot;bin.v2&quot; / &quot;libs&quot;;
+    else
+    {
+      bin_path = locate_root / &quot;bin.v2&quot; / relative;
+      if (!fs::exists(bin_path))
+        bin_path = locate_root / &quot;bin&quot; / relative;
+    }
+    if (!fs::exists(bin_path))
+    {
+      std::cerr &lt;&lt; &quot;warning: could not find build results for '&quot; 
+                &lt;&lt; relative &lt;&lt; &quot;'.\n&quot;;
+      std::cerr &lt;&lt; &quot;warning: tried directory &quot; 
+                &lt;&lt; bin_path.string() &lt;&lt; &quot;\n&quot;;
+      bin_path = &quot;&quot;;
+    }
+  }
+  else
+  {
+    bin_path = locate_root / &quot;bin/boost&quot; / relative;
+    if (!fs::exists(bin_path))
+    {
+      bin_path = locate_root / &quot;bin&quot; / relative / &quot;bin&quot;;
+      if (!fs::exists(bin_path))
+      {
+        bin_path = fs::path( locate_root / relative / &quot;bin&quot; );
+        if (!fs::exists(bin_path))
+        {
+          bin_path = fs::path( locate_root / &quot;bin/boost/libs&quot; /
+            relative.substr( relative.find( '/' )+1 ) );
+        }
+      }
+    }
+    if (!fs::exists(bin_path))
+    {
+      std::cerr &lt;&lt; &quot;warning: could not find build results for '&quot; 
+                &lt;&lt; relative &lt;&lt; &quot;'.\n&quot;;
+      bin_path = &quot;&quot;;
+    }
+  }
+  return bin_path;
+}
+
+
+//  generate_report  ---------------------------------------------------------//
+
+  // return 0 if nothing generated, 1 otherwise, except 2 if compiler msgs
+  int generate_report( const xml::element &amp; db,
+                       const string &amp; source_library_name,
+                       const string &amp; test_type,
+                       const string &amp; test_name, // possibly object library name
+                       const string &amp; toolset,
+                       bool pass,
+                       bool always_show_run_output = false )
+  {
+    // compile msgs sometimes modified, so make a local copy
+    string compile( ((pass &amp;&amp; no_warn)
+      ? empty_string :  element_content( db, &quot;compile&quot; )) );
+    const string &amp; link( pass ? empty_string : element_content( db, &quot;link&quot; ) );
+    const string &amp; run( (pass &amp;&amp; !always_show_run_output)
+      ? empty_string : element_content( db, &quot;run&quot; ) );
+    string lib( (pass ? empty_string : element_content( db, &quot;lib&quot; )) );
+
+    string::size_type pos;
+    if ( (pos = compile.find(&quot;30 DAY EVALUATION LICENSE&quot;)) != string::npos )
+    {
+      compile.erase(pos, 25);
+      while ( compile[0] == '\n' || compile[0] == '\r' ) compile.erase(0,1);
+    }
+
+    // some compilers output the filename even if there are no errors or
+    // warnings; detect this if one line of output and it contains no space.
+    pos = compile.find( '\n', 1 );
+    if ( pos != string::npos &amp;&amp; compile.size()-pos &lt;= 2
+        &amp;&amp; compile.find( ' ' ) == string::npos ) compile.clear();
+
+    if ( lib.empty()
+      &amp;&amp; (compile.empty() || test_type == &quot;compile_fail&quot;)
+      &amp;&amp; link.empty() &amp;&amp; run.empty() ) return 0;
+
+    int result = 1; // some kind of msg for sure
+
+    // limit compile message length
+    if ( compile.size() &gt; max_compile_msg_size )
+    {
+      compile.erase( max_compile_msg_size );
+      compile += &quot;...\n   (remainder deleted because of excessive size)\n&quot;;
+    }
+
+    links_file &lt;&lt; &quot;&lt;h2&gt;&lt;a name=\&quot;&quot;
+      &lt;&lt; source_library_name &lt;&lt; &quot;-&quot; &lt;&lt; test_name &lt;&lt; &quot;-&quot; &lt;&lt; toolset &lt;&lt; &quot;\&quot;&gt;&quot;
+      &lt;&lt; source_library_name &lt;&lt; &quot; - &quot; &lt;&lt; test_name &lt;&lt; &quot; - &quot; &lt;&lt; toolset &lt;&lt; &quot;&lt;/a&gt;&lt;/h2&gt;\n&quot;;
+
+    if ( !compile.empty() )
+    {
+      ++result;
+      links_file &lt;&lt; &quot;&lt;h3&gt;Compiler output:&lt;/h3&gt;&lt;pre&gt;&quot;
+        &lt;&lt; compile &lt;&lt; &quot;&lt;/pre&gt;\n&quot;;
+    }
+    if ( !link.empty() )
+      links_file &lt;&lt; &quot;&lt;h3&gt;Linker output:&lt;/h3&gt;&lt;pre&gt;&quot; &lt;&lt; link &lt;&lt; &quot;&lt;/pre&gt;\n&quot;;
+    if ( !run.empty() )
+      links_file &lt;&lt; &quot;&lt;h3&gt;Run output:&lt;/h3&gt;&lt;pre&gt;&quot; &lt;&lt; run &lt;&lt; &quot;&lt;/pre&gt;\n&quot;;
+
+    // for an object library failure, generate a reference to the object
+    // library failure message, and (once only) generate the object
+    // library failure message itself
+    static std::set&lt; string &gt; failed_lib_target_dirs; // only generate once
+    if ( !lib.empty() )
+    {
+      if ( lib[0] == '\n' ) lib.erase( 0, 1 );
+      string object_library_name( extract_object_library_name( lib ) );
+
+      // changing the target directory naming scheme breaks
+      // extract_object_library_name()
+      assert( !object_library_name.empty() );
+      if ( object_library_name.empty() )
+        std::cerr &lt;&lt; &quot;Failed to extract object library name from &quot; &lt;&lt; lib &lt;&lt; &quot;\n&quot;;
+
+      links_file &lt;&lt; &quot;&lt;h3&gt;Library build failure: &lt;/h3&gt;\n&quot;
+        &quot;See &lt;a href=\&quot;#&quot;
+        &lt;&lt; source_library_name &lt;&lt; &quot;-&quot;
+        &lt;&lt; object_library_name &lt;&lt; &quot;-&quot; &lt;&lt; toolset &lt;&lt; &quot;\&quot;&gt;&quot;
+        &lt;&lt; source_library_name &lt;&lt; &quot; - &quot;
+        &lt;&lt; object_library_name &lt;&lt; &quot; - &quot; &lt;&lt; toolset &lt;&lt; &quot;&lt;/a&gt;&quot;;
+
+      if ( failed_lib_target_dirs.find( lib ) == failed_lib_target_dirs.end() )
+      {
+        failed_lib_target_dirs.insert( lib );
+        fs::path pth( locate_root / lib / &quot;test_log.xml&quot; );
+        fs::ifstream file( pth );
+        if ( file )
+        {
+          xml::element_ptr db = xml::parse( file, pth.string() );
+          generate_report( *db, source_library_name, test_type, object_library_name, toolset, false );
+        }
+        else
+        {
+          links_file &lt;&lt; &quot;&lt;h2&gt;&lt;a name=\&quot;&quot;
+            &lt;&lt; object_library_name &lt;&lt; &quot;-&quot; &lt;&lt; toolset &lt;&lt; &quot;\&quot;&gt;&quot;
+            &lt;&lt; object_library_name &lt;&lt; &quot; - &quot; &lt;&lt; toolset &lt;&lt; &quot;&lt;/a&gt;&lt;/h2&gt;\n&quot;
+            &quot;test_log.xml not found\n&quot;;
+        }
+      }
+    }
+    return result;
+  }
+
+  //  add_notes --------------------------------------------------------------//
+
+  void add_notes( const string &amp; key, bool fail, string &amp; sep, string &amp; target )
+  {
+    notes_map::const_iterator itr = notes.lower_bound( key );
+    if ( itr != notes.end() &amp;&amp; itr-&gt;first == key )
+    {
+      for ( ; itr != notes.end() &amp;&amp; itr-&gt;first == key; ++itr )
+      {
+        string note_desc( itr-&gt;second[0] == '-'
+          ? itr-&gt;second.substr( 1 ) : itr-&gt;second );
+        if ( fail || itr-&gt;second[0] == '-' )
+        {
+          target += sep;
+          sep = &quot;,&quot;;
+          target += &quot;&lt;a href=\&quot;&quot;;
+          target += &quot;#&quot;;
+          target += note_desc;
+          target += &quot;\&quot;&gt;&quot;;
+          target += note_desc;
+          target += &quot;&lt;/a&gt;&quot;;
+        }
+      }
+    }
+  }
+
+  //  get_notes  -------------------------------------------------------------//
+
+  string get_notes( const string &amp; toolset,
+                    const string &amp; library, const string &amp; test, bool fail )
+  {
+    string sep;
+    string target( &quot;&lt;sup&gt;&quot; );
+    add_notes( toolset + &quot;/&quot; + library + &quot;/&quot; + test, fail, sep, target ); 
+    add_notes( &quot;*/&quot; + library + &quot;/&quot; + test, fail, sep, target ); 
+    add_notes( toolset + &quot;/&quot; + library + &quot;/*&quot;, fail, sep, target ); 
+    add_notes( &quot;*/&quot; + library + &quot;/*&quot;, fail, sep, target );
+    if ( target == &quot;&lt;sup&gt;&quot; ) target.clear();
+    else target += &quot;&lt;/sup&gt;&quot;;
+    return target;
+  }
+
+  //  do_cell  ---------------------------------------------------------------//
+
+  bool do_cell(
+    int compiler,
+    const string &amp; lib_name,
+    const fs::path &amp; test_dir,
+    const string &amp; test_type,
+    const string &amp; test_name,
+    const string &amp; toolset,
+    string &amp; target,
+    bool always_show_run_output )
+  // return true if any results except simple pass_msg
+  {
+    fs::path target_dir( target_directory( test_dir / toolset ) );
+    bool pass = false;
+
+    if ( !fs::exists( target_dir / &quot;test_log.xml&quot; ) )
+    {
+      std::cerr &lt;&lt; &quot;Missing test_log.xml in target:\n &quot;
+        &lt;&lt; target_dir.string() &lt;&lt; &quot;\n&quot;;
+      target += &quot;&lt;td&gt;&quot; + missing_residue_msg + &quot;&lt;/td&gt;&quot;;
+      return true;
+    }
+
+    int anything_generated = 0;
+    bool note = false;
+
+    fs::path pth( target_dir / &quot;test_log.xml&quot; );
+    fs::ifstream file( pth );
+    if ( !file )
+    {
+      std::cerr &lt;&lt; &quot;Can't open test_log.xml in target:\n &quot;
+        &lt;&lt; target_dir.string() &lt;&lt; &quot;\n&quot;;
+      target += &quot;&lt;td&gt;&quot; + missing_residue_msg + &quot;&lt;/td&gt;&quot;;
+      return false;
+    }
+
+    xml::element_ptr dbp = xml::parse( file, pth.string() );
+    const xml::element &amp; db( *dbp );
+
+    std::string test_type_base( test_type );
+    if ( test_type_base == &quot;run_pyd&quot; ) test_type_base = &quot;run&quot;;
+    else if ( test_type_base.size() &gt; 5 )
+    {
+      const string::size_type trailer = test_type_base.size() - 5;
+      if ( test_type_base.substr( trailer ) == &quot;_fail&quot; )
+      {
+        test_type_base.erase( trailer );
+      }
+    }
+    const xml::element &amp; test_type_element( find_element( db, test_type_base ) );
+
+    pass = !test_type_element.name.empty()
+      &amp;&amp; attribute_value( test_type_element, &quot;result&quot; ) != &quot;fail&quot;;
+
+    if ( !no_links )
+    {
+      note = attribute_value( test_type_element, &quot;result&quot; ) == &quot;note&quot;;
+
+      // generate bookmarked report of results, and link to it
+      anything_generated
+        = generate_report( db, lib_name, test_type, test_name, toolset, pass,
+          always_show_run_output || note );
+    }
+
+    target += &quot;&lt;td&gt;&quot;;
+
+    // generate the status table cell pass/warn/fail HTML
+    if ( anything_generated != 0 )
+    {
+      target += &quot;&lt;a href=\&quot;&quot;;
+      target += links_name;
+      target += &quot;#&quot;;
+      target += lib_name;
+      target += &quot;-&quot;;
+      target += test_name;
+      target += &quot;-&quot;;
+      target += toolset;
+      target += &quot;\&quot;&gt;&quot;;
+      target += pass
+        ? (anything_generated &lt; 2 ? pass_msg : warn_msg)
+        : fail_msg;
+      target += &quot;&lt;/a&gt;&quot;;
+      if ( pass &amp;&amp; note ) target += note_msg;
+    }
+    else  target += pass ? pass_msg : fail_msg;
+
+    // if notes, generate the superscript HTML
+    if ( !notes.empty() ) 
+      target += get_notes( toolset, lib_name, test_name, !pass );
+
+    // generate compile-time if requested
+    if ( compile_time )
+    {
+      const xml::element &amp; compile_element( find_element( db, &quot;compile&quot; ) );
+
+      if ( !compile_element.name.empty() )
+      {
+        string times = attribute_value( compile_element, &quot;timings&quot; );
+        if ( !times.empty() )
+        {
+          target += &quot;&lt;br&gt;&quot;;
+          target += times.substr( 0, times.find( &quot; &quot; ) );
+        }
+      }
+    }
+      
+    // generate run-time if requested
+    if ( run_time )
+    {
+      const xml::element &amp; run_element( find_element( db, &quot;run&quot; ) );
+
+      if ( !run_element.name.empty() )
+      {
+        string times = attribute_value( run_element, &quot;timings&quot; );
+        if ( !times.empty() )
+        {
+          target += &quot;&lt;br&gt;&quot;;
+          target += times.substr( 0, times.find( &quot; &quot; ) );
+        }
+      }
+    }
+
+    if ( !pass ) ++error_count[compiler];
+      
+    target += &quot;&lt;/td&gt;&quot;;
+    return (anything_generated != 0) || !pass;
+  }
+
+//  do_row  ------------------------------------------------------------------//
+
+  void do_row(
+    const fs::path &amp; test_dir, // locate_root / &quot;status/bin/any_test.test&quot;
+    const string &amp; test_name, // &quot;any_test&quot;
+    string &amp; target )
+  {
+    // get library name, test-type, test-program path, etc., from the .xml file
+    string lib_name;
+    string test_path( test_name ); // test_name is default if missing .test
+    string test_type( &quot;unknown&quot; );
+    bool always_show_run_output( false );
+    fs::path xml_file_path;
+    if ( find_file( test_dir, &quot;test_log.xml&quot;, xml_file_path ) )
+    {
+      fs::ifstream file( xml_file_path );
+      if ( file )
+      {
+        xml::element_ptr dbp = xml::parse( file, xml_file_path.string() );
+        const xml::element &amp; db( *dbp );
+        test_path = attribute_value( db, &quot;test-program&quot; );
+        lib_name = attribute_value( db, &quot;library&quot; );
+        test_type = attribute_value( db, &quot;test-type&quot; );
+        always_show_run_output
+          = attribute_value( db, &quot;show-run-output&quot; ) == &quot;true&quot;;
+      }
+    }
+
+    // generate the library name, test name, and test type table data
+    string::size_type row_start_pos = target.size();
+    target += &quot;&lt;tr&gt;&lt;td&gt;&lt;a href=\&quot;&quot; + url_prefix_dir_view + &quot;/libs/&quot; + lib_name
+      + &quot;\&quot;&gt;&quot;  + lib_name  + &quot;&lt;/a&gt;&lt;/td&gt;&quot;;
+    target += &quot;&lt;td&gt;&lt;a href=\&quot;&quot; + url_prefix_checkout_view + &quot;/&quot; + test_path
+      + url_suffix_text_view + &quot;\&quot;&gt;&quot; + test_name + &quot;&lt;/a&gt;&quot;;
+
+    if ( compile_time ) target += &quot;&lt;br&gt; Compile time:&quot;;
+    if ( run_time ) target += &quot;&lt;br&gt; Run time:&quot;;
+
+    target += &quot;&lt;/td&gt;&quot;;
+    target += &quot;&lt;td&gt;&quot; + test_type + &quot;&lt;/td&gt;&quot;;
+
+    bool no_warn_save = no_warn;
+    //if ( test_type.find( &quot;fail&quot; ) != string::npos ) no_warn = true;
+
+    // for each compiler, generate &lt;td&gt;...&lt;/td&gt; html
+    bool anything_to_report = false;
+    int compiler = 0;
+    for ( std::vector&lt;string&gt;::const_iterator itr=toolsets.begin();
+      itr != toolsets.end(); ++itr, ++compiler )
+    {
+      anything_to_report |= do_cell( compiler, lib_name, test_dir, test_type, test_name, *itr, target,
+        always_show_run_output );
+    }
+
+    target += &quot;&lt;/tr&gt;&quot;;
+    if ( ignore_pass &amp;&amp; !anything_to_report ) target.erase( row_start_pos );
+    no_warn = no_warn_save;
+  }
+
+//  do_rows_for_sub_tree  ----------------------------------------------------//
+
+  void do_rows_for_sub_tree(
+    const fs::path &amp; bin_dir, std::vector&lt;string&gt; &amp; results )
+  {
+    for ( fs::directory_iterator itr( bin_dir ); itr != end_itr; ++itr )
+    {
+      if ( fs::is_directory( *itr )
+        &amp;&amp; itr-&gt;path().string().find( &quot;.test&quot; ) == (itr-&gt;path().string().size()-5) )
+      {
+        results.push_back( std::string() ); 
+        do_row( *itr,
+                itr-&gt;path().filename().string().substr( 0,
+                  itr-&gt;path().filename().string().size()-5 ),
+                results[results.size()-1] );
+      }
+    }
+  }
+
+//  find_compilers  ------------------------------------------------------------//
+
+  void find_compilers(const fs::path &amp; bin_dir)
+  {
+    fs::directory_iterator compiler_itr( bin_dir );
+    if ( specific_compiler.empty() )
+      std::clog &lt;&lt; &quot;Using &quot; &lt;&lt; bin_dir.string() &lt;&lt; &quot; to determine compilers\n&quot;;
+    for (; compiler_itr != end_itr; ++compiler_itr )
+    {
+      if ( fs::is_directory( *compiler_itr )  // check just to be sure
+        &amp;&amp; compiler_itr-&gt;path().filename() != &quot;test&quot; ) // avoid strange directory (Jamfile bug?)
+      {
+        if ( specific_compiler.size() != 0
+          &amp;&amp; specific_compiler != compiler_itr-&gt;path().filename() ) continue;
+        toolsets.push_back( compiler_itr-&gt;path().filename().string() );
+        string desc( compiler_desc( compiler_itr-&gt;path().filename().string() ) );
+        string vers( version_desc( compiler_itr-&gt;path().filename().string() ) );
+        report &lt;&lt; &quot;&lt;td&gt;&quot;
+             &lt;&lt; (desc.size() ? desc : compiler_itr-&gt;path().filename().string())
+             &lt;&lt; (vers.size() ? (string( &quot;&lt;br&gt;&quot; ) + vers ) : string( &quot;&quot; ))
+             &lt;&lt; &quot;&lt;/td&gt;\n&quot;;
+        error_count.push_back( 0 );
+      }
+    }
+  }
+
+//  do_table_body  -----------------------------------------------------------//
+
+  void do_table_body( const fs::path &amp; bin_dir )
+  {
+    // rows are held in a vector so they can be sorted, if desired.
+    std::vector&lt;string&gt; results;
+
+    // do primary bin directory
+    do_rows_for_sub_tree( bin_dir, results );
+
+    // do subinclude bin directories
+    jamfile.clear();
+    jamfile.seekg(0);
+    string line;
+    bool run_tests = false;
+
+    while( std::getline( jamfile, line ) )
+    {
+      bool v2(false);
+      string::size_type sub_pos( line.find( &quot;subinclude&quot; ) );
+      if ( sub_pos == string::npos ) {
+        sub_pos = line.find( &quot;build-project&quot; );
+        v2 = true;
+      }
+      if ( sub_pos != string::npos
+        &amp;&amp; line.find( '#' ) &gt; sub_pos )
+      {
+        if (v2)
+          sub_pos = line.find_first_not_of( &quot; \t./&quot;, sub_pos+13 );
+        else
+          sub_pos = line.find_first_not_of( &quot; \t./&quot;, sub_pos+10 );
+      
+        if ( sub_pos == string::npos ) continue;
+        string subinclude_bin_dir(
+          line.substr( sub_pos, line.find_first_of( &quot; \t&quot;, sub_pos )-sub_pos ) );
+
+        fs::path bin_path = find_bin_path(subinclude_bin_dir);
+        if (!bin_path.empty())
+          do_rows_for_sub_tree( bin_path, results );
+      }
+      if ( ! run_tests )
+      {
+        string::size_type run_pos = line.find(&quot;run-tests&quot;);
+        if ( run_pos != string::npos &amp;&amp; line.find_first_not_of(&quot; \t&quot;) == run_pos )
+          run_tests = true;
+      }
+      else
+      {
+        if ( line.find(&quot;;&quot;) != string::npos )
+          run_tests = false;
+        else
+        {
+          string::size_type pos = line.find_first_not_of( &quot; \t&quot; );
+          if ( pos != string::npos &amp;&amp; line[pos] != '#' )
+          {
+            string::size_type end_pos = line.find_first_of(&quot; \t#&quot;, pos);
+            string::iterator end = end_pos != string::npos ? line.begin() + end_pos : line.end();
+            string run_tests_bin_dir(line.begin() + pos, end);
+            fs::path bin_path = find_bin_path(&quot;libs/&quot; + run_tests_bin_dir);
+            if (!bin_path.empty())
+              do_rows_for_sub_tree( bin_path, results );
+          }
+        }
+      }
+    }
+
+
+    std::sort( results.begin(), results.end() );
+
+    for ( std::vector&lt;string&gt;::iterator v(results.begin());
+      v != results.end(); ++v )
+      { report &lt;&lt; *v &lt;&lt; &quot;\n&quot;; }
+  }
+
+//  do_table  ----------------------------------------------------------------//
+
+  void do_table()
+  {
+    // Find test result locations, trying:
+    // - Boost.Build V1 location with ALL_LOCATE_TARGET
+    // - Boost.Build V2 location with top-lelve &quot;build-dir&quot; 
+    // - Boost.Build V1 location without ALL_LOCATE_TARGET
+    string relative( fs::initial_path().string() );
+
+#ifdef BOOST_WINDOWS_API
+    if (relative.size() &gt; 1 &amp;&amp; relative[1] == ':') relative[0] = std::tolower(relative[0]);
+#endif
+
+    if ( relative.find(boost_root.string()) != string::npos )
+      relative.erase( 0, boost_root.string().size()+1 );
+    else if ( relative.find(locate_root.string()) != string::npos )
+      relative.erase( 0, locate_root.string().size()+1 );
+    fs::path bin_path = find_bin_path(relative);
+
+    report &lt;&lt; &quot;&lt;table border=\&quot;1\&quot; cellspacing=\&quot;0\&quot; cellpadding=\&quot;5\&quot;&gt;\n&quot;;
+
+    // generate the column headings
+
+    report &lt;&lt; &quot;&lt;tr&gt;&lt;td&gt;Library&lt;/td&gt;&lt;td&gt;Test Name&lt;/td&gt;\n&quot;
+      &quot;&lt;td&gt;&lt;a href=\&quot;compiler_status.html#test-type\&quot;&gt;Test Type&lt;/a&gt;&lt;/td&gt;\n&quot;;
+
+    if ( relative == &quot;status&quot; )
+    {
+      fs::recursive_directory_iterator ritr( bin_path );
+      fs::recursive_directory_iterator end_ritr;
+      while ( ritr != end_ritr 
+        &amp;&amp; ((ritr-&gt;path().string().find( &quot;.test&quot; ) != (ritr-&gt;path().string().size()-5))
+        || !fs::is_directory( *ritr )))
+        ++ritr; // bypass chaff
+      if ( ritr != end_ritr )
+      {
+        find_compilers( *ritr );
+      }
+    }
+    else
+    {
+      fs::directory_iterator itr( bin_path );
+      while ( itr != end_itr 
+        &amp;&amp; ((itr-&gt;path().string().find( &quot;.test&quot; ) != (itr-&gt;path().string().size()-5))
+        || !fs::is_directory( *itr )))
+        ++itr; // bypass chaff
+      if ( itr != end_itr )
+      {
+        find_compilers( *itr );
+      }
+    }
+
+    report &lt;&lt; &quot;&lt;/tr&gt;\n&quot;;
+
+    // now the rest of the table body
+
+    do_table_body( bin_path );
+
+    // error total row
+
+    report &lt;&lt; &quot;&lt;tr&gt; &lt;td&gt; &amp;nbsp;&lt;/td&gt;&lt;td&gt;Number of Failures&lt;/td&gt;&lt;td&gt; &amp;nbsp;&lt;/td&gt;\n&quot;;
+
+    // for each compiler, generate &lt;td&gt;...&lt;/td&gt; html
+    int compiler = 0;
+    for ( std::vector&lt;string&gt;::const_iterator itr=toolsets.begin();
+      itr != toolsets.end(); ++itr, ++compiler )
+    {
+      report &lt;&lt; &quot;&lt;td align=\&quot;center\&quot;&gt;&quot; &lt;&lt; error_count[compiler] &lt;&lt; &quot;&lt;/td&gt;\n&quot;;
+    }
+
+    report &lt;&lt; &quot;&lt;/tr&gt;\n&lt;/table&gt;\n&quot;;
+  }
+
+} // unnamed namespace
+
+//  main  --------------------------------------------------------------------//
+
+#define BOOST_NO_CPP_MAIN_SUCCESS_MESSAGE
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/included/prg_exec_monitor.hpp">boost/test/included/prg_exec_monitor.hpp</a>&gt;
+
+int cpp_main( int argc, char * argv[] ) // note name!
+{
+  fs::path comment_path;
+  while ( argc &gt; 1 &amp;&amp; *argv[1] == '-' )
+  {
+    if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--compiler&quot; ) == 0 )
+      { specific_compiler = argv[2]; --argc; ++argv; }
+    else if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--locate-root&quot; ) == 0 )
+      { locate_root = fs::path( argv[2] ); --argc; ++argv; }
+    else if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--comment&quot; ) == 0 )
+      { comment_path = fs::path( argv[2] ); --argc; ++argv; }
+    else if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--notes&quot; ) == 0 )
+      { notes_path = fs::path( argv[2] ); --argc; ++argv; }
+    else if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--notes-map&quot; ) == 0 )
+      { notes_map_path = fs::path( argv[2] ); --argc; ++argv; }
+    else if ( std::strcmp( argv[1], &quot;--ignore-pass&quot; ) == 0 ) ignore_pass = true;
+    else if ( std::strcmp( argv[1], &quot;--no-warn&quot; ) == 0 ) no_warn = true;
+    else if ( std::strcmp( argv[1], &quot;--v1&quot; ) == 0 ) boost_build_v2 = false;
+    else if ( std::strcmp( argv[1], &quot;--v2&quot; ) == 0 ) boost_build_v2 = true;
+    else if ( argc &gt; 2 &amp;&amp; std::strcmp( argv[1], &quot;--jamfile&quot; ) == 0)
+      { jamfile_path = fs::path( argv[2] ); --argc; ++argv; }
+    else if ( std::strcmp( argv[1], &quot;--compile-time&quot; ) == 0 ) compile_time = true;
+    else if ( std::strcmp( argv[1], &quot;--run-time&quot; ) == 0 ) run_time = true;
+    else { std::cerr &lt;&lt; &quot;Unknown option: &quot; &lt;&lt; argv[1] &lt;&lt; &quot;\n&quot;; argc = 1; }
+    --argc;
+    ++argv;
+  }
+
+  if ( argc != 3 &amp;&amp; argc != 4 )
+  {
+    std::cerr &lt;&lt;
+      &quot;Usage: compiler_status [options...] boost-root status-file [links-file]\n&quot;
+      &quot;  boost-root is the path to the boost tree root directory.\n&quot;
+      &quot;  status-file and links-file are paths to the output files.\n&quot;
+      &quot;Must be run from directory containing Jamfile\n&quot;
+      &quot;  options: --compiler name     Run for named compiler only\n&quot;
+      &quot;           --locate-root path  Path to ALL_LOCATE_TARGET for bjam;\n&quot;
+      &quot;                               default boost-root.\n&quot;
+      &quot;           --comment path      Path to file containing HTML\n&quot;
+      &quot;                               to be copied into status-file.\n&quot;
+      &quot;           --notes path        Path to file containing HTML\n&quot;
+      &quot;                               to be copied into status-file.\n&quot;
+      &quot;           --notes-map path    Path to file of toolset/test,n lines, where\n&quot;
+      &quot;                               n is number of note bookmark in --notes file.\n&quot;
+      &quot;           --jamfile path      Path to Jamfile. By default \&quot;Jamfile\&quot;.\n&quot;
+      &quot;           --v1                Assume Boost.Build version 1.\n&quot;
+      &quot;           --v2                Assume Boost.Build version 2. (default)\n&quot;
+      &quot;           --ignore-pass       Ignore passing tests.\n&quot;
+      &quot;           --no-warn           Do not report warnings.\n&quot;
+      &quot;           --compile-time      Show compile time.\n&quot;
+      &quot;           --run-time          Show run time.\n&quot;
+      &quot;Example: compiler_status --compiler gcc /boost-root cs.html cs-links.html\n&quot;
+      &quot;Note: Only the leaf of the links-file path and --notes file string are\n&quot;
+      &quot;used in status-file HTML links. Thus for browsing, status-file,\n&quot;
+      &quot;links-file, and --notes file must all be in the same directory.\n&quot;
+      ;
+    return 1;
+  }
+
+  boost_root = fs::path( argv[1] );
+  if ( locate_root.empty() ) locate_root = boost_root;
+  
+  if (jamfile_path.empty())
+    if (boost_build_v2)
+      jamfile_path = &quot;Jamfile.v2&quot;;
+    else
+      jamfile_path = &quot;Jamfile&quot;;
+  jamfile_path = fs::absolute( jamfile_path, fs::initial_path() );
+  jamfile.open( jamfile_path );
+  if ( !jamfile )
+  {
+    std::cerr &lt;&lt; &quot;Could not open Jamfile: &quot; &lt;&lt; jamfile_path.string() &lt;&lt; std::endl;
+    return 1;
+  }
+
+  report.open( fs::path( argv[2] ) );
+  if ( !report )
+  {
+    std::cerr &lt;&lt; &quot;Could not open report output file: &quot; &lt;&lt; argv[2] &lt;&lt; std::endl;
+    return 1;
+  }
+
+  if ( argc == 4 )
+  {
+    fs::path links_path( argv[3] );
+    links_name = links_path.filename().string();
+    links_file.open( links_path );
+    if ( !links_file )
+    {
+      std::cerr &lt;&lt; &quot;Could not open links output file: &quot; &lt;&lt; argv[3] &lt;&lt; std::endl;
+      return 1;
+    }
+  }
+  else no_links = true;
+
+  build_notes_bookmarks();
+
+  char run_date[128];
+  std::time_t tod;
+  std::time( &amp;tod );
+  std::strftime( run_date, sizeof(run_date),
+    &quot;%X UTC, %A %d %B %Y&quot;, std::gmtime( &amp;tod ) );
+
+  std::string rev = revision( boost_root );
+
+  report &lt;&lt; &quot;&lt;html&gt;\n&quot;
+          &quot;&lt;head&gt;\n&quot;
+          &quot;&lt;title&gt;Boost Test Results&lt;/title&gt;\n&quot;
+          &quot;&lt;/head&gt;\n&quot;
+          &quot;&lt;body bgcolor=\&quot;#ffffff\&quot; text=\&quot;#000000\&quot;&gt;\n&quot;
+          &quot;&lt;table border=\&quot;0\&quot;&gt;\n&quot;
+          &quot;&lt;tr&gt;\n&quot;
+          &quot;&lt;td&gt;&lt;img border=\&quot;0\&quot; src=\&quot;<a href="http://www.boost.org/boost.png">http://www.boost.org/boost.png</a>\&quot; width=\&quot;277\&quot; &quot;
+          &quot;height=\&quot;86\&quot;&gt;&lt;/td&gt;\n&quot;
+          &quot;&lt;td&gt;\n&quot;
+          &quot;&lt;h1&gt;Boost Test Results - &quot; + platform_desc() + &quot;&lt;/h1&gt;\n&quot;
+          &quot;&lt;b&gt;Run&lt;/b&gt; &quot;
+       &lt;&lt; run_date;
+  if ( !rev.empty() ) report &lt;&lt; &quot;, &lt;b&gt;Revision&lt;/b&gt; &quot; &lt;&lt; rev;
+  report &lt;&lt; &quot;\n&quot;;
+
+  
+  if ( compile_time )
+    report &lt;&lt; &quot;&lt;p&gt;Times reported are elapsed wall clock time in seconds.&lt;/p&gt;\n&quot;;
+
+
+  if ( !comment_path.empty() )
+  {
+    fs::ifstream comment_file( comment_path );
+    if ( !comment_file )
+    {
+      std::cerr &lt;&lt; &quot;Could not open \&quot;--comment\&quot; input file: &quot; &lt;&lt; comment_path.string() &lt;&lt; std::endl;
+      return 1;
+    }
+    char c;
+    while ( comment_file.get( c ) ) { report.put( c ); }
+  }
+
+  report &lt;&lt; &quot;&lt;/td&gt;\n&lt;/table&gt;\n&lt;br&gt;\n&quot;;
+
+  if ( !no_links )
+  {
+    links_file
+      &lt;&lt; &quot;&lt;html&gt;\n&quot;
+         &quot;&lt;head&gt;\n&quot;
+         &quot;&lt;title&gt;Boost Test Details&lt;/title&gt;\n&quot;
+         &quot;&lt;/head&gt;\n&quot;
+         &quot;&lt;body bgcolor=\&quot;#ffffff\&quot; text=\&quot;#000000\&quot;&gt;\n&quot;
+         &quot;&lt;table border=\&quot;0\&quot;&gt;\n&quot;
+         &quot;&lt;tr&gt;\n&quot;
+         &quot;&lt;td&gt;&lt;img border=\&quot;0\&quot; src=\&quot;<a href="http://www.boost.org/boost.png">http://www.boost.org/boost.png</a>\&quot; width=\&quot;277\&quot; &quot;
+         &quot;height=\&quot;86\&quot;&gt;&lt;/td&gt;\n&quot;
+         &quot;&lt;td&gt;\n&quot;
+         &quot;&lt;h1&gt;Boost Test Details - &quot; + platform_desc() + &quot;&lt;/h1&gt;\n&quot;
+         &quot;&lt;b&gt;Run Date:&lt;/b&gt; &quot;
+      &lt;&lt; run_date;
+    if ( !rev.empty() ) links_file &lt;&lt; &quot;, &lt;b&gt;Revision&lt;/b&gt; &quot; &lt;&lt; rev;
+    links_file &lt;&lt; &quot;\n&lt;/td&gt;\n&lt;/table&gt;\n&lt;br&gt;\n&quot;;
+  }
+
+  do_table();
+
+  if ( load_notes_html() ) report &lt;&lt; notes_html &lt;&lt; &quot;\n&quot;;
+
+  report &lt;&lt; &quot;&lt;/body&gt;\n&quot;
+          &quot;&lt;/html&gt;\n&quot;
+          ;
+
+  if ( !no_links )
+  {
+    links_file
+      &lt;&lt; &quot;&lt;/body&gt;\n&quot;
+         &quot;&lt;/html&gt;\n&quot;
+         ;
+  }
+  return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/tools/regression/src/compiler_status.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+</html>

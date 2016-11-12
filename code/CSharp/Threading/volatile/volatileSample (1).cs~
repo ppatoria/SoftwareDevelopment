@@ -1,0 +1,52 @@
+using System;
+using System.Threading;
+
+class Problem
+{
+    int m_x;
+    int m_y;
+    int m_curx;
+    int m_cury;
+    public Problem()
+    {
+       m_x = 0;
+       m_y = 0;
+    }
+    public void Process1()
+    {       
+	Console.WriteLine("Process1");
+	Thread.Sleep(100);
+	m_x = 1;
+	Console.WriteLine ("Process1::wrote x");
+	m_cury = m_y;
+	Console.WriteLine ("Process1: Set Cur Y: {0}", m_y); 
+	
+    }
+    public void Process2()
+    {
+	Console.WriteLine("Process2");
+	Thread.Sleep(100);
+       m_y = 1;
+	Console.WriteLine ("Process2::wrote y");
+       m_curx = m_x;
+	Console.WriteLine ("Process2: Set Cur x: {0}", m_x); 
+    }
+    public void TestCurrent()
+    {
+       Console.WriteLine("curx, cury: {0} {1}", m_curx, m_cury);
+    }
+}
+class ReorderingTest
+{
+    public static void Main()
+    {
+       Problem p = new Problem();
+       Thread t1 = new Thread(new ThreadStart(p.Process1));
+       Thread t2 = new Thread(new ThreadStart(p.Process2));
+       t1.Start();
+       t2.Start();
+       t1.Join();
+       t2.Join();
+       p.TestCurrent();
+    }
+}

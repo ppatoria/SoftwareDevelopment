@@ -1,0 +1,13 @@
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+class test{
+    char* charArray;
+    test(test&& other){
+	cout << "Move contructor is called" << endl;
+	charArray = other.charArray;
+	other.charArray = NULL;
+    }
+	

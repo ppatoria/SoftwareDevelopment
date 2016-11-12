@@ -1,0 +1,28 @@
+class Event_Handler 
+{
+public:
+    /*    
+    * Hook method dispatched by <Reactor> to handle
+    * events of a particular type.
+    */
+    virtual void handle_event (HANDLE handle, Event_Type et) = 0;
+    /*
+     * Hook method that returns the I/O <HANDLE>.
+     */
+    virtual HANDLE get_handle () const = 0;
+protected:
+    /*
+     * Virtual destructor is protected to ensure
+     * dynamic allocation.
+     */
+    virtual ~Event_Handler ();
+};
+
+class derived : Event_Handler
+{
+    void handle_event (HANDLE handle, Event_Type et){	
+    }
+
+    HANDLE get_handle (){
+    }
+};

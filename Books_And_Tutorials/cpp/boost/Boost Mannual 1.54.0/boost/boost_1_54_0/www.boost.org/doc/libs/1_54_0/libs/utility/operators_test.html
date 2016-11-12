@@ -1,0 +1,1047 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/operators_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:41 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/utility/operators_test.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/utility/operators_test.cpp</h3>
+<pre>
+//  Demonstrate and test boost/operators.hpp  -------------------------------//
+
+//  Copyright Beman Dawes 1999.  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/utility">http://www.boost.org/libs/utility</a> for documentation.
+
+//  Revision History
+//  03 Apr 08 Added convertible_to_bool (Daniel Frey)
+//  01 Oct 01 Added tests for &quot;left&quot; operators
+//            and new grouped operators. (Helmut Zeisel)
+//  20 May 01 Output progress messages.  Added tests for new operator
+//            templates.  Updated random number generator.  Changed tests to
+//            use Boost Test Tools library.  (Daryle Walker)
+//  04 Jun 00 Added regression test for a bug I found (David Abrahams)
+//  17 Jun 00 Fix for broken compilers (Aleksey Gurtovoy)
+//  ?? ??? 00 Major update to randomly test all one- and two- argument forms by
+//            wrapping integral types and comparing the results of operations
+//            to the results for the raw types (David Abrahams)
+//  12 Dec 99 Minor update, output confirmation message.
+//  15 Nov 99 Initial version
+
+#define BOOST_INCLUDE_MAIN
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;                      // for BOOST_MSVC
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdlib.hpp">boost/cstdlib.hpp</a>&gt;                     // for boost::exit_success
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/operators.hpp">boost/operators.hpp</a>&gt;                   // for the tested items
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/random/linear_congruential.hpp">boost/random/linear_congruential.hpp</a>&gt;  // for boost::minstd_rand
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/test_tools.hpp">boost/test/test_tools.hpp</a>&gt;             // for main
+
+#include &lt;iostream&gt;  // for std::cout (std::endl indirectly)
+
+
+namespace
+{
+    // avoiding a template version of true_value so as to not confuse VC++
+    int true_value(int x) { return x; }
+    long true_value(long x) { return x; }
+    signed char true_value(signed char x) { return x; }
+    short true_value(short x) { return x; }
+    unsigned int true_value(unsigned int x) { return x; }
+    unsigned long true_value(unsigned long x) { return x; }
+    unsigned char true_value(unsigned char x) { return x; }
+    unsigned short true_value(unsigned short x) { return x; }
+
+    // verify the minimum requirements for some operators
+    class convertible_to_bool
+    {
+    private:
+        bool _value;
+
+        typedef bool convertible_to_bool::*unspecified_bool_type;
+
+        void operator!() const;
+
+    public:
+        convertible_to_bool( const bool value ) : _value( value ) {}
+
+        operator unspecified_bool_type() const
+          { return _value ? &amp;convertible_to_bool::_value : 0; }
+    };
+
+    // The use of operators&lt;&gt; here tended to obscure
+    // interactions with certain compiler bugs
+    template &lt;class T&gt;
+    class Wrapped1
+        : boost::operators&lt;Wrapped1&lt;T&gt; &gt;
+        , boost::shiftable&lt;Wrapped1&lt;T&gt; &gt;
+    {
+    public:
+        explicit Wrapped1( T v = T() ) : _value(v) {}
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped1&amp; x) const
+          { return _value &lt; x._value; }
+        convertible_to_bool operator==(const Wrapped1&amp; x) const
+          { return _value == x._value; }
+        
+        Wrapped1&amp; operator+=(const Wrapped1&amp; x)
+          { _value += x._value; return *this; }
+        Wrapped1&amp; operator-=(const Wrapped1&amp; x)
+          { _value -= x._value; return *this; }
+        Wrapped1&amp; operator*=(const Wrapped1&amp; x)
+          { _value *= x._value; return *this; }
+        Wrapped1&amp; operator/=(const Wrapped1&amp; x)
+          { _value /= x._value; return *this; }
+        Wrapped1&amp; operator%=(const Wrapped1&amp; x)
+          { _value %= x._value; return *this; }
+        Wrapped1&amp; operator|=(const Wrapped1&amp; x)
+          { _value |= x._value; return *this; }
+        Wrapped1&amp; operator&amp;=(const Wrapped1&amp; x)
+          { _value &amp;= x._value; return *this; }
+        Wrapped1&amp; operator^=(const Wrapped1&amp; x)
+          { _value ^= x._value; return *this; }
+        Wrapped1&amp; operator&lt;&lt;=(const Wrapped1&amp; x)
+          { _value &lt;&lt;= x._value; return *this; }
+        Wrapped1&amp; operator&gt;&gt;=(const Wrapped1&amp; x)
+          { _value &gt;&gt;= x._value; return *this; }
+        Wrapped1&amp; operator++()               { ++_value; return *this; }
+        Wrapped1&amp; operator--()               { --_value; return *this; }
+        
+    private:
+        T _value;
+    };
+    template &lt;class T&gt;
+    T true_value(Wrapped1&lt;T&gt; x) { return x.value(); }    
+
+    template &lt;class T, class U&gt;
+    class Wrapped2
+        : boost::operators&lt;Wrapped2&lt;T, U&gt; &gt;
+        , boost::operators2&lt;Wrapped2&lt;T, U&gt;, U&gt;
+        , boost::shiftable1&lt;Wrapped2&lt;T, U&gt;
+        , boost::shiftable2&lt;Wrapped2&lt;T, U&gt;, U &gt; &gt;
+    {
+    public:
+        explicit Wrapped2( T v = T() ) : _value(v) {}
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped2&amp; x) const
+          { return _value &lt; x._value; }
+        convertible_to_bool operator==(const Wrapped2&amp; x) const
+          { return _value == x._value; }
+        
+        Wrapped2&amp; operator+=(const Wrapped2&amp; x)
+          { _value += x._value; return *this; }
+        Wrapped2&amp; operator-=(const Wrapped2&amp; x)
+          { _value -= x._value; return *this; }
+        Wrapped2&amp; operator*=(const Wrapped2&amp; x)
+          { _value *= x._value; return *this; }
+        Wrapped2&amp; operator/=(const Wrapped2&amp; x)
+          { _value /= x._value; return *this; }
+        Wrapped2&amp; operator%=(const Wrapped2&amp; x)
+          { _value %= x._value; return *this; }
+        Wrapped2&amp; operator|=(const Wrapped2&amp; x)
+          { _value |= x._value; return *this; }
+        Wrapped2&amp; operator&amp;=(const Wrapped2&amp; x)
+          { _value &amp;= x._value; return *this; }
+        Wrapped2&amp; operator^=(const Wrapped2&amp; x)
+          { _value ^= x._value; return *this; }
+        Wrapped2&amp; operator&lt;&lt;=(const Wrapped2&amp; x)
+          { _value &lt;&lt;= x._value; return *this; }
+        Wrapped2&amp; operator&gt;&gt;=(const Wrapped2&amp; x)
+          { _value &gt;&gt;= x._value; return *this; }
+        Wrapped2&amp; operator++()                { ++_value; return *this; }
+        Wrapped2&amp; operator--()                { --_value; return *this; }
+         
+        convertible_to_bool operator&lt;(U u) const
+          { return _value &lt; u; }
+        convertible_to_bool operator&gt;(U u) const
+          { return _value &gt; u; }
+        convertible_to_bool operator==(U u) const
+          { return _value == u; }
+
+        Wrapped2&amp; operator+=(U u) { _value += u; return *this; }
+        Wrapped2&amp; operator-=(U u) { _value -= u; return *this; }
+        Wrapped2&amp; operator*=(U u) { _value *= u; return *this; }
+        Wrapped2&amp; operator/=(U u) { _value /= u; return *this; }
+        Wrapped2&amp; operator%=(U u) { _value %= u; return *this; }
+        Wrapped2&amp; operator|=(U u) { _value |= u; return *this; }
+        Wrapped2&amp; operator&amp;=(U u) { _value &amp;= u; return *this; }
+        Wrapped2&amp; operator^=(U u) { _value ^= u; return *this; }
+        Wrapped2&amp; operator&lt;&lt;=(U u) { _value &lt;&lt;= u; return *this; }
+        Wrapped2&amp; operator&gt;&gt;=(U u) { _value &gt;&gt;= u; return *this; }
+
+    private:
+        T _value;
+    };
+    template &lt;class T, class U&gt;
+    T true_value(Wrapped2&lt;T,U&gt; x) { return x.value(); }
+    
+    template &lt;class T&gt;
+    class Wrapped3
+        : boost::equivalent&lt;Wrapped3&lt;T&gt; &gt;
+        , boost::partially_ordered&lt;Wrapped3&lt;T&gt; &gt;
+        , boost::equality_comparable&lt;Wrapped3&lt;T&gt; &gt;
+    {
+    public:
+        explicit Wrapped3( T v = T() ) : _value(v) {}
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped3&amp; x) const
+          { return _value &lt; x._value; }
+        
+    private:
+        T _value;
+    };
+    template &lt;class T&gt;
+    T true_value(Wrapped3&lt;T&gt; x) { return x.value(); }    
+
+    template &lt;class T, class U&gt;
+    class Wrapped4
+        : boost::equality_comparable1&lt;Wrapped4&lt;T, U&gt;
+        , boost::equivalent1&lt;Wrapped4&lt;T, U&gt;
+        , boost::partially_ordered1&lt;Wrapped4&lt;T, U&gt; &gt; &gt; &gt;
+        , boost::partially_ordered2&lt;Wrapped4&lt;T, U&gt;, U
+        , boost::equivalent2&lt;Wrapped4&lt;T, U&gt;, U
+        , boost::equality_comparable2&lt;Wrapped4&lt;T, U&gt;, U&gt; &gt; &gt;
+    {
+    public:
+        explicit Wrapped4( T v = T() ) : _value(v) {}
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped4&amp; x) const
+          { return _value &lt; x._value; }
+         
+        convertible_to_bool operator&lt;(U u) const
+          { return _value &lt; u; }
+        convertible_to_bool operator&gt;(U u) const
+          { return _value &gt; u; }
+
+    private:
+        T _value;
+    };
+    template &lt;class T, class U&gt;
+    T true_value(Wrapped4&lt;T,U&gt; x) { return x.value(); }
+    
+    // U must be convertible to T
+    template &lt;class T, class U&gt;
+    class Wrapped5
+        : boost::ordered_field_operators2&lt;Wrapped5&lt;T, U&gt;, U&gt;
+        , boost::ordered_field_operators1&lt;Wrapped5&lt;T, U&gt; &gt;
+    {
+    public:
+        explicit Wrapped5( T v = T() ) : _value(v) {}
+
+        // Conversion from U to Wrapped5&lt;T,U&gt;
+        Wrapped5(U u) : _value(u) {}
+
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped5&amp; x) const
+          { return _value &lt; x._value; }
+        convertible_to_bool operator&lt;(U u) const
+          { return _value &lt; u; }
+        convertible_to_bool operator&gt;(U u) const
+          { return _value &gt; u; }
+        convertible_to_bool operator==(const Wrapped5&amp; u) const
+          { return _value == u._value; }
+        convertible_to_bool operator==(U u) const
+          { return _value == u; }
+
+        Wrapped5&amp; operator/=(const Wrapped5&amp; u) { _value /= u._value; return *this;}
+        Wrapped5&amp; operator/=(U u) { _value /= u; return *this;}
+        Wrapped5&amp; operator*=(const Wrapped5&amp; u) { _value *= u._value; return *this;}
+        Wrapped5&amp; operator*=(U u) { _value *= u; return *this;}
+        Wrapped5&amp; operator-=(const Wrapped5&amp; u) { _value -= u._value; return *this;}
+        Wrapped5&amp; operator-=(U u) { _value -= u; return *this;}
+        Wrapped5&amp; operator+=(const Wrapped5&amp; u) { _value += u._value; return *this;}
+        Wrapped5&amp; operator+=(U u) { _value += u; return *this;}
+
+    private:
+        T _value;
+    };
+    template &lt;class T, class U&gt;
+    T true_value(Wrapped5&lt;T,U&gt; x) { return x.value(); }
+    
+    // U must be convertible to T
+    template &lt;class T, class U&gt;
+    class Wrapped6
+        : boost::ordered_euclidean_ring_operators2&lt;Wrapped6&lt;T, U&gt;, U&gt;
+        , boost::ordered_euclidean_ring_operators1&lt;Wrapped6&lt;T, U&gt; &gt;
+    {
+    public:
+        explicit Wrapped6( T v = T() ) : _value(v) {}
+
+        // Conversion from U to Wrapped6&lt;T,U&gt;
+        Wrapped6(U u) : _value(u) {}
+
+        T value() const { return _value; }
+
+        convertible_to_bool operator&lt;(const Wrapped6&amp; x) const
+          { return _value &lt; x._value; }
+        convertible_to_bool operator&lt;(U u) const
+          { return _value &lt; u; }
+        convertible_to_bool operator&gt;(U u) const
+          { return _value &gt; u; }
+        convertible_to_bool operator==(const Wrapped6&amp; u) const
+          { return _value == u._value; }
+        convertible_to_bool operator==(U u) const
+          { return _value == u; }
+
+        Wrapped6&amp; operator%=(const Wrapped6&amp; u) { _value %= u._value; return *this;}
+        Wrapped6&amp; operator%=(U u) { _value %= u; return *this;}
+        Wrapped6&amp; operator/=(const Wrapped6&amp; u) { _value /= u._value; return *this;}
+        Wrapped6&amp; operator/=(U u) { _value /= u; return *this;}
+        Wrapped6&amp; operator*=(const Wrapped6&amp; u) { _value *= u._value; return *this;}
+        Wrapped6&amp; operator*=(U u) { _value *= u; return *this;}
+        Wrapped6&amp; operator-=(const Wrapped6&amp; u) { _value -= u._value; return *this;}
+        Wrapped6&amp; operator-=(U u) { _value -= u; return *this;}
+        Wrapped6&amp; operator+=(const Wrapped6&amp; u) { _value += u._value; return *this;}
+        Wrapped6&amp; operator+=(U u) { _value += u; return *this;}
+
+    private:
+        T _value;
+    };
+    template &lt;class T, class U&gt;
+    T true_value(Wrapped6&lt;T,U&gt; x) { return x.value(); }
+    
+    //  MyInt uses only the single template-argument form of all_operators&lt;&gt;
+    typedef Wrapped1&lt;int&gt; MyInt;
+
+    typedef Wrapped2&lt;long, long&gt; MyLong;
+
+    typedef Wrapped3&lt;signed char&gt; MyChar;
+
+    typedef Wrapped4&lt;short, short&gt; MyShort;
+
+    typedef Wrapped5&lt;double, int&gt; MyDoubleInt;
+
+    typedef Wrapped6&lt;long, int&gt; MyLongInt;
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void sanity_check(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        BOOST_CHECK( true_value(y1) == true_value(y2) );
+        BOOST_CHECK( true_value(x1) == true_value(x2) );
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_less_than_comparable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 &lt; y1) == static_cast&lt;bool&gt;(x2 &lt; y2) );
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 &lt;= y1) == static_cast&lt;bool&gt;(x2 &lt;= y2) );
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 &gt;= y1) == static_cast&lt;bool&gt;(x2 &gt;= y2) );
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 &gt; y1) == static_cast&lt;bool&gt;(x2 &gt; y2) );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_less_than_comparable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_less_than_comparable_aux( x1, y1, x2, y2 );
+        test_less_than_comparable_aux( y1, x1, y2, x2 );
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_equality_comparable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 == y1) == static_cast&lt;bool&gt;(x2 == y2) );
+        BOOST_CHECK( static_cast&lt;bool&gt;(x1 != y1) == static_cast&lt;bool&gt;(x2 != y2) );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_equality_comparable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_equality_comparable_aux( x1, y1, x2, y2 );
+        test_equality_comparable_aux( y1, x1, y2, x2 );
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_multipliable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        BOOST_CHECK( (x1 * y1).value() == (x2 * y2) );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_multipliable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_multipliable_aux( x1, y1, x2, y2 );
+        test_multipliable_aux( y1, x1, y2, x2 );
+    }
+
+  template &lt;class A, class B&gt;
+  void test_value_equality(A a, B b)
+  {
+      BOOST_CHECK(a.value() == b);
+  }
+  
+#define TEST_OP_R(op) test_value_equality(x1 op y1, x2 op y2)
+#define TEST_OP_L(op) test_value_equality(y1 op x1, y2 op x2)
+  
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_addable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        TEST_OP_R(+);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_addable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_addable_aux( x1, y1, x2, y2 );
+        test_addable_aux( y1, x1, y2, x2 );
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_subtractable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        TEST_OP_R(-);
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_subtractable_left(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        TEST_OP_L(-);
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_dividable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        if ( y2 != 0 )
+            TEST_OP_R(/);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_dividable_left(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        if ( x2 != 0 )
+            TEST_OP_L(/);
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_modable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        if ( y2 != 0 )
+            TEST_OP_R(%);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_modable_left(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        if ( x2 != 0 )
+            TEST_OP_L(%);
+    }
+
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_xorable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        TEST_OP_R(^);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_xorable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_xorable_aux( x1, y1, x2, y2 );
+        test_xorable_aux( y1, x1, y2, x2 );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_andable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        TEST_OP_R(&amp;);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_andable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_andable_aux( x1, y1, x2, y2 );
+        test_andable_aux( y1, x1, y2, x2 );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_orable_aux(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        TEST_OP_R(|);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_orable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        test_orable_aux( x1, y1, x2, y2 );
+        test_orable_aux( y1, x1, y2, x2 );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_left_shiftable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        TEST_OP_R(&lt;&lt;);
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_right_shiftable(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        sanity_check( x1, y1, x2, y2 );
+        TEST_OP_R(&gt;&gt;);
+    }
+    
+    template &lt;class X1, class X2&gt;
+    void test_incrementable(X1 x1, X2 x2)
+    {
+        sanity_check( x1, x1, x2, x2 );
+        BOOST_CHECK( (x1++).value() == x2++ );
+        BOOST_CHECK( x1.value() == x2 );
+    }
+    
+    template &lt;class X1, class X2&gt;
+    void test_decrementable(X1 x1, X2 x2)
+    {
+        sanity_check( x1, x1, x2, x2 );
+        BOOST_CHECK( (x1--).value() == x2-- );
+        BOOST_CHECK( x1.value() == x2 );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_all(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        test_less_than_comparable( x1, y1, x2, y2 );
+        test_equality_comparable( x1, y1, x2, y2 );
+        test_multipliable( x1, y1, x2, y2 );
+        test_addable( x1, y1, x2, y2 );
+        test_subtractable( x1, y1, x2, y2 );
+        test_dividable( x1, y1, x2, y2 );
+        test_modable( x1, y1, x2, y2 );
+        test_xorable( x1, y1, x2, y2 );
+        test_andable( x1, y1, x2, y2 );
+        test_orable( x1, y1, x2, y2 );
+        test_left_shiftable( x1, y1, x2, y2 );
+        test_right_shiftable( x1, y1, x2, y2 );
+        test_incrementable( x1, x2 );
+        test_decrementable( x1, x2 );
+    }
+    
+    template &lt;class X1, class Y1, class X2, class Y2&gt;
+    void test_left(X1 x1, Y1 y1, X2 x2, Y2 y2)
+    {
+        test_subtractable_left( x1, y1, x2, y2 );
+        test_dividable_left( x1, y1, x2, y2 );
+        test_modable_left( x1, y1, x2, y2 );
+     }
+
+    template &lt;class Big, class Small&gt;
+    struct tester
+    {
+        void operator()(boost::minstd_rand&amp; randomizer) const
+        {
+            Big    b1 = Big( randomizer() );
+            Big    b2 = Big( randomizer() );
+            Small  s = Small( randomizer() );
+            
+            test_all( Wrapped1&lt;Big&gt;(b1), Wrapped1&lt;Big&gt;(b2), b1, b2 );
+            test_all( Wrapped2&lt;Big, Small&gt;(b1), s, b1, s );
+        }
+    };
+
+    template &lt;class Big, class Small&gt;
+    struct tester_left
+    {
+        void operator()(boost::minstd_rand&amp; randomizer) const
+        {
+            Big    b1 = Big( randomizer() );
+            Small  s = Small( randomizer() );
+            
+            test_left( Wrapped6&lt;Big, Small&gt;(b1), s, b1, s );
+         }
+    };
+
+    // added as a regression test. We had a bug which this uncovered.
+    struct Point
+        : boost::addable&lt;Point
+        , boost::subtractable&lt;Point&gt; &gt;
+    {
+        Point( int h, int v ) : h(h), v(v) {}
+        Point() :h(0), v(0) {}
+        const Point&amp; operator+=( const Point&amp; rhs )
+            { h += rhs.h; v += rhs.v; return *this; }
+        const Point&amp; operator-=( const Point&amp; rhs )
+            { h -= rhs.h; v -= rhs.v; return *this; }
+
+        int h;
+        int v;
+    };
+
+} // unnamed namespace
+
+
+// workaround for MSVC bug; for some reasons the compiler doesn't instantiate
+// inherited operator templates at the moment it must, so the following
+// explicit instantiations force it to do that.
+
+#if defined(BOOST_MSVC) &amp;&amp; (_MSC_VER &lt; 1300)
+template Wrapped1&lt;int&gt;;
+template Wrapped1&lt;long&gt;;
+template Wrapped1&lt;unsigned int&gt;;
+template Wrapped1&lt;unsigned long&gt;;
+
+template Wrapped2&lt;int, int&gt;;
+template Wrapped2&lt;int, signed char&gt;;
+template Wrapped2&lt;long, signed char&gt;;
+template Wrapped2&lt;long, int&gt;;
+template Wrapped2&lt;long, long&gt;;
+template Wrapped2&lt;unsigned int, unsigned int&gt;;
+template Wrapped2&lt;unsigned int, unsigned char&gt;;
+template Wrapped2&lt;unsigned long, unsigned int&gt;;
+template Wrapped2&lt;unsigned long, unsigned char&gt;;
+template Wrapped2&lt;unsigned long, unsigned long&gt;;
+
+template Wrapped6&lt;long, int&gt;;
+template Wrapped6&lt;long, signed char&gt;;
+template Wrapped6&lt;int, signed char&gt;;
+template Wrapped6&lt;unsigned long, unsigned int&gt;;
+template Wrapped6&lt;unsigned long, unsigned char&gt;;
+template Wrapped6&lt;unsigned int, unsigned char&gt;;
+#endif
+
+#define PRIVATE_EXPR_TEST(e, t)  BOOST_CHECK( ((e), (t)) )
+
+int
+test_main( int , char * [] )
+{
+    using std::cout;
+    using std::endl;
+
+    // Regression test.
+    Point x;
+    x = x + Point(3, 4);
+    x = x - Point(3, 4);
+    
+    cout &lt;&lt; &quot;Created point, and operated on it.&quot; &lt;&lt; endl;
+    
+    for (int n = 0; n &lt; 1000; ++n)  // was 10,000 but took too long (Beman)
+    {
+        boost::minstd_rand r;
+        tester&lt;long, int&gt;()(r);
+        tester&lt;long, signed char&gt;()(r);
+        tester&lt;long, long&gt;()(r);
+        tester&lt;int, int&gt;()(r);
+        tester&lt;int, signed char&gt;()(r);
+        
+        tester&lt;unsigned long, unsigned int&gt;()(r);
+        tester&lt;unsigned long, unsigned char&gt;()(r);
+        tester&lt;unsigned long, unsigned long&gt;()(r);
+        tester&lt;unsigned int, unsigned int&gt;()(r);
+        tester&lt;unsigned int, unsigned char&gt;()(r);
+
+        tester_left&lt;long, int&gt;()(r);
+        tester_left&lt;long, signed char&gt;()(r);
+        tester_left&lt;int, signed char&gt;()(r);
+
+        tester_left&lt;unsigned long, unsigned int&gt;()(r);
+        tester_left&lt;unsigned long, unsigned char&gt;()(r);
+        tester_left&lt;unsigned int, unsigned char&gt;()(r);
+    }
+    
+    cout &lt;&lt; &quot;Did random tester loop.&quot; &lt;&lt; endl;
+
+    MyInt i1(1);
+    MyInt i2(2);
+    MyInt i;
+
+    BOOST_CHECK( i1.value() == 1 );
+    BOOST_CHECK( i2.value() == 2 );
+    BOOST_CHECK( i.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyInt objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (i = i2), (i.value() == 2) );
+
+    BOOST_CHECK( static_cast&lt;bool&gt;(i2 == i) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i1 != i2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i1 &lt;  i2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i1 &lt;= i2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i &lt;= i2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i2 &gt;  i1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i2 &gt;= i1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(i2 &gt;= i) );
+
+    PRIVATE_EXPR_TEST( (i = i1 + i2), (i.value() == 3) );
+    PRIVATE_EXPR_TEST( (i = i + i2), (i.value() == 5) );
+    PRIVATE_EXPR_TEST( (i = i - i1), (i.value() == 4) );
+    PRIVATE_EXPR_TEST( (i = i * i2), (i.value() == 8) );
+    PRIVATE_EXPR_TEST( (i = i / i2), (i.value() == 4) );
+    PRIVATE_EXPR_TEST( (i = i % ( i - i1 )), (i.value() == 1) );
+    PRIVATE_EXPR_TEST( (i = i2 + i2), (i.value() == 4) );
+    PRIVATE_EXPR_TEST( (i = i1 | i2 | i), (i.value() == 7) );
+    PRIVATE_EXPR_TEST( (i = i &amp; i2), (i.value() == 2) );
+    PRIVATE_EXPR_TEST( (i = i + i1), (i.value() == 3) );
+    PRIVATE_EXPR_TEST( (i = i ^ i1), (i.value() == 2) );
+    PRIVATE_EXPR_TEST( (i = ( i + i1 ) * ( i2 | i1 )), (i.value() == 9) );
+
+    PRIVATE_EXPR_TEST( (i = i1 &lt;&lt; i2), (i.value() == 4) );
+    PRIVATE_EXPR_TEST( (i = i2 &gt;&gt; i1), (i.value() == 1) );
+
+    cout &lt;&lt; &quot;Performed tests on MyInt objects.\n&quot;;
+
+    MyLong j1(1);
+    MyLong j2(2);
+    MyLong j;
+
+    BOOST_CHECK( j1.value() == 1 );
+    BOOST_CHECK( j2.value() == 2 );
+    BOOST_CHECK( j.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyLong objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (j = j2), (j.value() == 2) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 == j) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 == j) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j == j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 != j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 != 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 != j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 &lt;  j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;  j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 &lt;  2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 &lt;= j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;= j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j1 &lt;= j) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j &lt;= j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &lt;= j2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j &lt;= 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;  j1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;  j1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;  1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;= j1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;= j1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;= 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;= j) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;= j) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(j2 &gt;= 2) );
+
+    BOOST_CHECK( static_cast&lt;bool&gt;((j1 + 2) == 3) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((1 + j2) == 3) );
+    PRIVATE_EXPR_TEST( (j = j1 + j2), (j.value() == 3) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((j + 2) == 5) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((3 + j2) == 5) );
+    PRIVATE_EXPR_TEST( (j = j + j2), (j.value() == 5) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((j - 1) == 4) );
+    PRIVATE_EXPR_TEST( (j = j - j1), (j.value() == 4) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((j * 2) == 8) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((4 * j2) == 8) );
+    PRIVATE_EXPR_TEST( (j = j * j2), (j.value() == 8) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((j / 2) == 4) );
+    PRIVATE_EXPR_TEST( (j = j / j2), (j.value() == 4) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((j % 3) == 1) );
+    PRIVATE_EXPR_TEST( (j = j % ( j - j1 )), (j.value() == 1) );
+    
+    PRIVATE_EXPR_TEST( (j = j2 + j2), (j.value() == 4) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((1 | j2 | j) == 7) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j1 | 2 | j) == 7) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j1 | j2 | 4) == 7) );
+    PRIVATE_EXPR_TEST( (j = j1 | j2 | j), (j.value() == 7) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((7 &amp; j2) == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j &amp; 2) == 2) );
+    PRIVATE_EXPR_TEST( (j = j &amp; j2), (j.value() == 2) );
+    
+    PRIVATE_EXPR_TEST( (j = j | j1), (j.value() == 3) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;((3 ^ j1) == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j ^ 1) == 2) );
+    PRIVATE_EXPR_TEST( (j = j ^ j1), (j.value() == 2) );
+    
+    PRIVATE_EXPR_TEST( (j = ( j + j1 ) * ( j2 | j1 )), (j.value() == 9) );
+
+    BOOST_CHECK( static_cast&lt;bool&gt;((j1 &lt;&lt; 2) == 4) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j2 &lt;&lt; 1) == 4) );
+    PRIVATE_EXPR_TEST( (j = j1 &lt;&lt; j2), (j.value() == 4) );
+
+    BOOST_CHECK( static_cast&lt;bool&gt;((j &gt;&gt; 2) == 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;((j2 &gt;&gt; 1) == 1) );
+    PRIVATE_EXPR_TEST( (j = j2 &gt;&gt; j1), (j.value() == 1) );
+    
+    cout &lt;&lt; &quot;Performed tests on MyLong objects.\n&quot;;
+
+    MyChar k1(1);
+    MyChar k2(2);
+    MyChar k;
+
+    BOOST_CHECK( k1.value() == 1 );
+    BOOST_CHECK( k2.value() == 2 );
+    BOOST_CHECK( k.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyChar objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (k = k2), (k.value() == 2) );
+
+    BOOST_CHECK( static_cast&lt;bool&gt;(k2 == k) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k1 != k2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k1 &lt;  k2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k1 &lt;= k2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k &lt;= k2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k2 &gt;  k1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k2 &gt;= k1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(k2 &gt;= k) );
+    
+    cout &lt;&lt; &quot;Performed tests on MyChar objects.\n&quot;;
+
+    MyShort l1(1);
+    MyShort l2(2);
+    MyShort l;
+
+    BOOST_CHECK( l1.value() == 1 );
+    BOOST_CHECK( l2.value() == 2 );
+    BOOST_CHECK( l.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyShort objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (l = l2), (l.value() == 2) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 == l) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 == l) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l == l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 != l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 != 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 != l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 &lt;  l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;  l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 &lt;  2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 &lt;= l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;= l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l1 &lt;= l) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l &lt;= l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &lt;= l2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l &lt;= 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;  l1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;  l1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;  1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;= l1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;= l1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;= 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;= l) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 &gt;= l) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(l2 &gt;= 2) );
+    
+    cout &lt;&lt; &quot;Performed tests on MyShort objects.\n&quot;;
+    
+    MyDoubleInt di1(1);
+    MyDoubleInt di2(2.);
+    MyDoubleInt half(0.5);
+    MyDoubleInt di;
+    MyDoubleInt tmp;
+
+    BOOST_CHECK( di1.value() == 1 );
+    BOOST_CHECK( di2.value() == 2 );
+    BOOST_CHECK( di2.value() == 2 );
+    BOOST_CHECK( di.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyDoubleInt objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (di = di2), (di.value() == 2) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 == di) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 == di) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 &lt; di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt; di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 &lt;= di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;= di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 &gt; di1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 &gt; 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 &gt;= di1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 &gt;= 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 / di2 == half) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 / 2 == half) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 / di2 == half) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp/=2) == half) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp/=di2) == half) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 * di2 == di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 * 2 == di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 * di2 == di2) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp*=2) == di2) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp*=di2) == di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 - di1 == di1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di2 - 1 == di1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 - di1 == di1) );
+    PRIVATE_EXPR_TEST( (tmp=di2), static_cast&lt;bool&gt;((tmp-=1) == di1) );
+    PRIVATE_EXPR_TEST( (tmp=di2), static_cast&lt;bool&gt;((tmp-=di1) == di1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 + di1 == di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(di1 + 1 == di2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 + di1 == di2) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp+=1) == di2) );
+    PRIVATE_EXPR_TEST( (tmp=di1), static_cast&lt;bool&gt;((tmp+=di1) == di2) );
+
+    cout &lt;&lt; &quot;Performed tests on MyDoubleInt objects.\n&quot;;
+
+    MyLongInt li1(1);
+    MyLongInt li2(2);
+    MyLongInt li;
+    MyLongInt tmp2;
+
+    BOOST_CHECK( li1.value() == 1 );
+    BOOST_CHECK( li2.value() == 2 );
+    BOOST_CHECK( li.value() == 0 );
+
+    cout &lt;&lt; &quot;Created MyLongInt objects.\n&quot;;
+
+    PRIVATE_EXPR_TEST( (li = li2), (li.value() == 2) );
+    
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 == li) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 == li) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li == 2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 &lt; li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt; li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 &lt;= li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 &lt;= li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 &gt; li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 &gt; 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 &gt;= li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 &gt;= 1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 % li2 == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 % 2 == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 % li2 == li1) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2%=2) == li1) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2%=li2) == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 / li2 == 0) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 / 2 == 0) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 / li2 == 0) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2/=2) == 0) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2/=li2) == 0) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 * li2 == li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 * 2 == li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 * li2 == li2) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2*=2) == li2) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2*=li2) == li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 - li1 == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li2 - 1 == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(2 - li1 == li1) );
+    PRIVATE_EXPR_TEST( (tmp2=li2), static_cast&lt;bool&gt;((tmp2-=1) == li1) );
+    PRIVATE_EXPR_TEST( (tmp2=li2), static_cast&lt;bool&gt;((tmp2-=li1) == li1) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 + li1 == li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(li1 + 1 == li2) );
+    BOOST_CHECK( static_cast&lt;bool&gt;(1 + li1 == li2) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2+=1) == li2) );
+    PRIVATE_EXPR_TEST( (tmp2=li1), static_cast&lt;bool&gt;((tmp2+=li1) == li2) );
+
+    cout &lt;&lt; &quot;Performed tests on MyLongInt objects.\n&quot;;
+
+    return boost::exit_success;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/operators_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:41 GMT -->
+</html>

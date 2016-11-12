@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/predicatebuilder.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:51:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 5.0/4.0 in a Nutshell - PredicateBuilder
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/predicatebuilder.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTcwODg1MTE2Ng9kFgJmD2QWAgIDD2QWAgILDxYCHgRUZXh0BYwYDQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iYWJvdXQuYXNweCI+QWJvdXQgdGhlIEJvb2s8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb2RlLmFzcHgiPkNvZGUgTGlzdGluZ3M8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rYSIgaHJlZj0iZXh0cmFzLmFzcHgiPkV4dHJhczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5MSU5RUGFkPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iV2hhdHNOZXdDczQuYXNweCIgY2xhc3M9InN1YmxpbmsiPlZJREVPOiBXaGF0J3MgbmV3IGluIEMjIDQuMDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFraXQuYXNweCIgY2xhc3M9InN1YmxpbmsiPkxJTlFLaXQ8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJwcmVkaWNhdGVidWlsZGVyLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5QcmVkaWNhdGVCdWlsZGVyPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0ibGlucWJyaWRnZS5hc3B4IiBjbGFzcz0ic3VibGluayI+TElOUUJyaWRnZTwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFxdWl6LmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5UaGUgTElOUSBRdWl6PC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iMTBsaW5xbXl0aHMuYXNweCIgY2xhc3M9InN1YmxpbmsiPlRlbiBMSU5RIE15dGhzPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5Bc3luY2hyb25hdG9yPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdCBBdXRob3JzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+ZGQ5wIAVU3JV8esCGGir5OfODv/3xg==" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Extras</h1>
+
+<h2 align="left">Dynamically Composing Expression Predicates</h2>
+
+<p align="left">Suppose you want to write a LINQ to SQL or Entity Framework query that implements 
+a keyword-style search. In other words, a query that returns rows whose 
+description <span class="emphasis">contains</span> some or all of a given set 
+of keywords.</p>
+<p align="left">We can proceed as follows:</p>
+<pre>IQueryable&lt;Product&gt; SearchProducts (params string[] keywords)
+{
+  IQueryable&lt;Product&gt; query = dataContext.Products;
+
+  foreach (string keyword in keywords)
+  {
+    string temp = keyword;
+    query = query.Where (p =&gt; p.Description.Contains (temp));
+  }
+  return query;
+}</pre>
+<p class="warning" align="left">The temporary variable in the loop is required 
+to avoid the outer variable trap, where the same variable is captured for each 
+iteration of the <span class="lit">foreach</span> loop.</p>
+<p align="left">So far, so good. But this only handles the case where you want 
+to match <span class="emphasis">all</span> of the specified keywords. Suppose 
+instead, we wanted products whose description contains <span class="emphasis">
+any</span> of the supplied keywords. Our previous approach of chaining Where 
+operators is completely useless! We could instead chain Union operators, but 
+this would be inefficient. The ideal approach is to dynamically construct a 
+lambda expression tree that performs an <span class="emphasis">or</span>-based 
+predicate.</p>
+<p align="left">Of all the things that will drive you to manually constructing 
+expression trees, the need for dynamic predicates is the most common in a 
+typical business application. Fortunately, it’s possible to write a set of 
+simple and reusable extension methods that radically simplify this task. This is 
+the role of our <span class="lit">PredicateBuilder</span> class.</p>
+<h2 align="left">Using PredicateBuilder</h2>
+<p align="left">Here's how to solve the preceding example with <span class="lit">
+PredicateBuilder</span>:</p>
+<pre>IQueryable&lt;Product&gt; SearchProducts (params string[] keywords)
+{
+  var predicate = PredicateBuilder.False&lt;Product&gt;();
+
+  foreach (string keyword in keywords)
+  {
+    string temp = keyword;
+    predicate = predicate.Or (p =&gt; p.Description.Contains (temp));
+  }
+  return dataContext.Products.Where (predicate);
+}</pre>
+
+<p>If querying with Entity Framework, change the last line to this:</p>
+<pre>return objectContext.Products<b>.AsExpandable()</b>.Where (predicate);</pre>
+<p>
+The AsExpandable method is part of <a href="linqkit.html">LINQKit</a> (see below).
+</p>
+
+<p class="note">The easiest way to experiment with PredicateBuilder is with <a href="http://www.linqpad.net/">LINQPad</a>.
+LINQPad lets you instantly test LINQ queries against a database or local collection and has direct support for PredicateBuilder (press F4
+and check 'Include PredicateBuilder').
+</p>
+
+<h2 align="left">PredicateBuilder Source Code</h2>
+<p align="left">Here's the complete source:</p>
+<pre>using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Collections.Generic;
+&nbsp;
+public static class PredicateBuilder
+{
+  public static Expression&lt;Func&lt;T, bool&gt;&gt; True&lt;T&gt; ()  { return f =&gt; true;  }
+  public static Expression&lt;Func&lt;T, bool&gt;&gt; False&lt;T&gt; () { return f =&gt; false; }
+&nbsp;
+  public static Expression&lt;Func&lt;T, bool&gt;&gt; Or&lt;T&gt; (this Expression&lt;Func&lt;T, bool&gt;&gt; expr1,
+                                                      Expression&lt;Func&lt;T, bool&gt;&gt; expr2)
+  {
+    var invokedExpr = Expression.Invoke (expr2, expr1.Parameters.Cast&lt;Expression&gt; ());
+    return Expression.Lambda&lt;Func&lt;T, bool&gt;&gt;
+          (Expression.OrElse (expr1.Body, invokedExpr), expr1.Parameters);
+  }
+&nbsp;
+  public static Expression&lt;Func&lt;T, bool&gt;&gt; And&lt;T&gt; (this Expression&lt;Func&lt;T, bool&gt;&gt; expr1,
+                                                       Expression&lt;Func&lt;T, bool&gt;&gt; expr2)
+  {
+    var invokedExpr = Expression.Invoke (expr2, expr1.Parameters.Cast&lt;Expression&gt; ());
+    return Expression.Lambda&lt;Func&lt;T, bool&gt;&gt;
+          (Expression.AndAlso (expr1.Body, invokedExpr), expr1.Parameters);
+  }
+}</pre>
+<p align="left">PredicateBuilder is also shipped as part of
+<a href="linqkit.html">LINQKit</a>, a productivity kit for LINQ to SQL and Entity Framework.</p>
+
+<p class="note"> If you're using LINQ to SQL, you can use the PredicateBuilder source code on its own.<br />
+	<br />
+	If you're
+using Entity Framework, you'll need the complete <a href="linqkit.html">LINQKit</a> - 
+	for the <b>AsExpandable</b> functionality.
+You can either reference LINQKit.dll or copy LINQKit's source code into your application.</p>
+
+<h2 align="left">How it Works</h2>
+<p align="left">The <span class="lit">True</span> and <span class="lit">False</span> 
+methods do nothing special: they are simply convenient shortcuts for creating an
+<span class="lit">Expression&lt;Func&lt;T,bool&gt;&gt;</span> that initially evaluates to 
+true or false. So the following:</p>
+<div align="left">
+	<pre>var predicate = PredicateBuilder.True &lt;Product&gt; ();</pre>
+</div>
+<p align="left">is just a shortcut for this:</p>
+<pre>Expression&lt;Func&lt;Product, bool&gt;&gt; predicate = c =&gt; true;</pre>
+<p align="left">When you’re building a predicate by repeatedly stacking
+<span class="emphasis">and</span>/<span class="emphasis">or</span> conditions, 
+it’s useful to have a starting point of either true or false (respectively). Our
+<span class="lit">SearchProducts</span> method still works if no keywords are 
+supplied.</p>
+<p align="left">The interesting work takes place inside the <span class="lit">
+And</span> and <span class="lit">Or</span> methods. We start by
+<span class="emphasis">invoking</span> the second expression with the first 
+expression’s parameters. An <span class="lit">Invoke</span> expression calls 
+another lambda expression using the given expressions as arguments. We can 
+create the conditional expression from the body of the first expression and the
+<span class="emphasis">invoked</span> version of the second. The final step is 
+to wrap this in a new lambda expression.</p>
+	<p align="left" class="note">Entity Framework's query processing pipeline cannot 
+		handle <i>invocation</i> <i>expressions</i>, which is why you need to call <b>
+		AsExpandable</b> on the first object in the query. By calling AsExpandable, you 
+		activate LINQKit's expression visitor class which substitutes invocation 
+		expressions with simpler constructs that Entity Framework can understand. </p>
+<h2 align="left">More Examples</h2>
+<p align="left">A useful pattern in writing a data access layer is to create a 
+reusable predicate library. Your queries, then, consist largely of
+<span class="lit">select</span> and <span class="lit">orderby</span> clauses, 
+the filtering logic farmed out to your library. Here's a simple example:</p>
+<pre>public partial class Product
+{
+  public static Expression&lt;Func&lt;Product, bool&gt;&gt; IsSelling()
+  {
+    return p =&gt; !p.Discontinued &amp;&amp; p.LastSale &gt; DateTime.Now.AddDays (-30);
+  }
+}</pre>
+<p align="left">We can extend this by adding a method that uses
+<span class="lit">PredicateBuilder</span>:</p>
+<pre>public partial class Product
+{
+  public static Expression&lt;Func&lt;Product, bool&gt;&gt; ContainsInDescription (
+                                                params string[] keywords)
+  {
+    var predicate = PredicateBuilder.False&lt;Product&gt;();
+    foreach (string keyword in keywords)
+    {
+      string temp = keyword;
+      predicate = predicate.Or (p =&gt; p.Description.Contains (temp));
+    }
+    return predicate;
+  }
+}</pre>
+<p align="left">This offers an excellent balance of simplicity and reusability, 
+as well as separating business logic from expression plumbing logic. To retrieve 
+all products whose description contains “BlackBerry” or “iPhone”, along with the 
+Nokias and Ericssons that are selling, you would do this:</p>
+<pre>var newKids  = Product.ContainsInDescription (&quot;BlackBerry&quot;, &quot;iPhone&quot;);
+
+var classics = Product.ContainsInDescription (&quot;Nokia&quot;, &quot;Ericsson&quot;)
+                      <b>.And</b> (Product.IsSelling());
+var query =
+  from p in Data.Products.Where (newKids<b>.Or</b> (classics))
+  select p;</pre>
+<p align="left">The <span class="lit">And</span> and <span class="lit">Or</span> 
+methods in boldface resolve to extension methods in <span class="lit">
+PredicateBuilder</span>. <br>
+An expression predicate can perform the equivalent of an SQL subquery by 
+referencing association properties. So, if <span class="lit">Product</span> had 
+a child EntitySet called <span class="lit">Purchases</span>, we could refine our
+<span class="lit">IsSelling</span> method to return only those products that 
+have sold a minimum number of units as follows:</p>
+<pre>public static Expression&lt;Func&lt;Product, bool&gt;&gt; IsSelling (int minPurchases)
+{
+  return prod =&gt;
+    !prod.Discontinued &amp;&amp;
+     prod.<b>Purchases</b>.Where (purch =&gt; purch.Date &gt; DateTime.Now.AddDays(-30))
+                    .Count() &gt;= minPurchases;
+}</pre>
+<h2 align="left">Nesting Predicates</h2>
+<p align="left">Consider the following predicate:</p>
+<div align="left">
+	<pre>p =&gt; p.Price &gt; 100 &amp;&amp;
+     p.Price &lt; 1000 &amp;&amp;
+     <b>(</b>p.Description.Contains (&quot;foo&quot;) || p.Description.Contains (&quot;far&quot;)<b>)</b></pre>
+</div>
+<p align="left">Let's say we wanted to build this dynamically. The question is, 
+how do we deal with the parenthesis around the two expressions in the last line?</p>
+<p align="left">The answer is to build the parenthesised expression first, and 
+then consume it in the outer expression as follows:</p>
+<div align="left">
+	<pre>var inner = PredicateBuilder.False&lt;Product&gt;();
+inner = inner.Or (p =&gt; p.Description.Contains (&quot;foo&quot;));
+inner = inner.Or (p =&gt; p.Description.Contains (&quot;far&quot;));
+
+var outer = PredicateBuilder.True&lt;Product&gt;();
+outer = outer.And (p =&gt; p.Price &gt; 100);
+outer = outer.And (p =&gt; p.Price &lt; 1000);
+outer = outer.And (<b>inner</b>);</pre>
+</div>
+<p align="left">Notice that with the inner expression, we start with 
+PredicateBuilder.<b>False</b> (because we're using the <b>Or</b> operator). With 
+the outer expression, however, we start with PredicateBuilder.<b>True</b> 
+(because we're using the <b>And</b> operator). </p>
+<h2 align="left">Generic Predicates</h2>
+<p align="left">Suppose every table in your database has <b>ValidFrom</b> and <b>
+ValidTo</b> columns as follows:</p>
+<pre>create table PriceList
+(
+   ID int not null primary key,
+   Name nvarchar(50) not null,
+<b>   ValidFrom datetime,
+   ValidTo datetime</b>
+)</pre>
+<p align="left">To retrieve rows valid as of <b>DateTime.Now</b> (the most 
+common case), you'd do this:</p>
+<pre>from p in PriceLists
+where <b>(p.ValidFrom == null || p.ValidFrom &lt;= DateTime.Now) &amp;&amp;
+      (p.ValidTo   == null || p.ValidTo   &gt;= DateTime.Now)</b>
+select p.Name
+</pre>
+<p align="left">Of course, that logic in bold is likely to be duplicated across 
+multiple queries! No problem: let's define a method in the <b>PriceList</b> 
+class that returns a reusable expression:</p>
+<pre>public static Expression&lt;Func&lt;PriceList, bool&gt;&gt; IsCurrent()
+{
+   return p =&gt; (p.ValidFrom == null || p.ValidFrom &lt;= DateTime.Now) &amp;&amp;
+               (p.ValidTo   == null || p.ValidTo   &gt;= DateTime.Now);
+}
+</pre>
+<p align="left">OK: our query is now much simpler:</p>
+<div align="left">
+	<pre>var currentPriceLists = db.PriceLists.Where (PriceList.IsCurrent());</pre>
+</div>
+<p align="left">And with PredicateBuilder's <b>And</b> and <b>Or</b> methods, we 
+can easily introduce other conditions:</p>
+<div align="left">
+	<pre>var currentPriceLists = db.PriceLists.Where (
+                          PriceList.IsCurrent().And (p =&gt; p.Name.StartsWith (&quot;A&quot;)));</pre>
+</div>
+<p align="left">But what about all the other tables that also have <b>ValidFrom</b> 
+and <b>ValidTo</b> columns? We don't want to repeat our <b>IsCurrent</b> method 
+for every table! Fortunately, we can generalize our <b>IsCurrent</b> method with 
+generics.</p>
+<p align="left">The first step is to define an interface:</p>
+<div align="left">
+	<pre>public interface IValidFromTo
+{
+   DateTime? ValidFrom { get; }
+   DateTime? ValidTo   { get; }
+}</pre>
+</div>
+<p align="left">Now we can define a single generic <b>IsCurrent</b> method using 
+that interface as a constraint:</p>
+<pre>public static Expression&lt;Func&lt;<b>TEntity</b>, bool&gt;&gt; IsCurrent&lt;<b>TEntity</b>&gt;()
+   where <b>TEntity : IValidFromTo</b>
+{
+   return e =&gt; (e.ValidFrom == null || e.ValidFrom &lt;= DateTime.Now) &amp;&amp;
+               (e.ValidTo   == null || e.ValidTo   &gt;= DateTime.Now);
+}
+</pre>
+<p align="left">The final step is to implement this interface in each class that 
+supports <b>ValidFrom</b> and <b>ValidTo</b>. If you're using Visual Studio or 
+a tool like SqlMetal to generate your entity classes, do this in the non-generated half of 
+the partial classes:</p>
+<pre>public partial class PriceList : <b>IValidFromTo</b> { }
+public partial class Product   : <b>IValidFromTo</b> { }</pre>
+
+<h2>Using PredicateBuilder within LINQPad</h2>
+
+<p>With <a href="http://www.linqpad.net/">LINQPad</a>, you can write and test queries 
+much faster than with Visual Studio's build/run/debug cycle. To use 
+PredicateBuilder in LINQPad with LINQ to SQL:</p>
+
+<ul>
+	<li>Press F4 and check 'Include PredicateBuilder'</li>
+</ul>
+	
+<p>To use PredicateBuilder in LINQPad with Entity Framework:</p>
+
+<ul>
+	<li>Press F4 and add a reference to <a href="linqkit.html">LinqKit.dll</a></li>
+</ul>
+
+</div>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="extras.html" class="sublink">LINQPad</a></td></tr>
+       <tr><td align="right"><a href="WhatsNewCs4-2.html" class="sublink">VIDEO: What's new in C# 4.0</a></td></tr>
+       <tr><td align="right"><a href="linqkit.html" class="sublink">LINQKit</a></td></tr>
+       <tr><td align="right"><a href="predicatebuilder.html" class="sublink">PredicateBuilder</a></td></tr>
+       <tr><td align="right"><a href="linqbridge.html" class="sublink">LINQBridge</a></td></tr>
+       <tr><td align="right"><a href="linqquiz.html" class="sublink">The LINQ Quiz</a></td></tr>
+       <tr><td align="right"><a href="10linqmyths.html" class="sublink">Ten LINQ Myths</a></td></tr>
+       <tr><td align="right"><a href="extras.html" class="sublink">Asynchronator</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/predicatebuilder.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:51:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

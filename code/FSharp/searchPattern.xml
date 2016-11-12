@@ -1,0 +1,26 @@
+<Search>
+    <Log4Net>
+	<Columns>
+	    <Column>
+		<Name>DateTime</Name> 
+		<Type>DateTime</Type> 
+		<Format>dd/MM/yy hh:mm:ss:tt</Format>
+	    </Column>
+	</Columns>
+	<SearchPattern Name = "TransactionByOrderID">	   
+	    <CaseSensitive>y</CaseSensitive>                          
+	    <Search>received\s+message.*[:SearchInput:]</Search>      
+	</SearchPattern>
+	<SearchPattern Name = "LocateRequest">
+	  <Above>0</Above>	        
+	  <Below>4</Below>  	  
+	  <Search>request</Search>          
+	</SearchPattern>
+	<SearchPattern Name = "LocateResponse">
+	  <BelowPattern>response</BelowPattern>                    
+	  <Search>response</Search>
+	</SearchPattern>
+    </Log4Net>
+</Search>
+
+

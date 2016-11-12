@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch24.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<div>
+	<h1>Code Listings</h1>
+	<h2>Chapter 24: Regular Expressions</h2>
+	<p class="note">The Regular Expression samples are also preloaded into the <a href="extras.html">LINQPad</a> 
+	utility.</p>
+	<p><a href="#cookbook">Go to cookbook</a><p>Regular expression basics:<pre>Console.WriteLine (Regex.Match (&quot;color&quot;,   @&quot;colou?r&quot;).Success);  // True
+Console.WriteLine (Regex.Match (&quot;colour&quot;,  @&quot;colou?r&quot;).Success);  // True
+Console.WriteLine (Regex.Match (&quot;colouur&quot;, @&quot;colou?r&quot;).Success);  // False
+
+Match m = Regex.Match (&quot;any colour you like&quot;, @&quot;colou?r&quot;);
+
+Console.WriteLine (m.Success);     // True
+Console.WriteLine (m.Index);       // 4
+Console.WriteLine (m.Length);      // 6
+Console.WriteLine (m.Value);       // colour
+Console.WriteLine (m.ToString());  // colour</pre>
+	<pre>Match m1 = Regex.Match (&quot;One color? There are two colours in my head!&quot;,
+                        @&quot;colou?rs?&quot;);
+Match m2 = m1.NextMatch();
+Console.WriteLine (m1);         // color
+Console.WriteLine (m2);         // colours</pre>
+	<pre>foreach (Match m in Regex.Matches
+    (&quot;One color? There are two colours in my head!&quot;, @&quot;colou?rs?&quot;))
+  Console.WriteLine (m);</pre>
+	<pre>Console.WriteLine (Regex.IsMatch (&quot;Jenny&quot;, &quot;Jen(ny|nifer)?&quot;));  // True</pre>
+	<p>Compiled regular expressions:<pre>Regex r = new Regex (@&quot;sausages?&quot;);
+Console.WriteLine (r.Match (&quot;sausage&quot;));   // sausage
+Console.WriteLine (r.Match (&quot;sausages&quot;));  // sausages</pre>
+	<p>Regex options:<pre>Console.WriteLine (Regex.Match (&quot;a&quot;, &quot;A&quot;, RegexOptions.IgnoreCase)); // a
+Console.WriteLine (Regex.Match (&quot;a&quot;, @&quot;(?i)A&quot;));                     // a
+Console.WriteLine (Regex.Match (&quot;AAAa&quot;, @&quot;(?i)a(?-i)a&quot;));            // Aa</pre>
+	<p>Character escapes:<pre>Console.WriteLine (Regex.Match (&quot;what?&quot;, @&quot;what\?&quot;)); // what? (correct)
+Console.WriteLine (Regex.Match (&quot;what?&quot;, @&quot;what?&quot;));  // what  (incorrect)
+Console.WriteLine (Regex.Escape   (@&quot;?&quot;));     // \?
+Console.WriteLine (Regex.Unescape (@&quot;\?&quot;));    // ?
+Console.WriteLine (Regex.Match (&quot;\\&quot;, &quot;\\\\&quot;));    // \
+Console.WriteLine (Regex.IsMatch (&quot;hello world&quot;, @&quot;hello world&quot;));  // True</pre>
+	<p>Character sets:<pre>Console.Write (Regex.Matches (&quot;That is that.&quot;, &quot;[Tt]hat&quot;).Count);    // 2
+Console.Write (Regex.Match   (&quot;quiz qwerty&quot;, &quot;q[^aeiou]&quot;).Index);    // 5
+Console.Write (Regex.Match   (&quot;b1-c4&quot;, @&quot;[a-h]\d-[a-h]\d&quot;).Success); // True
+Console.Write (Regex.IsMatch (&quot;Yes, please&quot;, @&quot;\p{P}&quot;));             // True</pre>
+	<p>Quantifiers:<pre>Console.Write (Regex.Match (&quot;cv15.doc&quot;, @&quot;cv\d*\.doc&quot;).Success);      // True
+Console.Write (Regex.Match (&quot;cvjoint.doc&quot;, @&quot;cv.*\.doc&quot;).Success);    // True
+Console.Write (Regex.Matches (&quot;slow! yeah slooow!&quot;, &quot;slo+w&quot;).Count);  // 2</pre>
+	<pre>Regex bp = new Regex (@&quot;\d{2,3}/\d{2,3}&quot;);
+Console.WriteLine (bp.Match (&quot;It used to be 160/110&quot;));  // 160/110
+Console.WriteLine (bp.Match (&quot;Now it's only 115/75&quot;));   // 115/75</pre>
+	<p>Greedy vs. lazy quantifiers:<pre>string html = &quot;&lt;i&gt;By default&lt;/i&gt; quantifiers are &lt;i&gt;greedy&lt;/i&gt; creatures&quot;;
+
+foreach (Match m in Regex.Matches (html, @&quot;&lt;i&gt;.*&lt;/i&gt;&quot;))
+  Console.WriteLine (m);</pre>
+	<pre>foreach (Match m in Regex.Matches (html, @&quot;&lt;i&gt;.*?&lt;/i&gt;&quot;))
+  Console.WriteLine (m);</pre>
+	<p>Lookahead and Lookbehind:<pre>Console.WriteLine (Regex.Match (&quot;say 25 miles more&quot;, @&quot;\d+\s(?=miles)&quot;));
+Console.WriteLine (Regex.Match (&quot;say 25 miles more&quot;, @&quot;\d+\s(?=miles).*&quot;));</pre>
+	<pre>string password = &quot;...&quot;;
+bool ok = Regex.IsMatch (password, @&quot;(?=.*\d).{6,}&quot;);</pre>
+	<pre>string regex = &quot;(?i)good(?!.*(however|but))&quot;;
+Console.WriteLine (Regex.IsMatch (&quot;Good work! But...&quot;,  regex));  // False
+Console.WriteLine (Regex.IsMatch (&quot;Good work! Thanks!&quot;, regex));  // True</pre>
+	<pre>string regex = &quot;(?i)(?&lt;!however.*)good&quot;;
+Console.WriteLine (Regex.IsMatch (&quot;However good, we...&quot;, regex));  // False
+Console.WriteLine (Regex.IsMatch (&quot;Very good, thanks!&quot; , regex));  // True</pre>
+	<p>Anchors:<pre>Console.WriteLine (Regex.Match (&quot;Not now&quot;, &quot;^[Nn]o&quot;));   // No
+Console.WriteLine (Regex.Match (&quot;f = 0.2F&quot;, &quot;[Ff]$&quot;));   // F </pre>
+	<pre>string fileNames = &quot;a.txt&quot; + &quot;\r\n&quot; + &quot;b.doc&quot; + &quot;\r\n&quot; + &quot;c.txt&quot;;
+string r = @&quot;.+\.txt(?=\r?$)&quot;;
+
+foreach (Match m in Regex.Matches (fileNames, r, RegexOptions.Multiline))
+  Console.Write (m + &quot; &quot;);</pre>
+	<pre>MatchCollection emptyLines = Regex.Matches (s, &quot;^(?=\r?$)&quot;,
+                                            RegexOptions.Multiline);
+
+MatchCollection blankLines = Regex.Matches (s, &quot;^[ \t]*(?=\r?$)&quot;,
+                                            RegexOptions.Multiline);</pre>
+	<p>Word boundaries:<pre>foreach (Match m in Regex.Matches (&quot;Wedding in Sarajevo&quot;, @&quot;\b\w+\b&quot;))
+  Console.WriteLine (m);
+
+int one = Regex.Matches (&quot;Wedding in Sarajevo&quot;, @&quot;\bin\b&quot;).Count; // 1
+int two = Regex.Matches (&quot;Wedding in Sarajevo&quot;, @&quot;in&quot;).Count;     // 2
+
+string text = &quot;Don't loose (sic) your cool&quot;;
+Console.Write (Regex.Match (text, @&quot;\b\w+\b\s(?=\(sic\))&quot;));      // loose</pre>
+	<p>Groups:<pre>Match m = Regex.Match (&quot;206-465-1918&quot;, @&quot;(\d{3})-(\d{3}-\d{4})&quot;);
+
+Console.WriteLine (m.Groups[1]);   // 206
+Console.WriteLine (m.Groups[2]);   // 465-1918
+
+Console.WriteLine (m.Groups[0]);   // 206-465-1918
+Console.WriteLine (m);             // 206-465-1918</pre>
+	<pre>foreach (Match m in Regex.Matches (&quot;pop pope peep&quot;, @&quot;\b(\w)\w+\1\b&quot;))
+  Console.Write (m + &quot; &quot;);  // pop peep</pre>
+	<p>Named groups:<pre>string regEx =
+  @&quot;\b&quot;             +  // word boundary
+  @&quot;(?'letter'\w)&quot;  +  // match first letter, and name it 'letter'
+  @&quot;\w+&quot;            +  // match middle letters
+  @&quot;\k'letter'&quot;     +  // match last letter, denoted by 'letter'
+  @&quot;\b&quot;;               // word boundary
+
+foreach (Match m in Regex.Matches (&quot;bob pope peep&quot;, regEx))
+  Console.Write (m + &quot; &quot;);  // bob peep</pre>
+	<pre>string regFind = 
+  @&quot;&lt;(?'tag'\w+?).*&gt;&quot; +  // match first tag, and name it 'tag'
+  @&quot;(?'text'.*?)&quot;     +  // match text content, name it 'text'
+  @&quot;&lt;/\k'tag'&gt;&quot;;         // match last tag, denoted by 'tag'
+
+Match m = Regex.Match (&quot;&lt;h1&gt;hello&lt;/h1&gt;&quot;, regFind);
+
+Console.WriteLine (m.Groups [&quot;tag&quot;]);          // h1
+Console.WriteLine (m.Groups [&quot;text&quot;]);         // hello</pre>
+	<p>Replacing and splitting text:<pre>string find = @&quot;\bcat\b&quot;;
+string replace = &quot;dog&quot;;
+
+Console.WriteLine (Regex.Replace (&quot;catapult the cat&quot;, find, replace));</pre>
+	<pre>string text = &quot;10 plus 20 makes 30&quot;;
+Console.WriteLine (Regex.Replace (text, @&quot;\d+&quot;, @&quot;&lt;$0&gt;&quot;));</pre>
+	<pre>string regFind = 
+  @&quot;&lt;(?'tag'\w+?).*&gt;&quot; +  // match first tag, and name it 'tag'
+  @&quot;(?'text'.*?)&quot;     +  // match text content, name it 'text'
+  @&quot;&lt;/\k'tag'&gt;&quot;;         // match last tag, denoted by 'tag'
+
+string regReplace =
+  @&quot;&lt;${tag}&quot;         +  // &lt;tag
+  @&quot; value=&quot;&quot;&quot;       +  // value=&quot;
+  @&quot;${text}&quot;         +  // text
+  @&quot;&quot;&quot;/&gt;&quot;;              // &quot;/&gt;
+
+Console.Write (Regex.Replace (&quot;&lt;msg&gt;hello&lt;/msg&gt;&quot;, regFind, regReplace));</pre>
+	<p>MatchEvaluator delegate:<pre>Console.WriteLine (Regex.Replace (&quot;5 is less than 10&quot;, @&quot;\d+&quot;,
+                   m =&gt; (int.Parse (m.Value) * 10).ToString()) );</pre>
+	<p>Splitting text:<pre>foreach (string s in Regex.Split (&quot;a5b7c&quot;, @&quot;\d&quot;))
+  Console.Write (s + &quot; &quot;);     // a b c
+
+foreach (string s in Regex.Split (&quot;oneTwoThree&quot;, @&quot;(?=[A-Z])&quot;))
+  Console.Write (s + &quot; &quot;);    // one Two Three</pre>
+	<h3><a name="cookbook"></a>Regular Expressions Cookbook</h3>
+	<p>Matching U.S. Social Security number/phone number:</p>
+	<pre>string ssNum = @&quot;\d{3}-\d{2}-\d{4}&quot;;
+
+Console.WriteLine (Regex.IsMatch (&quot;123-45-6789&quot;, ssNum));      // True
+
+string phone = @&quot;(?x)
+  ( \d{3}[-\s] | \(\d{3}\)\s? )
+    \d{3}[-\s]?
+    \d{4}&quot;;
+
+Console.WriteLine (Regex.IsMatch (&quot;123-456-7890&quot;,   phone));   // True
+Console.WriteLine (Regex.IsMatch (&quot;(123) 456-7890&quot;, phone));   // True</pre>
+	<p>Extracting “name = value” pairs (one per line):</p>
+	<pre>string r = @&quot;(?m)^\s*(?'name'\w+)\s*=\s*(?'value'.*)\s*(?=\r?$)&quot;;
+
+string text =
+  @&quot;id = 3
+    secure = true
+    timeout = 30&quot;;
+
+foreach (Match m in Regex.Matches (text, r))
+  Console.WriteLine (m.Groups[&quot;name&quot;] + &quot; is &quot; + m.Groups[&quot;value&quot;]);
+
+<i>id is 3
+secure is true
+timeout is 30</i></pre>
+	<p>Strong password validation:</p>
+	<pre>string r = @&quot;(?x)^(?=.* ( \d | \p{P} | \p{S} )).{6,}&quot;;
+
+Console.WriteLine (Regex.IsMatch (&quot;abc12&quot;, r));     // False
+Console.WriteLine (Regex.IsMatch (&quot;abcdef&quot;, r));    // False
+Console.WriteLine (Regex.IsMatch (&quot;ab88yz&quot;, r));    // True</pre>
+	<p>Lines of at least 80 characters:</p>
+	<pre>string r = @&quot;(?m)^.{80,}(?=\r?$)&quot;;
+
+string fifty = new string ('x', 50);
+string eighty = new string ('x', 80);
+
+string text = eighty + &quot;\r\n&quot; + fifty + &quot;\r\n&quot; + eighty;
+
+Console.WriteLine (Regex.Matches (text, r).Count);   // 2</pre>
+	<p>Parsing dates/times (N/N/N H:M:S AM/PM):</p>
+	<pre>string r = @&quot;(?x)(?i)
+ (\d{1,4}) [./-]
+ (\d{1,2}) [./-]
+ (\d{1,4}) [\sT]  (\d+):(\d+):(\d+) \s? (A\.?M\.?|P\.?M\.?)?&quot;;
+
+string text = &quot;01/02/2008 5:20:50 PM&quot;;
+
+foreach (Group g in Regex.Match (text, r).Groups)
+  Console.WriteLine (g.Value + &quot; &quot;);
+
+<i>01/02/2008 5:20:50 PM
+01
+02
+2008
+5
+20
+50
+PM</i></pre>
+	<p>Matching Roman numerals:</p>
+	<pre>string r =
+  @&quot;(?i)\bm*&quot;         +
+  @&quot;(d?c{0,3}|c[dm])&quot; +
+  @&quot;(l?x{0,3}|x[lc])&quot; +
+  @&quot;(v?i{0,3}|i[vx])&quot; +
+  @&quot;\b&quot;;
+
+Console.WriteLine (Regex.IsMatch (&quot;MCMLXXXIV&quot;, r));   // True</pre>
+	<p>Removing repeated words:</p>
+	<pre>string r = @&quot;(?'dupe'\w+)\W\k'dupe'&quot;;
+
+string text = &quot;In the the beginning...&quot;;
+Console.WriteLine (Regex.Replace (text, r, &quot;${dupe}&quot;));
+
+<i>In the beginning</i></pre>
+	<p>Word count:</p>
+	<pre>string r = @&quot;\b(\w|[-'])+\b&quot;;
+
+string text = &quot;It's all mumbo-jumbo to me&quot;;
+Console.WriteLine (Regex.Matches (text, r).Count);   // 5</pre>
+	<p>Matching a Guid:</p>
+	<pre>string r =
+  @&quot;(?i)\b&quot;           +
+  @&quot;[0-9a-fA-F]{8}\-&quot; +
+  @&quot;[0-9a-fA-F]{4}\-&quot; +
+  @&quot;[0-9a-fA-F]{4}\-&quot; +
+  @&quot;[0-9a-fA-F]{4}\-&quot; +
+  @&quot;[0-9a-fA-F]{12}&quot;  +
+  @&quot;\b&quot;;
+
+string text = &quot;Its key is {3F2504E0-4F89-11D3-9A0C-0305E82C3301}.&quot;;
+Console.WriteLine (Regex.Match (text, r).Index);                    // 12</pre>
+	<p>Parsing an XML tag:</p>
+	<pre>string r = 
+  @&quot;&lt;(?'tag'\w+?).*&gt;&quot;  +  // match first tag, and name it 'tag'
+  @&quot;(?'text'.*?)&quot;      +  // match text content, name it 'text'
+  @&quot;&lt;/\k'tag'&gt;&quot;;          // match last tag, denoted by 'tag'
+
+string text = &quot;&lt;h1&gt;hello&lt;/h1&gt;&quot;;
+
+Match m = Regex.Match (text, r);
+
+Console.WriteLine (m.Groups [&quot;tag&quot;]);       // h1
+Console.WriteLine (m.Groups [&quot;text&quot;]);      // hello</pre>
+	<p>Splitting a camel-cased word:</p>
+	<pre>string r = @&quot;(?=[A-Z])&quot;;
+
+foreach (string s in Regex.Split (&quot;oneTwoThree&quot;, r))
+  Console.Write (s + &quot; &quot;);    // one Two Three</pre>
+	<p>Obtaining a legal filename:</p>
+	<pre>string input = &quot;My \&quot;good\&quot; &lt;recipes&gt;.txt&quot;;
+
+char[] invalidChars = System.IO.Path.GetInvalidPathChars();
+string invalidString = Regex.Escape (new string (invalidChars));
+
+string valid = Regex.Replace (input, &quot;[&quot; + invalidString + &quot;]&quot;, &quot;&quot;);
+Console.WriteLine (valid);
+
+<i>My good recipes.txt</i></pre>
+	<p>Escaping Unicode characters for HTML:</p>
+	<pre>string htmlFragment = &quot;© 2007&quot;;
+
+string result = Regex.Replace (htmlFragment, @&quot;[\u0080-\uFFFF]&quot;,
+                m =&gt; @&quot;&amp;#&quot; + ((int)m.Value[0]).ToString() + &quot;;&quot;);
+
+Console.WriteLine (result);        // &amp;#169; 2007</pre>
+	<p>&nbsp;</div>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch24.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

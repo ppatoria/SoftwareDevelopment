@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/io/ios_state.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:04:43 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/io/ios_state.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/io/ios_state.hpp</h3>
+<pre>
+//  Boost io/ios_state.hpp header file  --------------------------------------//
+
+//  Copyright 2002, 2005 Daryle Walker.  Use, modification, and distribution
+//  are subject to the Boost Software License, Version 1.0.  (See accompanying
+//  file LICENSE_1_0.txt or a copy at &lt;<a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>&gt;.)
+
+//  See &lt;<a href="http://www.boost.org/libs/io/">http://www.boost.org/libs/io/</a>&gt; for the library's home page.
+
+#ifndef BOOST_IO_IOS_STATE_HPP
+#define BOOST_IO_IOS_STATE_HPP
+
+#include &lt;<a href="../io_fwd.html">boost/io_fwd.hpp</a>&gt;  // self include
+#include &lt;<a href="../detail/workaround.html">boost/detail/workaround.hpp</a>&gt;
+
+#include &lt;ios&gt;        // for std::ios_base, std::basic_ios, etc.
+#ifndef BOOST_NO_STD_LOCALE
+#include &lt;locale&gt;     // for std::locale
+#endif
+#include &lt;ostream&gt;    // for std::basic_ostream
+#include &lt;streambuf&gt;  // for std::basic_streambuf
+#include &lt;string&gt;     // for std::char_traits
+
+
+namespace boost
+{
+namespace io
+{
+
+
+//  Basic stream state saver class declarations  -----------------------------//
+
+class ios_flags_saver
+{
+public:
+    typedef ::std::ios_base            state_type;
+    typedef ::std::ios_base::fmtflags  aspect_type;
+
+    explicit  ios_flags_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.flags() )
+        {}
+    ios_flags_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.flags(a) )
+        {}
+    ~ios_flags_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.flags( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+
+    ios_flags_saver&amp; operator=(const ios_flags_saver&amp;);
+};
+
+class ios_precision_saver
+{
+public:
+    typedef ::std::ios_base    state_type;
+    typedef ::std::streamsize  aspect_type;
+
+    explicit  ios_precision_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.precision() )
+        {}
+    ios_precision_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.precision(a) )
+        {}
+    ~ios_precision_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.precision( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+
+    ios_precision_saver&amp; operator=(const ios_precision_saver&amp;);
+};
+
+class ios_width_saver
+{
+public:
+    typedef ::std::ios_base    state_type;
+    typedef ::std::streamsize  aspect_type;
+
+    explicit  ios_width_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.width() )
+        {}
+    ios_width_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.width(a) )
+        {}
+    ~ios_width_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.width( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    ios_width_saver&amp; operator=(const ios_width_saver&amp;);
+};
+
+
+//  Advanced stream state saver class template declarations  -----------------//
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_iostate_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;  state_type;
+    typedef ::std::ios_base::iostate  aspect_type;
+
+    explicit  basic_ios_iostate_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.rdstate() )
+        {}
+    basic_ios_iostate_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.rdstate() )
+        { s.clear(a); }
+    ~basic_ios_iostate_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.clear( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_iostate_saver&amp; operator=(const basic_ios_iostate_saver&amp;);
+};
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_exception_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;  state_type;
+    typedef ::std::ios_base::iostate  aspect_type;
+
+    explicit  basic_ios_exception_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.exceptions() )
+        {}
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+    basic_ios_exception_saver( state_type &amp;s, aspect_type a )
+#else
+    basic_ios_exception_saver( state_type &amp;s, aspect_type const &amp;a )
+#endif
+        : s_save_( s ), a_save_( s.exceptions() )
+        { s.exceptions(a); }
+    ~basic_ios_exception_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.exceptions( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_exception_saver&amp; operator=(const basic_ios_exception_saver&amp;);
+};
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_tie_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;        state_type;
+    typedef ::std::basic_ostream&lt;Ch, Tr&gt; *  aspect_type;
+
+    explicit  basic_ios_tie_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.tie() )
+        {}
+    basic_ios_tie_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.tie(a) )
+        {}
+    ~basic_ios_tie_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.tie( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_tie_saver&amp; operator=(const basic_ios_tie_saver&amp;);
+};
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_rdbuf_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;          state_type;
+    typedef ::std::basic_streambuf&lt;Ch, Tr&gt; *  aspect_type;
+
+    explicit  basic_ios_rdbuf_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.rdbuf() )
+        {}
+    basic_ios_rdbuf_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.rdbuf(a) )
+        {}
+    ~basic_ios_rdbuf_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.rdbuf( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_rdbuf_saver&amp; operator=(const basic_ios_rdbuf_saver&amp;);
+};
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_fill_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;        state_type;
+    typedef typename state_type::char_type  aspect_type;
+
+    explicit  basic_ios_fill_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.fill() )
+        {}
+    basic_ios_fill_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.fill(a) )
+        {}
+    ~basic_ios_fill_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.fill( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_fill_saver&amp; operator=(const basic_ios_fill_saver&amp;);
+};
+
+#ifndef BOOST_NO_STD_LOCALE
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_locale_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt; state_type;
+    typedef ::std::locale aspect_type;
+
+    explicit basic_ios_locale_saver( state_type &amp;s )
+        : s_save_( s ), a_save_( s.getloc() )
+        {}
+    basic_ios_locale_saver( state_type &amp;s, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.imbue(a) )
+        {}
+    ~basic_ios_locale_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.imbue( a_save_ ); }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    basic_ios_locale_saver&amp; operator=(const basic_ios_locale_saver&amp;);
+};
+#endif
+
+
+//  User-defined stream state saver class declarations  ----------------------//
+
+class ios_iword_saver
+{
+public:
+    typedef ::std::ios_base  state_type;
+    typedef int              index_type;
+    typedef long             aspect_type;
+
+    explicit ios_iword_saver( state_type &amp;s, index_type i )
+        : s_save_( s ), a_save_( s.iword(i) ), i_save_( i )
+        {}
+    ios_iword_saver( state_type &amp;s, index_type i, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.iword(i) ), i_save_( i )
+        { s.iword(i) = a; }
+    ~ios_iword_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.iword( i_save_ ) = a_save_; }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    index_type const   i_save_;
+
+    ios_iword_saver&amp; operator=(const ios_iword_saver&amp;);
+};
+
+class ios_pword_saver
+{
+public:
+    typedef ::std::ios_base  state_type;
+    typedef int              index_type;
+    typedef void *           aspect_type;
+
+    explicit  ios_pword_saver( state_type &amp;s, index_type i )
+        : s_save_( s ), a_save_( s.pword(i) ), i_save_( i )
+        {}
+    ios_pword_saver( state_type &amp;s, index_type i, aspect_type const &amp;a )
+        : s_save_( s ), a_save_( s.pword(i) ), i_save_( i )
+        { s.pword(i) = a; }
+    ~ios_pword_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+        { s_save_.pword( i_save_ ) = a_save_; }
+
+private:
+    state_type &amp;       s_save_;
+    aspect_type const  a_save_;
+    index_type const   i_save_;
+
+    ios_pword_saver operator=(const ios_pword_saver&amp;);
+};
+
+
+//  Combined stream state saver class (template) declarations  ---------------//
+
+class ios_base_all_saver
+{
+public:
+    typedef ::std::ios_base  state_type;
+
+    explicit  ios_base_all_saver( state_type &amp;s )
+        : s_save_( s ), a1_save_( s.flags() ), a2_save_( s.precision() )
+        , a3_save_( s.width() )
+        {}
+
+    ~ios_base_all_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+    {
+        s_save_.width( a3_save_ );
+        s_save_.precision( a2_save_ );
+        s_save_.flags( a1_save_ );
+    }
+
+private:
+    state_type &amp;                s_save_;
+    state_type::fmtflags const  a1_save_;
+    ::std::streamsize const     a2_save_;
+    ::std::streamsize const     a3_save_;
+
+    ios_base_all_saver&amp; operator=(const ios_base_all_saver&amp;);
+};
+
+template &lt; typename Ch, class Tr &gt;
+class basic_ios_all_saver
+{
+public:
+    typedef ::std::basic_ios&lt;Ch, Tr&gt;  state_type;
+
+    explicit  basic_ios_all_saver( state_type &amp;s )
+        : s_save_( s ), a1_save_( s.flags() ), a2_save_( s.precision() )
+        , a3_save_( s.width() ), a4_save_( s.rdstate() )
+        , a5_save_( s.exceptions() ), a6_save_( s.tie() )
+        , a7_save_( s.rdbuf() ), a8_save_( s.fill() )
+        #ifndef BOOST_NO_STD_LOCALE
+        , a9_save_( s.getloc() )
+        #endif
+        {}
+
+    ~basic_ios_all_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+    {
+        #ifndef BOOST_NO_STD_LOCALE
+        s_save_.imbue( a9_save_ );
+        #endif
+        s_save_.fill( a8_save_ );
+        s_save_.rdbuf( a7_save_ );
+        s_save_.tie( a6_save_ );
+        s_save_.exceptions( a5_save_ );
+        s_save_.clear( a4_save_ );
+        s_save_.width( a3_save_ );
+        s_save_.precision( a2_save_ );
+        s_save_.flags( a1_save_ );
+    }
+
+private:
+    state_type &amp;                            s_save_;
+    typename state_type::fmtflags const     a1_save_;
+    ::std::streamsize const                 a2_save_;
+    ::std::streamsize const                 a3_save_;
+    typename state_type::iostate const      a4_save_;
+    typename state_type::iostate const      a5_save_;
+    ::std::basic_ostream&lt;Ch, Tr&gt; * const    a6_save_;
+    ::std::basic_streambuf&lt;Ch, Tr&gt; * const  a7_save_;
+    typename state_type::char_type const    a8_save_;
+    #ifndef BOOST_NO_STD_LOCALE
+    ::std::locale const                     a9_save_;
+    #endif
+
+    basic_ios_all_saver&amp; operator=(const basic_ios_all_saver&amp;);
+};
+
+class ios_all_word_saver
+{
+public:
+    typedef ::std::ios_base  state_type;
+    typedef int              index_type;
+
+    ios_all_word_saver( state_type &amp;s, index_type i )
+        : s_save_( s ), i_save_( i ), a1_save_( s.iword(i) )
+        , a2_save_( s.pword(i) )
+        {}
+
+    ~ios_all_word_saver()
+        { this-&gt;restore(); }
+
+    void  restore()
+    {
+        s_save_.pword( i_save_ ) = a2_save_;
+        s_save_.iword( i_save_ ) = a1_save_;
+    }
+
+private:
+    state_type &amp;      s_save_;
+    index_type const  i_save_;
+    long const        a1_save_;
+    void * const      a2_save_;
+
+    ios_all_word_saver&amp; operator=(const ios_all_word_saver&amp;);
+};
+
+
+}  // namespace io
+}  // namespace boost
+
+
+#endif  // BOOST_IO_IOS_STATE_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/io/ios_state.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:04:45 GMT -->
+</html>

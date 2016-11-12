@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch23.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 4.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch23.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkvDQdQfCf01bMH0KivAyHdVmKa90=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 23: Asynchronous Methods</h2>
+
+<p><a href="async40.zip">Download 
+Asynchronator (Visual Studio Test Project)</a></p>
+
+<p>Blocking sockets server</p>
+
+<pre>using System;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+
+public class Server
+{
+ public void Serve (IPAddress address, int port)
+ {
+    ThreadPool.SetMinThreads (50, 50);    // Refer to Chapter 21
+    ThreadPool.SetMaxThreads (50, 50);    // Refer to Chapter 21
+    TcpListener listener = new TcpListener (address, port);
+    listener.Start();
+    while (true)
+    {
+      TcpClient c = listener.AcceptTcpClient();
+      ThreadPool.QueueUserWorkItem (Accept, c);
+    }
+  }
+
+  void Accept (object clientObject)
+  {
+    using (TcpClient client = (TcpClient) clientObject)
+    using (NetworkStream n = client.GetStream())
+    {
+      byte[] data = new byte [5000];
+
+      int bytesRead = 0; int chunkSize = 1;
+      while (bytesRead &lt; data.Length && chunkSize &gt; 0)
+        bytesRead +=
+          chunkSize = n.Read
+            (data, bytesRead, data.Length - bytesRead);    // BLOCKS
+
+      Array.Reverse (data);
+      n.Write (data, 0, data.Length);                      // BLOCKS
+    }
+  }
+}
+</pre>
+
+<p>Non-blocking sockets server</p>
+
+<pre>public class Server
+{
+  public void Serve (IPAddress address, int port)
+  {
+    ThreadPool.SetMinThreads (50, 50);
+    TcpListener listener = new TcpListener (address, port);
+    listener.Start();
+    while (true)
+    {
+      TcpClient c = listener.AcceptTcpClient();
+      ThreadPool.QueueUserWorkItem (ReverseEcho, c);
+    }
+  }
+
+  void ReverseEcho (object client)
+  {
+    new ReverseEcho().Begin ((TcpClient)client);
+  }
+}
+
+class ReverseEcho
+{
+  TcpClient _client;
+  NetworkStream _stream;
+  byte[] _data = new byte [5000];
+  int _bytesRead = 0;
+
+  internal void Begin (TcpClient c)
+  {
+    try
+    {
+      _client = c;
+      _stream = c.GetStream();
+      Read();
+    }
+    catch (Exception ex) { ProcessException (ex); }
+  }
+
+  void Read()            // Read in a nonblocking fashion.
+  {
+    while (true)
+    {
+      IAsyncResult r = _stream.BeginRead
+       (_data, _bytesRead, _data.Length - _bytesRead, ReadCallback, null);
+
+      // This will nearly always return in the next line:
+      if (!r.CompletedSynchronously) return;   // Handled by callback
+      if (!EndRead (r)) break;
+    }
+    Write();
+  }
+
+  void ReadCallback (IAsyncResult r)
+  {
+    try
+    {
+      if (r.CompletedSynchronously) return;
+      if (EndRead (r))
+      {
+        Read();       // More data to read!
+        return;
+      }
+      Write();
+    }
+    catch (Exception ex) { ProcessException (ex); }
+  }
+
+  bool EndRead (IAsyncResult r)   // Returns false if there’s no more data
+  {
+    int chunkSize = _stream.EndRead (r);
+    _bytesRead += chunkSize;
+    return chunkSize &gt; 0 && _bytesRead &lt; _data.Length;   // More to read
+  }
+
+  void Write()
+  {
+    Array.Reverse (_data);
+    _stream.BeginWrite (_data, 0, _data.Length, WriteCallback, null);
+  }
+
+  void WriteCallback (IAsyncResult r)
+  {
+    try { _stream.EndWrite (r); }
+    catch (Exception ex) { ProcessException (ex); }
+    Cleanup();
+  }
+
+  void ProcessException (Exception ex)
+  {
+    Cleanup();
+    Console.WriteLine ("Error: " + ex.Message);
+  }
+
+  void Cleanup()
+  {
+    if (_stream != null) _stream.Close();
+    if (_client != null) _client.Close();
+  }
+}
+</pre>
+
+<p>Non-blocking server: with Tasks</p>
+
+<pre>public class Server
+{
+  public void Serve (IPAddress address, int port)
+  {
+    ThreadPool.SetMinThreads (50, 50);
+    TcpListener listener = new TcpListener (address, port);
+    listener.Start();
+    while (true)
+    {
+      TcpClient c = listener.AcceptTcpClient();
+      new ReverseEcho().BeginAsync (c);
+    }
+  }
+}
+
+class ReverseEcho
+{
+  TcpClient _client;
+  NetworkStream _stream;
+  byte[] _data = new byte [5000];
+  int _bytesRead = 0;
+
+  internal void BeginAsync (TcpClient c)
+  {
+    _client = c;
+    _stream = c.GetStream();
+
+    var task = Task.Factory.StartNew (Read);
+
+    // Set up centralized error handling and cleanup:
+
+    task.ContinueWith (ant =&gt; 
+      Console.WriteLine ("Error: " + ant.Exception.Message),
+      TaskContinuationOptions.OnlyOnFaulted);                
+
+    task.ContinueWith (ant =&gt;
+    {
+      if (_stream != null) _stream.Close();
+      if (_client != null) _client.Close();
+    });
+  }
+
+  void Read()    // This will create a child task.
+  {
+    Task&lt;int&gt; readChunk = Task&lt;int&gt;.Factory.FromAsync (
+      _stream.BeginRead, _stream.EndRead,
+      _data, <span style="color:Purple">_bytesRead</span>, _data.Length - _bytesRead, null,
+      TaskCreationOptions.AttachedToParent);
+
+    readChunk.ContinueWith (Write, TaskContinuationOptions.NotOnFaulted 
+                                 <span style="color:Purple">| TaskCreationOptions.AttachedToParent)</span>;
+  }
+
+  void Write (Task&lt;int&gt; readChunk)
+  {
+    _bytesRead += readChunk.Result;
+    if (readChunk.Result &gt; 0 && _bytesRead &lt; _data.Length)
+    {
+      Read();       // More data to read!
+      return;
+    }
+    Array.Reverse (_data);
+    Task.Factory.FromAsync (_stream.BeginWrite, _stream.EndWrite,
+                            _data, 0, _data.Length, null,
+                            TaskCreationOptions.AttachedToParent);
+  }
+}
+</pre>
+
+<p>Async methods and iterators</p>
+
+<pre>public class Server
+{
+  public void Serve (IPAddress address, int port)
+  {
+    ThreadPool.SetMinThreads (50, 50);
+    TcpListener listener = new TcpListener (address, port);
+    listener.Start();
+    while (true)
+    {
+      TcpClient c = listener.AcceptTcpClient();
+      Task.Factory.Iterate (ReverseEcho(c)).ContinueWith (t =&gt;
+        Console.WriteLine ("Error: " + t.Exception.Message),
+        TaskContinuationOptions.OnlyOnFaulted);
+    }
+  }
+
+  IEnumerable&lt;Task&gt; ReverseEcho (TcpClient client)
+  {
+    using (client)
+    using (var stream = client.GetStream())
+    {
+      byte[] data = new byte[Program.MessageLength];
+      int bytesRead = 0;
+      while (true)
+      {
+        // ReadASync is an extension method in the samples.
+        Task&lt;int&gt; readChunk = stream.ReadAsync
+          (data, bytesRead, data.Length - bytesRead);
+        yield return readChunk;
+        bytesRead += readChunk.Result;
+        if (readChunk.Result &lt;= 0 || bytesRead &gt;= data.Length)
+          break;
+      }
+      Array.Reverse(data);
+      yield return stream.WriteAsync (data, 0, bytesRead);
+    }
+  }
+}
+</pre>
+
+<p>Writing async methods</p>
+
+<pre>public class MessagingServices
+{
+  public static IAsyncResult BeginReverseEcho (TcpClient client,
+                                               AsyncCallback callback,
+                                               object userState)
+  {
+    var re = new ReverseEcho();
+    re.Begin (client, callback, userState);
+    return re;
+  }
+
+  public static byte[] EndReverseEcho (IAsyncResult r)
+  {
+    return ((ReverseEcho)r).End();
+  }
+}
+
+class ReverseEcho : IAsyncResult
+{
+  TcpClient _client;
+  NetworkStream _stream;
+  object _userState;
+  ManualResetEvent _waitHandle = new ManualResetEvent (false);
+  int _bytesRead = 0;
+  byte[] _data = new byte [5000];
+  Exception _exception;
+
+  internal ReverseEcho() { }
+
+  // IAsyncResult members:
+
+  public object AsyncState { get { return _userState; } }
+  public WaitHandle AsyncWaitHandle { get { return _waitHandle; } }
+  public bool CompletedSynchronously { get { return false; } }
+  public bool IsCompleted
+  {
+    get { return _waitHandle.WaitOne (0, false); }
+  }
+
+  internal void Begin (TcpClient c, AsyncCallback callback, object state)
+  {
+    _client = c;
+    _userState = state;
+    _stream = _client.GetStream();
+    
+    Task.Factory.StartNew (Read).ContinueWith (ant =&gt;
+    {
+      _exception = ant.Exception;   // In case an exception occurred.
+
+      if (_stream != null)
+        try { _stream.Close(); }
+        catch (Exception ex) { _exception = ex; };
+
+      _waitHandle.Set();
+
+      if (callback != null) callback (this);
+    });
+  }
+
+  internal byte[] End()     // Wait for completion + rethrow any error.
+  {
+    AsyncWaitHandle.WaitOne();
+    if (_exception != null) throw _exception;
+    return _data;
+  }
+
+  void Read()
+  {
+    Task&lt;int&gt; readChunk = Task&lt;int&gt;.Factory.FromAsync (
+      _stream.BeginRead, _stream.EndRead,
+      _data, <span style="color:Purple">_bytesRead</span>, _data.Length - _bytesRead, null);
+
+    readChunk.ContinueWith (ContinueRead,
+                            TaskContinuationOptions.NotOnFaulted
+                          <span style="color:Purple">| TaskContinuationOptions.AttachedToParent)</span>;
+  }
+
+  void ContinueRead (Task&lt;int&gt; readChunk)
+  {
+    _bytesRead += readChunk.Result;
+    if (readChunk.Result &gt; 0 && _bytesRead &lt; _data.Length)
+    {
+      Read();       // More data to read!
+      return;
+    }
+    Array.Reverse (_data);
+    Task.Factory.FromAsync (_stream.BeginWrite, _stream.EndWrite,
+                            _data, 0, _data.Length, null);
+  }  
+}
+</pre>
+
+</div>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch23.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

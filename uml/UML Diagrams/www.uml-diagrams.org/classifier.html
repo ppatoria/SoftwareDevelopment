@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/classifier.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:12:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML classifier is an abstract metaclass describing (classifying) set of instances which have common features.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML classifier is an abstract metaclass describing (classifying) set of instances which have common features." />
+<meta name="keywords" content="UML, UML 2, 2.5, classifier." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier" class="active-nav" >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Classifier</h1>
+
+<p>
+<strong>Classifier</strong> is an abstract metaclass which describes (classifies) set of instances
+ having common 
+ <a href="uml-core.html#feature" class="ref-link">features</a>.
+ A <strong>feature</strong> declares a structural or behavioral characteristic of
+ instances of classifiers.
+</p>
+
+<p>
+More formally, <strong>classifier</strong> is (extends):
+</p>
+<ul>
+<li><a href="uml-core.html#type" class="ref-link">type</a>,</li>
+<li><a href="template.html#templateable-element" class="ref-link">templateable element</a>,</li>
+<li><a href="uml-core.html#redefinable-element" class="ref-link">redefinable element</a>,</li>
+<li><a href="namespace.html" class="ref-link">namespace</a>.</li>
+</ul>
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="uml-core/classifier.png" width="652" height="526"
+ alt="UML classifier is type, templateable element, redefinable element, and namespace." 
+ title="UML classifier is type, templateable element, redefinable element, and namespace."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+UML classifier is type, templateable element, redefinable element, and a namespace. 
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2010-08-08" />
+<meta itemprop="dateModified" content="2013-09-09" />
+</div>
+
+<p>
+<a href="namespace.html" class="ref-link">Namespace</a> is a named element
+ that can own (contain) other named elements. As a namespace, classifier can have
+ <a href="uml-core.html#feature" class="ref-link">features</a>. 
+</p>
+
+<p>
+<a href="uml-core.html#type" class="ref-link">Type</a>
+ represents a set of values.
+ A typed element that has this type is constrained to represent values within this set.
+As a <strong>Type</strong>, classifier can own <strong>generalizations</strong>, thereby making it possible to define
+ generalization relationships to other classifiers.
+</p>
+
+<p>
+<strong>Redefinable element</strong> is an element that, when defined in the context of a classifier,
+ can be redefined more specifically or differently in the context of another classifier that specializes
+ (directly or indirectly) the context classifier.
+As a <strong>redefinable element</strong>, it is possible for classifier to redefine nested classifiers.
+</p>
+
+<p>
+Though classifier is an <strong>abstract</strong> model element and thus needs no graphical notation,
+ <strong>UML</strong> provides notation which is used as <strong>default notation</strong>
+ for any concrete subclass of classifier. Some specializations of classifier have their own notations.
+</p>
+
+<p>
+The default notation for <strong>classifier</strong> is a solid-outline rectangle containing the classifier’s name,
+ and optionally with compartments separated by horizontal lines containing features or other members
+ of the classifier. The specific type of classifier can be shown in guillemets above the name.
+</p>
+
+<p>
+Capitalize classifier name (i.e., begin with an uppercase character), use boldface and center the name.
+ Center keyword (including stereotype names) in plain face within guillemets above the classifier name.
+</p>
+
+<p>
+Any compartment may be suppressed. A separator line is not drawn for a suppressed compartment. If a compartment is
+suppressed, no inference can be drawn about the presence or absence of elements in it. Compartment names can be used
+to remove ambiguity, if necessary.
+</p>
+
+<p>
+Begin attribute and operation names with a lowercase letter.
+Multi-word names are often formed by concatenating the words
+and using lowercase for all letters except for upcasing the first letter of each word but the first.
+Left justify attributes and operations in plain face.
+</p>
+
+<p>
+The type, visibility, default, multiplicity, property string may be suppressed from being displayed, even if there are values
+in the model. The individual properties of an attribute can be shown in columns rather than as a continuous string.
+</p>
+
+<p>
+Some examples of <strong>classifiers</strong> are:
+<a href="class-diagrams.html#class" class="ref-link">class</a>,
+<a href="class-diagrams.html#interface" class="ref-link">interface</a>,
+<a href="association.html" class="ref-link">association</a>,
+<a href="class-diagrams.html#data-type" class="ref-link">data type</a>,
+<a href="use-case-actor.html" class="ref-link">actor</a> (subclass of
+ <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>),
+<a href="use-case.html" class="ref-link">use case</a> (subclass of
+ <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>),
+<a href="component-diagrams.html#component" class="ref-link">component</a> (subclass of class),
+<a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>,
+<a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>,
+<a href="deployment-diagrams.html#node" class="ref-link">node</a>,
+<a href="common-behaviors.html#signal" class="ref-link">signal</a>.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="uml-core/uml-classifiers.png" width="771" height="620"
+ alt="The most important UML 2.5 classifiers." 
+ title="The most important UML 2.5 classifiers." itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+The most important UML 2.5 classifiers -
+<a href="class-diagrams.html#class" class="ref-link">class</a>,
+<a href="class-diagrams.html#interface" class="ref-link">interface</a>,
+<a href="class-diagrams.html#data-type" class="ref-link">data type</a>,
+<a href="component-diagrams.html#component" class="ref-link">component</a>,
+<a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>,
+<a href="use-case.html" class="ref-link">use case</a>, etc.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2013-09-09" />
+</div>
+
+
+<!--
+***********************
+  Abstract Classifier
+***********************
+-->
+
+<h2 id="abstract-classifier">Abstract Classifier</h2>
+
+<p>
+<strong>Abstract classifier</strong> does not provide a complete description of features and usually 
+ can't be instantiated. It is intended to be specialized (subclassed) by other classifiers.
+ Classifiers by default are concrete (not abstract).
+</p>
+
+<p>
+The name of an abstract classifier is shown in italics.
+ An abstract classifier can be also shown using the keyword <strong>{abstract}</strong>
+  after or below the name of the classifier.
+</p>
+
+
+<!--
+*******************
+ Final Classifier
+*******************
+-->
+
+<h2 id="final-classifier">Final Classifier</h2>
+
+<p>
+In UML 2.4 classifier has Boolean attribute <strong>isFinalSpecialization</strong>.
+If true, the classifier cannot be specialized by generalization and is called <strong>final classifier</strong>.
+</p>
+
+<p>
+<strong>Final classifier</strong> can't be specialized (subclassed)
+ with <a href="generalization.html" class="ref-link">generalization</a>
+ by other classifiers. Classifiers by default are not final. The parents of a classifier must be non-final.
+</p>
+
+<p>
+UML provides no visual notation for <strong>final classifiers</strong>. 
+ What is even more confusing is that classifier is 
+ <a href="uml-core.html#redefinable-element" class="ref-link">redefinable element</a>
+ and as such inherits Boolean attribute <strong>isLeaf</strong> - which indicates whether it is possible
+ to redefine the element in subclasses or not. 
+ The need to have both <strong>isFinalSpecialization</strong> and <strong>isLeaf</strong> is a mystery.
+</p>
+
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="property.html" title="UML property">Property</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'classifier.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/classifier.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

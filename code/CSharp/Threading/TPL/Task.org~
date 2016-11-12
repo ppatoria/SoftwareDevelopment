@@ -1,0 +1,42 @@
+_Cancellation_
+(1) CancellationToken contains flag to set operation task as cancel.
+    (a) The async operation can check that flag and take appropriate action 
+    (b) Even can throw exception. 
+        This is helpfull in case of task where it is absorbed and later propogated to main thread. 
+        It provides main thread the information that the task was cancelled and was not completed.
+        (i) Exceptions are absorbed and can be retrieved when calling function calls Result or Wait in case of Task.
+    (c) Main thread can register cancellation callback which will be invoked when the task is cancelled.
+        (i) Chain of callbacks can be registered. 
+            Which are invoked when any of the operation registered is cancelled.
+
+_Task_
+
+(1) Return result 
+(2) Exception propogation. It absorbes exceptions, which can be retrived later. 
+    (a) When Result is called in try catch block.
+    (b) When Wait is called to wait till the task is finished.
+(3) Wait for the task to finish.
+(4) Cancellation of task
+    (a) Exception on cancel. Exception on cancel is absorbed and can be retrieved on when we call Result or Wait. 
+    (b) Cancel flag can be set and task can check that.
+(5) Non Waiting: ContinueWith functionality facilitates to run chain of tasks without waiting.
+
+_TaskFactory_
+(1) Shedule similar tasks using task scheduler.
+(2) Cancel can be applied on all the tasks of a task factory. 
+    No need to call calcel for all.
+
+_TaskSchedular_
+Shedule the task in Thread Pool or GUI Thread Queue.
+
+_Timer_
+
+await Task.Delay ms 
+Can be used for timer .
+
+
+
+
+
+
+

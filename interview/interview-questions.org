@@ -1,0 +1,16 @@
+* Is there any error in the following function ?
+NOTE: this is a non-mmeber function.
+#+BEGIN_SRC C++
+template <typename T>
+const T& max( const T& x, const T& y) const 
+{
+  return x < y ? y : x;
+}
+#+END_SRC
+
+** Ans: It will return following error. 
+        const modifier at the function is appiled to the this pointer as the above function is not a member function it will return error if const is specified her like this.
+   #+BEGIN_SRC 
+   error: non-member function 'const T& max(const T&, const T&)' cannot have cv-qualifier const T& max( const T& x, const T& y) const 
+   #+END_SRC
+

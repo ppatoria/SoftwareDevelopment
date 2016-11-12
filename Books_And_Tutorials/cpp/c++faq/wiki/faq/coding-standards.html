@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/coding-standards by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="9a679f80cf522f7649c695071a962d5a84b22565" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="a99fe11162cbd19ba10e6eb43d3c4f2653d4f3d2" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="cb8d89985195e39678ab6b1dcf7df72d50b61c92" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        coding standards
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="coding-standards.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    coding standards
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=coding%20standards" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="coding-standards">Coding Standards</h2>
+
+<h3 id="coding-std-wars">What are some good C++ coding standards?</h3>
+
+<p>Thank you for reading this answer rather than just trying to set your own coding standards.</p>
+
+<p>The main point of a C++ coding standard is to provide a set of rules for using C++ for a particular purpose in a particular environment. It follows that there cannot be one coding standard for all uses and all users. For a given application (or company, application area, etc.), a good coding standard is better than no coding standard. On the other hand, we have seen many examples that demonstrate that a bad coding standard is worse than no coding standard.
+Please choose your rules with care and with solid knowledge of your application area. Some of the worst coding standards (we won&#8217;t mention names &#8220;to protect the guilty&#8221;) were written by people without solid knowledge of C++ together with a relative ignorance of the application area (they were &#8220;experts&#8221; rather than developers) and a misguided conviction that more restrictions are necessarily better than fewer. The counter example to that last misconception is that some features exist to help programmers having to use even worse features. Anyway, please remember that safety, productivity, etc. is the sum of all parts of the design and development process &#8211; and not of individual language features, or even of whole languages.</p>
+
+<p>With those caveats, we recommend three things:</p>
+
+<ul>
+<li>Look at <a href="http://www.amazon.com/exec/obidos/ASIN/0321113586/">Sutter and Alexandrescu: &#8220;C++ Coding Standards&#8221;</a>. It provides 101 rules, guidelines and best practices. The authors and editors produced some solid material, then did an unusually good job of energizing the peer-review team. All of this improved the book. Buy it. It has good specific rules, but won&#8217;t cover every rule that might apply to your team. So also view it as an exemplar and guide to what a good, more specific, set of coding rules should look like. If you are writing a coding standard, you ignore this book at your peril.</li>
+<li>Look at <a href="http://stroustrup.com/JSF-AV-rules.pdf">the JSF air vehicle C++ coding standards</a>. Stroustrup considers it a pretty good set of rules for safety critical and performance critical code. If you do embedded systems programming, you should consider it. If you don&#8217;t build hard-real time systems or safety critical systems, you&#8217;ll find these rules overly restrictive &#8211; because then those rules are not for you (at least not all of those rules).</li>
+<li>Don&#8217;t use C coding standards (even if slightly modified for C++) and don&#8217;t use ten-year-old C++ coding standards (even if good for their time). C++ isn&#8217;t (just) C and Standard C++ is not (just) pre-standard C++.</li>
+</ul>
+
+<p>A word of warning: Nearly every
+software engineer has, at some point, been exploited by someone who used coding standards as a &#8220;power play.&#8221; Dogmatism
+over minutiae is the purview of the intellectually weak. Don&#8217;t be like them. These are those who can&#8217;t contribute in any
+meaningful way, who can&#8217;t actually improve the value of the software product, so instead of exposing their incompetence
+through silence, they blather with zeal about nits. They can&#8217;t add value in the <em>substance</em> of the software, so they
+argue over <em>form</em>. Just because &#8220;they&#8221; do that doesn&#8217;t mean coding standards are bad, however.</p>
+
+<p>Another emotional reaction against coding standards is caused by coding standards set by individuals with obsolete
+skills. For example, someone might set today&#8217;s standards based on what programming <em>was</em> like <em>N</em> decades ago when the
+standards setter was writing code. Such impositions generate an attitude of mistrust for coding standards. As above, if
+you have been forced to endure an unfortunate experience like this, don&#8217;t let it sour you to the whole point and value
+of coding standards. It doesn&#8217;t take a very large organization to find there is value in having consistency, since
+different programmers can edit the same code without constantly reorganizing each others&#8217; code in a tug-of-war over
+the &#8220;best&#8221; coding standard.</p>
+
+<h3 id="coding-stds-vs-design-approaches">Are coding standards necessary? Are they sufficient?</h3>
+
+<p>Coding standards do not make non-OO programmers into OO programmers; only training and experience do that. If coding
+standards have merit, it is that they discourage the petty fragmentation that occurs when large organizations coordinate
+the activities of diverse groups of programmers.</p>
+
+<p>But you really want more than a coding standard. The structure provided by coding standards gives neophytes one less
+degree of freedom to worry about, which is good. However, pragmatic guidelines should go well beyond pretty-printing
+standards. Organizations need a consistent <em>philosophy</em> of design and implementation. E.g., strong or weak typing?
+references or pointers in interfaces? stream I/O or stdio? should C++ code call C code? vice versa? how should
+<a href="abcs.html#abc-defn" title="FAQ: What is an ABC?">ABCs</a> be used? should inheritance be used as an implementation technique or as a specification technique?
+what testing strategy should be employed? inspection strategy? should interfaces uniformly have a <code>get()</code> and/or <code>set()</code>
+member function for each data member? should interfaces be designed from the outside-in or the inside-out? should
+errors be handled by <code>try</code>/<code>catch</code>/<code>throw</code> or by return codes? etc.</p>
+
+<p>What is needed is a &#8220;pseudo standard&#8221; for detailed <em>design.</em> I recommend a three-pronged approach to achieving this
+standardization: training, <a href="how-to-learn-cpp.html#mentoring" title="FAQ: What is mentoring?">mentoring</a>, and libraries. Training provides &#8220;intense instruction,&#8221; mentoring
+allows OO to be caught rather than just taught, and high quality C++ class libraries provide &#8220;long term instruction.&#8221;
+There is a thriving commercial market for all three kinds of &#8220;training.&#8221; Advice by organizations who have been through
+the mill is consistent: <em>Buy, Don&#8217;t Build.</em> Buy libraries, buy training, buy tools, buy consulting. Companies who have
+attempted to become a self-taught tool-shop as well as an application/system shop have found success difficult.</p>
+
+<p>Few argue that coding standards are &#8220;ideal,&#8221; or even &#8220;good,&#8221; however they are necessary in the kind of
+organizations/situations described above.</p>
+
+<p>The following FAQs provide some basic guidance in conventions and styles.</p>
+
+<h3 id="coding-stds-cpp-vs-c">Should our organization determine coding standards from our C experience?</h3>
+
+<p>No!</p>
+
+<p>No matter how vast your C experience, no matter how advanced your C expertise, being a good C programmer does not make
+you a good C++ programmer. Converting from C to C++ is more than just learning the syntax and semantics of the <code>++</code>
+part of C++. Organizations who want the promise of OO, but who fail to put the &#8220;OO&#8221; into &#8220;OO programming&#8221;, are fooling
+themselves; the balance sheet will show their folly.</p>
+
+<p>C++ coding standards should be tempered by C++ experts. Asking <a href="news:comp.lang.c++"><code>comp.lang.c++</code></a> is a start.
+Seek out experts who can help guide you away from pitfalls. Get training. Buy libraries and see if &#8220;good&#8221; libraries pass
+your coding standards. Do <em>not</em> set standards by yourself unless you have considerable experience in C++. Having no
+standard is better than having a bad standard, since improper &#8220;official&#8221; positions &#8220;harden&#8221; bad brain traces. There is a
+thriving market for both C++ training and libraries from which to pull expertise.</p>
+
+<p>One more thing: whenever something is in demand, the potential for charlatans increases. Look before you leap. Also ask
+for student-reviews from past companies, since not even expertise makes someone a good communicator. Finally, select a
+practitioner who can teach, not a full time teacher who has a passing knowledge of the language/paradigm.</p>
+
+<h3 id="std-headers">What&#8217;s the difference between <code>&lt;xxx&gt;</code> and <code>&lt;xxx.h&gt;</code> headers?</h3>
+
+<p>The headers in ISO Standard C++ don&#8217;t have a <code>.h</code> suffix. This is something the standards committee changed from
+former practice. The details are different between headers that existed in C and those that are specific to C++.</p>
+
+<p>The C++ standard library is guaranteed to have 18 standard headers from the C language. These headers come in two
+standard flavors, <code>&lt;cxxx&gt;</code> and <code>&lt;xxx.h&gt;</code> (where <code>xxx</code> is the basename of the header, such as <code>stdio</code>, <code>stdlib</code>, etc).
+These two flavors are identical except the <code>&lt;cxxx&gt;</code> versions provide their declarations in the <code>std</code> namespace only, and
+the <code>&lt;xxx.h&gt;</code> versions make them available both in <code>std</code> namespace and in the global namespace. The committee did it
+this way so that existing C code could continue to be compiled in C++. However the <code>&lt;xxx.h&gt;</code> versions are deprecated,
+meaning they are standard now but might not be part of the standard in future revisions. (See clause D.5 of the <a href="big-picture.html#copy-of-standard" title="FAQ: Where can I get a copy of the ANSI/ISO C++ standard?">ISO
+C++ standard</a>.)</p>
+
+<p>The C++ standard library is also guaranteed to have 32 additional standard headers that have no direct counterparts in
+C, such as <code>&lt;iostream&gt;</code>, <code>&lt;string&gt;</code>, and <code>&lt;new&gt;</code>. You may see things like <code>#include &lt;iostream.h&gt;</code> and so on in old code,
+and some compiler vendors offer <code>.h</code> versions for that reason. But be careful: the <code>.h</code> versions, if available, may
+differ from the standard versions. And if you compile some units of a program with, for example, <code>&lt;iostream&gt;</code> and others
+with <code>&lt;iostream.h&gt;</code>, the program may not work.</p>
+
+<p>For new projects, use only the <code>&lt;xxx&gt;</code> headers, not the <code>&lt;xxx.h&gt;</code> headers.</p>
+
+<p>When modifying or extending existing code that uses the old header names, you should probably follow the practice in
+that code unless there&#8217;s some important reason to switch to the standard headers (such as a facility available in
+standard <code>&lt;iostream&gt;</code> that was not available in the vendor&#8217;s <code>&lt;iostream.h&gt;</code>). If you need to standardize existing code,
+make sure to change all C++ headers in all program units including external libraries that get linked in to the final
+executable.</p>
+
+<p>All of this affects the standard headers only. You&#8217;re free to <a href="coding-standards.html#hdr-file-ext" title="FAQ: What header-file-name convention is best? foo.H? foo.hh? foo.hpp?">use a different naming convention on your own
+headers</a>.</p>
+
+<h3 id="using-namespace-std">Should I use <code>using namespace std</code> in my code?</h3>
+
+<p>Probably not.</p>
+
+<p>People don&#8217;t like typing <code>std::</code> over and over, and they discover that <code>using namespace std</code> lets the compiler see any
+<code>std</code> name, even if unqualified. The fly in that ointment is that it lets the compiler see <em>any</em> <code>std</code> name, even the
+ones you didn&#8217;t think about. In other words, it can create name conflicts and ambiguities.</p>
+
+<p>For example, suppose your code is counting things and you happen to use a variable or function named <code>count</code>. But the
+<code>std</code> library also uses the name <code>count</code> (it&#8217;s one of the <code>std</code> algorithms), which could cause ambiguities.</p>
+
+<p>Look, the whole point of namespaces is to prevent namespace collisions between two independently developed piles of
+code. The using-directive (that&#8217;s the technical name for <code>using namespace XYZ</code>) effectively dumps one namespace into
+another, which can subvert that goal. The using-directive exists for legacy C++ code and to ease the transition to
+namespaces, but you probably shouldn&#8217;t use it on a regular basis, at least not in your new C++ code.</p>
+
+<p>If you really want to avoid typing <code>std::</code>, then you can either use something else called a using-declaration, or get
+over it and just type <code>std::</code> (the un-solution):</p>
+
+<ul>
+<li><p><strong>Use a using-declaration</strong>, which brings in specific, selected names. For example, to allow your code to use the
+name <code>cout</code> without a <code>std::</code> qualifier, you could insert <code>using std::cout</code> into your code. This is unlikely to cause
+confusion or ambiguity because the names you bring in are explicit.</p>
+
+<pre><code>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+void f(const std::vector&lt;double&gt;&amp; v)
+{
+ using std::cout;  // ← a using-declaration that lets you use cout without qualification
+
+ cout &lt;&lt; "Values:";
+ for (auto value : v)
+   cout &lt;&lt; ' ' &lt;&lt; value;
+ cout &lt;&lt; '\n';
+}
+</code></pre></li>
+<li><p><strong>Get over it and just type <code>std::</code></strong> (the un-solution):</p>
+
+<pre><code>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+void f(const std::vector&lt;double&gt;&amp; v)
+{
+ std::cout &lt;&lt; "Values:";
+ for (auto value : v)
+   std::cout &lt;&lt; ' ' &lt;&lt; value;
+ std::cout &lt;&lt; '\n';
+}
+</code></pre></li>
+</ul>
+
+<p>I personally find it&#8217;s faster to type &#8220;<code>std::</code>&#8221; than to decide, for each distinct <code>std</code> name, whether or not to include
+a using-declaration and if so, to find the best scope and add it there. But either way is fine. Just remember that you
+are part of a team, so make sure you use an approach that is consistent with the rest of your organization.</p>
+
+<h3 id="ternary-op">Is the <code>?:</code> operator evil since it can be used to create unreadable code?</h3>
+
+<p>No, but as always, remember that readability is one of the most important things.</p>
+
+<p>Some people feel the <code>?:</code> ternary operator should be avoided because they find it confusing at times compared to the
+good old <code>if</code> statement. In many cases <code>?:</code> tends to make your code more difficult to read (and therefore you should
+replace those usages of <code>?:</code> with <code>if</code> statements), but there are times when the <code>?:</code> operator is clearer since it can
+emphasize what&#8217;s really happening, rather than the fact that there&#8217;s an <code>if</code> in there somewhere.</p>
+
+<p>Let&#8217;s start with a really simple case. Suppose you need to print the result of a function call. In that case you should
+put the real goal (printing) at the beginning of the line, and bury the function call within the line since it&#8217;s
+relatively incidental (this left-right thing is based on the intuitive notion that most developers think the first
+thing on a line is the most important thing):</p>
+
+<pre><code>// Preferred (emphasizes the major goal — printing):
+std::cout &lt;&lt; funct();
+
+// Not as good (emphasizes the minor goal — a function call):
+functAndPrintOn(std::cout);
+</code></pre>
+
+<p>Now let&#8217;s extend this idea to the <code>?:</code> operator. Suppose your real goal is to print something, but you need to do some
+incidental decision logic to figure out what should be printed. Since the printing is the most important thing
+conceptually, we prefer to put it first on the line, and we prefer to bury the incidental decision logic. In the example
+code below, variable <code>n</code> represents the number of senders of a message; the message itself is being printed to
+<code>std::cout</code>:</p>
+
+<pre><code>int n = /*...*/;   // number of senders
+
+// Preferred (emphasizes the major goal — printing):
+std::cout &lt;&lt; "Please get back to " &lt;&lt; (n==1 ? "me" : "us") &lt;&lt; " soon!\n";
+
+// Not as good (emphasizes the minor goal — a decision):
+std::cout &lt;&lt; "Please get back to ";
+if (n == 1)
+  std::cout &lt;&lt; "me";
+else
+  std::cout &lt;&lt; "us";
+std::cout &lt;&lt; " soon!\n";
+</code></pre>
+
+<p>All that being said, you can get pretty outrageous and unreadable code (&#8220;write only code&#8221;) using various combinations of
+<code>?:</code>, <code>&amp;&amp;</code>, <code>||</code>, etc. For example,</p>
+
+<pre><code>// Preferred (obvious meaning):
+if (f())
+  g();
+
+// Not as good (harder to understand):
+f() &amp;&amp; g();
+</code></pre>
+
+<p>Personally I think <code>if (f()) g()</code> is clearer than <code>f() &amp;&amp; g()</code> since the first emphasizes the major thing that&#8217;s going
+on (a decision based on the result of calling <code>f()</code>) rather than the minor thing (calling <code>f()</code>). In other words, the
+use of <code>if</code> here is <em>good</em> for precisely the same reason that it was <em>bad</em> above: we want to major on the majors and
+minor on the minors.</p>
+
+<p>In any event, don&#8217;t forget that readability is the goal (at least it&#8217;s one of the goals). Your goal should <em>not</em> be to
+avoid certain syntactic constructs such as <code>?:</code> or <code>&amp;&amp;</code> or <code>||</code> or <code>if</code> &#8212; or even <code>goto</code>. If you sink to the level of
+a &#8220;Standards Bigot,&#8221; you&#8217;ll ultimately embarass yourself since there are always counterexamples to any syntax-based
+rule. If on the other hand you emphasize broad goals and guidelines (e.g., &#8220;major on the majors,&#8221; or &#8220;put the most
+important thing first on the line,&#8221; or even &#8220;make sure your code is obvious and readable&#8221;), you&#8217;re usually much better
+off.</p>
+
+<p>Code must be written to be read, not by the compiler, but by another human being.</p>
+
+<h3 id="declare-near-first-use">Should I declare locals in the middle of a function or at the top?</h3>
+
+<p>Declare near first use.</p>
+
+<p>An object is initialized (constructed) the moment it is declared. If you don&#8217;t have enough information to initialize an
+object until half way down the function, you should create it half way down the function when it can be initialized
+correctly. Don&#8217;t initialize it to an &#8220;empty&#8221; value at the top then &#8220;assign&#8221; it later. The reason for this is runtime
+performance. Building an object correctly is faster than building it incorrectly and remodeling it later. Simple
+examples show a factor of 350% speed hit for simple classes like <code>String</code>. Your mileage may vary; surely the overall
+system degradation will be less that 350%, but there <em>will</em> be degradation. <em>Unnecessary</em> degradation.</p>
+
+<p>A common retort to the above is: &#8220;we&#8217;ll provide <code>set()</code> member functions for every datum in our objects so the cost of
+construction will be spread out.&#8221; This is worse than the performance overhead, since now you&#8217;re introducing a
+maintenance nightmare. Providing a <code>set()</code> member function for every datum is tantamount to <code>public</code> data: you&#8217;ve
+exposed your implementation technique to the world. The only thing you&#8217;ve hidden is the physical <em>names</em> of your member
+objects, but the fact that you&#8217;re using a <code>List</code> and a <code>String</code> and a <code>float</code>, for example, is open for all to see.</p>
+
+<p>Bottom line: Locals should be declared near their first use. Sorry that this isn&#8217;t familiar to C experts, but new
+doesn&#8217;t necessarily mean bad.</p>
+
+<h3 id="src-file-ext">What source-file-name convention is best? <code>foo.cpp</code>? <code>foo.C</code>? <code>foo.cc</code>?</h3>
+
+<p>If you already have a convention, use it. If not, consult your compiler to see what the compiler expects. Typical
+answers are: <code>.cpp</code>, <code>.C</code>, <code>.cc</code>, or <code>.cxx</code> (naturally the <code>.C</code> extension assumes a case-sensitive file system to
+distinguish <code>.C</code> from <code>.c</code>).</p>
+
+<p>We&#8217;ve often used <code>.cpp</code> for our C++ source files, and we have also used <code>.C</code>. In the latter case, when porting to
+case-insensitive file systems you need to tell the compiler to treat <code>.c</code> files as if they were C++ source files
+(e.g., <code>-Tdp</code> for IBM CSet++, <code>-cpp</code> for Zortech C++, <code>-P</code> for Borland C++, etc.).</p>
+
+<p>The point is that none of these filename extensions are uniformly superior to the others. We generally use whichever
+technique is preferred by our customer (again, these issues are dominated by business considerations, not by technical
+considerations).</p>
+
+<h3 id="hdr-file-ext">What header-file-name convention is best? <code>foo.H</code>? <code>foo.hh</code>? <code>foo.hpp</code>?</h3>
+
+<p>If you already have a convention, use it. If not, and if you don&#8217;t need your editor to distinguish between C and C++
+files, simply use <code>.h</code>. Otherwise use whatever the editor wants, such as <code>.H</code>, <code>.hh</code>, or <code>.hpp</code>.</p>
+
+<p>We&#8217;ve tended to use either <code>.h</code> or <code>.hpp</code> for our C++ header files.</p>
+
+<h3 id="lint-guidelines">Are there any lint-like guidelines for C++?</h3>
+
+<p>Yes, there are some practices which are generally considered dangerous. However none of these are universally &#8220;bad,&#8221;
+since situations arise when even the worst of these are needed:</p>
+
+<ul>
+<li>A <code>class</code> <code>Fred</code>&#8217;s assignment <code>operator</code> should return <code>*this</code> as a <code>Fred&amp;</code> (allows chaining of assignments)</li>
+<li>A class with any <a href="virtual-functions.html" title="Section: Inheritance — virtual functions"><code>virtual</code></a> functions ought to have a <a href="virtual-functions.html#virtual-dtors" title="FAQ: When should my destructor be virtual?">virtual destructor</a></li>
+<li>A class with any of {destructor, copy assignment <code>operator</code>, copy constructor, 
+move assignment <code>operator</code>, move constructor} generally needs all 5</li>
+<li>A <code>class</code> <code>Fred</code>&#8217;s copy constructor and assignment <code>operator</code> should have <code>const</code> in the parameter: respectively
+<code>Fred::Fred(const Fred&amp;)</code> and <code>Fred&amp; Fred::operator= (const Fred&amp;)</code></li>
+<li>When initializing an object&#8217;s member objects in the constructor, always use initialization lists rather than
+assignment. The performance difference for user-defined classes can be substantial (3x!)</li>
+<li>Assignment operators should make sure that <a href="assignment-operators.html#self-assignment-what" title="FAQ: What is 'self assignment'?">self assignment</a> does nothing, <a href="assignment-operators.html#self-assignment-why" title="FAQ: Why should I worry about 'self assignment'?">otherwise you may
+have a disaster</a>. In some cases, this may require you to <a href="assignment-operators.html#self-assignment-how" title="FAQ: Okay, okay, already; I'll handle self-assignment. How do I do it?">add an explicit test to your
+assignment operators</a>.</li>
+<li><p>When you overload operators, abide by <a href="operator-overloading.html#op-ov-rules" title="FAQ: What are some guidelines / 'rules of thumb' for overloading operators?">the guidelines</a>. For example, in classes that define both <code>+=</code>
+and <code>+</code>, <code>a += b</code> and <code>a = a + b</code> should generally do the same thing; ditto for the other identities of
+built-in/intrinsic types (e.g., <code>a += 1</code> and <code>++a</code>; <code>p[i]</code> and <code>*(p+i)</code>; etc). This can be enforced by writing the
+binary operations using the <code>op=</code> forms. E.g.,</p>
+
+<pre><code>Fred operator+ (const Fred&amp; a, const Fred&amp; b)
+{
+ Fred ans = a;
+ ans += b;
+ return ans;
+}
+</code></pre>
+
+<p>This way the &#8220;constructive&#8221; binary operators don&#8217;t even need to be <a href="friends.html" title="Section: Friends">friends</a>. But it is sometimes possible
+to more efficiently implement common operations (e.g., if <code>class</code> <code>Fred</code> is actually <code>std::string</code>, and <code>+=</code> has to
+reallocate/copy string memory, it may be better to know the eventual length from the beginning).</p></li>
+</ul>
+
+<h3 id="pointer-casts">Why do people worry so much about pointer casts and/or reference casts?</h3>
+
+<p>Because they&#8217;re <a href="big-picture.html#defn-evil" title="FAQ: What does the FAQ mean by 'such and such is evil'?">evil</a>! (Which means <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">you should use them sparingly and with great
+care</a>.)</p>
+
+<p>For some reason, programmers are sloppy in their use of pointer casts. They cast this to that all over the place, then
+they wonder why things don&#8217;t quite work right. Here&#8217;s the worst thing: when the compiler gives them an error message,
+they add a cast to &#8220;shut the compiler up,&#8221; then they &#8220;test it&#8221; to see if it seems to work. If you have a lot of pointer
+casts or reference casts, read on.</p>
+
+<p>The compiler will often be silent when you&#8217;re doing pointer-casts and/or reference casts. Pointer-casts (and
+reference-casts) tend to shut the compiler up. I think of them as a filter on error messages: the compiler <em>wants</em> to
+complain because it sees you&#8217;re doing something stupid, but it also sees that it&#8217;s not allowed to complain due to your
+pointer-cast, so it drops the error message into the bit-bucket. It&#8217;s like putting duct tape on the compiler&#8217;s mouth:
+it&#8217;s trying to tell you something important, but you&#8217;ve intentionally shut it up.</p>
+
+<p>A pointer-cast says to the compiler, &#8220;Stop thinking and start generating code; I&#8217;m smart, you&#8217;re dumb; I&#8217;m big, you&#8217;re
+little; I know what I&#8217;m doing so just pretend this is assembly language and generate the code.&#8221; The compiler pretty much
+blindly generates code when you start casting &#8212; you are taking control (and responsibility!) for the outcome. The
+compiler and the language reduce (and in some cases eliminate!) the guarantees you get as to what will happen. You&#8217;re on
+your own.</p>
+
+<p>By way of analogy, even if it&#8217;s legal to juggle chainsaws, it&#8217;s stupid. If something goes wrong, don&#8217;t bother
+complaining to the chainsaw manufacturer &#8212; you did something they didn&#8217;t guarantee would work. You&#8217;re on your own.</p>
+
+<p>(To be completely fair, the language does give you <em>some</em> guarantees when you cast, at least in a limited subset of
+casts. For example, it&#8217;s guaranteed to work as you&#8217;d expect if the cast happens to be from an object-pointer (a pointer
+to a piece of data, as opposed to a pointer-to-function or pointer-to-member) to type <code>void*</code> and back to the <em>same</em>
+<em>type</em> of object-pointer. But in a lot of cases you&#8217;re on your own.)</p>
+
+<h3 id="identifier-name-conventions">Which is better: identifier names <code>that_look_like_this</code> or identifier names <code>thatLookLikeThis</code>?</h3>
+
+<p>It&#8217;s a precedent thing. If you have a Java background, <code>youProbablyUseLowerCamelCase</code> like this; if your background is
+C#, <code>YouProbablyUseUpperCamelCase</code> like this. Ada programmers <code>Typically_Use_A_Lot_Of_Underscores</code>, Microsoft Windows/C
+programmers tend to prefer &#8220;Hungarian&#8221; style (<code>jkuidsPrefixing</code> <code>vndskaIdentifiers</code> <code>ncqWith</code> <code>ksldjfTheir</code>
+<code>nmdsadType</code>), and folks with a Unix/C background <code>abbr</code> <code>evthng</code> <code>n</code> <code>sght</code>, <code>usng</code> <code>vry</code> <code>shrt</code> <code>idntfr</code> <code>nms</code>. <code>AND</code>
+<code>THE</code> <code>FORTRN</code> <code>PRGMRS</code> <code>WHO</code> <code>LIMIT</code> <code>EVRYTH</code> <code>TO</code> <code>SIX</code> <code>CAPITL</code> <code>LETTRS</code>.</p>
+
+<p>So there is no universal standard. If your project team has a particular coding standard for identifier names, use it.
+But starting another Jihad over this will create a lot more heat than light. From a business perspective, there are only
+two things that matter: The code should be generally readable, and everyone on the team should use the same style.</p>
+
+<p>Other than that, th difs r minr.</p>
+
+<p>One more thing: don&#8217;t import a coding style onto platform-specific code where it is foreign. For example, a coding
+style that seems natural while using a Microsoft library might look bizarre and random while using a UNIX library. Don&#8217;t
+do it. Allow different styles for different platforms. (Just in case someone out there isn&#8217;t reading carefully, don&#8217;t
+send me email about the case of common code that is designed to be used/ported to several platforms, since that code
+wouldn&#8217;t be platform-specific, so the above &#8220;allow different styles&#8221; guideline doesn&#8217;t even apply.)</p>
+
+<p>One more. This time I mean it. Really. Don&#8217;t fight the coding styles used by automatically generated code (e.g., by
+tools that generate code). Some people treat coding standards with religious zeal, and they try to get tools to generate
+code in their local style. Forget it: if a tool generates code in a different style, don&#8217;t worry about it. Remember
+money and time?!? This whole coding standard thing was supposed to <em>save</em> money and time; don&#8217;t turn it into a &#8220;money
+pit.&#8221;</p>
+
+<h3 id="other-coding-stds">Are there any other sources of coding standards?</h3>
+
+<p>Yep, there are several.</p>
+
+<p>In my opinion, the best source is <a href="http://www.amazon.com/exec/obidos/ASIN/0321113586/">Sutter and Alexandrescu, <em>C++ Coding Standards</em>, 220 pgs, Addison-Wesley, 2005,
+ISBN 0-321-11358-6</a>. I had the privilege of serving as an advisor
+on that book, and the authors did a great job of energizing the pool of advisors. Everyone collaborated with an
+intensity and depth that I have not seen previously, and the book is better for it.</p>
+
+<p>Here are a few other sources that you can use as starting points for developing your organization&#8217;s coding standards (in
+random order) (some are out of date, some might even be bad; I&#8217;m not endorsing any; caveat emptor):</p>
+
+<ul>
+<li><a href="http://www.codingstandard.com/"><code>www.codingstandard.com/</code></a></li>
+<li><a href="http://cdfsga.fnal.gov/computing/coding_guidelines/CodingGuidelines.html"><code>cdfsga.fnal.gov/computing/coding_guidelines/CodingGuidelines.html</code></a></li>
+<li><a href="http://www.nfra.nl/~seg/cppStdDoc.html"><code>www.nfra.nl/~seg/cppStdDoc.html</code></a></li>
+<li><a href="http://www.cs.umd.edu/users/cml/resources/cstyle"><code>www.cs.umd.edu/users/cml/resources/cstyle</code></a></li>
+<li><a href="http://www.cs.rice.edu/~dwallach/CPlusPlusStyle.html"><code>www.cs.rice.edu/~dwallach/CPlusPlusStyle.html</code></a></li>
+<li><a href="http://cpptips.hyperformix.com/conventions/cppconventions_1.html"><code>cpptips.hyperformix.com/conventions/cppconventions_1.html</code></a></li>
+<li><a href="http://www.objectmentor.com/resources/articles/naming.htm"><code>www.objectmentor.com/resources/articles/naming.htm</code></a></li>
+<li><a href="http://www.arcticlabs.com/codingstandards/"><code>www.arcticlabs.com/codingstandards/</code></a></li>
+<li><a href="http://www.possibility.com/cpp/CppCodingStandard.html"><code>www.possibility.com/cpp/CppCodingStandard.html</code></a></li>
+<li><a href="http://www.cs.umd.edu/users/cml/cstyle/Wildfire-C++Style.html"><code>www.cs.umd.edu/users/cml/cstyle/Wildfire-C++Style.html</code></a></li>
+<li><a href="http://hem.passagen.se/erinyq/industrial/">Industrial Strength C++</a></li>
+<li>The Ellemtel coding guidelines are available at
+
+<ul>
+<li><a href="http://membres.lycos.fr/pierret/cpp2.htm"><code>membres.lycos.fr/pierret/cpp2.htm</code></a></li>
+<li><a href="http://www.cs.umd.edu/users/cml/cstyle/Ellemtel-rules.html"><code>www.cs.umd.edu/users/cml/cstyle/Ellemtel-rules.html</code></a></li>
+<li><a href="http://www.doc.ic.ac.uk/lab/cplus/c++.rules/"><code>www.doc.ic.ac.uk/lab/cplus/c++.rules/</code></a></li>
+<li><a href="http://www.mgl.co.uk/people/kirit/cpprules.html"><code>www.mgl.co.uk/people/kirit/cpprules.html</code></a></li>
+</ul></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li>The Ellemtel guide is dated, but is listed because of its seminal place: it was the first widely distributed and
+widely adopted set of coding guidelines for C++. It was also the first to castigate the use of protected data.</li>
+<li>Industrial Strength C++ is also dated, but was the first widely published place to mention the use of protected
+non-virtual destructors in base classes.</li>
+</ul>
+
+<h3 id="bizarre-syntax">Should I use &#8220;unusual&#8221; syntax?</h3>
+
+<p>Only when there is a compelling reason to do so. In other words, only when there is no &#8220;normal&#8221; syntax that will produce
+the same end-result.</p>
+
+<p>Software decisions should be made based on money. Unless you&#8217;re in an ivory tower somewhere, when you do something that
+increases costs, increases risks, increases time, or, in a constrained environment, increases the product&#8217;s space/speed
+costs, you&#8217;ve done something &#8220;bad.&#8221; In your mind you should translate all these things into money.</p>
+
+<p>Because of this pragmatic, money-oriented view of software, programmers should avoid non-mainstream syntax whenever
+there exists a &#8220;normal&#8221; syntax that would be equivalent. If a programmer does something obscure, other programmers are
+confused; that costs money. These other programmers will probably introduce bugs (costs money), take longer to maintain
+the thing (money), have a harder time changing it (missing market windows = money), have a harder time optimizing it (in
+a constrained environment, somebody will have to spend money for more memory, a faster CPU, and/or a bigger battery),
+and perhaps have angry customers (money). It&#8217;s a risk-reward thing: using abnormal syntax carries a risk, but when an
+equivalent, &#8220;normal&#8221; syntax would do the same thing, there is no &#8220;reward&#8221; to ameliorate that risk.</p>
+
+<p>For example, the techniques used in the <a href="http://www.ioccc.org/">Obfuscated C Code Contest</a> are, to be polite,
+non-normal. Yes many of them are legal, but not everything that is legal is moral. Using strange techniques will
+confuse other programmers. Some programmers love to &#8220;show off&#8221; how far they can push the envelope, but that puts their
+ego above money, and that&#8217;s unprofessional. Frankly anybody who does that ought to be fired. (And if you think I&#8217;m being
+&#8220;mean&#8221; or &#8220;cruel,&#8221; I suggest you get an attitude adjustment. Remember this: your company hired you to help it, not to
+hurt it, and anybody who puts their own personal ego-trips above their company&#8217;s best interest simply ought to be shown
+the door.)</p>
+
+<p>As an example of non-mainstream syntax, it&#8217;s not &#8220;normal&#8221; to use the <code>?:</code> operator as a statement. (Some people don&#8217;t
+even like it as an expression, but everyone must admit that there are a <em>lot</em> of uses of <code>?:</code> out there, so <a href="coding-standards.html#ternary-op" title="FAQ: Is the ?: operator evil since it can be used to create unreadable code?">it is
+&#8220;normal&#8221; (as an expression) whether people like it or not</a>.) Here is an example of using using <code>?:</code> as a
+statement:</p>
+
+<pre><code>blah();
+blah();
+xyz() ? foo() : bar();  // should replace with if/else
+blah();
+blah();
+</code></pre>
+
+<p>Same goes with using <code>||</code> and <code>&amp;&amp;</code> as if they are &#8220;<code>if</code>-not&#8221; and &#8220;<code>if</code>&#8221; statements, respectively. Yes, those are idioms
+in Perl, but C++ is not Perl and using these as replacements for <code>if</code> statements (as opposed to using them as
+expressions) is just not &#8220;normal&#8221; in C++. Example:</p>
+
+<pre><code>foo() || bar();  // should replace with if (!foo()) bar();
+foo() &amp;&amp; bar();  // should replace with if (foo()) bar();
+</code></pre>
+
+<p>Here&#8217;s another example that seems to work and may even be legal, but it&#8217;s certainly not normal:</p>
+
+<pre><code>void f(const&amp; MyClass x)  // use const MyClass&amp; x instead
+{
+  // ...
+}
+</code></pre>
+
+<h3 id="global-vars">What&#8217;s a good coding standard for using global variables?</h3>
+
+<p>The names of global variables should start with <code>//</code>.</p>
+
+<p>Here&#8217;s the ideal way to use a global variable:</p>
+
+<pre><code>void mycode()
+{
+  // do_something_with(xyz);
+  ↑↑ // The leading "//" improves this global variable
+}
+</code></pre>
+
+<p>It&#8217;s a joke.</p>
+
+<p>Sort of.</p>
+
+<p>The truth is that there are cases when global variables are less evil than the alternatives &#8212; when globals are <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">the
+lesser of the evils</a>. But they&#8217;re still evil. So wash your hands after using them. Twice.</p>
+
+<p>Instead of using a global variable, you should seriously consider if there are ways to limit the variable&#8217;s visibility
+and/or lifetime, and if multiple threads are involved, either limit the visibility to a single thread or do something
+else to protect the system against race cases.</p>
+
+<p>Note: if you wish to limit the visibility but neither lifetime nor thread safety, two of the many approaches are to
+either move the variable into a class as a <code>static</code> data member or to use an unnamed namespace. Here is how to move the
+variable into a class as a <code>static</code> data member:</p>
+
+<pre><code>class Foo {
+  // ...
+  static int xyz;  // See the Construct Members On First Use Idiom
+  // ...
+}
+</code></pre>
+
+<p>Here is how to use an unnamed namespace:</p>
+
+<pre><code>namespace {
+  // ...
+  int xyz;  // See the Construct On First Use Idiom for non-members
+  // ...
+}
+</code></pre>
+
+<p>Repeat: there are three major considerations: visibility, lifetime, and thread safety. The above examples address only
+one of those three considerations.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/coding-standards",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/coding-standards",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/coding-standards by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:41 GMT -->
+</html>

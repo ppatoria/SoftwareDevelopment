@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>MercuryConnectivityTestCases</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-03-08 20:42:13 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">MercuryConnectivityTestCases</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Design Document for ECClient (Exchange Connectivity Client) library. </a></li>
+<li><a href="#sec-2">2 ECClient Modules </a></li>
+<li><a href="#sec-3">3 Configuration </a></li>
+<li><a href="#sec-4">4 ECClient Interface </a></li>
+<li><a href="#sec-5">5 LoadBalancer Interface </a></li>
+<li><a href="#sec-6">6 Test Cases </a>
+<ul>
+<li><a href="#sec-6_1">6.1 Test cases for Product Line and ECClient library Interaction. </a></li>
+<li><a href="#sec-6_2">6.2 Test cases for MCClient and Guardian Service Interaction. </a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7 Questions to Mercury team. </a>
+<ul>
+<li><a href="#sec-7_1">7.1 Do we receive HB from mercury ? </a></li>
+<li><a href="#sec-7_2">7.2 How can we do recovery via GS ? </a>
+<ul>
+<li><a href="#sec-7_2_1">7.2.1 In case if ownership is transfered do we have to do recovery ? </a></li>
+</ul>
+</li>
+<li><a href="#sec-7_3">7.3 What are command requests ? Does it include recovery ? </a></li>
+<li><a href="#sec-7_4">7.4 There are two status SLAStatus and Status . What is the difference between them. </a></li>
+<li><a href="#sec-7_5">7.5 What is Read/Reapply/Update statuses ? What are the differences ? </a></li>
+<li><a href="#sec-7_6">7.6 What is the difference between command and status ? Both seems to be same ? </a></li>
+<li><a href="#sec-7_7">7.7 When is DiscoverService Called ? When we already connected to cloud what the purpose? </a></li>
+<li><a href="#sec-7_8">7.8 At what step I will be connected to orderhandler or any other service ? </a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8 Discussion </a>
+<ul>
+<li><a href="#sec-8_1">8.1 Client also need to update status specific to buisness functionality. Like few functionality is disables/not available etc. </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Design Document for ECClient (Exchange Connectivity Client) library. </h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> ECClient Modules </h2>
+<div class="outline-text-2" id="text-2">
+
+<ul>
+<li>
+GSClient : For Mercury Connectivity through GS
+</li>
+<li>
+LoadBalancer  
+</li>
+<li>
+FaultTolerance
+</li>
+<li>
+Recovery 
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Configuration </h2>
+<div class="outline-text-2" id="text-3">
+
+<p><span style="text-decoration:underline;">Status</span>
+</p><ul>
+<li>
+NotifyOn {All, &hellip;.}  
+</li>
+</ul>
+
+<p><span style="text-decoration:underline;">Connection</span>
+</p><ul>
+<li>
+Heartbeat {Yes/No} Client can also disable HB 
+<ul>
+<li>
+GSHBTimeout
+</li>
+<li>
+PermissibleHBMiss 
+</li>
+</ul>
+</li>
+<li>
+ConnectionTimeout  
+</li>
+<li>
+ConnectPolicy
+<ul>
+<li>
+ConnectAll
+</li>
+<li>
+ConnectMin
+</li>
+<li>
+ConnectAnyOne
+<ul>
+<li>
+NumberOfServers  
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><span style="text-decoration:underline;">ReconnectPolicy</span>
+</p><ul>
+<li>
+ReconnectTimeout
+</li>
+<li>
+NumberOfReconnects
+</li>
+<li>
+ReconnectDelay
+
+</li>
+</ul>
+
+<p><span style="text-decoration:underline;">LoadBalancing</span>
+</p><ul>
+<li>
+DistributionPolicy &ndash;&gt; enum { RoundRobin, FirstDiscovered, All }
+</li>
+</ul>
+
+<p><span style="text-decoration:underline;">Interst and Cabalilities</span> 
+</p><ul>
+<li>
+Interest
+</li>
+<li>
+Capabilities        
+</li>
+</ul>
+
+<p><span style="text-decoration:underline;">Recovery</span> { Yes/No }
+</p><ul>
+<li>
+RecoveryPolicy enum {Auto, Mannual}
+<ul>
+<li>
+Auto: EXClient will persist the last recovery points and recover when application comes up after a crash.
+</li>
+<li>
+Mannual: Client will persist and provide the recovery points. (Scenario : Some (slow) clients do not process the message immediately they buffer it. 
+In this case if application goes down and ECClient will recover from the last recovery point then 
+client will miss the messages which are not processed(only buffered). 
+
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> ECClient Interface </h2>
+<div class="outline-text-2" id="text-4">
+
+<ul>
+<li>
+Connect (clinetid, service capabilities, interests, Status)      
+</li>
+<li>
+UpdateInterest
+</li>
+<li>
+UpdateStatus(Status) <i>* Status will also contain SLAStatus*</i>  
+</li>
+<li>
+Close   ()
+</li>
+<li>
+ConnectionTimeout
+</li>
+<li>
+Callbacks
+<ul>
+<li>
+OnConnectedStatusChanged (Status, array of ServicesInfo) &ndash;&gt; [Status: {Connected, Disconnected, Reconnected&hellip;}   [Status ServiceInfo will contain address topic and other service specific information] 
+</li>
+<li>
+OnDisconnected (array of Services)
+</li>
+<li>
+OnMessage (IMessage) &ndash;&gt; Need to discuss on the Generic IMessage
+</li>
+<li>
+OnRecoveryStatus (RecoveryState, reference of RecoveryPoints ) enum {Begin, Running, End) // On Init client can set the recovery points      
+</li>
+<li>
+OnStausChanged (Status)
+</li>
+</ul>
+</li>
+<li>
+Send  
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> LoadBalancer Interface </h2>
+<div class="outline-text-2" id="text-5">
+
+<ul>
+<li>
+SendRoundRobin (IMessage)
+</li>
+<li>
+SendAll (IMessage)
+</li>
+<li>
+Send (IMessage)
+
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Test Cases </h2>
+<div class="outline-text-2" id="text-6">
+
+
+</div>
+
+<div id="outline-container-6_1" class="outline-3">
+<h3 id="sec-6_1"><span class="section-number-3">6.1</span> Test cases for Product Line and ECClient library Interaction. </h3>
+<div class="outline-text-3" id="text-6_1">
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Test Case#</th><th scope="col">Test Title</th><th scope="col">Test Summary</th><th scope="col">Test Steps</th><th scope="col">Test Data</th><th scope="col">Expected Result</th><th scope="col">Post-condition</th><th scope="col">Actual Result</th><th scope="col">Status</th><th scope="col">Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Connect to the nearest GS</td><td></td><td>(1) Check if GS is running locally. Connect to Local GS</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td>(2) Call Resolve. If multiple GS are returned,  connect to the nearest GS.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+<tbody>
+<tr><td>2</td><td>GS goes down and ownership is transfered to another GS</td><td></td><td>(1) Notify reconnect status to client</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td>(2) On reconnection/ownership transfer. Perform recovery.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+<tbody>
+<tr><td>3</td><td>GS goes down (HB missed)</td><td>n number of HB from GS are missed. where n is provided by client and its configurable.</td><td>Refer Test Case 2.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+<tbody>
+<tr><td>4</td><td>GS does down and reconnect timeout occurs</td><td>At this time Disconnection is already notified to client.</td><td>(1) Notify Reconnection to client.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td>(1) Call resolve and register again.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+<tbody>
+<tr><td>5</td><td>GS Registration failed</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+<tbody>
+<tr><td>6</td><td>Client updates the interests</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-6_2" class="outline-3">
+<h3 id="sec-6_2"><span class="section-number-3">6.2</span> Test cases for MCClient and Guardian Service Interaction. </h3>
+<div class="outline-text-3" id="text-6_2">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Test Case#</th><th scope="col">Test Title</th><th scope="col">Test Summary</th><th scope="col">Test Steps</th><th scope="col">Test Data</th><th scope="col">Expected Result</th><th scope="col">Post-condition</th><th scope="col">Actual Result</th><th scope="col">Status</th><th scope="col">Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Questions to Mercury team. </h2>
+<div class="outline-text-2" id="text-7">
+
+
+</div>
+
+<div id="outline-container-7_1" class="outline-3">
+<h3 id="sec-7_1"><span class="section-number-3">7.1</span> Do we receive HB from mercury ? </h3>
+<div class="outline-text-3" id="text-7_1">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_2" class="outline-3">
+<h3 id="sec-7_2"><span class="section-number-3">7.2</span> How can we do recovery via GS ? </h3>
+<div class="outline-text-3" id="text-7_2">
+
+
+</div>
+
+<div id="outline-container-7_2_1" class="outline-4">
+<h4 id="sec-7_2_1"><span class="section-number-4">7.2.1</span> In case if ownership is transfered do we have to do recovery ? </h4>
+<div class="outline-text-4" id="text-7_2_1">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7_3" class="outline-3">
+<h3 id="sec-7_3"><span class="section-number-3">7.3</span> What are command requests ? Does it include recovery ? </h3>
+<div class="outline-text-3" id="text-7_3">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_4" class="outline-3">
+<h3 id="sec-7_4"><span class="section-number-3">7.4</span> There are two status SLAStatus and Status . What is the difference between them. </h3>
+<div class="outline-text-3" id="text-7_4">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_5" class="outline-3">
+<h3 id="sec-7_5"><span class="section-number-3">7.5</span> What is Read/Reapply/Update statuses ? What are the differences ? </h3>
+<div class="outline-text-3" id="text-7_5">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_6" class="outline-3">
+<h3 id="sec-7_6"><span class="section-number-3">7.6</span> What is the difference between command and status ? Both seems to be same ? </h3>
+<div class="outline-text-3" id="text-7_6">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_7" class="outline-3">
+<h3 id="sec-7_7"><span class="section-number-3">7.7</span> When is DiscoverService Called ? When we already connected to cloud what the purpose? </h3>
+<div class="outline-text-3" id="text-7_7">
+
+</div>
+
+</div>
+
+<div id="outline-container-7_8" class="outline-3">
+<h3 id="sec-7_8"><span class="section-number-3">7.8</span> At what step I will be connected to orderhandler or any other service ? </h3>
+<div class="outline-text-3" id="text-7_8">
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Discussion </h2>
+<div class="outline-text-2" id="text-8">
+
+
+</div>
+
+<div id="outline-container-8_1" class="outline-3">
+<h3 id="sec-8_1"><span class="section-number-3">8.1</span> Client also need to update status specific to buisness functionality. Like few functionality is disables/not available etc. </h3>
+<div class="outline-text-3" id="text-8_1">
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: 
+</p>
+<p class="date"> Date: 2014-03-08 20:42:13 </p>
+<p class="creator">HTML generated by org-mode 7.01 in emacs 24</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/assert.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:43 GMT -->
+<head>
+		<title>Boost: assert.hpp documentation - 1.54.0</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+	<body bgcolor="white" style="MARGIN-LEFT: 5%; MARGIN-RIGHT: 5%">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+		
+					<h1>assert.hpp</h1>
+				
+		<p>
+			<a href="#BOOST_ASSERT">BOOST_ASSERT</a><br>
+            <a href="#BOOST_ASSERT_MSG">BOOST_ASSERT_MSG</a><br>
+            <a href="#BOOST_VERIFY">BOOST_VERIFY</a></p>
+            
+<h2><a name="BOOST_ASSERT">BOOST_ASSERT</a></h2>
+		<p>
+			The header <STRONG>&lt;boost/assert.hpp&gt;</STRONG> defines the macro <b>BOOST_ASSERT</b>, 
+			which is similar to the standard <STRONG>assert</STRONG> macro defined in <STRONG>&lt;cassert&gt;</STRONG>. 
+			The macro is intended to be used in both Boost libraries and user 
+            code.
+		</p>
+		<P>By default, <tt>BOOST_ASSERT(expr)</tt> is equivalent to <tt>assert(expr)</tt>.</P>
+		<P>If the macro <STRONG>BOOST_DISABLE_ASSERTS</STRONG> is defined when <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			is included, <tt>BOOST_ASSERT(expr)</tt> is defined as <tt>((void)0)</tt>. This 
+			allows users to selectively disable <STRONG>BOOST_ASSERT</STRONG> without 
+			affecting the definition of the standard <STRONG>assert</STRONG>.</P>
+		<P>If the macro <STRONG>BOOST_ENABLE_ASSERT_HANDLER</STRONG> is defined when <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			is included, <tt>BOOST_ASSERT(expr)</tt> evaluates <b>expr</b> and, if the 
+			result is false, evaluates the expression</P>
+		<blockquote>
+		<P><tt>::boost::assertion_failed(#expr, <a href="http://www.boost.org/doc/libs/1_54_0/libs/utility/current_function.html">BOOST_CURRENT_FUNCTION</a>, 
+				__FILE__, __LINE__)</tt></P>
+		</blockquote>
+		<P><STRONG>assertion_failed</STRONG> is declared in <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			as</P>
+		<blockquote>
+		<pre>namespace boost
+{
+  void assertion_failed(char const * expr, char const * function, char const * file, long line);
+}
+</pre>
+		</blockquote>
+		<p>but it is never defined. The user is expected to supply an appropriate 
+			definition.</p>
+		<P>As is the case with <STRONG>&lt;cassert&gt;</STRONG>, <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			can be included multiple times in a single translation unit. <STRONG>BOOST_ASSERT</STRONG>
+			will be redefined each time as specified above.</P>
+			
+<h2><a name="BOOST_ASSERT_MSG">BOOST_ASSERT_MSG</a></h2>
+		<p>
+			The header <STRONG>&lt;boost/assert.hpp&gt;</STRONG> defines the macro <b>BOOST_ASSERT_MSG</b>, 
+			which is similar to the standard <STRONG>assert</STRONG> macro defined in <STRONG>&lt;cassert&gt;</STRONG>, 
+            but with an additional macro parameter supplying an error message. The macro is intended to be used in both Boost libraries 
+            and user code.
+		</p>
+		<P> <tt>BOOST_ASSERT_MSG(expr, msg)</tt> is equivalent to <code>
+        ((void)0)</code> if <b>BOOST_DISABLE_ASSERTS</b> or <b>NDEBUG</b> are 
+        defined or <code>expr</code> evaluates to <code>true</code>. If those 
+        macros and <STRONG>BOOST_ENABLE_ASSERT_HANDLER</STRONG> are not 
+        defined, and <code>expr</code> evaluates to <code>false</code>, an error 
+        message that includes <tt>#expr</tt>, <tt>msg</tt>, <tt> <a href="http://www.boost.org/doc/libs/1_54_0/libs/utility/current_function.html">BOOST_CURRENT_FUNCTION</a></tt>, <tt>
+        __FILE__</tt>, and <tt>__LINE__</tt> is sent to output stream <b>
+        BOOST_ASSERT_MSG_OSTREAM</b> 
+        and <code>std::abort()</code> is called.</P>
+		<P> <b>BOOST_ASSERT_MSG_OSTREAM</b> defines the output stream. It defaults to <code>std::cerr</code>. 
+        Integrated development environments (IDE's) like Microsoft Visual Studio 
+        may produce easier to understand output if messages go to a different 
+        stream, such as <code>std::cout</code>. Users may define <b>BOOST_ASSERT_MSG_OSTREAM</b> before including <STRONG>&lt;boost/assert.hpp&gt;</STRONG> 
+        to specify a different output stream.&nbsp; </P>
+		<P>If the macro <STRONG>BOOST_ENABLE_ASSERT_HANDLER</STRONG> is defined when <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			is included, instead of sending a error message to an output 
+        stream, this expression is evaluated</P>
+		<blockquote>
+		<P><tt>::boost::assertion_failed_msg(#expr, msg, <a href="http://www.boost.org/doc/libs/1_54_0/libs/utility/current_function.html">BOOST_CURRENT_FUNCTION</a>, 
+				__FILE__, __LINE__)</tt></P>
+		</blockquote>
+		<P><STRONG>assertion_failed_msg</STRONG> is declared in <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			as</P>
+		<blockquote>
+		<pre>namespace boost
+{
+  void assertion_failed_msg(char const * expr, char const * msg, char const * function, char const * file, long line);
+}
+</pre>
+		</blockquote>
+		<p>but it is never defined. The user is expected to supply an appropriate 
+			definition.</p>
+		<P>As is the case with <STRONG>&lt;cassert&gt;</STRONG>, <STRONG>&lt;boost/assert.hpp&gt;</STRONG>
+			can be included multiple times in a single translation unit. <STRONG>BOOST_ASSERT_MSG</STRONG>
+			will be redefined each time as specified above.</P>
+			
+<h2><a name="BOOST_VERIFY">BOOST_VERIFY</a></h2>
+		<p><STRONG>&lt;boost/assert.hpp&gt;</STRONG> also defines the macro <STRONG>BOOST_VERIFY</STRONG>. 
+			It has exactly the same behavior as <STRONG>BOOST_ASSERT</STRONG>, except that 
+			the expression that is passed to <STRONG>BOOST_VERIFY</STRONG> is always 
+			evaluated. This is useful when the asserted expression has desirable side 
+			effects; it can also help suppress warnings about unused variables when the 
+			only use of the variable is inside an assertion.</p>
+		<p><br>
+			<small>Copyright © 2002, 2007 by Peter Dimov.&nbsp; Copyright © 2011 
+        by Beman Dawes. Distributed under the Boost Software 
+				License, Version 1.0. See accompanying file <A href="http://www.boost.org/doc/libs/1_54_0/LICENSE_1_0.txt">LICENSE_1_0.txt</A>
+				or copy at <A href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</A>.</small></p>
+	</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/assert.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:43 GMT -->
+</html>

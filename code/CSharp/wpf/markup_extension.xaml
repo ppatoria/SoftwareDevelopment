@@ -1,0 +1,34 @@
+<Button xmlns	   = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x	   = "http://schemas.microsoft.com/winfx/2006/xaml"
+	Background = "{x:Null}"
+	Height	   = "{x:Static SystemParameters.IconHeight}"
+	Content	   = "{Binding Path           = Height, 
+			       RelativeSource = {RelativeSource Self}}"/>
+
+
+
+
+
+<!--  C# code for the above xaml
+      =========================== 
+
+/***************************************************************** 
+ * Instantiate button and set the background and height property *
+ *****************************************************************/
+Button b		= new Button (); 
+b.Background		= null;				// Set Background: 
+b.Height		= SystemParameters.IconHeight;  // Set Height: 
+
+/******************************************************
+ * Create binding set the path to height of the self. *
+ ******************************************************/
+Binding binding		= new Binding ();		// Set Content: 
+binding.Path		= new PropertyPath (“Height”); 
+binding.RelativeSource	= RelativeSource.Self; 
+
+/*************************************************
+ * set the binding to content property of button *
+ *************************************************/
+b.SetBinding (Button.ContentProperty, binding); 
+
+-->

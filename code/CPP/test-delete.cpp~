@@ -1,0 +1,23 @@
+#include <iostream>
+
+class cls{
+public:
+  void func(){};
+};
+void func( cls* ptr )
+{
+  if( ptr )
+    {
+      std::cout << "calling...: " <<std::endl;
+      ptr->func();
+    }
+}
+
+int main()
+{
+  cls* ptr = new cls();
+  delete ptr;
+  ptr = nullptr;
+  func( ptr );
+  return 0;
+}

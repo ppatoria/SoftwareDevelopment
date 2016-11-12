@@ -1,0 +1,374 @@
+<!--
+
+Copyright 2005 Jonathan Turkanis
+Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <A href="/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</A>)
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/menu.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:20 GMT -->
+<head>
+
+<!-- ------------------ Links to Stylesheets and Scripts  ------------ -->
+
+    <link rel="stylesheet" type="text/css" href="http://www.boost.org/doc/libs/1_54_0/boost.css">
+    <link rel="stylesheet" type="text/css" href="http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tree/tree.css">
+    <script language="JavaScript" src="http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tree/tree.js"></script>
+    <style> CODE { font-size:80% } </style>
+
+<!-- ------------------ Create and Populate Tree Control ------------- -->
+
+    <script language="JavaScript">
+    <!--
+
+    var tree = new tree_control("content"); 
+    tree.add("Introduction", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/home.html").parent()
+    tree.add("Tutorial", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tutorial.html")
+        .add("Writing Devices")
+            .add("Overview", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_devices.html").parent()
+            .add("<CODE>container_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_source.html").parent()
+            .add("<CODE>container_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_sink.html").parent()
+            .add("<CODE>container_device</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_device.html").parent().parent()
+        .add("Writing Filters")
+            .add("Overview", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_filters.html", true)
+                .add("Input and Output", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_filters.html#input_filters_and_output_filters").parent()
+                .add("Filter Helpers", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_filters.html#filter_helpers").parent()
+                .add("Selecting A Filter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_filters.html#selecting_a_filter").parent().parent()
+            .add("Filter Usage", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/filter_usage.html", true).parent()
+            .add("Shell Comments", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/shell_comments_filters.html", true)
+                .add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/shell_comments_filters.html#shell_comments_stdio_filter").parent()
+                .add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/shell_comments_filters.html#shell_comments_input_filter").parent()
+                .add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/shell_comments_filters.html#shell_comments_output_filter").parent().parent()
+            .add("Line-Wrapping", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/line_wrapping_filters.html", true)
+                .add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/line_wrapping_filters.html#line_wrapping_stdio_filter").parent()
+                .add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/line_wrapping_filters.html#line_wrapping_input_filter").parent()
+                .add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/line_wrapping_filters.html#line_wrapping_output_filter").parent().parent()
+            .add("Tab-Expanding", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tab_expanding_filters.html", true)
+                .add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tab_expanding_filters.html#tab_expanding_stdio_filter").parent()
+                .add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tab_expanding_filters.html#tab_expanding_input_filter").parent()
+                .add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tab_expanding_filters.html#tab_expanding_output_filter").parent().parent()
+            .add("Dictionary", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dictionary_filters.html", true)
+                .add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dictionary_filters.html#dictionary_stdio_filter").parent()
+                .add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dictionary_filters.html#dictionary_input_filter").parent()
+                .add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dictionary_filters.html#dictionary_output_filter").parent().parent()
+            .add("UNIX-to-DOS", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/unix2dos_filters.html", true)
+                .add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/unix2dos_filters.html#unix2dos_stdio_filter").parent()
+                .add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/unix2dos_filters.html#unix2dos_input_filter").parent()
+                .add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/unix2dos_filters.html#unix2dos_output_filter").parent().parent()
+            .add("Multi-Character Filters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html", true)
+                .add("InputFilters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html#multichar_input_filters").parent()
+                .add("<CODE>shell_comments_mutichar_input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html#shell_comments_multichar_input_filter").parent()
+                .add("OutputFilters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html#multichar_output_filters").parent()
+                .add("<CODE>shell_comments_multichar_output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html#shell_comments_multichar_ouput_filter").parent().parent()
+            .add("Dual-Use Filters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dual_use_filters.html").parent()
+            .add("Finite State Filters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html", true)
+                .add("Finite State Machines", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html#finite_state_machine").parent()
+                .add("<CODE>dos2unix_fsm</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html#dos2unix_fsm").parent()
+                .add("<CODE>unix2dos_fsm</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html#unix2dos_fsm").parent()
+                .add("<CODE>uncommenting_fsm</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html#uncommenting_fsm");
+    tree.add("User's Guide", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/guide.html", true)
+        .add("Concepts", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/concepts.html").parent()
+        .add("Modes", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/modes.html").parent()
+        .add("Generic Streams", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/generic_streams.html").parent()
+        .add("Filtering Streams", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/filtering_streams.html").parent()
+        .add("Code Conversion", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/code_conversion.html").parent()
+        .add("Asynchronous I/O", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/asynchronous.html").parent()
+        .add("Object Lifetimes", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/lifetimes.html").parent()
+        .add("Pipelines", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/pipelines.html").parent()
+        .add("Views", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/views.html").parent()
+        .add("Exceptions", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/exceptions.html").parent()
+        .add("Buffering", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/buffering.html");
+    var ref = tree.add("Reference", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/reference.html");
+    ref.add("Concepts", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/concepts.html", true)
+            .add("Devices", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/concepts.html#devices")
+                .add("BidirectionalDevice", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/bidirectional_device.html").parent()
+                .add("Blocking", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/blocking.html").parent()
+                .add("Device", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/device.html").parent()
+                .add("Direct", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/direct.html").parent()
+                .add("Peekable", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/peekable.html").parent()
+                .add("SeekableDevice", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/seekable_device.html").parent()
+                .add("Sink", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/sink.html").parent()
+                .add("Source", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/source.html").parent().parent()
+            .add("Filters", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/concepts.html#filters")
+                .add("BidirectionalFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/bidirectional_filter.html").parent()
+                .add("DualUseFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/dual_use_filter.html").parent()
+                .add("Filter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/filter.html").parent()
+                .add("InputFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/input_filter.html").parent()
+                .add("Multi-Character", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/multi_character.html").parent()
+                .add("OutputFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/output_filter.html").parent()
+                .add("Pipable", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/pipable.html").parent()
+                .add("SeekableFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/seekable_filter.html").parent().parent()
+            .add("Other", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/concepts.html#other")
+                .add("Closable", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/closable.html").parent()
+                .add("Flushable", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/flushable.html").parent()
+                .add("Localizable", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/localizable.html").parent()
+                .add("OptimallyBuffered", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/optimally_buffered.html").parent()
+                .add("SymmetricFilter", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/symmetric_filter.html");
+    var classes = ref.add("Classes", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html", true);
+    classes.add("A", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#a")
+                .add("<CODE>aggregate_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/aggregate.html").parent()
+                .add("<CODE>array</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array").parent()
+                .add("<CODE>array_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_sink").parent()
+                .add("<CODE>array_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_source").parent().parent()
+            .add("B", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#b")
+  				.add("<CODE>back_insert_device</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/back_inserter.html").parent()
+  				.add("<CODE>basic_array</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array").parent()
+  				.add("<CODE>basic_array_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_sink").parent()
+  				.add("<CODE>basic_array_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_source").parent()
+  				.add("<CODE>basic_bzip2_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#basic_bzip2_compressor").parent()
+  				.add("<CODE>basic_bzip2_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#basic_bzip2_decompressor").parent()
+  				.add("<CODE>basic_counter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/counter.html").parent()
+  				.add("<CODE>basic_file</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file").parent()
+  				.add("<CODE>basic_file_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_sink").parent()
+  				.add("<CODE>basic_file_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_source").parent()
+  				.add("<CODE>basic_grep_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/grep_filter.html").parent()
+  				.add("<CODE>basic_gzip_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#basic_gzip_compressor").parent()
+  				.add("<CODE>basic_gzip_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#basic_gzip_decompressor").parent()
+  				.add("<CODE>basic_line_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/line_filter.html").parent()
+  				.add("<CODE>basic_null_device</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_device").parent()
+  				.add("<CODE>basic_null_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_sink").parent()
+  				.add("<CODE>basic_null_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_source").parent()
+  				.add("<CODE>basic_regex_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/regex_filter.html").parent()
+  				.add("<CODE>basic_stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/stdio_filter.html").parent()
+  				.add("<CODE>basic_zlib_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#basic_zlib_compressor").parent()
+  				.add("<CODE>basic_zlib_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#basic_zlib_decompressor").parent()
+  				.add("<CODE>bzip2_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#basic_bzip2_compressor").parent()
+  				.add("<CODE>bzip2_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#basic_bzip2_decompressor").parent()
+  				.add("<CODE>bzip2_error</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#bzip2_error").parent()
+  				.add("<CODE>bzip2_params</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/bzip2.html#bzip2_params").parent().parent()
+            .add("C", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#c")
+  				.add("<CODE>category_of</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/traits.html#category_ref").parent()
+  				.add("<CODE>chain</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/chain.html").parent()
+  				.add("<CODE>char_traits</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/char_traits.html").parent()
+  				.add("<CODE>char_type_of</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/traits.html#char_type_of_ref").parent()
+  				.add("<CODE>code_converter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/code_converter.html").parent()
+  				.add("<CODE>combination</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/combine.html#synopsis").parent()
+  				.add("<CODE>composite</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/compose.html#composite").parent()
+  				.add("<CODE>counter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/counter.html#reference").parent().parent()
+            .add("D", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#d")
+  				.add("<CODE>device</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html").parent()
+  				.add("<CODE>dual_use_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>dual_use_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent().parent()
+            .add("F", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#f")
+  				.add("<CODE>file</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file").parent()
+  				.add("<CODE>file_descriptor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file_descriptor.html#file_descriptor").parent()
+  				.add("<CODE>file_descriptor_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file_descriptor.html#file_descriptor_sink").parent()
+  				.add("<CODE>file_descriptor_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file_descriptor.html#file_descriptor_source").parent()
+  				.add("<CODE>file_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_sink").parent()
+  				.add("<CODE>file_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_source").parent()
+  				.add("<CODE>filtering_stream</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filtering_stream.html").parent()
+  				.add("<CODE>filtering_streambuf</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filtering_streambuf.html").parent()
+  				.add("<CODE>filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html").parent().parent()
+            .add("G", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#g")
+  				.add("<CODE>grep_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/grep_filter.html").parent()
+  				.add("<CODE>gzip_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#basic_gzip_compressor").parent()
+  				.add("<CODE>gzip_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#basic_gzip_compressor").parent()
+  				.add("<CODE>gzip_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#basic_gzip_decompressor").parent()
+  				.add("<CODE>gzip_error</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#gzip_error").parent()
+  				.add("<CODE>gzip_params</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/gzip.html#gzip_params").parent().parent()
+            .add("I", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#i")
+  				.add("<CODE>input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>input_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>inverse</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/invert.html#inverse");
+    classes.add("L", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#l")
+  				.add("<CODE>line_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/line_filter.html#reference").parent().parent()
+            .add("M", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#m")
+  				.add("<CODE>mapped_file</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/mapped_file.html#mapped_file").parent()
+  				.add("<CODE>mapped_file_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/mapped_file.html#mapped_file_sink").parent()
+  				.add("<CODE>mapped_file_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/mapped_file.html#mapped_file_source").parent()
+  				.add("<CODE>mode_of</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/mode.html").parent()
+  				.add("<CODE>multichar_dual_use_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_dual_use_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html").parent()
+  				.add("<CODE>multichar_input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_input_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_output_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>multichar_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent().parent()
+            .add("N", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#n")
+  				.add("<CODE>newline_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/newline_filter.html").parent()
+  				.add("<CODE>null_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_sink").parent()
+  				.add("<CODE>null_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_source").parent().parent()
+            .add("O", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#o")
+  				.add("<CODE>output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>output_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent().parent()
+            .add("R", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#r")
+  				.add("<CODE>regex_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/regex_filter.html#reference").parent()
+  				.add("<CODE>restriction</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/restrict.html#restriction").parent().parent()
+            .add("S", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#s")
+  				.add("<CODE>seekable_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>seekable_wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html#reference").parent()
+  				.add("<CODE>sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html#reference").parent()
+  				.add("<CODE>source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html#reference").parent()
+  				.add("<CODE>stdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/stdio_filter.html#reference").parent()
+  				.add("<CODE>stream</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/generic_streams.html#stream").parent()
+  				.add("<CODE>stream_buffer</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/generic_streams.html#stream_buffer").parent()
+  				.add("<CODE>symmetric_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/symmetric_filter.html").parent().parent()
+            .add("T", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#t")
+  				.add("<CODE>tee_device</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/tee.html#tee_device").parent()
+  				.add("<CODE>tee_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/tee.html#tee_filter").parent().parent()
+            .add("W", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#w")
+  				.add("<CODE>warray</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array").parent()
+  				.add("<CODE>warray_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_sink").parent()
+  				.add("<CODE>warray_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/array.html#array_source").parent()
+  				.add("<CODE>wchain</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/chain.html#wchain").parent()
+  				.add("<CODE>wcounter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/counter.html#reference").parent()
+  				.add("<CODE>wdevice</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html").parent()
+  				.add("<CODE>wfile</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file").parent()
+  				.add("<CODE>wfile_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_sink").parent()
+  				.add("<CODE>wfile_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/file.html#file_source").parent()
+  				.add("<CODE>wfilter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/filter.html").parent()
+  				.add("<CODE>wgrep_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/grep_filter.html").parent()
+  				.add("<CODE>wline_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/line_filter.html#reference").parent()
+  				.add("<CODE>wnull_sink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_sink").parent()
+  				.add("<CODE>wnull_source</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/null.html#null_source").parent()
+  				.add("<CODE>wregex_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/regex_filter.html#reference").parent()
+  				.add("<CODE>wsink</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html#reference").parent()
+  				.add("<CODE>wsource</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/device.html#reference").parent()
+  				.add("<CODE>wstdio_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/stdio_filter.html#reference").parent().parent()
+            .add("Z", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html#z")
+  				.add("<CODE>zlib_compressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#basic_zlib_compressor").parent()
+  				.add("<CODE>zlib_decompressor</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#basic_zlib_decompressor").parent()
+  				.add("<CODE>zlib_error</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#zlib_error").parent()
+  				.add("<CODE>zlib_params</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/zlib.html#zlib_params");
+    ref.add("Functions", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/functions.html", true)
+            .add("<CODE>back_inserter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/back_inserter.html#back_inserter").parent()
+            .add("<CODE>close</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/close.html").parent()
+            .add("<CODE>combine</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/combine.html").parent()
+            .add("<CODE>compose</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/compose.html").parent()
+            .add("<CODE>copy</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/copy.html").parent()
+            .add("<CODE>flush</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/flush.html").parent()
+            .add("<CODE>get</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/get.html").parent()
+            .add("<CODE>imbue</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/imbue.html").parent()
+            .add("<CODE>invert</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/invert.html").parent()
+            .add("<CODE>offset_to_position</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/positioning.html#offset_to_position").parent()
+            .add("<CODE>optimal_buffer_size</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/optimal_buffer_size.html").parent()
+            .add("<CODE>position_to_offset</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/positioning.html#position_to_offset").parent()
+            .add("<CODE>put</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/put.html").parent()
+            .add("<CODE>putback</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/putback.html").parent()
+            .add("<CODE>read</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/read.html").parent()
+            .add("<CODE>restrict</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/restrict.html").parent()
+            .add("<CODE>seek</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/seek.html").parent()
+            .add("<CODE>slice</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/slice.html").parent()
+            .add("<CODE>tee</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/tee.html").parent()
+            .add("<CODE>test_filter_pair</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/filter_test.html#test_pair").parent()
+            .add("<CODE>test_input_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/filter_test.html#test_input").parent()
+            .add("<CODE>test_output_filter</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/filter_test.html#test_output").parent()
+            .add("<CODE>write</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/write.html");
+    ref.add("Macros", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/macros.html", true)
+            .add("<CODE>IOS</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#ios").parent()
+            .add("<CODE>BASIC_ISTREAM</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streams").parent()
+            .add("<CODE>BASIC_IOS</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#ios").parent()
+            .add("<CODE>BASIC_IOSTREAM</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streams").parent()
+            .add("<CODE>BASIC_OSTREAM</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streams").parent()
+            .add("<CODE>BASIC_STREAMBUF</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streambufs").parent()
+            .add("<CODE>CHAR_TRAITS</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#char_traits").parent()
+            .add("<CODE>COMPONENT</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#component_access").parent()
+            .add("<CODE>COMPONENT_TYPE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#component_access").parent()
+            .add("<CODE>DEFAULT_DEVICE_BUFFER_SIZE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/buffer_sizes.html#component_access").parent()
+            .add("<CODE>DEFAULT_FILTER_BUFFER_SIZE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/buffer_sizes.html#component_access").parent()
+            .add("<CODE>DEFAULT_PBACK_BUFFER_SIZE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/buffer_sizes.html#component_access").parent()
+            .add("<CODE>FAILURE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#ios").parent()
+            .add("<CODE>PIPABLE</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/pipelines.html#boost_iostreams_pipable").parent()
+            .add("<CODE>PUBSEEKOFF</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streambufs").parent()
+            .add("<CODE>PUBSEEKPOS</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streambufs").parent()
+            .add("<CODE>PUBSYNC</CODE>", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/workarounds.html#streambufs").parent().parent().parent()
+    tree.add("Quick Reference", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/quick_reference.html");
+    tree.add("FAQ", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/faq.html");
+    tree.add("Installation", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/installation.html");
+    tree.add("Portability", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/portability.html");
+    tree.add("Rationale", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/rationale.html");
+    tree.add("Bibliography", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/bibliography.html");
+    tree.add("Acknowledgments", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/acknowledgments.html");
+    tree.add("Release Notes", "http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/release_notes.html");
+
+    //tree.dump_html = true; 
+    tree.indent = 9;
+    tree.draw();
+
+    // -->
+    </script>
+
+</head>
+<body>
+
+<!-- ------------------ Boost Logo and Library Name ------------------ -->
+
+    <table cellpadding=0 cellspacing=0 clear="both" style="margin:0;padding:0" width=170>
+    <tr>
+    <td>
+    <P CLASS="clipped"><a href="http://www.boost.org/doc/libs/1_54_0/index.htm" target="_top">
+    <img border=0 style="position:relative;left:10" SRC="http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/theme/boost_small.png"></a></P>
+    </td>
+    </tr>
+    </table>
+
+    <table clear="both" style="margin-top:0;margin-left:1em;margin-bottom:.5em;padding:0" width=170>
+    <tr>
+    <td align=left width=170>
+        <a style="text-decoration:none" href="http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/index.html" target="_top">
+            <h1 class="lib-name" style="margin:0">Boost.Iostreams</h1>
+        </a>
+    </td>
+    </tr>
+    </table>
+
+    <hr align="center" width="90%">
+
+    <table style="margin:0;padding:0" width=170>
+    <tr><td>
+
+<!-- ------------------ Markup for Browsers with Scripting Disabled -- -->
+
+    <noscript>
+        <table><tr><td align='left'><table width=150><tr><td><h1 class=tree-caption>Contents</h1></td></tr></table></td></tr><tr><td><div id='list' style='white-space:nowrap;display:'>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>1</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/home.html' target='content'><span class='tree-text'>Introduction</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>2</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tutorial.html' target='content'><span class='tree-text'>Tutorial</span></a></div><div id='list.2' style='white-space:nowrap;display:'>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>2.1</span>  <span class='tree-text'>Writing Devices</span></div><div id='list.2.1' style='white-space:nowrap;display:'>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.1.1</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_devices.html' target='content'><span class='tree-text'>Overview</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.1.2</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_source.html' target='content'><span class='tree-text'><CODE>container_source</CODE></span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.1.3</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_sink.html' target='content'><span class='tree-text'><CODE>container_sink</CODE></span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.1.4</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/container_device.html' target='content'><span class='tree-text'><CODE>container_device</CODE></span></a></div></div></div></div>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>2.2</span>  <span class='tree-text'>Writing Filters</span></div><div id='list.2.2' style='white-space:nowrap;display:'>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.1</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/writing_filters.html' target='content'><span class='tree-text'>Overview</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.2</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/filter_usage.html' target='content'><span class='tree-text'>Filter Usage</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.3</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/shell_comments_filters.html' target='content'><span class='tree-text'>Shell Comments</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.4</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/line_wrapping_filters.html' target='content'><span class='tree-text'>Line-Wrapping</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.5</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/tab_expanding_filters.html' target='content'><span class='tree-text'>Tab-Expanding</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.6</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dictionary_filters.html' target='content'><span class='tree-text'>Dictionary</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.7</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/unix2dos_filters.html' target='content'><span class='tree-text'>UNIX-to-DOS</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.8</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/multichar_filters.html' target='content'><span class='tree-text'>Multi-Character Filters</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.9</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/dual_use_filters.html' target='content'><span class='tree-text'>Dual-Use Filters</span></a></div></div>
+<div class='tree-item'><div style='margin-left:36;text-indent:-18'><span class='tree-label'>2.2.10</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/tutorial/finite_state_filters.html' target='content'><span class='tree-text'>Finite State Filters</span></a></div></div></div></div></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>3</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/guide/guide.html' target='content'><span class='tree-text'>User's Guide</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>4</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/reference.html' target='content'><span class='tree-text'>Reference</span></a></div><div id='list.4' style='white-space:nowrap;display:'>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>4.1</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/concepts/concepts.html' target='content'><span class='tree-text'>Concepts</span></a></div></div>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>4.2</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/classes/classes.html' target='content'><span class='tree-text'>Classes</span></a></div></div>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>4.3</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/functions/functions.html' target='content'><span class='tree-text'>Functions</span></a></div></div>
+<div class='tree-item'><div style='margin-left:18;text-indent:-9'><span class='tree-label'>4.4</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/macros/macros.html' target='content'><span class='tree-text'>Macros</span></a></div></div></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>5</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/quick_reference.html' target='content'><span class='tree-text'>Quick Reference</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>6</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/faq.html' target='content'><span class='tree-text'>FAQ</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>7</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/installation.html' target='content'><span class='tree-text'>Installation</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>8</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/portability.html' target='content'><span class='tree-text'>Portability</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>9</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/rationale.html' target='content'><span class='tree-text'>Rationale</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>10</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/bibliography.html' target='content'><span class='tree-text'>Bibliography</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>11</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/acknowledgments.html' target='content'><span class='tree-text'>Acknowledgments</span></a></div></div>
+<div class='tree-item'><div style='margin-left:0;text-indent:-0'><span class='tree-label'>12</span>  <a class='tree-text' onfocus='blur_tree()' href='http://www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/release_notes.html' target='content'><span class='tree-text'>Release Notes</span></a></div></div></div></td></tr></table>
+
+
+    </noscript>
+
+<!-- ------------------ Tree Control --------------------------------- -->
+
+    <span id="tree_control"></span>
+
+    </td></tr>
+    </table>
+
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/iostreams/doc/menu.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:20 GMT -->
+</html>
+

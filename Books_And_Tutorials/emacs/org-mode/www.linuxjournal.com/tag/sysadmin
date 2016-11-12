@@ -1,0 +1,883 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+<title>SysAdmin | Linux Journal</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="canonical" href="http://www.linuxjournal.com/tag/sysadmin" />
+<meta name="keywords" content="SysAdmin" />
+<link rel="alternate" type="application/rss+xml" title="SysAdmin" href="/taxonomy/term/21/all/feed" />
+<link rel="shortcut icon" href="/files/linuxjournal.com/ufiles/linuxjournal_favicon.png" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/files/linuxjournal.com/ufiles/css/css_5fd20b018cd8c4185cb174b4f81ae332.css" />
+<link type="text/css" rel="stylesheet" media="print" href="/files/linuxjournal.com/ufiles/css/css_5d4076ca6387a7e4ffcf41a09929c09b.css" />
+<!--[if IE]>
+<link type="text/css" rel="stylesheet" media="all" href="/sites/linuxjournal.com/themes/zen/zen/ie.css?T" />
+<![endif]-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+  <script type="text/javascript" src="/files/linuxjournal.com/ufiles/js/js_168f8a461b6bba6a393525cc3e49bb55.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "thickbox": { "close": "Close", "next": "Next \x3e", "prev": "\x3c Prev", "esc_key": "", "next_close": "Next / Close on last", "image_count": "Image !current of !total" }, "user_relationships_ui": { "loadingimage": "/sites/linuxjournal.com/modules/user_relationships/user_relationships_ui/images/loadingAnimation.gif", "savingimage": "/sites/linuxjournal.com/modules/user_relationships/user_relationships_ui/images/savingimage.gif", "position": { "position": "absolute", "left": "0", "top": "0" } }, "quicktabs": { "qt_1": { "tabs": [ 0, 0, 0 ] } } });
+//--><!]]>
+</script>
+
+  <script type="text/javascript">
+jQuery.noConflict();
+
+</script>
+
+
+<script type='text/javascript'>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') + 
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+</script>
+
+<script type='text/javascript'>
+googletag.cmd.push(function() {
+googletag.defineSlot('/1013989/Interstitial', [600, 400], 'div-gpt-ad-1385082703935-0').addService(googletag.pubads());
+googletag.defineOutOfPageSlot('/1013989/Interstitial', 'div-gpt-ad-1385082703935-0-oop').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+});
+</script>
+<!-- PUT THIS TAG IN THE head SECTION -->
+
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+  GS_googleAddAdSenseService("ca-pub-3600556074671070");
+  GS_googleEnableAllServices();
+</script>
+<script type="text/javascript">
+  GA_googleAddSlot("ca-pub-3600556074671070", "Half_Banner336x90");
+  GA_googleAddSlot("ca-pub-3600556074671070", "Large_Rectangle336x280");
+  GA_googleAddSlot("ca-pub-3600556074671070", "Leaderboard728x90");
+GA_googleAddSlot("ca-pub-3600556074671070", "Desktop_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Desktop_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Embedded_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Embedded_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Mobile_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Mobile_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Security_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Security_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "SysAdmin_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "SysAdmin_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Virtualization_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Virtualization_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "HPC_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "HPC_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "WebDevelopment_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "WebDevelopment_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "large_rectangle_test");
+GA_googleAddSlot("ca-pub-3600556074671070", "article_footer");
+GA_googleAddSlot("ca-pub-3600556074671070", "sidebar_bottom_lr");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square_middle");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square_right");
+GA_googleAddSlot("ca-pub-3600556074671070", "subscriptions");
+GA_googleAddSlot("ca-pub-3600556074671070", "MediumRectangle300x250");
+
+</script>
+<script type="text/javascript">
+  GA_googleFetchAds();
+</script>
+<!-- END OF TAG FOR head SECTION -->
+
+
+
+ <!-- <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script> -->
+ <!--<script type="text/javascript">_uacct = "UA-1117794-1"; urchinTracker();</script> -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1117794-1");
+pageTracker._setDomainName(".linuxjournal.com");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<!-- Start Quantcast tag -->
+<script type="text/javascript"
+src="http://edge.quantserve.com/quant.js"></script>
+<script
+type="text/javascript">_qacct="p-a3K3N6enFe9wA";quantserve();</script>
+<object>
+<noscript>
+<a href="http://www.quantcast.com/p-a3K3N6enFe9wA"
+target="_blank"><img
+src="http://pixel.quantserve.com/pixel/p-a3K3N6enFe9wA.gif"
+style="display: none;" border="0" height="1" width="1"
+alt="Quantcast"/></a>
+</noscript>
+</object>
+<!-- End Quantcast tag -->
+
+</head>
+<body class="not-front not-logged-in one-sidebar sidebar-right page-tag-sysadmin section-tag">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=406458029406839";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+  <div id="page"><div id="page-inner">
+<div id="header-top">
+<!--<div id="login">
+<form action="/?q=user&amp;destination=taxonomy%2Fterm%2F21"  method="post" id="user-login">
+Username/Email:&nbsp;<input type="text" maxlength="60" name="name" id="edit-name" size="15" value="" class="form-text required" />
+Password:&nbsp;<input type="password" maxlength="" name="pass" id="edit-pass" size="15" class="form-text required" />
+<input type="submit" name="op" value="Login" class="form-submit" />
+
+
+<input type="hidden" name="form_id" id="edit-user-login" value="user_login" />
+
+</form>
+</div>
+<div id="login-links">
+<a href="/user/register">Register</a> | <a href="/user/password">Forgot your password?</a>
+
+
+
+</div>
+<div id="connect">
+<a href="http://www.twitter.com/linuxjournal" title="Follow us on Twitter"><img alt="Twitter" src="/files/linuxjournal.com/images/twittericon.jpg" /></a><a href="http://www.facebook.com/linuxjournal" title="Become a Fan on Facebook"><img alt="Facebook" src="/files/linuxjournal.com/images/fbicon.jpg" /></a><a href="http://www.flickr.com/groups/linuxjournal/pool/" title="Contribute to Our Flickr Pool"><img alt="Flickr" src="/files/linuxjournal.com/images/flickricon.jpg" /></a><a href="/rss_feeds" title="Subscribe to Our Feeds"><img alt="RSS" src="/files/linuxjournal.com/images/rssicon.jpg" /></a>
+</div>-->
+       <div id="skip-to-nav"><a href="#navigation">Skip to Navigation</a></div>
+    <div id="subscribe-button"><a href="http://www.linuxjournal.com/subscribe">Click to subscribe</a></div>
+<div id="login-button"><a href="/user">Login</a></div>
+
+</div> <!-- /#header-top -->
+
+
+
+
+
+
+    <a name="top" id="navigation-top"></a>
+
+
+    <div id="header"><div id="header-inner" class="clear-block">
+
+              <div id="logo-title">
+
+                      <div id="logo"><a href="/" title="Home" rel="home"><img src="/files/linuxjournal.com/ufiles/logo-lj.jpg" alt="Linux Journal" id="logo-image" /></a></div>
+          
+          
+          
+	<div id="leaderboard-adblock" class="adblock leaderboard-adblock">
+       <div id="block-block-88" class="block block-block region-odd odd region-count-1 count-11"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><!-- ca-pub-3600556074671070/SysAdmin_Leaderboard -->
+<script type='text/javascript'>
+GA_googleFillSlot("SysAdmin_Leaderboard");
+</script>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+	</div>
+
+        </div> <!-- /#logo-title -->
+      
+
+
+      
+    </div></div> <!-- /#header-inner, /#header -->
+
+    <div id="main"><div id="main-inner" class="clear-block with-navbar">
+
+      <div id="content"><div id="content-inner">
+
+        
+        
+                  <div id="content-header">
+                                      <h1 class="title">SysAdmin</h1>
+                                                          </div> <!-- /#content-header -->
+        
+        <div id="content-area">
+          <div class="view view-taxonomy-term view-id-taxonomy_term view-display-id-page view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+    <div id="node-1217775" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/protect-your-ports-reverse-proxy" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/11534f1.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/protect-your-ports-reverse-proxy" title="Protect Your Ports with a Reverse Proxy">Protect Your Ports with a Reverse Proxy</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a>&nbsp;<!--|
+		Dec 23, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_116 first"><a href="/tag/howtos" rel="tag" title="">HOWTOs</a></li>
+<li class="taxonomy_term_917"><a href="/tag/reverse-proxy" rel="tag" title="">Reverse Proxy</a></li>
+<li class="taxonomy_term_153"><a href="/tag/servers" rel="tag" title="">Servers</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/protect-your-ports-reverse-proxy" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+In a previous article, I discussed Apache Tomcat, which is the ideal way to run
+Java applications from your server. I explained that you can run those
+apps from Tomcat's default 8080 port, or you can configure Tomcat to use
+port 80. But, what if you want to run a traditional Web server
+and host
+Java apps on port 80? The answer is to run a reverse proxy.
+<span class="read-more"><a href="/content/protect-your-ports-reverse-proxy"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/protect-your-ports-reverse-proxy#comments" title="Jump to the first comment of this posting.">7 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+    <div id="node-1211672" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/two-pi-r" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/200px-Raspberry_Pi_Logo.png" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/two-pi-r" title="Two Pi R">Two Pi R</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/kyle-rankin" title="View user profile.">Kyle Rankin</a>&nbsp;<!--|
+		Dec 17, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_906 first"><a href="/tag/glusterfs" rel="tag" title="">GlusterFS</a></li>
+<li class="taxonomy_term_19"><a href="/tag/how-tos" rel="tag" title="">HOW-TOs</a></li>
+<li class="taxonomy_term_805"><a href="/tag/raspberry-pi" rel="tag" title="">Raspberry Pi</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/two-pi-r" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+Although many people are excited about the hardware-hacking possibilities
+with the Raspberry Pi, one of the things that interests me most is
+the fact that it is essentially a small low-power Linux server I can
+use to replace other Linux servers I already have around the house.<span class="read-more"><a href="/content/two-pi-r"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/two-pi-r#comments" title="Jump to the first comment of this posting.">4 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-3 views-row-odd">
+    <div id="node-1202772" class="node node-teaser node-type-slideshow"><div class="node-inner">
+
+
+
+  
+
+ <a href="/rc2013" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/rc2013.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/rc2013" title="Readers&#039; Choice Awards 2013">Readers&#039; Choice Awards 2013</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a>&nbsp;<!--|
+		Dec 02, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_192 first"><a href="/tag/android" rel="tag" title="">Android</a></li>
+<li class="taxonomy_term_276"><a href="/tag/cloud" rel="tag" title="">Cloud</a></li>
+<li class="taxonomy_term_207"><a href="/tag/desktop" rel="tag" title="">Desktop</a></li>
+<li class="taxonomy_term_910"><a href="/tag/development" rel="tag" title="">Development</a></li>
+<li class="taxonomy_term_241"><a href="/tag/hpc" rel="tag" title="">HPC</a></li>
+<li class="taxonomy_term_328"><a href="/tag/mobile" rel="tag" title="">Mobile</a></li>
+<li class="taxonomy_term_546"><a href="/tag/readers-choice" rel="tag" title="">Readers&#039; Choice</a></li>
+<li class="taxonomy_term_31"><a href="/tag/security" rel="tag" title="">Security</a></li>
+<li class="taxonomy_term_21 active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+<li class="taxonomy_term_222 last"><a href="/tag/web-development" rel="tag" title="">Web Development</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/rc2013" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+This year's Reader's Choice issue was truly fun to put together. No,
+not just because you do all the work (voting), but because it's great
+to get a feel for what our community is buzzing about. Based on your
+feedback, we've given you all the data again this
+year, with percentages and rankings, plus we tried to include as many
+of your less-popular responses as possible.<span class="read-more"><a href="/rc2013"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/rc2013#comments" title="Jump to the first comment of this posting.">30 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-4 views-row-even">
+    <div id="node-1200431" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/advanced-hard-drive-caching-techniques" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/harddrive_0.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/advanced-hard-drive-caching-techniques" title="Advanced Hard Drive Caching Techniques">Advanced Hard Drive Caching Techniques</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/petros-koutoupis" title="View user profile.">Petros Koutoupis</a>&nbsp;<!--|
+		Nov 25, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_116 first"><a href="/tag/howtos" rel="tag" title="">HOWTOs</a></li>
+<li class="taxonomy_term_153"><a href="/tag/servers" rel="tag" title="">Servers</a></li>
+<li class="taxonomy_term_840"><a href="/tag/storage" rel="tag" title="">Storage</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/advanced-hard-drive-caching-techniques" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+With the introduction of the solid-state Flash drive, performance
+came to the forefront for data storage technologies. Prior to that,
+software developers and server administrators needed to devise methods
+for which they could increase I/O throughput to storage, most of which
+resulted in low capacity caching to random access memory (RAM)
+or a RAM drive.<span class="read-more"><a href="/content/advanced-hard-drive-caching-techniques"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/advanced-hard-drive-caching-techniques#comments" title="Jump to the first comment of this posting.">4 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-5 views-row-odd">
+    <div id="node-1197965" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/manage-your-configs-vcsh" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/Git_session.png" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/manage-your-configs-vcsh" title="Manage Your Configs with vcsh">Manage Your Configs with vcsh</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/bill-childers" title="View user profile.">Bill Childers</a>&nbsp;<!--|
+		Nov 19, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_300 first"><a href="/tag/configuration-management" rel="tag" title="">Configuration Management</a></li>
+<li class="taxonomy_term_116"><a href="/tag/howtos" rel="tag" title="">HOWTOs</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/manage-your-configs-vcsh" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+If you're anything like me (and don't you want to be?), you probably have more
+than one Linux or UNIX machine that you use on a regular basis. Perhaps
+you've got a laptop and a desktop. Or, maybe you've got a few servers on which
+you have
+shell accounts.<span class="read-more"><a href="/content/manage-your-configs-vcsh"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/manage-your-configs-vcsh#comments" title="Jump to the first comment of this posting.">7 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-6 views-row-even">
+    <div id="node-1196861" class="node node-teaser node-type-slideshow"><div class="node-inner">
+
+
+
+  
+
+ <a href="/node/1196861" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/11579f1.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/node/1196861" title="New Products">New Products</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/james-gray" title="View user profile.">James Gray</a>&nbsp;<!--|
+		Nov 18, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_804 first"><a href="/tag/big-data" rel="tag" title="">Big Data</a></li>
+<li class="taxonomy_term_276"><a href="/tag/cloud" rel="tag" title="">Cloud</a></li>
+<li class="taxonomy_term_899"><a href="/tag/openstack" rel="tag" title="">OpenStack</a></li>
+<li class="taxonomy_term_777"><a href="/tag/perl" rel="tag" title="">Perl</a></li>
+<li class="taxonomy_term_153"><a href="/tag/servers" rel="tag" title="">Servers</a></li>
+<li class="taxonomy_term_840"><a href="/tag/storage" rel="tag" title="">Storage</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/node/1196861" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+Please send information about releases of Linux-related products
+to newproducts@linuxjournal.com or 
+New Products
+c/o Linux Journal, PO Box 980985, Houston,
+TX 77098. Submissions are edited for length and content.
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/node/1196861#comments" title="Jump to the first comment of this posting.">3 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-7 views-row-odd">
+    <div id="node-1185094" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/fight-good-fight-smokeping" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/11577smokef1.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/fight-good-fight-smokeping" title="Fight the Good Fight with SmokePing">Fight the Good Fight with SmokePing</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a>&nbsp;<!--|
+		Nov 11, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_799 first"><a href="/tag/editors-choice" rel="tag" title="">Editors&#039; Choice</a></li>
+<li class="taxonomy_term_256"><a href="/tag/networking" rel="tag" title="">networking</a></li>
+<li class="taxonomy_term_21 active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+<li class="taxonomy_term_196 last"><a href="/tag/tech-tips" rel="tag" title="">Tech Tips</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/fight-good-fight-smokeping" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+My Internet connection is unstable. I do realize ISPs generally claim
+some downtime is expected, and service is not guaranteed, and countless
+other excuses are common for intermittent service. I currently pay
+$120/month for business-class service, however, and I expect to get
+reliable Internet access on a regular basis.<span class="read-more"><a href="/content/fight-good-fight-smokeping"> more>></a></span>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/fight-good-fight-smokeping#comments" title="Jump to the first comment of this posting.">8 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-8 views-row-even">
+    <div id="node-1170699" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/november-2013-issue-linux-journal-system-administration" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/cover235.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/november-2013-issue-linux-journal-system-administration" title="November 2013 Issue of Linux Journal: System Administration">November 2013 Issue of Linux Journal: System Administration</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a>&nbsp;<!--|
+		Nov 01, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_21 first last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/november-2013-issue-linux-journal-system-administration" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+
+
+<p>
+Here at Linux Journal, we love system administrators.
+Partially, that's
+because many of us are system administrators, but more than that, we all
+realize just how important sys<span class="read-more"><a href="/content/november-2013-issue-linux-journal-system-administration"> more>></a></span></p>
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/november-2013-issue-linux-journal-system-administration#comments" title="Jump to the first comment of this posting.">2 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-9 views-row-odd">
+    <div id="node-1134770" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/september-2013-issue-linux-journal-how-tos" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/LJ233Cover125x167.png" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/september-2013-issue-linux-journal-how-tos" title="September 2013 Issue of Linux Journal: HOW-TOs">September 2013 Issue of Linux Journal: HOW-TOs</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a>&nbsp;<!--|
+		Sep 03, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_19 first"><a href="/tag/how-tos" rel="tag" title="">HOW-TOs</a></li>
+<li class="taxonomy_term_29"><a href="/taxonomy/term/29" rel="tag" title="">Linux Journal</a></li>
+<li class="taxonomy_term_302"><a href="/tag/programming" rel="tag" title="">Programming</a></li>
+<li class="taxonomy_term_21 active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+<li class="taxonomy_term_222 last"><a href="/tag/web-development" rel="tag" title="">Web Development</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/september-2013-issue-linux-journal-how-tos" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+How'd Ya Do That?
+<p>I tend to read science fiction or fantasy for entertainment and/or escape from reality.<span class="read-more"><a href="/content/september-2013-issue-linux-journal-how-tos"> more>></a></span></p>
+
+  </div>
+
+
+
+  <ul class="links inline"><li class="comment_comments first last"><a href="/content/september-2013-issue-linux-journal-how-tos#comments" title="Jump to the first comment of this posting.">4 comments</a></li>
+</ul>
+ <!---->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  </div>
+  <div class="views-row views-row-10 views-row-even">
+    <div id="node-1116031" class="node node-teaser node-type-story"><div class="node-inner">
+
+
+
+  
+
+ <a href="/content/raspberry-strudel-my-raspberry-pi-austria" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"><img src="http://www.linuxjournal.com/files/linuxjournal.com/ufiles/imagecache/teaser/nodeimage/story/300px-RaspberryPi.jpg" alt="" title=""  class="imagecache imagecache-teaser" width="100" height="100" /></a> 
+  
+  
+
+
+      <h2 class="title">
+      <a href="/content/raspberry-strudel-my-raspberry-pi-austria" title="Raspberry Strudel: My Raspberry Pi in Austria">Raspberry Strudel: My Raspberry Pi in Austria</a>
+    </h2>
+  
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		By <a href="/users/kyle-rankin" title="View user profile.">Kyle Rankin</a>&nbsp;<!--|
+		Aug 22, 2013 -->
+     
+      
+              <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_846 first"><a href="/tag/hosting" rel="tag" title="">Hosting</a></li>
+<li class="taxonomy_term_805"><a href="/tag/raspberry-pi" rel="tag" title="">Raspberry Pi</a></li>
+<li class="taxonomy_term_874"><a href="/tag/remote-management" rel="tag" title="">Remote Management</a></li>
+<li class="taxonomy_term_21 last active"><a href="/tag/sysadmin" rel="tag" title="" class="active">SysAdmin</a></li>
+</ul></div>
+      
+  	 </div>
+    </div>
+  
+  
+    
+
+
+  <div class="content">
+
+    
+    
+            
+                    <a href="/content/raspberry-strudel-my-raspberry-pi-austria" class="imagecache imagecache-teaser imagecache-linked imagecache-teaser_linked"></a>        
+        
+
+<p>
+I remember my first colocated server rather fondly. It was a 1U Supermicro that had
+been decommissioned from my employer after a few years' service. Although it was too
+old and slow for my company, the 800MHz CPU, 1GB RAM and 36GB SCSI storage was
+perfect for my needs back in 2005. A friend was kind enough to allow me to colocate
+the server at his facility for free.<sp

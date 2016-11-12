@@ -1,0 +1,116 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/move/move_and_containers.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:28 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Containers and move semantics - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html" title="The Boost C++ Libraries BoostBook Documentation Subset">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move.html" title="Chapter&#160;18.&#160;Boost.Move">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/movable_only_classes.html" title="Movable but Non-Copyable Types">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/construct_forwarding.html" title="Constructor Forwarding">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"/><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"/></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/movable_only_classes.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/construct_forwarding.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="move.move_and_containers"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/move_and_containers.html" title="Containers and move semantics">Containers and move semantics</a>
+</h2></div></div></div>
+<p>
+      Movable but non-copyable types can be safely inserted into containers and movable
+      and copyable types are more efficiently handled if those containers internally
+      use move semantics instead of copy semantics. If the container needs to "change
+      the location" of an element internally (e.g. vector reallocation) it will
+      move the element instead of copying it. <span class="bold"><strong>Boost.Container</strong></span>
+      containers are move-aware so you can write the following:
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">container</span><span class="special">/</span><span class="identifier">vector</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">cassert</span><span class="special">&gt;</span>
+
+<span class="comment">//Remember: 'file_descriptor' is NOT copyable, but it</span>
+<span class="comment">//can be returned from functions thanks to move semantics</span>
+<span class="identifier">file_descriptor</span> <span class="identifier">create_file_descriptor</span><span class="special">(</span><span class="keyword">const</span> <span class="keyword">char</span> <span class="special">*</span><span class="identifier">filename</span><span class="special">)</span>
+<span class="special">{</span>  <span class="keyword">return</span> <span class="identifier">file_descriptor</span><span class="special">(</span><span class="identifier">filename</span><span class="special">);</span>  <span class="special">}</span>
+
+<span class="keyword">int</span> <span class="identifier">main</span><span class="special">()</span>
+<span class="special">{</span>
+   <span class="comment">//Open a file obtaining its descriptor, the temporary</span>
+   <span class="comment">//returned from 'create_file_descriptor' is moved to 'fd'.</span>
+   <span class="identifier">file_descriptor</span> <span class="identifier">fd</span> <span class="special">=</span> <span class="identifier">create_file_descriptor</span><span class="special">(</span><span class="string">"filename"</span><span class="special">);</span>
+   <span class="identifier">assert</span><span class="special">(!</span><span class="identifier">fd</span><span class="special">.</span><span class="identifier">empty</span><span class="special">());</span>
+
+   <span class="comment">//Now move fd into a vector</span>
+   <span class="identifier">boost</span><span class="special">::</span><span class="identifier">container</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">file_descriptor</span><span class="special">&gt;</span> <span class="identifier">v</span><span class="special">;</span>
+   <span class="identifier">v</span><span class="special">.</span><span class="identifier">push_back</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">move</span><span class="special">(</span><span class="identifier">fd</span><span class="special">));</span>
+
+   <span class="comment">//Check ownership has been transferred</span>
+   <span class="identifier">assert</span><span class="special">(</span><span class="identifier">fd</span><span class="special">.</span><span class="identifier">empty</span><span class="special">());</span>
+   <span class="identifier">assert</span><span class="special">(!</span><span class="identifier">v</span><span class="special">[</span><span class="number">0</span><span class="special">].</span><span class="identifier">empty</span><span class="special">());</span>
+
+   <span class="comment">//Compilation error if uncommented since file_descriptor is not copyable</span>
+   <span class="comment">//and vector copy construction requires value_type's copy constructor:</span>
+   <span class="comment">//boost::container::vector&lt;file_descriptor&gt; v2(v);</span>
+   <span class="keyword">return</span> <span class="number">0</span><span class="special">;</span>
+<span class="special">}</span>
+</pre>
+<p>
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2008-2012 Ion Gaztanaga<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/movable_only_classes.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/move/construct_forwarding.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/move/move_and_containers.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:28 GMT -->
+</html>

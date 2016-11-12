@@ -1,0 +1,2295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from www.albahari.com/threading/part2.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Threading in C# - Part 2 - Basic Synchronization
+</title><link rel="stylesheet" type="text/css" href="tstyles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="sh_main.min.js"></script>
+<script type="text/javascript" src="sh_csharp.js"></script>
+<link type="text/css" rel="stylesheet" href="sh_style.css" /></head>
+
+<body onload="sh_highlightDocument();">
+<form name="aspnetForm" method="post" action="http://www.albahari.com/threading/part2.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+
+<div id="navbar">
+<p class="navtitle">Threading in C#, by Joe Albahari</p>
+<div id="ctl00_navcontent">
+<p class='navsectioncontainer'>
+<a class='nav0' href='index.html'>GETTING STARTED</a>
+	<a class='nav1' href='index.html#_Introduction'>+ Introduction and Concepts</a>
+	<a class='nav1' href='index.html#_Creating_and_Starting_Threads'>+ Creating and Starting Threads</a>
+	<a class='nav1' href='index.html#_Thread_Pooling'>+ Thread Pooling</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0a' href='part2.html'>BASIC SYNCHRONIZATION</a>
+	<a class='nav1a' href='part2.html#_Synchronization'>Synchronization Essentials</a>
+	<a class='nav2a' href='part2.html#_Blocking'>Blocking</a>
+	<a class='nav2a' href='part2.html#_Blocking_Versus_Spinning'>Blocking Versus Spinning</a>
+	<a class='nav2a' href='part2.html#_ThreadState'>ThreadState</a>
+	<a class='nav1a' href='part2.html#_Locking'>Locking</a>
+	<a class='nav2a' href='part2.html#_MonitorEnter_and_MonitorExit'>Monitor.Enter and Monitor.Exit</a>
+	<a class='nav2a' href='part2.html#_Choosing_the_Synchronization_Object'>The Synchronization Object</a>
+	<a class='nav2a' href='part2.html#_When_to_Lock'>When to Lock</a>
+	<a class='nav2a' href='part2.html#_Locking_and_Atomicity'>­Locking and Atomicity</a>
+	<a class='nav2a' href='part2.html#_Nested_Locking'>Nested Locking</a>
+	<a class='nav2a' href='part2.html#_Deadlocks'>Deadlocks</a>
+	<a class='nav2a' href='part2.html#_Locking_Performance'>Performance</a>
+	<a class='nav2a' href='part2.html#_Mutex'>Mutex</a>
+	<a class='nav2a' href='part2.html#_Semaphore'>Semaphore</a>
+	<a class='nav1a' href='part2.html#_Thread_Safety'>Thread Safety</a>
+	<a class='nav2a' href='part2.html#_Thread_Safety_and_NET_Framework_Types'>.NET Framework Types</a>
+	<a class='nav2a' href='part2.html#_Thread_Safety_in_Application_Servers'>Application Servers</a>
+	<a class='nav2a' href='part2.html#_Rich_Client_Applications'>Rich Client Applications</a>
+	<a class='nav2a' href='part2.html#_Immutable_Objects'>Immutable Objects</a>
+	<a class='nav1a' href='part2.html#_Signaling_with_Event_Wait_Handles'>Event Wait Handles</a>
+	<a class='nav2a' href='part2.html#_AutoResetEvent'>AutoResetEvent</a>
+	<a class='nav2a' href='part2.html#_ManualResetEvent'>ManualResetEvent</a>
+	<a class='nav2a' href='part2.html#_CountdownEvent'>CountdownEvent</a>
+	<a class='nav2a' href='part2.html#_CrossProcess_EventWaitHandle'>Creating a Cross-Process EventWaitHandle</a>
+	<a class='nav2a' href='part2.html#_Wait_Handles_and_the_Thread_Pool'>Pooling Wait Handles</a>
+	<a class='nav2a' href='part2.html#_WaitAny_WaitAll_SignalAndWait'>WaitAny, WaitAll, and SignalAndWait</a>
+	<a class='nav1a' href='part2.html#_Synchronization_Contexts'>Synchronization Contexts</a>
+	<a class='nav2a' href='part2.html#_Reentrancy'>Reentrancy</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part3.html'>USING THREADS</a>
+	<a class='nav1' href='part3.html#_Event-Based_Asynchronous_Pattern'>+ Event-Based Asynch Pattern</a>
+	<a class='nav1' href='part3.html#_BackgroundWorker'>+ BackgroundWorker</a>
+	<a class='nav1' href='part3.html#_Interrupt_and_Abort'>+ Interrupt and Abort</a>
+	<a class='nav1' href='part3.html#_Safe_Cancellation'>+ Safe Cancellation</a>
+	<a class='nav1' href='part3.html#_Lazy_Initialization'>+ Lazy Initialization</a>
+	<a class='nav1' href='part3.html#_Thread-Local_Storage'>+ Thread-Local Storage</a>
+	<a class='nav1' href='part3.html#_Timers'>+ Timers</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part4.html'>ADVANCED THREADING</a>
+	<a class='nav1' href='part4.html#_Nonblocking_Synchronization'>+ Nonblocking Synchronization</a>
+	<a class='nav1' href='part4.html#_Signaling_with_Wait_and_Pulse'>+ Signaling with Wait and Pulse</a>
+	<a class='nav1' href='part4.html#_The_Barrier_Class'>+ The Barrier Class</a>
+	<a class='nav1' href='part4.html#_Reader_Writer_Locks'>+ Reader/Writer Locks</a>
+	<a class='nav1' href='part4.html#_Suspend_and_Resume'>+ Suspend and Resume</a>
+	<a class='nav1' href='part4.html#_Aborting_Threads'>+ Aborting Threads</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part5.html'>PARALLEL PROGRAMMING</a>
+	<a class='nav1' href='part5.html#_Parallel_Programming'>+ Parallel Programming</a>
+	<a class='nav1' href='part5.html#_Why_PFX'>+ Why PFX?</a>
+	<a class='nav1' href='part5.html#_PLINQ'>+ PLINQ</a>
+	<a class='nav1' href='part5.html#_The_Parallel_Class'>+ The Parallel Class</a>
+	<a class='nav1' href='part5.html#_Task_Parallelism'>+ Task Parallelism</a>
+	<a class='nav1' href='part5.html#_Working_with_AggregateException'>+ Working with AggregateException</a>
+	<a class='nav1' href='part5.html#_Concurrent_Collections'>+ Concurrent Collections</a>
+	<a class='nav1' href='part5.html#_SpinLock_and_SpinWait'>+ SpinLock and SpinWait</a>
+</p>
+</div>
+<p><a href="../index.html">More by this author</a></p>
+<br />
+</div>
+
+<div id="main">
+<p class="title">Threading in C#</p>
+<p class="author">Joseph Albahari</p>
+<div id="ctl00_toc">
+<table class='toc' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<th class='toc'><a class='toc' href='index.html'> Part 1</a></th>
+		<th class='tocactive'>Part 2</th>
+		<th class='toc'><a class='toc' href='part3.html'> Part 3</a></th>
+		<th class='toc'><a class='toc' href='part4.html'> Part 4</a></th>
+		<th class='toc'><a class='toc' href='part5.html'> Part 5</a></th>
+	</tr>
+	<tr>		<td class='toc'><a class='toc' href='index.html'>Getting Started</a></td>
+		<td class='tocactive'>Basic Synchronization</td>
+		<td class='toc'><a class='toc' href='part3.html'>Using Threads</a></td>
+		<td class='toc'><a class='toc' href='part4.html'>Advanced Threading</a></td>
+		<td class='toc'><a class='toc' href='part5.html'>Parallel Programming</a></td>
+	</tr>
+</table>
+</div>
+<p style="float:right">Last updated: 2011-4-27</p>
+<p>Translations: 
+	<a href="http://knowledge.swanky.wu.googlepages.com/threading_in_c_sharp.html"> Chinese</a>
+	| <a href="threading_czech.pdf">Czech</a>
+	| <a href="threading_persian.pdf"> Persian</a>
+	| <a href="http://rsdn.ru/article/?904"> Russian</a>
+	| <a href="http://article.higlabo.com/ja/thread_fundamentals.html"> Japanese</a>
+</p>
+	
+<p><a href='http://www.albahari.info/threading/threading.pdf' style='font-weight:bold'>Download PDF</a>
+
+</p>	
+
+
+
+<p class="sectiontitle">Part 2: Basic Synchronization</p>
+
+<h1>
+	<a name="_Synchronization">Synchronization Essentials</a>
+</h1>
+
+<p>So far, we’ve described how to start a task on a thread,
+configure a thread, and pass data in both directions. We’ve also described how
+local variables are private to a thread and how references can be shared among
+threads, allowing them to communicate via common fields.</p>
+
+<p>The next step is <i>synchronization</i>:
+coordinating the actions of threads for a predictable outcome. Synchronization
+is particularly important when threads access the same data; it’s surprisingly
+easy to run aground in this area.</p>
+
+<p>Synchronization constructs can be divided into four
+categories:</p>
+
+<dl>
+	<dt>Simple blocking methods</dt>
+	<dd>These wait for another thread to finish or for a period
+of time to elapse. <code>Sleep</code>, <code>Join</code>,
+and <code>Task.Wait</code> are simple blocking methods.</dd>
+	<dt>Locking constructs</dt>
+	<dd>These limit the number of threads that can perform some
+activity or execute a section of code at a time. <em>Exclusive</em> locking
+constructs are most common — these allow just one thread in at a time, and allow
+competing threads to access common data without interfering with each other.
+The standard exclusive locking constructs are <code><a href="#_Locking">lock</a></code> (<code>Monitor.Enter</code>/<code>Monitor.Exit</code>), <code><a href="#_Mutex">Mutex</a></code>,
+and <a href="part5.html#_SpinLock_and_SpinWait">SpinLock</a>. The nonexclusive locking constructs
+are <code><a href="#_Semaphore">Semaphore</a></code>, <code><a href="#_Semaphore">SemaphoreSlim</a></code>, and the <a href="part4.html#_Reader_Writer_Locks">reader/writer locks</a>.</dd>
+	<dt>Signaling constructs</dt>
+	<dd>These allow a thread to pause until receiving a
+notification from another, avoiding the need for inefficient polling. There are
+two commonly used signaling devices: <a href="#_Signaling_with_Event_Wait_Handles">event
+wait handles</a> and <code>Monitor</code>’s <code><a href="part4.html#_Signaling_with_Wait_and_Pulse">Wait/Pulse</a></code>
+methods. Framework 4.0 introduces the <code><a href="#_CountdownEvent">CountdownEvent</a></code> and <code><a href="part4.html#_The_Barrier_Class">Barrier</a></code> classes.</dd>
+	<dt>Nonblocking synchronization constructs</dt>
+	<dd>These protect access to a common field by calling upon
+processor primitives. The CLR and C# provide the following nonblocking
+constructs: <code><a href="part4.html#_Memory_Barriers_and_Volatility">Thread.MemoryBarrier, Thread.VolatileRead, Thread.VolatileWrite</a></code>, the
+<code><a href="part4.html#_The_volatile_keyword">volatile</a></code>
+keyword, and the <code><a href="part4.html#_Interlocked">Interlocked</a></code>
+class.</dd>
+</dl>
+
+<p>Blocking is essential to all but the last category. Let’s
+briefly examine this concept.</p>
+
+<h2>
+	<a name="_Blocking">Blocking</a>
+</h2>
+
+<p>A thread is deemed <em>blocked</em> when its execution is
+paused for some reason, such as when <code>Sleep</code>ing or
+waiting for another to end via <code>Join</code> or <code>EndInvoke</code>. A blocked thread immediately <i>yields</i> its processor time slice, and from then on
+consumes no processor time until its blocking condition is satisfied. You can
+test for a thread being blocked via its <code><a href="#_ThreadState">ThreadState</a></code> property:</p>
+
+<pre class="sh_csharp">
+bool blocked = (someThread.ThreadState &amp; ThreadState.WaitSleepJoin) != 0;
+</pre>
+
+<div class="linqpad">
+	<p style="margin-top:3pt; font-size:180%; font-weight:bold; color:#A57">More than the coolest LINQ tool</p>
+	<p>
+		<a href="http://www.linqpad.net/">
+		<img border="0" src="linqpadlogo.png" alt="LINQPad" width="259" height="249" /></a>
+	</p>
+	<p><a href="http://www.linqpad.net/">LINQPad</a> is now the ultimate<br />
+	<span style='font-size:170%'>C# scratchpad!</span></p>
+	<p><a href='http://www.linqpad.net/CodeSnippetIDE.aspx'>Interactive development</a> in a standalone executable!</p>
+	<p><i>Written by the author of this article</i></p>
+	<p style="margin:3pt; font-size:200%; font-weight:bold; color:#A57">FREE</p>
+</div>
+
+<p>(Given that a thread’s state may change in between testing
+its state and then acting upon that information, this code is useful only in
+diagnostic scenarios.)</p>
+
+<p>When a thread blocks or unblocks, the operating system
+performs a <i>context switch</i>. This incurs an
+overhead of a few microseconds.</p>
+
+<p>Unblocking happens in one of four ways (the computer's
+power button doesn't count!):</p>
+
+<ul>
+	<li>by the blocking condition being satisfied</li>
+	<li>by the operation timing out (if a timeout is specified)</li>
+	<li>by being interrupted via <a href="part3.html#_Interrupt">Thread.Interrupt</a></li>
+	<li>by being aborted via <a href="part3.html#_Abort">Thread.Abort</a></li>
+</ul>
+
+<p>A thread is not deemed blocked if its execution is paused
+via the (deprecated) <a href="part4.html#_Suspend_and_Resume">Suspend</a> method.</p>
+
+<h2>
+	<a name="_Blocking_Versus_Spinning">Blocking Versus Spinning</a>
+</h2>
+
+<p>Sometimes a thread must pause until a certain condition is
+met. <a href="#_Signaling_with_Event_Wait_Handles">Signaling</a> and <a href="#_Locking">locking</a>
+constructs achieve this efficiently by <em><a href="#_Blocking">blocking</a></em> until a condition is
+satisfied. However, there is a simpler alternative: a thread can await a
+condition by <i>spinning</i> in a polling loop. For
+example:</p>
+
+<pre>
+while (!proceed);
+</pre>
+
+<p>or:</p>
+
+<pre>
+while (DateTime.Now &lt; nextStartTime);
+</pre>
+
+<p>In general, this is very wasteful on processor time: as
+far as the CLR and operating system are concerned, the thread is performing an
+important calculation, and so gets allocated resources accordingly! </p>
+
+<p>Sometimes a hybrid between blocking and spinning is used:</p>
+
+<pre>
+while (!proceed) Thread.Sleep (10);
+</pre>
+
+<p>Although inelegant, this is (in general) far more
+efficient than outright spinning. Problems can arise, though, due to
+concurrency issues on the <code>proceed</code> flag. Proper use
+of <a href="#_Locking">locking</a> and <a href="#_Signaling_with_Event_Wait_Handles">signaling</a>
+avoids this.</p>
+
+<p class="note">Spinning <em>very briefly</em> can be effective when you
+expect a condition to be satisfied soon (perhaps within a few microseconds)
+because it avoids the overhead and latency of a context switch. The .NET
+Framework provides special methods and classes to assist — these are covered
+<a href="part5.html#_SpinLock_and_SpinWait">in the parallel programming section</a>.</p>
+
+<h2>
+	<a name="_ThreadState">ThreadState</a>
+</h2>
+
+<p>You can query a thread's execution status via its <code>ThreadState</code> property. This returns a flags enum of type <code>ThreadState</code>, which combines three “layers” of data in a
+bitwise fashion. Most values, however, are redundant, unused, or deprecated.
+The following diagram shows one “layer”:</p>
+
+<div class="figure">
+	<img width="642" height="436" src="ThreadState.png" alt="ThreadState" />
+</div>
+
+<p>The following code strips a <code>ThreadState</code>
+to one of the four most useful values: <code>Unstarted</code>, <code>Running</code>, <code>WaitSleepJoin</code>, and <code>Stopped</code>:</p>
+
+<pre class="sh_csharp">
+public static ThreadState SimpleThreadState (ThreadState ts)
+{
+  return ts &amp; (ThreadState.Unstarted |
+               ThreadState.WaitSleepJoin |
+               ThreadState.Stopped);
+}
+</pre>
+
+<p>The <code>ThreadState</code> property is
+useful for diagnostic purposes, but unsuitable for synchronization, because a
+thread’s state may change in between testing <code>ThreadState</code>
+and acting on that information.</p>
+
+<h1>
+	<a name="_Locking">Locking</a>
+</h1>
+
+<p>Exclusive locking is used to ensure that only one thread
+can enter particular sections of code at a time. The two main exclusive locking
+constructs are <code>lock</code> and <code>Mutex</code>.
+Of the two, the <code>lock</code> construct is faster and more
+convenient. <code>Mutex</code>, though, has a niche in that its
+lock can span applications in different processes on the computer.</p>
+
+<p>In this section, we’ll start with the <code>lock</code>
+construct and then move on to <code><a href="#_Mutex">Mutex</a></code>
+and <a href="#_Semaphore">semaphores</a> (for nonexclusive locking). Later,
+we’ll cover <a href="part4.html#_Reader_Writer_Locks">reader/writer locks</a>.</p>
+
+<p class="note">From Framework 4.0, there is also the <a href="part5.html#_SpinLock_and_SpinWait">SpinLock</a>
+struct for high-concurrency scenarios.</p>
+
+<p>Let’s start with the following class:</p>
+
+<pre class="sh_csharp">
+class ThreadUnsafe
+{
+  static int _val1 = 1, _val2 = 1;
+ 
+  static void Go()
+  {
+    if (_val2 != 0) Console.WriteLine (_val1 / _val2);
+    _val2 = 0;
+  }
+}
+</pre>
+
+<p>This class is not thread-safe: if <code>Go</code>
+was called by two threads simultaneously, it would be possible to get a
+division-by-zero error, because <code>_val2</code> could be set
+to zero in one thread right as the other thread was in between executing the <code>if</code> statement and <code>Console.WriteLine</code>.</p>
+
+<p>Here’s how <code>lock</code> can fix the
+problem:</p>
+
+<pre class="sh_csharp">
+class ThreadSafe
+{
+  static readonly object _locker = new object();
+  static int _val1, _val2;
+ 
+  static void Go()
+  {
+    <b>lock (_locker)</b>
+    {
+      if (_val2 != 0) Console.WriteLine (_val1 / _val2);
+      _val2 = 0;
+    }
+  }
+}
+</pre>
+
+<p>Only one thread can lock the synchronizing object (in this
+case, <code>_locker</code>) at a time, and any contending threads
+are <a href="#_Blocking">blocked</a> until the lock is released. If more than
+one thread contends the lock, they are queued on a “ready queue” and granted
+the lock on a first-come, first-served basis (a caveat is that nuances in the
+behavior of Windows and the CLR mean that the fairness of the queue can
+sometimes be violated). Exclusive locks are sometimes said to enforce <i>serialized</i> access to whatever’s protected by the
+lock, because one thread’s access cannot overlap with that of another. In this
+case, we’re protecting the logic inside the <code>Go</code>
+method, as well as the fields <code>_val1</code> and <code>_val2</code>.</p>
+
+<p>A thread blocked while awaiting a contended lock has a <code><a href="#_ThreadState">ThreadState</a></code> of <code>WaitSleepJoin</code>. In <a href="part3.html#_Interrupt_and_Abort">Interrupt
+and Abort</a>, we describe how a blocked thread can be forcibly released via
+another thread. This is a fairly heavy-duty technique that might be used in
+ending a thread.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">A Comparison of Locking Constructs</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Construct</th>
+		<th valign="top">Purpose</th>
+		<th valign="top">Cross-process?</th>
+		<th valign="top">Overhead*</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_Locking">lock</a> (<code>Monitor.Enter</code> / <code>Monitor.Exit</code>)</td>
+		<td valign="middle" rowspan="2">Ensures just one thread can access a resource, or section of code at a time</td>
+		<td valign="top">-</td>
+		<td valign="top">20ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_Mutex">Mutex</a>
+		</td>
+		<td valign="top">Yes</td>
+		<td valign="top">1000ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_Semaphore">SemaphoreSlim</a> (introduced in Framework 4.0)</td>
+		<td valign="middle" rowspan="2">Ensures not more than a specified number of concurrent threads can access a resource, or section of code</td>
+		<td valign="top">-</td>
+		<td valign="top">200ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_Semaphore">Semaphore</a>
+		</td>
+		<td valign="top">Yes</td>
+		<td valign="top">1000ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="part4.html#_Reader_Writer_Locks">ReaderWriterLockSlim</a> (introduced in Framework 3.5)</td>
+		<td valign="middle" rowspan="2">Allows multiple readers to coexist with a single writer</td>
+		<td valign="top">-</td>
+		<td valign="top">40ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="part4.html#_Reader_Writer_Locks">ReaderWriterLock</a> (effectively deprecated)</td>
+		<td valign="top">-</td>
+		<td valign="top">100ns</td>
+	</tr>
+</table>
+
+<p>*Time taken to lock and unlock the construct once on the
+same thread (assuming no blocking), as measured on an Intel Core i7 860. </p>
+
+</div>
+
+<h2>
+	<a name="_MonitorEnter_and_MonitorExit">Monitor.Enter and Monitor.Exit</a>
+</h2>
+
+<p>C#’s <code>lock</code> statement is in fact
+a syntactic shortcut for a call to the methods <code>Monitor.Enter</code>
+and <code>Monitor.Exit</code>, with a <code>try</code>/<code>finally</code> block. Here’s (a simplified version of) what’s
+actually happening within the <code>Go</code> method of the
+preceding example:</p>
+
+<pre class="sh_csharp">
+<b>Monitor.Enter (_locker);</b>
+try
+{
+  if (_val2 != 0) Console.WriteLine (_val1 / _val2);
+  _val2 = 0;
+}
+finally { <b>Monitor.Exit (_locker);</b> }
+</pre>
+
+<p>Calling <code>Monitor.Exit</code> without
+first calling <code>Monitor.Enter</code> on the same object
+throws an exception.</p>
+
+<h3><a name="_lockTaken_overloads">The lockTaken overloads</a></h3>
+
+<p>The code that we just demonstrated is exactly what the C#
+1.0, 2.0, and 3.0 compilers produce in translating a <code>lock</code>
+statement. </p>
+
+<p>There’s a subtle vulnerability in this code, however.
+Consider the (unlikely) event of an exception being thrown within the implementation
+of <code>Monitor.Enter</code>, or between the call to <code>Monitor.Enter</code> and the <code>try</code> block
+(due, perhaps, to <code><a href="part3.html#_Abort">Abort</a></code> being
+called on that thread — or an <code>OutOfMemoryException</code>
+being thrown). In such a scenario, the lock may or may not be taken. If the
+lock <em>is</em> taken, it won’t be released — because we’ll never enter the <code>try</code>/<code>finally</code> block. This will
+result in a leaked lock.</p>
+
+<p>To avoid this danger, CLR 4.0’s designers added the
+following overload to <code>Monitor.Enter</code>: </p>
+
+<pre class="sh_csharp">
+public static void Enter (object obj, <b>ref bool lockTaken</b>);
+</pre>
+
+<p>
+	<code>lockTaken</code> is false after this
+method if (and only if) the <code>Enter</code> method throws an
+exception and the lock was not taken.</p>
+
+<p>Here’s the correct pattern of use (which is exactly how C#
+4.0 translates a <code>lock</code> statement):</p>
+
+<pre class="sh_csharp">
+<b>bool lockTaken = false;</b>
+try
+{
+  Monitor.Enter (_locker, <b>ref lockTaken</b>);
+  // Do your stuff...
+}
+finally { <b>if (lockTaken)</b> Monitor.Exit (_locker); }
+</pre>
+
+<h3>TryEnter</h3>
+
+<p>
+	<code>Monitor</code> also provides a <code>TryEnter</code> method that allows a timeout to be specified,
+either in milliseconds or as a <code>TimeSpan</code>. The method
+then returns <code>true</code> if a lock was obtained, or <code>false</code> if no lock was obtained because the method timed
+out. <code>TryEnter</code> can also be called with no argument,
+which “tests” the lock, timing out immediately if the lock can’t be obtained
+right away.</p>
+
+<p>As with the <code>Enter</code> method, it’s
+overloaded in CLR 4.0 to accept a <code>lockTaken</code>
+argument.</p>
+
+<h2>
+	<a name="_Choosing_the_Synchronization_Object">Choosing the Synchronization Object</a>
+</h2>
+
+<p>Any object visible to each of the partaking threads can be
+used as a synchronizing object, subject to one hard rule: it must be a
+reference type. The synchronizing object is typically private (because this
+helps to encapsulate the locking logic) and is typically an instance or static
+field. The synchronizing object can double as the object it’s protecting, as
+the <code>_list</code> field does in the following example:</p>
+
+<pre class="sh_csharp">
+class ThreadSafe
+{
+  List &lt;string&gt; _list = new List &lt;string&gt;();
+ 
+  void Test()
+  {
+    lock (_list)
+    {
+      _list.Add ("Item 1");
+      ...
+</pre>
+
+<p>A field dedicated for the purpose of locking (such as <code>_locker</code>, in the example prior) allows precise control over
+the scope and granularity of the lock. The containing object (<code>this</code>) — or even its type — can also be used as a
+synchronization object:</p>
+
+<pre class="sh_csharp">
+lock (this) { ... }
+</pre>
+
+<p>or:</p>
+
+<pre class="sh_csharp">
+lock (typeof (Widget)) { ... }    // For protecting access to statics
+</pre>
+
+<p>The disadvantage of locking in this way is that you're not
+encapsulating the locking logic, so it becomes harder to prevent <a href="#_Deadlocks">deadlocking</a> and excessive <a href="#_Blocking">blocking</a>.
+A lock on a type may also seep through application domain boundaries (within
+the same process).</p>
+
+<p>You can also lock on local variables captured by lambda
+expressions or anonymous methods.</p>
+
+<p class="note">Locking doesn’t restrict access to the synchronizing object
+itself in any way. In other words, <code>x.ToString()</code> will
+not <a href="#_Blocking">block</a> because another thread has called <code>lock(x)</code>; both threads must call <code>lock(x)</code>
+in order for blocking to occur.</p>
+
+<h2>
+	<a name="_When_to_Lock">When to Lock</a>
+</h2>
+
+<p>As a basic rule, you need to lock around accessing <em>any
+writable shared field</em>. Even in the simplest case — an assignment operation
+on a single field — you must consider synchronization. In the following class,
+neither the <code>Increment</code> nor the <code>Assign</code>
+method is thread-safe:</p>
+
+<pre class="sh_csharp">
+class ThreadUnsafe
+{
+  static int _x;
+  static void Increment() { _x++; }
+  static void Assign()    { _x = 123; }
+}
+</pre>
+
+<p>Here are thread-safe versions of <code>Increment</code>
+and <code>Assign</code>:</p>
+
+<pre class="sh_csharp">
+class ThreadSafe
+{
+  static readonly object _locker = new object();
+  static int _x;
+ 
+  static void Increment() { lock (_locker) _x++; }
+  static void Assign()    { lock (_locker) _x = 123; }
+}
+</pre>
+
+<p>In <a href="part4.html#_Nonblocking_Synchronization">Nonblocking
+Synchronization</a>, we explain how this need arises, and how the memory
+barriers and the <code><a href="part4.html#_Interlocked">Interlocked</a></code>
+class can provide alternatives to locking in these situations.</p>
+
+<h2>
+	<a name="_Locking_and_Atomicity">­Locking and Atomicity</a>
+</h2>
+
+<p>If a group of variables are always read and written within
+the same lock, you can say the variables are read and written <i>atomically</i>. Let’s suppose fields <code>x</code> and <code>y</code> are always read and
+assigned within a <code>lock</code> on object <code>locker</code>:</p>
+
+<pre class="sh_csharp">
+lock (locker) { if (x != 0) y /= x; }
+</pre>
+
+<p>One can say <code>x</code> and <code>y</code> are accessed atomically, because the code block cannot
+be divided or preempted by the actions of another thread in such a way that it
+will change <code>x</code> or <code>y</code> and <em>invalidate
+its outcome</em>. You’ll never get a division-by-zero error, providing <code>x</code> and <code>y</code> are always accessed
+within this same exclusive lock.</p>
+
+<div class="warning">
+	<p>The atomicity provided by a lock is violated if an
+exception is thrown within a <code>lock</code> block. For
+example, consider the following:</p>
+
+	<pre class="sh_csharp">
+decimal _savingsBalance, _checkBalance;
+
+void Transfer (decimal amount)
+{
+  lock (_locker)
+  {
+    _savingsBalance += amount;
+    _checkBalance -= amount + GetBankFee();
+  }
+}
+</pre>
+
+	<p>If an exception was thrown by <code>GetBankFee()</code>,
+the bank would lose money. In this case, we could avoid the problem by calling <code>GetBankFee</code> earlier. A solution for more complex cases is
+to implement “rollback” logic within a <code>catch</code> or <code>finally</code> block.</p>
+
+</div>
+
+<p>
+	<em>Instruction</em> atomicity is a different, although
+analogous concept: an instruction is atomic if it executes indivisibly on the
+underlying processor (see <a href="part4.html#_Nonblocking_Synchronization">Nonblocking
+Synchronization</a>).</p>
+
+<h2>
+	<a name="_Nested_Locking">Nested Locking</a>
+</h2>
+
+<p>A thread can repeatedly lock the same object in a nested (<i>reentrant</i>) fashion:</p>
+
+<pre class="sh_csharp">
+lock (locker)
+  lock (locker)
+    lock (locker)
+    {
+       // Do something...
+    }
+</pre>
+
+<p>or:</p>
+
+<pre class="sh_csharp">
+Monitor.Enter (locker); Monitor.Enter (locker);  Monitor.Enter (locker); 
+// Do something...
+Monitor.Exit (locker);  Monitor.Exit (locker);   Monitor.Exit (locker);
+</pre>
+
+<p>In these scenarios, the object is unlocked only when the
+outermost <code>lock</code> statement has exited — or a matching
+number of <code>Monitor.Exit</code> statements have executed.</p>
+
+<p>Nested locking is useful when one method calls another
+within a lock:</p>
+
+<pre class="sh_csharp">
+static readonly object _locker = new object();
+ 
+static void Main()
+{
+  <b>lock (_locker)</b>
+  {
+     AnotherMethod();
+     // We still have the lock - because locks are reentrant.
+  }
+}
+ 
+static void AnotherMethod()
+{
+  <b>lock (_locker)</b> { Console.WriteLine ("Another method"); }
+}
+</pre>
+
+<p>A thread can <a href="#_Blocking">block</a> on only the
+first (outermost) lock.</p>
+
+<h2>
+	<a name="_Deadlocks">Deadlocks</a>
+</h2>
+
+<p>A deadlock happens when two threads each wait for a
+resource held by the other, so neither can proceed. The easiest way to
+illustrate this is with two locks:</p>
+
+<pre class="sh_csharp">
+object locker1 = new object();
+object locker2 = new object();
+ 
+new Thread (() =&gt; {
+                    lock (locker1)
+                    {
+                      Thread.Sleep (1000);
+                      <b>lock (locker2);      // Deadlock</b>
+                    }
+                  }).Start();
+lock (locker2)
+{
+  Thread.Sleep (1000);
+  <b>lock (locker1);                          // Deadlock</b>
+}
+</pre>
+
+<p>More elaborate deadlocking chains can be created with
+three or more threads. </p>
+
+<p class="warning">The CLR, in a standard hosting environment, is not like
+SQL Server and does not automatically detect and resolve deadlocks by
+terminating one of the offenders. A threading deadlock causes participating
+threads to <a href="#_Blocking">block</a> indefinitely, unless you’ve specified
+a locking timeout. (Under the SQL CLR integration host, however, deadlocks <em>are</em>
+automatically detected and a [catchable] exception is thrown on one of the
+threads.)</p>
+
+<p>Deadlocking is one of the hardest problems in
+multithreading — especially when there are many interrelated objects.
+Fundamentally, the hard problem is that you can't be sure what locks your <em>caller</em>
+has taken out.</p>
+
+<p>So, you might innocently lock private field <code>a</code> within your class <code>x</code>, unaware
+that your caller (or caller's caller) has already locked field <code>b</code> within class <code>y</code>. Meanwhile,
+another thread is doing the reverse — creating a deadlock. Ironically, the
+problem is exacerbated by (good) object-oriented design patterns, because such
+patterns create call chains that are not determined until runtime.</p>
+
+<p>The popular advice, “lock objects in a consistent order to
+avoid deadlocks,” although helpful in our initial example, is hard to apply to
+the scenario just described. A better strategy is to be wary of locking around
+calling methods in objects that may have references back to your own object.
+Also, consider whether you really need to lock around calling methods in other
+classes (often you do — <a href="#_Locking">as we’ll see later</a> — but sometimes
+there are other options). Relying more on <a href="part5.html#_PLINQ">declarative</a> and
+<a href="part5.html#_The_Parallel_Class">data parallelism</a>, <a href="#_Immutable_Objects">immutable types</a>, and <a href="part4.html#_Nonblocking_Synchronization">nonblocking synchronization constructs</a>,
+can lessen the need for locking.</p>
+
+<p class="note">Here is an alternative way to perceive the problem: when you
+call out to other code while holding a lock, the encapsulation of that lock
+subtly <em>leaks</em>. This is not a fault in the CLR or .NET Framework, but a
+fundamental limitation of locking in general. The problems of locking are being
+addressed in various research projects, including <i>Software
+Transactional Memory</i>.</p>
+
+<p>Another deadlocking scenario arises when calling <code>Dispatcher.Invoke</code> (in a WPF application) or <code>Control.Invoke</code> (in a Windows Forms application) while in
+possession of a lock. If the UI happens to be running another method that’s
+waiting on the same lock, a deadlock will happen right there. This can often be
+fixed simply by calling <code>BeginInvoke</code> instead of <code>Invoke</code>. Alternatively, you can release your lock before
+calling <code>Invoke</code>, although this won't work if your <em>caller</em>
+took out the lock. We explain <code>Invoke</code> and <code>BeginInvoke</code> in <a href="#_Rich_Client_Applications">Rich
+Client Applications and Thread Affinity</a>.</p>
+
+<h2>
+	<a name="_Locking_Performance">Performance</a>
+</h2>
+
+<p>Locking is fast: you can expect to acquire and release a
+lock in as little as 20 nanoseconds on a 2010-era computer if the lock is
+uncontended. If it is contended, the consequential context switch moves the
+overhead closer to the microsecond region, although it may be longer before the
+thread is actually rescheduled. You can avoid the cost of a context switch with
+the <a href="part5.html#_SpinLock_and_SpinWait">SpinLock</a> class — if you’re locking very briefly.</p>
+
+<p>Locking can degrade concurrency if locks are held for too
+long. This can also increase the chance of <a href="#_Deadlocks">deadlock</a>.</p>
+
+<h2>
+	<a name="_Mutex">Mutex</a>
+</h2>
+
+<p>A <code>Mutex</code> is like a C# <code>lock</code>, but it can work across multiple processes. In other
+words, <code>Mutex</code> can be <em>computer-wide</em> as well
+as <em>application-wide</em>.</p>
+
+<p class="note">Acquiring and releasing an uncontended <code>Mutex</code>
+takes a few microseconds — about 50 times slower than a <code>lock</code>.</p>
+
+<p>With a <code>Mutex</code> class, you call
+the <code>WaitOne</code> method to lock and <code>ReleaseMutex</code>
+to unlock. Closing or disposing a <code>Mutex</code>
+automatically releases it. Just as with the <code>lock</code>
+statement, a <code>Mutex</code> can be released only from the
+same thread that obtained it.</p>
+
+<p>A common use for a cross-process <code>Mutex</code>
+is to ensure that only one instance of a program can run at a time. Here’s how
+it’s done:</p>
+
+<pre class="sh_csharp">
+class OneAtATimePlease
+{
+  static void Main()
+  {
+    // Naming a Mutex makes it available computer-wide. Use a name that's
+    // unique to your company and application (e.g., include your URL).
+ 
+    using (var mutex = new Mutex (false, "oreilly.com OneAtATimeDemo"))
+    {
+      // Wait a few seconds if contended, in case another instance
+      // of the program is still in the process of shutting down.
+ 
+      if (!mutex.WaitOne (TimeSpan.FromSeconds (3), false))
+      {
+        Console.WriteLine ("Another app instance is running. Bye!");
+        return;
+      }
+      RunProgram();
+    }
+  }
+ 
+  static void RunProgram()
+  {
+    Console.WriteLine ("Running. Press Enter to exit");
+    Console.ReadLine();
+  }
+}
+</pre>
+
+<p class="note">If running under Terminal Services, a computer-wide <code>Mutex</code> is ordinarily visible only to applications in the
+same terminal server session. To make it visible to all terminal server
+sessions, prefix its name with <em>Global\</em>.</p>
+
+<h2>
+	<a name="_Semaphore">Semaphore</a>
+</h2>
+
+<p>A semaphore is like a nightclub: it has a certain
+capacity, enforced by a bouncer. Once it’s full, no more people can enter, and
+a queue builds up outside. Then, for each person that leaves, one person enters
+from the head of the queue. The constructor requires a minimum of two
+arguments: the number of places currently available in the nightclub and the
+club’s total capacity.</p>
+
+<p>A semaphore with a capacity of one is similar to a <code>Mutex</code> or <code>lock</code>, except that the semaphore
+has no “owner” — it’s <i>thread-agnostic</i>. Any
+thread can call <code>Release</code> on a <code>Semaphore</code>,
+whereas with <code>Mutex</code> and <code>lock</code>,
+only the thread that obtained the lock can release it.</p>
+
+<div class="note">
+	<p>There are two functionally similar versions of this class: <code>Semaphore</code> and <code>SemaphoreSlim</code>.
+The latter was introduced in Framework 4.0 and has been optimized to meet the
+low-latency demands of <a href="part5.html#_Parallel_Programming">parallel programming</a>.
+It’s also useful in traditional multithreading because it lets you specify a <a href="part3.html#_Cancellation_Tokens">cancellation token</a> when waiting. It cannot,
+however, be used for interprocess signaling. </p>
+
+	<p>
+		<code>Semaphore</code> incurs about 1
+microsecond in calling <code>WaitOne</code> or <code>Release</code>; <code>SemaphoreSlim</code> incurs
+about a quarter of that.</p>
+
+</div>
+
+<p>Semaphores can be useful in limiting concurrency — preventing
+too many threads from executing a particular piece of code at once. In the
+following example, five threads try to enter a nightclub that allows only three
+threads in at once:</p>
+
+<pre class="sh_csharp">
+class TheClub      // No door lists!
+{
+  static SemaphoreSlim _sem = new SemaphoreSlim (3);    // Capacity of 3
+ 
+  static void Main()
+  {
+    for (int i = 1; i &lt;= 5; i++) new Thread (Enter).Start (i);
+  }
+ 
+  static void Enter (object id)
+  {
+    Console.WriteLine (id + " wants to enter");
+    <b>_sem.Wait();</b>
+    Console.WriteLine (id + " is in!");           // Only three threads
+    Thread.Sleep (1000 * (int) id);               // can be here at
+    Console.WriteLine (id + " is leaving");       // a time.
+    <b>_sem.Release();</b>
+  }
+}
+</pre>
+
+<pre class="output">
+1 wants to enter
+1 is in!
+2 wants to enter
+2 is in!
+3 wants to enter
+3 is in!
+4 wants to enter
+5 wants to enter
+1 is leaving
+4 is in!
+2 is leaving
+5 is in!
+</pre>
+
+<p>If the <code>Sleep</code> statement was
+instead performing intensive disk I/O, the <code>Semaphore</code>
+would improve overall performance by limiting excessive concurrent hard-drive
+activity.</p>
+
+<p>A <code>Semaphore</code>, if named, can span
+processes in the same way as a <code>Mutex</code>.</p>
+
+<h1>
+	<a name="_Thread_Safety">Thread Safety</a>
+</h1>
+
+<div style="float:right; text-align:center; margin: 0 0 1em 1em">
+    <p><span style="margin:0; color:#B02000; font-size:150%; font-weight:bold">By the same author:</span></p>
+	<a href="../nutshell/about.html">
+	<img border="0" src="cs5ian.png" width="304" height="445" alt="C# 5.0 in a Nutshell" /></a>
+</div>
+
+<p>A program or method is thread-safe if it has no
+indeterminacy in the face of any multithreading scenario. Thread safety is
+achieved primarily with locking and by reducing the possibilities for thread
+interaction.</p>
+
+<p>General-purpose types are rarely thread-safe in their
+entirety, for the following reasons:</p>
+
+<ul>
+	<li>The development burden in full thread safety can be significant,
+particularly if a type has many fields (each field is a potential for
+interaction in an arbitrarily multithreaded context).</li>
+	<li>Thread safety can entail a performance cost (payable, in part,
+whether or not the type is actually used by multiple threads).</li>
+	<li>A thread-safe type does not necessarily make the program using it
+thread-safe, and often the work involved in the latter makes the former
+redundant.</li>
+</ul>
+
+<p>Thread safety is hence usually implemented just where it
+needs to be, in order to handle a specific multithreading scenario.</p>
+
+<p>There are, however, a few ways to “cheat” and have large
+and complex classes run safely in a multithreaded environment. One is to
+sacrifice granularity by wrapping large sections of code — even access to an
+entire object — within a single exclusive <a href="#_Locking">lock</a>, enforcing
+serialized access at a high level. This tactic is, in fact, essential if you
+want to use thread-unsafe third-party code (or most Framework types, for that
+matter) in a multithreaded context. The trick is simply to use the same
+exclusive lock to protect access to all properties, methods, and fields on the
+thread-unsafe object. The solution works well if the object’s methods all
+execute quickly (otherwise, there will be a lot of <a href="#_Blocking">blocking</a>).</p>
+
+<p class="warning">Primitive types aside, few .NET Framework types, when
+instantiated, are thread-safe for anything more than concurrent read-only
+access. The onus is on the developer to superimpose thread safety, typically
+with exclusive locks. (The collections in <code>System.Collections.Concurrent</code>
+are an exception.)</p>
+
+<p>Another way to cheat is to minimize thread interaction by
+minimizing shared data. This is an excellent approach and is used implicitly in
+“stateless” middle-tier application and web page servers. Since multiple client
+requests can arrive simultaneously, the server methods they call must be thread-safe.
+A stateless design (popular for reasons of scalability) intrinsically limits
+the possibility of interaction, since classes do not persist data between
+requests. Thread interaction is then limited just to the static fields one may
+choose to create, for such purposes as caching commonly used data in memory and
+in providing infrastructure services such as authentication and auditing.</p>
+
+<p>The final approach in implementing thread safety is to use
+an <a href="#_Synchronization_Contexts">automatic locking regime</a>. The .NET
+Framework does exactly this, if you subclass <code><a href="#_Synchronization_Contexts">ContextBoundObject and apply the Synchronization attribute</a></code> to the class. Whenever a method
+or property on such an object is then called, an object-wide lock is
+automatically taken for the whole execution of the method or property. Although
+this reduces the thread-safety burden, it creates problems of its own: <a href="#_Deadlocks">deadlocks</a> that would not otherwise occur, impoverished
+concurrency, and unintended reentrancy. For these reasons, manual locking is
+generally a better option — at least until a less simplistic automatic locking
+regime becomes available.</p>
+
+<h2>
+	<a name="_Thread_Safety_and_NET_Framework_Types">Thread Safety and .NET Framework Types</a>
+</h2>
+
+<p>Locking can be used to convert thread-unsafe code into
+thread-safe code. A good application of this is the .NET Framework: nearly all
+of its nonprimitive types are not thread-safe (for anything more than read-only
+access) when instantiated, and yet they can be used in multithreaded code if
+all access to any given object is protected via a <a href="#_Locking">lock</a>.
+Here’s an example, where two threads simultaneously add an item to the same <code>List</code> collection, then enumerate the list:</p>
+
+<pre class="sh_csharp">
+class ThreadSafe
+{
+  static List &lt;string&gt; _list = new List &lt;string&gt;();
+ 
+  static void Main()
+  {
+    new Thread (AddItem).Start();
+    new Thread (AddItem).Start();
+  }
+ 
+  static void AddItem()
+  {
+    lock (_list) _list.Add ("Item " + _list.Count);
+ 
+    string[] items;
+    lock (_list) items = _list.ToArray();
+    foreach (string s in items) Console.WriteLine (s);
+  }
+}
+</pre>
+
+<p>In this case, we’re locking on the <code>_list</code>
+object itself. If we had two interrelated lists, we would have to choose a
+common object upon which to lock (we could nominate one of the lists, or
+better: use an independent field).</p>
+
+<p>Enumerating .NET collections is also thread-unsafe in the
+sense that an exception is thrown if the list is modified during enumeration.
+Rather than locking for the duration of enumeration, in this example we first
+copy the items to an array. This avoids holding the lock excessively if what
+we’re doing during enumeration is potentially time-consuming. (Another solution
+is to use a <a href="part4.html#_Reader_Writer_Locks">reader/writer lock</a>.)</p>
+
+<h3>Locking around thread-safe objects</h3>
+
+<p>Sometimes you also need to lock around accessing
+thread-safe objects. To illustrate, imagine that the Framework’s <code>List</code> class was, indeed, thread-safe, and we want to add an
+item to a list:</p>
+
+<pre class="sh_csharp">
+if (!_list.Contains (newItem)) _list.Add (newItem);
+</pre>
+
+<p>Whether or not the list was thread-safe, this statement is
+certainly not! The whole <code>if</code> statement would have to
+be wrapped in a lock in order to prevent preemption in between testing for
+containership and adding the new item. This same lock would then need to be
+used everywhere we modified that list. For instance, the following statement
+would also need to be wrapped in the identical lock:</p>
+
+<pre class="sh_csharp">
+_list.Clear();
+</pre>
+
+<p>to ensure that it did not preempt the former statement. In
+other words, we would have to lock exactly as with our thread-unsafe collection
+classes (making the <code>List</code> class’s hypothetical thread
+safety redundant).</p>
+
+<p class="note">Locking around accessing a collection can cause excessive <a href="#_Blocking">blocking</a> in highly concurrent environments. To this end,
+Framework 4.0 provides a <a href="part5.html#_Concurrent_Collections">thread-safe queue, stack, and dictionary</a>.
+</p>
+
+<h3>Static members</h3>
+
+<p>Wrapping access to an object around a custom lock works
+only if all concurrent threads are aware of — and use — the lock. This may not be
+the case if the object is widely scoped. The worst case is with static members
+in a public type. For instance, imagine if the static property on the <code>DateTime</code> struct, <code>DateTime.Now</code>,
+was not thread-safe, and that two concurrent calls could result in garbled
+output or an exception. The only way to remedy this with external locking might
+be to lock the type itself — <code>lock(typeof(DateTime))</code> — before
+calling <code>DateTime.Now</code>. This would work only if all
+programmers agreed to do this (which is unlikely). Furthermore, locking a type
+creates problems of its own.</p>
+
+<p>For this reason, static members on the <code>DateTime</code> struct have been carefully programmed to be
+thread-safe. This is a common pattern throughout the .NET Framework: <em>static
+members are thread-safe; instance members are not.</em> Following this pattern
+also makes sense when writing types for public consumption, so as not to create
+impossible thread-safety conundrums. In other words, by making static methods
+thread-safe, you’re programming so as not to <em>preclude</em> thread safety
+for consumers of that type.</p>
+
+<p class="note">Thread safety in static methods is something that you must
+explicitly code: it doesn’t happen automatically by virtue of the method being
+static!</p>
+
+<h3>Read-only thread safety</h3>
+
+<p>Making types thread-safe for concurrent read-only access
+(where possible) is advantageous because it means that consumers can avoid
+excessive locking. Many of the .NET Framework types follow this principle:
+collections, for instance, are thread-safe for concurrent readers. </p>
+
+<p>Following this principle yourself is simple: if you document
+a type as being thread-safe for concurrent read-only access, don’t write to
+fields within methods that a consumer would expect to be read-only (or lock
+around doing so). For instance, in implementing a <code>ToArray()</code>
+method in a collection, you might start by compacting the collection’s internal
+structure. However, this would make it thread-unsafe for consumers that
+expected this to be read-only.</p>
+
+<p>Read-only thread safety is one of the reasons that
+enumerators are separate from “enumerables”: two threads can simultaneously
+enumerate over a collection because each gets a separate enumerator object. </p>
+
+<p class="note">In the absence of documentation, it pays to be cautious in
+assuming whether a method is read-only in nature. A good example is the <code>Random</code> class: when you call <code>Random.Next()</code>,
+its internal implementation requires that it update private seed values.
+Therefore, you must either lock around using the <code>Random</code>
+class, or maintain a separate instance per thread.</p>
+
+<h2>
+	<a name="_Thread_Safety_in_Application_Servers">Thread Safety in Application Servers</a>
+</h2>
+
+<p>Application servers need to be multithreaded to handle
+simultaneous client requests. WCF, ASP.NET, and Web Services applications are
+implicitly multithreaded; the same holds true for Remoting server applications
+that use a network channel such as TCP or HTTP. This means that when writing
+code on the server side, you must consider thread safety if there’s any
+possibility of interaction among the threads processing client requests.
+Fortunately, such a possibility is rare; a typical server class is either
+stateless (no fields) or has an activation model that creates a separate object
+instance for each client or each request. Interaction usually arises only
+through static fields, sometimes used for caching in memory parts of a database
+to improve performance.</p>
+
+<p>For example, suppose you have a <code>RetrieveUser</code>
+method that queries a database:</p>
+
+<pre class="sh_csharp">
+// User is a custom class with fields for user data
+internal User RetrieveUser (int id) { ... }
+</pre>
+
+<p>If this method was called frequently, you could improve
+performance by caching the results in a static <code>Dictionary</code>.
+Here’s a solution that takes thread safety into account:</p>
+
+<pre class="sh_csharp">
+static class UserCache
+{
+  static Dictionary &lt;int, User&gt; _users = new Dictionary &lt;int, User&gt;();
+ 
+  internal static User GetUser (int id)
+  {
+    User u = null;
+ 
+    lock (_users)
+      if (_users.TryGetValue (id, out u))
+        return u;
+ 
+    u = RetrieveUser (id);   // Method to retrieve user from database
+    lock (_users) _users [id] = u;
+    return u;
+  }
+}
+</pre>
+
+<p>We must, at a minimum, lock around reading and updating
+the dictionary to ensure thread safety. In this example, we choose a practical
+compromise between simplicity and performance in locking. Our design actually
+creates a very small potential for inefficiency: if two threads simultaneously called
+this method with the same previously unretrieved <code>id</code>,
+the <code>RetrieveUser</code> method would be called twice — and
+the dictionary would be updated unnecessarily. Locking once across the whole
+method would prevent this, but would create a worse inefficiency: the entire
+cache would be locked up for the duration of calling <code>RetrieveUser</code>,
+during which time other threads would be <a href="#_Blocking">blocked</a> in
+retrieving <em>any</em> user.</p>
+
+<h2>
+	<a name="_Rich_Client_Applications">Rich Client Applications and Thread Affinity</a>
+</h2>
+
+<p>Both the Windows Presentation Foundation (WPF) and Windows
+Forms libraries follow models based on thread affinity. Although each has a
+separate implementation, they are both very similar in how they function.</p>
+
+<p>The objects that make up a rich client are based primarily
+on <code>DependencyObject</code> in the case of WPF, or <code>Control</code> in the case of Windows Forms. These objects have <i>thread affinity</i>, which means that only the thread
+that instantiates them can subsequently access their members. Violating this
+causes either unpredictable behavior, or an exception to be thrown.</p>
+
+<p>On the positive side, this means you don’t need to lock
+around accessing a UI object. On the negative side, if you want to call a
+member on object X created on another thread Y, you must marshal the request to
+thread Y. You can do this explicitly as follows:</p>
+
+<ul>
+	<li>In WPF, call <code>Invoke</code> or <code>BeginInvoke</code> on the element’s <code>Dispatcher</code>
+object.</li>
+	<li>In Windows Forms, call <code>Invoke</code> or <code>BeginInvoke</code> on the control.</li>
+</ul>
+
+<p>
+	<code>Invoke</code> and <code>BeginInvoke</code>
+both accept a delegate, which references the method on the target control that
+you want to run. <code>Invoke</code> works <em>synchronously</em>:
+the caller <a href="#_Blocking">blocks</a> until the marshal is complete. <code>BeginInvoke</code> works <em>asynchronously</em>: the caller
+returns immediately and the marshaled request is queued up (using the same
+message queue that handles keyboard, mouse, and timer events).</p>
+
+<p>Assuming we have a window that contains a text box called <code>txtMessage</code>, whose content we wish a worker thread to
+update, here's an example for WPF:</p>
+
+<pre class="sh_csharp">
+public partial class MyWindow : Window
+{
+  public MyWindow()
+  {
+    InitializeComponent();
+    new Thread (Work).Start();
+  }
+ 
+  void Work()
+  {
+    Thread.Sleep (5000);           // Simulate time-consuming task
+    UpdateMessage ("The answer");
+  }
+ 
+  void UpdateMessage (string message)
+  {
+    Action action = () =&gt; txtMessage.Text = message;
+    <b>Dispatcher.Invoke (action);</b>
+  }
+}
+</pre>
+
+<p>The code is similar for Windows Forms, except that we call
+the (<code>Form</code>’s) <code>Invoke</code>
+method instead:</p>
+
+<pre class="sh_csharp">
+  void UpdateMessage (string message)
+  {
+    Action action = () =&gt; txtMessage.Text = message;
+    <b>this.Invoke (action);</b>
+  }
+</pre>
+
+<div class="note">
+	<p>The Framework provides two constructs to simplify this process:</p>
+	<ul>
+		<li>
+			<code>
+				<a href="part3.html#_BackgroundWorker">BackgroundWorker</a>
+			</code>
+		</li>
+		<li>
+			<code>
+				<a href="part5.html#_Continuations">Task continuations</a>
+			</code>
+		</li>
+	</ul>
+</div>
+
+<h3>Worker threads versus UI threads</h3>
+
+<p>It’s helpful to think of a rich client application as
+having two distinct categories of threads: UI threads and worker threads. UI
+threads instantiate (and subsequently “own”) UI elements; worker threads do
+not. Worker threads typically execute long-running tasks such as fetching data.</p>
+
+<p>Most rich client applications have a single UI thread
+(which is also the main application thread) and periodically spawn worker
+threads — either directly or using <code><a href="part3.html#_BackgroundWorker">BackgroundWorker</a></code>. These workers then
+marshal back to the main UI thread in order to update controls or report on
+progress.</p>
+
+<p>So, when would an application have multiple UI threads?
+The main scenario is when you have an application with multiple top-level
+windows, often called a <em>Single Document Interface</em> (SDI) application,
+such as Microsoft Word. Each SDI window typically shows itself as a separate
+“application” on the taskbar and is mostly isolated, functionally, from other
+SDI windows. By giving each such window its own UI thread, the application can
+be made more responsive.</p>
+
+<h2>
+	<a name="_Immutable_Objects">Immutable Objects</a>
+</h2>
+
+<p>An immutable object is one whose state cannot be altered — externally
+or internally. The fields in an immutable object are typically declared
+read-only and are fully initialized during construction.</p>
+
+<p>Immutability is a hallmark of functional programming — where
+instead of <i>mutating</i> an object, you create a
+new object with different properties. LINQ follows this paradigm. Immutability
+is also valuable in multithreading in that it avoids the problem of shared
+writable state — by eliminating (or minimizing) the writable.</p>
+
+<p>One pattern is to use immutable objects to encapsulate a
+group of related fields, to minimize lock durations. To take a very simple
+example, suppose we had two fields as follows:</p>
+
+<pre class="sh_csharp">
+int _percentComplete;
+string _statusMessage;
+</pre>
+
+<p>and we wanted to read/write them atomically. Rather than <a href="#_Locking">locking</a> around these fields, we could define the following
+immutable class:</p>
+
+<pre class="sh_csharp">
+class ProgressStatus    // Represents progress of some activity
+{
+  public <b>readonly</b> int PercentComplete;
+  public <b>readonly</b> string StatusMessage;
+ 
+  // This class might have many more fields...
+ 
+  public ProgressStatus (int percentComplete, string statusMessage)
+  {
+    PercentComplete = percentComplete;
+    StatusMessage = statusMessage;
+  }
+}
+</pre>
+
+<p>Then we could define a single field of that type, along
+with a locking object:</p>
+
+<pre class="sh_csharp">
+readonly object _statusLocker = new object();
+ProgressStatus _status;
+</pre>
+
+<p>We can now read/write values of that type without holding
+a lock for more than a single assignment:</p>
+
+<pre class="sh_csharp">
+var status = new ProgressStatus (50, "Working on it");
+// Imagine we were assigning many more fields...
+// ...
+<b>lock (_statusLocker) _status = status;    // Very brief lock</b></pre>
+
+<p>To read the object, we first obtain a copy of the object
+(within a lock). Then we can read its values without needing to hold on to the
+lock:</p>
+
+<pre class="sh_csharp">
+ProgressStatus statusCopy;
+<b>lock (_locker ProgressStatus) statusCopy = _status;   // Again, a brief lock</b>
+int pc = statusCopy.PercentComplete;
+string msg = statusCopy.StatusMessage;
+...
+</pre>
+
+<p class="note">Technically, the last two lines of code are thread-safe by
+virtue of the preceding lock performing an implicit <em><a href="part4.html#_Memory_Barriers_and_Volatility">memory barrier (see part 4)</a></em>.</p>
+
+<p>Note that this lock-free approach prevents inconsistency
+within a group of related fields. But it doesn't prevent data from changing
+while you subsequently act on it — for this, you usually need a lock. In Part 5,
+we’ll see more examples of using immutability to simplify
+multithreading — including <a href="part5.html#_PLINQ">PLINQ</a>.</p>
+
+<p class="note">It’s also possible to safely assign a new <code>ProgressStatus</code>
+object based on its preceding value (e.g., it’s possible to “increment” the <code>PercentComplete</code> value) — without locking over more than one
+line of code. In fact, we can do this without using a single lock, through the
+use of explicit memory barriers, <code>Interlocked.CompareExchange</code>,
+and spin-waits. This is an advanced technique which we describe in <a href="part5.html#_SpinLock_and_SpinWait">later in the parallel programming section</a>.</p>
+
+<h1>
+	<a name="_Signaling_with_Event_Wait_Handles">Signaling with Event Wait Handles</a>
+</h1>
+
+<p>Event wait handles are used for <i>signaling</i>. Signaling is when one thread waits
+until it receives notification from another. Event wait handles are the
+simplest of the signaling constructs, and they are unrelated to C# events. They
+come in three flavors: <code><a href="#_AutoResetEvent">AutoResetEvent</a></code>,
+<code><a href="#_ManualResetEvent">ManualResetEvent</a></code>,
+and (from Framework 4.0) <code><a href="#_CountdownEvent">CountdownEvent</a></code>.
+The former two are based on the common <code>EventWaitHandle</code>
+class, where they derive all their functionality.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">A Comparison of Signaling Constructs</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Construct</th>
+		<th valign="top">Purpose</th>
+		<th valign="top">Cross-process?</th>
+		<th valign="top">Overhead*</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_AutoResetEvent">AutoResetEvent</a>
+		</td>
+		<td valign="top">Allows a thread to unblock once when it receives a signal
+  from another</td>
+		<td valign="top">Yes</td>
+		<td valign="top">1000ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_ManualResetEvent">ManualResetEvent</a>
+		</td>
+		<td valign="middle" rowspan="2">Allows a thread to unblock indefinitely when it receives a
+  signal from another (until reset)</td>
+		<td valign="top">Yes</td>
+		<td valign="top">1000ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_ManualResetEvent">ManualResetEventSlim</a> (introduced
+  in Framework 4.0)</td>
+		<td valign="top">-</td>
+		<td valign="top">40ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_CountdownEvent">CountdownEvent</a> (introduced in
+  Framework 4.0)</td>
+		<td valign="top">Allows a thread to unblock when it receives a predetermined
+  number of signals</td>
+		<td valign="top">-</td>
+		<td valign="top">40ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="part4.html#_The_Barrier_Class">Barrier</a> (introduced in Framework
+  4.0)</td>
+		<td valign="top">Implements a thread execution barrier</td>
+		<td valign="top">-</td>
+		<td valign="top">80ns</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="part4.html#_Signaling_with_Wait_and_Pulse">Wait and Pulse</a></td>
+		<td valign="top">Allows a thread to block until a custom condition is met</td>
+		<td valign="top">-</td>
+		<td valign="top">120ns for a <code>Pulse</code></td>
+	</tr>
+</table>
+
+<p>*Time taken to signal and wait on the construct once on
+the same thread (assuming no blocking), as measured on an Intel Core i7 860.</p>
+
+</div>
+
+<h2>
+	<a name="_AutoResetEvent">AutoResetEvent</a>
+</h2>
+
+<p>An <code>AutoResetEvent</code> is like a
+ticket turnstile: inserting a ticket lets exactly one person through. The
+“auto” in the class’s name refers to the fact that an open turnstile
+automatically closes or “resets” after someone steps through. A thread waits,
+or <a href="#_Blocking">blocks</a>, at the turnstile by calling <code>WaitOne</code> (wait at this “one” turnstile until it opens), and
+a ticket is inserted by calling the <code>Set</code> method. If a
+number of threads call <code>WaitOne</code>, a queue builds up
+behind the turnstile. (As with locks, the fairness of the queue can sometimes
+be violated due to nuances in the operating system). A ticket can come from any
+thread; in other words, any (unblocked) thread with access to the <code>AutoResetEvent</code> object can call <code>Set</code>
+on it to release one blocked thread.</p>
+
+<p>You can create an <code>AutoResetEvent</code>
+in two ways. The first is via its constructor:</p>
+
+<pre class="sh_csharp">
+var auto = new AutoResetEvent (false);
+</pre>
+
+<p>(Passing <code>true</code> into the
+constructor is equivalent to immediately calling <code>Set</code>
+upon it.) The second way to create an <code>AutoResetEvent</code>
+is as follows:</p>
+
+<pre class="sh_csharp">
+var auto = new EventWaitHandle (false, EventResetMode.AutoReset);
+</pre>
+
+<p>In the following example, a thread is started whose job is
+simply to wait until signaled by another thread:</p>
+
+<pre class="sh_csharp">
+class BasicWaitHandle
+{
+  static EventWaitHandle _waitHandle = new AutoResetEvent (false);
+ 
+  static void Main()
+  {
+    new Thread (Waiter).Start();
+    Thread.Sleep (1000);                  // Pause for a second...
+    _waitHandle.Set();                    // Wake up the Waiter.
+  }
+ 
+  static void Waiter()
+  {
+    Console.WriteLine ("Waiting...");
+    _waitHandle.WaitOne();                // Wait for notification
+    Console.WriteLine ("Notified");
+  }
+}
+</pre>
+
+<pre class="output">
+Waiting... <i>(pause)</i> Notified.
+</pre>
+
+<div class="figure">
+	<img width="700" height="207" src="EventWaitHandle.png" alt="Signaling with Event Wait Handles" />
+</div>
+
+<p>If <code>Set</code> is called when no thread
+is waiting, the handle stays open for as long as it takes until some thread
+calls <code>WaitOne</code>. This behavior helps avoid a race
+between a thread heading for the turnstile, and a thread inserting a ticket
+(“Oops, inserted the ticket a microsecond too soon, bad luck, now you’ll have
+to wait indefinitely!”). However, calling <code>Set</code>
+repeatedly on a turnstile at which no one is waiting doesn’t allow a whole
+party through when they arrive: only the next single person is let through and
+the extra tickets are “wasted.”</p>
+
+<p>Calling <code>Reset</code> on an <code>AutoResetEvent</code> closes the turnstile (should it be open)
+without waiting or <a href="#_Blocking">blocking</a>.</p>
+
+<p>
+	<code>WaitOne</code> accepts an optional
+timeout parameter, returning <code>false</code> if the wait ended
+because of a timeout rather than obtaining the signal.</p>
+
+<p class="note">Calling <code>WaitOne</code> with a timeout of <code>0</code> tests whether a wait handle is “open,” without blocking
+the caller. Bear in mind, though, that doing this resets the <code>AutoResetEvent</code> if it’s open.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">Disposing Wait Handles</p>
+
+<p>Once you’ve finished with a wait handle, you can call its <code>Close</code> method to release the operating system resource.
+Alternatively, you can simply drop all references to the wait handle and allow
+the garbage collector to do the job for you sometime later (wait handles
+implement the disposal pattern whereby the finalizer calls <code>Close</code>).
+This is one of the few scenarios where relying on this backup is (arguably)
+acceptable, because wait handles have a light OS burden (<a href="index.html#_Asynchronous_delegates">asynchronous delegates</a> rely on exactly this
+mechanism to release their <code>IAsyncResult</code>’s wait
+handle).</p>
+
+<p>Wait handles are released automatically when an
+application domain unloads.</p>
+
+</div>
+
+<h3>
+	<a name="_Two-way_signaling">Two-way signaling</a>
+</h3>
+
+<p>Let’s say we want the main thread to signal a worker thread
+three times in a row. If the main thread simply calls <code>Set</code>
+on a wait handle several times in rapid succession, the second or third signal
+may get lost, since the worker may take time to process each signal.</p>
+
+<p>The solution is for the main thread to wait until the
+worker’s ready before signaling it. This can be done with another <code>AutoResetEvent</code>, as follows:</p>
+
+<pre class="sh_csharp">
+class TwoWaySignaling
+{
+  static EventWaitHandle _ready = new AutoResetEvent (false);
+  static EventWaitHandle _go = new AutoResetEvent (false);
+  static readonly object _locker = new object();
+  static string _message;
+ 
+  static void Main()
+  {
+    new Thread (Work).Start();
+ 
+    <b>_ready.WaitOne();</b>                  // First wait until worker is ready
+    lock (_locker) _message = "ooo";
+    <b>_go.Set();</b>                         // Tell worker to go
+ 
+    <b>_ready.WaitOne();</b>
+    lock (_locker) _message = "ahhh";  // Give the worker another message
+    <b>_go.Set();</b>
+    <b>_ready.WaitOne();</b>
+    lock (_locker) _message = null;    // Signal the worker to exit
+    <b>_go.Set();</b>
+  }
+ 
+  static void Work()
+  {
+    while (true)
+    {
+      <b>_ready.Set();</b>                          // Indicate that we're ready
+      <b>_go.WaitOne();</b>                         // Wait to be kicked off...
+      lock (_locker)
+      {
+        if (_message == null) return;        // Gracefully exit
+        Console.WriteLine (_message);
+      }
+    }
+  }
+}
+</pre>
+
+<pre class="output">
+ooo
+ahhh
+</pre>
+
+<div class="figure">
+	<img width="750" height="191" src="TwoWaySignaling.png" alt="Two-way signaling" />
+</div>
+
+<p>Here, we’re using a null message to indicate that the
+worker should end. With threads that run indefinitely, it’s important to have
+an exit strategy!</p>
+
+<h3>
+	<a name="_WaitHandle_Producer_Consumer_Queue">Producer/consumer queue</a>
+</h3>
+
+<p>A producer/consumer queue is a common requirement in
+threading. Here’s how it works:</p>
+
+<ul>
+	<li>A queue is set up to describe work items — or data upon which work
+is performed.</li>
+	<li>When a task needs executing, it’s enqueued, allowing the caller
+to get on with other things.</li>
+	<li>One or more worker threads plug away in the background, picking
+off and executing queued items.</li>
+</ul>
+
+<p>The advantage of this model is that you have precise
+control over how many worker threads execute at once. This can allow you to
+limit consumption of not only CPU time, but other resources as well. If the
+tasks perform intensive disk I/O, for instance, you might have just one worker
+thread to avoid starving the operating system and other applications. Another
+type of application may have 20. You can also dynamically add and remove
+workers throughout the queue’s life. The CLR’s thread pool itself is a kind of
+producer/consumer queue.</p>
+
+<p>A producer/consumer queue typically holds items of data
+upon which (the same) task is performed. For example, the items of data may be
+filenames, and the task might be to encrypt those files.</p>
+
+<p>In the example below, we use a single <code>AutoResetEvent</code>
+to signal a worker, which waits when it runs out of tasks (in other words, when
+the queue is empty). We end the worker by enqueing a null task:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Threading;
+using System.Collections.Generic;
+ 
+class ProducerConsumerQueue : IDisposable
+{
+  EventWaitHandle _wh = new AutoResetEvent (false);
+  Thread _worker;
+  readonly object _locker = new object();
+  Queue&lt;string&gt; _tasks = new Queue&lt;string&gt;();
+ 
+  public ProducerConsumerQueue()
+  {
+    _worker = new Thread (Work);
+    _worker.Start();
+  }
+ 
+  public void EnqueueTask (string task)
+  {
+    lock (_locker) _tasks.Enqueue (task);
+    _wh.Set();
+  }
+ 
+  public void Dispose()
+  {
+    EnqueueTask (null);     // Signal the consumer to exit.
+    _worker.Join();         // Wait for the consumer's thread to finish.
+    _wh.Close();            // Release any OS resources.
+  }
+ 
+  void Work()
+  {
+    while (true)
+    {
+      string task = null;
+      lock (_locker)
+        if (_tasks.Count &gt; 0)
+        {
+          task = _tasks.Dequeue();
+          if (task == null) return;
+        }
+      if (task != null)
+      {
+        Console.WriteLine ("Performing task: " + task);
+        Thread.Sleep (1000);  // simulate work...
+      }
+      else
+        _wh.WaitOne();         // No more tasks - wait for a signal
+    }
+  }
+}
+</pre>
+
+<p>To ensure thread safety, we used a lock to protect access
+to the <code>Queue&lt;string&gt;</code> collection. We also
+explicitly closed the wait handle in our <code>Dispose</code>
+method, since we could potentially create and destroy many instances of this
+class within the life of the application.</p>
+
+<p>Here's a main method to test the queue:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  using (ProducerConsumerQueue q = new ProducerConsumerQueue())
+  {
+    q.EnqueueTask ("Hello");
+    for (int i = 0; i &lt; 10; i++) q.EnqueueTask ("Say " + i);
+    q.EnqueueTask ("Goodbye!");
+  }
+ 
+  // Exiting the using statement calls q's Dispose method, which
+  // enqueues a null task and waits until the consumer finishes.
+}
+</pre>
+
+<pre class="output">
+Performing task: Hello
+Performing task: Say 1
+Performing task: Say 2
+Performing task: Say 3
+...
+...
+Performing task: Say 9
+Goodbye!
+</pre>
+
+<div class="note">
+	<p>Framework 4.0 provides a new
+class called <a href="part5.html#_BlockingCollectionT">BlockingCollection&lt;T&gt;</a> that
+implements the functionality of a producer/consumer queue.</p>
+
+	<p>Our manually written producer/consumer queue is still
+valuable — not only to illustrate <code>AutoResetEvent</code> and <a href="#_Thread_Safety">thread safety</a>, but also as a basis for more
+sophisticated structures. For instance, if we wanted a <i>bounded blocking queue</i> (limiting the number of
+enqueued tasks) and also wanted to support cancellation (and removal) of
+enqueued work items, our code would provide an excellent starting point. We’ll
+take the producer/consume queue example further in our discussion of <a href="part4.html#_Wait_Pulse_Producer_Consumer_Queue">Wait and Pulse</a>.</p>
+
+</div>
+
+<h2>
+	<a name="_ManualResetEvent">ManualResetEvent</a>
+</h2>
+
+<p>A <code>ManualResetEvent</code> functions
+like an ordinary gate. Calling <code>Set</code> opens the gate,
+allowing <em>any</em> number of threads calling <code>WaitOne</code>
+to be let through. Calling <code>Reset</code> closes the gate.
+Threads that call <code>WaitOne</code> on a closed gate will <a href="#_Blocking">block</a>; when the gate is next opened, they will be
+released all at once. Apart from these differences, a <code>ManualResetEvent</code>
+functions like an <code><a href="#_AutoResetEvent">AutoResetEvent</a></code>.</p>
+
+<p>As with <code>AutoResetEvent</code>, you can
+construct a <code>ManualResetEvent</code> in two ways:</p>
+
+<pre class="sh_csharp">
+var manual1 = new ManualResetEvent (false);
+var manual2 = new EventWaitHandle (false, EventResetMode.ManualReset);
+</pre>
+
+<p class="note">From Framework 4.0, there's another version of <code>ManualResetEvent</code> called <code>ManualResetEventSlim</code>.
+The latter is optimized for short waiting times — with the ability to opt into <a href="#_Blocking_Versus_Spinning">spinning</a> for a set number of iterations.
+It also has a more efficient managed implementation and allows a <code>Wait</code> to be canceled via a <code><a href="part3.html#_Cancellation_Tokens">CancellationToken</a></code>. It cannot, however, be
+used for interprocess signaling. <code>ManualResetEventSlim</code>
+doesn’t subclass <code>WaitHandle</code>; however, it exposes a <code>WaitHandle</code> property that returns a <code>WaitHandle</code>-based
+object when called (with the performance profile of a traditional wait handle).</p>
+
+<div class="sidebar">
+<p class="sidebartitle">Signaling Constructs and Performance</p>
+
+<p>Waiting or signaling an <code>AutoResetEvent</code>
+or <code>ManualResetEvent</code> takes about one microsecond
+(assuming no blocking). </p>
+
+<p>
+	<code>ManualResetEventSlim</code> and <code><a href="#_CountdownEvent">CountdownEvent</a></code> can be up to
+50 times faster in short-wait scenarios, because of their nonreliance on the
+operating system and judicious use of <a href="part5.html#_SpinLock_and_SpinWait">spinning constructs</a>.</p>
+
+<p>In most scenarios, however, the overhead of the signaling
+classes themselves doesn’t create a bottleneck, and so is rarely a
+consideration. An exception is with highly concurrent code, which we’ll discuss
+in <a href="part5.html#_Parallel_Programming">Part 5</a>.</p>
+
+</div>
+
+<p>A <code>ManualResetEvent</code> is useful in
+allowing one thread to unblock many other threads. The reverse scenario is
+covered by <code>CountdownEvent</code>.</p>
+
+<h2>
+	<a name="_CountdownEvent">CountdownEvent</a>
+</h2>
+
+<p>
+	<code>CountdownEvent</code> lets you wait on
+more than one thread. The class is new to Framework 4.0 and has an efficient
+fully managed implementation. </p>
+
+<p class="note">If you’re running on an earlier version of the .NET Framework,
+all is not lost! Later on, we show how to write a <code>CountdownEvent</code> <a href="part4.html#_Writing_a_CountdownEvent">using Wait and Pulse</a>. </p>
+
+<p>To use <code>CountdownEvent</code>,
+instantiate the class with the number of threads or “counts” that you want to
+wait on:</p>
+
+<pre class="sh_csharp">
+var countdown = new CountdownEvent (3);  // Initialize with "count" of 3.
+</pre>
+
+<p>Calling <code>Signal</code> decrements the
+“count”; calling <code>Wait</code> <a href="#_Blocking">blocks</a>
+until the count goes down to zero. For example:</p>
+
+<pre class="sh_csharp">
+static CountdownEvent _countdown = <b>new CountdownEvent (3);</b>
+ 
+static void Main()
+{
+  new Thread (SaySomething).Start ("I am thread 1");
+  new Thread (SaySomething).Start ("I am thread 2");
+  new Thread (SaySomething).Start ("I am thread 3");
+ 
+  <b>_countdown.Wait();   // Blocks until Signal has been called 3 times</b>
+  Console.WriteLine ("All threads have finished speaking!");
+}
+ 
+static void SaySomething (object thing)
+{
+  Thread.Sleep (1000);
+  Console.WriteLine (thing);
+  <b>_countdown.Signal();</b>
+}
+</pre>
+
+<p class="note">Problems for which <code>CountdownEvent</code>
+is effective can sometimes be solved more easily using the <i>structured parallelism</i> constructs that we’ll cover
+in Part 5 (<a href="part5.html#_PLINQ">PLINQ</a> and the <code><a href="part5.html#_The_Parallel_Class">Parallel</a></code> class).</p>
+
+<p>You can reincrement a <code>CountdownEvent</code>’s
+count by calling <code>AddCount</code>. However, if it has
+already reached zero, this throws an exception: you can’t “unsignal” a <code>CountdownEvent</code> by calling <code>AddCount</code>.
+To avoid the possibility of an exception being thrown, you can instead call <code>TryAddCount</code>, which returns <code>false</code>
+if the countdown is zero.</p>
+
+<p>To unsignal a countdown event, call <code>Reset</code>:
+this both unsignals the construct and resets its count to the original value.</p>
+
+<p>Like <code>ManualResetEventSlim</code>, <code>CountdownEvent</code> exposes a <code>WaitHandle</code>
+property for scenarios where some other class or method expects an object based
+on <code>WaitHandle</code>.</p>
+
+<h2>
+	<a name="_CrossProcess_EventWaitHandle">Creating a Cross-Process EventWaitHandle</a>
+</h2>
+
+<p>
+	<code>EventWaitHandle</code>’s constructor
+allows a “named” <code>EventWaitHandle</code> to be created,
+capable of operating across multiple processes. The name is simply a string,
+and it can be any value that doesn’t unintentionally conflict with someone
+else’s! If the name is already in use on the computer, you get a reference to
+the same underlying <code>EventWaitHandle</code>; otherwise, the
+operating system creates a new one. Here’s an example:</p>
+
+<pre class="sh_csharp">
+EventWaitHandle wh = new EventWaitHandle (false, EventResetMode.AutoReset,
+                                          "MyCompany.MyApp.SomeName");
+</pre>
+
+<p>If two applications each ran this code, they would be able
+to signal each other: the wait handle would work across all threads in both
+processes.</p>
+
+<h2>
+	<a name="_Wait_Handles_and_the_Thread_Pool">Wait Handles and the Thread Pool</a>
+</h2>
+
+<p>If your application has lots of threads that spend most of
+their time blocked on a wait handle, you can reduce the resource burden by
+calling <code>ThreadPool.RegisterWaitForSingleObject</code>. This
+method accepts a delegate that is executed when a wait handle is signaled.
+While it’s waiting, it doesn’t tie up a thread:</p>
+
+<pre class="sh_csharp">
+static ManualResetEvent _starter = new ManualResetEvent (false);
+ 
+public static void Main()
+{
+  <b>RegisteredWaitHandle reg = ThreadPool.RegisterWaitForSingleObject</b>
+                             <b>(_starter, Go, "Some Data", -1, true);</b>
+  Thread.Sleep (5000);
+  Console.WriteLine ("Signaling worker...");
+  _starter.Set();
+  Console.ReadLine();
+  <b>reg.Unregister (_starter);</b>    // Clean up when we’re done.
+}
+ 
+public static void Go (object data, bool timedOut)
+{
+  Console.WriteLine ("Started - " + data);
+  // Perform task...
+}
+</pre>
+
+<pre class="output">
+(5 second delay)
+Signaling worker...
+Started - Some Data
+</pre>
+
+<p>When the wait handle is signaled (or a timeout elapses),
+the delegate runs on a pooled thread.</p>
+
+<p>In addition to the wait handle and delegate, <code>RegisterWaitForSingleObject</code> accepts a “black box” object
+that it passes to your delegate method (rather like <code>ParameterizedThreadStart</code>),
+as well as a timeout in milliseconds (–1 meaning no timeout) and a boolean flag
+indicating whether the request is one-off rather than recurring.</p>
+
+<p>
+	<code>RegisterWaitForSingleObject</code> is
+particularly valuable in an application server that must handle many concurrent
+requests. Suppose you need to block on a <code><a href="#_ManualResetEvent">ManualResetEvent</a></code> and simply call <code>WaitOne</code>:</p>
+
+<pre class="sh_csharp">
+void AppServerMethod()
+{
+  _wh.WaitOne();
+  // ... continue execution
+}
+</pre>
+
+<p>If 100 clients called this method, 100 server threads
+would be tied up for the duration of the blockage. Replacing <code>_wh.WaitOne</code> with <code>RegisterWaitForSingleObject</code>
+allows the method to return immediately, wasting no threads:</p>
+
+<pre class="sh_csharp">
+void AppServerMethod
+{
+  RegisteredWaitHandle reg = ThreadPool.RegisterWaitForSingleObject
+   (_wh, Resume, null, -1, true);
+  ...
+}
+ 
+static void Resume (object data, bool timedOut)
+{
+  // ... continue execution
+}
+</pre>
+
+<p>The data object passed to <code>Resume</code>
+allows continuance of any transient data.</p>
+
+<h2>
+	<a name="_WaitAny_WaitAll_SignalAndWait">WaitAny, WaitAll, and SignalAndWait</a>
+</h2>
+
+<p>In addition to the <code>Set</code>, <code>WaitOne</code>, and <code>Reset</code> methods,
+there are static methods on the <code>WaitHandle</code> class to
+crack more complex synchronization nuts. The <code>WaitAny</code>,
+<code>WaitAll</code>, and <code>SignalAndWait</code>
+methods perform atomic signaling and waiting operations on multiple handles.
+The wait handles can be of differing types (including <code><a href="#_Mutex">Mutex</a></code> and <code><a href="#_Semaphore">Semphore</a></code>,
+since these also derive from the abstract <code>WaitHandle</code>
+class). <code><a href="#_ManualResetEvent">ManualResetEventSlim</a></code>
+and <code><a href="#_CountdownEvent">CountdownEvent</a></code>
+can also partake in these methods via their <code>WaitHandle</code>
+properties. </p>
+
+<p class="warning">
+	<code>WaitAll</code> and <code>SignalAndWait</code> have a weird connection to the legacy COM architecture:
+these methods require that the caller be in a multithreaded apartment, the
+model least suitable for interoperability. The main thread of a WPF or Windows
+application, for example, is unable to interact with the clipboard in this
+mode. We’ll discuss alternatives shortly.</p>
+
+<p>
+	<code>WaitHandle.WaitAny</code> waits for
+any one of an array of wait handles; <code>WaitHandle.WaitAll</code>
+waits on all of the given handles, atomically. This means that if you wait on
+two <code><a href="#_AutoResetEvent">AutoResetEvent</a>s</code>:</p>
+
+<ul>
+	<li>
+		<code>WaitAny</code> will never end up “latching”
+both events.</li>
+	<li>
+		<code>WaitAll</code> will never end up “latching”
+only one event.</li>
+</ul>
+
+<p>
+	<code>SignalAndWait</code> calls <code>Set</code> on one <code>WaitHandle</code>, and then
+calls <code>WaitOne</code> on another <code>WaitHandle</code>.
+The atomicity guarantee is that after signaling the first handle, it will jump
+to the head of the queue in waiting on the second handle: you can think of it
+as “swapping” one signal for another. You can use this method on a pair of <code>EventWaitHandle</code>s to set up two threads to rendezvous or
+“meet” at the same point in time. Either <code><a href="#_AutoResetEvent">AutoResetEvent</a></code> or <code><a href="#_ManualResetEvent">ManualResetEvent</a></code> will do the trick. The
+first thread executes the following:</p>
+
+<pre class="sh_csharp">
+WaitHandle.SignalAndWait (wh1, wh2);
+</pre>
+
+<p>whereas the second thread does the opposite:</p>
+
+<pre class="sh_csharp">
+WaitHandle.SignalAndWait (wh2, wh1);
+</pre>
+
+<h3>Alternatives to WaitAll and SignalAndWait</h3>
+
+<p>
+	<code>WaitAll</code> and <code>SignalAndWait</code> won’t run in a single-threaded apartment.
+Fortunately, there are alternatives. In the case of <code>SignalAndWait</code>,
+it’s rare that you need its atomicity guarantee: in our rendezvous example, for
+instance, you could simply call <code>Set</code> on the first
+wait handle, and then <code>WaitOne</code> on the other. In <a href="part4.html#_The_Barrier_Class">The Barrier Class</a>, we’ll explore yet another
+option for implementing a thread rendezvous.</p>
+
+<p>In the case of <code>WaitAll</code>, an
+alternative in some situations is to use the <code><a href="part5.html#_Parallel.Invoke">Parallel
+class’s Invoke method</a></code>,
+which we’ll cover in Part 5. (We’ll also cover <code><a href="part5.html#_Task_Parallelism">Task</a></code>s and <a href="part5.html#_Continuations">continuations</a>,
+and see how <code>TaskFactory</code>'s <code><a href="part5.html#_Continuations_with_multiple_antecedents">ContinueWhenAny</a></code>
+provides an alternative to <code>WaitAny</code>.)</p>
+
+<p>In all other scenarios, the answer is to take the
+low-level approach that solves all signaling problems: <code><a href="part4.html#_Signaling_with_Wait_and_Pulse">Wait and
+Pulse</a></code>.</p>
+
+<h1>
+	<a name="_Synchronization_Contexts">Synchronization Contexts</a>
+</h1>
+
+<p>An alternative to <a href="#_Locking">locking manually</a>
+is to lock <i>declaratively</i>. By deriving from <code>ContextBoundObject</code> and applying the <code>Synchronization</code>
+attribute, you instruct the CLR to apply locking automatically. For example:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Threading;
+using System.Runtime.Remoting.Contexts;
+ 
+[Synchronization]
+public class AutoLock : ContextBoundObject
+{
+  public void Demo()
+  {
+    Console.Write ("Start...");
+    Thread.Sleep (1000);           // We can't be preempted here
+    Console.WriteLine ("end");     // thanks to automatic locking!
+  } 
+}
+ 
+public class Test
+{
+  public static void Main()
+  {
+    AutoLock safeInstance = new AutoLock();
+    new Thread (safeInstance.Demo).Start();     // Call the Demo
+    new Thread (safeInstance.Demo).Start();     // method 3 times
+    safeInstance.Demo();                        // concurrently.
+  }
+}
+</pre>
+
+<pre class="output">
+Start... end
+Start... end
+Start... end
+</pre>
+
+<p>The CLR ensures that only one thread can execute code in <code>safeInstance</code> at a time. It does this by creating a single
+synchronizing object — and <a href="#_Locking">locking</a> it around every call
+to each of <code>safeInstance</code>'s methods or properties. The
+scope of the lock — in this case, the <code>safeInstance</code>
+object — is called a <i>synchronization context</i>.</p>
+
+<p>So, how does this work? A clue is in the <code>Synchronization</code> attribute's namespace: <code>System.Runtime.Remoting.Contexts</code>. A <code>ContextBoundObject</code>
+can be thought of as a “remote” object, meaning all method calls are
+intercepted. To make this interception possible, when we instantiate <code>AutoLock</code>, the CLR actually returns a proxy — an object with
+the same methods and properties of an <code>AutoLock</code>
+object, which acts as an intermediary. It's via this intermediary that the
+automatic locking takes place. Overall, the interception adds around a
+microsecond to each method call.</p>
+
+<p class="note">Automatic synchronization cannot be used to protect static
+type members, nor classes not derived from <code>ContextBoundObject</code>
+(for instance, a Windows Form). </p>
+
+<p>The locking is applied internally in the same way. You
+might expect that the following example will yield the same result as the last:</p>
+
+<pre class="sh_csharp">
+[Synchronization]
+public class AutoLock : ContextBoundObject
+{
+  public void Demo()
+  {
+    Console.Write ("Start...");
+    Thread.Sleep (1000);
+    Console.WriteLine ("end");
+  }
+ 
+  public void Test()
+  {
+    new Thread (Demo).Start();
+    new Thread (Demo).Start();
+    new Thread (Demo).Start();
+    Console.ReadLine();
+  }
+ 
+  public static void Main()
+  {
+    new AutoLock().Test();
+  }
+}
+</pre>
+
+<p>(Notice that we've sneaked in a <code>Console.ReadLine</code>
+statement). Because only one thread can execute code at a time in an object of
+this class, the three new threads will remain <a href="#_Blocking">blocked</a>
+at the <code>Demo</code> method until the <code>Test</code>
+method finishes — which requires the <code>ReadLine</code> to
+complete. Hence we end up with the same result as before, but only after
+pressing the Enter key. This is a thread-safety hammer almost big enough to
+preclude any useful multithreading within a class!</p>
+
+<p>Further, we haven't solved a problem described earlier: if
+<code>AutoLock</code> were a collection class, for instance, we'd
+still require a lock around a statement such as the following, assuming it ran
+from another class:</p>
+
+<pre class="sh_csharp">
+if (safeInstance.Count &gt; 0) safeInstance.RemoveAt (0);
+</pre>
+
+<p>unless this code's class was itself a synchronized <code>ContextBoundObject</code>!</p>
+
+<p>A synchronization context can extend beyond the scope of a
+single object. By default, if a synchronized object is instantiated from within
+the code of another, both share the same context (in other words, one big
+lock!) This behavior can be changed by specifying an integer flag in <code>Synchronization attribute</code>’s constructor, using one of the
+constants defined in the <code>SynchronizationAttribute</code>
+class:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Constant</th>
+		<th valign="top">Meaning</th>
+	</tr>
+	<tr>
+		<td valign="top">NOT_SUPPORTED</td>
+		<td valign="top">Equivalent to not using the Synchronized  attribute</td>
+	</tr>
+	<tr>
+		<td valign="top">SUPPORTED</td>
+		<td valign="top">Joins the existing synchronization context if instantiated
+  from another synchronized object, otherwise remains unsynchronized</td>
+	</tr>
+	<tr>
+		<td valign="top">REQUIRED (default)</td>
+		<td valign="top">Joins the existing synchronization context if instantiated
+  from another synchronized object, otherwise creates a new context</td>
+	</tr>
+	<tr>
+		<td valign="top">REQUIRES_NEW</td>
+		<td valign="top">Always creates a new synchronization context</td>
+	</tr>
+</table>
+
+<p>So, if object of class <code>SynchronizedA</code>
+instantiates an object of class <code>SynchronizedB</code>, they’ll
+be given separate synchronization contexts if <code>SynchronizedB</code>
+is declared as follows:</p>
+
+<pre class="sh_csharp">
+[Synchronization (SynchronizationAttribute<b>.REQUIRES_NEW</b>)]
+public class SynchronizedB : ContextBoundObject { ...
+</pre>
+
+<p>The bigger the scope of a synchronization context, the
+easier it is to manage, but the less the opportunity for useful concurrency. At
+the other end of the scale, separate synchronization contexts invite <a href="#_Deadlocks">deadlocks</a>. For example:</p>
+
+<pre class="sh_csharp">
+[Synchronization]
+public class Deadlock : ContextBoundObject
+{
+  public DeadLock Other;
+  public void Demo() { Thread.Sleep (1000); Other.Hello(); }
+  void Hello()       { Console.WriteLine ("hello");        }
+}
+ 
+public class Test
+{
+  static void Main()
+  {
+    Deadlock dead1 = new Deadlock();
+    Deadlock dead2 = new Deadlock();
+    dead1.Other = dead2;
+    dead2.Other = dead1;
+    new Thread (dead1.Demo).Start();
+    dead2.Demo();
+  }
+}
+</pre>
+
+<p>Because each instance of <code>Deadlock</code>
+is created within <code>Test</code> — an unsynchronized class — each
+instance will gets its own synchronization context, and hence, its own lock.
+When the two objects call upon each other, it doesn't take long for the
+deadlock to occur (one second, to be precise!) The problem would be
+particularly insidious if the <code>Deadlock</code> and <code>Test</code> classes were written by different programming teams.
+It may be unreasonable to expect those responsible for the <code>Test</code>
+class to be even aware of their transgression, let alone know how to go about
+resolving it. This is in contrast to explicit locks, where deadlocks are
+usually more obvious.</p>
+
+<h2>
+	<a name="_Reentrancy">Reentrancy</a>
+</h2>
+
+<p>A thread-safe method is sometimes called reentrant,
+because it can be preempted part way through its execution, and then called
+again on another thread without ill effect. In a general sense, the terms
+thread-safe and reentrant are considered either synonymous or closely related.</p>
+
+<p>Reentrancy, however, has another more sinister connotation
+in automatic locking regimes. If the <code>Synchronization</code>
+attribute is applied with the <code>reentrant</code> argument
+true:</p>
+
+<pre class="sh_csharp">
+[Synchronization(true)]
+</pre>
+
+<p>then the synchronization context's lock will be
+temporarily released when execution leaves the context. In the previous
+example, this would prevent the deadlock from occurring; obviously desirable.
+However, a side effect is that during this interim, any thread is free to call
+any method on the original object ("re-entering" the synchronization
+context) and unleashing the very complications of multithreading one is trying
+to avoid in the first place. This is the problem of reentrancy.</p>
+
+<p class="warning">Because <code>[Synchronization(true)]</code>
+is applied at a class-level, this attribute turns every out-of-context method
+call made by the class into a Trojan for reentrancy.</p>
+
+<p>While reentrancy can be dangerous, there are sometimes few
+other options. For instance, suppose one was to implement multithreading internally
+within a synchronized class, by delegating the logic to workers running objects
+in separate contexts. These workers may be unreasonably hindered in
+communicating with each other or the original object without reentrancy.</p>
+
+<p>This highlights a fundamental weakness with automatic
+synchronization: the extensive scope over which locking is applied can actually
+manufacture difficulties that may never have otherwise arisen. These
+difficulties — deadlocking, reentrancy, and emasculated concurrency — can make manual
+locking more palatable in anything other than simple scenarios.</p>
+
+<p><a href="index.html">&lt;&lt; Part 1</a>&nbsp;&nbsp; <a href="part3.html">Part 3 &gt;&gt;</a></p>
+
+
+<br />
+<p style="float:right">
+    <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</p>
+
+<p style='font-weight:bold; font-size:105%'><i>Threading in C#</i> is from Chapters 21 and 22 of <a href='../nutshell/index.html'>C# 4.0 in a Nutshell</a>.</p>
+<p>© 2006-2013 Joseph Albahari, O'Reilly Media, Inc. All rights reserved</p>
+</div>
+
+</form>
+</body>
+
+<!-- Mirrored from www.albahari.com/threading/part2.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

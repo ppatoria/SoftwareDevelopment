@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-library-concurrency by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="f76a884c73e2c3785ccd7fa152504ced23d03567" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="23408bfeffba4c55f6ef29a2b8ce275122be31e7" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="0f1453b8e24285024f127085726de71ef3ea7712" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        cpp11 library concurrency
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="cpp11-library-concurrency.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    cpp11 library concurrency
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=cpp11%20library%20concurrency" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="cpp11-library-concurrency">C++11 Standard Library Extensions &#8212; Concurrency</h2>
+
+<h3 id="std-threads">Threads</h3>
+
+<p>A thread is a representation of an execution/computation in a program. In C++11, as in much modern computing, a thread can &#8211; and usually does &#8211; share an address space with other threads. In this, it differs from a process, which generally does not directly share data with other processes. C++ has had a host of threads implementations for a variety of hardware and operating systems in the past, what&#8217;s new is a standard-library threads library.</p>
+
+<p>Many thick books and tens of thousands of papers have been written about concurrency, parallelism, and threading, this FAQ entry barely scratches the surface. It is hard to think clearly about concurrency. If you want to do concurrent programming, at least read a book. Do not rely just on a manual, a standard, or a FAQ.</p>
+
+<p>A thread is launched by constructing a <code>std::thread</code> with a function or a function object (incl. a <a href="cpp11-language.html#lambda" title="FAQ: Lambdas">lambda</a>):</p>
+
+<pre><code>    #include &lt;thread&gt;
+
+    void f();
+
+    struct F {
+        void operator()();
+    };
+
+    int main()
+    {
+        std::thread t1{f};     // f() executes in separate thread
+        std::thread t2{F()};   // F()() executes in separate thread
+    }
+</code></pre>
+
+<p>Unfortunately, this is unlikely to give any useful results &#8211; whatever <code>f()</code> and <code>F()</code> might do. The snag is that the program may terminate before or after <code>t1</code> executes <code>f()</code> and before or after <code>t2</code> executes <code>F()</code>. We need to wait for the two tasks to complete:</p>
+
+<pre><code>    int main()
+    {
+        std::thread t1{f};  // f() executes in separate thread
+        std::thread t2{F()};    // F()() executes in separate thread
+
+        t1.join();  // wait for t1
+        t2.join();  // wait for t2
+    }
+</code></pre>
+
+<p>The <code>join()</code>s ensure that we don&#8217;t terminate until the threads have completed. To &#8220;join&#8221; means to wait for the thread to terminate.</p>
+
+<p>Typically, we&#8217;d like to pass some arguments to the task to be executed (here we are calling something executed by a thread a &#8220;task&#8221;). For example:</p>
+
+<pre><code>    void f(vector&lt;double&gt;&amp;);
+
+    struct F {
+        vector&lt;double&gt;&amp; v;
+        F(vector&lt;double&gt;&amp; vv) :v{vv} { }
+        void operator()();
+    };
+
+    int main()
+    {
+        std::thread t1{std::bind(f,some_vec)};  // f(some_vec) executes in separate thread
+        std::thread t2{F(some_vec)};        // F(some_vec)() executes in separate thread
+
+        t1.join();
+        t2.join();
+    }
+</code></pre>
+
+<p>Basically, the standard library <a href="cpp11-library.html#std-function" title="FAQ: function and bind"><code>bind</code></a> makes a function object of its arguments.</p>
+
+<p>In general, we&#8217;d also like to get a result back from an executed task. With plain tasks, there is no notion of a return value; <a href="cpp11-library-concurrency.html#cpp11-future" title="FAQ: Futures and promises"><code>std::future</code></a> is the correct default choice for that. Alternatively, we can pass an argument to a task telling it where to put its result: For example:</p>
+
+<pre><code>    void f(vector&lt;double&gt;&amp;, double* res);   // place result in res
+
+    struct F {
+        vector&lt;double&gt;&amp; v;
+        double* res;
+        F(vector&lt;double&gt;&amp; vv, double* p) :v{vv}, res{p} { }
+        void operator()();  // place result in res
+    };
+
+    int main()
+    {
+        double res1;
+        double res2;
+
+        std::thread t1{std::bind(f,some_vec,&amp;res1)};    // f(some_vec,&amp;res1) executes in separate thread
+        std::thread t2{F(some_vec,&amp;res2)};      // F(some_vec,&amp;res2)() executes in separate thread
+
+        t1.join();
+        t2.join();
+
+        std::cout &lt;&lt; res1 &lt;&lt; ' ' &lt;&lt; res2 &lt;&lt; '\n';
+    }
+</code></pre>
+
+<p>But what about errors? What if a task throws an exception? If a task throws an exception and doesn&#8217;t catch it itself <code>std::terminate()</code> is called. That typically means that the program finishes. We usually try rather hard to avoid that. A <a href="cpp11-library-concurrency.html#cpp11-future" title="FAQ: Futures and promises"><code>std::future</code></a> can transmit an exception to the parent/calling thread; that&#8217;s one reason to like futures. Otherwise, return some sort of error code.</p>
+
+<p>When a thread goes out of scope the program is <code>terminate()</code>d unless its task has completed. That&#8217;s obviously to be avoided.</p>
+
+<p>There is no way to request a thread to terminate (i.e. request that it exit as a soon as possible and as gracefully as possible) or to force a thread to terminate (i.e. kill it). We are left with the options of</p>
+
+<ul>
+<li>designing our own cooperative &#8220;interruption mechanism&#8221; (with a piece of shared data that a caller thread can set for a called thread to check, and quickly and gracefully exit when it is set), </li>
+<li>&#8220;going native&#8221; by using <code>thread::native_handle()</code> to gain access to the operating system&#8217;s notion of a thread, </li>
+<li>kill the process (<code>std::quick_exit()</code>), </li>
+<li>kill the program (<code>std::terminate()</code>). </li>
+</ul>
+
+<p>This was all the committee could agree upon. In particular, representatives from POSIX were vehemently against any form of &#8220;thread cancellation&#8221; however much C++&#8217;s model of resources rely on destructors. There is no perfect solution for every system and every possible application.</p>
+
+<p>The basic problem with threads is data races; that is, two threads running in a single address space can independently access an object in ways that cause undefined results. If one (or both) writes to the object and the other (or both) reads the object they have a &#8220;race&#8221; for who gets its operation(s) done first. The results are not just undefined; they are usually completely unpredictable. Consequently, C++11 provides some rules/guarantees for the programmer to avoid data races:</p>
+
+<ul>
+<li>A C++ standard library function shall not directly or indirectly access objects accessible by threads other than the current thread unless the objects are accessed directly or indirectly via the function&#8217;s arguments, including <code>this</code>. </li>
+<li>A C++ standard library function shall not directly or indirectly modify objects accessible by threads other than the current thread unless the objects are accessed directly or indirectly via the function&#8217;s nonconst arguments, including <code>this.</code> </li>
+<li>C++ standard library implementations are required to avoid data races when different elements in the same sequence are modified concurrently. </li>
+</ul>
+
+<p>Concurrent access to a stream object, stream buffer object, or C Library stream by multiple threads may result in a data race unless otherwise specified. So don&#8217;t share an output stream between two threads unless you somehow control the access to it.</p>
+
+<p>You can:</p>
+
+<ul>
+<li>wait for a thread for <a href="cpp11-library.html#std-duration" title="FAQ: Time utilities">a specified time</a> </li>
+<li>control access to some data <a href="cpp11-library-concurrency.html#std-mutex" title="FAQ: Mutual exclusion">by mutual exclusion</a></li>
+<li>control access to some data <a href="cpp11-library-concurrency.html#std-lock" title="FAQ: Locks">using locks</a></li>
+<li>wait for an action of another task using a <a href="cpp11-library-concurrency.html#std-condition" title="FAQ: Condition variables">condition variable</a></li>
+<li>return a value from a thread <a href="cpp11-library-concurrency.html#cpp11-future" title="FAQ: Futures and promises">through a future</a></li>
+</ul>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 30 Thread support library [thread] </li>
+<li>17.6.4.7 Data race avoidance [res.on.data.races] </li>
+<li>H. Hinnant, L. Crowl, B. Dawes, A. Williams, J. Garland, et al.: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2320.html">Multi-threading Library for Standard C++ (Revision 1)</a> N2497==08-0007 </li>
+<li>H.-J. Boehm, L. Crowl: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2880.html">C++ object lifetime interactions with the threads API</a> N2880==09-0070. </li>
+<li>L. Crowl, P. Plauger, N. Stoughton: <a href="http://www.stroustrup.com/">Thread Unsafe Standard Functions</a> N2864==09-0054. </li>
+<li>WG14: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2455.pdf">Thread Cancellation</a> N2455=070325. </li>
+</ul>
+
+<h3 id="std-mutex">Mutual exclusion</h3>
+
+<p>A <code>mutex</code> is a primitive object used for controlling access in a multi-threaded system. The most basic use is:</p>
+
+<pre><code>    std::mutex m;
+    int sh; // shared data
+    // ...
+    m.lock();
+    // manipulate shared data:
+    sh+=1;
+    m.unlock();
+</code></pre>
+
+<p>Only one thread at a time can be in the region of code between the <code>lock()</code> and the <code>unlock()</code> (often called a critical region). If a second thread tries <code>m.lock()</code> while a first thread is executing in that region, that second thread is blocked until the first executes the <code>m.unlock()</code>. This is simple. What is not simple is to use mutexes in a way that doesn&#8217;t cause serious problems: What if a thread &#8220;forgets&#8221; to <code>unlock()</code>? What if a thread tries to <code>lock()</code> the same mutex twice? What if a thread waits a very long time before doing an <code>unlock()</code>? What if a thread needs to <code>lock()</code> two mutexes to do its job? The complete answers fill books. Here (and in the <a href="cpp11-library-concurrency.html#std-lock" title="FAQ: Locks">Locks section</a>) are just the raw basics.</p>
+
+<p>In addition to <code>lock()</code>, a <code>mutex</code> has a <code>try_lock()</code> operation which can be used to try to get into the critical region without the risk of getting blocked:</p>
+
+<pre><code>    std::mutex m;
+    int sh; // shared data
+    // ...
+    if (m.try_lock()) {
+        // manipulate shared data:
+        sh+=1;
+        m.unlock();
+    else {
+        // maybe do something else
+    }
+</code></pre>
+
+<p>A <code>recursive_mutex</code> is a mutex that can be acquired more than once by a thread:</p>
+
+<pre><code>    std::recursive_mutex m;
+    int sh; // shared data
+    // ...
+    void f(int i)
+    {
+        // ...
+        m.lock();
+        // manipulate shared data:
+        sh+=1;
+        if (--i&gt;0) f(i);
+        m.unlock();
+        // ...
+    }
+</code></pre>
+
+<p>Here, we have been blatant and let <code>f()</code> call itself. Typically, the code is more subtle. The recursive call will be indirect along the line of <code>f()</code> calls <code>g()</code> that calls <code>h()</code> that calls <code>f()</code>.</p>
+
+<p>What if you need to acquire a mutex within the next ten seconds? The <code>timed_mutex</code> class is offered for that. Its operations are specialized versions of <code>try_lock()</code> with an associated time limit:</p>
+
+<pre><code>    std::timed_mutex m;
+    int sh; // shared data
+    // ...
+    if (m.try_lock_for(std::chrono::seconds(10))) {
+        // manipulate shared data:
+        sh+=1;
+        m.unlock();
+    }
+    else {
+        // we didn't get the mutex; do something else
+    }
+</code></pre>
+
+<p>The <code>try_lock_for()</code> takes a relative time, a <a href="cpp11-library.html#std-duration" title="FAQ: Time utilities">duration</a> as its argument. If instead you want to wait until a fixed point in time, a <a href="cpp11-library.html#std-duration" title="FAQ: Time utilities">time_point</a> you can use <code>try_lock_until()</code>:</p>
+
+<pre><code>    std::timed_mutex m;
+    int sh; // shared data
+    // ...
+    if (m.try_lock_until(midnight)) {
+        // manipulate shared data:
+        sh+=1;
+        m.unlock();
+    }
+    else {
+        // we didn't get the mutex; do something else
+    }
+</code></pre>
+
+<p>The midnight is a feeble joke: For a mechanism as low level as mutexes, the timescale is more likely to be milliseconds than hours.</p>
+
+<p>There is of course also a <code>recursive_timed_mutex</code>.</p>
+
+<p>A mutex is considered a resource (as it is typically used to represent a real resource) and must be visible to at least two threads to be useful. Consequently, it cannot be copied or moved (you couldn&#8217;t just make another copy of a hardware input register).</p>
+
+<p>It can be surprisingly difficult to get the <code>lock()</code>s and <code>unlock()</code>s to match. Think of complicated control structures, errors, and exceptions. If you have a choice, use <a href="cpp11-library-concurrency.html#std-lock" title="FAQ: Locks">locks</a> to manage your mutexes; that will save you and your users a lot of sleep.</p>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 30.4 Mutual exclusion [thread.mutex] </li>
+<li>H. Hinnant, L. Crowl, B. Dawes, A. Williams, J. Garland, et al.: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2320.html">Multi-threading Library for Standard C++ (Revision 1)</a></li>
+</ul>
+
+<h3 id="std-lock">Locks</h3>
+
+<p>A lock is an object that can hold a reference to a mutex and may <code>unlock()</code> the mutex during the lock&#8217;s destruction (such as when leaving block scope). A thread may use a lock to aid in managing mutex ownership in an exception safe manner. In other words, a lock implements <a href="exceptions.html#finally" title="FAQ: Why doesn't C++ provide a finally construct?">Resource Acquisition Is Initialization</a> for mutual exclusion. For example:</p>
+
+<pre><code>    std::mutex m;
+    int sh; // shared data
+    // ...
+    void f()
+    {
+        // ...
+        std::unique_lock lck(m);
+        // manipulate shared data: lock will be released even if this code throws an exception
+        sh+=1;
+    }
+</code></pre>
+
+<p>A lock can be moved (the purpose of a lock is to represent local ownership of a non-local resource), but not copied (which copy would own the resource/mutex?).</p>
+
+<p>This straightforward picture of a lock is clouded by <code>unique_lock</code> having facilities to do just about everything a mutex can, but safer. For example, we can use a <code>unique_lock</code> to do <code>try_lock</code>:</p>
+
+<pre><code>    std::mutex m;
+    int sh; // shared data
+    // ...
+    void f()
+    {
+        // ...
+        std::unique_lock lck(m,std::defer_lock);    // make a lock, but don't acquire the mutex
+        // ...
+        if (lck.try_lock()) {
+            // manipulate shared data:
+            sh+=1;
+        }
+        else {
+            // maybe do something else
+        }
+    }
+</code></pre>
+
+<p>Similarly, <code>unique_lock</code> supports <code>try_lock_for()</code> and <code>try_lock_until()</code>. What you get from using a lock rather than the mutex directly is exception handling and protection against forgetting to <code>unlock()</code>. In concurrent programming, we need all the help we can get.</p>
+
+<p>What if we need two resources represented by two mutexes? The naive way is to acquire the mutexes in order:</p>
+
+<pre><code>    std::mutex m1;
+    std::mutex m2;
+    int sh1;    // shared data
+    int sh2
+    // ...
+    void f()
+    {
+        // ...
+        std::unique_lock lck1(m1);
+        std::unique_lock lck2(m2);
+        // manipulate shared data:
+        sh1+=sh2;
+    }
+</code></pre>
+
+<p>This has the potentially deadly flaw that some other thread could try to acquire <code>m1</code> and <code>m2</code> in the opposite order so that each had one of the locks needed to proceed and would wait forever for the second (that&#8217;s one classic form of deadlock). With many locks in a system, that&#8217;s a real danger. Consequently, the standard locks provide two functions for (safely) trying to acquire two or more locks:</p>
+
+<pre><code>    void f()
+    {
+        // ...
+        std::unique_lock lck1(m1,std::defer_lock);  // make locks but don't yet try to acquire the mutexes
+        std::unique_lock lck2(m2,std::defer_lock);
+        std::unique_lock lck3(m3,std::defer_lock);
+        lock(lck1,lck2,lck3);
+        // manipulate shared data
+    }
+</code></pre>
+
+<p>Obviously, the implementation of <code>lock()</code> has to be carefully crafted to avoid deadlock. In essence, it will do the equivalent to careful use of <code>try_lock()</code>s. If <code>lock()</code> fails to acquire all locks it will throw an exception. Actually, <code>lock()</code> can take any argument with <code>lock()</code>, <code>try_lock()</code>, and <code>unlock()</code> member functions (e.g. a <code>mutex</code>), so we can&#8217;t be specific about which exception <code>lock()</code> might throw; that depends on its arguments.</p>
+
+<p>If you prefer to use <code>try_lock()</code>s yourself, there is an equivalent to <code>lock()</code> to help:</p>
+
+<pre><code>    void f()
+    {
+        // ...
+        std::unique_lock lck1(m1,std::defer_lock);  // make locks but don't yet try to acquire the mutexes
+        std::unique_lock lck2(m2,std::defer_lock);
+        std::unique_lock lck3(m3,std::defer_lock);
+        int x;
+        if ((x = try_lock(lck1,lck2,lck3))==-1) {   // welcome to C land
+            // manipulate shared data
+        }
+        else {
+            // x holds the index of a mutex we could not acquire
+            // e.g. if lck2.try_lock() failed x==1
+        }
+    }
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 30.4.3 Locks [thread.lock] </li>
+</ul>
+
+<h3 id="std-condition">Condition variables</h3>
+
+<p>Condition variables provide synchronization primitives used to block a thread until notified by some other thread that some condition is met or until a system time is reached.</p>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 30.5 Condition variables [thread.condition] </li>
+</ul>
+
+<h3 id="std-atomics">Atomics</h3>
+
+<p>To be written.</p>
+
+<p>In the meantime, see:</p>
+
+<ul>
+<li>Herb Sutter: <a href="http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2">atomic&lt;> Weapons: The C++ Memory Model and Modern Hardware, Part 1</a>, <a href="http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-2-of-2">Part 2</a>, <a href="http://sdrv.ms/NxDB6u">Slides</a>, from <em>C++ and Beyond</em>, August 2012.</li>
+</ul>
+
+<h3 id="cpp11-future">Futures and promises</h3>
+
+<p>Concurrent programming can be hard, especially if you try to be clever with <a href="cpp11-library-concurrency.html#std-threads" title="FAQ: Threads">threads</a>, and <a href="cpp11-library-concurrency.html#std-lock" title="FAQ: Locks">locks</a>. It is harder still if you must use <a href="cpp11-library-concurrency.html#std-condition" title="FAQ: Condition variables">condition variables</a> or use <a href="cpp11-library-concurrency.html#std-atomics" title="FAQ: Atomics">atomics</a> (for lock-free programming). C++11 offers <code>future</code> and <code>promise</code> for returning a value from a task spawned on a separate thread, and <code>packaged_task</code> to help launch tasks. The important point about <code>future</code> and <code>promise</code> is that they enable a transfer of a value between two tasks without explicit use of a lock; &#8220;the system&#8221; implements the transfer efficiently. The basic idea is simple: When a task wants to return a value to the thread that launched it, it puts the value into a <code>promise</code>. Somehow, the implementation makes that value appear in the <code>future</code> attached to the promise. The caller (typically the launcher of the task) can then read the value. For added simplicity, see <a href="cpp11-library-concurrency.html#std-async" title="FAQ: async">async()</a>.</p>
+
+<p>The standard provides three kinds of futures, <code>future</code> for most simple uses, and <code>shared_future</code> and <code>atomic_future</code> for some trickier cases. Here, we&#8217;ll just present <code>future</code> because it&#8217;s the simplest and does all we need done. If we have a <code>future&lt;X&gt;</code> called <code>f</code>, we can <code>get()</code> a value of type <code>X</code> from it:</p>
+
+<pre><code>    X v = f.get();  // if necessary wait for the value to get computed
+</code></pre>
+
+<p>If the value isn&#8217;t there yet, our thread is blocked until it arrives. If the value couldn&#8217;t be computed and the task threw an exception, calling <code>get()</code> will rethrow that exception to the code calling <code>get()</code>.</p>
+
+<p>We might not want to wait for a result, so we can ask the future if a result has arrived:</p>
+
+<pre><code>    if (f.wait_for(0)) {    // there is a value to get()
+        // do something
+    }
+    else {
+        // do something else
+    }
+</code></pre>
+
+<p>However, the main purpose of <code>future</code> is to provide that simple <code>get()</code>.</p>
+
+<p>The main purpose of <code>promise</code> is to provide a simple <code>set()</code> to match future&#8217;s <code>get()</code>. The names <code>future</code> and <code>promise</code> are historical; they are also a fertile source of puns.</p>
+
+<p>If you have a <code>promise</code> and need to send a result of type <code>X</code> (back) to a future, there are basically two things you can do: pass a value and pass an exception:</p>
+
+<pre><code>    try {
+        X res;
+        // compute a value for res
+        p.set_value(res);
+    }
+    catch (...) {   // oops: couldn't compute res
+        p.set_exception(std::current_exception());
+    }
+</code></pre>
+
+<p>So far so good, but how do I get a matching <code>future</code>/<code>promise</code> pair, one in my thread and one in some other thread? Well, since futures and promises can be moved (not copied) around there is a wide variety of possibilities. The most obvious idea is for whoever wants a task done to create a thread and give the promise to it while keeping the corresponding future as the place for the result. Using <a href="cpp11-library-concurrency.html#std-async" title="FAQ: async">async()</a> is the most extreme/elegant variant of the latter technique.</p>
+
+<p>The <code>packaged_task</code> type is provided to simplify launching a thread to execute a task. In particular, it takes care of setting up a future connected to a promise and to provides the wrapper code to put the return value or exception from the task into the promise. For example:</p>
+
+<pre><code>    double comp(vector&lt;double&gt;&amp; v)
+    {
+        // package the tasks:
+        // (the task here is the standard accumulate() for an array of doubles):
+        packaged_task&lt;double(double*,double*,double)&gt; pt0{std::accumulate&lt;double*,double*,double&gt;};
+        packaged_task&lt;double(double*,double*,double)&gt; pt1{std::accumulate&lt;double*,double*,double&gt;};
+
+        auto f0 = pt0.get_future(); // get hold of the futures
+        auto f1 = pt1.get_future();
+
+        pt0(&amp;v[0],&amp;v[v.size()/2],0);    // start the threads
+        pt1(&amp;v[v.size()/2],&amp;v[size()],0);
+
+        return f0.get()+f1.get();   // get the results
+    }
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 30.6 Futures [futures] </li>
+<li>Anthony Williams: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2888.html">Moving Futures - Proposed Wording for UK comments 335, 336, 337 and 338</a>. N2888==09-0078. </li>
+<li>Detlef Vollmann, Howard Hinnant, and Anthony Williams: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2627.html">An Asynchronous Future Value (revised)</a> N2627=08-0137. </li>
+<li>Howard E. Hinnant: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2094.html">Multithreading API for C++0X &#8211; A Layered Approach</a>. N2094=06-0164. The original proposal for a complete threading package.</li>
+</ul>
+
+<h3 id="std-async"><code>async</code></h3>
+
+<p>Here is an example of a way for the programmer to rise above the messy threads-plus-lock level of concurrent programming:</p>
+
+<pre><code>    template&lt;class T, class V&gt; struct Accum  {  // simple accumulator function object
+        T* b;
+        T* e;
+        V val;
+        Accum(T* bb, T* ee, const V&amp; v) : b{bb}, e{ee}, val{vv} {}
+        V operator() () { return std::accumulate(b,e,val); }
+    };
+
+    double comp(vector&lt;double&gt;&amp; v)
+        // spawn many tasks if v is large enough
+    {
+        if (v.size()&lt;10000) return std::accumulate(v.begin(),v.end(),0.0);
+
+        auto f0 {async(Accum{&amp;v[0],&amp;v[v.size()/4],0.0})};
+        auto f1 {async(Accum{&amp;v[v.size()/4],&amp;v[v.size()/2],0.0})};
+        auto f2 {async(Accum{&amp;v[v.size()/2],&amp;v[v.size()*3/4],0.0})};
+        auto f3 {async(Accum{&amp;v[v.size()*3/4],&amp;v[v.size()],0.0})};
+
+        return f0.get()+f1.get()+f2.get()+f3.get();
+    }
+</code></pre>
+
+<p>This is a very simple-minded use of concurrency (note the &#8220;magic number&#8221;), but note the absence of explicit threads, locks, buffers, etc. The type of the <code>f</code>-variables are determined by the return type of the standard-library function <code>async()</code> which is a <a href="cpp11-library-concurrency.html#cpp11-future" title="FAQ: Futures and promises">future</a>. If necessary, <code>get()</code> on a <code>future</code> waits for a <a href="cpp11-library-concurrency.html#std-threads" title="FAQ: Threads">thread</a> to finish. Here, it is <code>async()</code>&#8217;s job to spawn threads as needed and the future&#8217;s job to <code>join()</code> the threads appropriately. &#8220;Simple&#8221; is the most important aspect of the <code>async()</code>/<code>future</code> design; futures can also be used with threads in general, but don&#8217;t even think of using <code>async()</code> to launch tasks that do I/O, manipulate mutexes, or in other ways interact with other tasks. The idea behind <code>async()</code> is the same as the idea behind the <a href="cpp11-language.html#range-for" title="FAQ: Range-for statement">range-<code>for</code></a> statement: Provide a simple way to handle the simplest, rather common, case and leave the more complex examples to the fully general mechanism.</p>
+
+<p>An <code>async()</code> can be requested to launch in a new thread, in any thread but the caller&#8217;s, or to launch in a different thread only if <code>async()</code> &#8220;thinks&#8221; that it is a good idea. The latter is the simplest from the user&#8217;s perspective and potentially the most efficient (for simple tasks only).</p>
+
+<p>The committee is actively working on providing a much more general form of executors (execution agents) that will subsume <code>std::async</code>. In the meantime, <code>std::async</code> is the simple facility included in the standard.</p>
+
+<p>See also:</p>
+
+<ul>
+<li>Lawrence Crowl: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2889.html">An Asynchronous Call for C++</a>. N2889 = 09-0079. </li>
+<li>Herb Sutter : <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2901.pdf">A simple <code>async()</code></a> N2901 = 09-0091 . </li>
+</ul>
+
+<h3 id="abandoning">Abandoning a process</h3>
+
+<p>To be written.</p>
+
+<p>In the meantime, see:</p>
+
+<ul>
+<li>Lawrence Crowl: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2440.htm">Abandoning a Process</a>. N2440, 2007.</li>
+</ul>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-library-concurrency",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-library-concurrency",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-library-concurrency by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:43 GMT -->
+</html>

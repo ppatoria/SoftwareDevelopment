@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/parsing.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:44 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/format/parsing.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/format/parsing.hpp</h3>
+<pre>
+// ----------------------------------------------------------------------------
+// parsing.hpp :  implementation of the parsing member functions
+//                      ( parse, parse_printf_directive)
+// ----------------------------------------------------------------------------
+
+//  Copyright Samuel Krempp 2003. Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+// see <a href="http://www.boost.org/libs/format">http://www.boost.org/libs/format</a> for library home page
+
+// ----------------------------------------------------------------------------
+
+#ifndef BOOST_FORMAT_PARSING_HPP
+#define BOOST_FORMAT_PARSING_HPP
+
+
+#include &lt;<a href="format_class.html">boost/format/format_class.hpp</a>&gt;
+#include &lt;<a href="exceptions.html">boost/format/exceptions.hpp</a>&gt;
+#include &lt;<a href="../throw_exception.html">boost/throw_exception.hpp</a>&gt;
+#include &lt;<a href="../assert.html">boost/assert.hpp</a>&gt;
+
+
+namespace boost {
+namespace io {
+namespace detail {
+
+#if defined(BOOST_NO_STD_LOCALE)
+    // streams will be used for narrow / widen. but these methods are not const
+    template&lt;class T&gt;
+    T&amp; const_or_not(const T&amp; x) { 
+        return const_cast&lt;T&amp;&gt; (x);
+    }
+#else
+    template&lt;class T&gt;
+    const T&amp; const_or_not(const T&amp; x) { 
+        return x;
+    }
+#endif
+
+    template&lt;class Ch, class Facet&gt; inline
+    char wrap_narrow(const Facet&amp; fac, Ch c, char deflt) {
+        return const_or_not(fac).narrow(c, deflt);
+    }
+
+    template&lt;class Ch, class Facet&gt; inline
+    bool wrap_isdigit(const Facet&amp; fac, Ch c) {
+#if ! defined( BOOST_NO_LOCALE_ISDIGIT )
+        return fac.is(std::ctype&lt;Ch&gt;::digit, c);
+# else
+        (void) fac;     // remove &quot;unused parameter&quot; warning
+        using namespace std;
+        return isdigit(c); 
+#endif 
+    }
+ 
+    template&lt;class Iter, class Facet&gt; 
+    Iter wrap_scan_notdigit(const Facet &amp; fac, Iter beg, Iter end) {
+        using namespace std;
+        for( ; beg!=end &amp;&amp; wrap_isdigit(fac, *beg); ++beg) ;
+        return beg;
+    }
+
+
+    // Input : [start, last) iterators range and a
+    //          a Facet to use its widen/narrow member function
+    // Effects : read sequence and convert digits into integral n, of type Res
+    // Returns : n
+    template&lt;class Res, class Iter, class Facet&gt;
+    Iter str2int (const Iter &amp; start, const Iter &amp; last, Res &amp; res, 
+                 const Facet&amp; fac) 
+    {
+        using namespace std;
+        Iter it;
+        res=0;
+        for(it=start; it != last &amp;&amp; wrap_isdigit(fac, *it); ++it ) {
+            char cur_ch = wrap_narrow(fac, *it, 0); // cant fail.
+            res *= 10;
+            res += cur_ch - '0'; // 22.2.1.1.2.13 of the C++ standard
+        }
+        return it;
+    }
+
+    // skip printf's &quot;asterisk-fields&quot; directives in the format-string buf
+    // Input : char string, with starting index *pos_p
+    //         a Facet merely to use its widen/narrow member function
+    // Effects : advance *pos_p by skipping printf's asterisk fields.
+    // Returns : nothing
+    template&lt;class Iter, class Facet&gt;
+    Iter skip_asterisk(Iter start, Iter last, const Facet&amp; fac) 
+    {
+        using namespace std;
+        ++ start;
+        start = wrap_scan_notdigit(fac, start, last);
+        if(start!=last &amp;&amp; *start== const_or_not(fac).widen( '$') )
+            ++start;
+        return start;
+    }
+
+
+    // auxiliary func called by parse_printf_directive
+    // for centralising error handling
+    // it either throws if user sets the corresponding flag, or does nothing.
+    inline void maybe_throw_exception(unsigned char exceptions, 
+                                      std::size_t pos, std::size_t size)
+    {
+        if(exceptions &amp; io::bad_format_string_bit)
+            boost::throw_exception(io::bad_format_string(pos, size) );
+    }
+    
+
+    // Input: the position of a printf-directive in the format-string
+    //    a basic_ios&amp; merely to use its widen/narrow member function
+    //    a bitset'exceptions' telling whether to throw exceptions on errors.
+    // Returns:
+    //  true if parse succeeded (ignore some errors if exceptions disabled)
+    //  false if it failed so bad that the directive should be printed verbatim
+    // Effects:
+    //  start is incremented so that *start is the first char after
+    //     this directive
+    //  *fpar is set with the parameters read in the directive
+    template&lt;class Ch, class Tr, class Alloc, class Iter, class Facet&gt;
+    bool parse_printf_directive(Iter &amp; start, const Iter&amp; last, 
+                                detail::format_item&lt;Ch, Tr, Alloc&gt; * fpar,
+                                const Facet&amp; fac,
+                                std::size_t offset, unsigned char exceptions)
+    {
+        typedef typename basic_format&lt;Ch, Tr, Alloc&gt;::format_item_t format_item_t;
+
+        fpar-&gt;argN_ = format_item_t::argN_no_posit;  // if no positional-directive
+        bool precision_set = false;
+        bool in_brackets=false;
+        Iter start0 = start;
+        std::size_t fstring_size = last-start0+offset;
+
+        if(start&gt;= last) { // empty directive : this is a trailing %
+                maybe_throw_exception(exceptions, start-start0 + offset, fstring_size);
+                return false;
+        }          
+          
+        if(*start== const_or_not(fac).widen( '|')) {
+            in_brackets=true;
+            if( ++start &gt;= last ) {
+                maybe_throw_exception(exceptions, start-start0 + offset, fstring_size);
+                return false;
+            }
+        }
+
+        // the flag '0' would be picked as a digit for argument order, but here it's a flag :
+        if(*start== const_or_not(fac).widen( '0')) 
+            goto parse_flags;
+
+        // handle argument order (%2$d)  or possibly width specification: %2d
+        if(wrap_isdigit(fac, *start)) {
+            int n;
+            start = str2int(start, last, n, fac);
+            if( start &gt;= last ) {
+                maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+                return false;
+            }
+            
+            // %N% case : this is already the end of the directive
+            if( *start ==  const_or_not(fac).widen( '%') ) {
+                fpar-&gt;argN_ = n-1;
+                ++start;
+                if( in_brackets) 
+                    maybe_throw_exception(exceptions, start-start0+offset, fstring_size); 
+                // but don't return.  maybe &quot;%&quot; was used in lieu of '$', so we go on.
+                else
+                    return true;
+            }
+
+            if ( *start== const_or_not(fac).widen( '$') ) {
+                fpar-&gt;argN_ = n-1;
+                ++start;
+            } 
+            else {
+                // non-positionnal directive
+                fpar-&gt;fmtstate_.width_ = n;
+                fpar-&gt;argN_  = format_item_t::argN_no_posit;
+                goto parse_precision;
+            }
+        }
+    
+      parse_flags: 
+        // handle flags
+        while ( start != last) { // as long as char is one of + - = _ # 0 l h   or ' '
+            // misc switches
+            switch ( wrap_narrow(fac, *start, 0)) {
+            case '\'' : break; // no effect yet. (painful to implement)
+            case 'l':
+            case 'h':  // short/long modifier : for printf-comaptibility (no action needed)
+                break;
+            case '-':
+                fpar-&gt;fmtstate_.flags_ |= std::ios_base::left;
+                break;
+            case '=':
+                fpar-&gt;pad_scheme_ |= format_item_t::centered;
+                break;
+            case '_':
+                fpar-&gt;fmtstate_.flags_ |= std::ios_base::internal;
+                break;
+            case ' ':
+                fpar-&gt;pad_scheme_ |= format_item_t::spacepad;
+                break;
+            case '+':
+                fpar-&gt;fmtstate_.flags_ |= std::ios_base::showpos;
+                break;
+            case '0':
+                fpar-&gt;pad_scheme_ |= format_item_t::zeropad;
+                // need to know alignment before really setting flags,
+                // so just add 'zeropad' flag for now, it will be processed later.
+                break;
+            case '#':
+                fpar-&gt;fmtstate_.flags_ |= std::ios_base::showpoint | std::ios_base::showbase;
+                break;
+            default:
+                goto parse_width;
+            }
+            ++start;
+        } // loop on flag.
+
+        if( start&gt;=last) {
+            maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+            return true; 
+        }
+      parse_width:
+        // handle width spec
+        // first skip 'asterisk fields' :  *, or *N$
+        if(*start == const_or_not(fac).widen( '*') )
+            start = skip_asterisk(start, last, fac); 
+        if(start!=last &amp;&amp; wrap_isdigit(fac, *start))
+            start = str2int(start, last, fpar-&gt;fmtstate_.width_, fac);
+
+      parse_precision:
+        if( start&gt;= last) { 
+            maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+            return true;
+        }
+        // handle precision spec
+        if (*start== const_or_not(fac).widen( '.')) {
+            ++start;
+            if(start != last &amp;&amp; *start == const_or_not(fac).widen( '*') )
+                start = skip_asterisk(start, last, fac); 
+            if(start != last &amp;&amp; wrap_isdigit(fac, *start)) {
+                start = str2int(start, last, fpar-&gt;fmtstate_.precision_, fac);
+                precision_set = true;
+            }
+            else
+                fpar-&gt;fmtstate_.precision_ =0;
+        }
+    
+        // handle  formatting-type flags :
+        while( start != last &amp;&amp; ( *start== const_or_not(fac).widen( 'l') 
+                                  || *start== const_or_not(fac).widen( 'L') 
+                                  || *start== const_or_not(fac).widen( 'h')) )
+            ++start;
+        if( start&gt;=last) {
+            maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+            return true;
+        }
+
+        if( in_brackets &amp;&amp; *start== const_or_not(fac).widen( '|') ) {
+            ++start;
+            return true;
+        }
+        switch ( wrap_narrow(fac, *start, 0) ) {
+        case 'X':
+            fpar-&gt;fmtstate_.flags_ |= std::ios_base::uppercase;
+        case 'p': // pointer =&gt; set hex.
+        case 'x':
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::basefield;
+            fpar-&gt;fmtstate_.flags_ |= std::ios_base::hex;
+            break;
+
+        case 'o':
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::basefield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::oct;
+            break;
+
+        case 'E':
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::uppercase;
+        case 'e':
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::floatfield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::scientific;
+
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::basefield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::dec;
+            break;
+      
+        case 'f':
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::floatfield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::fixed;
+        case 'u':
+        case 'd':
+        case 'i':
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::basefield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::dec;
+            break;
+
+        case 'T':
+            ++start;
+            if( start &gt;= last)
+                maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+            else
+                fpar-&gt;fmtstate_.fill_ = *start;
+            fpar-&gt;pad_scheme_ |= format_item_t::tabulation;
+            fpar-&gt;argN_ = format_item_t::argN_tabulation; 
+            break;
+        case 't': 
+            fpar-&gt;fmtstate_.fill_ = const_or_not(fac).widen( ' ');
+            fpar-&gt;pad_scheme_ |= format_item_t::tabulation;
+            fpar-&gt;argN_ = format_item_t::argN_tabulation; 
+            break;
+
+        case 'G':
+            fpar-&gt;fmtstate_.flags_ |= std::ios_base::uppercase;
+            break;
+        case 'g': // 'g' conversion is default for floats.
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::basefield;
+            fpar-&gt;fmtstate_.flags_ |=  std::ios_base::dec;
+
+            // CLEAR all floatield flags, so stream will CHOOSE
+            fpar-&gt;fmtstate_.flags_ &amp;= ~std::ios_base::floatfield; 
+            break;
+
+        case 'C':
+        case 'c': 
+            fpar-&gt;truncate_ = 1;
+            break;
+        case 'S':
+        case 's': 
+            if(precision_set) // handle truncation manually, with own parameter.
+                fpar-&gt;truncate_ = fpar-&gt;fmtstate_.precision_;
+            fpar-&gt;fmtstate_.precision_ = 6; // default stream precision.
+            break;
+        case 'n' :  
+            fpar-&gt;argN_ = format_item_t::argN_ignored;
+            break;
+        default: 
+            maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+        }
+        ++start;
+
+        if( in_brackets ) {
+            if( start != last &amp;&amp; *start== const_or_not(fac).widen( '|') ) {
+                ++start;
+                return true;
+            }
+            else  maybe_throw_exception(exceptions, start-start0+offset, fstring_size);
+        }
+        return true;
+    }
+    // -end parse_printf_directive()
+
+    template&lt;class String, class Facet&gt;
+    int upper_bound_from_fstring(const String&amp; buf, 
+                                 const typename String::value_type arg_mark,
+                                 const Facet&amp; fac, 
+                                 unsigned char exceptions) 
+    {
+        // quick-parsing of the format-string to count arguments mark (arg_mark, '%')
+        // returns : upper bound on the number of format items in the format strings
+        using namespace boost::io;
+        typename String::size_type i1=0;
+        int num_items=0;
+        while( (i1=buf.find(arg_mark,i1)) != String::npos ) {
+            if( i1+1 &gt;= buf.size() ) {
+                if(exceptions &amp; bad_format_string_bit)
+                    boost::throw_exception(bad_format_string(i1, buf.size() )); // must not end in &quot;.. %&quot;
+                else {
+                  ++num_items;
+                  break;
+                }
+            }
+            if(buf[i1+1] == buf[i1] ) {// escaped &quot;%%&quot;
+                i1+=2; continue; 
+            }
+
+            ++i1;
+            // in case of %N% directives, dont count it double (wastes allocations..) :
+            i1 = detail::wrap_scan_notdigit(fac, buf.begin()+i1, buf.end()) - buf.begin();
+            if( i1 &lt; buf.size() &amp;&amp; buf[i1] == arg_mark )
+                ++i1;
+            ++num_items;
+        }
+        return num_items;
+    }
+    template&lt;class String&gt; inline
+    void append_string(String&amp; dst, const String&amp; src, 
+                       const typename String::size_type beg, 
+                       const typename String::size_type end) {
+#if !defined(BOOST_NO_STRING_APPEND)
+        dst.append(src.begin()+beg, src.begin()+end);
+#else
+        dst += src.substr(beg, end-beg);
+#endif
+    }
+
+} // detail namespace
+} // io namespace
+
+
+
+// -----------------------------------------------
+//  format :: parse(..)
+
+    template&lt;class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch, Tr, Alloc&gt;&amp; basic_format&lt;Ch, Tr, Alloc&gt;:: 
+    parse (const string_type&amp; buf) {
+        // parse the format-string 
+        using namespace std;
+#if !defined(BOOST_NO_STD_LOCALE)
+        const std::ctype&lt;Ch&gt; &amp; fac = BOOST_USE_FACET( std::ctype&lt;Ch&gt;, getloc());
+#else
+        io::basic_oaltstringstream&lt;Ch, Tr, Alloc&gt; fac; 
+        //has widen and narrow even on compilers without locale
+#endif
+
+        const Ch arg_mark = io::detail::const_or_not(fac).widen( '%');
+        bool ordered_args=true; 
+        int max_argN=-1;
+
+        // A: find upper_bound on num_items and allocates arrays
+        int num_items = io::detail::upper_bound_from_fstring(buf, arg_mark, fac, exceptions());
+        make_or_reuse_data(num_items);
+
+        // B: Now the real parsing of the format string :
+        num_items=0;
+        typename string_type::size_type i0=0, i1=0;
+        typename string_type::const_iterator it;
+        bool special_things=false;
+        int cur_item=0;
+        while( (i1=buf.find(arg_mark,i1)) != string_type::npos ) {
+            string_type &amp; piece = (cur_item==0) ? prefix_ : items_[cur_item-1].appendix_;
+            if( buf[i1+1] == buf[i1] ) { // escaped mark, '%%' 
+                io::detail::append_string(piece, buf, i0, i1+1);
+                i1+=2; i0=i1;
+                continue; 
+            }
+            BOOST_ASSERT(  static_cast&lt;unsigned int&gt;(cur_item) &lt; items_.size() || cur_item==0);
+
+            if(i1!=i0) {
+                io::detail::append_string(piece, buf, i0, i1);
+                i0=i1;
+            }
+            ++i1;
+            it = buf.begin()+i1;
+            bool parse_ok = io::detail::parse_printf_directive(
+                it, buf.end(), &amp;items_[cur_item], fac, i1, exceptions());
+            i1 = it - buf.begin();
+            if( ! parse_ok ) // the directive will be printed verbatim
+                continue; 
+            i0=i1;
+            items_[cur_item].compute_states(); // process complex options, like zeropad, into params
+
+            int argN=items_[cur_item].argN_;
+            if(argN == format_item_t::argN_ignored)
+                continue;
+            if(argN ==format_item_t::argN_no_posit)
+                ordered_args=false;
+            else if(argN == format_item_t::argN_tabulation) special_things=true;
+            else if(argN &gt; max_argN) max_argN = argN;
+            ++num_items;
+            ++cur_item;
+        } // loop on %'s
+        BOOST_ASSERT(cur_item == num_items);
+    
+        // store the final piece of string
+        {
+            string_type &amp; piece = (cur_item==0) ? prefix_ : items_[cur_item-1].appendix_;
+            io::detail::append_string(piece, buf, i0, buf.size());
+        }
+    
+        if( !ordered_args) {
+            if(max_argN &gt;= 0 ) {  // dont mix positional with non-positionnal directives
+                if(exceptions() &amp; io::bad_format_string_bit)
+                    boost::throw_exception(io::bad_format_string(max_argN, 0));
+                // else do nothing. =&gt; positionnal arguments are processed as non-positionnal
+            }
+            // set things like it would have been with positional directives :
+            int non_ordered_items = 0;
+            for(int i=0; i&lt; num_items; ++i)
+                if(items_[i].argN_ == format_item_t::argN_no_posit) {
+                    items_[i].argN_ = non_ordered_items;
+                    ++non_ordered_items;
+                }
+            max_argN = non_ordered_items-1;
+        }
+    
+        // C: set some member data :
+        items_.resize(num_items, format_item_t(io::detail::const_or_not(fac).widen( ' ')) );
+
+        if(special_things) style_ |= special_needs;
+        num_args_ = max_argN + 1;
+        if(ordered_args) style_ |=  ordered;
+        else style_ &amp;= ~ordered;
+        return *this;
+    }
+
+} // namespace boost
+
+
+#endif //  BOOST_FORMAT_PARSING_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/parsing.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:44 GMT -->
+</html>

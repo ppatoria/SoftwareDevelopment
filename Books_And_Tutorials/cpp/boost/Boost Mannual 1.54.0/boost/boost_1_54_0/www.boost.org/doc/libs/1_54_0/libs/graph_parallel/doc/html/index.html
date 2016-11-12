@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:38 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<title>Parallel BGL Parallel Boost Graph Library - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/rst.css" type="text/css" />
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body>  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="document" id="logo-parallel-boost-graph-library">
+<h1 class="title"><a class="reference external" href="http://www.osl.iu.edu/research/pbgl"><img align="middle" alt="Parallel BGL" class="align-middle" src="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/pbgl-logo.png" /></a> Parallel Boost Graph Library</h1>
+<h2 class="subtitle" id="overview">Overview</h2>
+
+<!-- Copyright (C) 2004-2009 The Trustees of Indiana University.
+Use, modification and distribution is subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt) -->
+<p>The Parallel Boost Graph Library is an extension to the <a class="reference external" href="http://www.boost.org/libs/graph/doc">Boost Graph
+Library</a> (BGL) for parallel and distributed computing. It offers
+distributed graphs and graph algorithms to exploit coarse-grained
+parallelism along with parallel algorithms that exploit fine-grained
+parallelism, while retaining the same interfaces as the (sequential)
+BGL. Code written using the sequential BGL should be easy to
+parallelize with the parallel BGL. Visitors new to the Parallel BGL
+should read our <a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/overview.html">architectural overview</a>.</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/process_group.html">Process groups</a></li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/process_group.html">MPI process group</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/simple_trigger.html">Simple trigger interface</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="2">
+<li>Auxiliary data structures</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/distributed_queue.html">Distributed queue</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/distributed_property_map.html">Distributed property map</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="3">
+<li>Distributed graph concepts</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/DistributedGraph.html">Distributed Graph</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/DistributedVertexListGraph.html">Distributed Vertex List Graph</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/DistributedEdgeListGraph.html">Distributed Edge List Graph</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/GlobalDescriptor.html">Global Descriptor</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="4">
+<li>Graph data structures</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/distributed_adjacency_list.html">Distributed adjacency list</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="5">
+<li>Graph adaptors</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/local_subgraph.html">Local subgraph adaptor</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/vertex_list_adaptor.html">Vertex list graph adaptor</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="6">
+<li>Graph input/output</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Graphviz output</li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/metis.html">METIS input</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="7">
+<li>Synthetic data generators</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/rmat_generator.html">R-MAT generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/sorted_rmat_generator.html">Sorted R-MAT generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/sorted_unique_rmat_generator.html">Sorted unique R-MAT generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/unique_rmat_generator.html">Unique R-MAT generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/scalable_rmat_generator.html">Scalable R-MAT generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/libs/graph/doc/erdos_renyi_generator.html">Erdos-Renyi generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/libs/graph/doc/sorted_erdos_renyi_gen.html">Sorted Erdos-Renyi generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/libs/graph/doc/small_world_generator.html">Small world generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/ssca_generator.html">SSCA generator</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/mesh_generator.html">Mesh generator</a></li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="8">
+<li>Algorithms</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Distributed algorithms<ul>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/breadth_first_search.html">Breadth-first search</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dijkstra_shortest_paths.html">Dijkstra's single-source shortest paths</a><ul>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dijkstra_shortest_paths.html#eager-dijkstra-s-algorithm">Eager Dijkstra shortest paths</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dijkstra_shortest_paths.html#crauser-et-al-s-algorithm">Crauser et al. Dijkstra shortest paths</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dijkstra_shortest_paths.html#delta-stepping-algorithm">Delta-Stepping shortest paths</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/tsin_depth_first_visit.html">Depth-first search</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dehne_gotz_min_spanning_tree.html">Minimum spanning tree</a><ul>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dehne_gotz_min_spanning_tree.html#dense-boruvka-minimum-spanning-tree">Boruvka's minimum spanning tree</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dehne_gotz_min_spanning_tree.html#merge-local-minimum-spanning-trees">Merging local minimum spanning forests</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dehne_gotz_min_spanning_tree.html#boruvka-then-merge">Boruvka-then-merge</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/dehne_gotz_min_spanning_tree.html#boruvka-mixed-merge">Boruvka-mixed-merge</a></li>
+</ul>
+</li>
+<li>Connected components<ul>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/connected_components.html">Connected components</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/connected_components_parallel_search.html">Connected components parallel search</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/strong_components.html">Strongly-connected components</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/page_rank.html">PageRank</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/boman_et_al_graph_coloring.html">Boman et al. Graph coloring</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/fruchterman_reingold.html">Fruchterman Reingold force-directed layout</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/st_connected.html">s-t connectivity</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/betweenness_centrality.html">Betweenness centrality</a></li>
+<li><a class="reference external" href="http://www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/non_distributed_betweenness_centrality.html">Non-distributed betweenness centrality</a></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr class="docutils" />
+<p>Copyright (C) 2005-2009 The Trustees of Indiana University.</p>
+<p>Authors: Nick Edmonds, Douglas Gregor, and Andrew Lumsdaine</p>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2009-05-31 00:21 UTC.
+Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
+
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/graph_parallel/doc/html/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:38 GMT -->
+</html>

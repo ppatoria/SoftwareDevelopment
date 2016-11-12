@@ -1,0 +1,231 @@
+DECOUPLING PARAMETERS
+Function or method calls can accept parameters — that is true in almost all programming languages. The underlying mechanisms to transfer the parameters and to make them available to the code executed in the function or method vary, and so does the terminology used to describe this process.
+In most .NET languages the parameter list that is declared for a particular function is static. That means that the function in question can only be called with all the parameters at once. In fact, the notion of calling a function with an incomplete list of parameters probably strikes many C# programmers as rather odd. Nevertheless, this is exactly what currying is all about: splitting up the parameter list, so it becomes possible to call functions with an incomplete set of parameters.
+You might think at this point that object oriented languages, or even imperative languages in general, have their own mechanisms for the purpose of providing convenient variants of functions or methods, for those cases where the standard implementations are found to be too complex to use. This is an absolutely correct association. Mechanisms like method overloading or extension methods have a similar purpose. However, the functional alternatives have advantages when it comes to function level reuse and modularization, which makes them an interesting option.
+Manual Currying
+Currying is a transformation technique that starts with a function with multiple parameters and converts it into a sequence of functions that each accept only one parameter at a time and return the next function in the sequence. At the end of this chain of functions, all parameters are available at once, allowing the original algorithm to do its work.
+To illustrate this process, consider the following simple function in C# 2.0-compatible anonymous method syntax:
+
+Func<int, int, int> add =
+  delegate(int x, int y) {
+    return x + y;
+  };
+
+This is a function add that takes two parameters and returns the result of adding the two values. When this function is called, the caller must supply both arguments x and y at once; the syntactic constraints of C# don’t allow any other approach.
+Applying currying to this function means creating a function that accepts only one parameter, returns another function that takes the second parameter, and then returns the result of the addition. Typically the order of parameters after the application of currying will be the same as before, although it doesn’t have to be. You can find more information on the topic of parameter order in the section “Why Parameter Order Matters” later in this chapter.
+This is what the function looks like after currying has been applied:
+
+Func<int, Func<int, int>> curriedAdd =
+  delegate(int x) {
+    return delegate(int y) {
+      return x + y;
+    }
+  };
+
+As you can see, this implementation is exactly what was just described: a function that takes the first parameter and returns another function, which takes the second parameter and returns the result of the computation.
+The type of the function has changed, from Func<int, int, int> to Func<int, Func<int, int>>. This reflects the new structure of the function, but is also one of those unfortunate situations where syntactic requirements of the C# language are quite inconvenient. The C# compiler refuses to use type inference for variables that store anonymous methods (whether using delegate syntax or lambda syntax), even though at least in the delegate case the types are readily available. Fortunately, the explicit type is only required with the declaration of a new function. In cases where functions are returned by other functions, the calling code can remain free of verbose type declarations and the var keyword can be used instead.
+The representation of the functions using the anonymous methods syntax from C# 2.0 was chosen in these examples because it is much easier to see why the two parameters that have been passed in one by one are in fact available at the same time on the deepest nesting level of the curried format function. The technical answer to that question is, of course, closures. Because the inner function uses the parameter x that is a local variable in the outer function, the compiler creates a closure for that variable.
+The principles of currying also apply to functions in lambda syntax. The add function could be written as a lambda expression like this:
+
+Func<int, int, int> add = (x, y) => x + y;
+
+The curried add function looks like this:
+Func<int, Func<int, int>> curriedAdd = x => y => x + y;
+As you can see, the syntax is so much more concise that it seems quite hard to believe these examples implement the exact same code as the earlier anonymous methods. This can be visualized a little better by inserting parentheses to make the nesting of functions more obvious in the lambda case:
+Func<int, Func<int, int>> curriedAdd = x => (y => x + y);
+The technique of currying applies to functions with any number of parameters. Assuming a function with a list of parameters:
+Func<...> f = (par1, par2, ..., parX) => ...;
+The curried format function always has this signature:
+Func<...> cf = par1 => par2 => ... => parX => ...;
+The code in the “body” of the lambda expression — that is, the expression to the right of the last goes-to operator — remains the same during the transformation.
+The shape of the type changes according to very similar rules. Consider this original generic delegate type:
+Func<int, bool, string, decimal, double>
+The resulting type after the application of currying is this:
+Func<int, Func<bool, Func<string, Func<decimal, double>>>>
+Automatic Currying
+It is quickly becoming clear that the process of currying follows hard rules, and it is possible to automate it entirely. There are cases where the manual application of currying has advantages — some will be described in later chapters on parameter order and pre-computation — but most of the time it is a relief to have a helper function that performs the process automatically.
+Here is the function Curry, which takes another function as a parameter and returns a curried format function:
+public static Func<T1, Func<T2, TR>> Curry<T1, T2, TR>(
+  this Func<T1, T2, TR> func) {
+  return par1 => par2 => func(par1, par2);
+}
+You will recognize the important details that have been discussed previously:
+The input parameter func is of type Func<T1, T2, TR> and the return type of the Curry function is Func<T1, Func<T2, TR>>
+The shape of the function that is returned follows the same schema as the lambda expressions that have been curried manually.
+Using the helper function Curry, a curried format of a function can be retrieved with a simple call. This helper function is part of FCSlib and lives in the class Functional, so all further examples will call it as Functional.Curry(...).
+The main detail to pay attention to is the requirements of C# type inference. Basically, the compiler needs to be able to infer the parameter and return types of the function from at least one location. Of course, it is possible to declare the type of the source function explicitly and then use var with the Curry function:
+Func<int, int, int> add = (x, y) => x + y;
+var curriedAdd = Functional.Curry(add);
+In this case, even though Curry is a generic function, it is not necessary to pass in the generic parameters explicitly. The compiler infers the generic parameters because the parameter passed into Curry is already typed. For inline use of lambda expressions it can also make sense to pass the generic parameters explicitly:
+var curriedAdd = Functional.Curry<int, int, int>((x, y) => x + y);
+Interestingly, type inference can also infer the generic parameters if the types of the lambda expression, or those of a C# 2.0 anonymous method, are given explicitly. This is curious because in the same situation the use of the var keyword to store the function in a variable is not valid.
+// this is invalid
+var mult = (int x, int y) => x * y;
+ 
+// this is valid
+var curriedMult = Functional.Curry((int x, int y) => x * y);
+Since the function Curry has been declared as a C# 3.0 extension method, it is also possible to call it directly on a variable that stores a compatible function:
+Func<int, int, int> mult = (x, y) => x * y;
+var curriedMult = mult.Curry();
+Calling extension methods is not possible on inline lambda expressions, so the following syntax is not valid:
+// invalid
+((int x, int y) => x * y).Curry();
+ 
+In addition to the Curry function shown previously, there are many other overloads declared in FCSlib. You can curry functions with much larger numbers of arguments with overloads like this:
+public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, TR>>>>>>>
+Curry<T1, T2, T3, T4, T5, T6, T7, TR>(this Func<T1, T2, T3, T4, T5, T6, T7, TR> func) {
+return p1 => p2 => p3 => p4 => p5 => p6 => p7 => func(p1, p2, p3, p4, p5, p6, p7);
+}
+Overloads to curry Action delegates are also included:
+public static Func<T1, Action<T2>> Curry<T1, T2>(this Action<T1, T2> action) {
+  return p1 => p2 => action(p1, p2);
+}
+These are useful for cases where the function you need to curry doesn’t have a return value, like this assertion for easy use in a unit test:
+public class Assert {
+  public static void Equals(int x, int y) {
+    Debug.Assert(x == y);
+  }
+}
+ 
+...
+ 
+var curriedAssertEquals = Functional.Curry<int, int>(Assert.Equals);
+var assertEquals5 = curriedAssertEquals(5);
+Calling Curried Functions
+Whether a function has been curried manually or automatically, or even created from scratch in this format, there are some common consequences regarding the way the function can and has to be used. A basic call to the function curriedAdd looks like this, passing in both parameters:
+int result = curriedAdd(5)(3);
+ 
+or:
+ 
+var curriedAdd5 = curriedAdd(5);
+var result = curriedAdd(3);
+At first glance, the way there are several pairs of parentheses on the line is confusing, but of course this is the result of the function chaining that currying creates. The call to the first function just takes one parameter, and it returns a second function which is being called with the second parameter list. Agreed, it does look unfamiliar, but it’s easy enough to get used to.
+The Class Context
+Although examples so far have dealt with functions that are declared as lambda expressions or anonymous methods, currying works just as well with more conventional methods declared in C# classes. Both static class methods and instance methods can be curried. Classes also offer an easy way of making curried functions available for external calls. The following listing shows the class Calculator, which publishes curried versions of the Add and Mult functions for public consumption. This example uses static methods and fields, which is quite common with fully functional approaches, but the same techniques can be used equally well with instance methods and fields.
+class Program {
+  static void Main(string[] args) {
+    // The results of these two calls are the same
+    Console.WriteLine(Calculator.AddC(20)(30));
+    Console.WriteLine(Calculator.Add(20, 30));
+  }
+}
+ 
+public static class Calculator {
+  public static int Add(int x, int y) {
+    return x + y;
+  }
+ 
+  public static readonly Func<int, Func<int, int>> AddC =
+    Functional.Curry<int, int, int>(Add);
+ 
+  public static int Mult(int x, int y) {
+    return x * y;
+  }
+ 
+  public static readonly Func<int,Func<int,int>> MultC =
+    Functional.Curry<int, int, int>(Mult);
+}
+Currying class methods is another situation where C# type inference lets you down, so you need to specify the generic type parameters on the Curry call explicitly. Unfortunately the compiler is also unable to distinguish between the field Add and the method Add in that same call to Curry. If that worked better, it would be possible to have both a curried and a normal method called Add because these two have different parameter lists. But the compiler complains about a line like this:
+// invalid
+public static readonly Func<int, Func<int,int>> Add =
+  Functional.Curry<int, int, int>(Add);
+It seems clear that the Add that’s passed to the Curry function can only be the static method declared before, and not a reference to the static field Add because only the method is compatible with the type Func<int, int, int> that is expected by the Curry function. But C# is unable to infer this, so it becomes necessary to establish a naming convention that distinguishes between the original and the curried versions of the same functions. In these examples the curried functions all end in a capital C for “curried.”
+The suggested syntax declares two curried functions that are independent from each other. In cases where there are dependencies between functions, it is unwise to rely on the compiler to initialize the static fields in a particular order. The safe approach is to have a static constructor and to use that to initialize the static fields instead of in-place initialization. The following listing shows a version of the Calculator class that uses this alternative initialization approach:
+public static class Calculator {
+  static Calculator2( ) {
+    AddC = Functional.Curry<int, int, int>(Add);
+    MultC = Functional.Curry<int, int, int>(Mult);
+  }
+ 
+  public static int Add(int x, int y) {
+    return x + y;
+  }
+ 
+  public static int Mult(int x, int y) {
+    return x * y;
+  }
+ 
+  public static readonly Func<int, Func<int, int>> AddC;
+  public static readonly Func<int, Func<int, int>> MultC;
+}
+In some situations it can be useful to use properties instead of fields to publish curried versions of functions. There are at least three potential advantages to this approach that go hand in hand, and one that’s more general:
+1. The precise mechanism used to “prepare” the function before it’s published can be much more complex than simple currying. Examples include memoization and precomputation, explained in Chapter 10.
+2. When the cost of preparing functions and the number of functions prepared in some way rise, it becomes desirable to do this only when it is really needed. A property implementation allows the use of a create-on-demand approach, which can result in considerable efficiency improvements.
+3. When a create-on-demand technique is used, the static constructor is not needed any more. This has the advantage of keeping related operations in one block instead of spreading things around.
+4. Properties provide encapsulation of implementation logic, which is the typical reason to use properties for anything at all. If a class uses public fields and you see a need later to replace them with properties, your own code might not break because the calling syntax is identical. But you will still have to rebuild all consuming code because the IL generated for a field access is different from that used for a property access.
+One downside is that the syntax for this technique isn’t quite as concise anymore as the public field approach above. There is really no silver bullet for this; it all depends on the priorities of a particular use case.
+The following example shows yet another implementation of the Calculator class. It uses static properties with a create-on-demand approach to currying. It also works without any “normal” functions in place, making the implementation of the curried functions almost entirely self-contained (with the exception of the private field — you will see later how it is possible to get rid of that field as well).
+public static class Calculator {
+  private static Func<int, Func<int, int>> add;
+  public static Func<int, Func<int, int>> Add {
+    get {
+      if (add == null)
+        add = Functional.Curry<int, int, int>((x, y) => x + y);
+      return add;
+    }
+  }
+  private static Func<int, Func<int, int>> mult;
+  public static Func<int, Func<int, int>> Mult {
+    get {
+      if (mult == null)
+        mult = Functional.Curry<int, int, int>((x, y) => x * y);
+      return mult;
+    }
+  }
+}
+This last example is one that has purely academic value. It hasn’t been pointed out so far, but if there isn’t actually an existing function with multiple parameters, it is much easier and more concise to create the functions in curried format from the start. Using curried format functions directly, the shortest version of the Calculator could look like this (neglecting the earlier arguments against using fields):
+public static class Calculator4 {
+  public static readonly Func<int, Func<int, int>> Add =
+    x => y => x + y;
+  public static readonly Func<int, Func<int, int>> Mult =
+    x => y => x * y;
+}
+This implementation hardly needs any further explanation. It uses the syntax of a curried lambda expression and implements the calculation directly in the body of the final part of the expression instead of calling some other function for the result.
+What FCSlib Contains
+The function Curry is provided by FCSlib in the class Functional. There are two sets of overloads, one that curries functions compatible with Func<...>, the other for Action<...>. The delegates Func<...> and Action<...> are part of .NET 3.5, and both have a number of overloads themselves, for functions taking up to four parameters. FCSlib takes this a few steps farther by providing additional Func<...> and Action<...> delegates for functions with up to nine parameters.
+There are nine variations of Curry that work with Func<...>, where the difference is the number of parameters the original function accepts. These overloads all follow the same pattern:
+public static Func<T1, Func<T2, TR>> Curry<T1, T2, TR>(
+  this Func<T1, T2, TR> func) {
+  return par1 => par2 => func(par1, par2);
+}
+ 
+public static Func<T1, Func<T2, Func<T3, TR>>> Curry<T1, T2, T3, TR>(
+  this Func<T1, T2, T3, TR> func) {
+  return par1 => par2 => par3 => func(par1, par2, par3);
+}
+ 
+public static Func<T1, Func<T2, Func<T3, Func<T4, TR>>>>
+  Curry<T1, T2, T3, T4, TR>(this Func<T1, T2, T3, T4, TR> func) {
+  return par1 => par2 => par3 => par4 => func(par1, par2, par3, par4);
+}
+ 
+...
+The schema for the overloads that accept Action<...> delegates is slightly different because the last element in the chain of functions is always an Action<T> instead of a Func<T, R>. Here are the first three overloads from that group for comparison:
+public static Func<T1, Action<T2>> Curry<T1, T2>(this Action<T1, T2> action) {
+  return par1 => par2 => action(par1, par2);
+}
+ 
+public static Func<T1, Func<T2, Action<TR>>> Curry<T1, T2, TR>(
+  this Action<T1, T2, TR> action) {
+  return par1 => par2 => par3 => action(par1, par2, par3);
+}
+ 
+public static Func<T1, Func<T2, Func<T3, Action<TR>>>> Curry<T1, T2, T3, TR>(
+  this Action<T1, T2, T3, TR> action) {
+  return par1 => par2 => par3 => par4 => action(par1, par2, par3, par4);
+}
+The purpose of FCSlib is to provide all the overloads that would reasonably be needed, so you don’t have to create any such functions in your own code.
+A second set of functions provided by FCSlib in relation to currying is a set of overloads of Uncurry. To be clear: this converts functions from curried format into non-curried format. Here is the overload for a function with two arguments:
+public static Func<T1, T2, TR> Uncurry<T1, T2, TR>(this Func<T1, Func<T2, TR>> func) {
+  return (p1, p2) => func(p1)(p2);
+}
+The overloads provided by FCSlib allow to reverse all the operations that can be performed by the Curry overloads, both for Func and Action delegate types.
+There’s a final set of functions in FCSlib that helps deal with lambdas in curried and uncurried format. These overloads are called Lambda, and they construct a typed lambda expression. Many overloads are included for consistency, although in simple cases they don’t provide any benefits:
+var addL = Functional.Lambda<int, int, int>((x, y) => x + y);
+Func<int, int, int> add = (x, y) => x + y;
+Both these lines have the same effect, one using a helper function to retrieve the typed delegate, the other using declaration syntax for the same purpose. However, there are also overloads of Lambda that take curried format functions as their argument:
+var mult4L = Functional.Lambda<int, int, int, int, int>(
+  a => b => c => d => a * b * c * d);
+Func<int, Func<int, Func<int, Func<int, int>>>> mult4 =
+  a => b => c => d => a * b * c * d;
+As you can see, the amount of code you need to write is still roughly the same. The advantage of using Lambda in a case like this is that the type signature of the curried function grows in complexity with the number of arguments it has, due to the nesting of the Func delegate types. The call to the Lambda helper function has a flat list of type arguments instead. This makes the line easier to read. On the other hand, you may want the additional information provided by the explicit type signature — this is a matter of your own priorities.

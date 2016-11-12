@@ -1,0 +1,46 @@
+* _Deadlock scenarious handled_
+
+
+* Scenario: Close called on OnConnectionChanged.
+  Precondition: Both Open and Close Method aquire same lock so that one method can be called at a time.
+|------------------------------------------------+----------------------------------------------------------------------------|
+| Main Thread                                    | Cache Thread                                                               |
+|------------------------------------------------+----------------------------------------------------------------------------|
+| Open                                           | .                                                                          |
+| Spawn Cache Thread ..........                  | Connect to Cache.                                                          |
+| .                                              | OnConnectionChanged invoked.                                               |
+| .                                              | .                                                                          |
+| Query received                                 | .                                                                          |
+| enqueue query and handler                      | .                                                                          |
+| .                                              | dequeue query                                                              |
+| .                                              | execute against cache                                                      |
+| .                                              | invoke client callback                                                     |
+| .                                              | .                                                                          |
+| .                                              | .                                                                          |
+| .                                              | [X] Unhandled Exception from client on Cache Thread on OnConnectionChanged |
+| [X] Open is still in process and hold the lock | [X] Close will be called from Cache thread.                                |
+|                                                | [X] Close will try aquire lock that open is holding                        |
+|------------------------------------------------+----------------------------------------------------------------------------|
+
+Solution:
+
+
+* Scenario: Synchronous Send is called on a callback of Asynchonous Send.                                                                         
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+| Main Thread                         | TIS_Socket_Listener_Thread                                                              |
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+| Asynchronous Send                   | .                                                                                       |
+| QueryID mapped with Client callback | .                                                                                       |
+| Query send to agora                 | .                                                                                       |
+| .                                   | TISReply received                                                                       |
+| .                                   | Get client callback by queryID from the map                                             |
+| .                                   | Invoke cleint callback                                                                  |
+| .                                   | Client call Synchronous Send                                                            |
+| .                                   | [X] Query will be sent to Agora and this thread will wait for the TISReply (for itself) |
+| .                                   | [X] This Thread itself listen to TISReply so it will be hung result in deadlock         |
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+
+                                               (X)             
+
+
+

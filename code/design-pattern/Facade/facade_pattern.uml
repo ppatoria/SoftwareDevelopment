@@ -1,0 +1,28 @@
+@startuml
+IAgoraConnection <|-- AgoraConnection
+IAgoraConnection : Open()
+IAgoraConnection : Close()
+
+AgoraConnection *-- TssClient
+AgoraConnection : TssClient tssClient;
+AgoraConnection : TisClient tisClient;
+AgoraConnection : TnsClient tnsClient;
+AgoraConnection : Open() { tssClient.Open(); tisClient.Open(); tnsClient.Open(); }
+AgoraConnection : Close(){ tssClient.Close(); tisClient.Close(); tnsClient.Close(); }
+
+TssClient : Open()
+TssClient : Close()
+
+AgoraConnection *-- TisClient
+TisClient : Open()
+TisClient : Close()
+
+AgoraConnection *-- TnsClient
+TnsClient : Open()
+TnsClient : Close()
+
+Client *-- IAgoraConnection
+Client : IAgoraConnection agoraConnection; 
+Client : Main(){ agoraConnection.Open(); ... agoraConnection.Close() }
+
+@enduml

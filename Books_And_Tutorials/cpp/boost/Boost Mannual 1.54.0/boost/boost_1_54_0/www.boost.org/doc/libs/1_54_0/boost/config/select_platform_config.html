@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/select_platform_config.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:49 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/config/select_platform_config.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/config/select_platform_config.hpp</h3>
+<pre>
+//  Boost compiler configuration selection header file
+
+//  (C) Copyright John Maddock 2001 - 2002. 
+//  (C) Copyright Jens Maurer 2001. 
+//  Use, modification and distribution are subject to the 
+//  Boost Software License, Version 1.0. (See accompanying file 
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See http://www.boost.org for most recent version.
+
+// locate which platform we are on and define BOOST_PLATFORM_CONFIG as needed.
+// Note that we define the headers to include using &quot;header_name&quot; not
+// &lt;header_name&gt; in order to prevent macro expansion within the header
+// name (for example &quot;linux&quot; is a macro on linux systems).
+
+#if (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) &amp;&amp; !defined(_CRAYC)
+// linux, also other platforms (Hurd etc) that use GLIBC, should these really have their own config headers though?
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/linux.hpp&quot;
+
+#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+// BSD:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/bsd.hpp&quot;
+
+#elif defined(sun) || defined(__sun)
+// solaris:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/solaris.hpp&quot;
+
+#elif defined(__sgi)
+// SGI Irix:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/irix.hpp&quot;
+
+#elif defined(__hpux)
+// hp unix:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/hpux.hpp&quot;
+
+#elif defined(__CYGWIN__)
+// cygwin is not win32:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/cygwin.hpp&quot;
+
+#elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+// win32:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/win32.hpp&quot;
+
+#elif defined(__BEOS__)
+// BeOS
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/beos.hpp&quot;
+
+#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+// MacOS
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/macos.hpp&quot;
+
+#elif defined(__IBMCPP__) || defined(_AIX)
+// IBM
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/aix.hpp&quot;
+
+#elif defined(__amigaos__)
+// AmigaOS
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/amigaos.hpp&quot;
+
+#elif defined(__QNXNTO__)
+// QNX:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/qnxnto.hpp&quot;
+
+#elif defined(__VXWORKS__)
+// vxWorks:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/vxworks.hpp&quot;
+
+#elif defined(__SYMBIAN32__) 
+// Symbian: 
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/symbian.hpp&quot; 
+
+#elif defined(_CRAYC)
+// Cray:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/cray.hpp&quot; 
+
+#elif defined(__VMS) 
+// VMS:
+#  define BOOST_PLATFORM_CONFIG &quot;boost/config/platform/vms.hpp&quot; 
+#else
+
+#  if defined(unix) \
+      || defined(__unix) \
+      || defined(_XOPEN_SOURCE) \
+      || defined(_POSIX_SOURCE)
+
+   // generic unix platform:
+
+#  ifndef BOOST_HAS_UNISTD_H
+#     define BOOST_HAS_UNISTD_H
+#  endif
+
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config/posix_features.hpp">boost/config/posix_features.hpp</a>&gt;
+
+#  endif
+
+#  if defined (BOOST_ASSERT_CONFIG)
+      // this must come last - generate an error if we don't
+      // recognise the platform:
+#     error &quot;Unknown platform - please configure and report the results to boost.org&quot;
+#  endif
+
+#endif
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/select_platform_config.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:49 GMT -->
+</html>

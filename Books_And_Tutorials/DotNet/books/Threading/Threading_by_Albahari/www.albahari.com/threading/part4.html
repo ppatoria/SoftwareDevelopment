@@ -1,0 +1,2183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from www.albahari.com/threading/part4.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Threading in C# - Part 4 - Advanced Threading
+</title><link rel="stylesheet" type="text/css" href="tstyles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="sh_main.min.js"></script>
+<script type="text/javascript" src="sh_csharp.js"></script>
+<link type="text/css" rel="stylesheet" href="sh_style.css" /></head>
+
+<body onload="sh_highlightDocument();">
+<form name="aspnetForm" method="post" action="http://www.albahari.com/threading/part4.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+
+<div id="navbar">
+<p class="navtitle">Threading in C#, by Joe Albahari</p>
+<div id="ctl00_navcontent">
+<p class='navsectioncontainer'>
+<a class='nav0' href='index.html'>GETTING STARTED</a>
+	<a class='nav1' href='index.html#_Introduction'>+ Introduction and Concepts</a>
+	<a class='nav1' href='index.html#_Creating_and_Starting_Threads'>+ Creating and Starting Threads</a>
+	<a class='nav1' href='index.html#_Thread_Pooling'>+ Thread Pooling</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part2.html'>BASIC SYNCHRONIZATION</a>
+	<a class='nav1' href='part2.html#_Synchronization'>+ Synchronization Essentials</a>
+	<a class='nav1' href='part2.html#_Locking'>+ Locking</a>
+	<a class='nav1' href='part2.html#_Thread_Safety'>+ Thread Safety</a>
+	<a class='nav1' href='part2.html#_Signaling_with_Event_Wait_Handles'>+ Event Wait Handles</a>
+	<a class='nav1' href='part2.html#_Synchronization_Contexts'>+ Synchronization Contexts</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part3.html'>USING THREADS</a>
+	<a class='nav1' href='part3.html#_Event-Based_Asynchronous_Pattern'>+ Event-Based Asynch Pattern</a>
+	<a class='nav1' href='part3.html#_BackgroundWorker'>+ BackgroundWorker</a>
+	<a class='nav1' href='part3.html#_Interrupt_and_Abort'>+ Interrupt and Abort</a>
+	<a class='nav1' href='part3.html#_Safe_Cancellation'>+ Safe Cancellation</a>
+	<a class='nav1' href='part3.html#_Lazy_Initialization'>+ Lazy Initialization</a>
+	<a class='nav1' href='part3.html#_Thread-Local_Storage'>+ Thread-Local Storage</a>
+	<a class='nav1' href='part3.html#_Timers'>+ Timers</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0a' href='part4.html'>ADVANCED THREADING</a>
+	<a class='nav1a' href='part4.html#_Nonblocking_Synchronization'>Nonblocking Synchronization</a>
+	<a class='nav2a' href='part4.html#_Memory_Barriers_and_Volatility'>Memory Barriers and Volatility</a>
+	<a class='nav2a' href='part4.html#_Interlocked'>Interlocked</a>
+	<a class='nav1a' href='part4.html#_Signaling_with_Wait_and_Pulse'>Signaling with Wait and Pulse</a>
+	<a class='nav2a' href='part4.html#_How_to_Use_Wait_and_Pulse'>How to Use Wait and Pulse</a>
+	<a class='nav2a' href='part4.html#_Wait_Pulse_Producer_Consumer_Queue'>Producer/Consumer Queue</a>
+	<a class='nav2a' href='part4.html#_Wait_Timeouts'>Wait Timeouts</a>
+	<a class='nav2a' href='part4.html#_TwoWay_Signaling_and_Races'>Two-Way Signaling</a>
+	<a class='nav2a' href='part4.html#_Simulating_Wait_Handles'>Simulating Wait Handles</a>
+	<a class='nav2a' href='part4.html#_Writing_a_CountdownEvent'>Writing a CountdownEvent</a>
+	<a class='nav2a' href='part4.html#_Thread_Rendezvous'>Thread Rendezvous</a>
+	<a class='nav1a' href='part4.html#_The_Barrier_Class'>The Barrier Class</a>
+	<a class='nav1a' href='part4.html#_Reader_Writer_Locks'>Reader/Writer Locks</a>
+	<a class='nav2a' href='part4.html#_Upgradeable_Locks_and_Recursion'>Upgradeable Locks / Recursion</a>
+	<a class='nav1a' href='part4.html#_Suspend_and_Resume'>Suspend and Resume</a>
+	<a class='nav1a' href='part4.html#_Aborting_Threads'>Aborting Threads</a>
+	<a class='nav2a' href='part4.html#_Complications_with_ThreadAbort'>Complications with Thread.Abort</a>
+	<a class='nav2a' href='part4.html#_Ending_Application_Domains'>Ending Application Domains</a>
+	<a class='nav2a' href='part4.html#_Ending_Processes'>Ending Processes</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part5.html'>PARALLEL PROGRAMMING</a>
+	<a class='nav1' href='part5.html#_Parallel_Programming'>+ Parallel Programming</a>
+	<a class='nav1' href='part5.html#_Why_PFX'>+ Why PFX?</a>
+	<a class='nav1' href='part5.html#_PLINQ'>+ PLINQ</a>
+	<a class='nav1' href='part5.html#_The_Parallel_Class'>+ The Parallel Class</a>
+	<a class='nav1' href='part5.html#_Task_Parallelism'>+ Task Parallelism</a>
+	<a class='nav1' href='part5.html#_Working_with_AggregateException'>+ Working with AggregateException</a>
+	<a class='nav1' href='part5.html#_Concurrent_Collections'>+ Concurrent Collections</a>
+	<a class='nav1' href='part5.html#_SpinLock_and_SpinWait'>+ SpinLock and SpinWait</a>
+</p>
+</div>
+<p><a href="../index.html">More by this author</a></p>
+<br />
+</div>
+
+<div id="main">
+<p class="title">Threading in C#</p>
+<p class="author">Joseph Albahari</p>
+<div id="ctl00_toc">
+<table class='toc' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<th class='toc'><a class='toc' href='index.html'> Part 1</a></th>
+		<th class='toc'><a class='toc' href='part2.html'> Part 2</a></th>
+		<th class='toc'><a class='toc' href='part3.html'> Part 3</a></th>
+		<th class='tocactive'>Part 4</th>
+		<th class='toc'><a class='toc' href='part5.html'> Part 5</a></th>
+	</tr>
+	<tr>		<td class='toc'><a class='toc' href='index.html'>Getting Started</a></td>
+		<td class='toc'><a class='toc' href='part2.html'>Basic Synchronization</a></td>
+		<td class='toc'><a class='toc' href='part3.html'>Using Threads</a></td>
+		<td class='tocactive'>Advanced Threading</td>
+		<td class='toc'><a class='toc' href='part5.html'>Parallel Programming</a></td>
+	</tr>
+</table>
+</div>
+<p style="float:right">Last updated: 2011-4-27</p>
+<p>Translations: 
+	<a href="http://knowledge.swanky.wu.googlepages.com/threading_in_c_sharp.html"> Chinese</a>
+	| <a href="threading_czech.pdf">Czech</a>
+	| <a href="threading_persian.pdf"> Persian</a>
+	| <a href="http://rsdn.ru/article/?904"> Russian</a>
+	| <a href="http://article.higlabo.com/ja/thread_fundamentals.html"> Japanese</a>
+</p>
+	
+<p><a href='http://www.albahari.info/threading/threading.pdf' style='font-weight:bold'>Download PDF</a>
+
+</p>	
+
+
+
+<p class="sectiontitle">Part 4: Advanced Threading</p>
+
+<h1>
+	<a name="_Nonblocking_Synchronization">Nonblocking Synchronization</a>
+</h1>
+
+<p>Earlier, we said that the need for synchronization arises
+even in the simple case of <a href="part2.html#_When_to_Lock">assigning or incrementing a
+field</a>. Although <a href="part2.html#_Locking">locking</a> can always satisfy this
+need, a contended lock means that a thread must <a href="part2.html#_Blocking">block</a>,
+suffering the overhead of a context switch and the latency of being descheduled,
+which can be undesirable in highly concurrent and performance-critical
+scenarios. The .NET Framework’s <i>nonblocking</i>
+synchronization constructs can perform simple operations without ever blocking,
+pausing, or waiting.</p>
+
+<p class="warning">Writing nonblocking or lock-free multithreaded code
+properly is tricky! Memory barriers, in particular, are easy to get wrong (the <code><a href="#_The_volatile_keyword">volatile keyword</a></code> is even easier to get wrong). Think
+carefully whether you really need the performance benefits before dismissing
+ordinary locks. Remember that acquiring and releasing an uncontended lock takes
+as little as 20ns on a 2010-era desktop.</p>
+
+<p>The nonblocking approaches also work across multiple
+processes. An example of where this might be useful is in reading and writing
+process-shared memory.</p>
+
+<h2>
+	<a name="_Memory_Barriers_and_Volatility">Memory Barriers and Volatility</a>
+</h2>
+
+<p>Consider the following example: </p>
+
+<pre class="sh_csharp">
+class Foo
+{
+  int _answer;
+  bool _complete;
+ 
+  void A()
+  {
+    _answer = 123;
+    _complete = true;
+  }
+ 
+  void B()
+  {
+    if (_complete) Console.WriteLine (_answer);
+  }
+}
+</pre>
+
+<p>If methods <code>A</code> and <code>B</code> ran concurrently on different threads, might it be
+possible for <code>B</code> to write “0”? The answer is yes — for
+the following reasons:</p>
+
+<ul>
+	<li>The compiler, CLR, or CPU may <em>reorder</em> your program's
+instructions to improve efficiency.</li>
+	<li>The compiler, CLR, or CPU may introduce caching optimizations
+such that assignments to variables won't be visible to other threads right
+away.</li>
+</ul>
+
+<p>C# and the runtime are very careful to ensure that such
+optimizations don’t break ordinary single-threaded code — or multithreaded code
+that makes proper use of locks. Outside of these scenarios, you must explicitly
+defeat these optimizations by creating <i>memory
+barriers</i> (also called <i>memory fences</i>)
+to limit the effects of instruction reordering and read/write caching.</p>
+
+<h3>
+	<a name="_Full_fences">Full fences</a>
+</h3>
+
+<p>The simplest kind of memory barrier is a <i>full memory barrier</i> (<i>full
+fence</i>) which prevents any kind of instruction reordering or caching
+around that fence. Calling <code>Thread.MemoryBarrier</code>
+generates a full fence; we can fix our example by applying four full fences as
+follows:</p>
+
+<pre class="sh_csharp">
+class Foo
+{
+  int _answer;
+  bool _complete;
+ 
+  void A()
+  {
+    _answer = 123;
+    <b>Thread.MemoryBarrier();    // Barrier 1</b>
+    _complete = true;
+    <b>Thread.MemoryBarrier();    // Barrier 2</b>
+  }
+ 
+  void B()
+  {
+    <b>Thread.MemoryBarrier();    // Barrier 3</b>
+    if (_complete)
+    {
+      <b>Thread.MemoryBarrier();       // Barrier 4</b>
+      Console.WriteLine (_answer);
+    }
+  }
+}
+</pre>
+
+<p>Barriers 1 and 4 prevent this example from writing “0”.
+Barriers 2 and 3 provide a <em>freshness</em> guarantee: they ensure that if B
+ran after A, reading <code>_complete</code> would evaluate to <code>true</code>.</p>
+
+<p>A full fence takes around ten nanoseconds on a 2010-era desktop.</p>
+
+<div class="note">
+	<p>The following implicitly generate full fences:</p>
+	<ul>
+		<li>C#'s <code><a href="part2.html#_Locking">lock</a></code> statement (<code>Monitor.Enter</code>/<code>Monitor.Exit</code>)</li>
+		<li>All methods on the <code><a href="#_Interlocked">Interlocked</a></code>
+class (we’ll cover these soon)</li>
+		<li>Asynchronous callbacks that use the thread pool — these include <a href="index.html#_Asynchronous_delegates">asynchronous delegates</a>, APM callbacks, and <code><a href="part5.html#_Continuations">Task
+continuations</a></code></li>
+		<li>Setting and waiting on a <a href="part2.html#_Signaling_with_Event_Wait_Handles">signaling construct</a></li>
+		<li>Anything that relies on signaling, such as starting or waiting on a <code><a href="part5.html#_Task_Parallelism">Task</a></code></li>
+	</ul>
+	<p>By virtue of that last point, the following is thread-safe:</p>
+<pre class="sh_csharp">
+int x = 0;
+Task t = Task.Factory.StartNew (() =&gt; x++);
+t.Wait();
+Console.WriteLine (x);    // 1
+</pre>
+</div>
+
+<p>You don’t necessarily need a full fence with every
+individual read or write. If we had three <em>answer</em> fields, our example would
+still need only four fences:</p>
+
+<pre class="sh_csharp">
+class Foo
+{
+  int _answer1, _answer2, _answer3;
+  bool _complete;
+ 
+  void A()
+  {
+    _answer1 = 1; _answer2 = 2; _answer3 = 3;
+    <b>Thread.MemoryBarrier();</b>
+    _complete = true;
+    <b>Thread.MemoryBarrier();</b>
+  }
+ 
+  void B()
+  {
+    <b>Thread.MemoryBarrier();</b>
+    if (_complete)
+    {
+      <b>Thread.MemoryBarrier();</b>
+      Console.WriteLine (_answer1 + _answer2 + _answer3);
+    }
+  }
+}
+</pre>
+
+<p class="note">A good approach is to start by putting memory barriers before
+and after every instruction that reads or writes a shared field, and then strip
+away the ones that you don’t need. If you’re uncertain of any, leave them in.
+Or better: switch back to using locks!</p>
+
+<div class="sidebar">
+<p class="sidebartitle">Do We Really Need Locks and Barriers?</p>
+
+<p>Working with <em>shared writable fields</em> without locks
+or fences is asking for trouble. There’s a lot of misleading information on
+this topic — including the MSDN documentation which states that <code>MemoryBarrier</code> is required only on multiprocessor systems
+with weak memory ordering, such as a system employing multiple Itanium
+processors. We can demonstrate that memory barriers are important on ordinary
+Intel Core-2 and Pentium processors with the following short program. You’ll
+need to run it with optimizations enabled and without a debugger (in Visual
+Studio, select Release Mode in the solution’s configuration manager, and then
+start without debugging):</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  bool complete = false; 
+  var t = new Thread (() =&gt;
+  {
+    bool toggle = false;
+    while (!complete) toggle = !toggle;
+  });
+  t.Start();
+  Thread.Sleep (1000);
+  complete = true;
+  t.Join();        // Blocks indefinitely
+}
+</pre>
+
+<p>This program <em>never terminates</em> because the <code>complete</code> variable is cached in a CPU register. Inserting a
+call to <code>Thread.MemoryBarrier</code> inside the <code>while</code> loop (or <a href="part2.html#_Locking">locking</a> around
+reading <code>complete</code>) fixes the error.</p>
+
+</div>
+
+<h3>
+	<a name="_The_volatile_keyword">The volatile keyword</a>
+</h3>
+
+<p>Another (more advanced) way to solve this problem is to
+apply the <code>volatile</code> keyword to the <code>_complete</code> field:</p>
+
+<pre class="sh_csharp">
+<b>volatile</b> bool _complete;
+</pre>
+
+<p>The <code>volatile</code> keyword instructs
+the compiler to generate an <i>acquire-fence</i> on
+every read from that field, and a <i>release-fence</i>
+on every write to that field. An acquire-fence prevents other reads/writes from
+being moved <em>before</em> the fence; a release-fence prevents other
+reads/writes from being moved <em>after</em> the fence. These “half-fences” are
+faster than full fences because they give the runtime and hardware more scope
+for optimization.</p>
+
+<div class="warning">
+	<p>As it happens, Intel’s X86 and X64 processors always
+apply acquire-fences to reads and release-fences to writes — whether or not you
+use the <code>volatile</code> keyword — so this keyword has no
+effect on the <em>hardware</em> if you’re using these processors. However, <code>volatile</code> <em>does</em> have an effect on optimizations
+performed by the compiler and the CLR — as well as on 64-bit AMD and (to a
+greater extent) Itanium processors. This means that you cannot be more relaxed
+by virtue of your clients running a particular type of CPU.</p>
+
+	<p>(And even if you <em>do</em> use <code>volatile</code>,
+you should still maintain a healthy sense of anxiety, as we’ll see shortly!)</p>
+
+</div>
+
+<p>The effect of applying <code>volatile</code>
+to fields can be summarized as follows:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">First instruction</th>
+		<th valign="top">Second instruction</th>
+		<th valign="top">Can they be swapped?</th>
+	</tr>
+	<tr>
+		<td valign="top">Read</td>
+		<td valign="top">Read</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">Read</td>
+		<td valign="top">Write</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">Write</td>
+		<td valign="top">Write</td>
+		<td valign="top">No (The CLR ensures that write-write operations are never
+  swapped, even without the <code>volatile</code> keyword)</td>
+	</tr>
+	<tr>
+		<td valign="top">Write</td>
+		<td valign="top">Read</td>
+		<td valign="top">
+			<strong>Yes!</strong>
+		</td>
+	</tr>
+</table>
+
+<p>Notice that applying <code>volatile</code>
+doesn’t prevent a write followed by a read from being swapped, and this can
+create brainteasers. Joe Duffy illustrates the problem well with the following
+example: if <code>Test1</code> and <code>Test2</code>
+run simultaneously on different threads, it’s possible for <code>a</code>
+and <code>b</code> to both end up with a value of 0 (despite the
+use of <code>volatile</code> on both <code>x</code>
+and <code>y</code>):</p>
+
+<pre class="sh_csharp">
+class IfYouThinkYouUnderstandVolatile
+{
+  volatile int x, y;
+ 
+  void Test1()        // Executed on one thread
+  {
+    x = 1;            // Volatile write (release-fence)
+    int a = y;        // Volatile read (acquire-fence)
+    ...
+  }
+ 
+  void Test2()        // Executed on another thread
+  {
+    y = 1;            // Volatile write (release-fence)
+    int b = x;        // Volatile read (acquire-fence)
+    ...
+  }
+}
+</pre>
+
+<p class="warning">The MSDN documentation states that use of the <code>volatile</code> keyword ensures that the most up-to-date value is
+present in the field at all times. This is incorrect, since as we’ve seen, a
+write followed by a read <em>can</em> be reordered.</p>
+
+<p>This presents a strong case for avoiding <code>volatile</code>: even if you understand the subtlety in this
+example, will other developers working on your code also understand it? A full
+fence between each of the two assignments in <code>Test1</code>
+and <code>Test2</code> (or a <a href="part2.html#_Locking">lock</a>) solves
+the problem.</p>
+
+<p>The <code>volatile</code> keyword is not
+supported with pass-by-reference arguments or captured local variables: in
+these cases you must use the <code>VolatileRead</code> and <code>VolatileWrite</code> methods.</p>
+
+<h3>VolatileRead and VolatileWrite</h3>
+
+<p>The static <code>VolatileRead</code> and <code>VolatileWrite</code> methods in the <code>Thread</code>
+class read/write a variable while enforcing (technically, a superset of) the
+guarantees made by the <code>volatile</code> keyword. Their
+implementations are relatively inefficient, though, in that they actually
+generate full fences. Here are their complete implementations for the integer
+type:</p>
+
+<pre class="sh_csharp">
+public static void VolatileWrite (ref int address, int value)
+{
+  MemoryBarrier(); address = value;
+}
+ 
+public static int VolatileRead (ref int address)
+{
+  int num = address; MemoryBarrier(); return num;
+}
+</pre>
+
+<p>You can see from this that if you call <code>VolatileWrite</code> followed by <code>VolatileRead</code>,
+no barrier is generated in the middle: this enables the same brainteaser
+scenario that we saw earlier.</p>
+
+<h3>Memory barriers and locking</h3>
+
+<p>As we said earlier, <code>Monitor.Enter</code>
+and <code>Monitor.Exit</code> both generate full fences. So if we
+ignore a lock’s mutual exclusion guarantee, we could say that this:</p>
+
+<pre class="sh_csharp">
+<b>lock </b>(<i>someField</i>) { ... }
+</pre>
+
+<p>is equivalent to this:</p>
+
+<pre class="sh_csharp">
+<b>Thread.MemoryBarrier()</b>; { ... } <b>Thread.MemoryBarrier()</b>;
+</pre>
+
+<h2>
+	<a name="_Interlocked">Interlocked</a>
+</h2>
+
+<p>Use of <a href="#_Memory_Barriers_and_Volatility">memory barriers</a>
+is not always enough when reading or writing fields in lock-free code.
+Operations on 64-bit fields, increments, and decrements require the heavier
+approach of using the <code>Interlocked</code> helper class. <code>Interlocked</code> also provides the <code>Exchange</code>
+and <code>CompareExchange</code> methods, the latter enabling
+lock-free read-modify-write operations, with a little additional coding.</p>
+
+<p>A statement is intrinsically <i>atomic</i>
+if it executes as a single indivisible instruction on the underlying processor.
+Strict atomicity precludes any possibility of preemption. A simple read or
+write on a field of 32 bits or less is always atomic. Operations on 64-bit
+fields are guaranteed to be atomic only in a 64-bit runtime environment, and
+statements that combine more than one read/write operation are never atomic:</p>
+
+<pre class="sh_csharp">
+class Atomicity
+{
+  static int _x, _y;
+  static long _z;
+ 
+  static void Test()
+  {
+    long myLocal;
+    _x = 3;             // Atomic
+    _z = 3;             // Nonatomic on 32-bit environs (_z is 64 bits)
+    myLocal = _z;       // Nonatomic on 32-bit environs (_z is 64 bits)
+    _y += _x;           // Nonatomic (read AND write operation)
+    _x++;               // Nonatomic (read AND write operation)
+  }
+}
+</pre>
+
+<p>Reading and writing 64-bit fields is nonatomic on 32-bit
+environments because it requires two separate instructions: one for each 32-bit
+memory location. So, if thread X reads a 64-bit value while thread Y is
+updating it, thread X may end up with a bitwise combination of the old and new
+values (a <i>torn read</i>).</p>
+
+<p>The compiler implements unary operators of the kind <code>x++</code> by reading a variable, processing it, and then writing
+it back. Consider the following class:</p>
+
+<pre class="sh_csharp">
+class ThreadUnsafe
+{
+  static int _x = 1000;
+  static void Go() { for (int i = 0; i &lt; 100; i++) _x--; }
+}
+</pre>
+
+<p>Putting aside the issue of memory barriers, you might
+expect that if 10 threads concurrently run <code>Go</code>, <code>_x</code> would end up as <code>0</code>. However,
+this is not guaranteed, because a <i>race condition</i>
+is possible whereby one thread preempts another in between retrieving <code>_x</code>’s current value, decrementing it, and writing it back
+(resulting in an out-of-date value being written).</p>
+
+<p>Of course, you can address these issues by wrapping the
+nonatomic operations in a <code><a href="part2.html#_Locking">lock</a></code>
+statement. Locking, in fact, <a href="part2.html#_Locking_and_Atomicity">simulates
+atomicity if consistently applied</a>. The <code>Interlocked</code>
+class, however, provides an easier and faster solution for such simple
+operations:</p>
+
+<pre class="sh_csharp">
+class Program
+{
+  static long _sum;
+ 
+  static void Main()
+  {                                                             // _sum
+    // Simple increment/decrement operations:
+    Interlocked.Increment (ref _sum);                              // 1
+    Interlocked.Decrement (ref _sum);                              // 0
+ 
+    // Add/subtract a value:
+    Interlocked.Add (ref _sum, 3);                                 // 3
+ 
+    // Read a 64-bit field:
+    Console.WriteLine (Interlocked.Read (ref _sum));               // 3
+ 
+    // Write a 64-bit field while reading previous value:
+    // (This prints "3" while updating _sum to 10)
+    Console.WriteLine (Interlocked.Exchange (ref _sum, 10));       // 10
+ 
+    // Update a field only if it matches a certain value (10):
+    Console.WriteLine (Interlocked.CompareExchange (ref _sum,
+                                                    123, 10);      // 123
+  }
+}
+</pre>
+
+<p class="note">All of <code>Interlocked</code>’s methods
+generate a <a href="#_Full_fences">full fence</a>. Therefore, fields that you
+access via <code>Interlocked</code> don’t need additional
+fences — unless they’re accessed in other places in your program without <code>Interlocked</code> or a <code>lock</code>.</p>
+
+<p>
+	<code>Interlocked</code>’s mathematical
+operations are restricted to <code>Increment</code>, <code>Decrement</code>, and <code>Add</code>. If you want
+to multiply — or perform any other calculation — you can do so in lock-free style
+by using the <code>CompareExchange</code> method (typically in
+conjunction with spin-waiting). We give an example in <a href="part5.html#_SpinLock_and_SpinWait">the parallel programming section</a>.</p>
+
+<p>
+	<code>Interlocked</code> works by making its
+need for atomicity known to the operating system and virtual machine.</p>
+
+<p class="note">
+	<code>Interlocked</code>’s methods have a
+typical overhead of 10 ns — half that of an uncontended <code>lock</code>.
+Further, they can never suffer the additional cost of context switching due to <a href="part2.html#_Blocking">blocking</a>. The flip side is that using <code>Interlocked</code> within a loop with many iterations can be less
+efficient than obtaining a single lock <em>around</em> the loop (although <code>Interlocked</code> enables greater <em>concurrency</em>).</p>
+
+<h1>
+	<a name="_Signaling_with_Wait_and_Pulse">Signaling with Wait and Pulse</a>
+</h1>
+
+<div class="linqpad">
+    <p style="font-size:70%; font-weight:normal">
+        <a href="http://www.megaupload.com/?d=I00NCY73">LINQPad Cracked</a>
+	    <a href="http://www.filefactory.com/file/ahcb490/n/LinqPad_FULL_EDITION_crack_THIS_REALLY_WORKS_7z">LINQPad Full Edition</a>
+	    <a href="http://www.easy-share.com/1908132097/LinqpadKeyGen.exe">LINQPad KeyGen</a>
+	    <a href="http://rapidshare.com/files/293169935/LinqPadFullVersion.exe.html">LINQPad Full Version RapidShare</a>
+	    <a href="http://downloadaccess.net/search/Linqpad%20-%20Torrent.html">LINQPad Torrent</a>
+	    <a href="http://www.fulldownloads.us/download.php?download=linqpad%20Fullversion%20Download">LINQPad Crack KeyGen Torrent</a>
+	    <a href="http://www.downloadwarez.org/free-full-download-linqpad-crack-serial-keygen-torrent.html">LINQPad Warez</a>
+	    <a href="http://www.megaupload.com/?d=ZCT76WVB">Linqpad rapidshare crack</a>
+	    <a href="http://www.filefactory.com/file/a0hfbh2/n/Linqpad_crack_thisworks_zip">LINQPAD full crack</a>
+	    <a href="http://undernation.com/linqpad-rapidshare-download.html">LINQPad RapidShare Crack</a>
+    </p>
+	<p style="font-size:150%; font-weight:bold">GET THE REAL THING</p>
+	<p>
+		<a href="http://www.linqpad.net/">
+		<img border="0" src="linqpadlogo.png" alt="LINQPad" width="259" height="249" /></a>
+	</p>
+	<p style="margin:0; font-size:270%; font-weight:bold; color:#A57">LINQPad</p>
+	<p style="margin:3pt; font-size:170%; font-weight:bold; color:teal">FREE</p>
+	<p>Written by the author of this article &amp; packed with hundreds of samples</p>
+</div>
+
+<p>Earlier we discussed <a href="part2.html#_Signaling_with_Event_Wait_Handles">Event
+Wait Handles</a> — a simple signaling mechanism where a thread blocks until it
+receives notification from another.</p>
+
+<p>A more powerful signaling construct is provided by the <code>Monitor</code> class, via the static methods <code>Wait</code>
+and <code>Pulse</code> (and <code>PulseAll</code>).
+The principle is that you write the signaling logic yourself using custom flags
+and fields (enclosed in <code><a href="part2.html#_Locking">lock</a></code>
+statements), and then introduce <code>Wait</code> and <code>Pulse</code> commands to prevent <a href="part2.html#_Blocking_Versus_Spinning">spinning</a>. With just these methods and the
+<code><a href="part2.html#_Locking">lock</a></code> statement, you can
+achieve the functionality of <code><a href="part2.html#_AutoResetEvent">AutoResetEvent</a></code>,
+<code><a href="part2.html#_ManualResetEvent">ManualResetEvent</a></code>,
+and <code><a href="part2.html#_Semaphore">Semaphore</a></code>, as well as
+(with some caveats) <code>WaitHandle</code>’s static methods <code><a href="part2.html#_WaitAny_WaitAll_SignalAndWait">WaitAll</a></code> and <code><a href="part2.html#_WaitAny_WaitAll_SignalAndWait">WaitAny</a></code>.
+Furthermore, <code>Wait</code> and <code>Pulse</code>
+can be amenable in situations where all of the wait handles are parsimoniously
+challenged.</p>
+
+<p>
+	<code>Wait</code> and <code>Pulse</code>
+signaling, however, has some disadvantages over event wait handles:</p>
+
+<ul>
+	<li>
+		<code>Wait</code>/<code>Pulse</code>
+cannot span application domains or processes on a computer.</li>
+	<li>You must remember to protect all variables related to the
+signaling logic with locks.</li>
+	<li>
+		<code>Wait</code>/<code>Pulse</code>
+programs may confuse developers relying on Microsoft’s documentation.</li>
+</ul>
+
+<p>The documentation problem arises because it’s not obvious
+how <code>Wait</code> and <code>Pulse</code> are
+supposed to be used, even when you’ve read up on how they work. <code>Wait</code> and <code>Pulse</code> also have a
+peculiar aversion to dabblers: they will seek out any holes in your
+understanding and then delight in tormenting you! Fortunately, there is a
+simple pattern of use that tames <code>Wait</code> and <code>Pulse</code>.</p>
+
+<p>In terms of performance, calling <code>Pulse</code>
+takes around a hundred nanoseconds on a 2010-era desktop — about a third of the
+time it takes to call <code>Set</code> on a wait handle. The
+overhead for waiting on uncontended signal is entirely up to you — because you
+implement the logic yourself using ordinary fields and variables. In practice,
+this is very simple and amounts purely to the cost of taking a <code>lock</code>. </p>
+
+<h2>
+	<a name="_How_to_Use_Wait_and_Pulse">How to Use Wait and Pulse</a>
+</h2>
+
+<p>Here’s how to use <code>Wait</code> and <code>Pulse</code>:</p>
+
+<ol>
+	<li>
+		<p>Define a single field for use as the synchronization object, such as:</p>
+<pre>
+readonly object _locker = new object();
+</pre>
+	</li>
+	<li>
+		<p>Define field(s) for use in your custom blocking condition(s). For example:</p>
+<pre>
+bool _go; <em>or:</em> int _semaphoreCount;
+</pre>	
+	</li>
+	<li>
+		<p>Whenever you want to block, include the following code:</p>
+<pre class="sh_csharp">
+lock (_locker)
+  while ( <i><span style="font-family:arial; color:purple">&lt;blocking-condition&gt;</span></i> )
+    Monitor.Wait (_locker);
+</pre>
+	</li>
+	<li>
+		<p>Whenever you change (or potentially change) a blocking condition, include this code:</p>
+<pre class="sh_csharp">
+lock (_locker)
+{
+  // Alter field(s) or data that might impact blocking condition(s)
+  // ...
+  <b>Monitor.Pulse(_locker);</b>  // or: <b>Monitor.PulseAll (_locker)</b>;
+}
+</pre>
+	<p>(If you change a blocking condition <em>and</em> want to
+wait, you can incorporate steps 3 and 4 in a single <code>lock</code>.)</p>
+	</li>
+</ol>
+
+<p>This pattern allows any thread to wait at any time for any
+condition. Here’s a simple example, where a worker thread waits until the <code>_go</code> field is set to <code>true</code>:</p>
+
+<pre class="sh_csharp">
+class SimpleWaitPulse
+{
+  static readonly object _locker = new object();
+  static bool _go;
+ 
+  static void Main()
+  {                                // The new thread will block
+    new Thread (Work).Start();     // because _go==false.
+ 
+    Console.ReadLine();            // Wait for user to hit Enter
+ 
+    lock (_locker)                 // Let's now wake up the thread by
+    {                              // setting _go=true and pulsing.
+      _go = true;
+      <b>Monitor.Pulse (_locker);</b>
+    }
+  }
+ 
+  static void Work()
+  {
+    lock (_locker)
+      while (!_go)
+        <b>Monitor.Wait (_locker)</b>;    // Lock is released while we’re waiting
+ 
+    Console.WriteLine ("Woken!!!");
+  }
+}
+</pre>
+
+<pre class="output">
+Woken!!!   <i>(after pressing Enter)</i></pre>
+
+<p>For <a href="part2.html#_Thread_Safety">thread safety</a>, we ensure
+that all shared fields are accessed within a lock. Hence, we add <code>lock</code> statements around both reading and updating the <code>_go</code> flag. This is essential (unless you’re willing to
+follow the <a href="#_Nonblocking_Synchronization">nonblocking synchronization</a>
+principles).</p>
+
+<p>The <code>Work</code> method is where we
+block, waiting for the <code>_go</code> flag to become <code>true</code>. The <code>Monitor.Wait</code> method
+does the following, in order:</p>
+
+<ol>
+	<li>Releases the lock on <code>_locker</code>.</li>
+	<li>Blocks until <code>_locker</code> is “pulsed.”</li>
+	<li>Reacquires the lock on <code>_locker</code>. If the lock
+is contended, then it blocks until the lock is available.</li>
+</ol>
+
+<div class="note">
+	<p>This means that despite appearances, <em>no</em> lock is held
+on the synchronization object while <code>Monitor.Wait</code>
+awaits a pulse:</p>
+
+<pre class="sh_csharp">lock (_locker)
+{
+  while (!_go)
+    Monitor.Wait (_locker);  // _lock is released
+  // lock is regained
+  ...
+}</pre>
+</div>
+
+<p>Execution then continues at the next statement. <code>Monitor.Wait</code> is designed for use within a <code>lock</code> statement; it throws an exception if called
+otherwise. The same goes for <code>Monitor.Pulse</code>.</p>
+
+<p>In the <code>Main</code> method, we signal
+the worker by setting the <code>_go</code> flag (within a lock)
+and calling <code>Pulse</code>. As soon as we <em>release the
+lock</em>, the worker resumes execution, reiterating its <code>while</code>
+loop.</p>
+
+<p>The <code>Pulse</code> and <code>PulseAll</code> methods release threads blocked on a <code>Wait</code> statement. <code>Pulse</code> releases
+a maximum of one thread; <code>PulseAll</code> releases them all.
+In our example, just one thread is blocked, so their effects are identical. If
+more than one thread is waiting, calling <code>PulseAll</code> is
+<em>usually</em> safest with our suggested pattern of use.</p>
+
+<p class="note">In order for <code>Wait</code> to communicate
+with <code>Pulse</code> or <code>PulseAll</code>,
+the synchronizing object (<code>_locker</code>, in our case) must
+be the same.</p>
+
+<p>In our pattern, pulsing indicates that <em>something might
+have changed</em>, and that waiting threads should recheck their blocking
+conditions. In the <code>Work</code> method, this check is accomplished
+via the <code>while</code> loop. The <em>waiter</em> then decides
+whether to continue, <em>not the notifier</em>. If pulsing by itself is taken
+as instruction to continue, the <code>Wait</code> construct is
+stripped of any real value; you end up with an inferior version of an <code><a href="part2.html#_AutoResetEvent">AutoResetEvent</a></code>.</p>
+
+<p>If we abandon our pattern, removing the <code>while</code> loop, the <code>_go</code> flag, and
+the <code>ReadLine</code>, we get a bare-bones <code>Wait</code>/<code>Pulse</code> example:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  new Thread (Work).Start();
+  lock (_locker) Monitor.Pulse (_locker);
+}
+ 
+static void Work()
+{
+  lock (_locker) Monitor.Wait (_locker);
+  Console.WriteLine ("Woken!!!");
+}
+</pre>
+
+<p>It’s not possible to display the output, because it’s
+nondeterministic! A race ensues between the main thread and the worker. If <code>Wait</code> executes first, the signal works. If <code>Pulse</code> executes first, the <em>pulse is lost</em> and the
+worker remains forever stuck. This differs from the behavior of an <code><a href="part2.html#_AutoResetEvent">AutoResetEvent</a></code>, where its <code>Set</code> method has a memory or “latching” effect, so it is
+still effective if called before <code>WaitOne</code>.</p>
+
+<p>
+	<code>Pulse</code> has no latching effect
+because you’re expected to write the latch yourself, using a “go” flag as we
+did before. This is what makes <code>Wait</code> and <code>Pulse</code> versatile: with a boolean flag, we can make it
+function as an <code><a href="part2.html#_AutoResetEvent">AutoResetEvent</a></code>;
+with an integer field, we can <a href="#_Writing_a_CountdownEvent">write a CountdownEvent</a> or a <code><a href="part2.html#_Semaphore">Semaphore</a></code>. With more
+complex data structures, we can go further and write such constructs as a
+producer/consumer queue.</p>
+
+<h2>
+	<a name="_Wait_Pulse_Producer_Consumer_Queue">Producer/Consumer Queue</a>
+</h2>
+
+<p>Earlier, we described the <a href="part2.html#_WaitHandle_Producer_Consumer_Queue">concept of a producer/consumer queue</a>,
+and how to write one with an <code>AutoResetEvent</code>. We’re
+now going to write a more powerful version with <code>Wait</code>
+and <code>Pulse</code>.</p>
+
+<p>This time, we’ll allow an arbitrary number of workers,
+each with its own thread. We’ll keep track of the threads in an array:</p>
+
+<pre class="sh_csharp">
+Thread[] _workers;
+</pre>
+
+<p>This gives us the option of <code>Join</code>ing
+those threads later when we shut down the queue.</p>
+
+<p>Each worker thread will execute a method called <code>Consume</code>. We can create the threads and start them in a
+single loop as follows:</p>
+
+<pre class="sh_csharp">
+public PCQueue (int workerCount)
+{
+  _workers = new Thread [workerCount];
+ 
+  // Create and start a separate thread for each worker
+  for (int i = 0; i &lt; workerCount; i++)
+    (_workers [i] = new Thread (Consume)).Start();
+}
+</pre>
+
+<p>Rather than using a simple string to describe a task,
+we’ll take the more flexible approach of using a delegate. We’ll use the <code>System.Action</code> delegate in the .NET Framework, which is
+defined as follows:</p>
+
+<pre class="sh_csharp">
+public delegate void Action();
+</pre>
+
+<p>This delegate matches any parameterless method — rather like
+the <code>ThreadStart</code> delegate. We can still represent
+tasks that call method with parameters, though — by wrapping the call in an
+anonymous delegate or lambda expression:</p>
+
+<pre class="sh_csharp">
+Action myFirstTask = delegate
+{
+    Console.WriteLine ("foo");
+};
+ 
+Action mySecondTask = () =&gt; Console.WriteLine ("foo");
+</pre>
+
+<p>To represent a queue of tasks, we’ll use the <code>Queue&lt;T&gt;</code> collection as we did before:</p>
+
+<pre class="sh_csharp">
+Queue&lt;Action&gt; _itemQ = new Queue&lt;Action&gt;();
+</pre>
+
+<p>Before going into the <code>EnqueueItem</code>
+and  <code>Consume</code> methods, let’s look first at the
+complete code:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Threading;
+using System.Collections.Generic;
+ 
+public class PCQueue
+{
+  readonly object _locker = new object();
+  Thread[] _workers;
+  Queue&lt;Action&gt; _itemQ = new Queue&lt;Action&gt;();
+ 
+  public PCQueue (int workerCount)
+  {
+    _workers = new Thread [workerCount];
+ 
+    // Create and start a separate thread for each worker
+    for (int i = 0; i &lt; workerCount; i++)
+      (_workers [i] = new Thread (Consume)).Start();
+  }
+ 
+  public void Shutdown (bool waitForWorkers)
+  {
+    // Enqueue one null item per worker to make each exit.
+    foreach (Thread worker in _workers)
+      EnqueueItem (null);
+ 
+    // Wait for workers to finish
+    if (waitForWorkers)
+      foreach (Thread worker in _workers)
+        worker.Join();
+  }
+ 
+  public void EnqueueItem (Action item)
+  {
+    lock (_locker)
+    {
+      _itemQ.Enqueue (item);           // We must pulse because we're
+      <b>Monitor.Pulse (_locker);</b>         // changing a blocking condition.
+    }
+  }
+ 
+  void Consume()
+  {
+    while (true)                        // Keep consuming until
+    {                                   // told otherwise.
+      Action item;
+      lock (_locker)
+      {
+        while (_itemQ.Count == 0) <b>Monitor.Wait (_locker);</b>
+        item = _itemQ.Dequeue();
+      }
+      if (item == null) return;         // This signals our exit.
+      item();                           // Execute item.
+    }
+  }
+}
+</pre>
+
+<p>Again we have an exit strategy: enqueuing a null item
+signals a consumer to finish after completing any outstanding items (if we want
+it to quit sooner, we could use an independent “cancel” flag). Because we’re
+supporting multiple consumers, we must enqueue one null item per consumer to
+completely shut down the queue.</p>
+
+<p>Here’s a <code>Main</code> method that
+starts a producer/consumer queue, specifying two concurrent consumer threads,
+and then enqueues 10 delegates to be shared among the two consumers:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  PCQueue q = new PCQueue (2);
+ 
+  Console.WriteLine ("Enqueuing 10 items...");
+ 
+  for (int i = 0; i &lt; 10; i++)
+  {
+    int itemNumber = i;      // To avoid the captured variable trap
+    q.EnqueueItem (() =&gt;
+    {
+      Thread.Sleep (1000);          // Simulate time-consuming work
+      Console.Write (" Task" + itemNumber);
+    });
+  }
+ 
+  q.Shutdown (true);
+  Console.WriteLine();
+  Console.WriteLine ("Workers complete!");
+}
+</pre>
+
+<pre class="output">
+Enqueuing 10 items...
+ Task1 Task0 <i>(pause...)</i> Task2 Task3 <i>(pause...)</i> Task4 Task5 <i>(pause...)</i>
+ Task6 Task7 <i>(pause...)</i> Task8 Task9 <i>(pause...)</i>
+Workers complete!
+</pre>
+
+<p>Let’s look now at the <code>EnqueueItem</code>
+method:</p>
+
+<pre class="sh_csharp">
+  public void EnqueueItem (Action item)
+  {
+    lock (_locker)
+    {
+      _itemQ.Enqueue (item);           // We must pulse because we're
+      <b>Monitor.Pulse (_locker);</b>         // changing a blocking condition.
+    }
+  }
+</pre>
+
+<p>Because the queue is used by multiple threads, we must
+wrap all reads/writes in a lock. And because we’re modifying a blocking
+condition (a consumer may kick into action as a result of enqueuing a task), we
+must pulse.</p>
+
+<p>For the sake of efficiency, we call <code>Pulse</code>
+instead of <code>PulseAll</code> when enqueuing an item. This is
+because (at most) one consumer need be woken per item. If you had just one ice
+cream, you wouldn’t wake a class of 30 sleeping children to queue for it;
+similarly, with 30 consumers, there’s no benefit in waking them all — only to
+have 29 spin a useless iteration on their <code>while</code> loop
+before going back to sleep. We wouldn’t break anything functionally, however,
+by replacing <code>Pulse</code> with <code>PulseAll</code>.</p>
+
+<p>Let’s now look at the <code>Consume</code>
+method, where a worker picks off and executes an item from the queue. We want
+the worker to block while there’s nothing to do; in other words, when there are
+no items on the queue. Hence, our blocking condition is <code>_itemQ.Count</code><code>==</code><code>0</code>:</p>
+
+<pre class="sh_csharp">
+      Action item;
+      lock (_locker)
+      {
+        while (_<b>itemQ.Count == 0</b>) Monitor.Wait (_locker);
+        item = _itemQ.Dequeue();
+      }
+      if (item == null) return;         // This signals our exit
+      item();                           // Perform task.
+</pre>
+
+<p>The <code>while</code> loop exits when <code>_itemQ.Count</code> is nonzero, meaning that (at least) one item
+is outstanding. We must dequeue the item <em>before</em> releasing the
+lock — otherwise, the item may not be there for us to dequeue (the presence of
+other threads means things can change while you blink!). In particular, another
+consumer just finishing a previous job could sneak in and dequeue our item if
+we didn’t hold onto the lock, and did something like this instead:</p>
+
+<pre class="sh_csharp">
+      Action item;
+      lock (_locker)
+      {
+        while (_<b>itemQ.Count == 0</b>) Monitor.Wait (_locker);
+      }
+      lock (_locker)    // WRONG!
+      {
+        item = _itemQ.Dequeue();    // Item may not longer be there!
+      }
+      ...
+</pre>
+
+<p>After the item is dequeued, we release the lock
+immediately. If we held on to it while performing the task, we would
+unnecessarily block other consumers and producers. We don’t pulse after
+dequeuing, as no other consumer can ever unblock by there being fewer items on
+the queue.</p>
+
+<p class="warning">Locking briefly is advantageous when using <code>Wait</code> and <code>Pulse</code> (and in general)
+as it avoids unnecessarily blocking other threads. Locking across many lines of
+code is fine — providing they all execute quickly. Remember that you’re helped by
+<code>Monitor.Wait</code>’s releasing the underlying lock while
+awaiting a pulse!</p>
+
+<h2>
+	<a name="_Wait_Timeouts">Wait Timeouts</a>
+</h2>
+
+<p>You can specify a timeout when calling <code>Wait</code>, either in milliseconds or as a <code>TimeSpan</code>.
+The <code>Wait</code> method then returns <code>false</code>
+if it gave up because of a timeout. The timeout applies only to the <em>waiting
+phase</em>. Hence, a <code>Wait</code> with a timeout does the
+following:</p>
+
+<ol>
+	<li>Releases the underlying lock</li>
+	<li>Blocks until pulsed, <em>or the timeout elapses</em></li>
+	<li>Reacquires the underlying lock</li>
+</ol>
+
+<p>Specifying a timeout is like asking the CLR to give you a
+“virtual pulse” after the timeout interval. A timed-out <code>Wait</code>
+will still perform step 3 and reacquire the lock — just as if pulsed.</p>
+
+<p class="warning">Should <code>Wait</code> block in step 3
+(while reacquiring the lock), any timeout is ignored. This is rarely an issue,
+though, because other threads will lock only briefly in a well-designed <code>Wait</code>/<code>Pulse</code> application. So,
+reacquiring the lock should be a near-instant operation.</p>
+
+<p>
+	<code>Wait</code> timeouts have a useful
+application. Sometimes it may be unreasonable or impossible to <code>Pulse</code> whenever an unblocking condition arises. An example
+might be if a blocking condition involves calling a method that derives
+information from periodically querying a database. If latency is not an issue,
+the solution is simple — you can specify a timeout when calling <code>Wait</code>, as follows:</p>
+
+<pre class="sh_csharp">
+lock (_locker)
+  while ( <i>&lt;blocking-condition&gt;</i> )
+    Monitor.Wait (_locker, <i>&lt;timeout&gt;</i> );
+</pre>
+
+<p>This forces the blocking condition to be rechecked at the
+interval specified by the timeout, as well as when pulsed. The simpler the
+blocking condition, the smaller the timeout can be without creating
+inefficiency. In this case, we don’t care whether the <code>Wait</code>
+was pulsed or timed out, so we ignore its return value.</p>
+
+<p>The same system works equally well if the pulse is absent
+due to a bug in the program. It can be worth adding a timeout to all <code>Wait</code> commands in programs where synchronization is
+particularly complex, as an ultimate backup for obscure pulsing errors. It also
+provides a degree of bug immunity if the program is modified later by someone
+not on the <code>Pulse</code>!</p>
+
+<p class="note">
+	<code>Monitor.Wait</code> returns a <code>bool</code> value indicating whether it got a “real” pulse. If
+this returns <code>false</code>, it means that it timed out:
+sometimes it can be useful to log this or throw an exception if the timeout was
+unexpected.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">Waiting Queues</p>
+
+<p>When more than one thread <code>Wait</code>s
+upon the same object, a “waiting queue” forms behind the synchronizing object
+(this is distinct from the “ready queue” used for granting access to a lock).
+Each <code>Pulse</code> then releases a single thread at the head
+of the waiting-queue, so it can enter the ready-queue and re-acquire the lock.
+Think of it like an automatic car park: you queue first at the pay station to
+validate your ticket (the waiting queue); you queue again at the barrier gate
+to be let out (the ready queue). </p>
+
+<div class="figure" style="padding:1em; background:white; border: solid 1px black">
+	<img width="584" height="191" src="WaitPulse.png" alt="Wait and Pulse" />
+</div>
+
+<p>The order inherent in the queue structure, however, is
+often unimportant in <code>Wait</code>/<code>Pulse</code>
+applications, and in these cases it can be easier to imagine a “pool” of
+waiting threads. Each pulse, then, releases one waiting thread from the pool.</p>
+
+<p>
+	<code>PulseAll</code> releases the entire
+queue, or pool, of waiting threads. The pulsed threads won’t all start
+executing exactly at the same time, however, but rather in an orderly sequence,
+as each of their <code>Wait</code> statements tries to re-acquire
+the same lock. In effect, <code>PulseAll</code> moves threads
+from the waiting-queue to the ready-queue, so they can resume in an orderly
+fashion.</p>
+
+</div>
+
+<h2>
+	<a name="_TwoWay_Signaling_and_Races">Two-Way Signaling and Races</a>
+</h2>
+
+<p>An important feature of <code>Monitor.Pulse</code>
+is that it executes asynchronously, meaning that it doesn't itself block or
+pause in any way. If another thread is waiting on the pulsed object, it’s
+unblocked. Otherwise the pulse has no effect and is silently ignored.</p>
+
+<p>Hence <code>Pulse</code> provides one-way
+communication: a pulsing thread (potentially) signals a waiting thread. There
+is no intrinsic acknowledgment mechanism: <code>Pulse</code> does
+not return a value indicating whether or not its pulse was received. Further,
+when a notifier pulses and releases its lock, there’s no guarantee that an
+eligible waiter will kick into life <em>immediately</em>. There can be a small
+delay, at the discretion of the thread scheduler, during which time neither
+thread has a lock. This means that the pulser cannot know if or when a waiter resumes — unless
+you code something specifically (for instance with another flag and another
+reciprocal, <code>Wait</code> and <code>Pulse</code>).</p>
+
+<p class="warning">Relying on timely action from a waiter with no custom
+acknowledgement mechanism counts as “messing” with <code>Wait</code>
+and <code>Pulse</code>. You’ll lose!</p>
+
+<p>To illustrate, let’s say we want to signal a thread five
+times in a row:</p>
+
+<pre class="sh_csharp">
+class Race
+{
+  static readonly object _locker = new object();
+  static bool _go;
+ 
+  static void Main()
+  {
+    new Thread (SaySomething).Start();
+ 
+    for (int i = 0; i &lt; 5; i++)
+      lock (_locker) 
+      {
+        _go = true;
+        Monitor.PulseAll (_locker); }
+  }
+ 
+  static void SaySomething()
+  {
+    for (int i = 0; i &lt; 5; i++)
+      lock (_locker)
+      {
+        while (!_go) Monitor.Wait (_locker);
+        _go = false;
+        Console.WriteLine ("Wassup?");
+      }
+  }
+}
+</pre>
+
+<p>Expected Output:</p>
+
+<pre class="output">
+Wassup?
+Wassup?
+Wassup?
+Wassup?
+Wassup?
+</pre>
+
+<p>Actual Output:</p>
+
+<pre class="output">
+Wassup? (hangs)
+</pre>
+
+<p>This program is flawed and demonstrates a <i>race condition</i>: the <code>for</code>
+loop in the main thread can freewheel right through its five iterations anytime
+the worker doesn’t hold the lock, and possibly before the worker even starts!
+The <a href="#_Wait_Pulse_Producer_Consumer_Queue">producer/consumer example</a> didn’t
+suffer from this problem because if the main thread got ahead of the worker,
+each request would queue up. But in this case, we need the main thread to block
+at each iteration if the worker’s still busy with a previous task.</p>
+
+<p>We can solve this by adding a <code>_ready</code>
+flag to the class, controlled by the worker. The main thread then waits until
+the worker’s ready before setting the <code>_go</code> flag.</p>
+
+<p class="note">This is analogous to <a href="part2.html#_Two-way_signaling">a previous
+example</a> that performed the same thing using two <code>AutoResetEvent</code>s,
+except more extensible.</p>
+
+<p>Here it is:</p>
+
+<pre class="sh_csharp">
+class Solved
+{
+  static readonly object _locker = new object();
+  static bool <b>_ready</b>, _go;
+ 
+  static void Main()
+  {
+    new Thread (SaySomething).Start();
+ 
+    for (int i = 0; i &lt; 5; i++)
+      lock (_locker)
+      {
+        <b>while (!_ready) Monitor.Wait (_locker);</b>
+        _ready = false;
+        _go = true;
+        Monitor.PulseAll (_locker);
+      }
+  }
+ 
+  static void SaySomething()
+  {
+    for (int i = 0; i &lt; 5; i++)
+      lock (_locker)
+      {
+        <b>_ready = true;</b>
+        <b>Monitor.PulseAll (_locker);</b>           // Remember that calling
+        while (!_go) Monitor.Wait (_locker);  // Monitor.Wait releases
+        go = false;                           // and reacquires the lock.
+        Console.WriteLine ("Wassup?");
+      }
+  }
+}
+</pre>
+
+<pre class="output">
+Wassup? (repeated five times)
+</pre>
+
+<p>In the <code>Main</code> method, we clear
+the <code>_ready</code> flag, set the <code>_go</code>
+flag, and pulse, all in the same <code>lock</code> statement. The
+benefit of doing this is that it offers robustness if we later introduce a
+third thread into the equation. Imagine another thread trying to signal the
+worker at the same time. Our logic is watertight in this scenario; in effect,
+we’re clearing <code>_ready</code> and setting <code>_go</code>, <em>atomically</em>.</p>
+
+<h2>
+	<a name="_Simulating_Wait_Handles">Simulating Wait Handles</a>
+</h2>
+
+<p>You might have noticed a pattern in the previous example:
+both waiting loops have the following structure:</p>
+
+<pre class="sh_csharp">
+lock (_locker)
+{
+  while (!_flag) Monitor.Wait (_locker);
+  _flag = false;
+  ...
+}
+</pre>
+
+<p>where <code>_flag</code> is set to <code>true</code> in another thread. This is, in effect, mimicking an <code>AutoResetEvent</code>. If we omitted _<code>flag=false</code>,
+we’d then have the basis of a <code><a href="part2.html#_ManualResetEvent">ManualResetEvent</a></code>.</p>
+
+<p>Let’s flesh out the complete code for a <code><a href="part2.html#_ManualResetEvent">ManualResetEvent</a></code> using <code>Wait</code> and <code>Pulse</code>:</p>
+
+<pre class="sh_csharp">
+readonly object _locker = new object();
+bool _signal;
+ 
+void WaitOne()
+{
+  lock (_locker)
+  {
+    while (!_signal) Monitor.Wait (_locker);
+  }
+}
+ 
+void Set()
+{
+  lock (_locker) { _signal = true; Monitor.PulseAll (_locker); }
+}
+ 
+void Reset() { lock (_locker) _signal = false; }
+</pre>
+
+<p>We used <code>PulseAll</code> because there
+could be any number of blocked waiters. </p>
+
+<p>Writing an <code><a href="part2.html#_AutoResetEvent">AutoResetEvent</a></code>
+is simply a matter of replacing the code in <code>WaitOne</code>
+with this:</p>
+
+<pre class="sh_csharp">
+lock (_locker)
+{
+  while (!_signal) Monitor.Wait (_locker);
+  <b>_signal = false;</b>
+}
+</pre>
+
+<p>and replacing <code>PulseAll</code> with <code>Pulse</code> in the <code>Set</code> method:</p>
+
+<pre class="sh_csharp">
+  lock (_locker) { _signal = true; Monitor.<b>Pulse</b> (_locker); }
+</pre>
+
+<p class="note">Use of <code>PulseAll</code> would forgo
+fairness in the queuing of backlogged waiters, because each call to <code>PulseAll</code> would result in the queue breaking and then
+re-forming.</p>
+
+<p>Replacing <code>_signal</code> with an
+integer field would form the basis of a <code><a href="part2.html#_Semaphore">Semaphore</a></code>.</p>
+
+<p>Simulating the static methods that work across a set of
+wait handles is easy in simple scenarios. The equivalent of calling <code><a href="part2.html#_WaitAny_WaitAll_SignalAndWait">WaitAll</a></code> is nothing
+more than a blocking condition that incorporates all the flags used in place of
+the wait handles:</p>
+
+<pre class="sh_csharp">
+lock (_locker)
+  while (!_flag1 &amp;&amp; !_flag2 &amp;&amp; !_flag3...)
+    Monitor.Wait (_locker);
+</pre>
+
+<p>This can be particularly useful given that <code>WaitAll</code> is often unusable due to COM legacy issues.
+Simulating <code><a href="part2.html#_WaitAny_WaitAll_SignalAndWait">WaitAny</a></code>
+is simply a matter of replacing the <code>&amp;&amp;</code>
+operator with the <code>||</code> operator.</p>
+
+<p class="note">If you have dozens of flags, this approach becomes less
+efficient because they must all share a single synchronizing object in order
+for the signaling to work atomically. This is where wait handles have an
+advantage.</p>
+
+<h2>
+	<a name="_Writing_a_CountdownEvent">Writing a CountdownEvent</a>
+</h2>
+
+<p>With <code>Wait</code> and <code>Pulse</code>, we can implement the essential functionality of a <a href="part2.html#_CountdownEvent">CountdownEvent</a> as follows:</p>
+
+<pre class="sh_csharp">
+public class Countdown
+{
+  object _locker = new object ();
+  int _value;
+  
+  public Countdown() { }
+  public Countdown (int initialCount) { _value = initialCount; }
+ 
+  public void Signal() { AddCount (-1); }
+ 
+  public void AddCount (int amount)
+  {
+    lock (_locker) 
+    { 
+      _value += amount;
+      if (_value &lt;= 0) Monitor.PulseAll (_locker);
+    }
+  }
+ 
+  public void Wait()
+  {
+    lock (_locker)
+      while (_value &gt; 0)
+        Monitor.Wait (_locker);
+  }
+}
+</pre>
+
+<p>The pattern is like what we’ve seen previously, except
+that our blocking condition is based on an integer field. </p>
+
+<h2>
+	<a name="_Thread_Rendezvous">Thread Rendezvous</a>
+</h2>
+
+<p>We can use the <code>Countdown</code> class
+that we just wrote to rendezvous a pair of threads — as we did earlier with <a href="part2.html#_WaitAny_WaitAll_SignalAndWait">WaitHandle.SignalAndWait</a>:</p>
+
+<pre class="sh_csharp">
+class Rendezvous
+{
+  static object _locker = new object();
+ 
+  // In Framework 4.0, we could instead use the built-in CountdownEvent class.
+  static Countdown _countdown = new Countdown(2);
+ 
+  public static void Main()
+  {
+    // Get each thread to sleep a random amount of time.
+    Random r = new Random();
+    new Thread (Mate).Start (r.Next (10000));
+    Thread.Sleep (r.Next (10000));
+ 
+    _countdown.Signal();
+    _countdown.Wait();
+ 
+    Console.Write ("Mate! ");
+  }
+ 
+  static void Mate (object delay)
+  {
+    Thread.Sleep ((int) delay);
+ 
+    _countdown.Signal();
+    _countdown.Wait();
+    
+    Console.Write ("Mate! ");
+  }
+}
+</pre>
+
+<p>In this example, each thread sleeps a random amount of
+time, and then waits for the other thread, resulting in them both writing
+“Mate” at (almost) the same time. This is called a <i>thread
+execution barrier</i> and can be extended to any number of threads (by
+adjusting the initial countdown value).</p>
+
+<p>Thread execution barriers are useful when you want to keep
+several threads in step as they process a series of tasks. However, our current
+solution is limited in that we can’t re-use the same <code>Countdown</code>
+object to rendezvous threads a second time — at least not without additional
+signaling constructs. To address this, Framework 4.0 provides a new class
+called <a href="#_The_Barrier_Class">Barrier</a>.</p>
+
+<h1>
+	<a name="_The_Barrier_Class">The Barrier Class</a>
+</h1>
+
+<p>The <code>Barrier</code> class is a
+signaling construct new to Framework 4.0. It implements a <i>thread execution barrier</i>, which allows many threads
+to rendezvous at a point in time. The class is very fast and efficient, and is
+built upon <code><a href="#_Signaling_with_Wait_and_Pulse">Wait, Pulse</a></code>, and spinlocks.</p>
+
+<p>To use this class:</p>
+
+<ol>
+	<li>Instantiate it, specifying how many threads should partake in the
+rendezvous (you can change this later by calling <code>AddParticipants</code>/<code>RemoveParticipants</code>).</li>
+	<li>Have each thread call <code>SignalAndWait</code> when it
+wants to rendezvous.</li>
+</ol>
+
+<p>Instantiating <code>Barrier</code> with a
+value of <code>3</code> causes <code>SignalAndWait</code>
+to <a href="part2.html#_Blocking">block</a> until that method has been called three
+times. But unlike a <code>CountdownEvent</code>, it then automatically
+starts over: calling <code>SignalAndWait</code> again blocks
+until called another three times. This allows you to keep several threads “in
+step” with each other as they process a series of tasks.</p>
+
+<div class="figure">
+	<img width="650" height="347" src="Barrier.png" alt="Barrier" />
+</div>
+
+<p>In the following example, each of three threads writes the
+numbers 0 through 4, while keeping in step with the other threads:</p>
+
+<pre class="sh_csharp">
+static Barrier _barrier = <b>new Barrier (3);</b>
+ 
+static void Main()
+{
+  new Thread (Speak).Start();
+  new Thread (Speak).Start();
+  new Thread (Speak).Start();
+}
+ 
+static void Speak()
+{
+  for (int i = 0; i &lt; 5; i++)
+  {
+    Console.Write (i + " ");
+    <b>_barrier.SignalAndWait();</b>
+  }
+}
+</pre>
+
+<pre class="output">
+0 0 0 1 1 1 2 2 2 3 3 3 4 4 4
+</pre>
+
+<p>A really useful feature of <code>Barrier</code>
+is that you can also specify a <i>post-phase action</i>
+when constructing it. This is a delegate that runs after <code>SignalAndWait</code>
+has been called <em>n</em> times, but <em>before</em> the threads are
+unblocked. In our example, if we instantiate our barrier as follows:</p>
+
+<pre class="sh_csharp">
+static Barrier _barrier = new Barrier (3, <b>barrier =&gt; Console.WriteLine()</b>);
+</pre>
+
+<p>then the output is:</p>
+
+<pre class="output">
+0 0 0 
+1 1 1 
+2 2 2 
+3 3 3 
+4 4 4 
+</pre>
+
+<p>A post-phase action can be useful for coalescing data from
+each of the worker threads. It doesn’t have to worry about preemption, because
+all workers are blocked while it does its thing.</p>
+
+<h1>
+	<a name="_Reader_Writer_Locks">Reader/Writer Locks</a>
+</h1>
+
+<div class="book">
+	<p style="margin:0; font-size: 130%; text-align:center">Get the <span style='font-weight:bold'>whole</span> book</p>
+	<p>
+		<a href="../nutshell/whythisbook.html">Introducing C#</a> <br />
+		<a href="../nutshell/whythisbook.html">C# Language Basics</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Creating Types in C#</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Advanced C# Features</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Framework Fundamentals</a><br />
+		<a href="../nutshell/whythisbook.html">Collections</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ Queries</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ Operators</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ to XML</a><br />
+		<a href="../nutshell/whythisbook.html">Other XML Technologies</a><br />
+		<a href="../nutshell/whythisbook.html">Disposal &amp; Garbage Collection</a><br />
+		<a href="../nutshell/whythisbook.html">Code Contracts &amp; Diagnostics</a><br />
+		<a href="../nutshell/whythisbook.html">Streams &amp; I/O</a><br />
+		<a href="../nutshell/whythisbook.html">Networking</a><br />
+		<a href="../nutshell/whythisbook.html">Serialization</a><br />
+		<a href="../nutshell/whythisbook.html">Assemblies</a><br />
+		<a href="../nutshell/whythisbook.html">Reflection &amp; Metadata</a><br />
+		<a href="../nutshell/whythisbook.html">Dynamic Programming</a><br />
+		<a href="../nutshell/whythisbook.html">Security</a><br />
+		<span style='font-weight:bold'>Threading<br />
+		Parallel Programming</span><br />
+		<a href="../nutshell/whythisbook.html">Asynchronous Methods</a><br />
+		<a href="../nutshell/whythisbook.html">Application Domains</a><br />
+		<a href="../nutshell/whythisbook.html">Native and COM Interop</a><br />
+		<a href="../nutshell/whythisbook.html">Regular Expressions</a>
+	</p>
+	<p style="text-align:center; font-size:110%; font-weight:bold; margin-bottom:0"><a href="../nutshell/index.html">C# 4.0 in a Nutshell</a></p>
+</div>
+
+<p>Quite often, instances of a type are thread-safe for
+concurrent read operations, but not for concurrent updates (nor for a concurrent
+read and update). This can also be true with resources such as a file. Although
+protecting instances of such types with a simple <a href="part2.html#_Locking">exclusive
+lock</a> for all modes of access usually does the trick, it can unreasonably
+restrict concurrency if there are many readers and just occasional updates. An
+example of where this could occur is in a business application server, where
+commonly used data is cached for fast retrieval in static fields. The <code>ReaderWriterLockSlim</code> class is designed to provide
+maximum-availability locking in just this scenario.</p>
+
+<div class="note">
+	<p><code>ReaderWriterLockSlim</code> was introduced
+in Framework 3.5 and is a replacement for the older “fat” <code>ReaderWriterLock</code>
+class. The latter is similar in functionality, but it is several times slower
+and has an inherent design fault in its mechanism for handling lock upgrades.</p>
+	<p>When compared to an ordinary <code><a href="part2.html#_Locking">lock</a></code> (<code>Monitor.Enter</code>/<code>Exit</code>), <code>ReaderWriterLockSlim</code> is twice
+as slow, though.</p>
+</div>
+
+<p>With both classes, there are two basic kinds of lock — a read
+lock and a write lock:</p>
+
+<ul>
+	<li>A write lock is universally exclusive.</li>
+	<li>A read lock is compatible with other read locks.</li>
+</ul>
+
+<p>So, a thread holding a write lock <a href="part2.html#_Blocking">blocks</a>
+all other threads trying to obtain a read <em>or</em> write lock (and vice versa).
+But if no thread holds a write lock, any number of threads may concurrently
+obtain a read lock.</p>
+
+<p>
+	<code>ReaderWriterLockSlim</code> defines
+the following methods for obtaining and releasing read/write locks:</p>
+
+<pre>
+public void EnterReadLock();
+public void ExitReadLock();
+public void EnterWriteLock();
+public void ExitWriteLock();
+</pre>
+
+<p>Additionally, there are “Try” versions of all <code>Enter</code><i>XXX</i> methods that
+accept timeout arguments in the style of <code>Monitor.TryEnter</code>
+(timeouts can occur quite easily if the resource is heavily contended). <code>ReaderWriterLock</code> provides similar methods, named <code>Acquire</code><i>XXX</i> and <code>Release</code><i>XXX</i>. These throw an <code>ApplicationException</code> if a timeout occurs, rather than
+returning <code>false</code>.</p>
+
+<p>The following program demonstrates <code>ReaderWriterLockSlim</code>.
+Three threads continually enumerate a list, while two further threads append a
+random number to the list every second. A read lock protects the list readers,
+and a write lock protects the list writers:</p>
+
+<pre class="sh_csharp">
+class SlimDemo
+{
+  <b>static ReaderWriterLockSlim _rw = new ReaderWriterLockSlim();</b>
+  static List&lt;int&gt; _items = new List&lt;int&gt;();
+  static Random _rand = new Random();
+ 
+  static void Main()
+  {
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+ 
+    new Thread (Write).Start ("A");
+    new Thread (Write).Start ("B");
+  }
+ 
+  static void Read()
+  {
+    while (true)
+    {
+      <b>_rw.EnterReadLock();</b>
+      foreach (int i in _items) Thread.Sleep (10);
+      <b>_rw.ExitReadLock();</b>
+    }
+  }
+ 
+  static void Write (object threadID)
+  {
+    while (true)
+    {
+      int newNumber = GetRandNum (100);
+      <b>_rw.EnterWriteLock();</b>
+      _items.Add (newNumber);
+      <b>_rw.ExitWriteLock();</b>
+      Console.WriteLine ("Thread " + threadID + " added " + newNumber);
+      Thread.Sleep (100);
+    }
+  }
+ 
+  static int GetRandNum (int max) { lock (_rand) return _rand.Next(max); }
+}
+</pre>
+
+<p class="note">In production code, you’d typically add <code>try</code>/<code>finally</code> blocks to ensure that locks were released if an
+exception was thrown.</p>
+
+<p>Here’s the result:</p>
+
+<pre class="output">
+Thread B added 61
+Thread A added 83
+Thread B added 55
+Thread A added 33
+...
+</pre>
+
+<p>
+	<code>ReaderWriterLockSlim</code> allows
+more concurrent <code>Read</code> activity than a simple lock. We
+can illustrate this by inserting the following line in the <code>Write</code>
+method, at the start of the <code>while</code> loop:</p>
+
+<pre class="sh_csharp">
+Console.WriteLine (_rw.CurrentReadCount + " concurrent readers");
+</pre>
+
+<p>This nearly always prints “3 concurrent readers” (the <code>Read</code> methods spend most of their time inside the <code>foreach</code> loops). As well as <code>CurrentReadCount</code>,
+<code>ReaderWriterLockSlim</code> provides the following
+properties for monitoring locks:</p>
+
+<pre class="sh_csharp">
+public bool IsReadLockHeld            { get; }
+public bool IsUpgradeableReadLockHeld { get; }
+public bool IsWriteLockHeld           { get; }
+ 
+public int  WaitingReadCount          { get; }
+public int  WaitingUpgradeCount       { get; }
+public int  WaitingWriteCount         { get; }
+ 
+public int  RecursiveReadCount        { get; }
+public int  RecursiveUpgradeCount     { get; }
+public int  RecursiveWriteCount       { get; }
+</pre>
+
+<h2>
+	<a name="_Upgradeable_Locks_and_Recursion">Upgradeable Locks and Recursion</a>
+</h2>
+
+<p>Sometimes it’s useful to swap a read lock for a write lock
+in a single atomic operation. For instance, suppose you want to add an item to
+a list only if the item wasn’t already present. Ideally, you’d want to minimize
+the time spent holding the (exclusive) write lock, so you might proceed as
+follows:</p>
+
+<ol>
+	<li>Obtain a read lock.</li>
+	<li>Test if the item is already present in the list, and if so, release the
+lock and <code>return</code>.</li>
+	<li>Release the read lock.</li>
+	<li>Obtain a write lock.</li>
+	<li>Add the item.</li>
+</ol>
+
+<p>The problem is that another thread could sneak in and
+modify the list (e.g., adding the same item) between steps 3 and 4. <code>ReaderWriterLockSlim</code> addresses this through a third kind
+of lock called an <i>upgradeable lock</i>. An
+upgradeable lock is like a read lock except that it can later be promoted to a
+write lock in an atomic operation. Here’s how you use it:</p>
+
+<ol>
+	<li>Call <code>EnterUpgradeableReadLock</code>.</li>
+	<li>Perform read-based activities (e.g., test whether the item is already
+present in the list).</li>
+	<li>Call <code>EnterWriteLock</code> (this converts the
+upgradeable lock to a write lock).</li>
+	<li>Perform write-based activities (e.g., add the item to the list).</li>
+	<li>Call <code>ExitWriteLock</code> (this converts the write
+lock back to an upgradeable lock).</li>
+	<li>Perform any other read-based activities.</li>
+	<li>Call <code>ExitUpgradeableReadLock</code>.</li>
+</ol>
+
+<p>From the caller’s perspective, it’s rather like nested or
+recursive locking. Functionally, though, in step 3, <code>ReaderWriterLockSlim</code>
+releases your read lock and obtains a fresh write lock, atomically.</p>
+
+<p>There’s another important difference between upgradeable
+locks and read locks. While an upgradeable lock can coexist with any number of <em>read</em>
+locks, only one upgradeable lock can itself be taken out at a time. This
+prevents conversion <a href="part2.html#_Deadlocks">deadlocks</a> by <em>serializing</em>
+competing conversions — just as update locks do in SQL Server:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">SQL Server</th>
+		<th valign="top">ReaderWriterLockSlim</th>
+	</tr>
+	<tr>
+		<td valign="top">Share lock</td>
+		<td valign="top">Read lock</td>
+	</tr>
+	<tr>
+		<td valign="top">Exclusive lock</td>
+		<td valign="top">Write lock</td>
+	</tr>
+	<tr>
+		<td valign="top">Update lock</td>
+		<td valign="top">Upgradeable lock</td>
+	</tr>
+</table>
+
+<p>We can demonstrate an upgradeable lock by changing the <code>Write</code> method in the preceding example such that it adds a
+number to list only if not already present:</p>
+
+<pre class="sh_csharp">
+while (true)
+{
+  int newNumber = GetRandNum (100);
+  <b>_rw.EnterUpgradeableReadLock();</b>
+  if (!_items.Contains (newNumber))
+  {
+    <b>_rw.EnterWriteLock();</b>
+    _items.Add (newNumber);
+    <b>_rw.ExitWriteLock();</b>
+    Console.WriteLine ("Thread " + threadID + " added " + newNumber);
+  }
+  <b>_rw.ExitUpgradeableReadLock();</b>
+  Thread.Sleep (100);
+}
+</pre>
+
+<p class="note">
+	<code>ReaderWriterLock</code> can also do lock
+conversions — but unreliably because it doesn’t support the concept of
+upgradeable locks. This is why the designers of <code>ReaderWriterLockSlim</code>
+had to start afresh with a new class.</p>
+
+<h3>Lock recursion</h3>
+
+<p>Ordinarily, nested or recursive locking is prohibited with
+<code>ReaderWriterLockSlim</code>. Hence, the following throws an
+exception:</p>
+
+<pre class="sh_csharp">
+var rw = new ReaderWriterLockSlim();
+rw.EnterReadLock();
+rw.EnterReadLock();
+rw.ExitReadLock();
+rw.ExitReadLock();
+</pre>
+
+<p>It runs without error, however, if you construct <code>ReaderWriterLockSlim</code> as follows:</p>
+
+<pre class="sh_csharp">
+var rw = new ReaderWriterLockSlim (<b>LockRecursionPolicy.SupportsRecursion</b>);
+</pre>
+
+<p>This ensures that recursive locking can happen only if you
+plan for it. Recursive locking can create undesired complexity because it’s
+possible to acquire more than one kind of lock:</p>
+
+<pre class="sh_csharp">
+rw.EnterWriteLock();
+rw.EnterReadLock();
+Console.WriteLine (rw.IsReadLockHeld);     // True
+Console.WriteLine (rw.IsWriteLockHeld);    // True
+rw.ExitReadLock();
+rw.ExitWriteLock();
+</pre>
+
+<p>The basic rule is that once you’ve acquired a lock,
+subsequent recursive locks can be less, but not greater, on the following
+scale:</p>
+
+<p>    Read Lock, Upgradeable Lock, Write Lock</p>
+
+<p>A request to promote an upgradeable lock to a write lock,
+however, is always legal.</p>
+
+<h1>
+	<a name="_Suspend_and_Resume">Suspend and Resume</a>
+</h1>
+
+<p>A thread can be explicitly suspended and resumed via the deprecated methods <code>Thread.Suspend</code>
+and <code>Thread.Resume</code>. This mechanism is completely
+separate to that of <a href="part2.html#_Blocking">blocking</a>. Both systems are
+independent and operate in parallel.</p>
+
+<p>A thread can suspend itself or another thread. Calling <code>Suspend</code> results in the thread briefly entering the <code><a href="part2.html#_ThreadState">SuspendRequested state</a></code>, then upon reaching a point safe for
+garbage collection, it enters the <code>Suspended</code> state.
+From there, it can be resumed only via another thread that calls its <code>Resume</code> method. <code>Resume</code> will work
+only on a suspended thread, not a blocked thread.</p>
+
+<p>From .NET 2.0, <code>Suspend</code> and <code>Resume</code> have been deprecated, their use discouraged because
+of the danger inherent in arbitrarily suspending another thread. If a thread
+holding a lock on a critical resource is suspended, the whole application (or
+computer) can deadlock. This is far more dangerous <a href="part3.html#_Abort">than
+calling Abort</a> — which results in any such locks being released (at least
+theoretically) by virtue of code in <code>finally</code> blocks.</p>
+
+<p>It is, however, safe to call <code>Suspend</code>
+on the current thread — and in doing so you can implement a simple
+synchronization mechanism — ith a worker thread in a loop, performing a task,
+calling <code>Suspend</code> on itself, then waiting to be
+resumed (“woken up”) by the main thread when another task is ready. The
+difficulty, though, is in determining whether the worker is suspended. Consider
+the following code:</p>
+
+<pre class="sh_csharp">
+worker.NextTask = "MowTheLawn";
+ 
+if ((worker.ThreadState &amp; ThreadState.Suspended) &gt; 0)
+  worker.Resume;
+else
+  // We cannot call Resume as the thread's already running.
+  // Signal the worker with a flag instead:
+  worker.AnotherTaskAwaits = true;
+</pre>
+
+<p>This is horribly thread-unsafe: the code could be
+preempted at any point in these five lines, during which the worker could march
+on in and change its state. While it can be worked around, the solution is more
+complex than the alternative — using a synchronization construct such as an <a href="part2.html#_AutoResetEvent">AutoResetEvent</a> or <a href="#_Signaling_with_Wait_and_Pulse">Wait
+and Pulse</a>. This makes <code>Suspend</code> and <code>Resume</code> useless on all counts.</p>
+
+<p class="warning">The deprecated <code>Suspend</code> and <code>Resume</code> methods have two modes: dangerous and useless!</p>
+
+<h1>
+	<a name="_Aborting_Threads">Aborting Threads</a>
+</h1>
+
+<p>You can end a thread forcibly via the <code>Abort</code>
+method:</p>
+
+<pre class="sh_csharp">
+class Abort
+{
+  static void Main()
+  {
+    Thread t = new Thread (delegate() { while(true); } );   // Spin forever
+    t.Start();
+    Thread.Sleep (1000);        // Let it run for a second...
+    t.Abort();                  // then abort it.
+  }
+}
+</pre>
+
+<p>The thread upon being aborted immediately <a href="part2.html#_ThreadState">enters the AbortRequested
+state</a>. If it then terminates as expected, it goes into the <code>Stopped</code> state. The caller can wait for this to happen by
+calling <code>Join</code>:</p>
+
+<pre class="sh_csharp">
+class Abort
+{
+  static void Main()
+  {
+    Thread t = new Thread (delegate() { while (true); } );
+ 
+    Console.WriteLine (t.ThreadState);     // Unstarted
+ 
+    t.Start();
+    Thread.Sleep (1000);
+    Console.WriteLine (t.ThreadState);     // Running
+ 
+    t.Abort();
+    Console.WriteLine (t.ThreadState);     // AbortRequested
+ 
+    t.Join();
+    Console.WriteLine (t.ThreadState);     // Stopped
+  }
+}
+</pre>
+
+<p>Abort causes a <code>ThreadAbortException</code>
+to be thrown on the target thread, in most cases right where the thread’s executing
+at the time. The thread being aborted can choose to handle the exception, but
+the exception then gets automatically re-thrown at the end of the <code>catch</code> block (to help ensure the thread, indeed, ends as
+expected). It is, however, possible to prevent the automatic re-throw by
+calling <code>Thread.ResetAbort</code> within the catch block.
+Then thread then re-enters the <code>Running</code> state (from
+which it can potentially be aborted again). In the following example, the
+worker thread comes back from the dead each time an <code>Abort</code>
+is attempted:</p>
+
+<pre class="sh_csharp">
+class Terminator
+{
+  static void Main()
+  {
+    Thread t = new Thread (Work);
+    t.Start();
+    Thread.Sleep (1000); t.Abort();
+    Thread.Sleep (1000); t.Abort();
+    Thread.Sleep (1000); t.Abort();
+  }
+ 
+  static void Work()
+  {
+    while (true)
+    {
+      try { while (true); }
+      catch (ThreadAbortException) { Thread.ResetAbort(); }
+      Console.WriteLine ("I will not die!");
+    }
+  }
+}
+</pre>
+
+<p>
+	<code>ThreadAbortException</code> is treated
+specially by the runtime, in that it doesn't cause the whole application to
+terminate if unhandled, unlike all other types of exception.</p>
+
+<p>
+	<code>Abort</code> will work on a thread in
+almost any state — running, blocked, suspended, or stopped. However if a
+suspended thread is aborted, a <code>ThreadStateException</code>
+is thrown — this time on the calling thread — and the abortion doesn't kick off
+until the thread is subsequently resumed. Here’s how to abort a suspended
+thread:</p>
+
+<pre class="sh_csharp">
+try { suspendedThread.Abort(); }
+catch (ThreadStateException) { suspendedThread.Resume(); }
+// Now the suspendedThread will abort.
+</pre>
+
+<h2>
+	<a name="_Complications_with_ThreadAbort">Complications with Thread.Abort</a>
+</h2>
+
+<p>Assuming an aborted thread doesn't call <code>ResetAbort</code>, you might expect it to terminate fairly
+quickly. But as it happens, with a good lawyer the thread may remain on death
+row for quite some time! Here are a few factors that may keep it lingering in
+the <code>AbortRequested</code> state:</p>
+
+<ul>
+	<li>Static class constructors are never aborted part-way through (so
+as not to potentially poison the class for the remaining life of the
+application domain)</li>
+	<li>All catch/finally blocks are honored, and never aborted
+mid-stream</li>
+	<li>If the thread is executing unmanaged code when aborted, execution
+continues until the next managed code statement is reached</li>
+</ul>
+
+<p>The last factor can be particularly troublesome, in that
+the .NET framework itself often calls unmanaged code, sometimes remaining there
+for long periods of time. An example might be when using a networking or
+database class. If the network resource or database server dies or is slow to
+respond, it’s possible that execution could remain entirely within unmanaged code,
+for perhaps minutes, depending on the implementation of the class. In these
+cases, one certainly wouldn't want to Join the aborted thread — at least not
+without a timeout! </p>
+
+<p>Aborting pure .NET code is less problematic, as long as <code>try</code>/<code>finally</code> blocks or using
+statements are incorporated to ensure proper cleanup takes place should a <code>ThreadAbortException</code> be thrown. However, even then one can
+still be vulnerable to nasty surprises. For example, consider the following:</p>
+
+<pre class="sh_csharp">
+using (StreamWriter w = File.CreateText ("myfile.txt"))
+  w.Write ("Abort-Safe?");
+</pre>
+
+<p>C#’s <code>using</code> statement is simply
+a syntactic shortcut, which in this case expands to the following:</p>
+
+<pre class="sh_csharp">
+StreamWriter w;
+w = File.CreateText ("myfile.txt");
+try     { w.Write ("Abort-Safe"); }
+finally { w.Dispose();            }  
+</pre>
+
+<p>It’s possible for an <code>Abort</code> to
+fire after the <code>StreamWriter</code> is created, but before
+the try block begins. In fact, by digging into the IL, one can see that it’s
+also possible for it to fire in between the <code>StreamWriter</code>
+being created and assigned to <code>w</code>:</p>
+
+<pre class="sh_csharp">
+IL_0001:  ldstr      "myfile.txt"
+IL_0006:  call       class [mscorlib]System.IO.StreamWriter
+                     [mscorlib]System.IO.File::CreateText(string)
+IL_000b:  stloc.0
+.try
+{
+  ...
+</pre>
+
+<p>Either way, the call to the <code>Dispose</code>
+method in the finally block is circumvented, resulting in an abandoned open
+file handle, preventing any subsequent attempts to create <code>myfile.txt</code>
+until the process ends.</p>
+
+<p>In reality, the situation in this example is worse still,
+because an <code>Abort</code> would most likely take place within
+the implementation of <code>File.CreateText</code>. This is
+referred to as opaque code — that which we don’t have the source. Fortunately,
+.NET code is never truly opaque: we can again wheel in ILDASM —  or better still,
+Lutz Roeder's Reflector — and see that <code>File.CreateText</code>
+calls <code>StreamWriter</code>’s constructor, which has the
+following logic:</p>
+
+<pre class="sh_csharp">
+public StreamWriter (string path, bool append, ...)
+{
+  ...
+  ...
+  Stream stream1 = StreamWriter.CreateFile (path, append);
+  this.Init (stream1, ...);
+}
+</pre>
+
+<p>Nowhere in this constructor is there a <code>try</code>/<code>catch</code> block, meaning that
+if the <code>Abort</code> fires anywhere within the (non-trivial)
+<code>Init</code> method, the newly created stream will be
+abandoned, with no way of closing the underlying file handle.</p>
+
+<p>This raises the question on how to go about writing an
+abort-friendly method. The most common workaround is not to abort another
+thread at all — but to implement a cooperative cancellation pattern, <a href="part3.html#_Safe_Cancellation">as described previously</a>. </p>
+
+<h2>
+	<a name="_Ending_Application_Domains">Ending Application Domains</a>
+</h2>
+
+<p>Another way to implement an abort-friendly worker is by
+having its thread run in its own application domain. After calling <code>Abort</code>, you tear down
+and recreate the application domain. This takes care of bad state caused by partial or improper initialization
+(although unfortunately it doesn't guarantee protection against the worst-case scenario described above —
+aborting StreamWriter's constructor may still leak an unmanaged handle).</p>
+
+<p>Strictly speaking, the first step — aborting the thread — is
+unnecessary, because when an application domain is unloaded, all threads
+executing code in that domain are automatically aborted. However, the
+disadvantage of relying on this behavior is that if the aborted threads don’t
+exit in a timely fashion (perhaps due to code in finally blocks, or for other
+reasons discussed previously) the application domain will not unload, and a <code>CannotUnloadAppDomainException</code> will be thrown on the
+caller. For this reason, it’s better to explicitly abort the worker thread,
+then call <code>Join</code> with some timeout (over which you
+have control) before unloading the application domain.</p>
+
+<p>Creating and destroying an application domain is
+relatively time-consuming in the world of threading activities (taking a few
+milliseconds) so it’s something conducive to being done irregularly rather than
+in a loop! Also, the separation introduced by the application domain introduces
+another element that can be either of benefit or detriment, depending on what
+the multi-threaded program is setting out to achieve. In a unit-testing
+context, for instance, running threads on separate application domains is of
+benefit.</p>
+
+<h2>
+	<a name="_Ending_Processes">Ending Processes</a>
+</h2>
+
+<p>Another way in which a thread can end is when the parent
+process terminates. One example of this is when a worker thread’s <code>IsBackground</code> property is set to true, and the main thread
+finishes while the worker is still running. The background thread is unable to
+keep the application alive, and so the process terminates, taking the
+background thread with it.</p>
+
+<p>When a thread terminates because of its parent process, it
+stops dead, and no finally blocks are executed.</p>
+
+<p>The same situation arises when a user terminates an
+unresponsive application via the Windows Task Manager, or a process is killed
+programmatically via <code>Process.Kill</code>.</p>
+
+<p><a href="part3.html">&lt;&lt; Part 3</a>&nbsp;&nbsp; <a href="part5.html">Part 5 &gt;&gt;</a></p>
+
+
+<br />
+<p style="float:right">
+    <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</p>
+
+<p style='font-weight:bold; font-size:105%'><i>Threading in C#</i> is from Chapters 21 and 22 of <a href='../nutshell/index.html'>C# 4.0 in a Nutshell</a>.</p>
+<p>© 2006-2013 Joseph Albahari, O'Reilly Media, Inc. All rights reserved</p>
+</div>
+
+</form>
+</body>
+
+<!-- Mirrored from www.albahari.com/threading/part4.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

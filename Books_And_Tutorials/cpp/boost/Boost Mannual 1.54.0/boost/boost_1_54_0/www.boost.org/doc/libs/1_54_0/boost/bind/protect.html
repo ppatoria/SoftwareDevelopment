@@ -1,0 +1,410 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/protect.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:38 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/bind/protect.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/bind/protect.hpp</h3>
+<pre>
+#ifndef BOOST_BIND_PROTECT_HPP_INCLUDED
+#define BOOST_BIND_PROTECT_HPP_INCLUDED
+
+//
+//  protect.hpp
+//
+//  Copyright (c) 2002 Peter Dimov and Multi Media Ltd.
+//  Copyright (c) 2009 Steven Watanabe
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+
+namespace boost
+{
+
+namespace _bi
+{
+
+template&lt;class F&gt; class protected_bind_t
+{
+public:
+
+    typedef typename F::result_type result_type;
+
+    explicit protected_bind_t(F f): f_(f)
+    {
+    }
+
+    result_type operator()()
+    {
+        return f_();
+    }
+
+    result_type operator()() const
+    {
+        return f_();
+    }
+
+    template&lt;class A1&gt; result_type operator()(A1 &amp; a1)
+    {
+        return f_(a1);
+    }
+
+    template&lt;class A1&gt; result_type operator()(A1 &amp; a1) const
+    {
+        return f_(a1);
+    }
+
+
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1&gt; result_type operator()(const A1 &amp; a1)
+    {
+        return f_(a1);
+    }
+
+    template&lt;class A1&gt; result_type operator()(const A1 &amp; a1) const
+    {
+        return f_(a1);
+    }
+
+#endif
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2)
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2) const
+    {
+        return f_(a1, a2);
+    }
+
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 const &amp; a1, A2 &amp; a2)
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 const &amp; a1, A2 &amp; a2) const
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 &amp; a1, A2 const &amp; a2)
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 &amp; a1, A2 const &amp; a2) const
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2)
+    {
+        return f_(a1, a2);
+    }
+
+    template&lt;class A1, class A2&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2) const
+    {
+        return f_(a1, a2);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3)
+    {
+        return f_(a1, a2, a3);
+    }
+
+    template&lt;class A1, class A2, class A3&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3) const
+    {
+        return f_(a1, a2, a3);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3)
+    {
+        return f_(a1, a2, a3);
+    }
+
+    template&lt;class A1, class A2, class A3&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3) const
+    {
+        return f_(a1, a2, a3);
+    }
+    
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4)
+    {
+        return f_(a1, a2, a3, a4);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4) const
+    {
+        return f_(a1, a2, a3, a4);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4)
+    {
+        return f_(a1, a2, a3, a4);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4) const
+    {
+        return f_(a1, a2, a3, a4);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4, class A5&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5)
+    {
+        return f_(a1, a2, a3, a4, a5);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5) const
+    {
+        return f_(a1, a2, a3, a4, a5);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4, class A5&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5)
+    {
+        return f_(a1, a2, a3, a4, a5);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5) const
+    {
+        return f_(a1, a2, a3, a4, a5);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6)
+    {
+        return f_(a1, a2, a3, a4, a5, a6);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6)
+    {
+        return f_(a1, a2, a3, a4, a5, a6);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7, A8 &amp; a8)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7, A8 &amp; a8) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7, A8 const &amp; a8)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7, A8 const &amp; a8) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8);
+    }
+
+#endif
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7, A8 &amp; a8, A9 &amp; a9)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9&gt; result_type operator()(A1 &amp; a1, A2 &amp; a2, A3 &amp; a3, A4 &amp; a4, A5 &amp; a5, A6 &amp; a6, A7 &amp; a7, A8 &amp; a8, A9 &amp; a9) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+    }
+    
+#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) \
+ &amp;&amp; !BOOST_WORKAROUND(__EDG_VERSION__, &lt;= 238)
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7, A8 const &amp; a8, A9 const &amp; a9)
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+    }
+
+    template&lt;class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9&gt; result_type operator()(A1 const &amp; a1, A2 const &amp; a2, A3 const &amp; a3, A4 const &amp; a4, A5 const &amp; a5, A6 const &amp; a6, A7 const &amp; a7, A8 const &amp; a8, A9 const &amp; a9) const
+    {
+        return f_(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+    }
+
+#endif
+
+private:
+
+    F f_;
+};
+
+} // namespace _bi
+
+template&lt;class F&gt; _bi::protected_bind_t&lt;F&gt; protect(F f)
+{
+    return _bi::protected_bind_t&lt;F&gt;(f);
+}
+
+} // namespace boost
+
+#endif // #ifndef BOOST_BIND_PROTECT_HPP_INCLUDED
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/protect.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:38 GMT -->
+</html>

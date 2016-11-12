@@ -1,0 +1,85 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+#include "gtest/gtest.h"
+#include <cassert>
+
+template <typename Type> 
+void println( Type arg )
+{
+    std::cout << arg << std::endl;
+}
+
+bool contains( const auto& container, const auto& key)
+{
+    return (std::find(container.begin(), container.end(), key )) != container.end();
+}
+
+template <typename Container>
+class functional
+{
+public:
+    functional( Container container ) : container_(container)
+	{}
+  
+    bool contains(const auto& key) const 
+	{
+	    auto result = std::find(container_.begin(),
+				    container_.end(),
+				    key );
+	    return result != container_.end();
+	}
+
+    functional<Container> filter( auto predicate ) const
+	{
+	    Container c;
+	    std::copy_if( container_.begin(),
+			  container_.end(),
+			  std::back_inserter( c ),
+			  predicate);
+	    return std::move(functional(std::move(c)));
+	}
+
+    uint size() const 
+	{
+	    container_.size();
+	}
+
+    void for_each( auto func ) const
+	{
+	    std::for_each( container_.begin(), container_.end(), func );
+	}
+
+    functional<Container> map( auto select ) const
+	{
+	    Container c;
+	    std::transform( container_.begin(),
+			    container_.end(),
+			    std::back_inserter( c ),
+			    select );
+	    return std::move(functional(std::move(c)));
+	}
+
+    auto fold_left(auto initial_value, auto binary_operation) const 
+	{
+	    return std::accumulate(
+		container_.begin(),
+		container_.end(),
+		initial_value,
+		binary_operation);
+	}
+
+    auto fold_right(auto initial_value, auto binary_operation) const
+	{
+	    return std::accumulate(
+		container_.rbegin(),
+		container_.rend(),
+		initial_value,
+		binary_operation);
+	}
+  
+private:
+    Container container_;
+};

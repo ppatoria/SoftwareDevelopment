@@ -1,0 +1,169 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/custom_interval.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:43 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Custom interval - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.0">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.Icl">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples.html" title="Examples">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/std_transform.html" title="Std transform">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/projects.html" title="Projects">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/std_transform.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/projects.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section boost_icl_examples_custom_interval" lang="en">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="boost_icl.examples.custom_interval"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/custom_interval.html" title="Custom interval">Custom interval</a>
+</h3></div></div></div>
+<p>
+        Example <span class="bold"><strong>custom interval</strong></span> demonstrates how
+        to use interval containers with an own interval class type.
+      </p>
+<p>
+        </p>
+<p>
+          
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">iostream</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">icl</span><span class="special">/</span><span class="identifier">interval_set</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="identifier">std</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">icl</span><span class="special">;</span>
+
+<span class="comment">// Here is a typical class that may model intervals in your application.
+</span><span class="keyword">class</span> <span class="identifier">MyInterval</span>
+<span class="special">{</span>
+<span class="keyword">public</span><span class="special">:</span>
+    <span class="identifier">MyInterval</span><span class="special">():</span> <span class="identifier">_first</span><span class="special">(),</span> <span class="identifier">_past</span><span class="special">(){}</span>
+    <span class="identifier">MyInterval</span><span class="special">(</span><span class="keyword">int</span> <span class="identifier">lo</span><span class="special">,</span> <span class="keyword">int</span> <span class="identifier">up</span><span class="special">):</span> <span class="identifier">_first</span><span class="special">(</span><span class="identifier">lo</span><span class="special">),</span> <span class="identifier">_past</span><span class="special">(</span><span class="identifier">up</span><span class="special">){}</span>
+    <span class="keyword">int</span> <span class="identifier">first</span><span class="special">()</span><span class="keyword">const</span><span class="special">{</span> <span class="keyword">return</span> <span class="identifier">_first</span><span class="special">;</span> <span class="special">}</span>
+    <span class="keyword">int</span> <span class="identifier">past</span> <span class="special">()</span><span class="keyword">const</span><span class="special">{</span> <span class="keyword">return</span> <span class="identifier">_past</span><span class="special">;</span> <span class="special">}</span>
+<span class="keyword">private</span><span class="special">:</span>
+    <span class="keyword">int</span> <span class="identifier">_first</span><span class="special">,</span> <span class="identifier">_past</span><span class="special">;</span>
+<span class="special">};</span>
+
+<span class="keyword">namespace</span> <span class="identifier">boost</span><span class="special">{</span> <span class="keyword">namespace</span> <span class="identifier">icl</span> 
+<span class="special">{</span>
+<span class="comment">// Class template interval_traits serves as adapter to register and customize your interval class
+</span><span class="keyword">template</span><span class="special">&lt;&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">interval_traits</span><span class="special">&lt;</span> <span class="identifier">MyInterval</span> <span class="special">&gt;</span>       <span class="comment">//1.  Partially specialize interval_traits for 
+</span><span class="special">{</span>                                          <span class="comment">//    your class MyInterval
+</span>                                           <span class="comment">//2.  Define associated types
+</span>    <span class="keyword">typedef</span> <span class="identifier">MyInterval</span>     <span class="identifier">interval_type</span><span class="special">;</span>  <span class="comment">//2.1 MyInterval will be the interval_type
+</span>    <span class="keyword">typedef</span> <span class="keyword">int</span>            <span class="identifier">domain_type</span><span class="special">;</span>    <span class="comment">//2.2 The elements of the domain are ints 
+</span>    <span class="keyword">typedef</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">less</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">domain_compare</span><span class="special">;</span> <span class="comment">//2.3 This is the way our element shall be ordered.
+</span>                                           <span class="comment">//3.  Next we define the essential functions 
+</span>                                           <span class="comment">//    of the specialisation
+</span>                                           <span class="comment">//3.1 Construction of intervals
+</span>    <span class="keyword">static</span> <span class="identifier">interval_type</span> <span class="identifier">construct</span><span class="special">(</span><span class="keyword">const</span> <span class="identifier">domain_type</span><span class="special">&amp;</span> <span class="identifier">lo</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">domain_type</span><span class="special">&amp;</span> <span class="identifier">up</span><span class="special">)</span> 
+    <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">interval_type</span><span class="special">(</span><span class="identifier">lo</span><span class="special">,</span> <span class="identifier">up</span><span class="special">);</span> <span class="special">}</span>        
+                                           <span class="comment">//3.2 Selection of values 
+</span>    <span class="keyword">static</span> <span class="identifier">domain_type</span> <span class="identifier">lower</span><span class="special">(</span><span class="keyword">const</span> <span class="identifier">interval_type</span><span class="special">&amp;</span> <span class="identifier">inter_val</span><span class="special">){</span> <span class="keyword">return</span> <span class="identifier">inter_val</span><span class="special">.</span><span class="identifier">first</span><span class="special">();</span> <span class="special">};</span>
+    <span class="keyword">static</span> <span class="identifier">domain_type</span> <span class="identifier">upper</span><span class="special">(</span><span class="keyword">const</span> <span class="identifier">interval_type</span><span class="special">&amp;</span> <span class="identifier">inter_val</span><span class="special">){</span> <span class="keyword">return</span> <span class="identifier">inter_val</span><span class="special">.</span><span class="identifier">past</span><span class="special">();</span> <span class="special">};</span>
+<span class="special">};</span>
+
+<span class="keyword">template</span><span class="special">&lt;&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">interval_bound_type</span><span class="special">&lt;</span><span class="identifier">MyInterval</span><span class="special">&gt;</span>     <span class="comment">//4.  Finally we define the interval borders.
+</span><span class="special">{</span>                                          <span class="comment">//    Choose between static_open         (lo..up)
+</span>    <span class="keyword">typedef</span> <span class="identifier">interval_bound_type</span> <span class="identifier">type</span><span class="special">;</span>      <span class="comment">//                   static_left_open    (lo..up]
+</span>    <span class="identifier">BOOST_STATIC_CONSTANT</span><span class="special">(</span><span class="identifier">bound_type</span><span class="special">,</span> <span class="identifier">value</span> <span class="special">=</span> <span class="identifier">interval_bounds</span><span class="special">::</span><span class="identifier">static_right_open</span><span class="special">);//[</span><span class="identifier">lo</span><span class="special">..</span><span class="identifier">up</span><span class="special">)</span>
+<span class="special">};</span>                                         <span class="comment">//               and static_closed       [lo..up] 
+</span>
+<span class="special">}}</span> <span class="comment">// namespace boost icl
+</span>
+<span class="keyword">void</span> <span class="identifier">custom_interval</span><span class="special">()</span>
+<span class="special">{</span>
+    <span class="comment">// Now we can use class MyInterval with interval containers:
+</span>    <span class="keyword">typedef</span> <span class="identifier">interval_set</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">less</span><span class="special">,</span> <span class="identifier">MyInterval</span><span class="special">&gt;</span> <span class="identifier">MyIntervalSet</span><span class="special">;</span>
+    <span class="identifier">MyIntervalSet</span> <span class="identifier">mySet</span><span class="special">;</span>
+    <span class="identifier">mySet</span> <span class="special">+=</span> <span class="identifier">MyInterval</span><span class="special">(</span><span class="number">1</span><span class="special">,</span><span class="number">9</span><span class="special">);</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="identifier">mySet</span> <span class="special">&lt;&lt;</span> <span class="identifier">endl</span><span class="special">;</span>
+    <span class="identifier">mySet</span><span class="special">.</span><span class="identifier">subtract</span><span class="special">(</span><span class="number">3</span><span class="special">)</span> <span class="special">-=</span> <span class="number">6</span><span class="special">;</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="identifier">mySet</span> <span class="special">&lt;&lt;</span> <span class="string">"            subtracted 3 and 6\n"</span><span class="special">;</span>
+    <span class="identifier">mySet</span> <span class="special">^=</span> <span class="identifier">MyInterval</span><span class="special">(</span><span class="number">2</span><span class="special">,</span><span class="number">8</span><span class="special">);</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="identifier">mySet</span> <span class="special">&lt;&lt;</span>      <span class="string">"  flipped between 2 and 7\n"</span><span class="special">;</span>
+<span class="special">}</span>
+
+
+<span class="keyword">int</span> <span class="identifier">main</span><span class="special">()</span>
+<span class="special">{</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"&gt;&gt;Interval Container Library: Sample custom_interval.cpp &lt;&lt;\n"</span><span class="special">;</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"-----------------------------------------------------------\n"</span><span class="special">;</span>
+    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"This program uses a user defined interval class:\n"</span><span class="special">;</span>
+    <span class="identifier">custom_interval</span><span class="special">();</span>
+    <span class="keyword">return</span> <span class="number">0</span><span class="special">;</span>
+<span class="special">}</span>
+
+<span class="comment">// Program output:
+</span><span class="comment">/*-----------------------------------------------------------------------------
+&gt;&gt;Interval Container Library: Sample custom_interval.cpp &lt;&lt;
+-----------------------------------------------------------
+This program uses a user defined interval class:
+{[1,                      9)}
+{[1,  3)   [4,  6)   [7,  9)}       subtracted 3 and 6
+{[1,2) [3,4)     [6,7) [8,9)}  flipped between 2 and 7
+-----------------------------------------------------------------------------*/</span>
+</pre>
+<p>
+        </p>
+<p>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2007 -2010 Joachim Faulhaber<br>Copyright &#169; 1999 -2006 Cortex Software GmbH<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/std_transform.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/projects.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/icl/doc/html/boost_icl/examples/custom_interval.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:43 GMT -->
+</html>

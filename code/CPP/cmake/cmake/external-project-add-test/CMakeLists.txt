@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.0.0)
+
+project(MyGreatProject)
+
+include(ExternalProject)
+
+ExternalProject_Add(gtest_project
+    PREFIX "${CMAKE_SOURCE_DIR}/vendor/gtest"
+    URL "https://code.google.com/p/googletest/downloads/detail?name=gtest-1.7.0.zip"
+    # CONFIGURE_COMMAND ${CMAKE_COMMAND} . -DCMAKE_CXX_FLAGS=-std=c++11 
+    # BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
+    # INSTALL_COMMAND sh -c "install -d <INSTALL_DIR>/include/gtest/internal <INSTALL_DIR>/lib"
+    # COMMAND sh -c "install -m 644 <SOURCE_DIR>/include/gtest/*.h <INSTALL_DIR>/include/gtest/"
+    # COMMAND sh -c "install -m 644 <SOURCE_DIR>/include/gtest/internal/*.h <INSTALL_DIR>/include/gtest/internal/"
+    # COMMAND sh -c "install -m 644 <BINARY_DIR>/libgtest.a <INSTALL_DIR>/lib/"
+    # BUILD_IN_SOURCE 1
+    )
+
+set(SOURCES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+
+add_library(MyGreatProject SHARED ${SOURCES})
+
+add_dependencies(MyGreatProject gtest_project)

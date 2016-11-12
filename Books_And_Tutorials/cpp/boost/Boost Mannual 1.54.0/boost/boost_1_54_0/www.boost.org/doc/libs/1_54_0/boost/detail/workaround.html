@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/detail/workaround.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/detail/workaround.hpp</h3>
+<pre>
+// Copyright David Abrahams 2002.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+#ifndef WORKAROUND_DWA2002126_HPP
+# define WORKAROUND_DWA2002126_HPP
+
+// Compiler/library version workaround macro
+//
+// Usage:
+//
+//     #if BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+//        // workaround for eVC4 and VC6
+//        ... // workaround code here
+//     #endif
+//
+// When BOOST_STRICT_CONFIG is defined, expands to 0. Otherwise, the
+// first argument must be undefined or expand to a numeric
+// value. The above expands to:
+//
+//     (BOOST_MSVC) != 0 &amp;&amp; (BOOST_MSVC) &lt; 1300
+//
+// When used for workarounds that apply to the latest known version 
+// and all earlier versions of a compiler, the following convention 
+// should be observed:
+//
+//     #if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1301))
+//
+// The version number in this case corresponds to the last version in
+// which the workaround was known to have been required. When
+// BOOST_DETECT_OUTDATED_WORKAROUNDS is not the defined, the macro
+// BOOST_TESTED_AT(x) expands to &quot;!= 0&quot;, which effectively activates
+// the workaround for any version of the compiler. When
+// BOOST_DETECT_OUTDATED_WORKAROUNDS is defined, a compiler warning or
+// error will be issued if the compiler version exceeds the argument
+// to BOOST_TESTED_AT().  This can be used to locate workarounds which
+// may be obsoleted by newer versions.
+
+# ifndef BOOST_STRICT_CONFIG
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+
+#ifndef __BORLANDC__
+#define __BORLANDC___WORKAROUND_GUARD 1
+#else
+#define __BORLANDC___WORKAROUND_GUARD 0
+#endif
+#ifndef __CODEGEARC__
+#define __CODEGEARC___WORKAROUND_GUARD 1
+#else
+#define __CODEGEARC___WORKAROUND_GUARD 0
+#endif
+#ifndef _MSC_VER
+#define _MSC_VER_WORKAROUND_GUARD 1
+#else
+#define _MSC_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef _MSC_FULL_VER
+#define _MSC_FULL_VER_WORKAROUND_GUARD 1
+#else
+#define _MSC_FULL_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_MSVC
+#define BOOST_MSVC_WORKAROUND_GUARD 1
+#else
+#define BOOST_MSVC_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_MSVC_FULL_VER
+#define BOOST_MSVC_FULL_VER_WORKAROUND_GUARD 1
+#else
+#define BOOST_MSVC_FULL_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef __GNUC__
+#define __GNUC___WORKAROUND_GUARD 1
+#else
+#define __GNUC___WORKAROUND_GUARD 0
+#endif
+#ifndef __GNUC_MINOR__
+#define __GNUC_MINOR___WORKAROUND_GUARD 1
+#else
+#define __GNUC_MINOR___WORKAROUND_GUARD 0
+#endif
+#ifndef __GNUC_PATCHLEVEL__
+#define __GNUC_PATCHLEVEL___WORKAROUND_GUARD 1
+#else
+#define __GNUC_PATCHLEVEL___WORKAROUND_GUARD 0
+#endif
+#ifndef __IBMCPP__
+#define __IBMCPP___WORKAROUND_GUARD 1
+#else
+#define __IBMCPP___WORKAROUND_GUARD 0
+#endif
+#ifndef __SUNPRO_CC
+#define __SUNPRO_CC_WORKAROUND_GUARD 1
+#else
+#define __SUNPRO_CC_WORKAROUND_GUARD 0
+#endif
+#ifndef __DECCXX_VER
+#define __DECCXX_VER_WORKAROUND_GUARD 1
+#else
+#define __DECCXX_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef __MWERKS__
+#define __MWERKS___WORKAROUND_GUARD 1
+#else
+#define __MWERKS___WORKAROUND_GUARD 0
+#endif
+#ifndef __EDG__
+#define __EDG___WORKAROUND_GUARD 1
+#else
+#define __EDG___WORKAROUND_GUARD 0
+#endif
+#ifndef __EDG_VERSION__
+#define __EDG_VERSION___WORKAROUND_GUARD 1
+#else
+#define __EDG_VERSION___WORKAROUND_GUARD 0
+#endif
+#ifndef __HP_aCC
+#define __HP_aCC_WORKAROUND_GUARD 1
+#else
+#define __HP_aCC_WORKAROUND_GUARD 0
+#endif
+#ifndef __hpxstd98
+#define __hpxstd98_WORKAROUND_GUARD 1
+#else
+#define __hpxstd98_WORKAROUND_GUARD 0
+#endif
+#ifndef _CRAYC
+#define _CRAYC_WORKAROUND_GUARD 1
+#else
+#define _CRAYC_WORKAROUND_GUARD 0
+#endif
+#ifndef __DMC__
+#define __DMC___WORKAROUND_GUARD 1
+#else
+#define __DMC___WORKAROUND_GUARD 0
+#endif
+#ifndef MPW_CPLUS
+#define MPW_CPLUS_WORKAROUND_GUARD 1
+#else
+#define MPW_CPLUS_WORKAROUND_GUARD 0
+#endif
+#ifndef __COMO__
+#define __COMO___WORKAROUND_GUARD 1
+#else
+#define __COMO___WORKAROUND_GUARD 0
+#endif
+#ifndef __COMO_VERSION__
+#define __COMO_VERSION___WORKAROUND_GUARD 1
+#else
+#define __COMO_VERSION___WORKAROUND_GUARD 0
+#endif
+#ifndef __INTEL_COMPILER
+#define __INTEL_COMPILER_WORKAROUND_GUARD 1
+#else
+#define __INTEL_COMPILER_WORKAROUND_GUARD 0
+#endif
+#ifndef __ICL
+#define __ICL_WORKAROUND_GUARD 1
+#else
+#define __ICL_WORKAROUND_GUARD 0
+#endif
+#ifndef _COMPILER_VERSION
+#define _COMPILER_VERSION_WORKAROUND_GUARD 1
+#else
+#define _COMPILER_VERSION_WORKAROUND_GUARD 0
+#endif
+
+#ifndef _RWSTD_VER
+#define _RWSTD_VER_WORKAROUND_GUARD 1
+#else
+#define _RWSTD_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_RWSTD_VER
+#define BOOST_RWSTD_VER_WORKAROUND_GUARD 1
+#else
+#define BOOST_RWSTD_VER_WORKAROUND_GUARD 0
+#endif
+#ifndef __GLIBCPP__
+#define __GLIBCPP___WORKAROUND_GUARD 1
+#else
+#define __GLIBCPP___WORKAROUND_GUARD 0
+#endif
+#ifndef _GLIBCXX_USE_C99_FP_MACROS_DYNAMIC
+#define _GLIBCXX_USE_C99_FP_MACROS_DYNAMIC_WORKAROUND_GUARD 1
+#else
+#define _GLIBCXX_USE_C99_FP_MACROS_DYNAMIC_WORKAROUND_GUARD 0
+#endif
+#ifndef __SGI_STL_PORT
+#define __SGI_STL_PORT_WORKAROUND_GUARD 1
+#else
+#define __SGI_STL_PORT_WORKAROUND_GUARD 0
+#endif
+#ifndef _STLPORT_VERSION
+#define _STLPORT_VERSION_WORKAROUND_GUARD 1
+#else
+#define _STLPORT_VERSION_WORKAROUND_GUARD 0
+#endif
+#ifndef __LIBCOMO_VERSION__
+#define __LIBCOMO_VERSION___WORKAROUND_GUARD 1
+#else
+#define __LIBCOMO_VERSION___WORKAROUND_GUARD 0
+#endif
+#ifndef _CPPLIB_VER
+#define _CPPLIB_VER_WORKAROUND_GUARD 1
+#else
+#define _CPPLIB_VER_WORKAROUND_GUARD 0
+#endif
+
+#ifndef BOOST_INTEL_CXX_VERSION
+#define BOOST_INTEL_CXX_VERSION_WORKAROUND_GUARD 1
+#else
+#define BOOST_INTEL_CXX_VERSION_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_INTEL_WIN
+#define BOOST_INTEL_WIN_WORKAROUND_GUARD 1
+#else
+#define BOOST_INTEL_WIN_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_DINKUMWARE_STDLIB
+#define BOOST_DINKUMWARE_STDLIB_WORKAROUND_GUARD 1
+#else
+#define BOOST_DINKUMWARE_STDLIB_WORKAROUND_GUARD 0
+#endif
+#ifndef BOOST_INTEL
+#define BOOST_INTEL_WORKAROUND_GUARD 1
+#else
+#define BOOST_INTEL_WORKAROUND_GUARD 0
+#endif
+// Always define to zero, if it's used it'll be defined my MPL:
+#define BOOST_MPL_CFG_GCC_WORKAROUND_GUARD 0
+
+#  define BOOST_WORKAROUND(symbol, test)                \
+         ((symbol ## _WORKAROUND_GUARD + 0 == 0) &amp;&amp;     \
+         (symbol != 0) &amp;&amp; (1 % (( (symbol test) ) + 1)))
+//                              ^ ^           ^ ^
+// The extra level of parenthesis nesting above, along with the
+// BOOST_OPEN_PAREN indirection below, is required to satisfy the
+// broken preprocessor in MWCW 8.3 and earlier.
+//
+// The basic mechanism works as follows:
+//      (symbol test) + 1        =&gt;   if (symbol test) then 2 else 1
+//      1 % ((symbol test) + 1)  =&gt;   if (symbol test) then 1 else 0
+//
+// The complication with % is for cooperation with BOOST_TESTED_AT().
+// When &quot;test&quot; is BOOST_TESTED_AT(x) and
+// BOOST_DETECT_OUTDATED_WORKAROUNDS is #defined,
+//
+//      symbol test              =&gt;   if (symbol &lt;= x) then 1 else -1
+//      (symbol test) + 1        =&gt;   if (symbol &lt;= x) then 2 else 0
+//      1 % ((symbol test) + 1)  =&gt;   if (symbol &lt;= x) then 1 else divide-by-zero
+//
+
+#  ifdef BOOST_DETECT_OUTDATED_WORKAROUNDS
+#   define BOOST_OPEN_PAREN (
+#   define BOOST_TESTED_AT(value)  &gt; value) ?(-1): BOOST_OPEN_PAREN 1
+#  else
+#   define BOOST_TESTED_AT(value) != ((value)-(value))
+#  endif
+
+# else
+
+#  define BOOST_WORKAROUND(symbol, test) 0
+
+# endif 
+
+#endif // WORKAROUND_DWA2002126_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+</html>

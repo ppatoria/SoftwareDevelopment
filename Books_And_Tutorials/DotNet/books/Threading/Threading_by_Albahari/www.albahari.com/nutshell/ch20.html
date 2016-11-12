@@ -1,0 +1,491 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch20.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<div>
+	<h2>Chapter 20: Asynchronous Methods</h2>
+	<p><a href="async.zip">Download 
+	Asynchronator (Visual Studio Test Project)</a></p>
+	<p>Blocking server:</p>
+	<pre>using System;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+
+public class Server
+{
+  public void Serve (IPAddress address, int port)
+  {
+    ThreadPool.SetMinThreads (50, 50);    // Refer Chapter 19
+    TcpListener listener = new TcpListener (address, port);
+    listener.Start();
+    while (true)
+    {
+      TcpClient c = listener.AcceptTcpClient();
+      ThreadPool.QueueUserWorkItem (Accept, c);
+    }
+  }
+
+  void Accept (object clientObject)
+  {
+    using (TcpClient client = (TcpClient) clientObject)
+    using (NetworkStream n = client.GetStream())
+    {
+      byte[] data = new byte [5000];
+
+      int bytesRead = 0; int chunkSize = 1;
+      while (bytesRead &lt; data.Length &amp;&amp; chunkSize &gt; 0)
+        bytesRead +=
+          chunkSize = n.Read
+            (data, bytesRead, data.Length - bytesRead);    // BLOCKS
+
+      Array.Reverse (data);
+      n.Write (data, 0, data.Length);                      // BLOCKS
+    }
+  }
+}</pre>
+	<p>Non-blocking server:</p>
+	<pre>using System;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+
+namespace AsynchronousMethods.Nonblocking
+{
+  public class Server
+  {
+    public void Serve (IPAddress address, int port)
+    {
+      ThreadPool.SetMinThreads (50, 50);
+      TcpListener listener = new TcpListener (address, port);
+      listener.Start();
+      while (true)
+      {
+        TcpClient c = listener.AcceptTcpClient();
+        ThreadPool.QueueUserWorkItem (ReverseEcho, c);
+      }
+    }
+
+    void ReverseEcho (object client)
+    {
+      new ReverseEcho().Begin ((TcpClient)client);
+    }
+  }
+
+  class ReverseEcho
+  {
+    volatile TcpClient _client;
+    volatile NetworkStream _stream;
+    byte [] _data = new byte [5000];
+    volatile int _bytesRead = 0;
+
+    internal void Begin (TcpClient c)
+    {
+      try
+      {
+        _client = c;
+        _stream = c.GetStream();
+        Read();
+      }
+      catch (Exception ex) { ProcessException (ex); }
+    }
+
+    void Read()            // Read in a non-blocking fashion.
+    {
+      _stream.BeginRead (_data, _bytesRead, _data.Length - _bytesRead,
+                        ReadCallback, null);
+    }
+
+    void ReadCallback (IAsyncResult r)
+    {
+      try
+      {
+        int chunkSize = _stream.EndRead (r);
+        _bytesRead += chunkSize;
+        if (chunkSize &gt; 0 &amp;&amp; _bytesRead &lt; _data.Length)
+        {
+          Read();       // More data to read!
+          return;
+        }
+        Array.Reverse (_data);
+        _stream.BeginWrite (_data, 0, _data.Length, WriteCallback, null);
+      }
+      catch (Exception ex) { ProcessException (ex); }
+    }
+
+    void WriteCallback (IAsyncResult r)
+    {
+      try { _stream.EndWrite (r); }
+      catch (Exception ex) { ProcessException (ex); }
+      Cleanup();
+    }
+
+    void ProcessException (Exception ex)
+    {
+      Cleanup();
+      Console.WriteLine (&quot;Error: &quot; + ex.Message);
+    }
+
+    void Cleanup()
+    {
+      if (_stream != null) _stream.Close();
+      if (_client != null) _client.Close();
+    }
+  }
+}</pre>
+	<p>Writing asynchronous methods:</p>
+	<pre>public class MessagingServices
+{
+  public static IAsyncResult BeginReverseEcho (TcpClient client,
+                                               AsyncCallback callback,
+                                               object userState)
+  {
+    var re = new ReverseEcho();
+    re.Begin (client, callback, userState);
+    return re;
+  }
+
+  public static byte [] EndReverseEcho (IAsyncResult r)
+  {
+    return ((ReverseEcho)r).End();
+  }
+}
+
+class ReverseEcho : IAsyncResult
+{
+  volatile TcpClient _client;
+  volatile NetworkStream _stream;
+  volatile object _userState;
+  volatile AsyncCallback _callback;
+  ManualResetEvent _waitHandle = new ManualResetEvent (false);
+  volatile int _bytesRead = 0;
+  byte [] _data = new byte [Program.MessageLength];
+  volatile Exception _exception;
+
+  internal ReverseEcho() { }
+
+  // IAsyncResult members:
+
+  public object AsyncState { get { return _userState; } }
+  public WaitHandle AsyncWaitHandle { get { return _waitHandle; } }
+  public bool CompletedSynchronously { get { return false; } }
+  public bool IsCompleted
+  {
+    get { return _waitHandle.WaitOne (0, false); }
+  }
+
+  internal void Begin (TcpClient c, AsyncCallback callback, object state)
+  {
+    _client = c;
+    _callback = callback;
+    _userState = state;
+    try
+    {
+      _stream = _client.GetStream();
+      Read();
+    }
+    catch (Exception ex) { ProcessException (ex); }
+  }
+
+  internal byte [] End()     // Wait for completion + re-throw any error.
+  {
+    AsyncWaitHandle.WaitOne();
+    AsyncWaitHandle.Close();
+    if (_exception != null) throw _exception;
+    return _data;
+  }
+
+  void Read()   // This is always called from an exception-handled method
+  {
+    _stream.BeginRead (_data, _bytesRead, _data.Length - _bytesRead,
+                     ReadCallback, null);
+  }
+
+  void ReadCallback (IAsyncResult r)
+  {
+    try
+    {
+      int chunkSize = _stream.EndRead (r);
+      _bytesRead += chunkSize;
+      if (chunkSize &gt; 0 &amp;&amp; _bytesRead &lt; _data.Length)
+      {
+        Read();       // More data to read!
+        return;
+      }
+      Array.Reverse (_data);
+      _stream.BeginWrite (_data, 0, _data.Length, WriteCallback, null);
+    }
+    catch (Exception ex) { ProcessException (ex); }
+  }
+
+  void WriteCallback (IAsyncResult r)
+  {
+    try { _stream.EndWrite (r); }
+    catch (Exception ex) { ProcessException (ex); return; }
+    Cleanup();
+  }
+
+  void ProcessException (Exception ex)
+  {
+    _exception = ex;   // This will get re-thrown when the 
+    Cleanup();        // consumer calls the End method.
+  }
+
+  void Cleanup()
+  {
+    try
+    {
+      if (_stream != null) _stream.Close();
+    }
+    catch (Exception ex)
+    {
+      if (_exception != null) _exception = ex;
+    }
+    // Signal that we're done and fire the callback.
+    _waitHandle.Set();
+    if (_callback != null) _callback (this);
+  }
+}</pre>
+</div>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch20.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/arith.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:11 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/numeric/interval/arith.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/numeric/interval/arith.hpp</h3>
+<pre>
+/* Boost interval/arith.hpp template implementation file
+ *
+ * Copyright 2000 Jens Maurer
+ * Copyright 2002-2003 Herv&eacute; Br&ouml;nnimann, Guillaume Melquiond, Sylvain Pion
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or
+ * copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ */
+
+#ifndef BOOST_NUMERIC_INTERVAL_ARITH_HPP
+#define BOOST_NUMERIC_INTERVAL_ARITH_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/interval.hpp">boost/numeric/interval/interval.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/bugs.hpp">boost/numeric/interval/detail/bugs.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/test_input.hpp">boost/numeric/interval/detail/test_input.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/division.hpp">boost/numeric/interval/detail/division.hpp</a>&gt;
+#include &lt;algorithm&gt;
+
+namespace boost {
+namespace numeric {
+
+/*
+ * Basic arithmetic operators
+ */
+
+template&lt;class T, class Policies&gt; inline
+const interval&lt;T, Policies&gt;&amp; operator+(const interval&lt;T, Policies&gt;&amp; x)
+{
+  return x;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator-(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (interval_lib::detail::test_input(x))
+    return interval&lt;T, Policies&gt;::empty();
+  return interval&lt;T, Policies&gt;(-x.upper(), -x.lower(), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator+=(const interval&lt;T, Policies&gt;&amp; r)
+{
+  if (interval_lib::detail::test_input(*this, r))
+    set_empty();
+  else {
+    typename Policies::rounding rnd;
+    set(rnd.add_down(low, r.low), rnd.add_up(up, r.up));
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator+=(const T&amp; r)
+{
+  if (interval_lib::detail::test_input(*this, r))
+    set_empty();
+  else {
+    typename Policies::rounding rnd;
+    set(rnd.add_down(low, r), rnd.add_up(up, r));
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator-=(const interval&lt;T, Policies&gt;&amp; r)
+{
+  if (interval_lib::detail::test_input(*this, r))
+    set_empty();
+  else {
+    typename Policies::rounding rnd;
+    set(rnd.sub_down(low, r.up), rnd.sub_up(up, r.low));
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator-=(const T&amp; r)
+{
+  if (interval_lib::detail::test_input(*this, r))
+    set_empty();
+  else {
+    typename Policies::rounding rnd;
+    set(rnd.sub_down(low, r), rnd.sub_up(up, r));
+  }
+  return *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator*=(const interval&lt;T, Policies&gt;&amp; r)
+{
+  return *this = *this * r;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator*=(const T&amp; r)
+{
+  return *this = r * *this;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator/=(const interval&lt;T, Policies&gt;&amp; r)
+{
+  return *this = *this / r;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt;&amp; interval&lt;T, Policies&gt;::operator/=(const T&amp; r)
+{
+  return *this = *this / r;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator+(const interval&lt;T, Policies&gt;&amp; x,
+                                const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T,Policies&gt;(rnd.add_down(x.lower(), y.lower()),
+                              rnd.add_up  (x.upper(), y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator+(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T,Policies&gt;(rnd.add_down(x, y.lower()),
+                              rnd.add_up  (x, y.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator+(const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{ return y + x; }
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator-(const interval&lt;T, Policies&gt;&amp; x,
+                                const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T,Policies&gt;(rnd.sub_down(x.lower(), y.upper()),
+                              rnd.sub_up  (x.upper(), y.lower()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator-(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T,Policies&gt;(rnd.sub_down(x, y.upper()),
+                              rnd.sub_up  (x, y.lower()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator-(const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  return interval&lt;T,Policies&gt;(rnd.sub_down(x.lower(), y),
+                              rnd.sub_up  (x.upper(), y), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator*(const interval&lt;T, Policies&gt;&amp; x,
+                                const interval&lt;T, Policies&gt;&amp; y)
+{
+  BOOST_USING_STD_MIN();
+  BOOST_USING_STD_MAX();
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  typename Policies::rounding rnd;
+  const T&amp; xl = x.lower();
+  const T&amp; xu = x.upper();
+  const T&amp; yl = y.lower();
+  const T&amp; yu = y.upper();
+
+  if (interval_lib::user::is_neg(xl))
+    if (interval_lib::user::is_pos(xu))
+      if (interval_lib::user::is_neg(yl))
+        if (interval_lib::user::is_pos(yu)) // M * M
+          return I(min BOOST_PREVENT_MACRO_SUBSTITUTION(rnd.mul_down(xl, yu), rnd.mul_down(xu, yl)),
+                   max BOOST_PREVENT_MACRO_SUBSTITUTION(rnd.mul_up  (xl, yl), rnd.mul_up  (xu, yu)), true);
+        else                    // M * N
+          return I(rnd.mul_down(xu, yl), rnd.mul_up(xl, yl), true);
+      else
+        if (interval_lib::user::is_pos(yu)) // M * P
+          return I(rnd.mul_down(xl, yu), rnd.mul_up(xu, yu), true);
+        else                    // M * Z
+          return I(static_cast&lt;T&gt;(0), static_cast&lt;T&gt;(0), true);
+    else
+      if (interval_lib::user::is_neg(yl))
+        if (interval_lib::user::is_pos(yu)) // N * M
+          return I(rnd.mul_down(xl, yu), rnd.mul_up(xl, yl), true);
+        else                    // N * N
+          return I(rnd.mul_down(xu, yu), rnd.mul_up(xl, yl), true);
+      else
+        if (interval_lib::user::is_pos(yu)) // N * P
+          return I(rnd.mul_down(xl, yu), rnd.mul_up(xu, yl), true);
+        else                    // N * Z
+          return I(static_cast&lt;T&gt;(0), static_cast&lt;T&gt;(0), true);
+  else
+    if (interval_lib::user::is_pos(xu))
+      if (interval_lib::user::is_neg(yl))
+        if (interval_lib::user::is_pos(yu)) // P * M
+          return I(rnd.mul_down(xu, yl), rnd.mul_up(xu, yu), true);
+        else                    // P * N
+          return I(rnd.mul_down(xu, yl), rnd.mul_up(xl, yu), true);
+      else
+        if (interval_lib::user::is_pos(yu)) // P * P
+          return I(rnd.mul_down(xl, yl), rnd.mul_up(xu, yu), true);
+        else                    // P * Z
+          return I(static_cast&lt;T&gt;(0), static_cast&lt;T&gt;(0), true);
+    else                        // Z * ?
+      return I(static_cast&lt;T&gt;(0), static_cast&lt;T&gt;(0), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator*(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{ 
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x, y))
+    return I::empty();
+  typename Policies::rounding rnd;
+  const T&amp; yl = y.lower();
+  const T&amp; yu = y.upper();
+  // x is supposed not to be infinite
+  if (interval_lib::user::is_neg(x))
+    return I(rnd.mul_down(x, yu), rnd.mul_up(x, yl), true);
+  else if (interval_lib::user::is_zero(x))
+    return I(static_cast&lt;T&gt;(0), static_cast&lt;T&gt;(0), true);
+  else
+    return I(rnd.mul_down(x, yl), rnd.mul_up(x, yu), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator*(const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{ return y * x; }
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator/(const interval&lt;T, Policies&gt;&amp; x,
+                                const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  if (zero_in(y))
+    if (!interval_lib::user::is_zero(y.lower()))
+      if (!interval_lib::user::is_zero(y.upper()))
+        return interval_lib::detail::div_zero(x);
+      else
+        return interval_lib::detail::div_negative(x, y.lower());
+    else
+      if (!interval_lib::user::is_zero(y.upper()))
+        return interval_lib::detail::div_positive(x, y.upper());
+      else
+        return interval&lt;T, Policies&gt;::empty();
+  else
+    return interval_lib::detail::div_non_zero(x, y);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator/(const T&amp; x, const interval&lt;T, Policies&gt;&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y))
+    return interval&lt;T, Policies&gt;::empty();
+  if (zero_in(y))
+    if (!interval_lib::user::is_zero(y.lower()))
+      if (!interval_lib::user::is_zero(y.upper()))
+        return interval_lib::detail::div_zero&lt;T, Policies&gt;(x);
+      else
+        return interval_lib::detail::div_negative&lt;T, Policies&gt;(x, y.lower());
+    else
+      if (!interval_lib::user::is_zero(y.upper()))
+        return interval_lib::detail::div_positive&lt;T, Policies&gt;(x, y.upper());
+      else
+        return interval&lt;T, Policies&gt;::empty();
+  else
+    return interval_lib::detail::div_non_zero(x, y);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; operator/(const interval&lt;T, Policies&gt;&amp; x, const T&amp; y)
+{
+  if (interval_lib::detail::test_input(x, y) || interval_lib::user::is_zero(y))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  const T&amp; xl = x.lower();
+  const T&amp; xu = x.upper();
+  if (interval_lib::user::is_neg(y))
+    return interval&lt;T, Policies&gt;(rnd.div_down(xu, y), rnd.div_up(xl, y), true);
+  else
+    return interval&lt;T, Policies&gt;(rnd.div_down(xl, y), rnd.div_up(xu, y), true);
+}
+
+} // namespace numeric
+} // namespace boost
+
+#endif // BOOST_NUMERIC_INTERVAL_ARITH_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/arith.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:11 GMT -->
+</html>

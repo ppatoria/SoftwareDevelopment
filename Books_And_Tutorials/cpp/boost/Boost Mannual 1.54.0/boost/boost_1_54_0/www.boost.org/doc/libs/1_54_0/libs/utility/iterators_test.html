@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/iterators_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:41 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/utility/iterators_test.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/utility/iterators_test.cpp</h3>
+<pre>
+//  Demonstrate and test boost/operators.hpp on std::iterators  --------------//
+
+//  (C) Copyright Jeremy Siek 1999.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See http://www.boost.org for most recent version including documentation.
+
+//  Revision History
+//  29 May 01 Factored implementation, added comparison tests, use Test Tools
+//            library (Daryle Walker)
+//  12 Dec 99 Initial version with iterator operators (Jeremy Siek)
+
+#define  BOOST_INCLUDE_MAIN
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/test_tools.hpp">boost/test/test_tools.hpp</a>&gt;  // for main
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;     // for BOOST_STATIC_CONSTANT
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdlib.hpp">boost/cstdlib.hpp</a>&gt;    // for boost::exit_success
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/operators.hpp">boost/operators.hpp</a>&gt;  // for boost::random_access_iterator_helper
+
+#include &lt;cstddef&gt;    // for std::ptrdiff_t, std::size_t
+#include &lt;cstring&gt;    // for std::strcmp
+#include &lt;iostream&gt;   // for std::cout (std::endl, ends, and flush indirectly)
+#include &lt;string&gt;     // for std::string
+#include &lt;sstream&gt;    // for std::stringstream
+
+# ifdef BOOST_NO_STDC_NAMESPACE
+    namespace std { using ::strcmp; }
+# endif
+
+
+// Iterator test class
+template &lt;class T, class R, class P&gt;
+struct test_iter
+  : public boost::random_access_iterator_helper&lt;
+     test_iter&lt;T,R,P&gt;, T, std::ptrdiff_t, P, R&gt;
+{
+  typedef test_iter self;
+  typedef R Reference;
+  typedef std::ptrdiff_t Distance;
+
+public:
+  explicit test_iter(T* i =0) : _i(i) { }
+  test_iter(const self&amp; x) : _i(x._i) { }
+  self&amp; operator=(const self&amp; x) { _i = x._i; return *this; }
+  Reference operator*() const { return *_i; }
+  self&amp; operator++() { ++_i; return *this; }
+  self&amp; operator--() { --_i; return *this; }
+  self&amp; operator+=(Distance n) { _i += n; return *this; }
+  self&amp; operator-=(Distance n) { _i -= n; return *this; }
+  bool operator==(const self&amp; x) const { return _i == x._i; }
+  bool operator&lt;(const self&amp; x) const { return _i &lt; x._i; }
+  friend Distance operator-(const self&amp; x, const self&amp; y) {
+    return x._i - y._i; 
+  }
+protected:
+  P _i;
+};
+
+// Iterator operator testing classes
+class test_opr_base
+{
+protected:
+    // Test data and types
+    BOOST_STATIC_CONSTANT( std::size_t, fruit_length = 6u );
+
+    typedef std::string  fruit_array_type[ fruit_length ];
+
+    static  fruit_array_type    fruit;
+
+};  // test_opr_base
+
+#ifndef BOOST_NO_INCLASS_MEMBER_INITIALIZATION
+//  A definition is required even for integral static constants
+const std::size_t test_opr_base::fruit_length;
+#endif
+
+template &lt;typename T, typename R = T&amp;, typename P = T*&gt;
+class test_opr
+    : public test_opr_base
+{
+    typedef test_opr&lt;T, R, P&gt;  self_type;
+
+public:
+    // Types
+    typedef T  value_type;
+    typedef R  reference;
+    typedef P  pointer;
+
+    typedef test_iter&lt;T, R, P&gt;  iter_type;
+
+    // Test controller
+    static  void  master_test( char const name[] );
+
+private:
+    // Test data
+    static iter_type const  fruit_begin;
+    static iter_type const  fruit_end;
+
+    // Test parts
+    static  void  post_increment_test();
+    static  void  post_decrement_test();
+    static  void  indirect_referral_test();
+    static  void  offset_addition_test();
+    static  void  reverse_offset_addition_test();
+    static  void  offset_subtraction_test();
+    static  void  comparison_test();
+    static  void  indexing_test();
+
+};  // test_opr
+
+
+// Class-static data definitions
+test_opr_base::fruit_array_type
+ test_opr_base::fruit = { &quot;apple&quot;, &quot;orange&quot;, &quot;pear&quot;, &quot;peach&quot;, &quot;grape&quot;, &quot;plum&quot; };
+
+template &lt;typename T, typename R, typename P&gt;
+  typename test_opr&lt;T, R, P&gt;::iter_type const
+ test_opr&lt;T, R, P&gt;::fruit_begin = test_iter&lt;T,R,P&gt;( fruit );
+
+template &lt;typename T, typename R, typename P&gt;
+typename test_opr&lt;T, R, P&gt;::iter_type const
+ test_opr&lt;T, R, P&gt;::fruit_end = test_iter&lt;T,R,P&gt;( fruit + fruit_length );
+
+
+// Main testing function
+int
+test_main( int , char * [] )
+{
+    using std::string;
+
+    typedef test_opr&lt;string, string &amp;, string *&gt;              test1_type;
+    typedef test_opr&lt;string, string const &amp;, string const *&gt;  test2_type;
+
+    test1_type::master_test( &quot;non-const string&quot; );
+    test2_type::master_test( &quot;const string&quot; );
+
+    return boost::exit_success;
+}
+
+// Tests for all of the operators added by random_access_iterator_helper
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::master_test
+(
+    char const  name[]
+)
+{
+    std::cout &lt;&lt; &quot;Doing test run for &quot; &lt;&lt; name &lt;&lt; '.' &lt;&lt; std::endl;
+
+    post_increment_test();
+    post_decrement_test();
+    indirect_referral_test();
+    offset_addition_test();
+    reverse_offset_addition_test();
+    offset_subtraction_test();
+    comparison_test();
+    indexing_test();
+}
+
+// Test post-increment
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::post_increment_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing post-increment test.&quot; &lt;&lt; std::endl;
+
+    std::stringstream oss;
+    for ( iter_type i = fruit_begin ; i != fruit_end ; )
+    {
+        oss &lt;&lt; *i++ &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;apple orange pear peach grape plum &quot;);
+}
+
+// Test post-decrement
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::post_decrement_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing post-decrement test.&quot; &lt;&lt; std::endl;
+
+    std::stringstream oss;
+    for ( iter_type i = fruit_end ; i != fruit_begin ; )
+    {
+        i--;
+        oss &lt;&lt; *i &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;plum grape peach pear orange apple &quot;);
+}
+
+// Test indirect structure referral
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::indirect_referral_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing indirect reference test.&quot; &lt;&lt; std::endl;
+
+    std::stringstream oss;
+    for ( iter_type i = fruit_begin ; i != fruit_end ; ++i )
+    {
+        oss &lt;&lt; i-&gt;size() &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;5 6 4 5 5 4 &quot;);
+}
+
+// Test offset addition
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::offset_addition_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing offset addition test.&quot; &lt;&lt; std::endl;
+
+    std::ptrdiff_t const  two = 2;
+    std::stringstream oss;
+    for ( iter_type i = fruit_begin ; i != fruit_end ; i = i + two )
+    {
+        oss &lt;&lt; *i &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;apple pear grape &quot;);
+}
+
+// Test offset addition, in reverse order
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::reverse_offset_addition_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing reverse offset addition test.&quot; &lt;&lt; std::endl;
+
+    std::ptrdiff_t const  two = 2;
+    std::stringstream oss;
+    for ( iter_type i = fruit_begin ; i != fruit_end ; i = two + i )
+    {
+        oss &lt;&lt; *i &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;apple pear grape &quot;);
+}
+
+// Test offset subtraction
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::offset_subtraction_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing offset subtraction test.&quot; &lt;&lt; std::endl;
+
+    std::ptrdiff_t const  two = 2;
+    std::stringstream oss;
+    for ( iter_type i = fruit_end ; fruit_begin &lt; i ; )
+    {
+        i = i - two;
+        if ( (fruit_begin &lt; i) || (fruit_begin == i) )
+        {
+            oss &lt;&lt; *i &lt;&lt; ' ';
+        }
+    }
+
+    BOOST_CHECK( oss.str() == &quot;grape pear apple &quot;);
+}
+
+// Test comparisons
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::comparison_test
+(
+)
+{
+    using std::cout;
+    using std::ptrdiff_t;
+
+    cout &lt;&lt; &quot;\tDoing comparison tests.\n\t\tPass:&quot;;
+
+    for ( iter_type i = fruit_begin ; i != fruit_end ; ++i )
+    {
+        ptrdiff_t const  i_offset = i - fruit_begin;
+
+        cout &lt;&lt; ' ' &lt;&lt; *i &lt;&lt; std::flush;
+        for ( iter_type j = fruit_begin ; j != fruit_end ; ++j )
+        {
+            ptrdiff_t const  j_offset = j - fruit_begin;
+
+            BOOST_CHECK( (i != j) == (i_offset != j_offset) );
+            BOOST_CHECK( (i &gt; j) == (i_offset &gt; j_offset) );
+            BOOST_CHECK( (i &lt;= j) == (i_offset &lt;= j_offset) );
+            BOOST_CHECK( (i &gt;= j) == (i_offset &gt;= j_offset) );
+        }
+    }
+    cout &lt;&lt; std::endl;
+}
+
+// Test indexing
+template &lt;typename T, typename R, typename P&gt;
+void
+test_opr&lt;T, R, P&gt;::indexing_test
+(
+)
+{
+    std::cout &lt;&lt; &quot;\tDoing indexing test.&quot; &lt;&lt; std::endl;
+
+    std::stringstream oss;
+    for ( std::size_t k = 0u ; k &lt; fruit_length ; ++k )
+    {
+        oss &lt;&lt; fruit_begin[ k ] &lt;&lt; ' ';
+    }
+
+    BOOST_CHECK( oss.str() == &quot;apple orange pear peach grape plum &quot;);
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/iterators_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:41 GMT -->
+</html>

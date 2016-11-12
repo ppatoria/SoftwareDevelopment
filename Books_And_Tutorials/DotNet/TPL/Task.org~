@@ -1,0 +1,71 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../../CSS/org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Task 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* Cancellation
+1) *CancellationToken* contains flag to set operation task as cancel.
+    * The async operation can check that flag and take appropriate action 
+    * Even can throw exception. 
+        This is helpful in case of task where it is absorbed and later propagated to main thread. 
+        It provides main thread the information that the task was canceled and was not completed.
+        - Exceptions are absorbed and can be retrieved when calling function calls Result or Wait in case of Task.
+    * Main thread can register cancellation callback which will be invoked when the task is canceled.
+        - Chain of callbacks can be registered. 
+            Which are invoked when any of the operation registered is canceled.
+
+* Task
+ 1) *Return result* 
+ 2) *Exception propagation:* It absorbs exceptions, which can be retrieved later. 
+    1) When Result is called in try catch block.
+    2) When Wait is called to wait till the task is finished.
+ 3) *Wait for the task to finish.*
+ 4) *Cancellation of task:*
+    1) Exception on cancel. Exception on cancel is absorbed and can be retrieved on when we call Result or Wait. 
+    2) Cancel flag can be set and task can check that.
+ 5) *Non Waiting:* ContinueWith functionality facilitates to run chain of tasks without waiting.
+
+* TaskFactory
+ 1) Schedule similar tasks using task scheduler.
+ 2) Cancel can be applied on all the tasks of a task factory. 
+    No need to call cancel for all.
+
+* TaskSchedula
+Schedule the task in Thread Pool or GUI Thread Queue.
+
+* Timer
+Task.Delay with await can be used for timer .
+#+begin_src csharp
+await Task.Delay ms 
+#+end_src
+
+
+
+
+
+
+
+

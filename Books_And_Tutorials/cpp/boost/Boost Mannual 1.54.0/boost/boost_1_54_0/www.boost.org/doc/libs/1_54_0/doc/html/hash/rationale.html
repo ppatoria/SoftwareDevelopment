@@ -1,0 +1,127 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/hash/rationale.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:56 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Rationale - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html" title="The Boost C++ Libraries BoostBook Documentation Subset">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash.html" title="Chapter&#160;11.&#160;Boost.Functional/Hash">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/changes.html" title="Change Log">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/reference.html" title="Reference">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"/><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"/></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/changes.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="hash.rationale"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/rationale.html" title="Rationale">Rationale</a>
+</h2></div></div></div>
+<p>
+      The rationale can be found in the original design <a href="#ftn.hash.rationale.f0" class="footnote" name="hash.rationale.f0"><sup class="footnote">[2]</sup></a>.
+    </p>
+<h4>
+<a name="hash.rationale.h0"></a>
+      <span class="phrase"><a name="hash.rationale.quality_of_the_hash_function"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/rationale.html#hash.rationale.quality_of_the_hash_function">Quality
+      of the hash function</a>
+    </h4>
+<p>
+      Many hash functions strive to have little correlation between the input and
+      output values. They attempt to uniformally distribute the output values for
+      very similar inputs. This hash function makes no such attempt. In fact, for
+      integers, the result of the hash function is often just the input value. So
+      similar but different input values will often result in similar but different
+      output values. This means that it is not appropriate as a general hash function.
+      For example, a hash table may discard bits from the hash function resulting
+      in likely collisions, or might have poor collision resolution when hash values
+      are clustered together. In such cases this hash function will preform poorly.
+    </p>
+<p>
+      But the standard has no such requirement for the hash function, it just requires
+      that the hashes of two different values are unlikely to collide. Containers
+      or algorithms designed to work with the standard hash function will have to
+      be implemented to work well when the hash function's output is correlated to
+      its input. Since they are paying that cost a higher quality hash function would
+      be wasteful.
+    </p>
+<p>
+      For other use cases, if you do need a higher quality hash function, then neither
+      the standard hash function or <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">hash</span></code> are
+      appropriate. There are several options available. One is to use a second hash
+      on the output of this hash function, such as <a href="http://www.concentric.net/~ttwang/tech/inthash.htm" target="_top">Thomas
+      Wang's hash function</a>. This this may not work as well as a hash algorithm
+      tailored for the input.
+    </p>
+<p>
+      For strings there are several fast, high quality hash functions available (for
+      example <a href="http://code.google.com/p/smhasher/" target="_top">MurmurHash3</a>
+      and <a href="http://code.google.com/p/cityhash/" target="_top">Google's CityHash</a>),
+      although they tend to be more machine specific. These may also be appropriate
+      for hashing a binary representation of your data - providing that all equal
+      values have an equal representation, which is not always the case (e.g. for
+      floating point values).
+    </p>
+<div class="footnotes">
+<br><hr style="width:100; text-align:left;margin-left: 0">
+<div id="ftn.hash.rationale.f0" class="footnote"><p><a href="#hash.rationale.f0" class="para"><sup class="para">[2] </sup></a>
+        issue 6.18 of the <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1837.pdf" target="_top">Library
+        Extension Technical Report Issues List</a> (page 63)
+      </p></div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2005-2008 Daniel
+      James<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/changes.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/hash/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/hash/rationale.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:56 GMT -->
+</html>

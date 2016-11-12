@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>* Identifiers</title>
+    <meta name="generator" content="muse.el" />
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=iso-8859-1" />
+    <style type="text/css">
+body {
+  background: white; color: black;
+  margin-left: 3%; margin-right: 7%;
+}
+
+p { margin-top: 1% }
+p.verse { margin-left: 3% }
+
+.example { margin-left: 3% }
+
+h2 {
+  margin-top: 25px;
+  margin-bottom: 0px;
+}
+h3 { margin-bottom: 0px; }
+    </style>
+  </head>
+  <body>
+    <h1>* Identifiers</h1>
+    <!-- Page published by Emacs Muse begins here -->
+<p>Functional programming means that programs are executed by evaluating expressions. This contrasts with imperative programming where programs are composed of statements which change global state when executed. Functional programming, on the other hand, avoids using state and mutable data.</p>
+
+<p>Functional programming requires that functions are first-class, which
+means that they are treated like any other values and can be passed as
+arguments to other functions or be returned as a result of a
+function<sup><a class="footref" name="fnr.1" href="#fn.1">1</a></sup>.</p>
+
+<p><strong>let IdentifierName = Expression</strong></p>
+
+<p>Identifier can either refer to value or function.</p>
+
+<dl>
+<dt><strong>Identifier refered to value</strong></dt><dd></dd>
+</dl>
+
+<pre class="example">
+&gt; let n = 11;;
+
+val n : int = 11
+</pre>
+
+<ul>
+<li>The value assigned to n will never change it is immutable.</li>
+</ul>
+
+<dl>
+<dt><strong>Identifier refered to function</strong></dt><dd></dd>
+</dl>
+
+<pre class="example">
+&gt; let square x = x*x;;
+
+val square : int -&gt; int
+
+&gt; square 2;;
+val it : int = 4
+&gt;
+</pre>
+
+
+
+<h2>Recursion</h2>
+
+<dl>
+<dt><strong>Factorial</strong></dt><dd></dd>
+</dl>
+
+<pre class="example">
+&gt;  let rec factorial n =
+    if n &gt; 1 then n* factorial(n - 1) else 1;;
+
+val factorial : int -&gt; int
+
+&gt; factorial 5;;
+val it : int = 120
+&gt;
+</pre>
+
+<pre class="example">
+factorial 5
+= 5 * factorial 4
+= 5 * (4 * factorial 3)
+= 5 * (4 * (3 * factorial 2))
+= 5 * (4 * (3 * (2 * factorial 1 )))
+= 5 * (4 * (3 * (2 * 1)))
+= 5 * (4 * (3 * 2))
+= 5 * (4 * 6)
+= 5 * 24
+= 120
+</pre>
+
+
+<p><strong>Looping using recursion instead of for/while loop.</strong></p>
+
+<pre class="example">
+let rec loop n =
+    if n &gt; 0 then
+        printfn &quot;n = %i&quot; n
+        loop (n - 1)
+</pre>
+
+<pre class="example">
+&gt; loop 5;;
+n = 5
+n = 4
+n = 3
+n = 2
+n = 1
+n = 0
+</pre>
+
+
+<h2>List</h2>
+
+
+<p>F# List	Arrays	Generic List
+Modify Elements	No	Yes	Yes
+Add New Elements	No	No	Yes
+Element Lookup	O(n) slow	O(1) fast	O(1) fast <sup><a class="footref" name="fnr.2" href="#fn.2">2</a></sup>.</p>
+
+
+<p><strong>Fold</strong></p>
+
+<p>let add x y = x + y</p>
+
+<p class="verse">
+let sumList = List.fold add 0 [1 .. 10];;<br />
+</p>
+
+<p>val sumList : int = 55</p>
+
+<p class="verse">
+let sumList = List.fold add 1 [1 .. 10];;<br />
+</p>
+
+<p>val sumList : int = 56</p>
+
+<p class="verse">
+let mul x y = x * y;;<br />
+</p>
+
+<p class="verse">
+let sumList = List.fold mul 1 [1 .. 5];;<br />
+</p>
+
+<p>val sumList : int = 120</p>
+
+<p class="verse">
+let sumList = List.fold mul 0 [1 .. 5];;<br />
+</p>
+
+<p>val sumList : int = 0</p>
+
+<p>&gt;</p>
+
+
+
+<hr />
+<p class="footnote"><a class="footnum" name="fn.1" href="#fnr.1">1.</a> <a href="http://www.haskell.org/haskellwiki/Functional_programming">Haskel.org</a>
+<p class="footnote"><a class="footnum" name="fn.2" href="#fnr.2">2.</a> <a href="http://blogs.msdn.com/b/chrsmith/archive/2008/07/10/mastering-f-lists.aspx">Chris Smith</a></p>
+
+
+
+<!-- Page published by Emacs Muse ends here -->
+  </body>
+</html>

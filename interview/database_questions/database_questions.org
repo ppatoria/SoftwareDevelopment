@@ -1,0 +1,61 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+#+END_HTML
+#+TITLE: Database Questions 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* Delete vs Truncate.
+
+|-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| (*) | Delete                                                                                                                                                                                                                                                      | Truncate                                                                                                                                                                                                                                   |
+|-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   1 | DELETE statements delete rows one at a time, logging each row in the transaction log, as well as maintaining log sequence number (LSN) information.                                                                                                         | Removes all rows from a table without logging the individual row deletions. TRUNCATE TABLE is similar to the DELETE statement with no WHERE clause; however, TRUNCATE TABLE is faster and uses fewer system and transaction log resources. |
+|   2 | You may use DELETE statement against a view (with some limitations).                                                                                                                                                                                        | You can't use TRUNCATE statement against a view.                                                                                                                                                                                           |
+|   3 | You can specify a WHERE clause in a DELETE FROM statement. It is all or selected records.                                                                                                                                                                   | You can not specify a WHERE clause in a TRUNCATE TABLE statement. It is all or nothing                                                                                                                                                     |
+|   4 | Does not reset identity value of the table                                                                                                                                                                                                                  | Reset identity value of the table.                                                                                                                                                                                                         |
+|   5 | Records removed using DELETE can be roll backed and can be restored point in time.                                                                                                                                                                          | Records removed using TRUNCATE can ALSO be roll backed.                                                                                                                                                                                    |
+|   6 | Triggers get executed on Delete statement.                                                                                                                                                                                                                  | Triggers does NOT executed on TRUNCATE statement.                                                                                                                                                                                          |
+|   7 | You can use DELETE statement on a parent table and if CASCADE ON DELETE is enabled then data from child table also get deleted. If CASCADE ON DELETE is NOT enabled and any of the child table has related then you can't delete records from parent table. | You can't truncate a parent table irrespective of whether the child table has any record or not. Truncate table statement will fail for parent table even if CASCADE ON DELETE is enabled.                                                 |
+|   8 | DELETE statement can be used even if you have Replication/CDC enabled for the table.                                                                                                                                                                        | TRUNCATE statement can NOT be used if you have Replication/ CDC enabled for the table.                                                                                                                                                     |
+|   9 | Log shipping has NO impact on DELETE.                                                                                                                                                                                                                       | Log shipping has NO impact on TRUNCATE.                                                                                                                                                                                                    |
+|  10 | DELETE permissions default to members of the sysadmin fixed server role, the db_owner and db_datawriter fixed database roles, and the table owner.                                                                                                          | Minimum permission required is DELETE permissions on the target table. SELECT permissions are also required if the statement contains a WHERE clause.                                                                                      |
+|  11 | You need to be db_owner, ddl_admin, or owner of the table to be able to fire a TRUNCATE statement.                                                                                                                                                          | Minimum permission required is ALTER table.                                                                                                                                                                                                |
+|  12 | DELETE is classified as DML operation.                                                                                                                                                                                                                      | TRUNCATE is classified as DDL operation.                                                                                                                                                                                                   |
+|-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

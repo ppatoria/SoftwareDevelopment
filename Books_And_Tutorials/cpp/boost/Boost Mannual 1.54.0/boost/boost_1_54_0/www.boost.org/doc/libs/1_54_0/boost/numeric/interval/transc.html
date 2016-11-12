@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/transc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:11 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/numeric/interval/transc.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/numeric/interval/transc.hpp</h3>
+<pre>
+/* Boost interval/transc.hpp template implementation file
+ *
+ * Copyright 2000 Jens Maurer
+ * Copyright 2002 Herv&eacute; Br&ouml;nnimann, Guillaume Melquiond, Sylvain Pion
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or
+ * copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ */
+
+#ifndef BOOST_NUMERIC_INTERVAL_TRANSC_HPP
+#define BOOST_NUMERIC_INTERVAL_TRANSC_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/interval_prototype.hpp">boost/numeric/interval/detail/interval_prototype.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/bugs.hpp">boost/numeric/interval/detail/bugs.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/test_input.hpp">boost/numeric/interval/detail/test_input.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/rounding.hpp">boost/numeric/interval/rounding.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/constants.hpp">boost/numeric/interval/constants.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/arith.hpp">boost/numeric/interval/arith.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/arith2.hpp">boost/numeric/interval/arith2.hpp</a>&gt;
+#include &lt;algorithm&gt;
+
+namespace boost {
+namespace numeric {
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; exp(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  return I(rnd.exp_down(x.lower()), rnd.exp_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; log(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x) ||
+      !interval_lib::user::is_pos(x.upper()))
+    return I::empty();
+  typename Policies::rounding rnd;
+  typedef typename Policies::checking checking;
+  T l = !interval_lib::user::is_pos(x.lower())
+             ? checking::neg_inf() : rnd.log_down(x.lower());
+  return I(l, rnd.log_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; cos(const interval&lt;T, Policies&gt;&amp; x)
+{
+  if (interval_lib::detail::test_input(x))
+    return interval&lt;T, Policies&gt;::empty();
+  typename Policies::rounding rnd;
+  typedef interval&lt;T, Policies&gt; I;
+  typedef typename interval_lib::unprotect&lt;I&gt;::type R;
+
+  // get lower bound within [0, pi]
+  const R pi2 = interval_lib::pi_twice&lt;R&gt;();
+  R tmp = fmod((const R&amp;)x, pi2);
+  if (width(tmp) &gt;= pi2.lower())
+    return I(static_cast&lt;T&gt;(-1), static_cast&lt;T&gt;(1), true); // we are covering a full period
+  if (tmp.lower() &gt;= interval_lib::constants::pi_upper&lt;T&gt;())
+    return -cos(tmp - interval_lib::pi&lt;R&gt;());
+  T l = tmp.lower();
+  T u = tmp.upper();
+
+  BOOST_USING_STD_MIN();
+  // separate into monotone subintervals
+  if (u &lt;= interval_lib::constants::pi_lower&lt;T&gt;())
+    return I(rnd.cos_down(u), rnd.cos_up(l), true);
+  else if (u &lt;= pi2.lower())
+    return I(static_cast&lt;T&gt;(-1), rnd.cos_up(min BOOST_PREVENT_MACRO_SUBSTITUTION(rnd.sub_down(pi2.lower(), u), l)), true);
+  else
+    return I(static_cast&lt;T&gt;(-1), static_cast&lt;T&gt;(1), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; sin(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  typedef typename interval_lib::unprotect&lt;I&gt;::type R;
+  I r = cos((const R&amp;)x - interval_lib::pi_half&lt;R&gt;());
+  (void)&amp;rnd;
+  return r;
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; tan(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  typedef typename interval_lib::unprotect&lt;I&gt;::type R;
+
+  // get lower bound within [-pi/2, pi/2]
+  const R pi = interval_lib::pi&lt;R&gt;();
+  R tmp = fmod((const R&amp;)x, pi);
+  const T pi_half_d = interval_lib::constants::pi_half_lower&lt;T&gt;();
+  if (tmp.lower() &gt;= pi_half_d)
+    tmp -= pi;
+  if (tmp.lower() &lt;= -pi_half_d || tmp.upper() &gt;= pi_half_d)
+    return I::whole();
+  return I(rnd.tan_down(tmp.lower()), rnd.tan_up(tmp.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; asin(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x)
+     || x.upper() &lt; static_cast&lt;T&gt;(-1) || x.lower() &gt; static_cast&lt;T&gt;(1))
+    return I::empty();
+  typename Policies::rounding rnd;
+  T l = (x.lower() &lt;= static_cast&lt;T&gt;(-1))
+             ? -interval_lib::constants::pi_half_upper&lt;T&gt;()
+             : rnd.asin_down(x.lower());
+  T u = (x.upper() &gt;= static_cast&lt;T&gt;(1) )
+             ?  interval_lib::constants::pi_half_upper&lt;T&gt;()
+             : rnd.asin_up  (x.upper());
+  return I(l, u, true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; acos(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x)
+     || x.upper() &lt; static_cast&lt;T&gt;(-1) || x.lower() &gt; static_cast&lt;T&gt;(1))
+    return I::empty();
+  typename Policies::rounding rnd;
+  T l = (x.upper() &gt;= static_cast&lt;T&gt;(1) )
+          ? static_cast&lt;T&gt;(0)
+          : rnd.acos_down(x.upper());
+  T u = (x.lower() &lt;= static_cast&lt;T&gt;(-1))
+          ? interval_lib::constants::pi_upper&lt;T&gt;()
+          : rnd.acos_up  (x.lower());
+  return I(l, u, true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; atan(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  return I(rnd.atan_down(x.lower()), rnd.atan_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; sinh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  return I(rnd.sinh_down(x.lower()), rnd.sinh_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; cosh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  if (interval_lib::user::is_neg(x.upper()))
+    return I(rnd.cosh_down(x.upper()), rnd.cosh_up(x.lower()), true);
+  else if (!interval_lib::user::is_neg(x.lower()))
+    return I(rnd.cosh_down(x.lower()), rnd.cosh_up(x.upper()), true);
+  else
+    return I(static_cast&lt;T&gt;(1), rnd.cosh_up(-x.lower() &gt; x.upper() ? x.lower() : x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; tanh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  return I(rnd.tanh_down(x.lower()), rnd.tanh_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; asinh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x))
+    return I::empty();
+  typename Policies::rounding rnd;
+  return I(rnd.asinh_down(x.lower()), rnd.asinh_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; acosh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x) || x.upper() &lt; static_cast&lt;T&gt;(1))
+    return I::empty();
+  typename Policies::rounding rnd;
+  T l = x.lower() &lt;= static_cast&lt;T&gt;(1) ? static_cast&lt;T&gt;(0) : rnd.acosh_down(x.lower());
+  return I(l, rnd.acosh_up(x.upper()), true);
+}
+
+template&lt;class T, class Policies&gt; inline
+interval&lt;T, Policies&gt; atanh(const interval&lt;T, Policies&gt;&amp; x)
+{
+  typedef interval&lt;T, Policies&gt; I;
+  if (interval_lib::detail::test_input(x)
+      || x.upper() &lt; static_cast&lt;T&gt;(-1) || x.lower() &gt; static_cast&lt;T&gt;(1))
+    return I::empty();
+  typename Policies::rounding rnd;
+  typedef typename Policies::checking checking;
+  T l = (x.lower() &lt;= static_cast&lt;T&gt;(-1))
+             ? checking::neg_inf() : rnd.atanh_down(x.lower());
+  T u = (x.upper() &gt;= static_cast&lt;T&gt;(1) )
+             ? checking::pos_inf() : rnd.atanh_up  (x.upper());
+  return I(l, u, true);
+}
+
+} // namespace numeric
+} // namespace boost
+
+#endif // BOOST_NUMERIC_INTERVAL_TRANSC_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/transc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:11 GMT -->
+</html>

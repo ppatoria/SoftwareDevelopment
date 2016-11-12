@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html id="ie8" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CMake Tutorial - Chapter&nbsp;1: Getting Started - JohnLamp.netJohnLamp.net</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="pingback" href="https://www.johnlamp.net/xmlrpc.php" />
+  <!--[if lt IE 9]>
+  <script src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  
+<!-- This site is optimized with the Yoast SEO plugin v3.0.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CMake Tutorial - Chapter&nbsp;1: Getting Started - JohnLamp.net" />
+<meta property="og:description" content="In this chapter we start by installing CMake. Like most open source software
+    the best way to do this depends on your platform and how you usually do
+    things. Once we have CMake installed we create a simple project. Perhaps
+    it&#039;s a little fancier than &quot;hello world&quot; but not much. We finish up with the
+    &hellip;Continue reading &quot;CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started&quot;" />
+<meta property="og:url" content="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html" />
+<meta property="og:site_name" content="JohnLamp.net" />
+<meta property="article:tag" content="CMake" />
+<meta property="article:tag" content="long" />
+<meta property="article:tag" content="tutorial" />
+<meta property="article:section" content="CMake Tutorial" />
+<meta property="article:published_time" content="2013-03-28T19:28:39+00:00" />
+<meta property="article:modified_time" content="2014-12-28T10:52:44+00:00" />
+<meta property="og:updated_time" content="2014-12-28T10:52:44+00:00" />
+<meta property="og:image" content="https://www.johnlamp.net/images/zip.png" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Feed" href="https://www.johnlamp.net/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Comments Feed" href="https://www.johnlamp.net/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started Comments Feed" href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.johnlamp.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='style-css'  href='https://www.johnlamp.net/wp-content/themes/tutorial-theme/style.css?ver=4.3.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel='shortlink' href='https://www.johnlamp.net/?p=13' />
+<style type="text/css">.site-title a,.site-description{color: #f57900 !important;\n}</style></head>
+<body class="single single-post postid-13 single-format-standard">
+<div id="page" class="hfeed site">
+  <header id="masthead" class="site-header" role="banner">
+    <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home"><img src="https://www.johnlamp.net/wp-content/uploads/2014/09/JL-Symbol.png" width="87" height="90" style="width: 87px; height: 90px;" alt="" /></a>    <div class="hgroup">
+      <h1 class="site-title">
+        <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home">JohnLamp.net</a>
+      </h1>
+      <h2 class="site-description">
+              </h2>
+    </div>
+
+    <div id="search">
+      <form method="get" id="searchform" action="https://www.johnlamp.net/" role="search"><label for="searchInput" class="assistive-text">Search</label><input type="text" class="field" name="searchInput" value="" id="searchInput" placeholder="Search &hellip;" /><input type="submit" id="searchsubmit" class="submit" value="Search" /></form>    </div>
+
+    <nav id="site-navigation" role="navigation" class="main-navigation">
+      <h1 class="assistive-text">
+        Menu      </h1>
+      <div class="assistive-text skip-link">
+        <a href="#content" title="Skip to content">Skip to content</a>
+      </div>
+      <div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-4" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4"><a href="https://www.johnlamp.net/">Home</a></li>
+<li id="menu-item-10" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-10"><a href="https://www.johnlamp.net/cmake-tutorial.html">CMake Tutorial</a></li>
+</ul></div>    </nav>
+    <div class="cleared"></div>
+  </header>
+  <div id="main" class="site-main">
+
+<div id="primary" class="content-area">
+  <div id="content" class="site-content" role="main">
+
+    <nav role="navigation" id="nav-above" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-2-ide-integration.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;2: IDE Integration <span class="meta-nav">&rarr;</span></a></div></nav>
+
+<article id="post-13" class="post-13 post type-post status-publish format-standard hentry category-cmake-tutorial tag-cmake tag-long tag-tutorial">
+  <header class="entry-header">
+    <h1 class="entry-title">
+      CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started    </h1>
+
+    <div class="entry-meta">
+      Posted on <a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html" title="19:28:39" rel="bookmark"><time class="entry-date" datetime="2013-03-28T19:28:39+00:00">2013-03-28</time></a> <span class="byline">by <span class="author vcard"><a class="url fn n" href="https://www.johnlamp.net/author/john" title="View all posts by John Lamp" rel="author">John Lamp</a></span></span>    </div>
+  </header>
+
+  <div class="entry-content">
+    <nav class="contents"><h1>Contents</h1><ol><li><a href="#section-Introduction">Introduction</a></li><li><a href="#section-Installation">Installation</a></li><li><ol><li><a href="#section-Windows">Windows</a></li><li><ol><li><a href="#section-DownloadAndInstall">Download and Install</a></li><li><a href="#section-Cygwin">Cygwin</a></li></ol></li><li><a href="#section-MacOsX">Mac OS X</a></li><li><ol><li><a href="#DownloadAndInstall1">Download and Install</a></li><li><a href="#section-Homebrew">Homebrew</a></li></ol></li><li><a href="#section-Linux">Linux</a></li><li><ol><li><a href="#section-Ubuntu(Debian)">Ubuntu (Debian)</a></li><li><a href="#section-RedHat/Centos">Red Hat<span class="subtle">/</span>CentOS</a></li><li><a href="#section-Fedora">Fedora</a></li></ol></li><li><a href="#section-Source">Source</a></li></ol></li><li><a href="#section-HandsOn">Hands On</a></li><li><ol><li><a href="#section-DivingIn">Diving In</a></li></ol></li><li><a href="#section-SimpleImprovements">Simple Improvements</a></li></ol></nav>
+<section>
+  <h1 id="section-Introduction">Introduction</h1>
+  <p>
+    In this chapter we start by installing CMake. Like most open source software
+    the best way to do this depends on your platform and how you usually do
+    things. Once we have CMake installed we create a simple project. Perhaps
+    it&#8217;s a little fancier than &#8220;hello world&#8221; but not much. We finish up with the
+    test support built into CMake.
+  </p>
+  <p>
+    I won&#8217;t cover any particular aspect of CMake in great detail yet. That will
+    be left for future chapters. However, after this chapter you will know
+    enough to build simple programs with CMake and run simple tests with CTest.
+  </p>
+</section>
+
+
+<section>
+  <h1 id="section-Installation">Installation</h1>
+
+  <h2 id="section-Windows">Windows</h2>
+  <section>
+    <h3 id="section-DownloadAndInstall">Download and Install</h3>
+    <p>
+      Download the installer from the CMake
+      <a href="http://www.cmake.org/cmake/resources/software.html">website</a>      <time class="access">(2012-06-02)</time>. Run the installer and follow its
+      steps. Be sure to add CMake to the system <code>PATH</code> so that you
+      can use it from the command line. Add it for the current or all users as
+      appropriate.
+    </p>
+    <p>
+      This provides both the <code>cmake</code> command and the CMake GUI
+      <span class="subtle">(<code>cmake-gui</code>)</span> but not the curses
+      interface
+      <span class="subtle">(<code>ccmake</code>)</span>.
+    </p>
+    <h3 id="section-Cygwin">Cygwin</h3>
+    <p>
+      CMake can, of course, be installed as part of Cygwin. Even if you don&#8217;t
+      already have Cygwin installed you may want to as it provides a Linux-like
+      environment natively in Windows. This way common Linux tools and utilities
+      can be available. Also most of this tutorial is done in a Linux-like
+      environment, so with Cygwin installed it will be easier to follow along.
+    </p>
+    <p>
+      Download Cygwin&#8217;s <code>setup.exe</code> from
+      <a href="http://www.cygwin.com/install.html">their website</a>      <time class="access">(2012-06-02)</time>. Run
+      <code>setup.exe</code>. Follow its steps until you can select packages,
+      then either chose to install all packages or just CMake. To install all
+      packages click the word &#8220;Default&#8221; next to &#8220;All&#8221; until it reads
+      &#8220;Install&#8221;. If you don&#8217;t want to install everything click the word
+      &#8220;Default&#8221; next to &#8220;Devel&#8221; until it reads &#8220;Install&#8221;; this will install just
+      the development tools. If you chose to install all packages the install
+      will take a a few hours, but even just installing the development tools
+      will take at least half an hour. After the installer has finished the
+      Cygwin environment can then be accessed via the <code>Cygwin
+      Terminal</code> which can be found in the Start Menu.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command and the curses
+      interface <span class="subtle">(<code>ccmake</code>)</span> but not the
+      CMake GUI.
+    </p>
+  </section>
+
+  <h2 id="section-MacOsX">Mac OS X</h2>
+  <section>
+    <h3 id="DownloadAndInstall1">Download and Install</h3>
+    <p>
+      Download the disk image from the CMake
+      <a href="http://www.cmake.org/cmake/resources/software.html">website</a>      <time class="access">(2012-06-02)</time>. Pick the correct download for
+      whichever version of OS X you are using. Use the installer and follow its
+      directions. It will ask if you want it to make the command line tools
+      available in your path by creating symbolic links, have it do so.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command, the CMake GUI
+      <span class="subtle">(<code>CMake.app</code>)</span>, and the curses
+      interface
+      <span class="subtle">(<code>ccmake</code>)</span>.
+    </p>
+    <h3 id="section-Homebrew">Homebrew</h3>
+    <p>
+      If you already have homebrew installed you can simply install CMake with
+      the command <kbd>brew install cmake</kbd>.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command and the curses interface
+      <span class="subtle">(<code>ccmake</code>)</span> but <b>not</b> the
+      CMake GUI.
+    </p>
+  </section>
+
+  <h2 id="section-Linux">Linux</h2>
+  <section>
+    <h3 id="section-Ubuntu(Debian)">Ubuntu (Debian)</h3>
+    <p>
+      The simplest way to install CMake is via the command line: <kbd>sudo
+        apt-get install cmake</kbd>. However, searching for CMake in the Ubuntu
+        Software Center or in the Synaptic Package Manager, depending upon your
+        Ubuntu version, will find the <code>cmake</code> package. If your Ubuntu
+        install doesn&#8217;t include X or you primarily use ssh sessions you will
+        also want to install the <code>cmake-curses-gui</code> package. Again
+        this is simplest with the command <kbd>sudo apt-get install
+        cmake-curses-gui</kbd>, but either GUI interface can be used instead.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command and the CMake GUI
+      <span class="subtle">(<code>cmake-gui</code>)</span>. The second,
+      optional, package provides the curses
+      interface <span class="subtle">(<code>ccmake</code>)</span>.
+    </p>
+    <h3 id="section-RedHat/Centos">Red Hat<span class="subtle">/</span>CentOS</h3>
+    <p>
+      To install CMake via the command line is straightforward. First
+      use <kbd>yum search cmake</kbd> to find the correct package to install. On
+      a 64 bit install it would be <code>cmake.x86_64</code>. Use whichever
+      package your search found when installing: <kbd>sudo yum
+      install <span class="arg">cmake.x86_64</span></kbd>. If <code>sudo</code>
+      is not setup use <kbd>su</kbd> first and then run <kbd>yum
+      install <span class="arg">cmake.x86_64</span></kbd>.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command and the curses
+      interface <span class="subtle">(<code>ccmake</code>)</span>, but not the
+      CMake GUI.
+    </p>
+    <h3 id="section-Fedora">Fedora</h3>
+    <p>
+      Either the command line or the Add/Remove Software GUI can be used. In the
+      GUI simply search for cmake and install at least the <code>cmake</code>
+      module. If you desire the CMake GUI as well install
+      the <code>cmake-gui</code> module. From the command line use <kbd>sudo yum
+      install cmake</kbd> and <kbd>sudo yum install cmake-gui</kbd>, if you
+      desire the GUI as well.
+    </p>
+    <p>
+      This provides the <code>cmake</code> command and the curses
+      interface <span class="subtle">(<code>ccmake</code>)</span>. The second,
+      optional, package provides the CMake
+      GUI <span class="subtle">(<code>cmake-gui</code>)</span>.
+    </p>
+  </section>
+
+
+  <h2 id="section-Source">Source</h2>
+  <section>
+    <p>
+      As CMake is an open source tool you can, of course, download the source
+      code and build it yourself. However, that is outside the scope of this
+      tutorial.
+    </p>
+  </section>
+</section>
+
+
+<section>
+  <h1 id="section-HandsOn">Hands On</h1>
+  <p>
+    For this tutorial we will create a To Do List program. Naturally our focus
+    will be on CMake more than the actual code and its functionality. Most
+    examples will be done using the command line generating Makefiles. CMake can
+    be used with a GUI
+    (<a href="https://www.johnlamp.net/cmake-tutorial-3-gui-tool.html">chapter 3</a>)    and also generate projects for many IDEs
+    (<a href="https://www.johnlamp.net/cmake-tutorial-2-ide-integration.html">chapter 2</a>).  </p>
+  <h2 id="section-DivingIn">Diving In</h2>
+  <p>
+    Just as any IDE has project files or Make has Makefiles CMake
+    has <code>CmakeLists.txt</code> files. These describe your project to CMake
+    and affect its output. They are fairly simple especially compared to
+    Makefiles. Here&#8217;s our first <code>CMakelists.txt</code>:
+  </p>
+  <section class="code cmake">
+<header class="clear-after"><h1>CMakeLists.txt</h1>
+</header><div class="highlight"><pre><a id="CMakeLists.txt-1" class="line-number" href="#CMakeLists.txt-1"></a><span class="nb">project</span><span class="p">(</span><span class="s2">&quot;To Do List&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-2" class="line-number" href="#CMakeLists.txt-2"></a>
+<a id="CMakeLists.txt-3" class="line-number" href="#CMakeLists.txt-3"></a>
+<a id="CMakeLists.txt-4" class="line-number" href="#CMakeLists.txt-4"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">toDo</span> <span class="s">main.cc</span>
+<a id="CMakeLists.txt-5" class="line-number" href="#CMakeLists.txt-5"></a>                    <span class="s">ToDo.cc</span><span class="p">)</span>
+</pre></div>
+</section>  <dl>
+    <dt class="code">project(<span class="arg">name</span>)</dt>
+    <dd>
+      The <code>project</code> command names your project. Optionally you can
+      specify what language the project supports, any
+      of <code>CXX</code>, <code>C</code>, <code>JAVA</code>,
+      or <code>FORTRAN</code>. CMake defaults to <code>C</code>
+      and <code>CXX</code> so if you do not have compilers for C++ installed you
+      may need to specify the language supported so that CMake doesn&#8217;t search
+      for it.
+    </dd>
+    <dd class="note">
+      <em class="call-out">Note:</em> If your project name contains spaces it
+      must be surrounded by quotes.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:project">project() documentation</a>      <time class="access">(2013-03-26)</time>
+    </dd>
+
+    <dt class="code">
+      add_executable(<span class="arg">target</span>
+      <span class="arg">sources&hellip;</span>)
+    </dt>
+    <dd>
+      This command tells CMake you want to make an executable and adds it as a
+      target. The first argument is the name of the executable and the rest are
+      the source files. You may notice that header files aren&#8217;t listed. CMake
+      handles dependencies automatically so headers don&#8217;t need to be listed.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_executable">add_executable() documentation</a>      <time class="access">(2013-03-26)</time>
+    </dd>
+  </dl>
+  <p>
+    Of course we need some source code to build, so we will start with the
+    simplest skeleton possible:
+  </p>
+
+  <section class="code">
+<header class="clear-after"><h1>main.cc</h1>
+</header><div class="highlight"><pre><a id="main.cc-1" class="line-number" href="#main.cc-1"></a><span class="cp">#include &quot;ToDo.h&quot;</span>
+<a id="main.cc-2" class="line-number" href="#main.cc-2"></a>
+<a id="main.cc-3" class="line-number" href="#main.cc-3"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span>
+<a id="main.cc-4" class="line-number" href="#main.cc-4"></a>    <span class="kt">int</span>    <span class="n">argc</span><span class="p">,</span>
+<a id="main.cc-5" class="line-number" href="#main.cc-5"></a>    <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span>
+<a id="main.cc-6" class="line-number" href="#main.cc-6"></a><span class="p">)</span>
+<a id="main.cc-7" class="line-number" href="#main.cc-7"></a><span class="p">{</span>
+<a id="main.cc-8" class="line-number" href="#main.cc-8"></a>    <span class="n">ToDo</span> <span class="n">list</span><span class="p">;</span>
+<a id="main.cc-9" class="line-number" href="#main.cc-9"></a>
+<a id="main.cc-10" class="line-number" href="#main.cc-10"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a id="main.cc-11" class="line-number" href="#main.cc-11"></a><span class="p">}</span>
+</pre></div>
+</section>  <section class="code">
+<header class="clear-after"><h1>ToDo.h</h1>
+</header><div class="highlight"><pre><a id="ToDo.h-1" class="line-number" href="#ToDo.h-1"></a><span class="cp">#ifndef TODO_H</span>
+<a id="ToDo.h-2" class="line-number" href="#ToDo.h-2"></a><span class="cp">#define TODO_H</span>
+<a id="ToDo.h-3" class="line-number" href="#ToDo.h-3"></a>
+<a id="ToDo.h-4" class="line-number" href="#ToDo.h-4"></a><span class="n">class</span> <span class="n">ToDo</span>
+<a id="ToDo.h-5" class="line-number" href="#ToDo.h-5"></a><span class="p">{</span>
+<a id="ToDo.h-6" class="line-number" href="#ToDo.h-6"></a><span class="nl">public:</span>
+<a id="ToDo.h-7" class="line-number" href="#ToDo.h-7"></a>    <span class="n">ToDo</span><span class="p">();</span>
+<a id="ToDo.h-8" class="line-number" href="#ToDo.h-8"></a>    <span class="o">~</span><span class="n">ToDo</span><span class="p">();</span>
+<a id="ToDo.h-9" class="line-number" href="#ToDo.h-9"></a><span class="p">};</span>
+<a id="ToDo.h-10" class="line-number" href="#ToDo.h-10"></a>
+<a id="ToDo.h-11" class="line-number" href="#ToDo.h-11"></a><span class="cp">#endif </span><span class="c1">// TODO_H</span>
+</pre></div>
+</section>  <section class="code">
+<header class="clear-after"><h1>ToDo.cc</h1>
+</header><div class="highlight"><pre><a id="ToDo.cc-1" class="line-number" href="#ToDo.cc-1"></a><span class="cp">#include &quot;ToDo.h&quot;</span>
+<a id="ToDo.cc-2" class="line-number" href="#ToDo.cc-2"></a>
+<a id="ToDo.cc-3" class="line-number" href="#ToDo.cc-3"></a>
+<a id="ToDo.cc-4" class="line-number" href="#ToDo.cc-4"></a><span class="n">ToDo</span><span class="o">::</span><span class="n">ToDo</span><span class="p">()</span>
+<a id="ToDo.cc-5" class="line-number" href="#ToDo.cc-5"></a><span class="p">{</span>
+<a id="ToDo.cc-6" class="line-number" href="#ToDo.cc-6"></a><span class="p">}</span>
+<a id="ToDo.cc-7" class="line-number" href="#ToDo.cc-7"></a>
+<a id="ToDo.cc-8" class="line-number" href="#ToDo.cc-8"></a><span class="n">ToDo</span><span class="o">::~</span><span class="n">ToDo</span><span class="p">()</span>
+<a id="ToDo.cc-9" class="line-number" href="#ToDo.cc-9"></a><span class="p">{</span>
+<a id="ToDo.cc-10" class="line-number" href="#ToDo.cc-10"></a><span class="p">}</span>
+</pre></div>
+</section>  <p>
+    <a class="sources" href="https://www.johnlamp.net/sources/chapter1-1.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>  </p>
+
+  <p>
+    CMake&#8217;s documentation strongly suggests that out-of-source builds be done
+    rather than in-source builds. I agree as it makes it much easier to convince
+    yourself that your build has really been cleaned since you can simply delete
+    the build folder and start over. Building with CMake is actually rather
+    simple, so we will charge ahead:
+  </p>
+  <section id="Step1Output" class="terminal">
+    <pre>
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> mkdir build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cmake -G &quot;Unix Makefiles&quot; ..
+-- The C compiler identification is GNU 4.2.1
+-- The CXX compiler identification is GNU 4.2.1
+-- Checking whether C compiler has -isysroot
+-- Checking whether C compiler has -isysroot - yes
+-- Checking whether C compiler supports OSX deployment target flag
+-- Checking whether C compiler supports OSX deployment target flag - yes
+-- Check for working C compiler: /usr/bin/gcc
+-- Check for working C compiler: /usr/bin/gcc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Checking whether CXX compiler has -isysroot
+-- Checking whether CXX compiler has -isysroot - yes
+-- Checking whether CXX compiler supports OSX deployment target flag
+-- Checking whether CXX compiler supports OSX deployment target flag - yes
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> ls
+CMakeCache.txt		Makefile
+CMakeFiles		cmake_install.cmake
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> make
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>[ 50%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span>[100%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/ToDo.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>[100%] Built target toDo
+</pre>
+  </section>
+  <p>
+    <em>Note:</em> If you are using Cygwin you may see a warning. Don&#8217;t worry
+    about it, we will take care of that shortly.
+  </p>
+  <dl>
+    <dt><kbd>mkdir build</kbd></dt>
+    <dd>
+      Create the directory in which to build our application. In this example it
+      is a subdirectory of our source directory, but it could be anywhere. With
+      our build happening outside of the source tree we can easily clean up by
+      simply removing the build directory.
+    </dd>
+
+    <dt><kbd>cd build</kbd></dt>
+    <dd>
+      Change into the build directory to work from there.
+    </dd>
+
+    <dt><kbd>cmake -G "Unix Makefiles" ..</kbd></dt>
+    <dd>
+      Use CMake to setup a build using Unix Makefiles.
+      <dl>
+        <dt class="code">
+          -G <span class="arg">&lt;generator name&gt;</span>
+        </dt>
+        <dd>
+          This allows us to tell CMake what kind of project file it should
+          generate. In this example I wanted to use a Makefile.  Which
+          generators are available depends on your platform, use <kbd>cmake
+          --help</kbd> to list them. Other generators will be covered in the
+          <a href="https://www.johnlamp.net/cmake-tutorial-2-ide-integration.html">next chapter</a>.        </dd>
+
+        <dt class="code arg">&lt;path to source&gt;</dt>
+        <dd>
+          The path to the source code. When doing out-of-source builds as is
+          recommended the source code could be anywhere relative to the build
+          directory. This path should be to the directory containing your top
+          level <code>CMakeLists.txt</code>. In this example the source is in
+          the parent directory so the path is &#8216;<code>..</code>&#8216;.
+        </dd>
+      </dl>
+    </dd>
+
+    <dt><kbd>ls</kbd></dt>
+    <dd>
+      CMake generates several files which should not be edited by
+      hand. <code>Makefile</code> is the most important one to us as we use it
+      to build our project. <code>CMakeCache.txt</code> is important to CMake as
+      it stores a variety of information and settings for the project. Again you
+      shouldn&#8217;t touch this, however if unexpected problems arise this file
+      probably is the cause; the best option then is to delete your build folder
+      and have CMake regenerate.
+    </dd>
+
+    <dt><kbd>make</kbd></dt>
+    <dd>
+      Run <code>make</code> to build our target executable. Since we chose &#8220;Unix
+      Makefiles&#8221; as our generator CMake created a Makefile for us.
+    </dd>
+  </dl>
+  <p>
+    CMake does all the hard work of making sure your environment has everything
+    you need and sets up a project file, in this case a Makefile. You will
+    notice that the Makefile created by CMake is quite fancy and has nice color
+    output. If you are used to Make you will notice that this Makefile
+    suppresses the standard output. While this provides a neater and cleaner
+    experience it can make debugging more difficult as you can&#8217;t check the flags
+    passed to the compiler, etc. Before you start worrying you can get all of
+    that output by running <kbd>make VERBOSE=1</kbd>.
+  </p>
+  <section class="terminal">
+    <pre>
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> make VERBOSE=1
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -H&quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1&quot; -B&quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build&quot; --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_progress_start &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/progress.marks&quot;
+make -f CMakeFiles/Makefile2 all
+make -f CMakeFiles/toDo.dir/build.make CMakeFiles/toDo.dir/depend
+cd &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build&quot; &amp;&amp; /usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_depends &quot;Unix Makefiles&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build&quot; &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/toDo.dir/DependInfo.cmake&quot; --color=
+Dependee &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/toDo.dir/DependInfo.cmake&quot; is newer than depender &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/toDo.dir/depend.internal&quot;.
+Dependee &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/CMakeDirectoryInformation.cmake&quot; is newer than depender &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles/toDo.dir/depend.internal&quot;.
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>make -f CMakeFiles/toDo.dir/build.make CMakeFiles/toDo.dir/build
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_progress_report &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles&quot; 1
+[ 50%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span>/usr/bin/c++     -o CMakeFiles/toDo.dir/main.cc.o -c &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/main.cc&quot;
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_progress_report &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles&quot; 2
+[100%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/ToDo.cc.o
+</span>/usr/bin/c++     -o CMakeFiles/toDo.dir/ToDo.cc.o -c &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/ToDo.cc&quot;
+<span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_link_script CMakeFiles/toDo.dir/link.txt --verbose=1
+/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/toDo.dir/main.cc.o CMakeFiles/toDo.dir/ToDo.cc.o  -o toDo
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_progress_report &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles&quot;  1 2
+[100%] Built target toDo
+/usr/local/Cellar/cmake/2.8.8/bin/cmake -E cmake_progress_start &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step1/build/CMakeFiles&quot; 0
+</pre>
+  </section>
+  <p>
+    You can see that the makefile created by CMake is very precise and
+    detailed. As such if anything moves you will have to run <code>cmake</code>
+    again.
+  </p>
+</section>
+
+
+<section>
+  <h1 id="section-SimpleImprovements">Simple Improvements</h1>
+  <section class="code cmake">
+<header class="clear-after"><h1>CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="CMakeLists.txt-1-1" class="line-number" href="#CMakeLists.txt-1-1"></a><span class="hll"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-1-2" class="line-number" href="#CMakeLists.txt-1-2"></a><span class="hll"><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_LEGACY_CYGWIN_WIN32</span> <span class="s">0</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-1-3" class="line-number" href="#CMakeLists.txt-1-3"></a><span class="hll">
+</span><a id="CMakeLists.txt-1-4" class="line-number" href="#CMakeLists.txt-1-4"></a><span class="nb">project</span><span class="p">(</span><span class="s2">&quot;To Do List&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-1-5" class="line-number" href="#CMakeLists.txt-1-5"></a>
+<a id="CMakeLists.txt-1-6" class="line-number" href="#CMakeLists.txt-1-6"></a><span class="hll"><span class="nb">enable_testing</span><span class="p">()</span>
+</span><a id="CMakeLists.txt-1-7" class="line-number" href="#CMakeLists.txt-1-7"></a><span class="hll">
+</span><a id="CMakeLists.txt-1-8" class="line-number" href="#CMakeLists.txt-1-8"></a>
+<a id="CMakeLists.txt-1-9" class="line-number" href="#CMakeLists.txt-1-9"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">toDo</span> <span class="s">main.cc</span>
+<a id="CMakeLists.txt-1-10" class="line-number" href="#CMakeLists.txt-1-10"></a>                    <span class="s">ToDo.cc</span><span class="p">)</span>
+<a id="CMakeLists.txt-1-11" class="line-number" href="#CMakeLists.txt-1-11"></a><span class="hll">
+</span><a id="CMakeLists.txt-1-12" class="line-number" href="#CMakeLists.txt-1-12"></a><span class="hll"><span class="nb">add_test</span><span class="p">(</span><span class="s">toDoTest</span> <span class="s">toDo</span><span class="p">)</span>
+</span></pre></div>
+</section>  <dl>
+    <dt class="code">
+      cmake_minimum_required(VERSION
+      <span class="arg">version</span>
+      <span class="optional">FATAL_ERROR</span>)
+    </dt>
+    <dd>
+      This command specifies the minimum version of CMake that can be used
+      with <code>CMakeLists.txt</code> file. The first argument must
+      be <code>VERSION</code> verbatim. The next is the minimum version of CMake
+      that can be used. The last is optional, but should be included, it must
+      be <code>FATAL_ERROR</code> verbatim. It is recommended that this command
+      be used in all top level <code>CMakeLists.txt</code>. If you aren&#8217;t sure
+      what version to set use the version of CMake you have installed.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:cmake_minimum_required">cmake_minimum_required() documentation</a>      <time class="access">(2013-03-26)</time>
+    </dd>
+
+    <dt class="code">
+      set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+    </dt>
+    <dd>
+      This gets rid of the warning you would have seen earlier if you were using
+      Cygwin. If you aren&#8217;t using Cygwin then it has no effect at all.
+    </dd>
+    <dd>
+      This tells CMake not to define <code>WIN32</code> when building with
+      Cygwin. This is the preferred option and for us it doesn&#8217;t make a
+      difference either way so we will use the recommended setting.
+    </dd>
+
+    <dt class="code">
+      enable_testing()
+    </dt>
+    <dd>
+      Enables testing for this CMake project. This should only be used in top
+      level <code>CMakeLists.txt</code>. The main thing this does is enable
+      the <code>add_test()</code> command.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:enable_testing">enable_testing() documentation</a>      <time class="access">(2013-03-26)</time>
+    </dd>
+
+    <dt class="code">
+      add_test(<span class="arg">testname</span>
+      <span class="arg">executable</span>
+      <span class="arg optional">arg1 &#8230;</span>)
+    </dt>
+    <dd>
+      This command only does something if the <code>enable_testing()</code> has
+      already been run, otherwise it does nothing. This adds a test to the
+      current directory that will be run by CTest. The executable can be
+      anything, so it could be a test program, e.g. a unit test created with
+      something like Google Test, a script, or any other test
+      imaginable. <em>Note:</em> Tests are not run automatically and if your
+      test program is built as part of your project the test target will not
+      ensure it is up to date. It is best to build all other targets before
+      running the test target.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_test">add_test() documentation</a>      <time class="access">(2013-03-26)</time>
+    </dd>
+  </dl>
+  <p>
+    Perhaps I lied. One can easily argue that introducing
+    the <code>add_test()</code> command is not a simple improvement. And they
+    would probably be right, however, it is an important improvement. Testing
+    will be explored further later in this tutorial.
+  </p>
+  <p>
+    Naturally we need some more code to go with this, so here goes:
+  </p>
+
+  <section class="code">
+<header class="clear-after"><h1>main.cc</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="main.cc-1-1" class="line-number" href="#main.cc-1-1"></a><span class="hll"><span class="cp">#include &lt;iostream&gt;</span>
+</span><a id="main.cc-1-2" class="line-number" href="#main.cc-1-2"></a><span class="hll">  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">;</span>
+</span><a id="main.cc-1-3" class="line-number" href="#main.cc-1-3"></a><span class="hll">  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
+</span><a id="main.cc-1-4" class="line-number" href="#main.cc-1-4"></a><span class="hll">  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><a id="main.cc-1-5" class="line-number" href="#main.cc-1-5"></a><span class="hll">
+</span><a id="main.cc-1-6" class="line-number" href="#main.cc-1-6"></a><span class="cp">#include &quot;ToDo.h&quot;</span>
+<a id="main.cc-1-7" class="line-number" href="#main.cc-1-7"></a><span class="hll">
+</span><a id="main.cc-1-8" class="line-number" href="#main.cc-1-8"></a><span class="hll"><span class="cp">#define EXPECT_EQUAL(test, expect) equalityTest( test,  expect, \</span>
+</span><a id="main.cc-1-9" class="line-number" href="#main.cc-1-9"></a><span class="hll"><span class="cp">                                                #test, #expect, \</span>
+</span><a id="main.cc-1-10" class="line-number" href="#main.cc-1-10"></a><span class="hll"><span class="cp">                                                __FILE__, __LINE__)</span>
+</span><a id="main.cc-1-11" class="line-number" href="#main.cc-1-11"></a><span class="hll">
+</span><a id="main.cc-1-12" class="line-number" href="#main.cc-1-12"></a><span class="hll"><span class="k">template</span> <span class="o">&lt;</span> <span class="k">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span> <span class="o">&gt;</span>
+</span><a id="main.cc-1-13" class="line-number" href="#main.cc-1-13"></a><span class="hll"><span class="kt">int</span> <span class="n">equalityTest</span><span class="p">(</span><span class="k">const</span> <span class="n">T1</span>    <span class="n">testValue</span><span class="p">,</span>
+</span><a id="main.cc-1-14" class="line-number" href="#main.cc-1-14"></a><span class="hll">                 <span class="k">const</span> <span class="n">T2</span>    <span class="n">expectedValue</span><span class="p">,</span>
+</span><a id="main.cc-1-15" class="line-number" href="#main.cc-1-15"></a><span class="hll">                 <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">testName</span><span class="p">,</span>
+</span><a id="main.cc-1-16" class="line-number" href="#main.cc-1-16"></a><span class="hll">                 <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">expectedName</span><span class="p">,</span>
+</span><a id="main.cc-1-17" class="line-number" href="#main.cc-1-17"></a><span class="hll">                 <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fileName</span><span class="p">,</span>
+</span><a id="main.cc-1-18" class="line-number" href="#main.cc-1-18"></a><span class="hll">                 <span class="k">const</span> <span class="kt">int</span>   <span class="n">lineNumber</span><span class="p">);</span>
+</span><a id="main.cc-1-19" class="line-number" href="#main.cc-1-19"></a><span class="hll">
+</span><a id="main.cc-1-20" class="line-number" href="#main.cc-1-20"></a>
+<a id="main.cc-1-21" class="line-number" href="#main.cc-1-21"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span>
+<a id="main.cc-1-22" class="line-number" href="#main.cc-1-22"></a>    <span class="kt">int</span>    <span class="n">argc</span><span class="p">,</span>
+<a id="main.cc-1-23" class="line-number" href="#main.cc-1-23"></a>    <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span>
+<a id="main.cc-1-24" class="line-number" href="#main.cc-1-24"></a><span class="p">)</span>
+<a id="main.cc-1-25" class="line-number" href="#main.cc-1-25"></a><span class="p">{</span>
+<a id="main.cc-1-26" class="line-number" href="#main.cc-1-26"></a><span class="hll">    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><a id="main.cc-1-27" class="line-number" href="#main.cc-1-27"></a><span class="hll">
+</span><a id="main.cc-1-28" class="line-number" href="#main.cc-1-28"></a>    <span class="n">ToDo</span> <span class="n">list</span><span class="p">;</span>
+<a id="main.cc-1-29" class="line-number" href="#main.cc-1-29"></a>
+<a id="main.cc-1-30" class="line-number" href="#main.cc-1-30"></a><span class="hll">    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;write code&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-31" class="line-number" href="#main.cc-1-31"></a><span class="hll">    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;compile&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-32" class="line-number" href="#main.cc-1-32"></a><span class="hll">    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-33" class="line-number" href="#main.cc-1-33"></a><span class="hll">
+</span><a id="main.cc-1-34" class="line-number" href="#main.cc-1-34"></a><span class="hll">    <span class="n">result</span> <span class="o">|=</span> <span class="n">EXPECT_EQUAL</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>     <span class="mi">3</span><span class="p">);</span>
+</span><a id="main.cc-1-35" class="line-number" href="#main.cc-1-35"></a><span class="hll">    <span class="n">result</span> <span class="o">|=</span> <span class="n">EXPECT_EQUAL</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">&quot;write code&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-36" class="line-number" href="#main.cc-1-36"></a><span class="hll">    <span class="n">result</span> <span class="o">|=</span> <span class="n">EXPECT_EQUAL</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s">&quot;compile&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-37" class="line-number" href="#main.cc-1-37"></a><span class="hll">    <span class="n">result</span> <span class="o">|=</span> <span class="n">EXPECT_EQUAL</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s">&quot;test&quot;</span><span class="p">);</span>
+</span><a id="main.cc-1-38" class="line-number" href="#main.cc-1-38"></a><span class="hll">
+</span><a id="main.cc-1-39" class="line-number" href="#main.cc-1-39"></a><span class="hll">    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><a id="main.cc-1-40" class="line-number" href="#main.cc-1-40"></a><span class="hll">    <span class="p">{</span>
+</span><a id="main.cc-1-41" class="line-number" href="#main.cc-1-41"></a><span class="hll">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Test passed&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><a id="main.cc-1-42" class="line-number" href="#main.cc-1-42"></a><span class="hll">    <span class="p">}</span>
+</span><a id="main.cc-1-43" class="line-number" href="#main.cc-1-43"></a><span class="hll">
+</span><a id="main.cc-1-44" class="line-number" href="#main.cc-1-44"></a><span class="hll">    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span><a id="main.cc-1-45" class="line-number" href="#main.cc-1-45"></a><span class="p">}</span>
+<a id="main.cc-1-46" class="line-number" href="#main.cc-1-46"></a><span class="hll">
+</span><a id="main.cc-1-47" class="line-number" href="#main.cc-1-47"></a><span class="hll">
+</span><a id="main.cc-1-48" class="line-number" href="#main.cc-1-48"></a><span class="hll"><span class="k">template</span> <span class="o">&lt;</span> <span class="k">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span> <span class="o">&gt;</span>
+</span><a id="main.cc-1-49" class="line-number" href="#main.cc-1-49"></a><span class="hll"><span class="kt">int</span> <span class="n">equalityTest</span><span class="p">(</span>
+</span><a id="main.cc-1-50" class="line-number" href="#main.cc-1-50"></a><span class="hll">    <span class="k">const</span> <span class="n">T1</span>    <span class="n">testValue</span><span class="p">,</span>
+</span><a id="main.cc-1-51" class="line-number" href="#main.cc-1-51"></a><span class="hll">    <span class="k">const</span> <span class="n">T2</span>    <span class="n">expectedValue</span><span class="p">,</span>
+</span><a id="main.cc-1-52" class="line-number" href="#main.cc-1-52"></a><span class="hll">    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">testName</span><span class="p">,</span>
+</span><a id="main.cc-1-53" class="line-number" href="#main.cc-1-53"></a><span class="hll">    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">expectedName</span><span class="p">,</span>
+</span><a id="main.cc-1-54" class="line-number" href="#main.cc-1-54"></a><span class="hll">    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fileName</span><span class="p">,</span>
+</span><a id="main.cc-1-55" class="line-number" href="#main.cc-1-55"></a><span class="hll">    <span class="k">const</span> <span class="kt">int</span>   <span class="n">lineNumber</span>
+</span><a id="main.cc-1-56" class="line-number" href="#main.cc-1-56"></a><span class="hll"><span class="p">)</span>
+</span><a id="main.cc-1-57" class="line-number" href="#main.cc-1-57"></a><span class="hll"><span class="p">{</span>
+</span><a id="main.cc-1-58" class="line-number" href="#main.cc-1-58"></a><span class="hll">    <span class="k">if</span> <span class="p">(</span><span class="n">testValue</span> <span class="o">!=</span> <span class="n">expectedValue</span><span class="p">)</span>
+</span><a id="main.cc-1-59" class="line-number" href="#main.cc-1-59"></a><span class="hll">    <span class="p">{</span>
+</span><a id="main.cc-1-60" class="line-number" href="#main.cc-1-60"></a><span class="hll">        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">fileName</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">lineNumber</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: &quot;</span>
+</span><a id="main.cc-1-61" class="line-number" href="#main.cc-1-61"></a><span class="hll">             <span class="o">&lt;&lt;</span> <span class="s">&quot;Expected &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">testName</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span>
+</span><a id="main.cc-1-62" class="line-number" href="#main.cc-1-62"></a><span class="hll">             <span class="o">&lt;&lt;</span> <span class="s">&quot;to equal &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">expectedName</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; (&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">expectedValue</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;) &quot;</span>
+</span><a id="main.cc-1-63" class="line-number" href="#main.cc-1-63"></a><span class="hll">             <span class="o">&lt;&lt;</span> <span class="s">&quot;but it was (&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">testValue</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;)&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><a id="main.cc-1-64" class="line-number" href="#main.cc-1-64"></a><span class="hll">
+</span><a id="main.cc-1-65" class="line-number" href="#main.cc-1-65"></a><span class="hll">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><a id="main.cc-1-66" class="line-number" href="#main.cc-1-66"></a><span class="hll">    <span class="p">}</span>
+</span><a id="main.cc-1-67" class="line-number" href="#main.cc-1-67"></a><span class="hll">    <span class="k">else</span>
+</span><a id="main.cc-1-68" class="line-number" href="#main.cc-1-68"></a><span class="hll">    <span class="p">{</span>
+</span><a id="main.cc-1-69" class="line-number" href="#main.cc-1-69"></a><span class="hll">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><a id="main.cc-1-70" class="line-number" href="#main.cc-1-70"></a><span class="hll">    <span class="p">}</span>
+</span><a id="main.cc-1-71" class="line-number" href="#main.cc-1-71"></a><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</section>  <section class="code">
+<header class="clear-after"><h1>ToDo.h</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="ToDo.h-1-1" class="line-number" href="#ToDo.h-1-1"></a><span class="cp">#ifndef TODO_H</span>
+<a id="ToDo.h-1-2" class="line-number" href="#ToDo.h-1-2"></a><span class="cp">#define TODO_H</span>
+<a id="ToDo.h-1-3" class="line-number" href="#ToDo.h-1-3"></a>
+<a id="ToDo.h-1-4" class="line-number" href="#ToDo.h-1-4"></a><span class="hll"><span class="cp">#include &lt;string&gt;</span>
+</span><a id="ToDo.h-1-5" class="line-number" href="#ToDo.h-1-5"></a><span class="hll"><span class="cp">#include &lt;vector&gt;</span>
+</span><a id="ToDo.h-1-6" class="line-number" href="#ToDo.h-1-6"></a><span class="hll">
+</span><a id="ToDo.h-1-7" class="line-number" href="#ToDo.h-1-7"></a><span class="hll">
+</span><a id="ToDo.h-1-8" class="line-number" href="#ToDo.h-1-8"></a><span class="n">class</span> <span class="n">ToDo</span>
+<a id="ToDo.h-1-9" class="line-number" href="#ToDo.h-1-9"></a><span class="p">{</span>
+<a id="ToDo.h-1-10" class="line-number" href="#ToDo.h-1-10"></a><span class="nl">public:</span>
+<a id="ToDo.h-1-11" class="line-number" href="#ToDo.h-1-11"></a>    <span class="n">ToDo</span><span class="p">();</span>
+<a id="ToDo.h-1-12" class="line-number" href="#ToDo.h-1-12"></a>    <span class="o">~</span><span class="n">ToDo</span><span class="p">();</span>
+<a id="ToDo.h-1-13" class="line-number" href="#ToDo.h-1-13"></a><span class="hll">
+</span><a id="ToDo.h-1-14" class="line-number" href="#ToDo.h-1-14"></a><span class="hll">    <span class="kt">size_t</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><a id="ToDo.h-1-15" class="line-number" href="#ToDo.h-1-15"></a><span class="hll">
+</span><a id="ToDo.h-1-16" class="line-number" href="#ToDo.h-1-16"></a><span class="hll">    <span class="kt">void</span> <span class="nf">addTask</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">task</span><span class="p">);</span>
+</span><a id="ToDo.h-1-17" class="line-number" href="#ToDo.h-1-17"></a><span class="hll">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getTask</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><a id="ToDo.h-1-18" class="line-number" href="#ToDo.h-1-18"></a><span class="hll">
+</span><a id="ToDo.h-1-19" class="line-number" href="#ToDo.h-1-19"></a><span class="hll"><span class="nl">private:</span>
+</span><a id="ToDo.h-1-20" class="line-number" href="#ToDo.h-1-20"></a><span class="hll">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&gt;</span> <span class="n">this_tasks</span><span class="p">;</span>
+</span><a id="ToDo.h-1-21" class="line-number" href="#ToDo.h-1-21"></a><span class="p">};</span>
+<a id="ToDo.h-1-22" class="line-number" href="#ToDo.h-1-22"></a>
+<a id="ToDo.h-1-23" class="line-number" href="#ToDo.h-1-23"></a><span class="cp">#endif </span><span class="c1">// TODO_H</span>
+</pre></div>
+</section>  <section class="code">
+<header class="clear-after"><h1>ToDo.cc</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="ToDo.cc-1-1" class="line-number" href="#ToDo.cc-1-1"></a><span class="cp">#include &quot;ToDo.h&quot;</span>
+<a id="ToDo.cc-1-2" class="line-number" href="#ToDo.cc-1-2"></a>
+<a id="ToDo.cc-1-3" class="line-number" href="#ToDo.cc-1-3"></a>
+<a id="ToDo.cc-1-4" class="line-number" href="#ToDo.cc-1-4"></a><span class="n">ToDo</span><span class="o">::</span><span class="n">ToDo</span><span class="p">()</span>
+<a id="ToDo.cc-1-5" class="line-number" href="#ToDo.cc-1-5"></a><span class="p">{</span>
+<a id="ToDo.cc-1-6" class="line-number" href="#ToDo.cc-1-6"></a><span class="p">}</span>
+<a id="ToDo.cc-1-7" class="line-number" href="#ToDo.cc-1-7"></a>
+<a id="ToDo.cc-1-8" class="line-number" href="#ToDo.cc-1-8"></a><span class="n">ToDo</span><span class="o">::~</span><span class="n">ToDo</span><span class="p">()</span>
+<a id="ToDo.cc-1-9" class="line-number" href="#ToDo.cc-1-9"></a><span class="p">{</span>
+<a id="ToDo.cc-1-10" class="line-number" href="#ToDo.cc-1-10"></a><span class="p">}</span>
+<a id="ToDo.cc-1-11" class="line-number" href="#ToDo.cc-1-11"></a><span class="hll">
+</span><a id="ToDo.cc-1-12" class="line-number" href="#ToDo.cc-1-12"></a><span class="hll">
+</span><a id="ToDo.cc-1-13" class="line-number" href="#ToDo.cc-1-13"></a><span class="hll"><span class="kt">size_t</span> <span class="n">ToDo</span><span class="o">::</span><span class="n">size</span><span class="p">()</span> <span class="k">const</span>
+</span><a id="ToDo.cc-1-14" class="line-number" href="#ToDo.cc-1-14"></a><span class="hll"><span class="p">{</span>
+</span><a id="ToDo.cc-1-15" class="line-number" href="#ToDo.cc-1-15"></a><span class="hll">    <span class="k">return</span> <span class="n">this_tasks</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><a id="ToDo.cc-1-16" class="line-number" href="#ToDo.cc-1-16"></a><span class="hll"><span class="p">}</span>
+</span><a id="ToDo.cc-1-17" class="line-number" href="#ToDo.cc-1-17"></a><span class="hll">
+</span><a id="ToDo.cc-1-18" class="line-number" href="#ToDo.cc-1-18"></a><span class="hll">
+</span><a id="ToDo.cc-1-19" class="line-number" href="#ToDo.cc-1-19"></a><span class="hll"><span class="kt">void</span> <span class="n">ToDo</span><span class="o">::</span><span class="n">addTask</span><span class="p">(</span>
+</span><a id="ToDo.cc-1-20" class="line-number" href="#ToDo.cc-1-20"></a><span class="hll">    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">task</span>
+</span><a id="ToDo.cc-1-21" class="line-number" href="#ToDo.cc-1-21"></a><span class="hll"><span class="p">)</span>
+</span><a id="ToDo.cc-1-22" class="line-number" href="#ToDo.cc-1-22"></a><span class="hll"><span class="p">{</span>
+</span><a id="ToDo.cc-1-23" class="line-number" href="#ToDo.cc-1-23"></a><span class="hll">    <span class="n">this_tasks</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+</span><a id="ToDo.cc-1-24" class="line-number" href="#ToDo.cc-1-24"></a><span class="hll"><span class="p">}</span>
+</span><a id="ToDo.cc-1-25" class="line-number" href="#ToDo.cc-1-25"></a><span class="hll">
+</span><a id="ToDo.cc-1-26" class="line-number" href="#ToDo.cc-1-26"></a><span class="hll"><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ToDo</span><span class="o">::</span><span class="n">getTask</span><span class="p">(</span>
+</span><a id="ToDo.cc-1-27" class="line-number" href="#ToDo.cc-1-27"></a><span class="hll">    <span class="kt">size_t</span> <span class="n">index</span>
+</span><a id="ToDo.cc-1-28" class="line-number" href="#ToDo.cc-1-28"></a><span class="hll"><span class="p">)</span> <span class="k">const</span>
+</span><a id="ToDo.cc-1-29" class="line-number" href="#ToDo.cc-1-29"></a><span class="hll"><span class="p">{</span>
+</span><a id="ToDo.cc-1-30" class="line-number" href="#ToDo.cc-1-30"></a><span class="hll">    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">this_tasks</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+</span><a id="ToDo.cc-1-31" class="line-number" href="#ToDo.cc-1-31"></a><span class="hll">    <span class="p">{</span>
+</span><a id="ToDo.cc-1-32" class="line-number" href="#ToDo.cc-1-32"></a><span class="hll">        <span class="k">return</span> <span class="n">this_tasks</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span><a id="ToDo.cc-1-33" class="line-number" href="#ToDo.cc-1-33"></a><span class="hll">    <span class="p">}</span>
+</span><a id="ToDo.cc-1-34" class="line-number" href="#ToDo.cc-1-34"></a><span class="hll">    <span class="k">else</span>
+</span><a id="ToDo.cc-1-35" class="line-number" href="#ToDo.cc-1-35"></a><span class="hll">    <span class="p">{</span>
+</span><a id="ToDo.cc-1-36" class="line-number" href="#ToDo.cc-1-36"></a><span class="hll">        <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+</span><a id="ToDo.cc-1-37" class="line-number" href="#ToDo.cc-1-37"></a><span class="hll">    <span class="p">}</span>
+</span><a id="ToDo.cc-1-38" class="line-number" href="#ToDo.cc-1-38"></a><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</section>  <p>
+    <a class="sources" href="https://www.johnlamp.net/sources/chapter1-2.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>  </p>
+
+  <p>
+    Whew! That was not simple at all. Hopefully some of you are wondering why I
+    didn&#8217;t use a test framework. Later we will, but had we done so now we would
+    have gotten further ahead of ourselves than we already have.
+  </p>
+  <p>
+    Building is exactly the same as before. In fact if you modified the files
+    you had used before you simply need to run <kbd>make</kbd> again. The
+    Makefile created by CMake will automatically run <code>cmake</code> again if
+    you modify your <code>CMakeLists.txt</code>. So let&#8217;s run our test:
+  </p>
+  <section class="terminal">
+    <pre>
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> mkdir build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cmake -G &quot;Unix Makefiles&quot; ..
+-- The C compiler identification is GNU 4.2.1
+-- The CXX compiler identification is GNU 4.2.1
+-- Checking whether C compiler has -isysroot
+-- Checking whether C compiler has -isysroot - yes
+-- Checking whether C compiler supports OSX deployment target flag
+-- Checking whether C compiler supports OSX deployment target flag - yes
+-- Check for working C compiler: /usr/bin/gcc
+-- Check for working C compiler: /usr/bin/gcc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Checking whether CXX compiler has -isysroot
+-- Checking whether CXX compiler has -isysroot - yes
+-- Checking whether CXX compiler supports OSX deployment target flag
+-- Checking whether CXX compiler supports OSX deployment target flag - yes
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step2/build
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> make
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>[ 50%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span>[100%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/ToDo.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>[100%] Built target toDo
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> make test
+<span class="ansiForeground-cyan">Running tests...
+</span>Test project /Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step2/build
+    Start 1: toDoTest
+1/1 Test #1: toDoTest .........................   Passed    0.01 sec
+100% tests passed, 0 tests failed out of 1
+Total Test time (real) =   0.03 sec
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> ls Testing
+Temporary
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> ls Testing/Temporary
+CTestCostData.txt	LastTest.log
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cat Testing/Temporary/LastTest.log
+Start testing: Jul 16 22:00 EDT
+----------------------------------------------------------
+1/1 Testing: toDoTest
+1/1 Test: toDoTest
+Command: &quot;/Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step2/build/toDo&quot;
+Directory: /Volumes/Documents/Programming/C++/CMake Tutorial/flavors/part1_step2/build
+&quot;toDoTest&quot; start time: Jul 16 22:00 EDT
+Output:
+----------------------------------------------------------
+Test passed
+&lt;end of output&gt;
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+&quot;toDoTest&quot; end time: Jul 16 22:00 EDT
+&quot;toDoTest&quot; time elapsed: 00:00:00
+----------------------------------------------------------
+End testing: Jul 16 22:00 EDT
+<span class="ansiBold ansiForeground-red"> </span><span class="ansiBold ansiForeground-blue">&gt;</span> cat Testing/Temporary/CTestCostData.txt
+toDoTest 1 0.00976491
+---
+</pre>
+  </section>
+  <dl>
+    <dd>
+      As mentioned earlier building with CMake is the same as it was
+      before.
+    </dd>
+    <dt><kbd>make test</kbd></dt>
+    <dd>
+      The <code>enable_testing()</code> function we added to
+      our <code>CMakeLists.txt</code> adds the &#8220;test&#8221; target to our
+      Makefile. Making the &#8220;test&#8221; target will run CTest which will, in turn, run
+      all of our tests. In our case just the one.
+    </dd>
+    <dd>
+      When CTest runs our tests it prints an abbreviated output that just
+      provides the status of each of our tests. It then finishes up with a
+      summary of all tests.
+    </dd>
+    <dt class="code">Testing/Temporary/LastTest.log</dt>
+    <dd>
+      This file is created by CTest whenever it is run. It contains much more
+      detail than the terminal output of CTest shows. Most importantly it
+      contains the output of the tests. This is where you will want to look
+      whenever a test fails.
+    </dd>
+    <dt class="code">Testing/Temporary/CTestCostData.txt</dt>
+    <dd>
+      This file contains the time, in seconds, taken to run each test.
+    </dd>
+  </dl>
+  <p>
+    CMake along with CTest makes it easy to run our tests. CTest has many other
+    features which will be presented later in this tutorial. There are, however,
+    a few drawbacks to running our tests this way but we will leave those for
+    later, too.
+  </p>
+</section>
+
+<section id="revision-history"><span class="heading">Revision History</span><table summary="Revision History"><thead><tr><td>Version</td><td>Date</td><td>Comment</td></tr></thead><tbody><tr><td>1</td><td>2013-03-28</td><td>Original version.</td></tr><tr><td>2</td><td>2013-07-14</td><td>Added line numbers and indication of changes to code sample.</td></tr></tbody></table></section>
+
+  </div>
+
+  <footer class="entry-meta">
+    This entry was tagged <a href="https://www.johnlamp.net/tag/cmake" rel="tag">CMake</a>, <a href="https://www.johnlamp.net/tag/long" rel="tag">long</a>, <a href="https://www.johnlamp.net/tag/tutorial" rel="tag">tutorial</a>. Bookmark the <a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html" title="Permalink to CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started" rel="bookmark">permalink</a>.     </footer>
+     <footer class="entry-license"><div class="license"><a class="no-decoration" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width: 0;" width="80" height="15" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/by-nc-sa-r.png" /></a>This entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started</span>," by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> is licensed under a <a rel="license" href="http://creativecommons.org/licensesby-nc-sa/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</div><div class="code-license"><span xmlns:dct="http://purl.org/dc/terms/"><a class="no-decoration" rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/cc-zero-r.png" width="80" height="15" style="border-style: none;" alt="CC0" /></a>To the extent possible under law, <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> has waived all copyright and related or neighboring rights to the code samples in this entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started</span>".</span></div></footer></article>
+<nav role="navigation" id="nav-below" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-2-ide-integration.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;2: IDE Integration <span class="meta-nav">&rarr;</span></a></div></nav>
+<div id="comments" class="comments-area">
+          <h2 class="comments-title">
+          11 thoughts on &ldquo;<span>CMake Tutorial &#8211; Chapter&nbsp;1: Getting Started</span>&rdquo;        </h2>
+
+        
+        <ol class="commentlist">
+          <li id="li-comment-777" class="comment even thread-even depth-1"><article id="comment-777" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-777"><time pubdate date-time="2014-09-02T02:02:33+00:00">2014-09-02 at 02:02:33</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/d05558eccc220126d61dbf2b5bc732c5?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d05558eccc220126d61dbf2b5bc732c5?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://quartz-net.co.uk' rel='external nofollow' class='url'>Steve Price</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I bought the cmake book &#8220;Mastering Cmake&#8221; hoping to get more in depth information and tutorials than I&#8217;ve found else where on the web (i.e. the cmake pages etc) and was sadly disappointed. I&#8217;ve just been reading your tutorial and it&#8217;s been exactly what I wanted, thanks (and if you fancy writing a more detailed cmake book then put me down for a copy!)</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=777#respond' onclick='return addComment.moveForm( "comment-777", "777", "respond", "13" )' aria-label='Reply to Steve Price'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1108" class="comment odd alt depth-2"><article id="comment-1108" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-1108"><time pubdate date-time="2015-07-29T14:05:16+00:00">2015-07-29 at 14:05:16</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/576a80e30b3e2b4239bb1d619e7f9595?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/576a80e30b3e2b4239bb1d619e7f9595?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Nii</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Agree with Steve Price. The book &#8220;Mastering Cmake&#8221; is complete rubbish. It&#8217;s just a boring reference, that has zero build-up, and zero teaching-perspective.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=1108#respond' onclick='return addComment.moveForm( "comment-1108", "1108", "respond", "13" )' aria-label='Reply to Nii'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-784" class="comment even thread-odd thread-alt depth-1"><article id="comment-784" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-784"><time pubdate date-time="2014-09-04T19:26:03+00:00">2014-09-04 at 19:26:03</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/241de5482fc95fd801aa92ecf35187b9?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://adamgetchell.org' rel='external nofollow' class='url'>Adam Getchell</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Really great tutorial! I hope I can get GMock/GTest working with CMake and CGAL.<br />
+I&#8217;m really puzzled by what the lines:</p>
+<p>result |= EXPECT_EQUAL(list.size(), 3);</p>
+<p>Do. As far as I can tell, | is the bitwise or operator, and EXPECT_EQUAL is a macro, but I don&#8217;t see how |= works.</p>
+<p>It compiles and runs though, I&#8217;m just curious how and why?</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=784#respond' onclick='return addComment.moveForm( "comment-784", "784", "respond", "13" )' aria-label='Reply to Adam Getchell'>Reply</a></div></article><ul class="children">
+<li id="li-comment-785" class="comment byuser comment-author-john bypostauthor odd alt depth-2"><article id="comment-785" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-785"><time pubdate date-time="2014-09-04T21:20:33+00:00">2014-09-04 at 21:20:33</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p><code>EXPECT_EQUAL()</code> is a macro, but it resolves to a call to the function <code>equalityTest()</code>. That function returns 0 if the values are equal or a 1 if the values are not equal. Given this behavior logical and bitwise OR are equivalent. I think it is safe to say that I cheated here. <code>equalityTest()</code> should return a boolean instead of an integer and I should have used the logical OR operator. There is no <code>||=</code> operator and what is in the example looks a little neater than<br />
+<code>result = EXPECT_EQUAL(list.size(), 3) || result;</code><br />
+Obviously that would have been the clearer choice.</p>
+<p><a href="cmake-tutorial-4-libraries-and-subdirectories.html" rel="nofollow">Chapter 4</a> introduces using GTest so hopefully that will provide some help.</p>
+<p>From an extremely brief look it appears as though CGAL is built using CMake. It also looks like they provide a script (<code>cgal_create_CMakeLists</code>) that creates  a template CMakeLists.txt to help you get started. If you have any questions about the CMakeLists.txt the script creates I&#8217;d be willing to try and answer them.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=785#respond' onclick='return addComment.moveForm( "comment-785", "785", "respond", "13" )' aria-label='Reply to John Lamp'>Reply</a></div></article><ul class="children">
+<li id="li-comment-889" class="comment even depth-3"><article id="comment-889" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-889"><time pubdate date-time="2014-10-28T09:22:00+00:00">2014-10-28 at 09:22:00</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/47746db94c8756ae6f9f58b98d7ff3a5?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/47746db94c8756ae6f9f58b98d7ff3a5?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Daniel Kalin</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I think in line  8, 34-36 is a typing mistake because you define the macro EXPECT_EQUAL without &#8220;_&#8221; .</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=889#respond' onclick='return addComment.moveForm( "comment-889", "889", "respond", "13" )' aria-label='Reply to Daniel Kalin'>Reply</a></div></article><ul class="children">
+<li id="li-comment-892" class="comment byuser comment-author-john bypostauthor odd alt depth-4"><article id="comment-892" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-892"><time pubdate date-time="2014-10-29T16:51:19+00:00">2014-10-29 at 16:51:19</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>You&#8217;ve lost me a little. I&#8217;m not seeing where an underscore should be and isn&#8217;t. (Of course if I missed it in the first place I suppose it isn&#8217;t surprising that I&#8217;ve missed it again.) Would you mind replying with the code that should be there? (Also did you download the source and try it? Both are generated from the same file.) [In the unlikely chance that the underscore is there but you don&#8217;t see it could you tell me what browser and OS you are using so I can try to fix my theme.]</p>
+<p>Thanks for reporting this issue.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=892#respond' onclick='return addComment.moveForm( "comment-892", "892", "respond", "13" )' aria-label='Reply to John Lamp'>Reply</a></div></article><ul class="children">
+<li id="li-comment-911" class="comment even depth-5"><article id="comment-911" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-911"><time pubdate date-time="2014-11-06T23:36:18+00:00">2014-11-06 at 23:36:18</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/f4a55256d7dbb04f2a0287c1c64b38ea?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f4a55256d7dbb04f2a0287c1c64b38ea?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Michael Chapman</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>There must be something strange with the way the characters are being displayed, because &#8220;EXPECT_EQUAL&#8221; shows up as &#8220;EXPECT EQUAL&#8221; on my computer, but when I copy/paste it from your tutorial, then the underscore shows up after the paste. So it is obivous that the character is really there and just not displaying correctly. I&#8217;m running a Gnome desktop with ArchLinux, so maybe Daniel Kalin has a similar setup. It is strange though, because I&#8217;ve never had any problems viewing underscores on any other site with this setup.</p>
+<p>Thanks for the tutorials either way. They are quite helpful.</p>
+</div><div class="reply"></div></article></li><!-- #comment-## -->
+<li id="li-comment-914" class="comment byuser comment-author-john bypostauthor odd alt depth-5"><article id="comment-914" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-914"><time pubdate date-time="2014-11-07T22:24:57+00:00">2014-11-07 at 22:24:57</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>So I just checked and I think the problem is caused by the line height being too small. Different browsers, text rendering libraries, and fonts all produce different results. I think in this case the line height I chose is too small. I tried decreasing the line height and was able to reproduce your results in my browser. Sounds like I need to tweak my theme a little so that everyone can read the code samples.</p>
+</div><div class="reply"></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li class="post pingback"><p>Pingback:<a href='http://www.pearltrees.com/fnuttens/cmake/id12783838/item127044895' rel='external nofollow' class='url'>CMake | Pearltrees</a></p></li><!-- #comment-## -->
+<li id="li-comment-972" class="comment even thread-even depth-1"><article id="comment-972" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-972"><time pubdate date-time="2015-01-22T00:18:05+00:00">2015-01-22 at 00:18:05</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/8f442496faabaddee08393d837174b7e?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8f442496faabaddee08393d837174b7e?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">sergign60</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Great! Thank you very much!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=972#respond' onclick='return addComment.moveForm( "comment-972", "972", "respond", "13" )' aria-label='Reply to sergign60'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1111" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-1111" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-1-getting-started.html#comment-1111"><time pubdate date-time="2015-08-04T07:29:58+00:00">2015-08-04 at 07:29:58</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/06f45990b7b84d1783288f2321a28477?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/06f45990b7b84d1783288f2321a28477?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">meomeo</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>thanks, great</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-1-getting-started.html?replytocom=1111#respond' onclick='return addComment.moveForm( "comment-1111", "1111", "respond", "13" )' aria-label='Reply to meomeo'>Reply</a></div></article></li><!-- #comment-## -->
+        </ol>
+
+        						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/cmake-tutorial-1-getting-started.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="https://www.johnlamp.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="e5932-comment" cols="45" rows="8"  aria-required="true" required="required"></textarea><textarea name="comment" style="display:none" rows="1" cols="1"></textarea></p>						
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='13' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>					</form>
+							</div><!-- #respond -->
+			</div>
+
+  </div>
+</div>
+
+
+<div id="secondary" class="widget-area" role="complementary">
+  <aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+	<li><a href='https://www.johnlamp.net/2015/03'>March 2015</a></li>
+	<li><a href='https://www.johnlamp.net/2013/07'>July 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/05'>May 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/03'>March 2013</a></li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-4"><a href="https://www.johnlamp.net/category/cmake-tutorial" >CMake Tutorial</a>
+</li>
+		</ul>
+</aside></div>
+
+<div id="tertiary" class="widget-area" role="supplementary">
+  <aside id="meta-2" class="widget widget_meta"><h1 class="widget-title">Meta</h1>			<ul>
+						<li><a rel="nofollow" href="https://www.johnlamp.net/wp-login.php">Log in</a></li>
+			<li><a href="https://www.johnlamp.net/feed">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.johnlamp.net/comments/feed">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+</aside></div>
+
+      </div> <!-- #main .site-main -->
+
+      <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="copyright">
+          Site Copyrighted &copy; 2013-2014 John Lamp all rights reserved.        </div>
+
+        <div class="site-info">
+          <a class="no-decoration" href="http://wordpress.org/" title="A Semantic Personal Publishing Platform" rel="generator"><img id="codeIsPoetry" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/images/codeIsPoetry.png" alt="Code is Poetry" /></a>        </div>
+
+        <nav class="footer-navigation">
+                    </nav>
+
+        <div class="cleared"></div>
+      </footer>
+    </div> <!-- #page .hfeed .site -->
+
+    <script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/comment-reply.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/navigation.js?ver=20120206'></script>
+
+  </body>
+</html>

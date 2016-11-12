@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer_fwd.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:04 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/integer_fwd.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/integer_fwd.hpp</h3>
+<pre>
+//  Boost integer_fwd.hpp header file  ---------------------------------------//
+
+//  (C) Copyright Dave Abrahams and Daryle Walker 2001. Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/integer">http://www.boost.org/libs/integer</a> for documentation.
+
+#ifndef BOOST_INTEGER_FWD_HPP
+#define BOOST_INTEGER_FWD_HPP
+
+#include &lt;climits&gt;  // for UCHAR_MAX, etc.
+#include &lt;cstddef&gt;  // for std::size_t
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;  // for BOOST_NO_INTRINSIC_WCHAR_T
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;  // for std::numeric_limits
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp">boost/cstdint.hpp</a>&gt;  // For intmax_t
+
+
+namespace boost
+{
+
+#ifdef BOOST_NO_INTEGRAL_INT64_T
+     typedef unsigned long static_log2_argument_type;
+     typedef          int  static_log2_result_type;
+     typedef long          static_min_max_signed_type;
+     typedef unsigned long static_min_max_unsigned_type;
+#else
+     typedef boost::uintmax_t static_min_max_unsigned_type;
+     typedef boost::intmax_t  static_min_max_signed_type;
+     typedef boost::uintmax_t static_log2_argument_type;
+     typedef int              static_log2_result_type;
+#endif
+
+//  From &lt;boost/cstdint.hpp&gt;  ------------------------------------------------//
+
+// Only has typedefs or using statements, with #conditionals
+
+
+//  From &lt;boost/integer_traits.hpp&gt;  -----------------------------------------//
+
+template &lt; class T &gt;
+    class integer_traits;
+
+template &lt;  &gt;
+    class integer_traits&lt; bool &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; char &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; signed char &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; unsigned char &gt;;
+
+#ifndef BOOST_NO_INTRINSIC_WCHAR_T
+template &lt;  &gt;
+    class integer_traits&lt; wchar_t &gt;;
+#endif
+
+template &lt;  &gt;
+    class integer_traits&lt; short &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; unsigned short &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; int &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; unsigned int &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; long &gt;;
+
+template &lt;  &gt;
+    class integer_traits&lt; unsigned long &gt;;
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; !defined(BOOST_NO_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+template &lt;  &gt;
+class integer_traits&lt;  ::boost::long_long_type&gt;;
+
+template &lt;  &gt;
+class integer_traits&lt;  ::boost::ulong_long_type &gt;;
+#elif !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; !defined(BOOST_NO_INT64_T) &amp;&amp; defined(BOOST_HAS_MS_INT64)
+template &lt;  &gt;
+class integer_traits&lt;__int64&gt;;
+
+template &lt;  &gt;
+class integer_traits&lt;unsigned __int64&gt;;
+#endif
+
+
+//  From &lt;boost/integer.hpp&gt;  ------------------------------------------------//
+
+template &lt; typename LeastInt &gt;
+    struct int_fast_t;
+
+template&lt; int Bits &gt;
+    struct int_t;
+
+template&lt; int Bits &gt;
+    struct uint_t;
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+    template&lt; boost::long_long_type MaxValue &gt;   // maximum value to require support
+#else
+  template&lt; long MaxValue &gt;   // maximum value to require support
+#endif
+    struct int_max_value_t;
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+  template&lt; boost::long_long_type MinValue &gt;   // minimum value to require support
+#else
+  template&lt; long MinValue &gt;   // minimum value to require support
+#endif
+    struct int_min_value_t;
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+  template&lt; boost::ulong_long_type MaxValue &gt;   // maximum value to require support
+#else
+  template&lt; unsigned long MaxValue &gt;   // maximum value to require support
+#endif
+    struct uint_value_t;
+
+
+//  From &lt;boost/integer/integer_mask.hpp&gt;  -----------------------------------//
+
+template &lt; std::size_t Bit &gt;
+    struct high_bit_mask_t;
+
+template &lt; std::size_t Bits &gt;
+    struct low_bits_mask_t;
+
+template &lt;  &gt;
+    struct low_bits_mask_t&lt; ::std::numeric_limits&lt;unsigned char&gt;::digits &gt;;
+
+//  From &lt;boost/integer/static_log2.hpp&gt;  ------------------------------------//
+
+template &lt;static_log2_argument_type Value &gt;
+    struct static_log2;
+
+template &lt;&gt; struct static_log2&lt;0u&gt;;
+
+
+//  From &lt;boost/integer/static_min_max.hpp&gt;  ---------------------------------//
+
+template &lt;static_min_max_signed_type Value1, static_min_max_signed_type Value2&gt;
+    struct static_signed_min;
+
+template &lt;static_min_max_signed_type Value1, static_min_max_signed_type Value2&gt;
+    struct static_signed_max;
+
+template &lt;static_min_max_unsigned_type Value1, static_min_max_unsigned_type Value2&gt;
+    struct static_unsigned_min;
+
+template &lt;static_min_max_unsigned_type Value1, static_min_max_unsigned_type Value2&gt;
+    struct static_unsigned_max;
+
+}  // namespace boost
+
+
+#endif  // BOOST_INTEGER_FWD_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer_fwd.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:04 GMT -->
+</html>

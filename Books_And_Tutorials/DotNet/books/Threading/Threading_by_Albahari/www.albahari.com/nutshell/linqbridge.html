@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/linqbridge.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 5.0 in a Nutshell - LINQBridge
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/linqbridge.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTcwODg1MTE2Ng9kFgJmD2QWAgIDD2QWAgILDxYCHgRUZXh0BYwYDQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iYWJvdXQuYXNweCI+QWJvdXQgdGhlIEJvb2s8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb2RlLmFzcHgiPkNvZGUgTGlzdGluZ3M8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rYSIgaHJlZj0iZXh0cmFzLmFzcHgiPkV4dHJhczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5MSU5RUGFkPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iV2hhdHNOZXdDczQuYXNweCIgY2xhc3M9InN1YmxpbmsiPlZJREVPOiBXaGF0J3MgbmV3IGluIEMjIDQuMDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFraXQuYXNweCIgY2xhc3M9InN1YmxpbmsiPkxJTlFLaXQ8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJwcmVkaWNhdGVidWlsZGVyLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5QcmVkaWNhdGVCdWlsZGVyPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0ibGlucWJyaWRnZS5hc3B4IiBjbGFzcz0ic3VibGluayI+TElOUUJyaWRnZTwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFxdWl6LmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5UaGUgTElOUSBRdWl6PC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iMTBsaW5xbXl0aHMuYXNweCIgY2xhc3M9InN1YmxpbmsiPlRlbiBMSU5RIE15dGhzPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5Bc3luY2hyb25hdG9yPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdCBBdXRob3JzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+ZGTO48kAbk0iF0f/WekDCXYoEVjzhw==" />
+</div>
+
+    
+
+<div id="main">
+
+<h1>Extras</h1>
+
+<h2>LINQBridge</h2>
+<p>You might already have discovered that <b>LINQ is addictive</b>: once you're accustomed to solving problems through slick functional queries, it really hurts 
+being forced back to the imperative style of C# 2.0!</p>
+<p>LINQ's query operators are implemented from .NET Framework 3.5. And here lies a difficulty: <b>your 
+    clients might have only Framework 2.0 installed on their machines</b>. So what does this mean if you 
+want to code in C# 3.0 and write LINQ queries?</p>
+<p>The good news is that there is a solution. It relies on two things:</p>
+<ul>
+	<li>Visual Studio 2008's <i>multi-targeting</i> feature</li>
+	<li>LinqBridge.dll (a 60KB assembly)</li>
+</ul>
+<p>With Studio's multi-targeting and LINQBridge, you'll be able to write local (LINQ 
+to Objects) queries using the full power of the C# 3.0 compiler—and yet your 
+programs will require only Framework 2.0.</p>
+<p><b>LINQBridge is a reimplementation of all the standard query operators in 
+Framework 3.5's Enumerable class.</b> It's designed to work with the <b>C# 3.0</b> 
+compiler, as used by Visual Studio 2008. LINQBridge comprises a &quot;LINQ to 
+Objects&quot; API for running local queries. (It doesn't include an implementation of 
+LINQ to SQL, nor LINQ to XML; a good compromise can be to force Framework 3.5 
+out to just the server machines, allowing LINQ to SQL to be used where it's 
+needed most).</p>
+<p>LINQBridge also includes Framework 3.5's generic <b>Func</b> and <b>Action</b> 
+delegates, as well as <b>ExtensionAttribute</b>, allowing you to use C# 3.0's extension 
+methods in Framework 2.0.</p>
+<p>In fact LINQBridge lets you use nearly all of the features in C# 3.0 with Framework 
+2.0—including extension methods, lambda functions and query comprehensions. The 
+only feature it does not support is compiling lambdas to expression trees (i.e., Expression&lt;TDelegate&gt;).
+</p>
+<h2>How does it work? </h2>
+<p>First, it's important to understand that C# 3.0 and Framework 3.5 are 
+designed to work with <b>CLR 2.0</b>—the same CLR version that Framework 2.0 
+uses. This means that the C# 3.0 compiler emits IL code that runs on the same 
+virtual machine as before. </p>
+<p>This makes Framework 3.5 <i>additive</i>—just as Framework 3.0 was 
+additive—comprising additional assemblies that enhance the existing 2.0 
+Framework and CLR. So there's nothing to stop us from writing our own assemblies 
+that do the work of Framework 3.5 (at least, the critical bits required for 
+local LINQ queries).</p>
+<p>But—you might ask—don't LINQ queries depend on Framework 3.5? Strictly 
+speaking, they <i>don't</i>. C# 3.0 expects that certain method signatures be 
+present—which Framework 3.5 just happens to provide. For example, consider the 
+following LINQ query:</p>
+<pre>int[] numbers = { 5, 15, 7, 12 };
+
+var query = 
+  from n in numbers
+  where n &gt; 10
+  orderby n
+  select n * 10;</pre>
+<p>In compiling this, C# 3.0 first translates it to:</p>
+<pre>var query = numbers
+  .Where (n =&gt; n &gt; 10)
+  .OrderBy (n =&gt; n)
+  .Select (n =&gt; n * 10);</pre>
+<p>The compiler then looks for <b>Where</b>, <b>OrderBy</b> and <b>Select</b> 
+methods. The critical thing is that it can find appropriately named methods with the correct signatures (typically extension methods). <b>But it 
+doesn't matter what assembly the methods come from.</b> LINQBridge simply provides 
+another source of these methods—that are functionally identically to those 
+implemented in the Framework 3.5 assemblies.</p>
+<h2>How to use LINQBridge</h2>
+<p>LINQBridge requires Visual Studio 2008 (or the standalone C# 3.0 compiler, if 
+you're keen). First, go to project properties, and change the <b>Target 
+Framework</b> to <b>2.0</b> or <b>3.0</b>:</p>
+<p><img border="0" src="multitargetting.png" width="811" height="266"></p>
+<p>This is a safeguard that prevents you from accidentally referencing Framework 
+3.5 assemblies. If your project already references System.Core, the reference 
+will be greyed out (you can safely delete it).</p>
+<p>The next step is to add a reference to LINQBridge.dll. </p>
+<p>That's all there is to it, now you can start writing LINQ queries!</p>
+<p>When all of your clients later upgrade to Framework 3.5, you can upgrade your 
+project simply by changing the Target Framework back to 3.5 and replacing the LINQBridge reference with System.Core. 
+LINQBridge uses the standard LINQ namespaces, so <b>no code edits will be required.</b></p>
+<h2>What if Framework 3.5 <i>is</i> Installed?</h2>
+<p>The presence of Framework 3.5 does not impede LINQBridge in any way. If your 
+project references LINQBridge during compilation, then it will bind to LINQBridge's query operators; if it references System.Core 
+during compilation, then it will bind to Framework 
+3.5's query operators.</p>
+<h2>Can I use LINQBridge with C# 2.0 and Studio 2005?</h2>
+<p>You can—but the query operators will be awkward to use without lambda 
+expressions, extension methods, query syntax, etc.</p>
+<h2>Licensing</h2>
+<p>LINQBridge is distributed under an open-source license (MIT) that doesn't place 
+any restrictions on what you can do with 
+the source code. The (original) internal implementation was my own; however Microsoft, 
+obviously, came up with the idea of having a set of query operators with those 
+names and functioning in that manner. LINQBridge does not constitute an attempt 
+to erode Microsoft's claims (if any) to this pattern.</p>
+
+<h2>Download</h2>
+<p><a href="http://code.google.com/p/linqbridge/downloads/list">Click here to download 
+from Google Code</a>.</p>
+
+<p>LINQBridge has been enhanced extensively by other contributors.</p>
+
+<ul>
+	<li>November 2007: <i>Released</i></li>
+	<li>13 June 2008: <i>Bug in <b>Count</b> methods was fixed</i></li>
+	<li>10 August 2008: <i>Overflow checking added to <b>Sum</b>, 
+	null-argument-checking to <b>Count</b>, and <b>AllowPartiallyTrustedCallers</b> 
+	attribute added to assembly</i></li>
+	<li>October 2009: Work from the BackLINQ project was merged</li>
+</ul>
+
+<h2>Discussion Group</h2>
+<p><a href="http://groups.google.com/group/linqbridge">Click here</a> for the 
+Google-hosted discussion group.</p>
+
+</div>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="extras.html" class="sublink">LINQPad</a></td></tr>
+       <tr><td align="right"><a href="WhatsNewCs4-2.html" class="sublink">VIDEO: What's new in C# 4.0</a></td></tr>
+       <tr><td align="right"><a href="linqkit.html" class="sublink">LINQKit</a></td></tr>
+       <tr><td align="right"><a href="predicatebuilder.html" class="sublink">PredicateBuilder</a></td></tr>
+       <tr><td align="right"><a href="linqbridge.html" class="sublink">LINQBridge</a></td></tr>
+       <tr><td align="right"><a href="linqquiz.html" class="sublink">The LINQ Quiz</a></td></tr>
+       <tr><td align="right"><a href="10linqmyths.html" class="sublink">Ten LINQ Myths</a></td></tr>
+       <tr><td align="right"><a href="extras.html" class="sublink">Asynchronator</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/linqbridge.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

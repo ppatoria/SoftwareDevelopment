@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch18.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<div>
+	<h2>Chapter 18: Security</h2>
+	<p>Permission subsets:</p>
+	<pre>PrincipalPermission jay = new PrincipalPermission (&quot;Jay&quot;, null);
+PrincipalPermission sue = new PrincipalPermission (&quot;Sue&quot;, null);
+
+PrincipalPermission jayOrSue = (PrincipalPermission) jay.Union (sue);
+Console.WriteLine (jay.IsSubsetOf (jayOrSue));  // True</pre>
+	<p>PermissionSet:</p>
+	<pre>PermissionSet ps = new PermissionSet (PermissionState.None);
+
+ps.AddPermission (new UIPermission (PermissionState.Unrestricted));
+ps.AddPermission (new SecurityPermission (
+                      SecurityPermissionFlag.UnmanagedCode));
+ps.AddPermission (new FileIOPermission (
+                      FileIOPermissionAccess.Read, @&quot;c:\docs&quot;));
+ps.Demand();</pre>
+	<p>Sandboxing another assembly:</p>
+	<pre>using System;
+using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Security;
+using System.Security.Policy;
+using System.Security.Permissions;
+
+class Program
+{
+  static void Main()
+  {
+    string pluginFolder = AppDomain.CurrentDomain.BaseDirectory;
+    string plugInPath = Path.Combine (pluginFolder, &quot;plugin.exe&quot;);
+
+    PermissionSet ps = new PermissionSet (PermissionState.None);
+
+    ps.AddPermission
+      (new SecurityPermission (SecurityPermissionFlag.Execution));
+
+    ps.AddPermission
+      (new FileIOPermission (FileIOPermissionAccess.PathDiscovery |
+                             FileIOPermissionAccess.Read, plugInPath));
+
+    ps.AddPermission (new UIPermission (PermissionState.Unrestricted));
+
+    AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+    AppDomain sandbox = AppDomain.CreateDomain (&quot;sbox&quot;, null, setup, ps);
+    sandbox.ExecuteAssembly (plugInPath);
+    AppDomain.Unload (sandbox);
+  }
+}</pre>
+	<p>Making assertions:</p>
+	<pre>public class Utils
+{
+  public static void WriteLog (string msg)
+  {
+    FileIOPermission f = new FileIOPermission (PermissionState.None);
+    f.AllLocalFiles = FileIOPermissionAccess.AllAccess;
+    f.Assert();
+
+    // Write to log
+    ...
+  }
+}</pre>
+	<pre>static void Main()
+{
+  string pluginFolder = AppDomain.CurrentDomain.BaseDirectory;
+  string plugInPath = Path.Combine (pluginFolder, &quot;plugin.exe&quot;);
+
+  PermissionSet ps = new PermissionSet (PermissionState.None);
+
+  ps.AddPermission
+      (new SecurityPermission (SecurityPermissionFlag.Execution));
+
+  ps.AddPermission
+      (new FileIOPermission (FileIOPermissionAccess.PathDiscovery |
+                             FileIOPermissionAccess.Read, plugInPath));
+
+  ps.AddPermission (new UIPermission (PermissionState.Unrestricted));
+
+  AssemblyName utilAssembly = typeof (Utils).Assembly.GetName();
+
+  StrongName utils = new StrongName (
+    new StrongNamePublicKeyBlob (utilAssembly.GetPublicKey()),
+    utilAssembly.Name,
+    utilAssembly.Version);
+
+  AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+  AppDomain sandbox = AppDomain.CreateDomain (&quot;sbox&quot;, null, setup, ps,
+                                              utils);
+  sandbox.ExecuteAssembly (plugInPath);
+  AppDomain.Unload (sandbox);
+}</pre>
+	<p>Administrative elevation and virtualization:</p>
+	<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+  &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
+    &lt;security&gt;
+      &lt;requestedPrivileges&gt;
+        &lt;requestedExecutionLevel level=&quot;requireAdministrator&quot; /&gt;
+      &lt;/requestedPrivileges&gt;
+    &lt;/security&gt;
+  &lt;/trustInfo&gt;
+&lt;/assembly&gt;</pre>
+	<p>Cryptography: Windows data protection:</p>
+	<pre>byte[] original = {1, 2, 3, 4, 5};
+DataProtectionScope scope = DataProtectionScope.CurrentUser;
+
+byte[] encrypted = ProtectedData.Protect (original, null, scope);
+byte[] decrypted = ProtectedData.Unprotect (encrypted, null, scope);
+// decrypted is now {1, 2, 3, 4, 5}</pre>
+	<p>Hashing:</p>
+	<pre>byte[] hash;
+using (Stream fs = File.OpenRead (&quot;checkme.doc&quot;))
+  hash = MD5.Create().ComputeHash (fs);           // hash is 16 bytes long</pre>
+	<p>or:</p>
+	<pre>byte[] data = System.Text.Encoding.UTF8.GetBytes (&quot;stRhong%pword&quot;);
+byte[] hash = SHA256.Create().ComputeHash (data);</pre>
+	<p>Symmetric encryption to a file:</p>
+	<pre>byte[] key = {145,12,32,245,98,132,98,214,6,77,131,44,221,3,9,50};
+byte[] iv  = {15,122,132,5,93,198,44,31,9,39,241,49,250,188,80,7};
+
+byte[] data = { 1, 2, 3, 4, 5 };   // This is what we're encrypting.
+
+using (SymmetricAlgorithm algorithm = Rijndael.Create())
+using (ICryptoTransform encryptor = algorithm.CreateEncryptor (key, iv))
+using (Stream f = File.Create (&quot;encrypted.bin&quot;))
+using (Stream c = new CryptoStream (f, encryptor, CryptoStreamMode.Write))
+  c.Write (data, 0, data.Length);</pre>
+	<p>Symmetric decryption from a file:</p>
+	<pre>byte[] key = {145,12,32,245,98,132,98,214,6,77,131,44,221,3,9,50};
+byte[] iv  = {15,122,132,5,93,198,44,31,9,39,241,49,250,188,80,7};
+
+byte[] decrypted = new byte[5];
+
+using (SymmetricAlgorithm algorithm = Rijndael.Create())
+using (ICryptoTransform decryptor = algorithm.CreateDecryptor (key, iv))
+using (Stream f = File.OpenRead (&quot;encrypted.bin&quot;))
+using (Stream c = new CryptoStream (f, decryptor, CryptoStreamMode.Read))
+  for (int b; (b = c.ReadByte()) &gt; -1;)
+    Console.Write (b + &quot; &quot;);                            // 1 2 3 4 5</pre>
+	<p>RandomNumberGenerator:</p>
+	<pre>byte[] key = new byte [16];
+byte[] iv  = new byte [16];
+RandomNumberGenerator rand = RandomNumberGenerator.Create();
+rand.GetBytes (key);
+rand.GetBytes (iv);</pre>
+	<p>Encrypting in memory:</p>
+	<pre>public static byte[] Encrypt (byte[] data, byte[] key, byte[] iv)
+{
+  using (Rijndael algorithm = Rijndael.Create())
+  using (ICryptoTransform encryptor = algorithm.CreateEncryptor (key, iv))
+    return Crypt (data, key, iv, encryptor);
+}
+
+public static byte[] Decrypt (byte[] data, byte[] key, byte[] iv)
+{
+  using (Rijndael algorithm = Rijndael.Create())
+  using (ICryptoTransform decryptor = algorithm.CreateDecryptor (key, iv))
+    return Crypt (data, key, iv, decryptor);
+}
+
+static byte[] Crypt (byte[] data, byte[] key, byte[] iv,
+                     ICryptoTransform cryptor)
+{
+  MemoryStream m = new MemoryStream();
+  using (Stream c = new CryptoStream (m, cryptor, CryptoStreamMode.Write))
+    c.Write (data, 0, data.Length);
+  return m.ToArray();
+}</pre>
+	<pre>public static string Encrypt (string data, byte[] key, byte[] iv)
+{
+  return Convert.ToBase64String (
+    Encrypt (Encoding.UTF8.GetBytes (data), key, iv));
+}
+
+public static string Decrypt (string data, byte[] key, byte[] iv)
+{
+  return Encoding.UTF8.GetString (
+    Decrypt (Convert.FromBase64String (data), key, iv));
+}</pre>
+	<p>Chaining encryption streams:</p>
+	<pre>// Use default key/iv for demo.
+using (Rijndael algorithm = Rijndael.Create())
+{
+  using (ICryptoTransform encryptor = algorithm.CreateEncryptor())
+  using (Stream f = File.Create (&quot;serious.bin&quot;))
+  using (Stream c = new CryptoStream (f,encryptor,CryptoStreamMode.Write))
+  using (Stream d = new DeflateStream (c, CompressionMode.Compress))
+  using (StreamWriter w = new StreamWriter (d))
+    w.WriteLine (&quot;Small and secure!&quot;);
+
+  using (ICryptoTransform decryptor = algorithm.CreateDecryptor())
+  using (Stream f = File.OpenRead (&quot;serious.bin&quot;))
+  using (Stream c = new CryptoStream (f, decryptor, CryptoStreamMode.Read))
+  using (Stream d = new DeflateStream (c, CompressionMode.Decompress))
+  using (StreamReader r = new StreamReader (d))
+    Console.WriteLine (r.ReadLine());            // Small and secure!
+}</pre>
+	<p>The RSA class:</p>
+	<pre>byte[] data = { 1, 2, 3, 4, 5 };   // This is what we're encrypting.
+
+using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+{
+  byte[] encrypted = rsa.Encrypt (data, true);
+  byte[] decrypted = rsa.Decrypt (encrypted, true);
+}</pre>
+	<p>Manufacturing an RSA key pair:</p>
+	<pre>using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+{
+  File.WriteAllText (&quot;PublicKeyOnly.xml&quot;, rsa.ToXmlString (false));
+  File.WriteAllText (&quot;PublicPrivate.xml&quot;, rsa.ToXmlString (true));
+}</pre>
+	<p>Public key encryption and decryption:</p>
+	<pre>byte[] data = Encoding.UTF8.GetBytes (&quot;Message to encrypt&quot;);
+
+string publicKeyOnly = File.ReadAllText (&quot;PublicKeyOnly.xml&quot;);
+string publicPrivate = File.ReadAllText (&quot;PublicPrivate.xml&quot;);
+
+byte[] encrypted, decrypted;
+
+using (var rsaPublicOnly = new RSACryptoServiceProvider())
+{
+  rsaPublicOnly.FromXmlString (publicKeyOnly);
+  encrypted = rsaPublicOnly.Encrypt (data, true);
+
+  // The next line would throw an exception because you need the private
+  // key in order to decrypt:
+  // decrypted = rsaPublicOnly.Decrypt (encrypted, true);
+}
+
+using (var rsaPublicPrivate = new RSACryptoServiceProvider())
+{
+  // With the private key we can successfully decrypt:
+  rsaPublicPrivate.FromXmlString (publicPrivate);
+  decrypted = rsaPublicPrivate.Decrypt (encrypted, true);
+}</pre>
+	<p>Digital signing:</p>
+	<pre>byte[] data = Encoding.UTF8.GetBytes (&quot;Message to sign&quot;);
+byte[] publicKey;
+byte[] signature;
+object hasher = SHA1.Create();         // Our chosen hashing algorithm.
+
+// Generate a new key pair, then sign the data with it:
+using (var publicPrivate = new RSACryptoServiceProvider())
+{
+  signature = publicPrivate.SignData (data, hasher);
+  publicKey = publicPrivate.ExportCspBlob (false);    // get public key
+}
+
+// Create a fresh RSA using just the public key, then test the signature.
+using (var publicOnly = new RSACryptoServiceProvider())
+{
+  publicOnly.ImportCspBlob (publicKey);
+  Console.Write (publicOnly.VerifyData (data, hasher, signature)); // True
+
+  // Let's now tamper with the data, and recheck the signature:
+  data[0] = 0;
+  Console.Write (publicOnly.VerifyData (data, hasher, signature)); // False
+
+  // The following throws an exception as we're lacking a private key:
+  signature = publicOnly.SignData (data, hasher);
+}</pre>
+</div>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch18.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

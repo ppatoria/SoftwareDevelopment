@@ -1,0 +1,242 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:11 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>hex - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/index.html" title="The Boost Algorithm Library">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/Misc.html" title="Other Algorithms">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/gather.html" title="gather">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/reference.html" title="Reference">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/gather.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/Misc.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="the_boost_algorithm_library.Misc.hex"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html" title="hex">hex</a>
+</h3></div></div></div>
+<p>
+        The header file <code class="computeroutput"><span class="char">'boost/algorithm/hex.hpp'</span></code>
+        contains three variants each of two algorithms, <code class="computeroutput"><span class="identifier">hex</span></code>
+        and <code class="computeroutput"><span class="identifier">unhex</span></code>. They are inverse
+        algorithms; that is, one undoes the effort of the other. <code class="computeroutput"><span class="identifier">hex</span></code>
+        takes a sequence of values, and turns them into hexadecimal characters.
+        <code class="computeroutput"><span class="identifier">unhex</span></code> takes a sequence of
+        hexadecimal characters, and outputs a sequence of values.
+      </p>
+<p>
+        <code class="computeroutput"><span class="identifier">hex</span></code> and <code class="computeroutput"><span class="identifier">unhex</span></code>
+        come from MySQL, where they are used in database queries and stored procedures.
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h0"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.interface"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.interface">interface</a>
+      </h5>
+<p>
+        The function <code class="computeroutput"><span class="identifier">hex</span></code> takes a
+        sequence of values and writes hexadecimal characters. There are three different
+        interfaces, differing only in how the input sequence is specified.
+      </p>
+<p>
+        The first one takes an iterator pair. The second one takes a pointer to the
+        start of a zero-terminated sequence, such as a c string, and the third takes
+        a range as defined by the Boost.Range library.
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">InputIterator</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">hex</span> <span class="special">(</span> <span class="identifier">InputIterator</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">InputIterator</span> <span class="identifier">last</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">T</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">hex</span> <span class="special">(</span> <span class="keyword">const</span> <span class="identifier">T</span> <span class="special">*</span><span class="identifier">ptr</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">Range</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">hex</span> <span class="special">(</span> <span class="keyword">const</span> <span class="identifier">Range</span> <span class="special">&amp;</span><span class="identifier">r</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+</pre>
+<p>
+      </p>
+<p>
+        <code class="computeroutput"><span class="identifier">hex</span></code> writes only values in
+        the range '0'..'9' and 'A'..'F', but is not limited to character output.
+        The output iterator could refer to a wstring, or a vector of integers, or
+        any other integral type.
+      </p>
+<p>
+        The function <code class="computeroutput"><span class="identifier">unhex</span></code> takes
+        the output of <code class="computeroutput"><span class="identifier">hex</span></code> and turns
+        it back into a sequence of values.
+      </p>
+<p>
+        The input parameters for the different variations of <code class="computeroutput"><span class="identifier">unhex</span></code>
+        are the same as <code class="computeroutput"><span class="identifier">hex</span></code>.
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">InputIterator</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">unhex</span> <span class="special">(</span> <span class="identifier">InputIterator</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">InputIterator</span> <span class="identifier">last</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">T</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">unhex</span> <span class="special">(</span> <span class="keyword">const</span> <span class="identifier">T</span> <span class="special">*</span><span class="identifier">ptr</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">Range</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">OutputIterator</span><span class="special">&gt;</span>
+<span class="identifier">OutputIterator</span> <span class="identifier">unhex</span> <span class="special">(</span> <span class="keyword">const</span> <span class="identifier">Range</span> <span class="special">&amp;</span><span class="identifier">r</span><span class="special">,</span> <span class="identifier">OutputIterator</span> <span class="identifier">out</span> <span class="special">);</span>
+</pre>
+<p>
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h1"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.error_handling"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.error_handling">Error
+        Handling</a>
+      </h5>
+<p>
+        The header 'hex.hpp' defines three exception classes:
+</p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">hex_decode_error</span><span class="special">:</span> <span class="keyword">virtual</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">exception</span><span class="special">,</span> <span class="keyword">virtual</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">exception</span> <span class="special">{};</span>
+<span class="keyword">struct</span> <span class="identifier">not_enough_input</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">hex_decode_error</span><span class="special">;</span>
+<span class="keyword">struct</span> <span class="identifier">non_hex_input</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">hex_decode_error</span><span class="special">;</span>
+</pre>
+<p>
+      </p>
+<p>
+        If the input to <code class="computeroutput"><span class="identifier">unhex</span></code> does
+        not contain an "even number" of hex digits, then an exception of
+        type <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">algorithm</span><span class="special">::</span><span class="identifier">not_enough_input</span></code> is thrown.
+      </p>
+<p>
+        If the input to <code class="computeroutput"><span class="identifier">unhex</span></code> contains
+        any non-hexadecimal characters, then an exception of type <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">algorithm</span><span class="special">::</span><span class="identifier">non_hex_input</span></code>
+        is thrown.
+      </p>
+<p>
+        If you want to catch all the decoding errors, you can catch exceptions of
+        type <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">algorithm</span><span class="special">::</span><span class="identifier">hex_decode_error</span></code>.
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h2"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.examples"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.examples">Examples</a>
+      </h5>
+<p>
+        Assuming that <code class="computeroutput"><span class="identifier">out</span></code> is an iterator
+        that accepts <code class="computeroutput"><span class="keyword">char</span></code> values, and
+        <code class="computeroutput"><span class="identifier">wout</span></code> accepts <code class="computeroutput"><span class="keyword">wchar_t</span></code> values (and that sizeof ( wchar_t
+        ) == 2)
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">hex</span> <span class="special">(</span> <span class="string">"abcdef"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>  <span class="special">--&gt;</span> <span class="string">"616263646566"</span>
+<span class="identifier">hex</span> <span class="special">(</span> <span class="string">"32"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>     <span class="special">--&gt;</span> <span class="string">"3332"</span>
+<span class="identifier">hex</span> <span class="special">(</span> <span class="string">"abcdef"</span><span class="special">,</span> <span class="identifier">wout</span> <span class="special">)</span> <span class="special">--&gt;</span> <span class="string">"006100620063006400650066"</span>
+<span class="identifier">hex</span> <span class="special">(</span> <span class="string">"32"</span><span class="special">,</span> <span class="identifier">wout</span> <span class="special">)</span>    <span class="special">--&gt;</span> <span class="string">"00330032"</span>
+
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"616263646566"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>  <span class="special">--&gt;</span> <span class="string">"abcdef"</span>
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"3332"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>          <span class="special">--&gt;</span> <span class="string">"32"</span>
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"616263646566"</span><span class="special">,</span> <span class="identifier">wout</span> <span class="special">)</span> <span class="special">--&gt;</span> <span class="string">"\6162\6364\6566"</span>	<span class="special">(</span> <span class="identifier">i</span><span class="special">.</span><span class="identifier">e</span><span class="special">,</span> <span class="identifier">a</span> <span class="number">3</span> <span class="identifier">character</span> <span class="identifier">string</span> <span class="special">)</span>
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"3332"</span><span class="special">,</span> <span class="identifier">wout</span> <span class="special">)</span>         <span class="special">--&gt;</span> <span class="string">"\3233"</span>				<span class="special">(</span> <span class="identifier">U</span><span class="special">+</span><span class="number">3332</span><span class="special">,</span> <span class="identifier">SQUARE</span> <span class="identifier">HUARADDO</span> <span class="special">)</span>
+
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"3"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>            <span class="special">--&gt;</span> <span class="identifier">Error</span> <span class="special">-</span> <span class="keyword">not</span> <span class="identifier">enough</span> <span class="identifier">input</span>
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"32"</span><span class="special">,</span> <span class="identifier">wout</span> <span class="special">)</span>          <span class="special">--&gt;</span> <span class="identifier">Error</span> <span class="special">-</span> <span class="keyword">not</span> <span class="identifier">enough</span> <span class="identifier">input</span>
+
+<span class="identifier">unhex</span> <span class="special">(</span> <span class="string">"ACEG"</span><span class="special">,</span> <span class="identifier">out</span> <span class="special">)</span>         <span class="special">--&gt;</span> <span class="identifier">Error</span> <span class="special">-</span> <span class="identifier">non</span><span class="special">-</span><span class="identifier">hex</span> <span class="identifier">input</span>
+</pre>
+<p>
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h3"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.iterator_requirements"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.iterator_requirements">Iterator
+        Requirements</a>
+      </h5>
+<p>
+        <code class="computeroutput"><span class="identifier">hex</span></code> and <code class="computeroutput"><span class="identifier">unhex</span></code>
+        work on all iterator types.
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h4"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.complexity"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.complexity">Complexity</a>
+      </h5>
+<p>
+        All of the variants of <code class="computeroutput"><span class="identifier">hex</span></code>
+        and <code class="computeroutput"><span class="identifier">unhex</span></code> run in <span class="emphasis"><em>O(N)</em></span>
+        (linear) time; that is, that is, they process each element in the input sequence
+        once.
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h5"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.exception_safety"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.exception_safety">Exception
+        Safety</a>
+      </h5>
+<p>
+        All of the variants of <code class="computeroutput"><span class="identifier">hex</span></code>
+        and <code class="computeroutput"><span class="identifier">unhex</span></code> take their parameters
+        by value or const reference, and do not depend upon any global state. Therefore,
+        all the routines in this file provide the strong exception guarantee. However,
+        when working on input iterators, if an exception is thrown, the input iterators
+        will not be reset to their original values (i.e, the characters read from
+        the iterator cannot be un-read)
+      </p>
+<h5>
+<a name="the_boost_algorithm_library.Misc.hex.h6"></a>
+        <span class="phrase"><a name="the_boost_algorithm_library.Misc.hex.notes"></a></span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html#the_boost_algorithm_library.Misc.hex.notes">Notes</a>
+      </h5>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+            <code class="computeroutput"><span class="identifier">hex</span></code> and <code class="computeroutput"><span class="identifier">unhex</span></code> both do nothing when passed empty
+            ranges.
+          </li></ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2010-2012 Marshall Clow<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/gather.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/Misc.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/algorithm/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/algorithm/doc/html/the_boost_algorithm_library/Misc/hex.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:11 GMT -->
+</html>

@@ -1,0 +1,1216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/crc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:52:28 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/crc.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/crc.hpp</h3>
+<pre>
+//  Boost CRC library crc.hpp header file  -----------------------------------//
+
+//  Copyright 2001, 2004 Daryle Walker.  Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0.  (See accompanying file
+//  LICENSE_1_0.txt or a copy at &lt;<a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>&gt;.)
+
+//  See &lt;<a href="http://www.boost.org/libs/crc/">http://www.boost.org/libs/crc/</a>&gt; for the library's home page.
+
+#ifndef BOOST_CRC_HPP
+#define BOOST_CRC_HPP
+
+#include &lt;<a href="config.html">boost/config.hpp</a>&gt;   // for BOOST_STATIC_CONSTANT, etc.
+#include &lt;<a href="integer.html">boost/integer.hpp</a>&gt;  // for boost::uint_t
+
+#include &lt;climits&gt;  // for CHAR_BIT, etc.
+#include &lt;cstddef&gt;  // for std::size_t
+
+#include &lt;<a href="limits.html">boost/limits.hpp</a>&gt;  // for std::numeric_limits
+
+
+// The type of CRC parameters that can go in a template should be related
+// on the CRC's bit count.  This macro expresses that type in a compact
+// form, but also allows an alternate type for compilers that don't support
+// dependent types (in template value-parameters).
+#if !(defined(BOOST_NO_DEPENDENT_TYPES_IN_TEMPLATE_VALUE_PARAMETERS) || (defined(BOOST_MSVC) &amp;&amp; (BOOST_MSVC &lt;= 1300)))
+#define BOOST_CRC_PARM_TYPE  typename ::boost::uint_t&lt;Bits&gt;::fast
+#else
+#define BOOST_CRC_PARM_TYPE  unsigned long
+#endif
+
+// Some compilers [MS VC++ 6] cannot correctly set up several versions of a
+// function template unless every template argument can be unambiguously
+// deduced from the function arguments.  (The bug is hidden if only one version
+// is needed.)  Since all of the CRC function templates have this problem, the
+// workaround is to make up a dummy function argument that encodes the template
+// arguments.  Calls to such template functions need all their template
+// arguments explicitly specified.  At least one compiler that needs this
+// workaround also needs the default value for the dummy argument to be
+// specified in the definition.
+#if defined(__GNUC__) || !defined(BOOST_NO_EXPLICIT_FUNCTION_TEMPLATE_ARGUMENTS)
+#define BOOST_CRC_DUMMY_PARM_TYPE
+#define BOOST_CRC_DUMMY_INIT
+#define BOOST_ACRC_DUMMY_PARM_TYPE
+#define BOOST_ACRC_DUMMY_INIT
+#else
+namespace boost { namespace detail {
+    template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+     BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+     bool ReflectIn, bool ReflectRem &gt;
+    struct dummy_crc_argument  { };
+} }
+#define BOOST_CRC_DUMMY_PARM_TYPE   , detail::dummy_crc_argument&lt;Bits, \
+ TruncPoly, InitRem, FinalXor, ReflectIn, ReflectRem&gt; *p_
+#define BOOST_CRC_DUMMY_INIT        BOOST_CRC_DUMMY_PARM_TYPE = 0
+#define BOOST_ACRC_DUMMY_PARM_TYPE  , detail::dummy_crc_argument&lt;Bits, \
+ TruncPoly, 0, 0, false, false&gt; *p_
+#define BOOST_ACRC_DUMMY_INIT       BOOST_ACRC_DUMMY_PARM_TYPE = 0
+#endif
+
+
+namespace boost
+{
+
+
+//  Forward declarations  ----------------------------------------------------//
+
+template &lt; std::size_t Bits &gt;
+    class crc_basic;
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly = 0u,
+           BOOST_CRC_PARM_TYPE InitRem = 0u,
+           BOOST_CRC_PARM_TYPE FinalXor = 0u, bool ReflectIn = false,
+           bool ReflectRem = false &gt;
+    class crc_optimal;
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+    typename uint_t&lt;Bits&gt;::fast  crc( void const *buffer,
+     std::size_t byte_count
+     BOOST_CRC_DUMMY_PARM_TYPE );
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly &gt;
+    typename uint_t&lt;Bits&gt;::fast  augmented_crc( void const *buffer,
+     std::size_t byte_count, typename uint_t&lt;Bits&gt;::fast initial_remainder
+     BOOST_ACRC_DUMMY_PARM_TYPE );
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly &gt;
+    typename uint_t&lt;Bits&gt;::fast  augmented_crc( void const *buffer,
+     std::size_t byte_count
+     BOOST_ACRC_DUMMY_PARM_TYPE );
+
+typedef crc_optimal&lt;16, 0x8005, 0, 0, true, true&gt;         crc_16_type;
+typedef crc_optimal&lt;16, 0x1021, 0xFFFF, 0, false, false&gt;  crc_ccitt_type;
+typedef crc_optimal&lt;16, 0x8408, 0, 0, true, true&gt;         crc_xmodem_type;
+
+typedef crc_optimal&lt;32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true&gt;
+  crc_32_type;
+
+
+//  Forward declarations for implementation detail stuff  --------------------//
+//  (Just for the stuff that will be needed for the next two sections)
+
+namespace detail
+{
+    template &lt; std::size_t Bits &gt;
+        struct mask_uint_t;
+
+    template &lt;  &gt;
+        struct mask_uint_t&lt; std::numeric_limits&lt;unsigned char&gt;::digits &gt;;
+
+    #if USHRT_MAX &gt; UCHAR_MAX
+    template &lt;  &gt;
+        struct mask_uint_t&lt; std::numeric_limits&lt;unsigned short&gt;::digits &gt;;
+    #endif
+
+    #if UINT_MAX &gt; USHRT_MAX
+    template &lt;  &gt;
+        struct mask_uint_t&lt; std::numeric_limits&lt;unsigned int&gt;::digits &gt;;
+    #endif
+
+    #if ULONG_MAX &gt; UINT_MAX
+    template &lt;  &gt;
+        struct mask_uint_t&lt; std::numeric_limits&lt;unsigned long&gt;::digits &gt;;
+    #endif
+
+    template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly, bool Reflect &gt;
+        struct crc_table_t;
+
+    template &lt; std::size_t Bits, bool DoReflect &gt;
+        class crc_helper;
+
+    #ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    template &lt; std::size_t Bits &gt;
+        class crc_helper&lt; Bits, false &gt;;
+    #endif
+
+}  // namespace detail
+
+
+//  Simple cyclic redundancy code (CRC) class declaration  -------------------//
+
+template &lt; std::size_t Bits &gt;
+class crc_basic
+{
+    // Implementation type
+    typedef detail::mask_uint_t&lt;Bits&gt;  masking_type;
+
+public:
+    // Type
+    typedef typename masking_type::least  value_type;
+
+    // Constant for the template parameter
+    BOOST_STATIC_CONSTANT( std::size_t, bit_count = Bits );
+
+    // Constructor
+    explicit  crc_basic( value_type truncated_polynominal,
+               value_type initial_remainder = 0, value_type final_xor_value = 0,
+               bool reflect_input = false, bool reflect_remainder = false );
+
+    // Internal Operations
+    value_type  get_truncated_polynominal() const;
+    value_type  get_initial_remainder() const;
+    value_type  get_final_xor_value() const;
+    bool        get_reflect_input() const;
+    bool        get_reflect_remainder() const;
+
+    value_type  get_interim_remainder() const;
+    void        reset( value_type new_rem );
+    void        reset();
+
+    // External Operations
+    void  process_bit( bool bit );
+    void  process_bits( unsigned char bits, std::size_t bit_count );
+    void  process_byte( unsigned char byte );
+    void  process_block( void const *bytes_begin, void const *bytes_end );
+    void  process_bytes( void const *buffer, std::size_t byte_count );
+
+    value_type  checksum() const;
+
+private:
+    // Member data
+    value_type  rem_;
+    value_type  poly_, init_, final_;  // non-const to allow assignability
+    bool        rft_in_, rft_out_;     // non-const to allow assignability
+
+};  // boost::crc_basic
+
+
+//  Optimized cyclic redundancy code (CRC) class declaration  ----------------//
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+class crc_optimal
+{
+    // Implementation type
+    typedef detail::mask_uint_t&lt;Bits&gt;  masking_type;
+
+public:
+    // Type
+    typedef typename masking_type::fast  value_type;
+
+    // Constants for the template parameters
+    BOOST_STATIC_CONSTANT( std::size_t, bit_count = Bits );
+    BOOST_STATIC_CONSTANT( value_type, truncated_polynominal = TruncPoly );
+    BOOST_STATIC_CONSTANT( value_type, initial_remainder = InitRem );
+    BOOST_STATIC_CONSTANT( value_type, final_xor_value = FinalXor );
+    BOOST_STATIC_CONSTANT( bool, reflect_input = ReflectIn );
+    BOOST_STATIC_CONSTANT( bool, reflect_remainder = ReflectRem );
+
+    // Constructor
+    explicit  crc_optimal( value_type init_rem = InitRem );
+
+    // Internal Operations
+    value_type  get_truncated_polynominal() const;
+    value_type  get_initial_remainder() const;
+    value_type  get_final_xor_value() const;
+    bool        get_reflect_input() const;
+    bool        get_reflect_remainder() const;
+
+    value_type  get_interim_remainder() const;
+    void        reset( value_type new_rem = InitRem );
+
+    // External Operations
+    void  process_byte( unsigned char byte );
+    void  process_block( void const *bytes_begin, void const *bytes_end );
+    void  process_bytes( void const *buffer, std::size_t byte_count );
+
+    value_type  checksum() const;
+
+    // Operators
+    void        operator ()( unsigned char byte );
+    value_type  operator ()() const;
+
+private:
+    // The implementation of output reflection depends on both reflect states.
+    BOOST_STATIC_CONSTANT( bool, reflect_output = (ReflectRem != ReflectIn) );
+
+    #ifndef __BORLANDC__
+    #define BOOST_CRC_REF_OUT_VAL  reflect_output
+    #else
+    typedef crc_optimal  self_type;
+    #define BOOST_CRC_REF_OUT_VAL  (self_type::reflect_output)
+    #endif
+
+    // More implementation types
+    typedef detail::crc_table_t&lt;Bits, TruncPoly, ReflectIn&gt;  crc_table_type;
+    typedef detail::crc_helper&lt;Bits, ReflectIn&gt;              helper_type;
+    typedef detail::crc_helper&lt;Bits, BOOST_CRC_REF_OUT_VAL&gt;  reflect_out_type;
+
+    #undef BOOST_CRC_REF_OUT_VAL
+
+    // Member data
+    value_type  rem_;
+
+};  // boost::crc_optimal
+
+
+//  Implementation detail stuff  ---------------------------------------------//
+
+namespace detail
+{
+    // Forward declarations for more implementation details
+    template &lt; std::size_t Bits &gt;
+        struct high_uint_t;
+
+    template &lt; std::size_t Bits &gt;
+        struct reflector;
+
+
+    // Traits class for mask; given the bit number
+    // (1-based), get the mask for that bit by itself.
+    template &lt; std::size_t Bits &gt;
+    struct high_uint_t
+        : boost::uint_t&lt; Bits &gt;
+    {
+        typedef boost::uint_t&lt;Bits&gt;        base_type;
+        typedef typename base_type::least  least;
+        typedef typename base_type::fast   fast;
+
+#if defined(__EDG_VERSION__) &amp;&amp; __EDG_VERSION__ &lt;= 243
+        static const least high_bit = 1ul &lt;&lt; ( Bits - 1u );
+        static const fast high_bit_fast = 1ul &lt;&lt; ( Bits - 1u );
+#else
+        BOOST_STATIC_CONSTANT( least, high_bit = (least( 1u ) &lt;&lt; ( Bits
+         - 1u )) );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = (fast( 1u ) &lt;&lt; ( Bits
+         - 1u )) );
+#endif
+
+    };  // boost::detail::high_uint_t
+
+
+    // Reflection routine class wrapper
+    // (since MS VC++ 6 couldn't handle the unwrapped version)
+    template &lt; std::size_t Bits &gt;
+    struct reflector
+    {
+        typedef typename boost::uint_t&lt;Bits&gt;::fast  value_type;
+
+        static  value_type  reflect( value_type x );
+
+    };  // boost::detail::reflector
+
+    // Function that reflects its argument
+    template &lt; std::size_t Bits &gt;
+    typename reflector&lt;Bits&gt;::value_type
+    reflector&lt;Bits&gt;::reflect
+    (
+        typename reflector&lt;Bits&gt;::value_type  x
+    )
+    {
+        value_type        reflection = 0;
+        value_type const  one = 1;
+
+        for ( std::size_t i = 0 ; i &lt; Bits ; ++i, x &gt;&gt;= 1 )
+        {
+            if ( x &amp; one )
+            {
+                reflection |= ( one &lt;&lt; (Bits - 1u - i) );
+            }
+        }
+
+        return reflection;
+    }
+
+
+    // Traits class for masks; given the bit number (1-based),
+    // get the mask for that bit and its lower bits.
+    template &lt; std::size_t Bits &gt;
+    struct mask_uint_t
+        : high_uint_t&lt; Bits &gt;
+    {
+        typedef high_uint_t&lt;Bits&gt;          base_type;
+        typedef typename base_type::least  least;
+        typedef typename base_type::fast   fast;
+
+        #ifndef __BORLANDC__
+        using base_type::high_bit;
+        using base_type::high_bit_fast;
+        #else
+        BOOST_STATIC_CONSTANT( least, high_bit = base_type::high_bit );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = base_type::high_bit_fast );
+        #endif
+
+#if defined(__EDG_VERSION__) &amp;&amp; __EDG_VERSION__ &lt;= 243
+        static const least sig_bits = (~( ~( 0ul ) &lt;&lt; Bits )) ;
+#else
+        BOOST_STATIC_CONSTANT( least, sig_bits = (~( ~(least( 0u )) &lt;&lt; Bits )) );
+#endif
+#if defined(__GNUC__) &amp;&amp; __GNUC__ == 4 &amp;&amp; __GNUC_MINOR__ == 0 &amp;&amp; __GNUC_PATCHLEVEL__ == 2
+        // Work around a weird bug that ICEs the compiler in build_c_cast
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = static_cast&lt;fast&gt;(sig_bits) );
+#else
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+#endif
+    };  // boost::detail::mask_uint_t
+
+    template &lt;  &gt;
+    struct mask_uint_t&lt; std::numeric_limits&lt;unsigned char&gt;::digits &gt;
+        : high_uint_t&lt; std::numeric_limits&lt;unsigned char&gt;::digits &gt;
+    {
+        typedef high_uint_t&lt;std::numeric_limits&lt;unsigned char&gt;::digits&gt;
+          base_type;
+        typedef base_type::least  least;
+        typedef base_type::fast   fast;
+
+        #ifndef __BORLANDC__
+        using base_type::high_bit;
+        using base_type::high_bit_fast;
+        #else
+        BOOST_STATIC_CONSTANT( least, high_bit = base_type::high_bit );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = base_type::high_bit_fast );
+        #endif
+
+        BOOST_STATIC_CONSTANT( least, sig_bits = (~( least(0u) )) );
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+
+    };  // boost::detail::mask_uint_t
+
+    #if USHRT_MAX &gt; UCHAR_MAX
+    template &lt;  &gt;
+    struct mask_uint_t&lt; std::numeric_limits&lt;unsigned short&gt;::digits &gt;
+        : high_uint_t&lt; std::numeric_limits&lt;unsigned short&gt;::digits &gt;
+    {
+        typedef high_uint_t&lt;std::numeric_limits&lt;unsigned short&gt;::digits&gt;
+          base_type;
+        typedef base_type::least  least;
+        typedef base_type::fast   fast;
+
+        #ifndef __BORLANDC__
+        using base_type::high_bit;
+        using base_type::high_bit_fast;
+        #else
+        BOOST_STATIC_CONSTANT( least, high_bit = base_type::high_bit );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = base_type::high_bit_fast );
+        #endif
+
+        BOOST_STATIC_CONSTANT( least, sig_bits = (~( least(0u) )) );
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+
+    };  // boost::detail::mask_uint_t
+    #endif
+
+    #if UINT_MAX &gt; USHRT_MAX
+    template &lt;  &gt;
+    struct mask_uint_t&lt; std::numeric_limits&lt;unsigned int&gt;::digits &gt;
+        : high_uint_t&lt; std::numeric_limits&lt;unsigned int&gt;::digits &gt;
+    {
+        typedef high_uint_t&lt;std::numeric_limits&lt;unsigned int&gt;::digits&gt;
+          base_type;
+        typedef base_type::least  least;
+        typedef base_type::fast   fast;
+
+        #ifndef __BORLANDC__
+        using base_type::high_bit;
+        using base_type::high_bit_fast;
+        #else
+        BOOST_STATIC_CONSTANT( least, high_bit = base_type::high_bit );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = base_type::high_bit_fast );
+        #endif
+
+        BOOST_STATIC_CONSTANT( least, sig_bits = (~( least(0u) )) );
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+
+    };  // boost::detail::mask_uint_t
+    #endif
+
+    #if ULONG_MAX &gt; UINT_MAX
+    template &lt;  &gt;
+    struct mask_uint_t&lt; std::numeric_limits&lt;unsigned long&gt;::digits &gt;
+        : high_uint_t&lt; std::numeric_limits&lt;unsigned long&gt;::digits &gt;
+    {
+        typedef high_uint_t&lt;std::numeric_limits&lt;unsigned long&gt;::digits&gt;
+          base_type;
+        typedef base_type::least  least;
+        typedef base_type::fast   fast;
+
+        #ifndef __BORLANDC__
+        using base_type::high_bit;
+        using base_type::high_bit_fast;
+        #else
+        BOOST_STATIC_CONSTANT( least, high_bit = base_type::high_bit );
+        BOOST_STATIC_CONSTANT( fast, high_bit_fast = base_type::high_bit_fast );
+        #endif
+
+        BOOST_STATIC_CONSTANT( least, sig_bits = (~( least(0u) )) );
+        BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+
+    };  // boost::detail::mask_uint_t
+    #endif
+
+
+    // CRC table generator
+    template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly, bool Reflect &gt;
+    struct crc_table_t
+    {
+        BOOST_STATIC_CONSTANT( std::size_t, byte_combos = (1ul &lt;&lt; CHAR_BIT) );
+
+        typedef mask_uint_t&lt;Bits&gt;            masking_type;
+        typedef typename masking_type::fast  value_type;
+#if defined(__BORLANDC__) &amp;&amp; defined(_M_IX86) &amp;&amp; (__BORLANDC__ == 0x560)
+        // for some reason Borland's command line compiler (version 0x560)
+        // chokes over this unless we do the calculation for it:
+        typedef value_type                   table_type[ 0x100 ];
+#elif defined(__GNUC__)
+        // old versions of GCC (before 4.0.2) choke on using byte_combos
+        // as a constant expression when compiling with -pedantic.
+        typedef value_type                   table_type[1ul &lt;&lt; CHAR_BIT];
+#else
+        typedef value_type                   table_type[ byte_combos ];
+#endif
+
+        static  void  init_table();
+
+        static  table_type  table_;
+
+    };  // boost::detail::crc_table_t
+
+    // CRC table generator static data member definition
+    // (Some compilers [Borland C++] require the initializer to be present.)
+    template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly, bool Reflect &gt;
+    typename crc_table_t&lt;Bits, TruncPoly, Reflect&gt;::table_type
+    crc_table_t&lt;Bits, TruncPoly, Reflect&gt;::table_
+     = { 0 };
+
+    // Populate CRC lookup table
+    template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly, bool Reflect &gt;
+    void
+    crc_table_t&lt;Bits, TruncPoly, Reflect&gt;::init_table
+    (
+    )
+    {
+        // compute table only on the first run
+        static  bool  did_init = false;
+        if ( did_init )  return;
+
+        // factor-out constants to avoid recalculation
+        value_type const     fast_hi_bit = masking_type::high_bit_fast;
+        unsigned char const  byte_hi_bit = 1u &lt;&lt; (CHAR_BIT - 1u);
+
+        // loop over every possible dividend value
+        unsigned char  dividend = 0;
+        do
+        {
+            value_type  remainder = 0;
+
+            // go through all the dividend's bits
+            for ( unsigned char mask = byte_hi_bit ; mask ; mask &gt;&gt;= 1 )
+            {
+                // check if divisor fits
+                if ( dividend &amp; mask )
+                {
+                    remainder ^= fast_hi_bit;
+                }
+
+                // do polynominal division
+                if ( remainder &amp; fast_hi_bit )
+                {
+                    remainder &lt;&lt;= 1;
+                    remainder ^= TruncPoly;
+                }
+                else
+                {
+                    remainder &lt;&lt;= 1;
+                }
+            }
+
+            table_[ crc_helper&lt;CHAR_BIT, Reflect&gt;::reflect(dividend) ]
+             = crc_helper&lt;Bits, Reflect&gt;::reflect( remainder );
+        }
+        while ( ++dividend );
+
+        did_init = true;
+    }
+
+    #ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    // Align the msb of the remainder to a byte
+    template &lt; std::size_t Bits, bool RightShift &gt;
+    class remainder
+    {
+    public:
+        typedef typename uint_t&lt;Bits&gt;::fast  value_type;
+
+        static unsigned char align_msb( value_type rem )
+            { return rem &gt;&gt; (Bits - CHAR_BIT); }
+    };
+
+    // Specialization for the case that the remainder has less
+    // bits than a byte: align the remainder msb to the byte msb
+    template &lt; std::size_t Bits &gt;
+    class remainder&lt; Bits, false &gt;
+    {
+    public:
+        typedef typename uint_t&lt;Bits&gt;::fast  value_type;
+
+        static unsigned char align_msb( value_type rem )
+            { return rem &lt;&lt; (CHAR_BIT - Bits); }
+    };
+    #endif
+
+    // CRC helper routines
+    template &lt; std::size_t Bits, bool DoReflect &gt;
+    class crc_helper
+    {
+    public:
+        // Type
+        typedef typename uint_t&lt;Bits&gt;::fast  value_type;
+
+    #ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+        // Possibly reflect a remainder
+        static  value_type  reflect( value_type x )
+            { return detail::reflector&lt;Bits&gt;::reflect( x ); }
+
+        // Compare a byte to the remainder's highest byte
+        static  unsigned char  index( value_type rem, unsigned char x )
+            { return x ^ rem; }
+
+        // Shift out the remainder's highest byte
+        static  value_type  shift( value_type rem )
+            { return rem &gt;&gt; CHAR_BIT; }
+    #else
+        // Possibly reflect a remainder
+        static  value_type  reflect( value_type x )
+            { return DoReflect ? detail::reflector&lt;Bits&gt;::reflect( x ) : x; }
+
+        // Compare a byte to the remainder's highest byte
+        static  unsigned char  index( value_type rem, unsigned char x )
+            { return x ^ ( DoReflect ? rem :
+                                ((Bits&gt;CHAR_BIT)?( rem &gt;&gt; (Bits - CHAR_BIT) ) :
+                                    ( rem &lt;&lt; (CHAR_BIT - Bits) ))); }
+
+        // Shift out the remainder's highest byte
+        static  value_type  shift( value_type rem )
+            { return DoReflect ? rem &gt;&gt; CHAR_BIT : rem &lt;&lt; CHAR_BIT; }
+    #endif
+
+    };  // boost::detail::crc_helper
+
+    #ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    template &lt; std::size_t Bits &gt;
+    class crc_helper&lt;Bits, false&gt;
+    {
+    public:
+        // Type
+        typedef typename uint_t&lt;Bits&gt;::fast  value_type;
+
+        // Possibly reflect a remainder
+        static  value_type  reflect( value_type x )
+            { return x; }
+
+        // Compare a byte to the remainder's highest byte
+        static  unsigned char  index( value_type rem, unsigned char x )
+            { return x ^ remainder&lt;Bits,(Bits&gt;CHAR_BIT)&gt;::align_msb( rem ); }
+
+        // Shift out the remainder's highest byte
+        static  value_type  shift( value_type rem )
+            { return rem &lt;&lt; CHAR_BIT; }
+
+    };  // boost::detail::crc_helper
+    #endif
+
+
+}  // namespace detail
+
+
+//  Simple CRC class function definitions  -----------------------------------//
+
+template &lt; std::size_t Bits &gt;
+inline
+crc_basic&lt;Bits&gt;::crc_basic
+(
+    typename crc_basic&lt;Bits&gt;::value_type  truncated_polynominal,
+    typename crc_basic&lt;Bits&gt;::value_type  initial_remainder,      // = 0
+    typename crc_basic&lt;Bits&gt;::value_type  final_xor_value,        // = 0
+    bool                                  reflect_input,          // = false
+    bool                                  reflect_remainder       // = false
+)
+    : rem_( initial_remainder ), poly_( truncated_polynominal )
+    , init_( initial_remainder ), final_( final_xor_value )
+    , rft_in_( reflect_input ), rft_out_( reflect_remainder )
+{
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+typename crc_basic&lt;Bits&gt;::value_type
+crc_basic&lt;Bits&gt;::get_truncated_polynominal
+(
+) const
+{
+    return poly_;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+typename crc_basic&lt;Bits&gt;::value_type
+crc_basic&lt;Bits&gt;::get_initial_remainder
+(
+) const
+{
+    return init_;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+typename crc_basic&lt;Bits&gt;::value_type
+crc_basic&lt;Bits&gt;::get_final_xor_value
+(
+) const
+{
+    return final_;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+bool
+crc_basic&lt;Bits&gt;::get_reflect_input
+(
+) const
+{
+    return rft_in_;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+bool
+crc_basic&lt;Bits&gt;::get_reflect_remainder
+(
+) const
+{
+    return rft_out_;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+typename crc_basic&lt;Bits&gt;::value_type
+crc_basic&lt;Bits&gt;::get_interim_remainder
+(
+) const
+{
+    return rem_ &amp; masking_type::sig_bits;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+void
+crc_basic&lt;Bits&gt;::reset
+(
+    typename crc_basic&lt;Bits&gt;::value_type  new_rem
+)
+{
+    rem_ = new_rem;
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+void
+crc_basic&lt;Bits&gt;::reset
+(
+)
+{
+    this-&gt;reset( this-&gt;get_initial_remainder() );
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+void
+crc_basic&lt;Bits&gt;::process_bit
+(
+    bool  bit
+)
+{
+    value_type const  high_bit_mask = masking_type::high_bit;
+
+    // compare the new bit with the remainder's highest
+    rem_ ^= ( bit ? high_bit_mask : 0u );
+
+    // a full polynominal division step is done when the highest bit is one
+    bool const  do_poly_div = static_cast&lt;bool&gt;( rem_ &amp; high_bit_mask );
+
+    // shift out the highest bit
+    rem_ &lt;&lt;= 1;
+
+    // carry out the division, if needed
+    if ( do_poly_div )
+    {
+        rem_ ^= poly_;
+    }
+}
+
+template &lt; std::size_t Bits &gt;
+void
+crc_basic&lt;Bits&gt;::process_bits
+(
+    unsigned char  bits,
+    std::size_t    bit_count
+)
+{
+    // ignore the bits above the ones we want
+    bits &lt;&lt;= CHAR_BIT - bit_count;
+
+    // compute the CRC for each bit, starting with the upper ones
+    unsigned char const  high_bit_mask = 1u &lt;&lt; ( CHAR_BIT - 1u );
+    for ( std::size_t i = bit_count ; i &gt; 0u ; --i, bits &lt;&lt;= 1u )
+    {
+        process_bit( static_cast&lt;bool&gt;(bits &amp; high_bit_mask) );
+    }
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+void
+crc_basic&lt;Bits&gt;::process_byte
+(
+    unsigned char  byte
+)
+{
+    process_bits( (rft_in_ ? detail::reflector&lt;CHAR_BIT&gt;::reflect(byte)
+     : byte), CHAR_BIT );
+}
+
+template &lt; std::size_t Bits &gt;
+void
+crc_basic&lt;Bits&gt;::process_block
+(
+    void const *  bytes_begin,
+    void const *  bytes_end
+)
+{
+    for ( unsigned char const * p
+     = static_cast&lt;unsigned char const *&gt;(bytes_begin) ; p &lt; bytes_end ; ++p )
+    {
+        process_byte( *p );
+    }
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+void
+crc_basic&lt;Bits&gt;::process_bytes
+(
+    void const *  buffer,
+    std::size_t   byte_count
+)
+{
+    unsigned char const * const  b = static_cast&lt;unsigned char const *&gt;(
+     buffer );
+
+    process_block( b, b + byte_count );
+}
+
+template &lt; std::size_t Bits &gt;
+inline
+typename crc_basic&lt;Bits&gt;::value_type
+crc_basic&lt;Bits&gt;::checksum
+(
+) const
+{
+    return ( (rft_out_ ? detail::reflector&lt;Bits&gt;::reflect( rem_ ) : rem_)
+     ^ final_ ) &amp; masking_type::sig_bits;
+}
+
+
+//  Optimized CRC class function definitions  --------------------------------//
+
+// Macro to compact code
+#define BOOST_CRC_OPTIMAL_NAME  crc_optimal&lt;Bits, TruncPoly, InitRem, \
+ FinalXor, ReflectIn, ReflectRem&gt;
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+BOOST_CRC_OPTIMAL_NAME::crc_optimal
+(
+    typename BOOST_CRC_OPTIMAL_NAME::value_type  init_rem  // = InitRem
+)
+    : rem_( helper_type::reflect(init_rem) )
+{
+    crc_table_type::init_table();
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::get_truncated_polynominal
+(
+) const
+{
+    return TruncPoly;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::get_initial_remainder
+(
+) const
+{
+    return InitRem;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::get_final_xor_value
+(
+) const
+{
+    return FinalXor;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+bool
+BOOST_CRC_OPTIMAL_NAME::get_reflect_input
+(
+) const
+{
+    return ReflectIn;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+bool
+BOOST_CRC_OPTIMAL_NAME::get_reflect_remainder
+(
+) const
+{
+    return ReflectRem;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::get_interim_remainder
+(
+) const
+{
+    // Interim remainder should be _un_-reflected, so we have to undo it.
+    return helper_type::reflect( rem_ ) &amp; masking_type::sig_bits_fast;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+void
+BOOST_CRC_OPTIMAL_NAME::reset
+(
+    typename BOOST_CRC_OPTIMAL_NAME::value_type  new_rem  // = InitRem
+)
+{
+    rem_ = helper_type::reflect( new_rem );
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+void
+BOOST_CRC_OPTIMAL_NAME::process_byte
+(
+    unsigned char  byte
+)
+{
+    process_bytes( &amp;byte, sizeof(byte) );
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+void
+BOOST_CRC_OPTIMAL_NAME::process_block
+(
+    void const *  bytes_begin,
+    void const *  bytes_end
+)
+{
+    // Recompute the CRC for each byte passed
+    for ( unsigned char const * p
+     = static_cast&lt;unsigned char const *&gt;(bytes_begin) ; p &lt; bytes_end ; ++p )
+    {
+        // Compare the new byte with the remainder's higher bits to
+        // get the new bits, shift out the remainder's current higher
+        // bits, and update the remainder with the polynominal division
+        // of the new bits.
+        unsigned char const  byte_index = helper_type::index( rem_, *p );
+        rem_ = helper_type::shift( rem_ );
+        rem_ ^= crc_table_type::table_[ byte_index ];
+    }
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+void
+BOOST_CRC_OPTIMAL_NAME::process_bytes
+(
+    void const *   buffer,
+    std::size_t  byte_count
+)
+{
+    unsigned char const * const  b = static_cast&lt;unsigned char const *&gt;(
+     buffer );
+    process_block( b, b + byte_count );
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::checksum
+(
+) const
+{
+    return ( reflect_out_type::reflect(rem_) ^ get_final_xor_value() )
+     &amp; masking_type::sig_bits_fast;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+void
+BOOST_CRC_OPTIMAL_NAME::operator ()
+(
+    unsigned char  byte
+)
+{
+    process_byte( byte );
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename BOOST_CRC_OPTIMAL_NAME::value_type
+BOOST_CRC_OPTIMAL_NAME::operator ()
+(
+) const
+{
+    return checksum();
+}
+
+
+//  CRC computation function definition  -------------------------------------//
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly,
+           BOOST_CRC_PARM_TYPE InitRem, BOOST_CRC_PARM_TYPE FinalXor,
+           bool ReflectIn, bool ReflectRem &gt;
+inline
+typename uint_t&lt;Bits&gt;::fast
+crc
+(
+    void const *  buffer,
+    std::size_t   byte_count
+    BOOST_CRC_DUMMY_INIT
+)
+{
+    BOOST_CRC_OPTIMAL_NAME  computer;
+    computer.process_bytes( buffer, byte_count );
+    return computer.checksum();
+}
+
+
+//  Augmented-message CRC computation function definitions  ------------------//
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly &gt;
+typename uint_t&lt;Bits&gt;::fast
+augmented_crc
+(
+    void const *                 buffer,
+    std::size_t                  byte_count,
+    typename uint_t&lt;Bits&gt;::fast  initial_remainder
+    BOOST_ACRC_DUMMY_INIT
+)
+{
+    typedef unsigned char                                byte_type;
+    typedef detail::mask_uint_t&lt;Bits&gt;                    masking_type;
+    typedef detail::crc_table_t&lt;Bits, TruncPoly, false&gt;  crc_table_type;
+
+    typename masking_type::fast  rem = initial_remainder;
+    byte_type const * const      b = static_cast&lt;byte_type const *&gt;( buffer );
+    byte_type const * const      e = b + byte_count;
+
+    crc_table_type::init_table();
+    for ( byte_type const * p = b ; p &lt; e ; ++p )
+    {
+        // Use the current top byte as the table index to the next
+        // &quot;partial product.&quot;  Shift out that top byte, shifting in
+        // the next augmented-message byte.  Complete the division.
+        byte_type const  byte_index = rem &gt;&gt; ( Bits - CHAR_BIT );
+        rem &lt;&lt;= CHAR_BIT;
+        rem |= *p;
+        rem ^= crc_table_type::table_[ byte_index ];
+    }
+
+    return rem &amp; masking_type::sig_bits_fast;
+}
+
+template &lt; std::size_t Bits, BOOST_CRC_PARM_TYPE TruncPoly &gt;
+inline
+typename uint_t&lt;Bits&gt;::fast
+augmented_crc
+(
+    void const *  buffer,
+    std::size_t   byte_count
+    BOOST_ACRC_DUMMY_INIT
+)
+{
+   // The last function argument has its type specified so the other version of
+   // augmented_crc will be called.  If the cast wasn't in place, and the
+   // BOOST_ACRC_DUMMY_INIT added a third argument (for a workaround), the &quot;0&quot;
+   // would match as that third argument, leading to infinite recursion.
+   return augmented_crc&lt;Bits, TruncPoly&gt;( buffer, byte_count,
+    static_cast&lt;typename uint_t&lt;Bits&gt;::fast&gt;(0) );
+}
+
+
+}  // namespace boost
+
+
+// Undo header-private macros
+#undef BOOST_CRC_OPTIMAL_NAME
+#undef BOOST_ACRC_DUMMY_INIT
+#undef BOOST_ACRC_DUMMY_PARM_TYPE
+#undef BOOST_CRC_DUMMY_INIT
+#undef BOOST_CRC_DUMMY_PARM_TYPE
+#undef BOOST_CRC_PARM_TYPE
+
+
+#endif  // BOOST_CRC_HPP
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/crc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:52:28 GMT -->
+</html>

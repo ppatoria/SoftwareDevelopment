@@ -1,0 +1,1381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from www.albahari.com/threading/ by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:47:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Threading in C# - Free E-book
+</title><link rel="stylesheet" type="text/css" href="tstyles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="sh_main.min.js"></script>
+<script type="text/javascript" src="sh_csharp.js"></script>
+<link type="text/css" rel="stylesheet" href="sh_style.css" /></head>
+
+<body onload="sh_highlightDocument();">
+<form name="aspnetForm" method="post" action="#" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+
+<div id="navbar">
+<p class="navtitle">Threading in C#, by Joe Albahari</p>
+<div id="ctl00_navcontent">
+<p class='navsectioncontainer'>
+<a class='nav0a' href='index.html'>GETTING STARTED</a>
+	<a class='nav1a' href='index.html#_Introduction'>Introduction and Concepts</a>
+	<a class='nav2a' href='index.html#_Join_and_Sleep'>Join and Sleep</a>
+	<a class='nav2a' href='index.html#_How_Threading_Works'>How Threading Works</a>
+	<a class='nav2a' href='index.html#_Threads_vs_Processes'>Threads vs Processes</a>
+	<a class='nav2a' href='index.html#_Threadings_Uses_and_Misuses'>Threading’s Uses and Misuses</a>
+	<a class='nav1a' href='index.html#_Creating_and_Starting_Threads'>Creating and Starting Threads</a>
+	<a class='nav2a' href='index.html#_Passing_Data_to_a_Thread'>Passing Data to a Thread</a>
+	<a class='nav2a' href='index.html#_Naming_Threads'>Naming Threads</a>
+	<a class='nav2a' href='index.html#_Foreground_and_Background_Threads'>Foreground vs Background</a>
+	<a class='nav2a' href='index.html#_Thread_Priority'>Thread Priority</a>
+	<a class='nav2a' href='index.html#_Exception_Handling'>Exception Handling</a>
+	<a class='nav1a' href='index.html#_Thread_Pooling'>Thread Pooling</a>
+	<a class='nav2a' href='index.html#_Entering_the_Thread_Pool_via_TPL'>Thread Pooling via TPL</a>
+	<a class='nav2a' href='index.html#_Entering_the_Thread_Pool_Without_TPL'>Thread Pooling Without TPL</a>
+	<a class='nav2a' href='index.html#_Optimizing_the_Thread_Pool'>Optimizing the Thread Pool</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part2.html'>BASIC SYNCHRONIZATION</a>
+	<a class='nav1' href='part2.html#_Synchronization'>+ Synchronization Essentials</a>
+	<a class='nav1' href='part2.html#_Locking'>+ Locking</a>
+	<a class='nav1' href='part2.html#_Thread_Safety'>+ Thread Safety</a>
+	<a class='nav1' href='part2.html#_Signaling_with_Event_Wait_Handles'>+ Event Wait Handles</a>
+	<a class='nav1' href='part2.html#_Synchronization_Contexts'>+ Synchronization Contexts</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part3.html'>USING THREADS</a>
+	<a class='nav1' href='part3.html#_Event-Based_Asynchronous_Pattern'>+ Event-Based Asynch Pattern</a>
+	<a class='nav1' href='part3.html#_BackgroundWorker'>+ BackgroundWorker</a>
+	<a class='nav1' href='part3.html#_Interrupt_and_Abort'>+ Interrupt and Abort</a>
+	<a class='nav1' href='part3.html#_Safe_Cancellation'>+ Safe Cancellation</a>
+	<a class='nav1' href='part3.html#_Lazy_Initialization'>+ Lazy Initialization</a>
+	<a class='nav1' href='part3.html#_Thread-Local_Storage'>+ Thread-Local Storage</a>
+	<a class='nav1' href='part3.html#_Timers'>+ Timers</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part4.html'>ADVANCED THREADING</a>
+	<a class='nav1' href='part4.html#_Nonblocking_Synchronization'>+ Nonblocking Synchronization</a>
+	<a class='nav1' href='part4.html#_Signaling_with_Wait_and_Pulse'>+ Signaling with Wait and Pulse</a>
+	<a class='nav1' href='part4.html#_The_Barrier_Class'>+ The Barrier Class</a>
+	<a class='nav1' href='part4.html#_Reader_Writer_Locks'>+ Reader/Writer Locks</a>
+	<a class='nav1' href='part4.html#_Suspend_and_Resume'>+ Suspend and Resume</a>
+	<a class='nav1' href='part4.html#_Aborting_Threads'>+ Aborting Threads</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part5.html'>PARALLEL PROGRAMMING</a>
+	<a class='nav1' href='part5.html#_Parallel_Programming'>+ Parallel Programming</a>
+	<a class='nav1' href='part5.html#_Why_PFX'>+ Why PFX?</a>
+	<a class='nav1' href='part5.html#_PLINQ'>+ PLINQ</a>
+	<a class='nav1' href='part5.html#_The_Parallel_Class'>+ The Parallel Class</a>
+	<a class='nav1' href='part5.html#_Task_Parallelism'>+ Task Parallelism</a>
+	<a class='nav1' href='part5.html#_Working_with_AggregateException'>+ Working with AggregateException</a>
+	<a class='nav1' href='part5.html#_Concurrent_Collections'>+ Concurrent Collections</a>
+	<a class='nav1' href='part5.html#_SpinLock_and_SpinWait'>+ SpinLock and SpinWait</a>
+</p>
+</div>
+<p><a href="../index.html">More by this author</a></p>
+<br />
+</div>
+
+<div id="main">
+<p class="title">Threading in C#</p>
+<p class="author">Joseph Albahari</p>
+<div id="ctl00_toc">
+<table class='toc' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<th class='tocactive'>Part 1</th>
+		<th class='toc'><a class='toc' href='part2.html'> Part 2</a></th>
+		<th class='toc'><a class='toc' href='part3.html'> Part 3</a></th>
+		<th class='toc'><a class='toc' href='part4.html'> Part 4</a></th>
+		<th class='toc'><a class='toc' href='part5.html'> Part 5</a></th>
+	</tr>
+	<tr>		<td class='tocactive'>Getting Started</td>
+		<td class='toc'><a class='toc' href='part2.html'>Basic Synchronization</a></td>
+		<td class='toc'><a class='toc' href='part3.html'>Using Threads</a></td>
+		<td class='toc'><a class='toc' href='part4.html'>Advanced Threading</a></td>
+		<td class='toc'><a class='toc' href='part5.html'>Parallel Programming</a></td>
+	</tr>
+</table>
+</div>
+<p style="float:right">Last updated: 2011-4-27</p>
+<p>Translations: 
+	<a href="http://knowledge.swanky.wu.googlepages.com/threading_in_c_sharp.html"> Chinese</a>
+	| <a href="threading_czech.pdf">Czech</a>
+	| <a href="threading_persian.pdf"> Persian</a>
+	| <a href="http://rsdn.ru/article/?904"> Russian</a>
+	| <a href="http://article.higlabo.com/ja/thread_fundamentals.html"> Japanese</a>
+</p>
+	
+<p><a href='http://www.albahari.info/threading/threading.pdf' style='font-weight:bold'>Download PDF</a>
+
+</p>	
+
+
+
+<p class="sectiontitle">Part 1: Getting Started</p>
+
+<h1>
+	<a name="_Introduction">Introduction and Concepts</a>
+</h1>
+
+<p>C# supports parallel execution of code through
+multithreading. A thread is an independent execution path, able to run
+simultaneously with other threads.</p>
+
+<p>A C# <em>client</em> program (Console, WPF, or Windows
+Forms) starts in a single thread created automatically by the CLR and operating
+system (the “main” thread), and is made multithreaded by creating additional
+threads. Here’s a simple example and its output:</p>
+
+<div class="note">
+	<p>All examples assume the following namespaces are imported:</p>
+
+	<pre>using System;
+using System.Threading;</pre>
+
+</div>
+
+<pre class="sh_csharp">
+class ThreadTest
+{
+  static void Main()
+  {
+    Thread t = new Thread (WriteY);          // Kick off a new thread
+    t.Start();                               // running WriteY()
+ 
+    // Simultaneously, do something on the main thread.
+    for (int i = 0; i &lt; 1000; i++) Console.Write ("x");
+  }
+ 
+  static void WriteY()
+  {
+    for (int i = 0; i &lt; 1000; i++) Console.Write ("y");
+  }
+}
+</pre>
+
+<pre class="output">
+xxxxxxxxxxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyyyyyyyyyyyyy
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+yyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+...
+</pre>
+
+<p>The main thread creates a new thread <code>t</code>
+on which it runs a method that repeatedly prints the character “y”.
+Simultaneously, the main thread repeatedly prints the character “x”:</p>
+
+<div class="figure">
+	<img width="700" height="179" src="NewThread.png" alt="Starting a new Thread" />
+</div>
+
+<p>Once started, a thread’s <code>IsAlive</code>
+property returns <code>true</code>, until the point where the
+thread ends. A thread ends when the delegate passed to the <code>Thread</code>’s
+constructor finishes executing. Once ended, a thread cannot restart.</p>
+
+<p>The CLR assigns each thread its own memory stack so that
+local variables are kept separate. In the next example, we define a method with
+a local variable, then call the method simultaneously on the main thread and a
+newly created thread:</p>
+
+<pre class="sh_csharp">
+static void Main() 
+{
+  new Thread (Go).Start();      // Call Go() on a new thread
+  Go();                         // Call Go() on the main thread
+}
+ 
+static void Go()
+{
+  // Declare and use a local variable - 'cycles'
+  for (int cycles = 0; cycles &lt; 5; cycles++) Console.Write ('?');
+}
+</pre>
+
+<pre class="output">
+??????????
+</pre>
+
+<p>A separate copy of the cycles variable is created on each
+thread's memory stack, and so the output is, predictably, ten question marks.</p>
+
+<p>Threads share data if they have a common reference to the
+same object instance. For example:</p>
+
+<pre class="sh_csharp">
+class ThreadTest
+{
+  bool done;
+ 
+  static void Main()
+  {
+    ThreadTest tt = new ThreadTest();   // Create a common instance
+    new Thread (tt.Go).Start();
+    tt.Go();
+  }
+ 
+  // Note that Go is now an instance method
+  void Go() 
+  {
+     if (!done) { done = true; Console.WriteLine ("Done"); }
+  }
+}
+</pre>
+
+<p>Because both threads call <code>Go()</code>
+on the same <code>ThreadTest</code> instance, they share the <code>done</code> field. This results in "Done" being printed
+once instead of twice:</p>
+
+<pre class="output">
+Done
+</pre>
+
+<p>Static fields offer another way to share data between
+threads. Here’s the same example with <code>done</code> as a
+static field:</p>
+
+<pre class="sh_csharp">
+class ThreadTest 
+{
+  static bool done;    // Static fields are shared between all threads
+ 
+  static void Main()
+  {
+    new Thread (Go).Start();
+    Go();
+  }
+ 
+  static void Go()
+  {
+    if (!done) { done = true; Console.WriteLine ("Done"); }
+  }
+}
+</pre>
+
+<p>Both of these examples illustrate another key concept:
+that of <a href="part2.html#_Thread_Safety">thread safety</a> (or rather, lack of it!)
+The output is actually indeterminate: it’s possible (though unlikely) that “Done”
+could be printed twice. If, however, we swap the order of statements in the <code>Go</code> method, the odds of “Done” being printed twice go up
+dramatically:</p>
+
+<pre class="sh_csharp">
+static void Go()
+{
+  if (!done) { Console.WriteLine ("Done"); done = true; }
+}
+</pre>
+
+<pre class="output">Done
+Done   <i>(usually!)</i></pre>
+
+<p>The problem is that one thread can be evaluating the <code>if</code> statement right as the other thread is executing the <code>WriteLine</code> statement — before it’s had a chance to set <code>done</code> to true.</p>
+
+<p>The remedy is to obtain an <a href="part2.html#_Locking">exclusive
+lock</a> while reading and writing to the common field. C# provides the <a href="part2.html#_Locking">lock</a> statement for just this purpose:</p>
+
+<pre class="sh_csharp">
+class ThreadSafe 
+{
+  static bool done;
+  static readonly object locker = new object();
+ 
+  static void Main()
+  {
+    new Thread (Go).Start();
+    Go();
+  }
+ 
+  static void Go()
+  {
+    lock (locker)
+    {
+      if (!done) { Console.WriteLine ("Done"); done = true; }
+    }
+  }
+}
+</pre>
+
+<p>When two threads simultaneously contend a lock (in this
+case, <code>locker</code>), one thread waits, or <a href="part2.html#_Blocking">blocks</a>, until the lock becomes available. In this case,
+it ensures only one thread can enter the critical section of code at a time,
+and “Done” will be printed just once. Code that's protected in such a manner — from
+indeterminacy in a multithreading context — is called <a href="part2.html#_Thread_Safety">thread-safe</a>.</p>
+
+<p class="warning">Shared data is the primary cause of complexity and
+obscure errors in multithreading. Although often essential, it pays to keep it
+as simple as possible. </p>
+
+<p>A thread, while <i>blocked</i>,
+doesn't consume CPU resources.</p>
+
+<h2>
+	<a name="_Join_and_Sleep">Join and Sleep</a>
+</h2>
+
+<p>You can wait for another thread to end by calling its <code>Join</code> method. For example:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Thread t = new Thread (Go);
+  t.Start();
+  t.Join();
+  Console.WriteLine ("Thread t has ended!");
+}
+ 
+static void Go()
+{
+  for (int i = 0; i &lt; 1000; i++) Console.Write ("y");
+}
+</pre>
+
+<p>This prints “y” 1,000 times, followed by “Thread t has
+ended!” immediately afterward. You can include a timeout when calling <code>Join</code>, either in milliseconds or as a <code>TimeSpan</code>.
+It then returns <code>true</code> if the thread ended or <code>false</code> if it timed out.</p>
+
+<p>
+	<code><a name="_Sleep_And_Yield">Thread.Sleep</a></code> pauses the current
+thread for a specified period:</p>
+
+<pre class="sh_csharp">
+Thread.Sleep (TimeSpan.FromHours (1));  // sleep for 1 hour
+Thread.Sleep (500);                     // sleep for 500 milliseconds
+</pre>
+
+<p>While waiting on a <code>Sleep</code> or <code>Join</code>, a thread is <i><a href="part2.html#_Blocking">blocked</a></i> and
+so does not consume CPU resources.</p>
+
+<div class="note">
+	<p>
+		<code>Thread.Sleep(0)</code> relinquishes the
+thread’s current time slice immediately, voluntarily handing over the CPU to
+other threads. Framework 4.0’s new <code>Thread.Yield()</code>
+method does the same thing — except that it relinquishes only to threads running
+on the <em>same</em> processor.</p>
+	<p>
+		<code>Sleep(0)</code> or <code>Yield</code>
+is occasionally useful in production code for advanced performance tweaks. It’s
+also an excellent diagnostic tool for helping to uncover <a href="part2.html#_Thread_Safety">thread safety</a> issues: if inserting <code>Thread.Yield()</code> anywhere in your code makes or breaks the
+program, you almost certainly have a bug.</p>
+</div>
+
+<h2>
+	<a name="_How_Threading_Works">How Threading Works</a>
+</h2>
+
+<div class="linqpad">
+	<p style="margin:3pt; font-size:150%; font-weight:bold; color:#A57">Kiss goodbye to SQL Management Studio</p>
+	<p>
+		<a href="http://www.linqpad.net/">
+		<img border="0" src="linqpadlogo.png" alt="LINQPad" width="259" height="249" /></a>
+	</p>
+	<p style="margin:0; font-size:270%; font-weight:bold; color:#A57">LINQPad</p>
+	<p style="margin:3pt; font-size:170%; font-weight:bold; color:teal">FREE</p>
+	<p style="font-size:110%">Query databases in a<br /><a href="http://www.linqpad.net/">modern query language</a></p>
+	<p>Written by the author of this article</p>
+</div>
+
+<p>Multithreading is managed internally by a thread
+scheduler, a function the CLR typically delegates to the operating system. A
+thread scheduler ensures all active threads are allocated appropriate execution
+time, and that threads that are waiting or blocked (for instance, on an
+exclusive lock or on user input)  do not consume CPU time.</p>
+
+<p>On a single-processor computer, a thread scheduler
+performs <i>time-slicing</i> — rapidly switching
+execution between each of the active threads. Under Windows, a time-slice is
+typically in the tens-of-milliseconds region — much larger than the CPU overhead
+in actually switching context between one thread and another (which is
+typically in the few-microseconds region).</p>
+
+<p>On a multi-processor computer, multithreading is
+implemented with a mixture of time-slicing and genuine concurrency, where
+different threads run code simultaneously on different CPUs. It’s almost
+certain there will still be some time-slicing, because of the operating system’s
+need to service its own threads — as well as those of other applications.</p>
+
+<p>A thread is said to be <i>preempted</i>
+when its execution is interrupted due to an external factor such as
+time-slicing. In most situations, a thread has no control over when and where
+it’s preempted.</p>
+
+<h2>
+	<a name="_Threads_vs_Processes">Threads vs Processes</a>
+</h2>
+
+<p>A thread is analogous to the operating system process in
+which your application runs. Just as processes run in parallel on a computer,
+threads run in parallel <em>within a single process</em>. Processes are fully
+isolated from each other; threads have just a limited degree of isolation. In
+particular, threads share (heap) memory with other threads running in the same
+application. This, in part, is why threading is useful: one thread can fetch
+data in the background, for instance, while another thread can display the data
+as it arrives.</p>
+
+<h2>
+	<a name="_Threadings_Uses_and_Misuses">Threading’s Uses and Misuses</a>
+</h2>
+
+<p>Multithreading has many uses; here are the most common:</p>
+
+<dl>
+	<dt>Maintaining a responsive user interface</dt>
+	<dd>By running time-consuming tasks on a parallel “worker”
+thread, the main UI thread is free to continue processing keyboard and mouse
+events.</dd>
+	<dt>Making efficient use of an otherwise blocked CPU</dt>
+	<dd>Multithreading is useful when a thread is awaiting a
+response from another computer or piece of hardware. While one thread is
+blocked while performing the task, other threads can take advantage of the
+otherwise unburdened computer.</dd>
+	<dt>Parallel programming</dt>
+	<dd>Code that performs intensive calculations can execute
+faster on multicore or multiprocessor computers if the workload is shared among
+multiple threads in a “divide-and-conquer” strategy (see <a href="part5.html">Part 5</a>).</dd>
+	<dt>Speculative execution</dt>
+	<dd>On multicore machines, you can sometimes improve
+performance by predicting something that might need to be done, and then doing
+it ahead of time. <a href="http://www.linqpad.net/">LINQPad</a> uses this
+technique to speed up the creation of new queries. A variation is to run a
+number of different algorithms in parallel that all solve the same task.
+Whichever one finishes first “wins” — this is effective when you can’t know ahead
+of time which algorithm will execute fastest.</dd>
+	<dt>Allowing requests to be processed simultaneously</dt>
+	<dd>On a server, client requests can arrive concurrently and
+so need to be handled in parallel (the .NET Framework creates threads for this
+automatically if you use ASP.NET, WCF, Web Services, or Remoting). This can
+also be useful on a client (e.g., handling peer-to-peer networking — or even
+multiple requests from the user).</dd>
+</dl>
+
+<p>With technologies such as ASP.NET and WCF, you may be <a href="part2.html#_Thread_Safety_in_Application_Servers">unaware that multithreading is even taking place</a> — unless
+you access shared data (perhaps via static fields) without appropriate <a href="part2.html#_Locking">locking</a>, <a href="part2.html#_Thread_Safety_in_Application_Servers">running afoul of
+thread safety.</a></p>
+
+<p>Threads also come with strings attached. The biggest is
+that multithreading can increase complexity. Having lots of threads does not in
+and of itself create much complexity; it’s the interaction between threads
+(typically via shared data) that does. This applies whether or not the
+interaction is intentional, and can cause long development cycles and an
+ongoing susceptibility to intermittent and nonreproducible bugs. For this
+reason, it pays to keep interaction to a minimum, and to stick to simple and
+proven designs wherever possible. This article focuses largely on dealing with
+just these complexities; remove the interaction and there’s much less to say!</p>
+
+<p class="note">A good strategy is to encapsulate multithreading logic into
+reusable classes that can be independently examined and tested. The Framework
+itself offers many higher-level threading constructs, which we cover later. </p>
+
+<p>Threading also incurs a resource and CPU cost in
+scheduling and switching threads (when there are more active threads than CPU
+cores) — and there’s also a creation/tear-down cost. Multithreading will not
+always speed up your application — it can even slow it down if used excessively
+or inappropriately. For example, when heavy disk I/O is involved, it can be
+faster to have a couple of worker threads run tasks in sequence than to have 10
+threads executing at once. (In <a href="part4.html#_Signaling_with_Wait_and_Pulse">Signaling with
+Wait and Pulse</a>, we describe how to implement a <a href="part4.html#_Wait_Pulse_Producer_Consumer_Queue">producer/consumer queue</a>, which provides
+just this functionality.)</p>
+
+<h1>
+	<a name="_Creating_and_Starting_Threads">Creating and Starting Threads</a>
+</h1>
+
+<p>As we saw in the introduction, threads are created using
+the <code>Thread</code> class’s constructor, passing in a <code>ThreadStart</code> delegate which indicates where execution
+should begin.  Here’s how the <code>ThreadStart</code> delegate
+is defined:</p>
+
+<pre class="sh_csharp">
+public delegate void ThreadStart();
+</pre>
+
+<p>Calling <code>Start</code> on the thread
+then sets it running. The thread continues until its method returns, at which
+point the thread ends. Here’s an example, using the expanded C# syntax for
+creating a <code>TheadStart</code> delegate:</p>
+
+<pre class="sh_csharp">
+class ThreadTest
+{
+  static void Main() 
+  {
+    Thread t = new Thread (new ThreadStart (Go));
+ 
+    t.Start();   // Run Go() on the new thread.
+    Go();        // Simultaneously run Go() in the main thread.
+  }
+ 
+  static void Go()
+  {
+    Console.WriteLine ("hello!");
+  }
+}
+</pre>
+
+<p>In this example, thread <code>t</code>
+executes <code>Go()</code> — at (much) the same time the main
+thread calls <code>Go()</code>. The result is two near-instant
+hellos.</p>
+
+<p>A thread can be created more conveniently by specifying
+just a method group — and allowing C# to infer the <code>ThreadStart</code>
+delegate:</p>
+
+<pre class="sh_csharp">
+Thread t = new Thread (Go);    // No need to explicitly use ThreadStart
+</pre>
+
+<p>Another shortcut is to use a lambda expression or
+anonymous method:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Thread t = new Thread ( () =&gt; Console.WriteLine ("Hello!") );
+  t.Start();
+}
+</pre>
+
+<h2>
+	<a name="_Passing_Data_to_a_Thread">Passing Data to a Thread</a>
+</h2>
+
+<p>The easiest way to pass arguments to a thread’s target
+method is to execute a lambda expression that calls the method with the desired
+arguments:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Thread t = new Thread ( <b>() =&gt; Print ("Hello from t!")</b> );
+  t.Start();
+}
+ 
+static void Print (string message) 
+{
+  Console.WriteLine (message);
+}
+</pre>
+
+<p>With this approach, you can pass in any number of
+arguments to the method. You can even wrap the entire implementation in a multi-statement
+lambda:</p>
+
+<pre class="sh_csharp">
+new Thread (() =&gt;
+{
+  Console.WriteLine ("I'm running on another thread!");
+  Console.WriteLine ("This is so easy!");
+}).Start();
+</pre>
+
+<p>You can do the same thing almost as easily in C# 2.0 with
+anonymous methods:</p>
+
+<pre class="sh_csharp">
+new Thread (<b>delegate()</b>
+{
+  ...
+}).Start();
+</pre>
+
+<p>Another technique is to pass an argument into <code>Thread</code>’s <code>Start</code> method:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Thread t = new Thread (Print);
+  t.Start <b>("Hello from t!")</b>;
+}
+ 
+static void Print (object messageObj)
+{
+  string message = (string) messageObj;   // We need to cast here
+  Console.WriteLine (message);
+}
+</pre>
+
+<p>This works because <code>Thread</code>’s
+constructor is overloaded to accept either of two delegates:</p>
+
+<pre class="sh_csharp">
+public delegate void ThreadStart();
+public delegate void ParameterizedThreadStart (object obj);
+</pre>
+
+<p>The limitation of <code>ParameterizedThreadStart</code>
+is that it accepts only one argument. And because it’s of type <code>object</code>, it usually needs to be cast.</p>
+
+<h3>Lambda expressions and captured variables</h3>
+
+<p>As we saw, a lambda expression is the most powerful way to
+pass data to a thread. However, you must be careful about accidentally
+modifying <em>captured variables</em> after starting the thread, because these
+variables are shared. For instance, consider the following:</p>
+
+<pre class="sh_csharp">
+for (int i = 0; i &lt; 10; i++)
+  new Thread (() =&gt; Console.Write (i)).Start();
+</pre>
+
+<p>The output is nondeterministic! Here’s a typical result:</p>
+
+<pre class="output">
+0223557799
+</pre>
+
+<p>The problem is that the <code>i</code>
+variable refers to the <em>same</em> memory location throughout the loop’s
+lifetime. Therefore, each thread calls <code>Console.Write</code>
+on a variable whose value may change as it is running!</p>
+
+<p class="note">This is analogous to the problem we describe in “Captured
+Variables” in Chapter 8 of <a href="../nutshell/index.html">C# 4.0
+in a Nutshell</a>. The problem is less about multithreading and more about C#'s
+rules for capturing variables (which are somewhat undesirable in the case of <code>for</code> and <code>foreach</code> loops).</p>
+
+<p> The solution is to use a temporary variable as follows:</p>
+
+<pre class="sh_csharp">
+for (int i = 0; i &lt; 10; i++)
+{
+  int temp = i;
+  new Thread (() =&gt; Console.Write (temp)).Start();
+}
+</pre>
+
+<p>Variable <code>temp</code> is now local to
+each loop iteration. Therefore, each thread captures a different memory
+location and there’s no problem. We can illustrate the problem in the earlier
+code more simply with the following example:</p>
+
+<pre class="sh_csharp">
+string text = "t1";
+Thread t1 = new Thread ( () =&gt; Console.WriteLine (text) );
+ 
+text = "t2";
+Thread t2 = new Thread ( () =&gt; Console.WriteLine (text) );
+ 
+t1.Start();
+t2.Start();
+</pre>
+
+<p>Because both lambda expressions capture the same <code>text</code> variable, <code>t2</code> is printed
+twice:</p>
+
+<pre class="output">
+t2
+t2
+</pre>
+
+<h2>
+	<a name="_Naming_Threads">Naming Threads</a>
+</h2>
+
+<p>Each thread has a <code>Name</code> property
+that you can set for the benefit of debugging. This is particularly useful in
+Visual Studio, since the thread’s name is displayed in the Threads Window and
+Debug Location toolbar. You can set a thread’s name just once; attempts to
+change it later will throw an exception.</p>
+
+<p>The static <code>Thread.CurrentThread</code>
+property gives you the currently executing thread. In the following example, we
+set the main thread’s name:</p>
+
+<pre class="sh_csharp">
+class ThreadNaming
+{
+  static void Main()
+  {
+    Thread.CurrentThread.Name = "main";
+    Thread worker = new Thread (Go);
+    worker.Name = "worker";
+    worker.Start();
+    Go();
+  }
+ 
+  static void Go()
+  {
+    Console.WriteLine ("Hello from " + Thread.CurrentThread.Name);
+  }
+}
+</pre>
+
+<h2>
+	<a name="_Foreground_and_Background_Threads">Foreground and Background Threads</a>
+</h2>
+
+<p>By default, threads you create explicitly are <i>foreground threads</i>. Foreground threads keep the
+application alive for as long as any one of them is running, whereas <i>background threads</i> do not. Once all foreground
+threads finish, the application ends, and any background threads still running
+abruptly terminate.</p>
+
+<p class="note">A thread’s foreground/background status has no relation to its
+priority or allocation of execution time.</p>
+
+<p>You can query or change a thread’s background status using
+its <code>IsBackground</code> property. Here’s an example:</p>
+
+<pre class="sh_csharp">
+class PriorityTest
+{
+  static void Main (string[] args)
+  {
+    Thread worker = new Thread ( () =&gt; Console.ReadLine() );
+    if (args.Length &gt; 0) worker.IsBackground = true;
+    worker.Start();
+  }
+}
+</pre>
+
+<div class="book">
+	<p style="margin:0; font-size: 130%; text-align:center">Get the <span style='font-weight:bold'>whole</span> book</p>
+	<p>
+		<a href="../nutshell/whythisbook.html">Introducing C#</a> <br />
+		<a href="../nutshell/whythisbook.html">C# Language Basics</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Creating Types in C#</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Advanced C# Features</a>
+		<br />
+		<a href="../nutshell/whythisbook.html">Framework Fundamentals</a><br />
+		<a href="../nutshell/whythisbook.html">Collections</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ Queries</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ Operators</a><br />
+		<a href="../nutshell/whythisbook.html">LINQ to XML</a><br />
+		<a href="../nutshell/whythisbook.html">Other XML Technologies</a><br />
+		<a href="../nutshell/whythisbook.html">Disposal &amp; Garbage Collection</a><br />
+		<a href="../nutshell/whythisbook.html">Code Contracts &amp; Diagnostics</a><br />
+		<a href="../nutshell/whythisbook.html">Streams &amp; I/O</a><br />
+		<a href="../nutshell/whythisbook.html">Networking</a><br />
+		<a href="../nutshell/whythisbook.html">Serialization</a><br />
+		<a href="../nutshell/whythisbook.html">Assemblies</a><br />
+		<a href="../nutshell/whythisbook.html">Reflection &amp; Metadata</a><br />
+		<a href="../nutshell/whythisbook.html">Dynamic Programming</a><br />
+		<a href="../nutshell/whythisbook.html">Security</a><br />
+		<span style='font-weight:bold'>Threading<br />
+		Parallel Programming</span><br />
+		<a href="../nutshell/whythisbook.html">Asynchronous Methods</a><br />
+		<a href="../nutshell/whythisbook.html">Application Domains</a><br />
+		<a href="../nutshell/whythisbook.html">Native and COM Interop</a><br />
+		<a href="../nutshell/whythisbook.html">Regular Expressions</a>
+	</p>
+	<p style="text-align:center; font-size:110%; font-weight:bold; margin-bottom:0"><a href="../nutshell/index.html">C# 4.0 in a Nutshell</a></p>
+</div>
+
+<p>If this program is called with no arguments, the worker
+thread assumes foreground status and will wait on the <code>ReadLine</code>
+statement for the user to press Enter. Meanwhile, the main thread exits, but
+the application keeps running because a foreground thread is still alive.</p>
+
+<p>On the other hand, if an argument is passed to <code>Main()</code>, the worker is assigned background status, and the
+program exits almost immediately as the main thread ends (terminating the <code>ReadLine</code>).</p>
+
+<p>When a process terminates in this manner, any <code>finally</code> blocks in the execution stack of background
+threads are circumvented. This is a problem if your program employs <code>finally</code> (or <code>using</code>) blocks to
+perform cleanup work such as releasing resources or deleting temporary files.
+To avoid this, you can explicitly wait out such background threads upon exiting
+an application. There are two ways to accomplish this:</p>
+
+<ul>
+	<li>If you’ve created the thread yourself, call <code><a href="#_Join_and_Sleep">Join</a></code> on the thread.</li>
+	<li>If you’re on a <a href="#_Thread_Pooling">pooled thread</a>, use
+an <a href="part2.html#_Signaling_with_Event_Wait_Handles">event wait handle</a>.</li>
+</ul>
+
+<p>In either case, you should specify a timeout, so you can
+abandon a renegade thread should it refuse to finish for some reason. This is
+your backup exit strategy: in the end, you want your application to
+close — without the user having to enlist help from the Task Manager!</p>
+
+<p class="note">If a user uses the Task Manager to forcibly end a .NET
+process, all threads “drop dead” as though they were background threads. This
+is observed rather than documented behavior, and it could vary depending on the
+CLR and operating system version.</p>
+
+<p>Foreground threads don’t require this treatment, but you
+must take care to avoid bugs that could cause the thread not to end. A common
+cause for applications failing to exit properly is the presence of active
+foreground threads.</p>
+
+<h2>
+	<a name="_Thread_Priority">Thread Priority</a>
+</h2>
+
+<p>A thread’s <code>Priority</code> property
+determines how much execution time it gets relative to other active threads in
+the operating system, on the following scale:</p>
+
+<pre class="sh_csharp">
+enum ThreadPriority { Lowest, BelowNormal, Normal, AboveNormal, Highest }
+</pre>
+
+<p>This becomes relevant only when multiple threads are
+simultaneously active.</p>
+
+<p class="warning">Think carefully before elevating a thread’s priority — it
+can lead to problems such as resource starvation for other threads.</p>
+
+<p>Elevating a thread’s priority doesn’t make it capable of
+performing real-time work, because it’s still throttled by the application’s
+process priority. To perform real-time work, you must also elevate the process
+priority using the <code>Process</code> class in <code>System.Diagnostics</code> (we didn’t tell you how to do this):</p>
+
+<pre class="sh_csharp">
+using (Process p = Process.GetCurrentProcess())
+  p.PriorityClass = ProcessPriorityClass.High;
+</pre>
+
+<p>
+	<code>ProcessPriorityClass.High</code> is
+actually one notch short of the highest priority: <code>Realtime</code>.
+Setting a process priority to <code>Realtime</code> instructs the
+OS that you never want the process to yield CPU time to another process. If
+your program enters an accidental infinite loop, you might find even the
+operating system locked out, with nothing short of the power button left to
+rescue you! For this reason, <code>High</code> is usually the
+best choice for real-time applications.</p>
+
+<p class="warning">If your real-time application has a user interface,
+elevating the process priority gives screen updates excessive CPU time, slowing
+down the entire computer (particularly if the UI is complex). Lowering the main
+thread’s priority in conjunction with raising the process’s priority ensures
+that the real-time thread doesn’t get preempted by screen redraws, but doesn’t
+solve the problem of starving other applications of CPU time, because the
+operating system will still allocate disproportionate resources to the process
+as a whole. An ideal solution is to have the real-time worker and user
+interface run as separate applications with different process priorities,
+communicating via Remoting or memory-mapped files. Memory-mapped files are
+ideally suited to this task; we explain how they work in Chapters 14 and 25 of <a href="../nutshell/index.html">C# 4.0 in a Nutshell</a>.</p>
+
+<p>Even with an elevated process priority, there’s a limit to
+the suitability of the managed environment in handling hard real-time
+requirements. In addition to the issues of latency introduced by automatic garbage
+collection, the operating system may present additional challenges — even for
+unmanaged applications — that are best solved with dedicated hardware or a
+specialized real-time platform.</p>
+
+<h2>
+	<a name="_Exception_Handling">Exception Handling</a>
+</h2>
+
+<p>Any <code>try</code>/<code>catch</code>/<code>finally</code> blocks in scope when a thread is created are of no
+relevance to the thread when it starts executing. Consider the following
+program:</p>
+
+<pre class="sh_csharp">
+public static void Main()
+{
+  try
+  {
+    new Thread (Go).Start();
+  }
+  catch (Exception ex)
+  {
+    // We'll never get here!
+    Console.WriteLine ("Exception!");
+  }
+}
+ 
+static void Go() { throw null; }   // Throws a NullReferenceException
+</pre>
+
+<p>The <code>try</code>/<code>catch</code>
+statement in this example is ineffective, and the newly created thread will be
+encumbered with an unhandled <code>NullReferenceException</code>.
+This behavior makes sense when you consider that each thread has an independent
+execution path.</p>
+
+<p>The remedy is to move the exception handler into the <code>Go</code> method:</p>
+
+<pre class="sh_csharp">
+public static void Main()
+{
+   new Thread (Go).Start();
+}
+ 
+static void Go()
+{
+  try
+  {
+    // ...
+    throw null;    // The NullReferenceException will get caught below
+    // ...
+  }
+  catch (Exception ex)
+  {
+    // Typically log the exception, and/or signal another thread
+    // that we've come unstuck
+    // ...
+  }
+}
+</pre>
+
+<p>You need an exception handler on all thread entry methods
+in production applications — just as you do (usually at a higher level, in the
+execution stack) on your main thread. An unhandled exception causes the whole
+application to shut down. With an ugly dialog!</p>
+
+<p class="note">In writing such exception handling blocks, rarely would you <em>ignore</em>
+the error: typically, you’d log the details of the exception, and then perhaps
+display a dialog allowing the user to automatically submit those details to
+your web server. You then might shut down the application — because it’s possible
+that the error corrupted the program’s state. However, the cost of doing so is
+that the user will lose his recent work — open documents, for instance.</p>
+
+<div class="warning">
+	<p>The “global” exception handling events for WPF and
+Windows Forms applications (<code>Application.DispatcherUnhandledException</code>
+and <code>Application.ThreadException</code>) fire only for
+exceptions thrown on the main UI thread. You still must handle exceptions on
+worker threads manually.</p>
+	<p>
+		<code>AppDomain.CurrentDomain.UnhandledException</code>
+fires on any unhandled exception, but provides no means of preventing the
+application from shutting down afterward.</p>
+
+</div>
+
+<p>There are, however, some cases where you don’t need to
+handle exceptions on a worker thread, because the .NET Framework does it for
+you. These are covered in upcoming sections, and are:</p>
+
+<ul>
+	<li>
+		<a href="#_Asynchronous_delegates">Asynchronous delegates</a>
+	</li>
+	<li>
+		<code>
+			<a href="part3.html#_BackgroundWorker">BackgroundWorker</a>
+		</code>
+	</li>
+	<li>The <a href="part5.html#_The_Parallel_Class">Task Parallel Library</a>
+(conditions apply)</li>
+</ul>
+
+<h1>
+	<a name="_Thread_Pooling">Thread Pooling</a>
+</h1>
+
+<p>Whenever you start a thread, a few hundred microseconds
+are spent organizing such things as a fresh private local variable stack. Each
+thread also consumes (by default) around 1 MB of memory. The <i>thread pool</i> cuts these overheads by sharing and
+recycling threads, allowing multithreading to be applied at a very granular
+level without a performance penalty. This is useful when leveraging multicore
+processors to execute computationally intensive code in parallel in
+“divide-and-conquer” style.</p>
+
+<p>The thread pool also keeps a lid on the total number of
+worker threads it will run simultaneously. Too many active threads throttle the
+operating system with administrative burden and render CPU caches ineffective.
+Once a limit is reached, jobs queue up and start only when another finishes.
+This makes arbitrarily concurrent applications possible, such as a web server.
+(The <i>asynchronous method pattern</i> is an
+advanced technique that takes this further by making highly efficient use of
+the pooled threads; we describe this in Chapter 23 of <a href="../nutshell/index.html">C# 4.0 in a Nutshell</a>).</p>
+
+<p>There are a number of ways to enter the thread pool:</p>
+
+<ul>
+	<li>Via the <a href="part5.html#_The_Parallel_Class">Task Parallel Library</a>
+(from Framework 4.0)</li>
+	<li>By calling <code><a href="#_QueueUserWorkItem">ThreadPool.QueueUserWorkItem</a></code></li>
+	<li>Via <a href="#_Asynchronous_delegates">asynchronous delegates</a></li>
+	<li>Via <code><a href="part3.html#_BackgroundWorker">BackgroundWorker</a></code></li>
+</ul>
+
+<div class="note">
+	<p>The following constructs use the thread pool <em>indirectly</em>:</p>
+	<ul>
+		<li>WCF,
+Remoting, ASP.NET, and ASMX Web Services application servers</li>
+		<li>
+			<code>
+				<a href="part3.html#_Multithreaded_Timers">System.Timers.Timer</a>
+			</code>
+and <code><a href="part3.html#_Multithreaded_Timers">System.Threading.Timer</a></code></li>
+		<li>Framework
+methods that end in <em>Async</em>, such as those on <code>WebClient</code>
+(the <em><a href="part3.html#_Event-Based_Asynchronous_Pattern">event-based
+asynchronous pattern</a></em>), and most <code>Begin</code><span class="Replaceable">XXX</span> methods (the <em>asynchronous programming model</em>
+pattern)</li>
+		<li>PLINQ</li>
+	</ul>
+</div>
+
+<p>The <i>Task Parallel Library</i>
+(TPL) and PLINQ are sufficiently powerful and high-level that you’ll want to
+use them to assist in multithreading even when thread pooling is unimportant. We
+discuss these in detail <a href="part5.html">in Part 5</a>; right
+now, we'll look briefly at how you can use the <code><a href="part5.html#_Task_Parallelism">Task</a></code> class as a simple means of running a delegate
+on a pooled thread.</p>
+
+<div class="note">
+	<p>There are a few things to be wary of when using pooled threads:</p>
+	<ul>
+		<li>You
+cannot set the <code>Name</code> of a pooled thread, making
+debugging more difficult (although you can attach a description when debugging
+in Visual Studio’s Threads window).</li>
+		<li>Pooled
+threads are always <i><a href="#_Foreground_and_Background_Threads">background
+threads</a></i> (this is usually not a problem).</li>
+		<li>
+			<a href="part2.html#_Blocking">Blocking</a> a pooled thread may trigger additional latency
+in the early life of an application unless you call <code>ThreadPool.SetMinThreads</code>
+(see <a href="#_Optimizing_the_Thread_Pool">Optimizing the Thread Pool</a>). </li>
+	</ul>
+	<p>You are free to change the <a href="#_Thread_Priority">priority</a>
+of a pooled thread — it will be restored to normal when released back to the
+pool.</p>
+</div>
+
+<p>You can query if you’re currently executing on a pooled
+thread via the property <code>Thread.CurrentThread.IsThreadPoolThread</code>.</p>
+
+<h2>
+	<a name="_Entering_the_Thread_Pool_via_TPL">Entering the Thread Pool via TPL</a>
+</h2>
+
+<p>You can enter the thread pool easily using the <code><a href="part5.html#_Task_Parallelism">Task</a></code> classes in the Task
+Parallel Library. The <code>Task</code> classes were introduced
+in Framework 4.0: if you’re familiar with the older constructs, consider the
+nongeneric <code>Task</code> class a replacement for <code><a href="#_QueueUserWorkItem">ThreadPool.QueueUserWorkItem</a></code>,
+and the generic <code>Task&lt;TResult&gt;</code> a replacement
+for <a href="#_Asynchronous_delegates">asynchronous delegates</a>. The newer
+constructs are faster, more convenient, and more flexible than the old.</p>
+
+<p>To use the nongeneric <code>Task</code>
+class, call <code>Task.Factory.StartNew</code>, passing in a
+delegate of the target method:</p>
+
+<pre class="sh_csharp">
+static void Main()    // The Task class is in <b>System.Threading.Tasks</b>
+{
+  Task.Factory.StartNew (Go);
+}
+ 
+static void Go()
+{
+  Console.WriteLine ("Hello from the thread pool!");
+}
+</pre>
+
+<p>
+	<code>Task.Factory.StartNew</code> returns a
+<code>Task</code> object, which you can then use to monitor the
+task — for instance, you can wait for it to complete by calling its <code><a href="part5.html#_Waiting_on_Tasks">Wait</a></code> method.</p>
+
+<p class="note">Any unhandled exceptions are conveniently rethrown onto the
+host thread when you call a task's <code><a href="part5.html#_Waiting_on_Tasks">Wait method</a></code>.
+(If you don’t call <code>Wait</code> and instead abandon the task, an
+unhandled exception will shut down the process <a href="#_Exception_Handling">as
+with an ordinary thread</a>.)</p>
+
+<p>The generic <code>Task&lt;TResult&gt;</code>
+class is a subclass of the nongeneric <code>Task</code>. It lets
+you get a return value back from the task after it finishes executing. In the
+following example, we download a web page using <code>Task&lt;TResult&gt;</code>:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  // Start the task executing:
+  Task&lt;string&gt; task = Task.Factory.StartNew<b>&lt;string&gt;</b>
+    ( () =&gt; DownloadString ("http://www.linqpad.net") );
+ 
+  // We can do other work here and it will execute in parallel:
+  RunSomeOtherMethod();
+ 
+  // When we need the task's return value, we query its Result property:
+  // If it's still executing, the current thread will now block (wait)
+  // until the task finishes:
+  string result = <b>task.Result</b>;
+}
+ 
+static string DownloadString (string uri)
+{
+  using (var wc = new System.Net.WebClient())
+    return wc.DownloadString (uri);
+}
+</pre>
+
+<p>(The <code>&lt;string&gt;</code> type
+argument highlighted is for clarity: it would be <em>inferred</em> if we
+omitted it.)</p>
+
+<p>Any unhandled exceptions are automatically rethrown when
+you query the task's <code>Result</code> property, wrapped in an <code><a href="part5.html#_Working_with_AggregateException">AggregateException</a></code>.
+However, if you fail to query its <code>Result</code> property
+(and don’t call <code>Wait</code>) any unhandled exception will
+take the process down. </p>
+
+<p>The Task Parallel Library has many more features, and is
+particularly well suited to leveraging multicore processors. We’ll resume our
+discussion of TPL <a href="part5.html#_Task_Parallelism">in Part 5</a>. </p>
+
+<h2>
+	<a name="_Entering_the_Thread_Pool_Without_TPL">Entering the Thread Pool Without TPL</a>
+</h2>
+
+<p>You can't use the Task Parallel Library if you're
+targeting an earlier version of the .NET Framework (prior to 4.0). Instead, you
+must use one of the older constructs for entering the thread pool: <code>ThreadPool.QueueUserWorkItem</code> and asynchronous delegates.
+The difference between the two is that asynchronous delegates let you return
+data from the thread. Asynchronous delegates also marshal any exception back to
+the caller.</p>
+
+<h3>
+	<a name="_QueueUserWorkItem">QueueUserWorkItem</a>
+</h3>
+
+<p>To use <code>QueueUserWorkItem</code>,
+simply call this method with a delegate that you want to run on a pooled
+thread: </p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  ThreadPool.QueueUserWorkItem (Go);
+  ThreadPool.QueueUserWorkItem (Go, 123);
+  Console.ReadLine();
+}
+ 
+static void Go (object data)   // <i>data</i> will be <b>null</b> with the first call.
+{
+  Console.WriteLine ("Hello from the thread pool! " + data);
+}
+</pre>
+
+<pre class="output">
+Hello from the thread pool!
+Hello from the thread pool! 123
+</pre>
+
+<p>Our target method, <code>Go</code>, must
+accept a single <code>object</code> argument (to satisfy the <code>WaitCallback</code> delegate). This provides a convenient way of
+passing data to the method, just like with <code>ParameterizedThreadStart</code>.
+Unlike with <code>Task</code>, <code>QueueUserWorkItem</code>
+doesn't return an object to help you subsequently manage execution. Also, you
+must explicitly deal with exceptions in the target code — unhandled exceptions
+will <a href="#_Exception_Handling">take down the program</a>.</p>
+
+<h3>
+	<a name="_Asynchronous_delegates">Asynchronous delegates</a>
+</h3>
+
+<p>
+	<code>ThreadPool.QueueUserWorkItem</code>
+doesn’t provide an easy mechanism for getting return values back from a thread
+after it has finished executing. Asynchronous delegate invocations
+(asynchronous delegates for short) solve this, allowing any number of typed
+arguments to be passed in both directions. Furthermore, unhandled exceptions on
+asynchronous delegates are conveniently rethrown on the original thread (or
+more accurately, the thread that calls <code>EndInvoke</code>),
+and so they don’t need explicit handling.</p>
+
+<p class="warning">Don’t confuse asynchronous delegates with asynchronous
+methods (methods starting with <em>Begin</em> or <em>End</em>, such as <code>File.BeginRead</code>/<code>File.EndRead</code>).
+Asynchronous methods follow a similar protocol outwardly, but they exist to
+solve a much harder problem, which we describe in Chapter 23 of <a href="../nutshell/index.html">C# 4.0 in a Nutshell</a>.</p>
+
+<p>Here’s how you start a worker task via an asynchronous
+delegate:</p>
+
+<ol>
+	<li>Instantiate a delegate targeting the method you want to run in parallel
+(typically one of the predefined <code>Func</code> delegates).</li>
+	<li>Call <code>BeginInvoke</code> on the delegate, saving its <code>IAsyncResult</code> return value.<br /><br /><code>BeginInvoke</code> returns immediately to the caller. You can then perform other activities while the pooled thread is working.</li>
+	<li>When you need the results, call <code>EndInvoke</code> on
+the delegate, passing in the saved <code>IAsyncResult</code>
+object.</li>
+</ol>
+
+<p>In the following example, we use an asynchronous delegate
+invocation to execute concurrently with the main thread, a simple method that
+returns a string’s length:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Func&lt;string, int&gt; method = Work;
+  IAsyncResult cookie = method.BeginInvoke ("test", null, null);
+  //
+  // ... here's where we can do other work in parallel...
+  //
+  int result = method.EndInvoke (cookie);
+  Console.WriteLine ("String length is: " + result);
+}
+ 
+static int Work (string s) { return s.Length; }
+</pre>
+
+<p>
+	<code>EndInvoke</code> does three things.
+First, it waits for the asynchronous delegate to finish executing, if it hasn’t
+already. Second, it receives the return value (as well as any <code>ref</code> or <code>out</code> parameters). Third,
+it throws any unhandled worker exception back to the calling thread.</p>
+
+<p class="warning">If the method you’re calling with an asynchronous
+delegate has no return value, you are still (technically) obliged to call <code>EndInvoke</code>. In practice, this is open to debate; there are
+no <code>EndInvoke</code> police to administer punishment to
+noncompliers! If you choose not to call <code>EndInvoke</code>,
+however, you’ll need to consider exception handling on the worker method to
+avoid silent failures.</p>
+
+<p>You can also specify a callback delegate when calling <code>BeginInvoke</code> — a method accepting an <code>IAsyncResult</code>
+object that’s automatically called upon completion. This allows the instigating
+thread to “forget” about the asynchronous delegate, but it requires a bit of
+extra work at the callback end:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Func&lt;string, int&gt; method = Work;
+  method.BeginInvoke ("test", Done, method);
+  // ...
+  //
+}
+ 
+static int Work (string s) { return s.Length; }
+ 
+static void Done (IAsyncResult cookie)
+{
+  var target = (Func&lt;string, int&gt;) cookie.AsyncState;
+  int result = target.EndInvoke (cookie);
+  Console.WriteLine ("String length is: " + result);
+}
+</pre>
+
+<p>The final argument to <code>BeginInvoke</code>
+is a user state object that populates the <code>AsyncState</code>
+property of <code>IAsyncResult</code>. It can contain anything
+you like; in this case, we’re using it to pass the <code>method</code>
+delegate to the completion callback, so we can call <code>EndInvoke</code>
+on it.</p>
+
+<h2>
+	<a name="_Optimizing_the_Thread_Pool">Optimizing the Thread Pool</a>
+</h2>
+
+<p>The thread pool starts out with one thread in its pool. As
+tasks are assigned, the pool manager “injects” new threads to cope with the
+extra concurrent workload, up to a maximum limit. After a sufficient period of
+inactivity, the pool manager may “retire” threads if it suspects that doing so
+will lead to better throughput.</p>
+
+<p>You can set the upper limit of threads that the pool will
+create by calling <code>ThreadPool.SetMaxThreads</code>; the
+defaults are:</p>
+
+<ul>
+	<li>1023 in Framework 4.0 in a 32-bit environment</li>
+	<li>32768 in Framework 4.0 in a 64-bit environment</li>
+	<li>250 per core in Framework 3.5</li>
+	<li>25 per core in Framework 2.0</li>
+</ul>
+
+<p>(These figures may vary according to the hardware and
+operating system.) The reason there are that many is to ensure progress should
+some threads be <a href="part2.html#_Blocking">blocked</a> (idling while awaiting some
+condition, such as a response from a remote computer).</p>
+
+<p>You can also set a lower limit by calling <code>ThreadPool.SetMinThreads</code>. The role of the lower limit is
+subtler: it’s an advanced optimization technique that instructs the pool
+manager not to <em>delay</em> in the allocation of threads until reaching the
+lower limit. Raising the minimum thread count improves concurrency when there
+are <a href="part2.html#_Blocking">blocked</a> threads (see sidebar).</p>
+
+<p class="note">The default lower limit is one thread per processor core — the
+minimum that allows full CPU utilization. On server environments, though (such
+ASP.NET under IIS), the lower limit is typically much higher — as much as 50 or
+more.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">How Does the Minimum Thread Count Work?</p>
+
+<p>Increasing the thread pool’s minimum thread count to <em>x</em>
+doesn’t actually force <em>x</em> threads to be created right away — threads are
+created only on demand. Rather, it instructs the pool manager to create up to <em>x</em>
+threads the <em>instant</em> they are required. The question, then, is why
+would the thread pool otherwise delay in creating a thread when it’s needed? </p>
+
+<p>The answer is to prevent a brief burst of short-lived
+activity from causing a full allocation of threads, suddenly swelling an
+application’s memory footprint. To illustrate, consider a quad-core computer
+running a client application that enqueues 40 tasks at once. If each task
+performs a 10 ms calculation, the whole thing will be over in 100 ms, assuming
+the work is divided among the four cores. Ideally, we’d want the 40 tasks to
+run on <em>exactly four threads</em>:</p>
+
+<ul>
+	<li>Any less and we’d not be making maximum use of all four cores.</li>
+	<li>Any more and we’d be wasting memory and CPU time creating
+unnecessary threads.</li>
+</ul>
+
+<p>And this is exactly how the thread pool works. Matching
+the thread count to the core count allows a program to retain a small memory
+footprint without hurting performance — as long as the threads are efficiently
+used (which in this case they are).</p>
+
+<p>But now suppose that instead of working for 10 ms, each
+task queries the Internet, waiting half a second for a response while the local
+CPU is idle. The pool manager’s thread-economy strategy breaks down; it would
+now do better to create more threads, so all the Internet queries could happen
+simultaneously.</p>
+
+<p>Fortunately, the pool manager has a backup plan. If its
+queue remains stationary for more than half a second, it responds by creating
+more threads — one every half-second — up to the capacity of the thread pool.</p>
+
+<p>The half-second delay is a two-edged sword. On the one
+hand, it means that a one-off burst of brief activity doesn’t make a program
+suddenly consume an extra unnecessary 40 MB (or more) of memory. On the other
+hand, it can needlessly delay things when a pooled thread blocks, such as when
+querying a database or calling <code>WebClient.DownloadFile</code>.
+For this reason, you can tell the pool manager not to delay in the allocation
+of the first <em>x</em> threads, by calling <code>SetMinThreads</code>,
+for instance:</p>
+
+<pre class="sh_csharp">
+ThreadPool.SetMinThreads (50, 50);
+</pre>
+
+<p>(The second value indicates how many threads to assign to
+I/O completion ports, which are used by the APM, described in Chapter 23 of <a href="../nutshell/index.html">C# 4.0 in a Nutshell</a>.)</p>
+
+<p>The default value is one thread per core.</p>
+
+</div>
+
+<p><a href="part2.html">Part 2 &gt;&gt;</a></p>
+
+
+<br />
+<p style="float:right">
+    <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</p>
+
+<p style='font-weight:bold; font-size:105%'><i>Threading in C#</i> is from Chapters 21 and 22 of <a href='../nutshell/index.html'>C# 4.0 in a Nutshell</a>.</p>
+<p>© 2006-2013 Joseph Albahari, O'Reilly Media, Inc. All rights reserved</p>
+</div>
+
+</form>
+</body>
+
+<!-- Mirrored from www.albahari.com/threading/ by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/class-diagrams-overview.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:09:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Class and Object Diagrams Overview - common types of class and object diagrams.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Class and Object Diagrams Overview - common types of class and object diagrams." />
+<meta name="keywords" content="UML, UML 2, 2.4, diagrams, class, domain, object." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130225 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+  <a href="class-diagrams-overview.html" title="UML class diagrams overview" class="active-nav" >Class diagrams overview</a>
+</div>
+<div>
+  <a href="class-diagrams.html" title="UML class diagrams notation"  >Class diagrams notation</a>
+</div>
+<div >
+ <a href="propertyb7ee.html?context=class-diagrams"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicityb7ee.html?context=class-diagrams"
+  title="UML multiplicity"  >Multiplicity</a>
+</div>
+<div>
+ <a href="visibilityb7ee.html?context=class-diagrams"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div >
+ <a href="constraintb7ee.html?context=class-diagrams"
+  title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="associationb7ee.html?context=class-diagrams"
+  title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalizationb7ee.html?context=class-diagrams"
+  title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependencyb7ee.html?context=class-diagrams"
+  title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstractionb7ee.html?context=class-diagrams"
+  title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="nested-classifier.html" 
+ title="Nested Classifiers in UML"  >Nested classifiers</a>
+</div>
+<div>
+  <a href="class-reference.html" title="UML class diagrams reference"  >Class diagrams reference</a>
+</div>
+<div>
+  <a href="class-diagrams-examples.html" title="UML class diagrams examples"  >Class diagrams examples</a>
+</div>
+<div>
+  <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1>Class and Object Diagrams Overview</h1>
+
+<p>
+<strong>Class diagram</strong> is <strong>UML</strong>  
+ <a href="uml-25-diagrams.html#structure-diagram" class="ref-link">structure diagram</a>
+ which shows structure of the designed system at the level of
+ <a href="class-diagrams.html#class" class="ref-link">classes</a> and
+ <a href="class-diagrams.html#interface" class="ref-link">interfaces</a>,
+ shows their <a href="uml-core.html#feature" class="ref-link">features</a>,
+ <a href="constraintb7ee.html?context=class-diagrams" class="ref-link">constraints</a>
+ and relationships -
+ <a href="association822b.html??context=class-diagrams" class="ref-link">associations</a>,
+ <a href="generalizationb7ee.html?context=class-diagrams" class="ref-link">generalizations</a>,
+ <a href="dependency.html" class="ref-link">dependencies</a>,
+ etc.
+</p>
+
+<p>
+Some common types of class diagrams are:
+</p>
+<ul>
+<li><a href="class-diagrams-overview.html#domain-model-diagram" class="ref-link">domain model diagram</a>,</li>
+<li><a href="class-diagrams-overview.html#implementation-classes" class="ref-link">diagram of implementation classes</a>.</li>
+</ul>
+
+<p>
+<a href="class-diagrams-overview.html#object-diagram" class="ref-link">Object diagram</a>
+could be considered as instance level class diagram which shows
+ <a href="uml-core.html#instance-specification-core" class="ref-link">instance specifications</a>
+ of classes and interfaces (<a href="class-diagrams.html#object-class" class="ref-link">objects</a>),
+ <a href="property.html#slot" class="ref-link">slots</a>
+ with value specifications, and 
+ <a href="association.html#link" class="ref-link">links</a>
+ (instances of <a href="association.html" class="ref-link">association</a>).
+</p>
+
+
+<!--
+******************
+   Domain Model
+******************
+-->
+
+<h2 id="domain-model-diagram">Domain Model Diagram</h2>
+
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-diagram-domain-overview.png" width="736" height="625"  
+ alt="Domain diagram overview - classes, interfaces, associations, usage, realization, multiplicity."
+ title="Domain diagram overview - classes, interfaces, associations, usage, realization, multiplicity."
+ itemprop="contentURL"  />
+<p class="figure-text" itemprop="description">
+Domain diagram overview - classes, interfaces, associations, usage, realization, multiplicity.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2011-08-06" />
+<meta itemprop="dateModified" content="2014-01-21" />
+</div>
+
+
+<!--
+************************
+ Implementation Classes
+************************
+-->
+
+<h2 id="implementation-classes">Diagram of Implementation Classes</h2>
+
+
+<div class="figure-left-20" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-diagram-implementation-elements.png" width="900" height="624"
+ alt="Elements of implementation class diagram  - classes, interfaces, associations, usage, realization."
+ title="Elements of implementation class diagram  - classes, interfaces, associations, usage, realization."
+ itemprop="contentURL"  />
+<p class="figure-text" itemprop="description">
+Elements of implementation class diagram  - classes, interfaces, associations, usage, realization.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2011-08-07" />
+</div>
+
+
+<!--
+*****************
+ Object Diagram
+*****************
+-->
+
+<h2 id="object-diagram">Object Diagram</h2>
+
+<p>
+<strong>Object diagram</strong> was defined in now obsolete
+ <a href="references.html#ref-uml-142" class="external-ref" title="UML 1.4.2 Specification">UML 1.4.2 Specification</a>
+ as
+<span class="citation">
+ "a graph of instances, including objects and data values. A static object diagram is an instance
+ of a class diagram; it shows a snapshot of the detailed state of a system at a point in time."
+</span>
+It also stated that object diagram is 
+<span class="citation">"a class diagram with objects and no classes."</span>
+</p>
+
+<p>
+<strong>UML 2.4</strong> specification simply provides no definition of <strong>object diagram</strong>
+except that
+ <span class="citation">"the following nodes and edges are typically drawn in an object diagram:
+Instance Specification and Link (i.e., Association)."
+</span>
+</p>
+
+<p>
+Note, that UML 2.5 standard hierarchy of diagrams (see
+ <a href="uml-25-diagrams.html" class="ref-link">UML 2.5 diagrams overview</a>),
+ shows class diagrams and object diagrams as completely unrelated.
+ Some other authoritative UML sources state that
+ <a href="component-diagrams.html" class="ref-link">component diagrams</a>
+ and <a href="deployment-diagrams-overview.html" class="ref-link">deployment diagrams</a>
+ containing only
+ <a href="uml-core.html#instance-specification-core" class="ref-link">instance specifications</a>
+ are also special kinds of object diagrams.
+ I really have a headache with all this mess-up… OMG please fix it!
+</p>
+
+<p>
+<strong>Object diagram</strong> overview below shows some major elements of object diagram -
+ named and anonymous
+ <a href="uml-core.html#instance-specification-core" class="ref-link">instance specifications</a>
+ for <a href="class-diagrams.html#object-class" class="ref-link">objects</a>,
+ <a href="property.html#slot" class="ref-link">slots</a>
+ with value specifications, and 
+ <a href="association.html#link" class="ref-link">links</a>
+ (instances of <a href="association.html" class="ref-link">association</a>).
+</p>
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/object-diagram-overview.png" width="770" height="454" 
+ alt="Object diagram overview - instance specifications, value specifications, slots, and links."
+ title="Object diagram overview - instance specifications, value specifications, slots, and links."
+ itemprop="contentURL"  />
+<p class="figure-text" itemprop="description">
+Object diagram overview - instance specifications, value specifications, slots, and links.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2011-08-03" />
+<meta itemprop="dateModified" content="2014-01-21" />
+</div>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="class-diagrams-overview.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/class-diagrams-overview.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:09:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

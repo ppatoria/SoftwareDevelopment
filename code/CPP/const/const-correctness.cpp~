@@ -1,0 +1,28 @@
+class Person {
+public:
+  const std::string& name_good() const;  // Right: the caller can't change the Person's name
+  std::string& name_evil() const;        // Wrong: the caller can change the Person's name
+  int age() const;                       // Also right: the caller can't change the Person's age
+  std::string to_string()
+  {
+    std::string data;
+    data.append( "Name: " ).append( name_ ).append( "\n" );
+    data.append( "Age: " ).append( age_ ).append( "\n" );
+    
+  }
+private:
+  std::string name_;
+  int age_;
+};
+void myCode(const Person& p)  // myCode() promises not to change the Person object...
+{
+  p.name_evil() = "Igor";     // But myCode() changed it anyway!!
+}
+
+int main()
+{
+  Person p;
+  p.name_evil() = "evil_1";
+  myCode( p );
+  return 0;
+}

@@ -1,0 +1,999 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/tools/regression/src/process_jam_log.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>tools/regression/src/process_jam_log.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>tools/regression/src/process_jam_log.cpp</h3>
+<pre>
+//  process jam regression test output into XML  -----------------------------//
+
+//  Copyright Beman Dawes 2002.  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/tools/regression">http://www.boost.org/tools/regression</a> for documentation.
+
+#define BOOST_FILESYSTEM_VERSION 3
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config/warning_disable.hpp">boost/config/warning_disable.hpp</a>&gt;
+
+#include &quot;detail/tiny_xml.hpp&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/operations.hpp">boost/filesystem/operations.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/fstream.hpp">boost/filesystem/fstream.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/exception.hpp">boost/filesystem/exception.hpp</a>&quot;
+#include &quot;<a href="http://www.boost.org/doc/libs/1_54_0/boost/filesystem/convenience.hpp">boost/filesystem/convenience.hpp</a>&quot;
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;cstring&gt;
+#include &lt;map&gt;
+#include &lt;utility&gt;  // for make_pair
+#include &lt;ctime&gt;
+#include &lt;cctype&gt;   // for tolower
+#include &lt;cstdlib&gt;  // for exit
+
+using std::string;
+namespace xml = boost::tiny_xml;
+namespace fs = boost::filesystem;
+
+// options 
+
+static bool echo = false;
+static bool create_dirs = false;
+static bool boost_build_v2 = true;
+
+namespace
+{
+  struct test_info
+  {
+    string      file_path; // relative boost-root
+    string      type;
+    bool        always_show_run_output;
+  };
+  typedef std::map&lt; string, test_info &gt; test2info_map;  // key is test-name
+  test2info_map test2info;
+
+  fs::path boost_root;
+  fs::path locate_root; // ALL_LOCATE_TARGET (or boost_root if none)
+
+  //  set_boost_root  --------------------------------------------------------//
+
+  void set_boost_root()
+  {
+    
+    boost_root = fs::initial_path();
+
+    for(;;)
+    {
+      if ( fs::exists( boost_root / &quot;libs&quot; ) )
+      {
+        fs::current_path( fs::initial_path() ); // restore initial path
+        return;
+      }
+      fs::current_path( &quot;..&quot; );
+      if ( boost_root == fs::current_path() )
+      {
+        fs::current_path( fs::initial_path() ); // restore initial path
+        std::cout &lt;&lt;
+          &quot;Abort: process_jam_log must be run from within a boost directory tree\n&quot;;
+        std::exit(1);
+      }
+      boost_root = fs::current_path();
+    }
+  }
+ 
+ //  append_html  -------------------------------------------------------------//
+
+  void append_html( const string &amp; src, string &amp; target )
+  {
+    // there are a few lines we want to ignore
+    if ( src.find( &quot;th target...&quot; ) != string::npos
+      || src.find( &quot;cc1plus.exe: warning: changing search order for system directory&quot; ) != string::npos
+      || src.find( &quot;cc1plus.exe: warning:   as it has already been specified as a non-system directory&quot; ) != string::npos
+      ) return;
+
+    // on some platforms (e.g. tru64cxx) the following line is a real performance boost
+    target.reserve(src.size() * 2 + target.size());
+
+    for ( string::size_type pos = 0; pos &lt; src.size(); ++pos )
+    {
+      if ( src[pos] == '&lt;' ) target += &quot;&amp;lt;&quot;;
+      else if ( src[pos] == '&gt;' ) target += &quot;&amp;gt;&quot;;
+      else if ( src[pos] == '&amp;' ) target += &quot;&amp;amp;&quot;;
+      else target += src[pos];
+    }
+  }
+
+ //  timestamp  ---------------------------------------------------------------//
+
+  string timestamp()
+  {
+    char run_date[128];
+    std::time_t tod;
+    std::time( &amp;tod );
+    std::strftime( run_date, sizeof(run_date),
+      &quot;%Y-%m-%d %X UTC&quot;, std::gmtime( &amp;tod ) );
+    return string( run_date );
+  }
+
+//  convert path separators to forward slashes  ------------------------------//
+
+  void convert_path_separators( string &amp; s )
+  {
+    for ( string::iterator itr = s.begin(); itr != s.end(); ++itr )
+      if ( *itr == '\\' || *itr == '!' ) *itr = '/';
+  }
+
+//  trim_left ----------------------------------------------------------------//
+
+  std::string trim_left( std::string const&amp; s )
+  {
+    std::string::size_type const pos( s.find_first_not_of(' ') );
+    return pos != std::string::npos
+        ? s.substr( pos, s.size() - pos + 1 )
+        : &quot;&quot;
+        ;
+  }
+  
+
+//  split --------------------------------------------------------------------//
+
+  std::vector&lt;std::string&gt; split( std::string const&amp; s )
+  {
+    std::string::size_type const pos( s.find_first_of(' ') );
+    std::vector&lt;std::string&gt; result( 1, s.substr( 0, pos ) );
+    if ( pos == std::string::npos )
+        return result;
+
+    std::vector&lt;std::string&gt; const rest( split( trim_left( s.substr( pos, s.size() - pos + 1 ) ) ) );
+    result.insert( result.end(), rest.begin(), rest.end() );    
+    return result;
+  }
+
+
+//  extract a target directory path from a jam target string  ----------------//
+//  s may be relative to the initial_path:
+//    ..\..\..\libs\foo\build\bin\libfoo.lib\vc7\debug\runtime-link-dynamic\boo.obj
+//  s may be absolute:
+//    d:\myboost\libs\foo\build\bin\libfoo.lib\vc7\debug\runtime-link-dynamic\boo.obj
+//  return path is always relative to the boost directory tree:
+//    libs/foo/build/bin/libfs.lib/vc7/debug/runtime-link-dynamic
+
+  string target_directory( const string &amp; s )
+  {
+    string temp( s );
+    convert_path_separators( temp );
+    temp.erase( temp.find_last_of( &quot;/&quot; ) ); // remove leaf
+    temp = split( trim_left( temp ) ).back();
+    if ( temp[0] == '.' ) temp.erase( 0, temp.find_first_not_of( &quot;./&quot; ) ); 
+    else temp.erase( 0, locate_root.string().size()+1 );
+    if ( echo )
+        std::cout &lt;&lt; &quot;\ttarget_directory( \&quot;&quot; &lt;&lt; s &lt;&lt; &quot;\&quot;) -&gt; \&quot;&quot; &lt;&lt; temp &lt;&lt; &quot;\&quot;&quot; &lt;&lt; std::endl;
+    return temp;
+  }
+
+  string::size_type target_name_end( const string &amp; s )
+  {
+    string::size_type pos = s.find( &quot;.test/&quot; );
+    if ( pos == string::npos ) pos = s.find( &quot;.dll/&quot; );
+    if ( pos == string::npos ) pos = s.find( &quot;.so/&quot; );
+    if ( pos == string::npos ) pos = s.find( &quot;.lib/&quot; );
+    if ( pos == string::npos ) pos = s.find( &quot;.pyd/&quot; );
+    if ( pos == string::npos ) pos = s.find( &quot;.a/&quot; );
+    return pos;
+  }
+
+  string toolset( const string &amp; s )
+  {
+    string::size_type pos = target_name_end( s );
+    if ( pos == string::npos ) pos = s.find( &quot;build/&quot; );
+    if ( pos == string::npos ) return &quot;&quot;;
+    pos = s.find( &quot;/&quot;, pos ) + 1;
+    return s.substr( pos, s.find( &quot;/&quot;, pos ) - pos );
+  }
+
+  string test_name( const string &amp; s )
+  {
+    string::size_type pos = target_name_end( s );
+    if ( pos == string::npos ) return &quot;&quot;;
+    string::size_type pos_start = s.rfind( '/', pos ) + 1;
+    return s.substr( pos_start,
+      (s.find( &quot;.test/&quot; ) != string::npos
+        ? pos : s.find( &quot;/&quot;, pos )) - pos_start );
+  }
+
+  // Take a path to a target directory of test, and
+  // returns library name corresponding to that path.
+  string test_path_to_library_name( string const&amp; path )
+  {
+    std::string result;
+    string::size_type start_pos( path.find( &quot;libs/&quot; ) );
+    if ( start_pos == string::npos ) {
+      start_pos = path.find( &quot;tools/&quot; );
+    }
+
+    if ( start_pos != string::npos )
+    {
+      // The path format is ...libs/functional/hash/test/something.test/....      
+      // So, the part between &quot;libs&quot; and &quot;test/something.test&quot; can be considered
+      // as library name. But, for some libraries tests are located too deep,
+      // say numeric/ublas/test/test1 directory, and some libraries have tests
+      // in several subdirectories (regex/example and regex/test). So, nested
+      // directory may belong to several libraries.
+
+      // To disambituate, it's possible to place a 'sublibs' file in
+      // a directory. It means that child directories are separate libraries.
+      // It's still possible to have tests in the directory that has 'sublibs'
+      // file.
+
+      std::string interesting;
+      start_pos = path.find( '/', start_pos ) + 1;
+      string::size_type end_pos( path.find( &quot;.test/&quot;, start_pos ) );
+      end_pos = path.rfind('/', end_pos);
+      if (path.substr(end_pos - 5, 5) == &quot;/test&quot;)
+        interesting = path.substr( start_pos, end_pos - 5 - start_pos );
+      else
+        interesting = path.substr( start_pos, end_pos - start_pos );
+
+      // Take slash separate elements until we have corresponding 'sublibs'.
+      end_pos = 0;
+      for(;;)
+      {
+        end_pos = interesting.find('/', end_pos);
+        if (end_pos == string::npos) {
+          result = interesting;
+          break;
+        }
+        result = interesting.substr(0, end_pos);
+
+        if ( fs::exists( ( boost_root / &quot;libs&quot; ) / result / &quot;sublibs&quot; ) )
+        {
+          end_pos = end_pos + 1;
+        }
+        else
+          break;
+      }
+    }
+
+    return result;
+  }
+
+  // Tries to find target name in the string 'msg', starting from 
+  // position start.
+  // If found, extract the directory name from the target name and
+  // stores it in 'dir', and return the position after the target name.
+  // Otherwise, returns string::npos.
+  string::size_type parse_skipped_msg_aux(const string&amp; msg,
+                                          string::size_type start,
+                                          string&amp; dir)
+  {
+    dir.clear();
+    string::size_type start_pos = msg.find( '&lt;', start );
+    if ( start_pos == string::npos ) return string::npos;
+    ++start_pos;
+    string::size_type end_pos = msg.find( '&gt;', start_pos );
+    dir += msg.substr( start_pos, end_pos - start_pos );
+    if ( boost_build_v2 )
+    {
+        // The first letter is a magic value indicating
+        // the type of grist.
+        convert_path_separators( dir );
+        dir.erase( 0, 1 );
+        // We need path from root, not from 'status' dir.
+        if (dir.find(&quot;../&quot;) == 0)
+          dir.erase(0,3);
+        else // dir is always relative to the boost directory tree
+          dir.erase( 0, locate_root.string().size()+1 );
+    }
+    else
+    {
+      if ( dir[0] == '@' )
+      {
+        // new style build path, rooted build tree
+        convert_path_separators( dir );
+        dir.replace( 0, 1, &quot;bin/&quot; );
+      }
+      else
+      {
+        // old style build path, integrated build tree
+        start_pos = dir.rfind( '!' );
+        convert_path_separators( dir );
+        string::size_type path_sep_pos = dir.find( '/', start_pos + 1 );
+        if ( path_sep_pos != string::npos )
+           dir.insert( path_sep_pos, &quot;/bin&quot; );
+        else
+        {
+          // see <a href="http://article.gmane.org/gmane.comp.lib.boost.devel/146688">http://article.gmane.org/gmane.comp.lib.boost.devel/146688</a>;
+          // the following code assumes that: a) 'dir' is not empty,
+          // b) 'end_pos != string::npos' and c) 'msg' always ends with '...'
+          if ( dir[dir.size() - 1] == '@' )
+            dir += &quot;/&quot; + msg.substr( end_pos + 1, msg.size() - end_pos - 1 - 3 );
+        }
+      }
+    }
+    return end_pos;
+  }
+  
+  // the format of paths is really kinky, so convert to normal form
+  //   first path is missing the leading &quot;..\&quot;.
+  //   first path is missing &quot;\bin&quot; after &quot;status&quot;.
+  //   second path is missing the leading &quot;..\&quot;.
+  //   second path is missing &quot;\bin&quot; after &quot;build&quot;.
+  //   second path uses &quot;!&quot; for some separators.
+  void parse_skipped_msg( const string &amp; msg,
+    string &amp; first_dir, string &amp; second_dir )
+  {
+    string::size_type pos = parse_skipped_msg_aux(msg, 0, first_dir);
+    if (pos == string::npos)
+      return;
+    parse_skipped_msg_aux(msg, pos, second_dir);
+  }
+
+//  test_log hides database details  -----------------------------------------//
+
+  class test_log
+    : boost::noncopyable
+  {
+    const string &amp; m_target_directory;
+    xml::element_ptr m_root;
+  public:
+    test_log( const string &amp; target_directory,
+              const string &amp; test_name,
+              const string &amp; toolset,
+              bool force_new_file )
+      : m_target_directory( target_directory )
+    {
+      if ( !force_new_file )
+      {
+        fs::path pth( locate_root / target_directory / &quot;test_log.xml&quot; );
+        fs::ifstream file( pth  );
+        if ( file )   // existing file
+        {
+          try
+          {
+            m_root = xml::parse( file, pth.string() );
+            return;
+          }
+          catch(...)
+          {
+            // unable to parse existing XML file, fall through
+          }
+        }
+      }
+
+      string library_name( test_path_to_library_name( target_directory ) );
+
+      test_info info;
+      test2info_map::iterator itr( test2info.find( library_name + &quot;/&quot; + test_name ) );
+      if ( itr != test2info.end() )
+        info = itr-&gt;second;
+      
+      if ( !info.file_path.empty() )
+        library_name = test_path_to_library_name( info.file_path );
+      
+      if ( info.type.empty() )
+      {
+        if ( target_directory.find( &quot;.lib/&quot; ) != string::npos
+          || target_directory.find( &quot;.dll/&quot; ) != string::npos 
+          || target_directory.find( &quot;.so/&quot; ) != string::npos 
+          || target_directory.find( &quot;.dylib/&quot; ) != string::npos 
+          || target_directory.find( &quot;/build/&quot; ) != string::npos 
+          )
+        {
+          info.type = &quot;lib&quot;;
+        }
+        else if ( target_directory.find( &quot;.pyd/&quot; ) != string::npos )
+          info.type = &quot;pyd&quot;;
+      }
+  
+      m_root.reset( new xml::element( &quot;test-log&quot; ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;library&quot;, library_name ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;test-name&quot;, test_name ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;test-type&quot;, info.type ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;test-program&quot;, info.file_path ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;target-directory&quot;, target_directory ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;toolset&quot;, toolset ) );
+      m_root-&gt;attributes.push_back(
+        xml::attribute( &quot;show-run-output&quot;,
+          info.always_show_run_output ? &quot;true&quot; : &quot;false&quot; ) );
+    }
+
+    ~test_log()
+    {
+      fs::path pth( locate_root / m_target_directory / &quot;test_log.xml&quot; );
+      if ( create_dirs &amp;&amp; !fs::exists( pth.branch_path() ) )
+          fs::create_directories( pth.branch_path() );
+      fs::ofstream file( pth );
+      if ( !file )
+      {
+        std::cout &lt;&lt; &quot;*****Warning - can't open output file: &quot;
+          &lt;&lt; pth.string() &lt;&lt; &quot;\n&quot;;
+      }
+      else xml::write( *m_root, file );
+    }
+
+    const string &amp; target_directory() const { return m_target_directory; }
+
+    void remove_action( const string &amp; action_name )
+    // no effect if action_name not found
+    {
+      xml::element_list::iterator itr;
+      for ( itr = m_root-&gt;elements.begin();
+            itr != m_root-&gt;elements.end() &amp;&amp; (*itr)-&gt;name != action_name;
+            ++itr ) {}
+      if ( itr != m_root-&gt;elements.end() ) m_root-&gt;elements.erase( itr );
+    }
+
+    void add_action( const string &amp; action_name,
+                     const string &amp; result,
+                     const string &amp; timestamp,
+                     const string &amp; content )
+    {
+      remove_action( action_name );
+      xml::element_ptr action( new xml::element(action_name) );
+      m_root-&gt;elements.push_back( action );
+      action-&gt;attributes.push_back( xml::attribute( &quot;result&quot;, result ) );
+      action-&gt;attributes.push_back( xml::attribute( &quot;timestamp&quot;, timestamp ) );
+      action-&gt;content = content;
+    }
+  };
+
+//  message_manager maps input messages into test_log actions  ---------------//
+
+  class message_manager
+    : boost::noncopyable
+  {
+    string  m_action_name;  // !empty() implies action pending
+                            // IOW, a start_message awaits stop_message
+    string  m_target_directory;
+    string  m_test_name;
+    string  m_toolset;
+
+    bool    m_note;  // if true, run result set to &quot;note&quot;
+                     // set false by start_message()
+
+    // data needed to stop further compile action after a compile failure
+    // detected in the same target directory
+    string  m_previous_target_directory;
+    bool    m_compile_failed;
+
+  public:
+    message_manager() : m_note(false) {}
+    ~message_manager() { /*assert( m_action_name.empty() );*/ }
+
+    bool note() const { return m_note; }
+    void note( bool value ) { m_note = value; }
+
+    void start_message( const string &amp; action_name,
+                      const string &amp; target_directory,
+                      const string &amp; test_name,
+                      const string &amp; toolset,
+                      const string &amp; prior_content )
+    {
+      assert( !target_directory.empty() );
+
+      if ( !m_action_name.empty() ) stop_message( prior_content );
+      m_action_name = action_name;
+      m_target_directory = target_directory;
+      m_test_name = test_name;
+      m_toolset = toolset;
+      m_note = false;
+
+      if ( m_previous_target_directory != target_directory )
+      {
+        m_previous_target_directory = target_directory;
+        m_compile_failed = false;
+      }
+    }
+
+    void stop_message( const string &amp; content )
+    {
+      if ( m_action_name.empty() ) return;
+      stop_message( m_action_name, m_target_directory,
+        &quot;succeed&quot;, timestamp(), content );
+    }
+
+    void stop_message( const string &amp; action_name,
+                     const string &amp; target_directory,
+                     const string &amp; result,
+                     const string &amp; timestamp,
+                     const string &amp; content )
+    // the only valid action_names are &quot;compile&quot;, &quot;link&quot;, &quot;run&quot;, &quot;lib&quot;
+    {
+      // My understanding of the jam output is that there should never be
+      // a stop_message that was not preceeded by a matching start_message.
+      // That understanding is built into message_manager code.
+      assert( m_action_name == action_name );
+      assert( m_target_directory == target_directory );
+      assert( result == &quot;succeed&quot; || result == &quot;fail&quot; );
+
+      // if test_log.xml entry needed
+      if ( !m_compile_failed
+        || action_name != &quot;compile&quot;
+        || m_previous_target_directory != target_directory )
+      {
+        if ( action_name == &quot;compile&quot;
+          &amp;&amp; result == &quot;fail&quot; ) m_compile_failed = true;
+
+        test_log tl( target_directory,
+          m_test_name, m_toolset, action_name == &quot;compile&quot; );
+        tl.remove_action( &quot;lib&quot; ); // always clear out lib residue
+
+        // dependency removal
+        if ( action_name == &quot;lib&quot; )
+        {
+          tl.remove_action( &quot;compile&quot; );
+          tl.remove_action( &quot;link&quot; );
+          tl.remove_action( &quot;run&quot; );
+        }
+        else if ( action_name == &quot;compile&quot; )
+        {
+          tl.remove_action( &quot;link&quot; );
+          tl.remove_action( &quot;run&quot; );
+          if ( result == &quot;fail&quot; ) m_compile_failed = true;
+        }
+        else if ( action_name == &quot;link&quot; )
+        {
+          tl.remove_action( &quot;run&quot; );
+        }
+
+        // dependency removal won't work right with random names, so assert
+        else { assert( action_name == &quot;run&quot; ); }
+
+        // add the &quot;run&quot; stop_message action
+        tl.add_action( action_name,
+           result == &quot;succeed&quot; &amp;&amp; note() ? std::string(&quot;note&quot;) : result,
+          timestamp, content );
+      }
+
+      m_action_name = &quot;&quot;; // signal no pending action
+      m_previous_target_directory = target_directory;
+    }
+  };
+}
+
+
+//  main  --------------------------------------------------------------------//
+
+
+int main( int argc, char ** argv )
+{
+  // Turn off synchronization with corresponding C standard library files. This
+  // gives a significant speed improvement on platforms where the standard C++
+  // streams are implemented using standard C files.
+  std::ios::sync_with_stdio(false);
+
+  fs::initial_path();
+  std::istream* input = 0;
+
+  if ( argc &lt;= 1 )
+  {
+    std::cout &lt;&lt;  &quot;process_jam_log [--echo] [--create-directories] [--v1|--v2]\n&quot;
+                  &quot;                [--boost-root boost_root] [--locate-root locate_root]\n&quot;
+                  &quot;                [--input-file input_file]\n&quot;
+                  &quot;                [locate-root]\n&quot;
+                  &quot;--echo               - verbose diagnostic output.\n&quot;
+                  &quot;--create-directories - if the directory for xml file doesn't exists - creates it.\n&quot;
+                  &quot;                       usually used for processing logfile on different machine\n&quot;
+                  &quot;--v2                 - bjam version 2 used (default).\n&quot;
+                  &quot;--v1                 - bjam version 1 used.\n&quot;
+                  &quot;--boost-root         - the root of the boost installation being used. If not defined\n&quot;
+                  &quot;                       assume to run from within it and discover it heuristically.\n&quot;
+                  &quot;--locate-root        - the same as the bjam ALL_LOCATE_TARGET\n&quot;
+                  &quot;                       parameter, if any. Default is boost-root.\n&quot;
+                  &quot;--input-file         - the output of a bjam --dump-tests run. Default is std input.\n&quot;
+                  ;
+    return 1;
+  }
+
+  while ( argc &gt; 1 )
+  {
+    if ( std::strcmp( argv[1], &quot;--echo&quot; ) == 0 )
+    {
+      echo = true;
+      --argc; ++argv;
+    }
+    else if ( std::strcmp( argv[1], &quot;--create-directories&quot; ) == 0 )
+    {
+        create_dirs = true;
+        --argc; ++argv;
+    } 
+    else if ( std::strcmp( argv[1], &quot;--v2&quot; ) == 0 )
+    {
+      boost_build_v2 = true;
+      --argc; ++argv;
+    }
+    else if ( std::strcmp( argv[1], &quot;--v1&quot; ) == 0 )
+    {
+      boost_build_v2 = false;
+      --argc; ++argv;
+    }
+    else if ( std::strcmp( argv[1], &quot;--boost-root&quot; ) == 0 )
+    {
+      --argc; ++argv;
+      if ( argc == 1 )
+      {
+        std::cout &lt;&lt; &quot;Abort: option --boost-root requires a directory argument\n&quot;;
+        std::exit(1);
+      }
+      boost_root = fs::path( argv[1] );
+      if ( !boost_root.is_complete() )
+        boost_root = ( fs::initial_path() / boost_root ).normalize();
+      
+      --argc; ++argv;
+    } 
+    else if ( std::strcmp( argv[1], &quot;--locate-root&quot; ) == 0 )
+    {
+      --argc; ++argv;
+      if ( argc == 1 )
+      {
+        std::cout &lt;&lt; &quot;Abort: option --locate-root requires a directory argument\n&quot;;
+        std::exit(1);
+      }
+      locate_root = fs::path( argv[1] );
+      --argc; ++argv;
+    } 
+    else if ( std::strcmp( argv[1], &quot;--input-file&quot; ) == 0 )
+    {
+      --argc; ++argv;
+      if ( argc == 1 )
+      {
+        std::cout &lt;&lt; &quot;Abort: option --input-file requires a filename argument\n&quot;;
+        std::exit(1);
+      }
+      input = new std::ifstream(argv[1]);
+      --argc; ++argv;
+    }
+    else if ( *argv[1] == '-' )
+    {
+      std::cout &lt;&lt; &quot;Abort: unknown option; invoke with no arguments to see list of valid options\n&quot;;
+      return 1;
+    }
+    else
+    {
+      locate_root = fs::path( argv[1] );
+      --argc; ++argv;
+    }
+  }
+
+  if ( boost_root.empty() )
+  {
+    set_boost_root();
+    boost_root.normalize();
+  }
+
+  
+  if ( locate_root.empty() )
+  {
+    locate_root = boost_root;
+  }
+  else if ( !locate_root.is_complete() )
+  {
+    locate_root = ( fs::initial_path() / locate_root ).normalize();
+  }   
+
+  if ( input == 0 )
+  {
+    input = &amp;std::cin;
+  }
+
+  std::cout &lt;&lt; &quot;boost_root: &quot; &lt;&lt; boost_root.string() &lt;&lt; '\n'
+            &lt;&lt; &quot;locate_root: &quot; &lt;&lt; locate_root.string() &lt;&lt; '\n';
+
+  message_manager mgr;
+
+  string line;
+  string content;
+  bool capture_lines = false;
+
+  // This loop looks at lines for certain signatures, and accordingly:
+  //   * Calls start_message() to start capturing lines. (start_message() will
+  //     automatically call stop_message() if needed.)
+  //   * Calls stop_message() to stop capturing lines.
+  //   * Capture lines if line capture on.
+
+  static const int max_line_length = 8192;
+  int line_num = 0;
+  while ( std::getline( *input, line ) )
+  {
+    if (max_line_length &lt; line.size()) line = line.substr(0, max_line_length);
+
+    ++line_num;
+    
+    std::vector&lt;std::string&gt; const line_parts( split( line ) );
+    std::string const line_start( line_parts[0] != &quot;...failed&quot; 
+        ? line_parts[0]
+        : line_parts[0] + &quot; &quot; + line_parts[1]
+        );
+    
+    if ( echo )
+    {
+      std::cout
+        &lt;&lt; &quot;line &quot; &lt;&lt; line_num &lt;&lt; &quot;: &quot; &lt;&lt; line &lt;&lt; &quot;\n&quot;
+        &lt;&lt; &quot;\tline_start: &quot; &lt;&lt; line_start &lt;&lt; &quot;\n&quot;;        
+    }
+
+    // create map of test-name to test-info
+    if ( line_start.find( &quot;boost-test(&quot; ) == 0 )
+    {
+      string::size_type pos = line.find( '&quot;' );
+      string test_name( line.substr( pos+1, line.find( '&quot;', pos+1)-pos-1 ) );
+      test_info info;
+      info.always_show_run_output
+        = line.find( &quot;\&quot;always_show_run_output\&quot;&quot; ) != string::npos;
+      info.type = line.substr( 11, line.find( ')' )-11 );
+      for (unsigned int i = 0; i!=info.type.size(); ++i )
+        { info.type[i] = std::tolower( info.type[i] ); }
+      pos = line.find( ':' );
+      // the rest of line is missing if bjam didn't know how to make target
+      if ( pos + 1 != line.size() )
+      {
+        info.file_path = line.substr( pos+3,
+          line.find( &quot;\&quot;&quot;, pos+3 )-pos-3 );
+        convert_path_separators( info.file_path );
+        if ( info.file_path.find( &quot;libs/libs/&quot; ) == 0 ) info.file_path.erase( 0, 5 );
+        if ( test_name.find( &quot;/&quot; ) == string::npos )
+            test_name = &quot;/&quot; + test_name;
+        test2info.insert( std::make_pair( test_name, info ) );
+  //      std::cout &lt;&lt; test_name &lt;&lt; &quot;, &quot; &lt;&lt; info.type &lt;&lt; &quot;, &quot; &lt;&lt; info.file_path &lt;&lt; &quot;\n&quot;;
+      }
+      else
+      {
+        std::cout &lt;&lt; &quot;*****Warning - missing test path: &quot; &lt;&lt; line &lt;&lt; &quot;\n&quot;
+          &lt;&lt; &quot;  (Usually occurs when bjam doesn't know how to make a target)\n&quot;;
+      }
+      continue;
+    }
+
+    // these actions represent both the start of a new action
+    // and the end of a failed action
+    else if ( line_start.find( &quot;C++-action&quot; ) != string::npos
+      || line_start.find( &quot;vc-C++&quot; ) != string::npos
+      || line_start.find( &quot;C-action&quot; ) != string::npos
+      || line_start.find( &quot;Cc-action&quot; ) != string::npos
+      || line_start.find( &quot;vc-Cc&quot; ) != string::npos
+      || line_start.find( &quot;.compile.&quot;) != string::npos
+      || line_start.find( &quot;compile-&quot;) != string::npos
+      || line_start.find( &quot;-compile&quot;) != string::npos
+      || line_start.find( &quot;Link-action&quot; ) != string::npos
+      || line_start.find( &quot;vc-Link&quot; ) != string::npos 
+      || line_start.find( &quot;Archive-action&quot; ) != string::npos
+      || line_start.find( &quot;.archive&quot;) != string::npos
+      || ( line_start.find( &quot;.link&quot;) != string::npos &amp;&amp;
+           // .linkonce is present in gcc linker messages about
+           // unresolved symbols. We don't have to parse those
+           line_start.find( &quot;.linkonce&quot; ) == string::npos )
+    )
+    {
+      //~ if ( !test2info.size() )
+      //~ {
+        //~ std::cout &lt;&lt; &quot;*****Error - No \&quot;boost-test\&quot; lines encountered.\n&quot;
+                     //~ &quot;     (Usually occurs when bjam was envoked without the --dump-tests option\n&quot;
+                     //~ &quot;      or bjam was envoked in the wrong directory)\n&quot;;
+        //~ return 1;
+      //~ }
+
+      string action( ( line_start.find( &quot;Link-action&quot; ) != string::npos
+            || line_start.find( &quot;vc-Link&quot; ) != string::npos 
+            || line_start.find( &quot;Archive-action&quot; ) != string::npos
+            || line_start.find( &quot;.archive&quot;) != string::npos
+            || line_start.find( &quot;.link&quot;) != string::npos
+            )
+          ? &quot;link&quot; : &quot;compile&quot;
+        );
+      
+      if ( line_start.find( &quot;...failed &quot; ) != string::npos )
+      {
+        mgr.stop_message( action, target_directory( line ),
+          &quot;fail&quot;, timestamp(), content );
+      }
+      else
+      {
+        string target_dir( target_directory( line ) );
+        mgr.start_message( action, target_dir,
+          test_name( target_dir ), toolset( target_dir ), content );
+      }
+      content = &quot;\n&quot;;
+      capture_lines = true;
+    }
+
+    // these actions are only used to stop the previous action
+    else if ( line_start.find( &quot;-Archive&quot; ) != string::npos
+      || line_start.find( &quot;MkDir&quot; ) == 0
+      || line_start.find( &quot;common.mkdir&quot; ) == 0 )
+    {
+      mgr.stop_message( content );
+      content.clear();
+      capture_lines = false;
+    }
+
+    else if ( line_start.find( &quot;execute-test&quot; ) != string::npos 
+             || line_start.find( &quot;capture-output&quot; ) != string::npos )
+    {
+      if ( line_start.find( &quot;...failed &quot; ) != string::npos )
+      {
+        mgr.stop_message( &quot;run&quot;, target_directory( line ),
+          &quot;fail&quot;, timestamp(), content );
+        content = &quot;\n&quot;;
+        capture_lines = true;
+      }
+      else
+      {
+        string target_dir( target_directory( line ) );
+        mgr.start_message( &quot;run&quot;, target_dir,
+          test_name( target_dir ), toolset( target_dir ), content );
+
+        // contents of .output file for content
+        capture_lines = false;
+        content = &quot;\n&quot;;
+        fs::ifstream file( locate_root / target_dir
+          / (test_name(target_dir) + &quot;.output&quot;) );
+        if ( file )
+        {
+          string ln;
+          while ( std::getline( file, ln ) )
+          {
+            if ( ln.find( &quot;&lt;note&gt;&quot; ) != string::npos ) mgr.note( true );
+            append_html( ln, content );
+            content += &quot;\n&quot;;
+          }
+        }
+      }
+    }
+
+    // bjam indicates some prior dependency failed by a &quot;...skipped&quot; message
+    else if ( line_start.find( &quot;...skipped&quot; ) != string::npos 
+        &amp;&amp; line.find( &quot;&lt;directory-grist&gt;&quot; ) == string::npos
+        )
+    {
+      mgr.stop_message( content );
+      content.clear();
+      capture_lines = false;
+
+      if ( line.find( &quot; for lack of &quot; ) != string::npos )
+      {
+        capture_lines = ( line.find( &quot;.run for lack of &quot; ) == string::npos );
+
+        string target_dir;
+        string lib_dir;
+
+        parse_skipped_msg( line, target_dir, lib_dir );
+
+        if ( target_dir != lib_dir ) // it's a lib problem
+        {
+          mgr.start_message( &quot;lib&quot;, target_dir, 
+            test_name( target_dir ), toolset( target_dir ), content );
+          content = lib_dir;
+          mgr.stop_message( &quot;lib&quot;, target_dir, &quot;fail&quot;, timestamp(), content );
+          content = &quot;\n&quot;;
+        }
+      }
+
+    }
+
+    else if ( line_start.find( &quot;**passed**&quot; ) != string::npos
+      || line_start.find( &quot;failed-test-file&quot; ) != string::npos
+      || line_start.find( &quot;command-file-dump&quot; ) != string::npos )
+    {
+      mgr.stop_message( content );
+      content = &quot;\n&quot;;
+      capture_lines = true;
+    }
+
+    else if ( capture_lines ) // hang onto lines for possible later use
+    {
+      append_html( line, content );;
+      content += &quot;\n&quot;;
+    }
+  }
+
+  mgr.stop_message( content );
+  if (input != &amp;std::cin)
+      delete input;
+  return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/tools/regression/src/process_jam_log.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:50 GMT -->
+</html>

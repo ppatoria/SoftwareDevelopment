@@ -1,0 +1,44 @@
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Delete                                                                     |Truncate                                                                   |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Removes rows from a table or view. DELETE statements delete rows one at a  |Removes all rows from a table without logging the individual row           |
+|time, logging each row in the transaction log, as well as maintaining log  |deletions. TRUNCATE TABLE is similar to the DELETE statement with no WHERE |
+|sequence number (LSN) information.                                         |clause; however, TRUNCATE TABLE is faster and uses fewer system and        |
+|                                                                           |transaction log resources.                                                 |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|You may use DELETE statement against a view (with some limitations).       |You can¡¯t use TRUNCATE statement against a view.                           |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|You can specify a WHERE clause in a DELETE FROM statement-it is all or     |You can not specify a WHERE clause in a TRUNCATE TABLE statement. It is all|
+|selected records.                                                          |or nothing                                                                 |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Does not reset identity value of the table                                 |Reset identity value of the table.                                         |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Records removed using DELETE can be roll backed and can be restored point  |Records removed using TRUNCATE can ALSO be roll backed.                    |
+|in time.                                                                   |                                                                           |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Triggers get executed on Delete statement.                                 |Triggers does NOT executed on TRUNCATE statement.                          |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|You can use DELETE statement on a parent table and if CASCADE ON DELETE is |You can¡¯t truncate a parent table irrespective of whether the child table  |
+|enabled then data from child table also get deleted. If CASCADE ON DELETE  |has any record or not. Truncate table statement will fail for parent table |
+|is NOT enabled and any of the child table has related then you can¡¯t delete|even if CASCADE ON DELETE is enabled.                                      |
+|records from parent table.                                                 |                                                                           |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|DELETE statement can be used even if you have Replication/CDC enabled for  |TRUNCATE statement can NOT be used if you have Replication/ CDC enabled for|
+|the table.                                                                 |the table.                                                                 |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Minimum permission required is DELETE permissions on the target            |Minimum permission required is ALTER table.                                |
+|table. SELECT permissions are also required if the statement contains a    |                                                                           |
+|WHERE clause.                                                              |                                                                           |
+|                                                                           |                                                                           |
+|                                                                           |                                                                           |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|DELETE permissions default to members of the sysadmin fixed server role,   |You need to be db_owner, ddl_admin, or owner of the table to be able to    |
+|the db_owner and db_datawriter fixed database roles, and the table owner.  |fire a TRUNCATE statement.                                                 |
+|                                                                           |                                                                           |
+|                                                                           |                                                                           |
+|                                                                           |                                                                           |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|Log shipping has NO impact on DELETE.                                      |Log shipping has NO impact on TRUNCATE.                                    |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|DELETE is classified as DML operation.                                     |TRUNCATE is classified as DDL operation.                                   |
++---------------------------------------------------------------------------+---------------------------------------------------------------------------+

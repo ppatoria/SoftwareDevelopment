@@ -1,0 +1,55 @@
+Boost
+-----
+
+(*) type casting
+-----------------
+
+(1) lexical_cast     : converts string to integer.
+(2) numeric_cast     : converts integer to string.
+(3) polymorphic_cast : wrapper over dynamic cast . check the object is not null and does dynamic_cast .
+
+(*) bind
+--------
+bind: bind the fundtion and parameters and returns functors. Used while passing function as parameter.
+
+(*) lambda
+----------
+labda expression: passing lamda expression as parameter.
+
+(*) Any
+-------
+
+(*) Array
+---------
+
+(*) Smartpointers: Handles deallocation and exception.
+-------------------
+
+(1) scoped_ptr    : scope ptr similar to auto_ptr without transfer of ownership.
+(2) shared_ptr    : multiple pointers can share a memory resource. Internally uses reference couting.
+(3) intrusive_ptr : similar to shared_ptr only difference is that reference counting need to be handled explicitly by user i.e. user can have custom refrence counting.
+(4) weak_ptr      : to eliminate issue related to acyclic refrence when shared_ptr are used. 
+
+(5) auto_ptr (stl)
+
+(*) Threading:
+--------------
+boost::thread : 
+	(*) thread :  if not detached after spawning calls stl::terminate and the program is terminated.
+    	    (*) detach : detach from the thread before goes out of scope and destructer is called.
+    	    (*) join   : join before going out of scope and destructer is called.
+	(*) scoped_thread :(RAII) is a scoped thread and it either gets detached or join or interuppted.
+    	    (*) interuppt_and_join_if_joinable 
+    	    (*) join_if_joinable
+    	    (*) detach
+synchronization objects
+	(*) mutex
+	(*) recursive_mutex
+	(*) shared_mutex: read only lock shared between all the threads who are using shared_mutex.
+	(*) conditional_variable : have method notify_one and notify_all. used in conjunction with bool conditional variable.
+locks
+	(*) lock_quard : RAII
+	(*) unique_quard
+	(*) atomic
+
+	

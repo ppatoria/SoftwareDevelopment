@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/utility/result_of.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:46 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/utility/result_of.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/utility/result_of.hpp</h3>
+<pre>
+// Boost result_of library
+
+//  Copyright Douglas Gregor 2004. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+// For more information, see <a href="http://www.boost.org/libs/utility">http://www.boost.org/libs/utility</a>
+#ifndef BOOST_RESULT_OF_HPP
+#define BOOST_RESULT_OF_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/cat.hpp">boost/preprocessor/cat.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/iteration/iterate.hpp">boost/preprocessor/iteration/iterate.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/repetition/enum_params.hpp">boost/preprocessor/repetition/enum_params.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/repetition/enum_trailing_params.hpp">boost/preprocessor/repetition/enum_trailing_params.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/repetition/enum_binary_params.hpp">boost/preprocessor/repetition/enum_binary_params.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/repetition/enum_shifted_params.hpp">boost/preprocessor/repetition/enum_shifted_params.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/preprocessor/facilities/intercept.hpp">boost/preprocessor/facilities/intercept.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/has_xxx.hpp">boost/mpl/has_xxx.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/if.hpp">boost/mpl/if.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/eval_if.hpp">boost/mpl/eval_if.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/bool.hpp">boost/mpl/bool.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/identity.hpp">boost/mpl/identity.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/or.hpp">boost/mpl/or.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_class.hpp">boost/type_traits/is_class.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_pointer.hpp">boost/type_traits/is_pointer.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_member_function_pointer.hpp">boost/type_traits/is_member_function_pointer.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/remove_cv.hpp">boost/type_traits/remove_cv.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/remove_reference.hpp">boost/type_traits/remove_reference.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/utility/declval.hpp">boost/utility/declval.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/utility/enable_if.hpp">boost/utility/enable_if.hpp</a>&gt;
+
+#ifndef BOOST_RESULT_OF_NUM_ARGS
+#  define BOOST_RESULT_OF_NUM_ARGS 16
+#endif
+
+// Use the decltype-based version of result_of by default if the compiler
+// supports N3276 &lt;<a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2011/n3276.pdf">http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2011/n3276.pdf</a>&gt;.
+// The user can force the choice by defining either BOOST_RESULT_OF_USE_DECLTYPE or
+// BOOST_RESULT_OF_USE_TR1, but not both!
+#if defined(BOOST_RESULT_OF_USE_DECLTYPE) &amp;&amp; defined(BOOST_RESULT_OF_USE_TR1)
+#  error Both BOOST_RESULT_OF_USE_DECLTYPE and BOOST_RESULT_OF_USE_TR1 cannot be defined at the same time.
+#endif
+
+#ifndef BOOST_RESULT_OF_USE_TR1
+#  ifndef BOOST_RESULT_OF_USE_DECLTYPE
+#    ifndef BOOST_NO_CXX11_DECLTYPE_N3276 // this implies !defined(BOOST_NO_CXX11_DECLTYPE)
+#      define BOOST_RESULT_OF_USE_DECLTYPE
+#    else
+#      define BOOST_RESULT_OF_USE_TR1
+#    endif
+#  endif
+#endif
+
+namespace boost {
+
+template&lt;typename F&gt; struct result_of;
+template&lt;typename F&gt; struct tr1_result_of; // a TR1-style implementation of result_of
+
+#if !defined(BOOST_NO_SFINAE) &amp;&amp; !defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
+namespace detail {
+
+BOOST_MPL_HAS_XXX_TRAIT_DEF(result_type)
+
+template&lt;typename F, typename FArgs, bool HasResultType&gt; struct tr1_result_of_impl;
+
+#ifdef BOOST_NO_SFINAE_EXPR
+
+// There doesn't seem to be any other way to turn this off such that the presence of
+// the user-defined operator,() below doesn't cause spurious warning all over the place,
+// so unconditionally turn it off.
+#if BOOST_MSVC
+#  pragma warning(disable: 4913) // user defined binary operator ',' exists but no overload could convert all operands, default built-in binary operator ',' used
+#endif
+
+struct result_of_private_type {};
+
+struct result_of_weird_type {
+  friend result_of_private_type operator,(result_of_private_type, result_of_weird_type);
+};
+
+typedef char result_of_yes_type;      // sizeof(result_of_yes_type) == 1
+typedef char (&amp;result_of_no_type)[2]; // sizeof(result_of_no_type)  == 2
+
+template&lt;typename T&gt;
+result_of_no_type result_of_is_private_type(T const &amp;);
+result_of_yes_type result_of_is_private_type(result_of_private_type);
+
+template&lt;typename C&gt;
+struct result_of_callable_class : C {
+    result_of_callable_class();
+    typedef result_of_private_type const &amp;(*pfn_t)(...);
+    operator pfn_t() const volatile;
+};
+
+template&lt;typename C&gt;
+struct result_of_wrap_callable_class {
+  typedef result_of_callable_class&lt;C&gt; type;
+};
+
+template&lt;typename C&gt;
+struct result_of_wrap_callable_class&lt;C const&gt; {
+  typedef result_of_callable_class&lt;C&gt; const type;
+};
+
+template&lt;typename C&gt;
+struct result_of_wrap_callable_class&lt;C volatile&gt; {
+  typedef result_of_callable_class&lt;C&gt; volatile type;
+};
+
+template&lt;typename C&gt;
+struct result_of_wrap_callable_class&lt;C const volatile&gt; {
+  typedef result_of_callable_class&lt;C&gt; const volatile type;
+};
+
+template&lt;typename C&gt;
+struct result_of_wrap_callable_class&lt;C &amp;&gt; {
+  typedef typename result_of_wrap_callable_class&lt;C&gt;::type &amp;type;
+};
+
+template&lt;typename F, bool TestCallability = true&gt; struct cpp0x_result_of_impl;
+
+#else // BOOST_NO_SFINAE_EXPR
+
+template&lt;typename T&gt;
+struct result_of_always_void
+{
+  typedef void type;
+};
+
+template&lt;typename F, typename Enable = void&gt; struct cpp0x_result_of_impl {};
+
+#endif // BOOST_NO_SFINAE_EXPR
+
+template&lt;typename F&gt;
+struct result_of_void_impl
+{
+  typedef void type;
+};
+
+template&lt;typename R&gt;
+struct result_of_void_impl&lt;R (*)(void)&gt;
+{
+  typedef R type;
+};
+
+template&lt;typename R&gt;
+struct result_of_void_impl&lt;R (&amp;)(void)&gt;
+{
+  typedef R type;
+};
+
+// Determine the return type of a function pointer or pointer to member.
+template&lt;typename F, typename FArgs&gt;
+struct result_of_pointer
+  : tr1_result_of_impl&lt;typename remove_cv&lt;F&gt;::type, FArgs, false&gt; { };
+
+template&lt;typename F, typename FArgs&gt;
+struct tr1_result_of_impl&lt;F, FArgs, true&gt;
+{
+  typedef typename F::result_type type;
+};
+
+template&lt;typename FArgs&gt;
+struct is_function_with_no_args : mpl::false_ {};
+
+template&lt;typename F&gt;
+struct is_function_with_no_args&lt;F(void)&gt; : mpl::true_ {};
+
+template&lt;typename F, typename FArgs&gt;
+struct result_of_nested_result : F::template result&lt;FArgs&gt;
+{};
+
+template&lt;typename F, typename FArgs&gt;
+struct tr1_result_of_impl&lt;F, FArgs, false&gt;
+  : mpl::if_&lt;is_function_with_no_args&lt;FArgs&gt;,
+             result_of_void_impl&lt;F&gt;,
+             result_of_nested_result&lt;F, FArgs&gt; &gt;::type
+{};
+
+} // end namespace detail
+
+#define BOOST_PP_ITERATION_PARAMS_1 (3,(0,BOOST_RESULT_OF_NUM_ARGS,&lt;boost/utility/detail/result_of_iterate.hpp&gt;))
+#include BOOST_PP_ITERATE()
+
+#else
+#  define BOOST_NO_RESULT_OF 1
+#endif
+
+}
+
+#endif // BOOST_RESULT_OF_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/utility/result_of.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:46 GMT -->
+</html>

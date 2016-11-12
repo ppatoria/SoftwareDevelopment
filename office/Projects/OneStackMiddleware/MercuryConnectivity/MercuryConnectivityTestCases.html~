@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>MercuryConnectivityTestCases</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-03-08 10:05:50 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">MercuryConnectivityTestCases</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Design Document for ECClient (Exchange Connectivity Client) library. </a></li>
+<li><a href="#sec-2">2 ECClient Modules </a></li>
+<li><a href="#sec-3">3 Configuration </a></li>
+<li><a href="#sec-4">4 MCClient Interface </a></li>
+<li><a href="#sec-5">5 Test Cases </a>
+<ul>
+<li><a href="#sec-5_1">5.1 Test cases for Product Line and MCClient library Interaction. </a></li>
+<li><a href="#sec-5_2">5.2 Test cases for MCClient and Guardian Service Interaction. </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Design Document for ECClient (Exchange Connectivity Client) library. </h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> ECClient Modules </h2>
+<div class="outline-text-2" id="text-2">
+
+<ul>
+<li>
+GSClient : For Mercury Connectivity through GS
+</li>
+<li>
+LoadBalancer  
+</li>
+<li>
+FaultTolerance
+</li>
+<li>
+Recovery 
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Configuration </h2>
+<div class="outline-text-2" id="text-3">
+
+<ul>
+<li>
+Timeouts
+<ul>
+<li>
+ConnectionTimeout
+</li>
+<li>
+ReconnectTimeout
+</li>
+</ul>
+</li>
+<li>
+ReconnectPolicy
+<ul>
+<li>
+NumberOfReconnects
+</li>
+</ul>
+</li>
+<li>
+LoadBalancing
+<ul>
+<li>
+DistributionPolicy &ndash;&gt; enum { RoundRobin, FirstDiscovered, All }
+</li>
+</ul>
+</li>
+<li>
+Interst and Cabalilities [TODO] look for the difference
+<ul>
+<li>
+Interest
+</li>
+<li>
+Capabilities        
+</li>
+</ul>
+</li>
+<li>
+Recovery { Yes/No }
+<ul>
+<li>
+RecoveryPolicy enum {Auto, Mannual}
+<ul>
+<li>
+Auto: EXClient will persist the last recovery points and recover when application comes up after a crash.
+</li>
+<li>
+Mannual: Client will persist and provide the recovery points. (Scenario : Some (slow) clients do not process the message immediately they buffer it. 
+In this case if application goes down and ECClient will recover from the last recovery point then 
+client will miss the messages which are not processed(only buffered). 
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> MCClient Interface </h2>
+<div class="outline-text-2" id="text-4">
+
+<ul>
+<li>
+Connect (service capabilities and interest)
+</li>
+<li>
+Connect (array of service addresses and topic)
+</li>
+<li>
+Close   ()
+</li>
+<li>
+ConnectionTimeout
+</li>
+<li>
+Callbacks
+<ul>
+<li>
+OnConnected (array of ServicesInfo) &ndash;&gt; ServiceInfo will contain address topic and other service specific information 
+</li>
+<li>
+OnDisconnected (array of Services)
+</li>
+<li>
+OnMessage (IMessage) &ndash;&gt; Need to discuss on the Generic IMessage
+
+</li>
+</ul>
+</li>
+<li>
+Send  
+<ul>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Test Cases </h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5_1" class="outline-3">
+<h3 id="sec-5_1"><span class="section-number-3">5.1</span> Test cases for Product Line and MCClient library Interaction. </h3>
+<div class="outline-text-3" id="text-5_1">
+
+<ul>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5_2" class="outline-3">
+<h3 id="sec-5_2"><span class="section-number-3">5.2</span> Test cases for MCClient and Guardian Service Interaction. </h3>
+<div class="outline-text-3" id="text-5_2">
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: 
+</p>
+<p class="date"> Date: 2014-03-08 10:05:50 </p>
+<p class="creator">HTML generated by org-mode 7.01 in emacs 24</p>
+</div>
+</div>
+</body>
+</html>

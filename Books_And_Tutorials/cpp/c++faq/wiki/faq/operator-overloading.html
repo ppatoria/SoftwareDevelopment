@@ -1,0 +1,1204 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/operator-overloading by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="e08366b27779467a1fa8dc5502fb6338b3a7c135" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="dda4ebd0b9cd6b0d72bf2875b69f6a4e65724d2f" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="1130a304960ba716af2bcf6041e0bce054626fb8" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        operator overloading
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="operator-overloading.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    operator overloading
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=operator%20overloading" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="operator-overloading">Operator Overloading</h2>
+
+<h3 id="overview-op-ov">What&#8217;s the deal with <code>operator</code> overloading?</h3>
+
+<p>It allows you to provide an intuitive interface to users of your class, plus makes it possible for
+<a href="templates.html#overview-templates" title="FAQ: What's the idea behind templates?">templates</a> to work equally well with classes and built-in/intrinsic types.</p>
+
+<p>Operator overloading allows C/C++ operators to have user-defined meanings on user-defined types (classes).
+Overloaded operators are syntactic sugar for function calls:</p>
+
+<pre><code>class Fred {
+public:
+  // ...
+};
+
+#if 0
+
+  // Without operator overloading:
+  Fred add(const Fred&amp; x, const Fred&amp; y);
+  Fred mul(const Fred&amp; x, const Fred&amp; y);
+
+  Fred f(const Fred&amp; a, const Fred&amp; b, const Fred&amp; c)
+  {
+    return add(add(mul(a,b), mul(b,c)), mul(c,a));    // Yuk...
+  }
+
+#else
+
+  // With operator overloading:
+  Fred operator+ (const Fred&amp; x, const Fred&amp; y);
+  Fred operator* (const Fred&amp; x, const Fred&amp; y);
+
+  Fred f(const Fred&amp; a, const Fred&amp; b, const Fred&amp; c)
+  {
+    return a*b + b*c + c*a;
+  }
+
+#endif
+</code></pre>
+
+<h3 id="op-ov-benefits">What are the benefits of operator overloading?</h3>
+
+<p>By overloading standard operators on a class, you can exploit the intuition of the users of that class. This lets users
+program in the language of the problem domain rather than in the language of the machine.</p>
+
+<p>The ultimate goal is to reduce both the learning curve and the defect rate.</p>
+
+<h3 id="op-ov-examples">What are some examples of operator overloading?</h3>
+
+<p>Here are a few of the many examples of operator overloading:</p>
+
+<ul>
+<li><code>myString + yourString</code> might concatenate two <code>std::string</code> objects</li>
+<li><code>myDate++</code> might increment a <code>Date</code> object</li>
+<li><code>a * b</code> might multiply two <code>Number</code> objects</li>
+<li><code>a[i]</code> might access an element of an <code>Array</code> object</li>
+<li><code>x = *p</code> might dereference a &#8220;smart pointer&#8221; that &#8220;points&#8221; to a disk record &#8212; it could seek to the location on disk
+where <code>p</code> &#8220;points&#8221; and return the appropriate record into <code>x</code></li>
+</ul>
+
+<h3 id="op-ov-not-for-class-builder">But <code>operator</code> overloading makes my class look ugly; isn&#8217;t it supposed to make my code clearer?</h3>
+
+<p>Operator overloading <a href="operator-overloading.html#op-ov-benefits" title="FAQ: What are the benefits of operator overloading?">makes life easier for the <em>users</em> of a class</a>, not for the developer of the class!</p>
+
+<p>Consider the following example.</p>
+
+<pre><code>class Array {
+public:
+  int&amp; operator[] (unsigned i);      // Some people don't like this syntax
+  // ...
+};
+
+inline
+int&amp; Array::operator[] (unsigned i)  // Some people don't like this syntax
+{
+  // ...
+}
+</code></pre>
+
+<p>Some people don&#8217;t like the keyword <code>operator</code> or the somewhat funny syntax that goes with it in the body of the class
+itself. But the <code>operator</code> overloading syntax isn&#8217;t supposed to make life easier for the <em>developer</em> of a class. It&#8217;s
+supposed to make life easier for the <em>users</em> of the class:</p>
+
+<pre><code>int main()
+{
+  Array a;
+  a[3] = 4;   // User code should be obvious and easy to understand...
+  // ...
+}
+</code></pre>
+
+<p>Remember: in a reuse-oriented world, there will usually be many people who use your class, but there is only one
+person who builds it (yourself); therefore you should do things that favor the many rather than the few.</p>
+
+<h3 id="overloadable-opers">What operators can/cannot be overloaded?</h3>
+
+<p>Most can be overloaded. The only C operators that can&#8217;t be are <code>.</code> and <code>?:</code> (and <code>sizeof</code>, which is technically an
+operator). C++ adds a few of its own operators, most of which can be overloaded except <code>::</code> and <code>.*</code>.</p>
+
+<p>Here&#8217;s an example of the subscript <code>operator</code> (it returns a reference). First with<em>out</em> <code>operator</code> overloading:</p>
+
+<pre><code>class Array {
+public:
+  int&amp; elem(unsigned i)        { if (i &gt; 99) error(); return data[i]; }
+private:
+  int data[100];
+};
+
+int main()
+{
+  Array a;
+  a.elem(10) = 42;
+  a.elem(12) += a.elem(13);
+  // ...
+}
+</code></pre>
+
+<p>Now the same logic is presented <em>with</em> operator overloading:</p>
+
+<pre><code>class Array {
+public:
+  int&amp; operator[] (unsigned i) { if (i &gt; 99) error(); return data[i]; }
+private:
+  int data[100];
+};
+
+int main()
+{
+  Array a;
+  a[10] = 42;
+  a[12] += a[13];
+  // ...
+}
+</code></pre>
+
+<h3 id="overload-dot">Why can&#8217;t I overload <code>.</code> (dot), <code>::</code>, <code>sizeof</code>, etc.?</h3>
+
+<p>Most operators can be overloaded by a programmer. The exceptions are</p>
+
+<pre><code>    . (dot)  ::  ?:  sizeof
+</code></pre>
+
+<p>There is no fundamental reason to disallow overloading of <code>?:</code>. So far the committee just hasn&#8217;t seen the need to introduce the special case of overloading a ternary operator. Note that a function overloading <code>expr1?expr2:expr3</code> would not be able to guarantee that only one of <code>expr2</code> and <code>expr3</code> was executed.</p>
+
+<p><code>sizeof</code> cannot be overloaded because built-in operations, such as incrementing a pointer into an array implicitly depends on it. Consider:</p>
+
+<pre><code>    X a[10];
+    X* p = &amp;a[3];
+    X* q = &amp;a[3];
+    p++;    // p points to a[4]
+        // thus the integer value of p must be
+        // sizeof(X) larger than the integer value of q
+</code></pre>
+
+<p>Thus, <code>sizeof(X)</code> could not be given a new and different meaning by the programmer without violating basic language rules.</p>
+
+<p>What about <code>::</code>? In <code>N::m</code> neither <code>N</code> nor <code>m</code> are expressions with values; <code>N</code> and <code>m</code> are names known to the compiler and <code>::</code> performs a (compile time) scope resolution rather than an expression evaluation. One could imagine allowing overloading of <code>x::y</code> where <code>x</code> is an object rather than a namespace or a class, but that would &#8211; contrary to first appearances &#8211; involve introducing new syntax (to allow <code>expr::expr</code>). It is not obvious what benefits such a complication would bring.</p>
+
+<p><code>operator.</code> (dot) could in principle be overloaded using the same technique as used for <code>-&gt;</code>. However, doing so can lead to questions about whether an operation is meant for the object overloading <code>.</code> or an object referred to by <code>.</code>. For example:</p>
+
+<pre><code>    class Y {
+    public:
+        void f();
+        // ...
+    };
+
+    class X {   // assume that you can overload .
+        Y* p;
+        Y&amp; operator.() { return *p; }
+        void f();
+        // ...
+    };
+
+    void g(X&amp; x)
+    {
+        x.f();  // X::f or Y::f or error?
+    }
+</code></pre>
+
+<p>This problem can be solved in several ways. So far in standardization, it has not been obvious which way would be best. For more details, see <a href="http://stroustrup.com/dne.html">D&amp;E</a>.</p>
+
+<h3 id="overload-operator">Can I define my own operators?</h3>
+
+<p>Sorry, no. The possibility has been considered several times, but each time it was decided that the likely problems outweighed the likely benefits.</p>
+
+<p>It&#8217;s not a language-technical problem. Even when Stroustrup first considered it in 1983, he knew how it could be implemented. However, the experience has been that when we go beyond the most trivial examples people seem to have subtly different opinions of &#8220;the obvious&#8221; meaning of uses of an operator. A classical example is <code>a**b**c</code>. Assume that <code>**</code> has been made to mean exponentiation. Now should <code>a**b**c</code> mean <code>(a**b)**c</code> or <code>a**(b**c)</code>? Experts have thought the answer was obvious and their friends agreed &#8211; and then found that they didn&#8217;t agree on which resolution was the obvious one. Such problems seem prone to lead to subtle bugs.</p>
+
+<h3 id="cant-replace-ops-on-built-ins">Can I overload <code>operator==</code> so it lets me compare two <code>char[]</code> using a string comparison?</h3>
+
+<p>No: <a href="intrinsic-types.html#intrinsics-and-operator-overloading" title="FAQ: Can I define an operator overload that works with built-in / intrinsic / primitive types?">at least one operand of any overloaded <code>operator</code> must be of some user-defined
+type</a> (most of the time that means a <code>class</code>).</p>
+
+<p>But even if C++ allowed you to do this, which it doesn&#8217;t, you wouldn&#8217;t want to do it anyway since you really should be
+using a <a href="exceptions.html#use-string-not-char-ptr" title="FAQ: How do I change the string-length of an array of char to prevent memory leaks even if/when someone throws an exception?"><code>std::string</code>-like class rather than an array of <code>char</code> in the first place</a> since
+<a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">arrays are evil</a>.</p>
+
+<h3 id="creating-new-opers">Can I create a <code>operator**</code> for &#8220;to-the-power-of&#8221; operations?</h3>
+
+<p>Nope.</p>
+
+<p>The names of, precedence of, associativity of, and arity of operators is fixed by the language. There is no <code>operator**</code>
+in C++, so you cannot create one for a <code>class</code> type.</p>
+
+<p>If you&#8217;re in doubt, consider that <code>x ** y</code> is the same as <code>x * (*y)</code> (in other words, the compiler assumes <code>y</code> is a
+pointer). Besides, <code>operator</code> overloading is just syntactic sugar for function calls. Although this particular syntactic
+sugar can be very sweet, it doesn&#8217;t add anything fundamental. I suggest you overload <code>pow(base,exponent)</code> (a double
+precision version is in <code>&lt;cmath&gt;</code>).</p>
+
+<p>By the way, <code>operator^</code> can work for to-the-power-of, except it has the wrong precedence and associativity.</p>
+
+<h3 id="law-of-least-surprise-op-ov">The previous FAQs tell me which operators I <em>can</em> override; but which operators <em>should</em> I override?</h3>
+
+<p>Bottom line: don&#8217;t confuse your users.</p>
+
+<p>Remember the purpose of operator overloading: to reduce the cost and defect rate in code that uses your class. If you
+create operators that confuse your users (because they&#8217;re cool, because they make the code faster, because you need to
+prove to yourself that you can do it; doesn&#8217;t really matter why), you&#8217;ve violated the whole reason for using operator
+overloading in the first place.</p>
+
+<h3 id="op-ov-rules">What are some guidelines / &#8220;rules of thumb&#8221; for overloading operators?</h3>
+
+<p>Here are a few guidelines / rules of thumb (but be sure to read <a href="operator-overloading.html#law-of-least-surprise-op-ov" title="FAQ: The previous FAQs tell me which operators I can override; but which operators should I override?">the previous FAQ</a> before
+reading this list):</p>
+
+<ol>
+<li>Use common sense. If your overloaded operator makes life easier and safer for your users, do it; otherwise don&#8217;t.
+This is the most important guideline. In fact it is, in a very real sense, the only guideline; the rest are just
+special cases.</li>
+<li>If you define arithmetic operators, maintain the usual arithmetic identities. For example, if your class defines
+<code>x + y</code> and <code>x - y</code>, then <code>x + y - y</code> ought to return an object that is behaviorally equivalent to <code>x</code>. The term
+behaviorally equivalent is defined in the bullet on <code>x == y</code> below, but simply put, it means the two objects should
+ideally act like they have the same state. This should be true even if you decide not to define an <code>==</code> operator for
+objects of your class.</li>
+<li>You should provide arithmetic operators only when they make logical sense to users. Subtracting two dates makes
+sense, logically returning the duration between those dates, so you might want to allow <code>date1 - date2</code> for objects
+of your <code>Date</code> class (provided you have a reasonable class/type to represent the duration between two <code>Date</code>
+objects). However adding two dates makes no sense: what does it mean to add July 4, 1776 to June 5, 1959? Similarly
+it makes no sense to multiply or divide dates, so you should not define any of those operators.</li>
+<li>You should provide mixed-mode arithmetic operators only when they make logical sense to users. For example, it
+makes sense to add a duration (say 35 days) to a date (say July 4, 1776), so you might define <code>date + duration</code> to
+return a <code>Date</code>. Similarly <code>date - duration</code> could also return a <code>Date</code>. But <code>duration - date</code> does not make sense
+at the conceptual level (what does it mean to subtract July 4, 1776 from 35 days?) so you should not define that
+operator.</li>
+<li>If you provide constructive operators, they should return their result by value. For example, <code>x + y</code> should return
+its result by value. If it returns by reference, you will probably run into lots of problems figuring out who owns
+the referent and when the referent will get destructed. Doesn&#8217;t matter if returning by reference is more efficient;
+it is <em>probably wrong</em>. See the next bullet for more on this point.</li>
+<li>If you provide constructive operators, they should not change their operands. For example, <code>x + y</code> should not change
+<code>x</code>. For some crazy reason, programmers often define <code>x + y</code> to be logically the same as <code>x += y</code> because the latter
+is faster. But remember, your users <em>expect</em> <code>x + y</code> to make a copy. In fact they selected the <code>+</code> operator (over,
+say, the <code>+=</code> operator) precisely because they <em>wanted</em> a copy. If they wanted to modify <code>x</code>, they would have used
+whatever is equivalent to <code>x += y</code> instead. Don&#8217;t make semantic decisions for your users; it&#8217;s <em>their</em> decision, not
+yours, whether they want the semantics of <code>x + y</code> vs. <code>x += y</code>. Tell them that one is faster if you want, but then
+step back and let them make the final decision &#8212; they know what they&#8217;re trying to achieve and you do not.</li>
+<li>If you provide constructive operators, they should allow promotion of the left-hand operand (at least in the case
+where the class has a single-parameter ctor that is not marked with <a href="ctors.html#fn-decl-vs-obj-instantiation" title="FAQ: Why am I getting an error after declaring a Foo object via Foo x(Bar())?">the <code>explicit</code>
+keyword</a>). For example, if your class <code>Fraction</code> supports promotion from <code>int</code> to
+<code>Fraction</code> (via <a href="ctors.html#explicit-ctors" title="FAQ: What is the purpose of the explicit keyword?">the non-<code>explicit</code> ctor</a> <code>Fraction::Fraction(int)</code>), and if you allow <code>x - y</code> for
+two <code>Fraction</code> objects, you should also allow <code>42 - y</code>. In practice that simply means that your <code>operator-()</code> should
+not be a member function of <code>Fraction</code>. Typically you will make it a <a href="friends.html" title="Section: Friends">friend</a>, if for no other reason than
+to <a href="inline-functions.html#where-to-put-inline-keyword" title="FAQ: With inline member functions that are defined outside the class, is it best to put the inline keyword next to the declaration within the class body, next to the definition outside the class body, or both?">force it into the <code>public:</code> part of the class</a>, but even if it is not a friend, it
+should not be a member.</li>
+<li>In general, your operator should change its operand(s) if and only if the operands get changed when you apply the
+same operator to intrinsic types. <code>x == y</code> and <code>x &lt;&lt; y</code> should not change either operand; <code>x *= y</code> and <code>x &lt;&lt;= y</code>
+should (but only the left-hand operand).</li>
+<li>If you define <code>x++</code> and <code>++x</code>, maintain the usual identities. For example, <code>x++</code> and <code>++x</code> should have the same
+observable effect on <code>x</code>, and should differ only in what they return. <code>++x</code> should return <code>x</code> by reference; <code>x++</code>
+should either return a copy (by value) of the original state of <code>x</code> or should have a <code>void</code> return-type. You&#8217;re
+usually better off returning a copy of the original state of <code>x</code> by value, especially if your class will be used in
+generic algorithms. The easy way to do that is to implement <code>x++</code> using three lines: make a local copy of <code>*this</code>,
+call <code>++x</code> (i.e., <code>this-&gt;operator++()</code>), then return the local copy. Similar comments for <code>x--</code> and <code>--x</code>.</li>
+<li>If you define <code>++x</code> and <code>x += 1</code>, maintain the usual identities. For example, these expressions should have the same
+observable behavior, including the same result. Among other things, that means your <code>+=</code> operator should return <code>x</code>
+by reference. Similar comments for <code>--x</code> and <code>x -= 1</code>.</li>
+<li>If you define <code>*p</code> and <code>p[0]</code> for pointer-like objects, maintain the usual identities. For example, these two
+expressions should have the same result and neither should change <code>p</code>.</li>
+<li>If you define <code>p[i]</code> and <code>*(p+i)</code> for pointer-like objects, maintain the usual identities. For example, these two
+expressions should have the same result and neither should change <code>p</code>. Similar comments for <code>p[-i]</code> and <code>*(p-i)</code>.</li>
+<li>Subscript operators generally come in pairs; see on <a href="const-correctness.html#const-overloading" title="FAQ: What's the deal with 'const-overloading'?"><code>const</code>-overloading</a>.</li>
+<li>If you define <code>x == y</code>, then <code>x == y</code> should be true if and only if the two objects are behaviorally equivalent. In
+this bullet, the term &#8220;behaviorally equivalent&#8221; means the observable behavior of any operation or sequence of
+operations applied to <code>x</code> will be the same as when applied to <code>y</code>. The term &#8220;operation&#8221; means methods, friends,
+operators, or just about anything else you can do with these objects (except, of course, the address-of operator).
+You won&#8217;t always be able to achieve that goal, but you ought to get close, and you ought to document any variances
+(other than the address-of operator).</li>
+<li>If you define <code>x == y</code> and <code>x = y</code>, maintain the usual identities. For example, after an assignment, the two objects
+should be equal. Even if you don&#8217;t define <code>x == y</code>, the two objects should be behaviorally equivalent (see above for
+the meaning of that phrase) after an assignment.</li>
+<li>If you define <code>x == y</code> and <code>x != y</code>, you should maintain the usual identities. For example, these expressions should
+return something convertible to <code>bool</code>, neither should change its operands, and <code>x == y</code> should have the same result
+as <code>!(x != y)</code>, and vice versa.</li>
+<li>If you define inequality operators like <code>x &lt;= y</code> and <code>x &lt; y</code>, you should maintain the usual identities. For example,
+if <code>x &lt; y</code> and <code>y &lt; z</code> are both true, then <code>x &lt; z</code> should also be true, etc. Similar comments for <code>x &gt;= y</code> and
+<code>x &gt; y</code>.</li>
+<li>If you define inequality operators like <code>x &lt; y</code> and <code>x &gt;= y</code>, you should maintain the usual identities. For example,
+<code>x &lt; y</code> should have the result as <code>!(x &gt;= y)</code>. You can&#8217;t always do that, but you should get close and you should
+document any variances. Similar comments for <code>x &gt; y</code> and <code>!(x &lt;= y)</code>, etc.</li>
+<li>Avoid overloading short-circuiting operators: <code>x || y</code> or <code>x &amp;&amp; y</code>. The overloaded versions of these do not
+short-circuit &#8212; they evaluate both operands even if the left-hand operand &#8220;determines&#8221; the outcome, so that
+confuses users.</li>
+<li>Avoid overloading the comma operator: <code>x, y</code>. The overloaded comma operator does not have the same ordering
+properties that it has when it is not overloaded, and that confuses users.</li>
+<li>Don&#8217;t overload an operator that is non-intuitive to your users. This is called the Doctrine of Least Surprise. For
+example, although C++ uses <code>std::cout &lt;&lt; x</code> for printing, and although printing is technically called inserting,
+and although inserting sort of sounds like what happens when you push an element onto a stack, don&#8217;t overload
+<code>myStack &lt;&lt; x</code> to push an element onto a stack. It might make sense when you&#8217;re really tired or otherwise mentally
+impaired, and a few of your friends might think it&#8217;s &#8220;kewl,&#8221; but just say No.</li>
+<li>Use common sense. If you don&#8217;t see &#8220;your&#8221; operator listed here, you can figure it out. Just remember the ultimate
+goals of operator overloading: to make life easier for your users, in particular to make their code cheaper to
+write and more obvious.</li>
+</ol>
+
+<p>Caveat: the list is not exhaustive. That means there are other entries that you might consider &#8220;missing.&#8221; I know.</p>
+
+<p>Caveat: the list contains guidelines, not hard and fast rules. That means almost all of the entries have exceptions,
+and most of those exceptions are not explicitly stated. I know.</p>
+
+<p>Caveat: please don&#8217;t email me about the additions or exceptions. I&#8217;ve already spent way too much time on this
+particular answer.</p>
+
+<h3 id="matrix-subscript-op">How do I create a subscript <code>operator</code> for a <code>Matrix</code> class?</h3>
+
+<p>Use <code>operator()</code> rather than <code>operator[]</code>.</p>
+
+<p>When you have multiple subscripts, the cleanest way to do it is with <code>operator()</code> rather than with <code>operator[]</code>. The
+reason is that <code>operator[]</code> always takes exactly one parameter, but <code>operator()</code> can take any number of parameters (in
+the case of a rectangular matrix, two parameters are needed).</p>
+
+<p>For example:</p>
+
+<pre><code>class Matrix {
+public:
+  Matrix(unsigned rows, unsigned cols);
+  double&amp; operator() (unsigned row, unsigned col);        // Subscript operators often come in pairs
+  double  operator() (unsigned row, unsigned col) const;  // Subscript operators often come in pairs
+  // ...
+ ~Matrix();                              // Destructor
+  Matrix(const Matrix&amp; m);               // Copy constructor
+  Matrix&amp; operator= (const Matrix&amp; m);   // Assignment operator
+  // ...
+private:
+  unsigned rows_, cols_;
+  double* data_;
+};
+
+inline
+Matrix::Matrix(unsigned rows, unsigned cols)
+  : rows_ (rows)
+  , cols_ (cols)
+//, data_ ← initialized below after the if...throw statement
+{
+  if (rows == 0 || cols == 0)
+    throw BadIndex("Matrix constructor has 0 size");
+  data_ = new double[rows * cols];
+}
+
+inline
+Matrix::~Matrix()
+{
+  delete[] data_;
+}
+
+inline
+double&amp; Matrix::operator() (unsigned row, unsigned col)
+{
+  if (row &gt;= rows_ || col &gt;= cols_)
+    throw BadIndex("Matrix subscript out of bounds");
+  return data_[cols_*row + col];
+}
+
+inline
+double Matrix::operator() (unsigned row, unsigned col) const
+{
+  if (row &gt;= rows_ || col &gt;= cols_)
+    throw BadIndex("const Matrix subscript out of bounds");
+  return data_[cols_*row + col];
+}
+</code></pre>
+
+<p>Then you can access an element of <code>Matrix</code> <code>m</code> using <code>m(i,j)</code> rather than <code>m[i][j]</code>:</p>
+
+<pre><code>int main()
+{
+  Matrix m(10,10);
+  m(5,8) = 106.15;
+  std::cout &lt;&lt; m(5,8);
+  // ...
+}
+</code></pre>
+
+<p><a href="operator-overloading.html#matrix-array-of-array" title="FAQ: Why shouldn't my Matrix class's interface look like an array-of-array?">See the next FAQ</a> for more detail on the reasons to use <code>m(i,j)</code> vs. <code>m[i][j]</code>.</p>
+
+<h3 id="matrix-array-of-array">Why shouldn&#8217;t my <code>Matrix</code> class&#8217;s interface look like an array-of-array?</h3>
+
+<p>Here&#8217;s what this FAQ is really all about: Some people build a Matrix class that has an <code>operator[]</code> that returns a
+reference to an <code>Array</code> object (or perhaps to a <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">raw array</a>, shudder), and that <code>Array</code> object has an
+<code>operator[]</code> that returns an element of the Matrix (e.g., a reference to a <code>double</code>). Thus they access elements of the
+matrix using syntax like <code>m[i][j]</code> rather than <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">syntax like <code>m(i,j)</code></a>.</p>
+
+<p>The array-of-array solution obviously works, but it is less flexible than <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">the <code>operator()</code>
+approach</a>. Specifically, there are easy performance tuning tricks that can be done with the
+<code>operator()</code> approach that are more difficult in the <code>[][]</code> approach, and therefore the <code>[][]</code> approach is more likely
+to lead to bad performance, at least in some cases.</p>
+
+<p>For example, the easiest way to implement the <code>[][]</code> approach is to use a physical layout of the matrix as a dense
+matrix that is stored in row-major form (or is it column-major; I can&#8217;t ever remember). In contrast, <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">the <code>operator()</code>
+approach</a> totally hides the physical layout of the matrix, and that can lead to better performance
+in some cases.</p>
+
+<p>Put it this way: the <code>operator()</code> approach is never worse than, and sometimes better than, the <code>[][]</code> approach.</p>
+
+<ul>
+<li>The <code>operator()</code> approach is never worse because it is easy to implement the dense, row-major physical layout using
+the <code>operator()</code> approach, so when that configuration happens to be the optimal layout from a performance standpoint,
+the <code>operator()</code> approach is just as easy as the <code>[][]</code> approach (perhaps the <code>operator()</code> approach is a tiny bit
+easier, but I won&#8217;t quibble over minor nits).</li>
+<li>The <code>operator()</code> approach is sometimes better because whenever the optimal layout for a given application happens to
+be something other than dense, row-major, the implementation is often significantly easier using the <code>operator()</code>
+approach compared to the <code>[][]</code> approach.</li>
+</ul>
+
+<p>As an example of when a physical layout makes a significant difference, a recent project happened to access the matrix
+elements in columns (that is, the algorithm accesses all the elements in one column, then the elements in another,
+etc.), and if the physical layout is row-major, the accesses can &#8220;stride the cache&#8221;. For example, if the rows happen to
+be almost as big as the processor&#8217;s cache size, the machine can end up with a &#8220;cache miss&#8221; for almost every element
+access. In this particular project, we got a 20% improvement in performance by changing the mapping from the logical
+layout (row,column) to the physical layout (column,row).</p>
+
+<p>Of course there are many examples of this sort of thing from numerical methods, and sparse matrices are a whole other
+dimension on this issue. Since it is, in general, easier to implement a sparse matrix or swap row/column ordering using
+the <code>operator()</code> approach, the <code>operator()</code> approach loses nothing and may gain something &#8212; it has no down-side and a
+potential up-side.</p>
+
+<p>Use <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">the <code>operator()</code> approach</a>.</p>
+
+<h3 id="matrix-c-style-subscript">I still don&#8217;t get it. Why shouldn&#8217;t my <code>Matrix</code> class&#8217;s interface look like an array-of-array?</h3>
+
+<p>The same reasons you encapsulate your data structures, and the same reason you check parameters to make sure they are
+valid.</p>
+
+<p>A few people use <code>[][]</code> despite <a href="operator-overloading.html#matrix-array-of-array" title="FAQ: Why shouldn't my Matrix class's interface look like an array-of-array?">its limitations</a>, arguing that <code>[][]</code> is better because it is
+faster or because it uses C-syntax. The problem with the &#8220;it&#8217;s faster&#8221; argument is that it&#8217;s not &#8212; at least not on
+the latest version of two of the world&#8217;s best known C++ compilers. The problem with the &#8220;uses C-syntax&#8221; argument is
+that C++ is not C. Plus, oh yea, the C-syntax makes it harder to change the data structure and harder to check
+parameter values.</p>
+
+<p>The point of the previous two FAQs is that <code>m(i,j)</code> gives you a clean, simple way to check all the parameters and to
+hide (and therefore, if you want to, change) the internal data structure. The world already has way too many exposed
+data structures and way too many out-of-bounds parameters, and those cost way too much money and cause way too many
+delays and way too many defects.</p>
+
+<p>Now everybody knows that <em>you</em> are different. You are clairvoyant with perfect knowledge of the future, and you <em>know</em>
+that no one will ever find any benefit from changing your matrix&#8217;s internal data structure. Plus you are a <em>good</em>
+programmer, unlike those slobs out there that occasionally pass wrong parameters, so you don&#8217;t need to worry about pesky
+little things like parameter checking. But even though you don&#8217;t need to worry about maintenance costs (no one ever
+needs to change your code), there might be one or two other programmers who aren&#8217;t quite perfect yet. For them,
+maintenance costs are high, defects are real, and requirements change. Believe it or not, every once in a while they
+need to (better sit down) change their code.</p>
+
+<p>Admittedly my thongue wath in my theek. But there was a point. The point was that encapsulation and parameter-checking
+are not crutches for the weak. It&#8217;s smart to use techniques that make encapsulation and/or parameter checking easy. The
+<code>m(i,j)</code> syntax is one of those techniques.</p>
+
+<p>Having said all that, if you find yourself maintaining a billion-line app where the original team used <code>m[i][j]</code>, or
+even if you are writing a brand new app and you just plain <em>want</em> to use <code>m[i][j]</code>, you can still encapsulate the data
+structure and/or check all your parameters. It&#8217;s not even that hard. However it does require a level of sophistication
+that, like it or not, average C++ programmers fear. Fortunately you are not average, so read on.</p>
+
+<p>If you merely want to check parameters, just make sure the outer <code>operator[]</code> returns an object rather than a <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">raw
+array</a>, then that object&#8217;s <code>operator[]</code> can check its parameter in the usual way. Beware that this can
+slow down your program. In particular, if these inner array-like objects end up allocating their own block of memory
+for their row of the matrix, the performance overhead for creating / destroying your matrix objects can grow
+dramatically. The <em>theoretical</em> cost is still O(<em>rows</em> × <em>cols</em>), but in practice, the overhead of the memory allocator
+(<code>new</code> or <code>malloc</code>) can be <em>much</em> larger than anything else, and that overhead can swamp the other costs. For instance,
+on two of the world&#8217;s best known C++ compilers, the separate-allocation-per-row technique was 10x slower than the
+<a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">one-allocation-for-the-entire-matrix technique</a>. 10% is one thing, 10x is another.</p>
+
+<p>If you want to check the parameters without the above overhead and/or if you want to encapsulate (and possibly change)
+the matrix&#8217;s internal data structure, follow these steps:</p>
+
+<ol>
+<li>Add <code>operator()(unsigned row, unsigned col)</code> to the <code>Matrix</code> class.</li>
+<li>Create nested class <code>Matrix::Row</code>. It should have a ctor with parameters <code>(Matrix&amp; matrix, unsigned row)</code>, and it
+should store those two values in its <code>this</code> object.</li>
+<li>Change <code>Matrix::operator[](unsigned row)</code> so it returns an object of class <code>Matrix::Row</code>, e.g.,
+<code>{ return Row(*this,row); }</code>.</li>
+<li>Class <code>Matrix::Row</code> then defines its own <code>operator[](unsigned col)</code> which turns around and calls, you guessed it,
+<code>Matrix::operator()(unsigned row, unsigned col)</code>. If the <code>Matrix::Row</code> data members are called <code>Matrix&amp; matrix_</code> and
+<code>unsigned row_</code>, the code for <code>Matrix::Row::operator[](unsigned col)</code> will be <code>{ return matrix_(row_, col); }</code></li>
+</ol>
+
+<p>Next you will <a href="const-correctness.html#const-overloading" title="FAQ: What's the deal with 'const-overloading'?">enable <code>const</code> overloading</a> by repeating the above steps. You will create the <code>const</code>
+version of the various methods, and you will create a new nested class, probably called <code>Matrix::ConstRow</code>. Don&#8217;t forget
+to use <code>const Matrix&amp;</code> instead of <code>Matrix&amp;</code>.</p>
+
+<p>Final step: <a href="operator-overloading.html#matrix-array-of-array" title="FAQ: Why shouldn't my Matrix class's interface look like an array-of-array?">find the joker who failed to read the previous FAQ</a> and thonk him in the noggin.</p>
+
+<p>If you have a decent compiler and if you judiciously use <a href="inline-functions.html#overview-inline-fns" title="FAQ: What's the deal with inline functions?">inlining</a>, the compiler should optimize
+away the temporary objects. In other words, the <code>operator[]</code>-approach above will hopefully not be slower than what it
+would have been if you had <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">directly called <code>Matrix::operator()(unsigned row, unsigned col)</code></a> in
+the first place. Of course you could have made your life simpler and avoided most of the above work by <a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">directly calling
+<code>Matrix::operator()(unsigned row, unsigned col)</code></a> in the first place. So you might as well
+<a href="operator-overloading.html#matrix-subscript-op" title="FAQ: How do I create a subscript operator for a Matrix class?">directly call <code>Matrix::operator()(unsigned row, unsigned col)</code></a> in the first place.</p>
+
+<h3 id="design-interfaces-first">Should I design my classes from the outside (interfaces first) or from the inside (data first)?</h3>
+
+<p>From the outside!</p>
+
+<p>A good interface provides a <a href="classes-and-objects.html#good-interfaces" title="FAQ: When is an interface 'good'?"><em>simplified</em> view that is expressed in the <em>vocabulary of a user</em></a>. In the
+case of OO software, the interface is normally the set of public methods of either a single class or a <a href="friends.html#friends-and-encap" title="FAQ: Do friends violate encapsulation?">tight group of
+classes</a>.</p>
+
+<p>First think about what the object logically represents, not how you intend to physically build it. For example, suppose
+you have a <code>Stack</code> class that will be built by containing a <code>LinkedList</code>:</p>
+
+<pre><code>class Stack {
+public:
+  // ...
+private:
+  LinkedList list_;
+};
+</code></pre>
+
+<p>Should the Stack have a <code>get()</code> method that returns the <code>LinkedList</code>? Or a <code>set()</code> method that takes a <code>LinkedList</code>? Or
+a constructor that takes a <code>LinkedList</code>? Obviously the answer is <em>No,</em> since you should design your interfaces from the
+outside-in. I.e., users of <code>Stack</code> objects don&#8217;t care about <code>LinkedList</code>s; they care about pushing and popping.</p>
+
+<p>Now for another example that is a bit more subtle. Suppose class <code>LinkedList</code> is built using a linked list of <code>Node</code>
+objects, where each <code>Node</code> object has a pointer to the next <code>Node</code>:</p>
+
+<pre><code>class Node { /*...*/ };
+
+class LinkedList {
+public:
+  // ...
+private:
+  Node* first_;
+};
+</code></pre>
+
+<p>Should the <code>LinkedList</code> class have a <code>get()</code> method that will let users access the first <code>Node</code>? Should the <code>Node</code>
+object have a <code>get()</code> method that will let users follow that <code>Node</code> to the next <code>Node</code> in the chain? In other words,
+what should a <code>LinkedList</code> look like from the outside? Is a <code>LinkedList</code> really a chain of <code>Node</code> objects? Or is that
+just an implementation detail? And if it is just an implementation detail, how will the <code>LinkedList</code> let users access
+each of the elements in the <code>LinkedList</code> one at a time?</p>
+
+<p>The key insight is the realization that a <code>LinkedList</code> is <em>not</em> a chain of <code>Node</code>s. That may be <em>how</em> it is built, but
+that is not <em>what</em> it is. What it is is a sequence of elements. Therefore the <code>LinkedList</code> abstraction should provide a
+<code>LinkedListIterator</code> <code>class</code> as well, and that <code>LinkedListIterator</code> might have an <code>operator++</code> to go to the next
+element, and it might have a <code>get()</code>/<code>set()</code> pair to access its <em>value</em> stored in the <code>Node</code> (the value in the <code>Node</code>
+element is solely the responsibility of the <code>LinkedList</code> user, which is why there is a <code>get()</code>/<code>set()</code> pair that allows
+the user to freely manipulate that value).</p>
+
+<p>Starting from the user&#8217;s perspective, we might want our <code>LinkedList</code> <code>class</code> to support operations that look similar to
+accessing an array using pointer arithmetic:</p>
+
+<pre><code>void userCode(LinkedList&amp; a)
+{
+  for (LinkedListIterator p = a.begin(); p != a.end(); ++p)
+    std::cout &lt;&lt; *p &lt;&lt; '\n';
+}
+</code></pre>
+
+<p>To implement this interface, <code>LinkedList</code> will need a <code>begin()</code> method and an <code>end()</code> method. These return a
+<code>LinkedListIterator</code> object. The <code>LinkedListIterator</code> will need a method to go forward, <code>++p</code>; a method to access the
+current element, <code>*p</code>; and a comparison operator, <code>p != a.end()</code>.</p>
+
+<p>The code follows. The important thing to notice is that <code>LinkedList</code> does <em>not</em> have any methods that let users access
+<code>Node</code>s. <code>Node</code>s are an implementation technique that is <em>completely</em> buried. This makes the <code>LinkedList</code> class safer
+(no chance a user will mess up the invariants and linkages between the various nodes), easier to use (users don&#8217;t need
+to expend extra effort keeping the node-count equal to the actual number of nodes, or any other infrastructure stuff),
+and more flexible (by changing a single <code>typedef</code>, users could change their code from using <code>LinkedList</code> to some other
+list-like class and the bulk of their code would compile cleanly and hopefully with improved performance
+characteristics).</p>
+
+<pre><code>#include &lt;cassert&gt;    // Poor man's exception handling
+
+class LinkedListIterator;
+class LinkedList;
+
+class Node {
+  // No public members; this is a "private class"
+  friend class LinkedListIterator;   // A friend class
+  friend class LinkedList;
+  Node* next_;
+  int elem_;
+};
+
+class LinkedListIterator {
+public:
+  bool operator== (LinkedListIterator i) const;
+  bool operator!= (LinkedListIterator i) const;
+  void operator++ ();   // Go to the next element
+  int&amp; operator*  ();   // Access the current element
+private:
+  LinkedListIterator(Node* p);
+  Node* p_;
+  friend class LinkedList;  // so LinkedList can construct a LinkedListIterator
+};
+
+class LinkedList {
+public:
+  void append(int elem);    // Adds elem after the end
+  void prepend(int elem);   // Adds elem before the beginning
+  // ...
+  LinkedListIterator begin();
+  LinkedListIterator end();
+  // ...
+private:
+  Node* first_;
+};
+</code></pre>
+
+<p>Here are the methods that are obviously inlinable (probably in the same header file):</p>
+
+<pre><code>inline bool LinkedListIterator::operator== (LinkedListIterator i) const
+{
+  return p_ == i.p_;
+}
+
+inline bool LinkedListIterator::operator!= (LinkedListIterator i) const
+{
+  return p_ != i.p_;
+}
+
+inline void LinkedListIterator::operator++()
+{
+  assert(p_ != NULL);  // or if (p_==NULL) throw ...
+  p_ = p_-&gt;next_;
+}
+
+inline int&amp; LinkedListIterator::operator*()
+{
+  assert(p_ != NULL);  // or if (p_==NULL) throw ...
+  return p_-&gt;elem_;
+}
+
+inline LinkedListIterator::LinkedListIterator(Node* p)
+  : p_(p)
+{ }
+
+inline LinkedListIterator LinkedList::begin()
+{
+  return first_;
+}
+
+inline LinkedListIterator LinkedList::end()
+{
+  return NULL;
+}
+</code></pre>
+
+<p>Conclusion: The linked list had two different kinds of data. The values of the elements stored in the linked list are
+the responsibility of the user of the linked list (and <em>only</em> the user; the linked list itself makes no attempt to
+prohibit users from changing the third element to 5), and the linked list&#8217;s infrastructure data (<code>next</code> pointers, etc.),
+whose values are the responsibility of the linked list (and <em>only</em> the linked list; e.g., the linked list does not let
+users change (or even look at!) the various <code>next</code> pointers).</p>
+
+<p>Thus the only <code>get()</code>/<code>set()</code> methods were to get and set the <em>elements</em> of the linked list, but not the infrastructure
+of the linked list. Since the linked list hides the infrastructure pointers/etc., it is able to make very strong
+promises regarding that infrastructure (e.g., if it were a doubly linked list, it might guarantee that every forward
+pointer was matched by a backwards pointer from the next <code>Node</code>).</p>
+
+<p>So, we see here an example of where the values of <em>some</em> of a class&#8217;s data is the responsibility of <em>users</em> (in which
+case the class needs to have <code>get()</code>/<code>set()</code> methods for that data) but the data that the class wants to control does
+not necessarily have <code>get()</code>/<code>set()</code> methods.</p>
+
+<p>Note: the purpose of this example is <em>not</em> to show you how to write a linked-list class. In fact you should <em>not</em>
+&#8220;roll your own&#8221; linked-list class since you should use one of the &#8220;container classes&#8221; provided with your compiler.
+Ideally you&#8217;ll use one of the <a href="class-libraries.html#stl" title="FAQ: What is the 'STL'?">standard container classes</a> such as the <code>std::list&lt;T&gt;</code> template.</p>
+
+<h3 id="increment-pre-post-overloading">How can I overload the prefix and postfix forms of operators <code>++</code> and <code>--</code>?</h3>
+
+<p>Via a dummy parameter.</p>
+
+<p>Since the prefix and postfix <code>++</code> operators can have two definitions, the C++ language gives us two different
+signatures. Both are called <code>operator++()</code>, but the prefix version takes no parameters and the postfix version takes a
+dummy <code>int</code>. (Although this discussion revolves around the <code>++</code> operator, the <code>--</code> operator is completely symmetric, and
+all the rules and guidelines that apply to one also apply to the other.)</p>
+
+<pre><code>class Number {
+public:
+  Number&amp; operator++ ();    // prefix ++
+  Number  operator++ (int); // postfix ++
+};
+</code></pre>
+
+<p>Note the different return types: the prefix version returns by reference, the postfix version by value. If that&#8217;s not
+immediately obvious to you, it should be after you see the definitions (and after you remember that <code>y = x++</code> and
+<code>y = ++x</code> set <code>y</code> to different things).</p>
+
+<pre><code>Number&amp; Number::operator++ ()
+{
+  // ...
+  return *this;
+}
+
+Number Number::operator++ (int)
+{
+  Number ans = *this;
+  ++(*this);  // or just call operator++()
+  return ans;
+}
+</code></pre>
+
+<p>The other option for the postfix version is to return nothing:</p>
+
+<pre><code>class Number {
+public:
+  Number&amp; operator++ ();
+  void    operator++ (int);
+};
+
+Number&amp; Number::operator++ ()
+{
+  // ...
+  return *this;
+}
+
+void Number::operator++ (int)
+{
+  ++(*this);  // or just call operator++()
+}
+</code></pre>
+
+<p>However you must <em>not</em> make the postfix version return the <code>this</code> object by reference; you have been warned.</p>
+
+<p>Here&#8217;s how you use these operators:</p>
+
+<pre><code>Number x = /* ... */;
+++x;  // calls Number::operator++(), i.e., calls x.operator++()
+x++;  // calls Number::operator++(int), i.e., calls x.operator++(0)
+</code></pre>
+
+<p>Assuming the return types are not &#8216;void&#8217;, you can use them in larger expressions:</p>
+
+<pre><code>Number x = /* ... */;
+Number y = ++x;  // y will be the new value of x
+Number z = x++;  // z will be the old value of x
+</code></pre>
+
+<h3 id="increment-pre-post-speed">Which is more efficient: <code>i++</code> or <code>++i</code>?</h3>
+
+<p><code>++i</code> is sometimes faster than, and is never slower than, <code>i++</code>.</p>
+
+<p>For intrinsic types like <code>int</code>, it doesn&#8217;t matter: <code>++i</code> and <code>i++</code> are the same speed. For class types like iterators
+or the previous FAQ&#8217;s <code>Number</code> class, <code>++i</code> very well might be faster than <code>i++</code> since the latter might make a copy of
+the <code>this</code> object.</p>
+
+<p>The overhead of <code>i++</code>, if it is there at all, won&#8217;t probably make any practical difference unless your app is CPU bound.
+For example, if your app spends most of its time waiting for someone to click a mouse, doing disk I/O, network I/O, or
+database queries, then it won&#8217;t hurt your performance to waste a few CPU cycles. <em>However</em> it&#8217;s just as easy to type
+<code>++i</code> as <code>i++</code>, so why not use the former unless you actually need the old value of <code>i</code>.</p>
+
+<p>So if you&#8217;re writing <code>i++</code> as a statement rather than as part of a larger expression, why not just write <code>++i</code> instead?
+You never lose anything, and you sometimes gain something. Old line C programmers are used to writing <code>i++</code> instead of
+<code>++i</code>. E.g., they&#8217;ll say, <code>for (i = 0;</code> <code>i &lt; 10;</code> <code>i++) ...</code>. Since this uses <code>i++</code> as a statement, not as a part of a
+larger expression, then you might want to use <code>++i</code> instead. For symmetry, I personally advocate that style even when it
+doesn&#8217;t improve speed, e.g., for intrinsic types and for class types with postfix operators that return <code>void</code>.</p>
+
+<p>Obviously when <code>i++</code> appears as a part of a larger expression, that&#8217;s different: it&#8217;s being used because it&#8217;s the only
+logically correct solution, not because it&#8217;s an old habit you picked up while programming in C.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/operator-overloading",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/operator-overloading",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/operator-overloading by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

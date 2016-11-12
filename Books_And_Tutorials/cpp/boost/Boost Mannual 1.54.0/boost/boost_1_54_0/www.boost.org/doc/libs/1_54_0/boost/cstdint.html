@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:04 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/cstdint.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/cstdint.hpp</h3>
+<pre>
+//  boost cstdint.hpp header file  ------------------------------------------//
+
+//  (C) Copyright Beman Dawes 1999. 
+//  (C) Copyright Jens Mauer 2001  
+//  (C) Copyright John Maddock 2001 
+//  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/integer">http://www.boost.org/libs/integer</a> for documentation.
+
+//  Revision History
+//   31 Oct 01  use BOOST_HAS_LONG_LONG to check for &quot;long long&quot; (Jens M.)
+//   16 Apr 01  check LONGLONG_MAX when looking for &quot;long long&quot; (Jens Maurer)
+//   23 Jan 01  prefer &quot;long&quot; over &quot;int&quot; for int32_t and intmax_t (Jens Maurer)
+//   12 Nov 00  Merged &lt;boost/stdint.h&gt; (Jens Maurer)
+//   23 Sep 00  Added INTXX_C macro support (John Maddock).
+//   22 Sep 00  Better 64-bit support (John Maddock)
+//   29 Jun 00  Reimplement to avoid including stdint.h within namespace boost
+//    8 Aug 99  Initial version (Beman Dawes)
+
+
+#ifndef BOOST_CSTDINT_HPP
+#define BOOST_CSTDINT_HPP
+
+//
+// Since we always define the INT#_C macros as per C++0x, 
+// define __STDC_CONSTANT_MACROS so that &lt;stdint.h&gt; does the right
+// thing if possible, and so that the user knows that the macros 
+// are actually defined as per C99.
+//
+#ifndef __STDC_CONSTANT_MACROS
+#  define __STDC_CONSTANT_MACROS
+#endif
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+
+//
+// Note that GLIBC is a bit inconsistent about whether int64_t is defined or not
+// depending upon what headers happen to have been included first...
+// so we disable use of stdint.h when GLIBC does not define __GLIBC_HAVE_LONG_LONG.
+// See <a href="https://svn.boost.org/trac/boost/ticket/3548">https://svn.boost.org/trac/boost/ticket/3548</a> and <a href="http://sources.redhat.com/bugzilla/show_bug.cgi?id=10990">http://sources.redhat.com/bugzilla/show_bug.cgi?id=10990</a>
+//
+#if defined(BOOST_HAS_STDINT_H) &amp;&amp; (!defined(__GLIBC__) || defined(__GLIBC_HAVE_LONG_LONG))
+
+// The following #include is an implementation artifact; not part of interface.
+# ifdef __hpux
+// HP-UX has a vaguely nice &lt;stdint.h&gt; in a non-standard location
+#   include &lt;inttypes.h&gt;
+#   ifdef __STDC_32_MODE__
+      // this is triggered with GCC, because it defines __cplusplus &lt; 199707L
+#     define BOOST_NO_INT64_T
+#   endif 
+# elif defined(__FreeBSD__) || defined(__IBMCPP__) || defined(_AIX)
+#   include &lt;inttypes.h&gt;
+# else
+#   include &lt;stdint.h&gt;
+
+// There is a bug in Cygwin two _C macros
+#   if defined(__STDC_CONSTANT_MACROS) &amp;&amp; defined(__CYGWIN__)
+#     undef INTMAX_C
+#     undef UINTMAX_C
+#     define INTMAX_C(c) c##LL
+#     define UINTMAX_C(c) c##ULL
+#   endif
+
+# endif
+
+#ifdef __QNX__
+
+// QNX (Dinkumware stdlib) defines these as non-standard names.
+// Reflect to the standard names.
+
+typedef ::intleast8_t int_least8_t;
+typedef ::intfast8_t int_fast8_t;
+typedef ::uintleast8_t uint_least8_t;
+typedef ::uintfast8_t uint_fast8_t;
+
+typedef ::intleast16_t int_least16_t;
+typedef ::intfast16_t int_fast16_t;
+typedef ::uintleast16_t uint_least16_t;
+typedef ::uintfast16_t uint_fast16_t;
+
+typedef ::intleast32_t int_least32_t;
+typedef ::intfast32_t int_fast32_t;
+typedef ::uintleast32_t uint_least32_t;
+typedef ::uintfast32_t uint_fast32_t;
+
+# ifndef BOOST_NO_INT64_T
+
+typedef ::intleast64_t int_least64_t;
+typedef ::intfast64_t int_fast64_t;
+typedef ::uintleast64_t uint_least64_t;
+typedef ::uintfast64_t uint_fast64_t;
+
+# endif
+
+#endif
+
+namespace boost
+{
+
+  using ::int8_t;             
+  using ::int_least8_t;       
+  using ::int_fast8_t;        
+  using ::uint8_t;            
+  using ::uint_least8_t;      
+  using ::uint_fast8_t;       
+                     
+  using ::int16_t;            
+  using ::int_least16_t;      
+  using ::int_fast16_t;       
+  using ::uint16_t;           
+  using ::uint_least16_t;     
+  using ::uint_fast16_t;      
+                     
+  using ::int32_t;            
+  using ::int_least32_t;      
+  using ::int_fast32_t;       
+  using ::uint32_t;           
+  using ::uint_least32_t;     
+  using ::uint_fast32_t;      
+                     
+# ifndef BOOST_NO_INT64_T
+
+  using ::int64_t;            
+  using ::int_least64_t;      
+  using ::int_fast64_t;       
+  using ::uint64_t;           
+  using ::uint_least64_t;     
+  using ::uint_fast64_t;      
+                     
+# endif
+
+  using ::intmax_t;      
+  using ::uintmax_t;     
+
+} // namespace boost
+
+#elif defined(__FreeBSD__) &amp;&amp; (__FreeBSD__ &lt;= 4) || defined(__osf__) || defined(__VMS)
+// FreeBSD and Tru64 have an &lt;inttypes.h&gt; that contains much of what we need.
+# include &lt;inttypes.h&gt;
+
+namespace boost {
+
+  using ::int8_t;             
+  typedef int8_t int_least8_t;       
+  typedef int8_t int_fast8_t;        
+  using ::uint8_t;            
+  typedef uint8_t uint_least8_t;      
+  typedef uint8_t uint_fast8_t;       
+                     
+  using ::int16_t;            
+  typedef int16_t int_least16_t;      
+  typedef int16_t int_fast16_t;       
+  using ::uint16_t;           
+  typedef uint16_t uint_least16_t;     
+  typedef uint16_t uint_fast16_t;      
+                     
+  using ::int32_t;            
+  typedef int32_t int_least32_t;      
+  typedef int32_t int_fast32_t;       
+  using ::uint32_t;           
+  typedef uint32_t uint_least32_t;     
+  typedef uint32_t uint_fast32_t;      
+         
+# ifndef BOOST_NO_INT64_T          
+
+  using ::int64_t;            
+  typedef int64_t int_least64_t;      
+  typedef int64_t int_fast64_t;       
+  using ::uint64_t;           
+  typedef uint64_t uint_least64_t;     
+  typedef uint64_t uint_fast64_t;      
+
+  typedef int64_t intmax_t;
+  typedef uint64_t uintmax_t;
+
+# else
+
+  typedef int32_t intmax_t;
+  typedef uint32_t uintmax_t;
+
+# endif
+
+} // namespace boost
+
+#else  // BOOST_HAS_STDINT_H
+
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt; // implementation artifact; not part of interface
+# include &lt;limits.h&gt;         // needed for limits macros
+
+
+namespace boost
+{
+
+//  These are fairly safe guesses for some 16-bit, and most 32-bit and 64-bit
+//  platforms.  For other systems, they will have to be hand tailored.
+//
+//  Because the fast types are assumed to be the same as the undecorated types,
+//  it may be possible to hand tailor a more efficient implementation.  Such
+//  an optimization may be illusionary; on the Intel x86-family 386 on, for
+//  example, byte arithmetic and load/stores are as fast as &quot;int&quot; sized ones.
+
+//  8-bit types  ------------------------------------------------------------//
+
+# if UCHAR_MAX == 0xff
+     typedef signed char     int8_t;
+     typedef signed char     int_least8_t;
+     typedef signed char     int_fast8_t;
+     typedef unsigned char   uint8_t;
+     typedef unsigned char   uint_least8_t;
+     typedef unsigned char   uint_fast8_t;
+# else
+#    error defaults not correct; you must hand modify boost/cstdint.hpp
+# endif
+
+//  16-bit types  -----------------------------------------------------------//
+
+# if USHRT_MAX == 0xffff
+#  if defined(__crayx1)
+     // The Cray X1 has a 16-bit short, however it is not recommend
+     // for use in performance critical code.
+     typedef short           int16_t;
+     typedef short           int_least16_t;
+     typedef int             int_fast16_t;
+     typedef unsigned short  uint16_t;
+     typedef unsigned short  uint_least16_t;
+     typedef unsigned int    uint_fast16_t;
+#  else
+     typedef short           int16_t;
+     typedef short           int_least16_t;
+     typedef short           int_fast16_t;
+     typedef unsigned short  uint16_t;
+     typedef unsigned short  uint_least16_t;
+     typedef unsigned short  uint_fast16_t;
+#  endif
+# elif (USHRT_MAX == 0xffffffff) &amp;&amp; defined(__MTA__) 
+      // On MTA / XMT short is 32 bits unless the -short16 compiler flag is specified 
+      // MTA / XMT does support the following non-standard integer types 
+      typedef __short16           int16_t; 
+      typedef __short16           int_least16_t; 
+      typedef __short16           int_fast16_t; 
+      typedef unsigned __short16  uint16_t; 
+      typedef unsigned __short16  uint_least16_t; 
+      typedef unsigned __short16  uint_fast16_t; 
+# elif (USHRT_MAX == 0xffffffff) &amp;&amp; defined(CRAY)
+     // no 16-bit types on Cray:
+     typedef short           int_least16_t;
+     typedef short           int_fast16_t;
+     typedef unsigned short  uint_least16_t;
+     typedef unsigned short  uint_fast16_t;
+# else
+#    error defaults not correct; you must hand modify boost/cstdint.hpp
+# endif
+
+//  32-bit types  -----------------------------------------------------------//
+
+# if UINT_MAX == 0xffffffff
+     typedef int             int32_t;
+     typedef int             int_least32_t;
+     typedef int             int_fast32_t;
+     typedef unsigned int    uint32_t;
+     typedef unsigned int    uint_least32_t;
+     typedef unsigned int    uint_fast32_t;
+# elif (USHRT_MAX == 0xffffffff)
+     typedef short             int32_t;
+     typedef short             int_least32_t;
+     typedef short             int_fast32_t;
+     typedef unsigned short    uint32_t;
+     typedef unsigned short    uint_least32_t;
+     typedef unsigned short    uint_fast32_t;
+# elif ULONG_MAX == 0xffffffff
+     typedef long            int32_t;
+     typedef long            int_least32_t;
+     typedef long            int_fast32_t;
+     typedef unsigned long   uint32_t;
+     typedef unsigned long   uint_least32_t;
+     typedef unsigned long   uint_fast32_t;
+# elif (UINT_MAX == 0xffffffffffffffff) &amp;&amp; defined(__MTA__) 
+      // Integers are 64 bits on the MTA / XMT 
+      typedef __int32           int32_t; 
+      typedef __int32           int_least32_t; 
+      typedef __int32           int_fast32_t; 
+      typedef unsigned __int32  uint32_t; 
+      typedef unsigned __int32  uint_least32_t; 
+      typedef unsigned __int32  uint_fast32_t; 
+# else
+#    error defaults not correct; you must hand modify boost/cstdint.hpp
+# endif
+
+//  64-bit types + intmax_t and uintmax_t  ----------------------------------//
+
+# if defined(BOOST_HAS_LONG_LONG) &amp;&amp; \
+   !defined(BOOST_MSVC) &amp;&amp; !defined(__BORLANDC__) &amp;&amp; \
+   (!defined(__GLIBCPP__) || defined(_GLIBCPP_USE_LONG_LONG)) &amp;&amp; \
+   (defined(ULLONG_MAX) || defined(ULONG_LONG_MAX) || defined(ULONGLONG_MAX))
+#    if defined(__hpux)
+     // HP-UX's value of ULONG_LONG_MAX is unusable in preprocessor expressions
+#    elif (defined(ULLONG_MAX) &amp;&amp; ULLONG_MAX == 18446744073709551615ULL) || (defined(ULONG_LONG_MAX) &amp;&amp; ULONG_LONG_MAX == 18446744073709551615ULL) || (defined(ULONGLONG_MAX) &amp;&amp; ULONGLONG_MAX == 18446744073709551615ULL)
+                                                                 // 2**64 - 1
+#    else
+#       error defaults not correct; you must hand modify boost/cstdint.hpp
+#    endif
+
+     typedef  ::boost::long_long_type            intmax_t;
+     typedef  ::boost::ulong_long_type   uintmax_t;
+     typedef  ::boost::long_long_type            int64_t;
+     typedef  ::boost::long_long_type            int_least64_t;
+     typedef  ::boost::long_long_type            int_fast64_t;
+     typedef  ::boost::ulong_long_type   uint64_t;
+     typedef  ::boost::ulong_long_type   uint_least64_t;
+     typedef  ::boost::ulong_long_type   uint_fast64_t;
+
+# elif ULONG_MAX != 0xffffffff
+
+#    if ULONG_MAX == 18446744073709551615 // 2**64 - 1
+     typedef long                 intmax_t;
+     typedef unsigned long        uintmax_t;
+     typedef long                 int64_t;
+     typedef long                 int_least64_t;
+     typedef long                 int_fast64_t;
+     typedef unsigned long        uint64_t;
+     typedef unsigned long        uint_least64_t;
+     typedef unsigned long        uint_fast64_t;
+#    else
+#       error defaults not correct; you must hand modify boost/cstdint.hpp
+#    endif
+# elif defined(__GNUC__) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+     __extension__ typedef long long            intmax_t;
+     __extension__ typedef unsigned long long   uintmax_t;
+     __extension__ typedef long long            int64_t;
+     __extension__ typedef long long            int_least64_t;
+     __extension__ typedef long long            int_fast64_t;
+     __extension__ typedef unsigned long long   uint64_t;
+     __extension__ typedef unsigned long long   uint_least64_t;
+     __extension__ typedef unsigned long long   uint_fast64_t;
+# elif defined(BOOST_HAS_MS_INT64)
+     //
+     // we have Borland/Intel/Microsoft __int64:
+     //
+     typedef __int64             intmax_t;
+     typedef unsigned __int64    uintmax_t;
+     typedef __int64             int64_t;
+     typedef __int64             int_least64_t;
+     typedef __int64             int_fast64_t;
+     typedef unsigned __int64    uint64_t;
+     typedef unsigned __int64    uint_least64_t;
+     typedef unsigned __int64    uint_fast64_t;
+# else // assume no 64-bit integers
+#  define BOOST_NO_INT64_T
+     typedef int32_t              intmax_t;
+     typedef uint32_t             uintmax_t;
+# endif
+
+} // namespace boost
+
+
+#endif // BOOST_HAS_STDINT_H
+
+#endif // BOOST_CSTDINT_HPP
+
+
+/****************************************************
+
+Macro definition section:
+
+Added 23rd September 2000 (John Maddock).
+Modified 11th September 2001 to be excluded when
+BOOST_HAS_STDINT_H is defined (John Maddock).
+Modified 11th Dec 2009 to always define the
+INT#_C macros if they're not already defined (John Maddock).
+
+******************************************************/
+
+#if !defined(BOOST__STDC_CONSTANT_MACROS_DEFINED) &amp;&amp; \
+   (!defined(INT8_C) || !defined(INT16_C) || !defined(INT32_C) || !defined(INT64_C))
+//
+// For the following code we get several warnings along the lines of: 
+// 
+// boost/cstdint.hpp:428:35: error: use of C99 long long integer constant 
+// 
+// So we declare this a system header to suppress these warnings. 
+//
+#if defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 4) 
+#pragma GCC system_header 
+#endif 
+
+#include &lt;limits.h&gt;
+# define BOOST__STDC_CONSTANT_MACROS_DEFINED
+# if defined(BOOST_HAS_MS_INT64)
+//
+// Borland/Intel/Microsoft compilers have width specific suffixes:
+//
+#ifndef INT8_C
+#  define INT8_C(value)     value##i8
+#endif
+#ifndef INT16_C
+#  define INT16_C(value)    value##i16
+#endif
+#ifndef INT32_C
+#  define INT32_C(value)    value##i32
+#endif
+#ifndef INT64_C
+#  define INT64_C(value)    value##i64
+#endif
+#  ifdef __BORLANDC__
+    // Borland bug: appending ui8 makes the type a signed char
+#   define UINT8_C(value)    static_cast&lt;unsigned char&gt;(value##u)
+#  else
+#   define UINT8_C(value)    value##ui8
+#  endif
+#ifndef UINT16_C
+#  define UINT16_C(value)   value##ui16
+#endif
+#ifndef UINT32_C
+#  define UINT32_C(value)   value##ui32
+#endif
+#ifndef UINT64_C
+#  define UINT64_C(value)   value##ui64
+#endif
+#ifndef INTMAX_C
+#  define INTMAX_C(value)   value##i64
+#  define UINTMAX_C(value)  value##ui64
+#endif
+
+# else
+//  do it the old fashioned way:
+
+//  8-bit types  ------------------------------------------------------------//
+
+#  if (UCHAR_MAX == 0xff) &amp;&amp; !defined(INT8_C)
+#   define INT8_C(value) static_cast&lt;boost::int8_t&gt;(value)
+#   define UINT8_C(value) static_cast&lt;boost::uint8_t&gt;(value##u)
+#  endif
+
+//  16-bit types  -----------------------------------------------------------//
+
+#  if (USHRT_MAX == 0xffff) &amp;&amp; !defined(INT16_C)
+#   define INT16_C(value) static_cast&lt;boost::int16_t&gt;(value)
+#   define UINT16_C(value) static_cast&lt;boost::uint16_t&gt;(value##u)
+#  endif
+
+//  32-bit types  -----------------------------------------------------------//
+#ifndef INT32_C
+#  if (UINT_MAX == 0xffffffff)
+#   define INT32_C(value) value
+#   define UINT32_C(value) value##u
+#  elif ULONG_MAX == 0xffffffff
+#   define INT32_C(value) value##L
+#   define UINT32_C(value) value##uL
+#  endif
+#endif
+
+//  64-bit types + intmax_t and uintmax_t  ----------------------------------//
+#ifndef INT64_C
+#  if defined(BOOST_HAS_LONG_LONG) &amp;&amp; \
+    (defined(ULLONG_MAX) || defined(ULONG_LONG_MAX) || defined(ULONGLONG_MAX) || defined(_LLONG_MAX))
+
+#    if defined(__hpux)
+        // HP-UX's value of ULONG_LONG_MAX is unusable in preprocessor expressions
+#       define INT64_C(value) value##LL
+#       define UINT64_C(value) value##uLL
+#    elif (defined(ULLONG_MAX) &amp;&amp; ULLONG_MAX == 18446744073709551615ULL) ||  \
+        (defined(ULONG_LONG_MAX) &amp;&amp; ULONG_LONG_MAX == 18446744073709551615ULL) ||  \
+        (defined(ULONGLONG_MAX) &amp;&amp; ULONGLONG_MAX == 18446744073709551615ULL) || \
+        (defined(_LLONG_MAX) &amp;&amp; _LLONG_MAX == 18446744073709551615ULL)
+
+#       define INT64_C(value) value##LL
+#       define UINT64_C(value) value##uLL
+#    else
+#       error defaults not correct; you must hand modify boost/cstdint.hpp
+#    endif
+#  elif ULONG_MAX != 0xffffffff
+
+#    if ULONG_MAX == 18446744073709551615U // 2**64 - 1
+#       define INT64_C(value) value##L
+#       define UINT64_C(value) value##uL
+#    else
+#       error defaults not correct; you must hand modify boost/cstdint.hpp
+#    endif
+#  elif defined(BOOST_HAS_LONG_LONG)
+     // Usual macros not defined, work things out for ourselves:
+#    if(~0uLL == 18446744073709551615ULL)
+#       define INT64_C(value) value##LL
+#       define UINT64_C(value) value##uLL
+#    else
+#       error defaults not correct; you must hand modify boost/cstdint.hpp
+#    endif
+#  else
+#    error defaults not correct; you must hand modify boost/cstdint.hpp
+#  endif
+
+#  ifdef BOOST_NO_INT64_T
+#   define INTMAX_C(value) INT32_C(value)
+#   define UINTMAX_C(value) UINT32_C(value)
+#  else
+#   define INTMAX_C(value) INT64_C(value)
+#   define UINTMAX_C(value) UINT64_C(value)
+#  endif
+#endif
+# endif // Borland/Microsoft specific width suffixes
+
+#endif // INT#_C macros.
+
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:04 GMT -->
+</html>

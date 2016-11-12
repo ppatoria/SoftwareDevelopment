@@ -1,0 +1,88 @@
+void reverselist(void)
+{
+    if(head==0)
+        return;
+    if(head->next==0)
+        return;
+    if(head->next==tail)
+    {
+        head->next = 0;
+        tail->next = head;
+    }
+    else
+    {
+        node* pre = head;
+        node* cur = head->next;
+        node* curnext = cur->next;
+        head->next = 0;
+        cur-> next = head;
+
+        for(; curnext!=0; )
+        {
+            cur->next = pre;
+            pre = cur;
+            cur = curnext;
+            curnext = curnext->next;
+        }
+
+        curnext->next = cur;
+    }
+}
+
+
+#include "iostream.h"
+int main() {
+    int MAX = 4;
+    int total = 0;
+    int average;
+    int numb;
+    for (int i=0; i<MAX; i++) {
+        cout << "Please enter your input between 5 and 9: ";
+        cin >> numb;
+        while ( numb<5 || numb>9) {
+            cout << "Invalid input, please re-enter: ";
+            cin >> numb;
+        }
+        total = total + numb;
+    }
+    average = total/MAX;
+    cout << "The average number is: " << average << "\n";
+    return 0;
+}
+
+for i 1 to 100
+    if i & 0x00000001
+       than print i
+
+for( unsigned int i = 1; i < = 100; i++ )
+    if( i & 0x00000001 )
+        cout << i << \",\"; 
+
+void main()
+{
+    int x = 10, y = 20;    
+    int& tmp = x;
+    x = y;
+    y = tmp;    
+}
+
+X := X XOR Y
+Y := X XOR Y
+X := X XOR Y
+
+X = X ^ Y
+Y = X ^ Y
+X = X ^ Y
+
+
+while (pointer1) {
+
+    pointer1 = pointer1->next;
+    pointer2 = pointer2->next; 
+
+    if (pointer2) 
+        pointer2=pointer2->next;
+
+    if (pointer1 == pointer2) 
+        print (\"circular\n\");    
+}

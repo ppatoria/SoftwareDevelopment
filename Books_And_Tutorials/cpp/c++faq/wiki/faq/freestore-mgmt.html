@@ -1,0 +1,1969 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/freestore-mgmt by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="e9c79c1fd915ba6ea6877b1e8e2beaced4aa86b9" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="d99670e65b4ada2cbdf056937fa71f2382ecaec0" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="ced292c3bfb449ab4a8c2ba20f42c88a0c14ae55" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        freestore mgmt
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="freestore-mgmt.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    freestore mgmt
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=freestore%20mgmt" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="freestore-mgmt">Memory Management</h2>
+
+<h3 id="memory-leaks">How do I deal with memory leaks?</h3>
+
+<p>By writing code that doesn&#8217;t have any. Clearly, if your code has <code>new</code> operations, <code>delete</code> operations, and pointer arithmetic all over the place, you are going to mess up somewhere and get leaks, stray pointers, etc. This is true independently of how conscientious you are with your allocations: eventually the complexity of the code will overcome the time and effort you can afford.</p>
+
+<p>It follows that successful techniques rely on hiding allocation and deallocation inside more manageable types: For single objects, prefer <code>make_unique</code> or <code>make_shared</code>. For multiple objects, prefer using standard containers like <code>vector</code> and <code>unordered_map</code> as they manage memory for their elements better than you could without disproportionate effort. Consider writing this without the help of <code>string</code> and <code>vector</code>:</p>
+
+<pre><code>    #include&lt;vector&gt;
+    #include&lt;string&gt;
+    #include&lt;iostream&gt;
+    #include&lt;algorithm&gt;
+    using namespace std;
+
+    int main()  // small program messing around with strings
+    {
+        cout &lt;&lt; "enter some whitespace-separated words:\n";
+        vector&lt;string&gt; v;
+        string s;
+        while (cin&gt;&gt;s) v.push_back(s);
+
+        sort(v.begin(),v.end());
+
+        string cat;
+        for (auto &amp; str : v) cat += str+"+";
+        cout &lt;&lt; cat &lt;&lt; '\n';
+    }
+</code></pre>
+
+<p>What would be your chance of getting it right the first time? And how would you know you didn&#8217;t have a leak?</p>
+
+<p><strong>Note the absence of explicit memory management, macros, casts, overflow checks, explicit size limits, and pointers.</strong> By using a function object and a standard algorithm, the code could additionally have eliminated the pointer-like use of the iterator, but that seemed overkill for such a tiny program.</p>
+
+<p>These techniques are not perfect and it is not always easy to use them systematically. However, they apply surprisingly widely and by reducing the number of explicit allocations and deallocations you make the remaining examples much easier to keep track of. As early as 1981, Stroustrup pointed out that by reducing the number of objects that he had to keep track of explicitly from many tens of thousands to a few dozens, he had reduced the intellectual effort needed to get the program right from a Herculean task to something manageable, or even easy.</p>
+
+<p>If your application area doesn&#8217;t have libraries that make programming that minimizes explicit memory management easy, then the fastest way of getting your program complete and correct might be to first build such a library.</p>
+
+<p>Templates and the standard libraries make this use of containers, resource handles, etc., much easier than it was even a few years ago. The use of exceptions makes it close to essential.</p>
+
+<p>If you cannot handle allocation/deallocation implicitly as part of an object you need in your application anyway, you can use a resource handle to minimize the chance of a leak. Here is an example where you need to return an object allocated on the free store from a function. This is an opportunity to forget to delete that object. After all, we cannot tell just looking at pointer whether it needs to be deallocated and if so who is responsible for that. Using a resource handle, here the standard library <a href="cpp11-library.html#unique-ptr" title="FAQ: unique_ptr"><code>unique_ptr</code></a>, makes it clear where the responsibility lies:</p>
+
+<pre><code>    #include&lt;memory&gt;
+    #include&lt;iostream&gt;
+    using namespace std;
+
+    struct S {
+        S() { cout &lt;&lt; "make an S\n"; }
+        ~S() { cout &lt;&lt; "destroy an S\n"; }
+        S(const S&amp;) { cout &lt;&lt; "copy initialize an S\n"; }
+        S&amp; operator=(const S&amp;) { cout &lt;&lt; "copy assign an S\n"; }
+    };
+
+    S* f()
+    {
+        return new S;   // who is responsible for deleting this S?
+    };
+
+    unique_ptr&lt;S&gt; g()
+    {
+        return make_unique&lt;S&gt;();    // explicitly transfer responsibility for deleting this S
+    }
+
+    int main()
+    {
+        cout &lt;&lt; "start main\n";
+        S* p = f();
+        cout &lt;&lt; "after f() before g()\n";
+    //  S* q = g(); // this error would be caught by the compiler
+        unique_ptr&lt;S&gt; q = g();
+        cout &lt;&lt; "exit main\n";
+        // leaks *p
+        // implicitly deletes *q
+    }
+</code></pre>
+
+<p>Think about resources in general, rather than simply about memory.</p>
+
+<p>If systematic application of these techniques is not possible in your environment (you have to use code from elsewhere, part of your program was written by Neanderthals, etc.), be sure to use a memory leak detector as part of your standard development procedure, or plug in a garbage collector.</p>
+
+<h3 id="new-java">Can I use <code>new</code> just as in Java?</h3>
+
+<p>Sort of, but don&#8217;t do it blindly, if you do want it prefer to spell it as <code>make_unique</code> or <code>make_shared</code>, and there are often superior alternatives that are simpler and more robust than any of that. Consider:</p>
+
+<pre><code>void compute(cmplx z, double d)
+{
+    cmplx z2 = z+d; // c++ style
+    z2 = f(z2);     // use z2
+
+    cmplx&amp; z3 = *new cmplx(z+d);    // Java style (assuming Java could overload +)
+    z3 = f(z3);
+    delete &amp;z3; 
+}
+</code></pre>
+
+<p>The clumsy use of <code>new</code> for <code>z3</code> is unnecessary and slow compared with the idiomatic use of a local variable (<code>z2</code>). You don&#8217;t need to use <code>new</code> to create an object if you also <code>delete</code> that object in the same scope; such an object should be a local variable.</p>
+
+<h3 id="null-or-zero">Should I use <code>NULL</code> or <code>0</code> or <code>nullptr</code>?</h3>
+
+<p>You should use <code>nullptr</code> as the null pointer value. The others still work for backward compatibility with older code.</p>
+
+<p>A problem with both <code>NULL</code> and <code>0</code> as a null pointer value is that <code>0</code> is a special &#8220;maybe an integer value and maybe a pointer&#8221; value. Use <code>0</code> only for integers, and that confusion disappears.</p>
+
+<h3 id="delete-p-doesnt-delete-p">Does <code>delete p</code> delete the pointer <code>p</code>, or the pointed-to-data <code>*p</code>?</h3>
+
+<p>The pointed-to-data.</p>
+
+<p>The keyword should really be <code>delete_the_thing_pointed_to_by</code>. The same abuse of English occurs when <code>free</code>ing the
+memory pointed to by a pointer in C: <code>free(p)</code> really means <code>free_the_stuff_pointed_to_by(p)</code>.</p>
+
+<h3 id="double-delete-disaster">Is it safe to <code>delete</code> the same pointer twice?</h3>
+
+<p>No! (Assuming you didn&#8217;t get that pointer back from <code>new</code> in between.)</p>
+
+<p>For example, the following is a disaster:</p>
+
+<pre><code>class Foo { /*...*/ };
+
+void yourCode()
+{
+  Foo* p = new Foo();
+  delete p;
+  delete p;  // DISASTER!
+  // ...
+}
+</code></pre>
+
+<p>That second <code>delete p</code> line might do some really bad things to you. It might, depending on the phase of the moon,
+corrupt your heap, crash your program, make arbitrary and bizarre changes to objects that are already out there on the
+heap, etc. Unfortunately these symptoms can appear and disappear randomly. According to Murphy&#8217;s law, you&#8217;ll be hit the
+hardest at the worst possible moment (when the customer is looking, when a high-value transaction is trying to post,
+etc.).</p>
+
+<p>Note: <em>some</em> runtime systems will protect you from certain very simple cases of double <code>delete</code>. Depending on the
+details, you might be okay <em>if</em> you happen to be running on one of those systems <em>and if</em> no one ever deploys your code
+on another system that handles things differently <em>and if</em> you are deleting something that doesn&#8217;t have a destructor
+<em>and if</em> you don&#8217;t do anything significant between the two <code>delete</code>s <em>and if</em> no one ever changes your code to do
+something significant between the two <code>delete</code>s <em>and if</em> your thread scheduler (over which you likely have no control!)
+doesn&#8217;t happen to swap threads between the two <code>delete</code>s <em>and if</em>, <em>and if</em>, <em>and if</em>. So back to Murphy: since it can
+go wrong, it will, and it will go wrong at the worst possible moment.</p>
+
+<p>Do <em>NOT</em> email me saying you tested it and it doesn&#8217;t crash. Get a clue. A non-crash doesn&#8217;t prove the absence of a
+bug; it merely fails to prove the presence of a bug.</p>
+
+<p>Trust me: double-<code>delete</code> is bad, bad, bad. Just say no.</p>
+
+<h3 id="mixing-malloc-and-delete">Can I <code>free()</code> pointers allocated with <code>new</code>? Can I <code>delete</code> pointers allocated with <code>malloc()</code>?</h3>
+
+<p><em>No!</em> In brief, conceptually <code>malloc</code> and <code>new</code> allocate from different heaps, so can&#8217;t <code>free</code> or <code>delete</code> each other&#8217;s memory. They also operate at different levels &#8211; raw memory vs. constructed objects.</p>
+
+<p>You can use <code>malloc()</code> and <code>new</code> in the same program. But you cannot allocate an object with <code>malloc()</code> and free it using <code>delete</code>. Nor can you allocate with <code>new</code> and <code>delete</code> with <code>free()</code> or use <code>realloc()</code> on an array allocated by <code>new</code>.</p>
+
+<p>The C++ operators <code>new</code> and <code>delete</code> guarantee proper construction and destruction; where constructors or destructors need to be invoked, they are. The C-style functions <code>malloc()</code>, <code>calloc()</code>, <code>free()</code>, and <code>realloc()</code> don&#8217;t ensure that. Furthermore, there is no guarantee that the mechanism used by <code>new</code> and <code>delete</code> to acquire and release raw memory is compatible with <code>malloc()</code> and <code>free()</code>. If mixing styles works on your system, you were simply &#8220;lucky&#8221; &#8211; for now.</p>
+
+<p>If you feel the need for <code>realloc()</code> &#8211; and many do &#8211; then consider using a standard library <code>vector</code>. For example</p>
+
+<pre><code>    // read words from input into a vector of strings:
+
+    vector&lt;string&gt; words;
+    string s;
+    while (cin&gt;&gt;s &amp;&amp; s!=".") words.push_back(s);
+</code></pre>
+
+<p>The <code>vector</code> expands as needed.</p>
+
+<p>See also the examples and discussion in &#8220;Learning Standard C++ as a New Language&#8221;, which you can download from Stroustrup&#8217;s <a href="http://stroustrup.com/papers.html">publications list</a>.</p>
+
+<h3 id="new-malloc-diff">What is the difference between <code>new</code> and <code>malloc()</code>?</h3>
+
+<p>First, <code>make_unique</code> (or <code>make_shared</code>) are nearly always superior to both <code>new</code> and <code>malloc()</code> and completely eliminate <code>delete</code> and <code>free()</code>.</p>
+
+<p>Having said that, here&#8217;s the difference between those two:</p>
+
+<p><code>malloc()</code> is a function that takes a number (of bytes) as its argument; it returns a <code>void*</code> pointing to unitialized storage. <code>new</code> is an operator that takes a type and (optionally) a set of initializers for that type as its arguments; it returns a pointer to an (optionally) initialized object of its type. The difference is most obvious when you want to allocate an object of a user-defined type with non-trivial initialization semantics. Examples:</p>
+
+<pre><code>    class Circle : public Shape {
+    public:
+        Cicle(Point c, int r);
+        // no default constructor
+        // ...
+    };
+
+    class X {
+    public:
+        X();    // default constructor
+        // ...
+    };
+
+    void f(int n)
+    {
+        void* p1 = malloc(40);  // allocate 40 (uninitialized) bytes
+
+        int* p2 = new int[10];  // allocate 10 uninitialized ints
+        int* p3 = new int(10);  // allocate 1 int initialized to 10
+        int* p4 = new int();    // allocate 1 int initialized to 0
+        int* p4 = new int;  // allocate 1 uninitialized int
+
+        Circle* pc1 = new Circle(Point(0,0),10); // allocate a Circle constructed
+                                 // with the specified argument
+        Circle* pc2 = new Circle;   // error no default constructor
+
+        X* px1 = new X;     // allocate a default constructed X 
+        X* px2 = new X();   // allocate a default constructed X 
+        X* px2 = new X[10]; // allocate 10 default constructed Xs 
+        // ...
+    }
+</code></pre>
+
+<p>Note that when you specify a initializer using the &#8220;(value)&#8221; notation, you get initialization with that value. Unfortunately, you cannot specify that for an array. Often, a <code>vector</code> is a better alternative to a free-store-allocated array (e.g., consider exception safety).</p>
+
+<p>Whenever you use <code>malloc()</code> you must consider initialization and conversion of the return pointer to a proper type. You will also have to consider if you got the number of bytes right for your use. There is no performance difference between <code>malloc()</code> and <code>new</code> when you take initialization into account.</p>
+
+<p><code>malloc()</code> reports memory exhaustion by returning <code>0</code>. <code>new</code> reports allocation and initialization errors by throwing exceptions (<code>bad_alloc</code>).</p>
+
+<p>Objects created by <code>new</code> are destroyed by <code>delete</code>. Areas of memory allocated by <code>malloc()</code> are deallocated by <code>free()</code>.</p>
+
+<h3 id="new-vs-malloc">Why should I use <code>new</code> instead of trustworthy old <code>malloc()</code>?</h3>
+
+<p>First, <a href="cpp14-library.html#make-unique" title="FAQ: make_unique"><code>make_unique</code></a> (or <code>make_shared</code>) are nearly always superior to both <code>new</code> and <code>malloc()</code> and completely eliminate <code>delete</code> and <code>free()</code>.</p>
+
+<p>Having said that, benefits of using <code>new</code> instead of <code>malloc</code> are:
+Constructors/destructors, type safety, overridability.</p>
+
+<ul>
+<li>Constructors/destructors: unlike <code>malloc(sizeof(Fred))</code>, <code>new Fred()</code> calls <code>Fred</code>&#8217;s constructor. Similarly,
+<code>delete p</code> calls <code>*p</code>&#8217;s destructor.</li>
+<li>Type safety: <code>malloc()</code> returns a <code>void*</code> which isn&#8217;t type safe. <code>new Fred()</code> returns a pointer of the right type (a
+<code>Fred*</code>).</li>
+<li>Overridability: <code>new</code> is an <code>operator</code> that can be overridden by a class, while <code>malloc()</code> is not overridable on a
+per-class basis.</li>
+</ul>
+
+<h3 id="realloc-and-renew">Can I use <code>realloc()</code> on pointers allocated via <code>new</code>?</h3>
+
+<p>No!</p>
+
+<p>When <code>realloc()</code> has to copy the allocation, it uses a <em>bitwise</em> copy operation, which will tear many C++ objects to
+shreds. C++ objects should be allowed to copy themselves. They use their own copy constructor or assignment operator.</p>
+
+<p>Besides all that, the heap that <code>new</code> uses may <em>not</em> be the same as the heap that <code>malloc()</code> and <code>realloc()</code> use!</p>
+
+<h3 id="renew">Why doesn&#8217;t C++ have an equivalent to <code>realloc()</code>?</h3>
+
+<p>If you want to, you can of course use <code>realloc()</code>. However, <code>realloc()</code> is only guaranteed to work on arrays allocated by <code>malloc()</code> (and similar functions) containing objects without user-defined copy constructors. Also, please remember that contrary to naive expectations, <code>realloc()</code> occasionally does copy its argument array.</p>
+
+<p>In C++, a better way of dealing with reallocation is to use a standard library container, such as <code>vector</code>, and let it grow naturally.</p>
+
+<h3 id="new-never-returns-null">Do I need to check for null after <code>p = new Fred()</code>?</h3>
+
+<p>No! (But if you have an ancient, stone-age compiler, you may have to <a href="freestore-mgmt.html#making-new-check-for-null" title="FAQ: How can I convince my (older) compiler to automatically check new to see if it returns null?">force the <code>new</code> operator to <code>throw</code> an exception
+if it runs out of memory</a>.)</p>
+
+<p>It turns out to be a real pain to always write explicit <code>nullptr</code> tests after every <code>new</code> allocation. Code like the
+following is very tedious:</p>
+
+<pre><code>Fred* p = new Fred();
+if (nullptr == p)    // Only needed if your compiler is from the Stone Age!
+  throw std::bad_alloc();
+</code></pre>
+
+<p>If your compiler doesn&#8217;t support (or if you refuse to use) <a href="exceptions.html" title="Section: Exceptions and Error Handling">exceptions</a>, your code might be even more
+tedious:</p>
+
+<pre><code>Fred* p = new Fred();
+if (nullptr == p) {    // Only needed if your compiler is from the Stone Age!
+  std::cerr &lt;&lt; "Couldn't allocate memory for a Fred" &lt;&lt; std::endl;
+  abort();
+}
+</code></pre>
+
+<p>Take heart. In C++, if the runtime system cannot allocate <code>sizeof(Fred)</code> bytes of memory during <code>p = new Fred()</code>, a
+<code>std::bad_alloc</code> exception will be thrown. Unlike <code>malloc()</code>, <code>new</code> <em>never</em> returns null!</p>
+
+<p>Therefore you should simply write:</p>
+
+<pre><code>Fred * p = new Fred();  // No need to check if p is null
+</code></pre>
+
+<p>On the second thought. Scratch that. You should simply write:</p>
+
+<pre><code>auto p = make_unique&lt;Fred&gt;();  // No need to check if p is null
+</code></pre>
+
+<p>There, there&#8230; Much better now!</p>
+
+<p>However, if your compiler is ancient, it may not yet support this. Find out by checking your compiler&#8217;s documentation
+under &#8220;<code>new</code>&#8221;. If it is ancient, you may have to <a href="freestore-mgmt.html#making-new-check-for-null" title="FAQ: How can I convince my (older) compiler to automatically check new to see if it returns null?">force the compiler to have this behavior</a>.</p>
+
+<h3 id="making-new-check-for-null">How can I convince my (older) compiler to automatically check <code>new</code> to see if it returns null?</h3>
+
+<p>Eventually your compiler will.</p>
+
+<p>If you have an old compiler that doesn&#8217;t automagically perform <a href="freestore-mgmt.html#new-never-returns-null" title="FAQ: Do I need to check for null after p = new Fred()?">the null test</a>, you can force
+the runtime system to do the test by installing a &#8220;new handler&#8221; function. Your &#8220;new handler&#8221; function can do anything
+you want, such as <code>throw</code> an exception, <code>delete</code> some objects and return (in which case <code>operator new</code> will retry the
+allocation), print a message and <code>abort()</code> the program, etc.</p>
+
+<p>Here&#8217;s a sample &#8220;new handler&#8221; that prints a message and <code>throw</code>s an exception. The handler is installed using
+<code>std::set_new_handler()</code>:</p>
+
+<pre><code>#include &lt;new&gt;       // To get std::set_new_handler
+#include &lt;cstdlib&gt;   // To get abort()
+#include &lt;iostream&gt;  // To get std::cerr
+
+class alloc_error : public std::exception {
+public:
+  alloc_error() : exception() { }
+};
+
+void myNewHandler()
+{
+  // This is your own handler.  It can do anything you want.
+  throw alloc_error();
+}
+
+int main()
+{
+  std::set_new_handler(myNewHandler);   // Install your "new handler"
+  // ...
+}
+</code></pre>
+
+<p>After the <code>std::set_new_handler()</code> line is executed, <code>operator new</code> will call your <code>myNewHandler()</code> if/when it runs out
+of memory. This means that <code>new</code> will never return null:</p>
+
+<pre><code>Fred* p = new Fred();   // No need to check if p is null
+</code></pre>
+
+<p>Note: If your compiler doesn&#8217;t support <a href="exceptions.html" title="Section: Exceptions and Error Handling">exception handling</a>, you can, as a last resort, change the line
+<code>throw</code> &#8230;<code>;</code> to:</p>
+
+<pre><code>std::cerr &lt;&lt; "Attempt to allocate memory failed!" &lt;&lt; std::endl;
+abort();
+</code></pre>
+
+<p>Note: If some namespace-scope / global / static object&#8217;s constructor uses <code>new</code>, it might not use the <code>myNewHandler()</code>
+function since that constructor often gets called before <code>main()</code> begins. Unfortunately there&#8217;s no convenient way to
+guarantee that the <code>std::set_new_handler()</code> will be called before the first use of <code>new</code>. For example, even if you put
+the <code>std::set_new_handler()</code> call in the constructor of a global object, you still don&#8217;t know if the module
+(&#8220;compilation unit&#8221;) that contains that global object will be elaborated first or last or somewhere inbetween. Therefore
+you still don&#8217;t have any guarantee that your call of <code>std::set_new_handler()</code> will happen before any other
+namespace-scope / global&#8217;s constructor gets invoked.</p>
+
+<h3 id="delete-handles-null">Do I need to check for null before <code>delete p</code>?</h3>
+
+<p>No!</p>
+
+<p>The C++ language guarantees that <code>delete p</code> will do nothing if <code>p</code> is null. Since you might get the test
+backwards, and since most testing methodologies force you to explicitly test every branch point, you should <em>not</em> put in
+the redundant <code>if</code> test.</p>
+
+<p>Wrong:</p>
+
+<pre><code>if (p != nullptr)   // or just "if (p)"
+  delete p;
+</code></pre>
+
+<p>Right:</p>
+
+<pre><code>delete p;
+</code></pre>
+
+<h3 id="two-steps-of-delete">What are the two steps that happen when I say <code>delete p</code>?</h3>
+
+<p><code>delete p</code> is a two-step process: it calls the destructor, then releases the memory. The code generated for <code>delete p</code>
+is functionally similar to this (assuming <code>p</code> is of type <code>Fred*</code>):</p>
+
+<pre><code>// Original code: delete p;
+if (p) {    // or "if (p != nullptr)"
+  p-&gt;~Fred();
+  operator delete(p);
+}
+</code></pre>
+
+<p>The statement <code>p-&gt;~Fred()</code> calls the destructor for the <code>Fred</code> object pointed to by <code>p</code>.</p>
+
+<p>The statement <code>operator delete(p)</code> calls the memory deallocation primitive, <code>void operator delete(void* p)</code>. This
+primitive is similar in spirit to <code>free(void* p)</code>. (Note, however, that these two are <em>not</em> interchangeable; e.g., there
+is no guarantee that the two memory deallocation primitives even use the same heap!)</p>
+
+<h3 id="delete-zero">Why doesn&#8217;t <code>delete</code> null out its operand?</h3>
+
+<p>First, you should normally be using smart pointers, so you won&#8217;t care &#8211; you won&#8217;t be writing <code>delete</code> anyway.</p>
+
+<p>For those rare cases where you really are doing manual memory management and so do care, consider:</p>
+
+<pre><code>    delete p;
+    // ...
+    delete p;
+</code></pre>
+
+<p>If the <code>...</code> part doesn&#8217;t touch <code>p</code> then the second <code>delete p;</code> is a serious error that a C++ implementation cannot effectively protect itself against (without unusual precautions). Since deleting a null pointer is harmless by definition, a simple solution would be for <code>delete p;</code> to do a <code>p=nullptr;</code> after it has done whatever else is required. However, C++ doesn&#8217;t guarantee that.</p>
+
+<p>One reason is that the operand of <code>delete</code> need not be an lvalue. Consider:</p>
+
+<pre><code>    delete p+1;
+    delete f(x);
+</code></pre>
+
+<p>Here, the implementation of <code>delete</code> does not have a pointer to which it can null out. These examples may be rare, but they do imply that it is not possible to guarantee that &#8220;any pointer to a deleted object is null.&#8221; A simpler way of bypassing that &#8220;rule&#8221; is to have two pointers to an object:</p>
+
+<pre><code>    T* p = new T;
+    T* q = p;
+    delete p;
+    delete q;   // ouch!
+</code></pre>
+
+<p>C++ explicitly allows an implementation of <code>delete</code> to null out an lvalue operand, but that idea doesn&#8217;t seem to have become popular with implementers.</p>
+
+<p>If you consider zeroing out pointers important, consider using a destroy function:</p>
+
+<pre><code>    template&lt;class T&gt; inline void destroy(T*&amp; p) { delete p; p = 0; }
+</code></pre>
+
+<p>Consider this yet-another reason to minimize explicit use of <code>new</code> and <code>delete</code> by relying on standard library smart pointers, containers, handles, etc.</p>
+
+<p>Note that passing the pointer as a reference (to allow the pointer to be nulled out) has the added benefit of preventing <code>destroy()</code> from being called for an rvalue:</p>
+
+<pre><code>    int* f();
+    int* p;
+    // ...
+    destroy(f());   // error: trying to pass an rvalue by non-const reference
+    destroy(p+1);   // error: trying to pass an rvalue by non-const reference
+</code></pre>
+
+<h3 id="delete-scope">Why isn&#8217;t the destructor called at the end of scope?</h3>
+
+<p>The simple answer is &#8220;of course it is!&#8221;, but have a look at the kind of example that often accompany that question:</p>
+
+<pre><code>    void f()
+    {
+        X* p = new X;
+        // use p
+    }
+</code></pre>
+
+<p>That is, there was some (mistaken) assumption that the object created by <code>new</code> would be destroyed at the end of a function.</p>
+
+<p>Basically, you should only use heap allocation if you want an object to live beyond the lifetime of the scope you create it in. Even then, you should normally use <code>make_unique</code> or <code>make_shared</code>. In those rare cases where you do want heap allocation and you opt to use <code>new</code>, you need to use <code>delete</code> to destroy the object. For example:</p>
+
+<pre><code>    X* g(int i) { /* ... */ return new X(i); }  // the X outlives the call of g()
+
+    void h(int i)
+    {
+        X* p = g(i);
+        // ...
+        delete p; // caveat: not exception safe
+    }
+</code></pre>
+
+<p>If you want an object to live in a scope only, don&#8217;t use heap allocation at all but simply define a variable:</p>
+
+<pre><code>        {
+                ClassName x;
+                // use x
+        }
+</code></pre>
+
+<p>The variable is implicitly destroyed at the end of the scope.</p>
+
+<p>Code that creates an object using <code>new</code> and then <code>delete</code>s it at the end of the same scope is ugly, error-prone, inefficient, and usually not exception-safe. For example:</p>
+
+<pre><code>    void very_bad_func()    // ugly, error-prone, and inefficient
+    {
+        X* p = new X;
+        // use p
+        delete p;  // not exception-safe
+    }
+</code></pre>
+
+<h3 id="new-doesnt-leak-if-ctor-throws">In <code>p = new Fred()</code>, does the <code>Fred</code> memory &#8220;leak&#8221; if the <code>Fred</code> constructor throws an exception?</h3>
+
+<p>No.</p>
+
+<p>If an exception occurs during the <code>Fred</code> constructor of <code>p = new Fred()</code>, the C++ language guarantees that the memory
+<code>sizeof(Fred)</code> bytes that were allocated will automagically be released back to the heap.</p>
+
+<p>Here are the details: <code>new Fred()</code> is a two-step process:</p>
+
+<ol>
+<li><code>sizeof(Fred)</code> bytes of memory are allocated using the primitive <code>void* operator new(size_t nbytes)</code>. This primitive
+is similar in spirit to <code>malloc(size_t nbytes)</code>. (Note, however, that these two are <em>not</em> interchangeable; e.g.,
+there is no guarantee that the two memory allocation primitives even use the same heap!).</li>
+<li>It constructs an object in that memory by calling the <code>Fred</code> constructor. The pointer returned from the first step
+is passed as the <code>this</code> parameter to the constructor. This step is wrapped in a <code>try</code> &#8230; <code>catch</code> block to handle
+the case when an exception is thrown during this step.</li>
+</ol>
+
+<p>Thus the actual generated code is functionally similar to:</p>
+
+<pre><code>// Original code: Fred* p = new Fred();
+Fred* p;
+void* tmp = operator new(sizeof(Fred));
+try {
+  new(tmp) Fred();  // Placement new
+  p = (Fred*)tmp;   // The pointer is assigned only if the ctor succeeds
+}
+catch (...) {
+  operator delete(tmp);  // Deallocate the memory
+  throw;                 // Re-throw the exception
+}
+</code></pre>
+
+<p>The statement marked &#8220;<a href="dtors.html#placement-new" title="FAQ: What is 'placement new' and why would I use it?">Placement <code>new</code></a>&#8221; calls the <code>Fred</code> constructor. The pointer <code>p</code> becomes the <code>this</code>
+pointer inside the constructor, <code>Fred::Fred()</code>.</p>
+
+<h3 id="allocate-array">How do I allocate / unallocate an array of things?</h3>
+
+<p>Use <code>p = new T[n]</code> and <code>delete[] p</code>:</p>
+
+<pre><code>Fred* p = new Fred[100];
+// ...
+delete[] p;
+</code></pre>
+
+<p>Any time you allocate an array of objects via <code>new</code> (usually with the <code>[</code><em>n</em><code>]</code> in the <code>new</code> expression), you <em>must</em> use
+<code>[]</code> in the <code>delete</code> statement. This syntax is necessary because there is no syntactic difference between a pointer to a
+thing and a pointer to an array of things (something we inherited from C).</p>
+
+<h3 id="delete-array">What if I forget the <code>[]</code> when <code>delete</code>ing an array allocated via <code>new T[n]</code>?</h3>
+
+<p>All life comes to a catastrophic end.</p>
+
+<p>It is the programmer&#8217;s &#8212;not the compiler&#8217;s&#8212; responsibility to get the connection between <code>new T[n]</code> and <code>delete[] p</code>
+correct. If you get it wrong, neither a compile-time nor a run-time error message will be generated by the compiler.
+Heap corruption is a likely result. Or worse. Your program will probably die.</p>
+
+<h3 id="delete-array-built-ins">Can I drop the <code>[]</code> when <code>delete</code>ing an array of some built-in type (<code>char</code>, <code>int</code>, etc)?</h3>
+
+<p><em>No!</em></p>
+
+<p>Sometimes programmers think that the <code>[]</code> in the <code>delete[] p</code> only exists so the compiler will call the appropriate
+destructors for all elements in the array. Because of this reasoning, they assume that an array of some built-in type
+such as <code>char</code> or <code>int</code> can be <code>delete</code>d without the <code>[]</code>. E.g., they assume the following is valid code:</p>
+
+<pre><code>void userCode(int n)
+{
+  char* p = new char[n];
+  // ...
+  delete p;     // ← ERROR! Should be delete[] p !
+}
+</code></pre>
+
+<p>But the above code is wrong, and it can cause a disaster at runtime. In particular, the code that&#8217;s called for
+<code>delete p</code> is <code>operator delete(void*)</code>, but the code that&#8217;s called for <code>delete[] p</code> is <code>operator delete[](void*)</code>. The
+default behavior for the latter is to call the former, but users are allowed to replace the latter with a different
+behavior (in which case they would normally also replace the corresponding <code>new</code> code in <code>operator new[](size_t)</code>). If
+they replaced the <code>delete[]</code> code so it wasn&#8217;t compatible with the <code>delete</code> code, and you called the wrong one (i.e., if
+you said <code>delete p</code> rather than <code>delete[] p</code>), you could end up with a disaster at runtime.</p>
+
+<h3 id="num-elems-in-new-array">After <code>p = new Fred[n]</code>, how does the compiler know there are <code>n</code> objects to be destructed during <code>delete[] p</code>?</h3>
+
+<p>Short answer: Magic.</p>
+
+<p>Long answer: The run-time system stores the number of objects, <code>n</code>, somewhere where it can be retrieved if you only
+know the pointer, <code>p</code>. There are two popular techniques that do this. Both these techniques are in use by
+commercial-grade compilers, both have tradeoffs, and neither is perfect. These techniques are:</p>
+
+<ul>
+<li><a href="compiler-dependencies.html#num-elems-in-new-array-overalloc" title="FAQ: How do compilers use 'over-allocation' to remember the number of elements in an allocated array?">Over-allocate the array and put <code>n</code> just to the left of the first <code>Fred</code> object</a>.</li>
+<li><a href="compiler-dependencies.html#num-elems-in-new-array-assocarray" title="FAQ: How do compilers use an 'associative array' to remember the number of elements in an allocated array?">Use an associative array with <code>p</code> as the key and <code>n</code> as the value</a>.</li>
+</ul>
+
+<h3 id="delete-this">Is it legal (and moral) for a member function to say <code>delete this</code>?</h3>
+
+<p>As long as you&#8217;re careful, it&#8217;s okay (not evil) for an object to commit suicide (<code>delete</code> <code>this</code>).</p>
+
+<p>Here&#8217;s how I define &#8220;careful&#8221;:</p>
+
+<ol>
+<li>You must be absolutely 100% positively sure that <code>this</code> object was allocated via <code>new</code> (not by <code>new[]</code>, nor by <a href="dtors.html#placement-new" title="FAQ: What is 'placement new' and why would I use it?">placement <code>new</code></a>, nor a local object on the stack, nor a namespace-scope / global, nor a member of another object; but by plain ordinary <code>new</code>).</li>
+<li>You must be absolutely 100% positively sure that your member function will be the last member function invoked on <code>this</code> object.</li>
+<li>You must be absolutely 100% positively sure that the rest of your member function (after the <code>delete</code> <code>this</code> line) doesn&#8217;t touch any piece of <code>this</code> object (including calling any other member functions or touching any data members).  This includes code that will run in destructors for any objects allocated on the stack that are still alive.</li>
+<li>You must be absolutely 100% positively sure that no one even touches the <code>this</code> pointer itself after the <code>delete</code> <code>this</code> line. In other words, you must not examine it, compare it with another pointer, compare it with <code>nullptr</code>, print it, cast it, do anything with it.</li>
+</ol>
+
+<p>Naturally the usual caveats apply in cases where your <code>this</code> pointer is a pointer to a base class when you don&#8217;t have a <a href="virtual-functions.html#virtual-dtors" title="FAQ: When should my destructor be virtual?">virtual destructor</a>.</p>
+
+<h3 id="multidim-arrays">How do I allocate multidimensional arrays using <code>new</code>?</h3>
+
+<p>There are many ways to do this, depending on how flexible you want the array sizing to be. On one extreme, if you know
+all the dimensions at compile-time, you can allocate multidimensional arrays statically (as in C):</p>
+
+<pre><code>class Fred { /*...*/ };
+void someFunction(Fred&amp; fred);
+
+void manipulateArray()
+{
+  const unsigned nrows = 10;  // Num rows is a compile-time constant
+  const unsigned ncols = 20;  // Num columns is a compile-time constant
+  Fred matrix[nrows][ncols];
+
+  for (unsigned i = 0; i &lt; nrows; ++i) {
+    for (unsigned j = 0; j &lt; ncols; ++j) {
+      // Here's the way you access the (i,j) element:
+      someFunction( matrix[i][j] );
+
+      // You can safely "return" without any special delete code:
+      if (today == "Tuesday" &amp;&amp; moon.isFull())
+        return;     // Quit early on Tuesdays when the moon is full
+    }
+  }
+
+  // No explicit delete code at the end of the function either
+}
+</code></pre>
+
+<p>More commonly, the size of the matrix isn&#8217;t known until run-time but you know that it will be rectangular. In this case
+you need to use the heap (&#8220;freestore&#8221;), but at least you are able to allocate all the elements in one freestore chunk.</p>
+
+<pre><code>void manipulateArray(unsigned nrows, unsigned ncols)
+{
+  Fred* matrix = new Fred[nrows * ncols];
+
+  // Since we used a simple pointer above, we need to be VERY
+  // careful to avoid skipping over the delete code.
+  // That's why we catch all exceptions:
+  try {
+
+    // Here's how to access the (i,j) element:
+    for (unsigned i = 0; i &lt; nrows; ++i) {
+      for (unsigned j = 0; j &lt; ncols; ++j) {
+        someFunction( matrix[i*ncols + j] );
+      }
+    }
+
+    // If you want to quit early on Tuesdays when the moon is full,
+    // make sure to do the delete along ALL return paths:
+    if (today == "Tuesday" &amp;&amp; moon.isFull()) {
+      delete[] matrix;
+      return;
+    }
+
+    // ...code that fiddles with the matrix...
+
+  }
+  catch (...) {
+    // Make sure to do the delete when an exception is thrown:
+    delete[] matrix;
+    throw;    // Re-throw the current exception
+  }
+
+  // Make sure to do the delete at the end of the function too:
+  delete[] matrix;
+}
+</code></pre>
+
+<p>Finally at the other extreme, you may not even be guaranteed that the matrix is rectangular. For example, if each row
+could have a different length, you&#8217;ll need to allocate each row individually. In the following function, <code>ncols[i]</code> is
+the number of columns in row number <code>i</code>, where <code>i</code> varies between <code>0</code> and <code>nrows-1</code> inclusive.</p>
+
+<pre><code>void manipulateArray(unsigned nrows, unsigned ncols[])
+{
+  typedef Fred* FredPtr;
+
+  // There will not be a leak if the following throws an exception:
+  FredPtr* matrix = new FredPtr[nrows];
+
+  // Set each element to null in case there is an exception later.
+  // (See comments at the top of the try block for rationale.)
+  for (unsigned i = 0; i &lt; nrows; ++i)
+    matrix[i] = nullptr;
+
+  // Since we used a simple pointer above, we need to be
+  // VERY careful to avoid skipping over the delete code.
+  // That's why we catch all exceptions:
+  try {
+
+    // Next we populate the array.  If one of these throws, all
+    // the allocated elements will be deleted (see catch below).
+    for (unsigned i = 0; i &lt; nrows; ++i)
+      matrix[i] = new Fred[ ncols[i] ];
+
+    // Here's how to access the (i,j) element:
+    for (unsigned i = 0; i &lt; nrows; ++i) {
+      for (unsigned j = 0; j &lt; ncols[i]; ++j) {
+        someFunction( matrix[i][j] );
+      }
+    }
+
+    // If you want to quit early on Tuesdays when the moon is full,
+    // make sure to do the delete along ALL return paths:
+    if (today == "Tuesday" &amp;&amp; moon.isFull()) {
+      for (unsigned i = nrows; i &gt; 0; --i)
+        delete[] matrix[i-1];
+      delete[] matrix;
+      return;
+    }
+
+    // ...code that fiddles with the matrix...
+
+  }
+  catch (...) {
+    // Make sure to do the delete when an exception is thrown:
+    // Note that some of these matrix[...] pointers might be
+    // null, but that's okay since it's legal to delete null.
+    for (unsigned i = nrows; i &gt; 0; --i)
+      delete[] matrix[i-1];
+    delete[] matrix;
+    throw;    // Re-throw the current exception
+  }
+
+  // Make sure to do the delete at the end of the function too.
+  // Note that deletion is the opposite order of allocation:
+  for (unsigned i = nrows; i &gt; 0; --i)
+    delete[] matrix[i-1];
+  delete[] matrix;
+}
+</code></pre>
+
+<p>Note the funny use of <code>matrix[i-1]</code> in the deletion process. This prevents wrap-around of the <code>unsigned</code> value when <code>i</code>
+goes one step below zero.</p>
+
+<p>Finally, note that <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">pointers and arrays are evil</a>. It is normally much better to encapsulate your
+pointers in a class that has a safe and simple interface. <a href="freestore-mgmt.html#multidim-arrays2" title="FAQ: But the previous FAQ's code is SOOOO tricky and error prone! Isn't there a simpler way?">The following FAQ</a> shows how to do this.</p>
+
+<h3 id="multidim-arrays2">But the previous FAQ&#8217;s code is SOOOO tricky and error prone! Isn&#8217;t there a simpler way?</h3>
+
+<p>Yep.</p>
+
+<p>The reason the code in <a href="freestore-mgmt.html#multidim-arrays" title="FAQ: How do I allocate multidimensional arrays using new?">the previous FAQ</a> was so tricky and error prone was that it used pointers, and
+we know that <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">pointers and arrays are evil</a>. The solution is to encapsulate your pointers in a class
+that has a safe and simple interface. For example, we can define a <code>Matrix</code> class that handles a rectangular matrix so
+our user code will be vastly simplified when compared to the <a href="freestore-mgmt.html#multidim-arrays" title="FAQ: How do I allocate multidimensional arrays using new?">the rectangular matrix code from the previous
+FAQ</a>:</p>
+
+<pre><code>// The code for class Matrix is shown below...
+void someFunction(Fred&amp; fred);
+
+void manipulateArray(unsigned nrows, unsigned ncols)
+{
+  Matrix matrix(nrows, ncols);   // Construct a Matrix called matrix
+
+  for (unsigned i = 0; i &lt; nrows; ++i) {
+    for (unsigned j = 0; j &lt; ncols; ++j) {
+      // Here's the way you access the (i,j) element:
+      someFunction( matrix(i,j) );
+
+      // You can safely "return" without any special delete code:
+      if (today == "Tuesday" &amp;&amp; moon.isFull())
+        return;     // Quit early on Tuesdays when the moon is full
+    }
+  }
+
+  // No explicit delete code at the end of the function either
+}
+</code></pre>
+
+<p>The main thing to notice is the lack of clean-up code. For example, there aren&#8217;t any <code>delete</code> statements in the above
+code, yet there will be <em>no</em> memory leaks, assuming only that the <code>Matrix</code> destructor does its job correctly.</p>
+
+<p>Here&#8217;s the <code>Matrix</code> code that makes the above possible:</p>
+
+<pre><code>class Matrix {
+public:
+  Matrix(unsigned nrows, unsigned ncols);
+  // Throws a BadSize object if either size is zero
+  class BadSize { };
+
+  // Based on the Law Of The Big Three:
+ ~Matrix();
+  Matrix(const Matrix&amp; m);
+  Matrix&amp; operator= (const Matrix&amp; m);
+
+  // Access methods to get the (i,j) element:
+  Fred&amp;       operator() (unsigned i, unsigned j);        // Subscript operators often come in pairs
+  const Fred&amp; operator() (unsigned i, unsigned j) const;  // Subscript operators often come in pairs
+  // These throw a BoundsViolation object if i or j is too big
+  class BoundsViolation { };
+
+private:
+  unsigned nrows_, ncols_;
+  Fred* data_;
+};
+
+inline Fred&amp; Matrix::operator() (unsigned row, unsigned col)
+{
+  if (row &gt;= nrows_ || col &gt;= ncols_) throw BoundsViolation();
+  return data_[row*ncols_ + col];
+}
+
+inline const Fred&amp; Matrix::operator() (unsigned row, unsigned col) const
+{
+  if (row &gt;= nrows_ || col &gt;= ncols_) throw BoundsViolation();
+  return data_[row*ncols_ + col];
+}
+
+Matrix::Matrix(unsigned nrows, unsigned ncols)
+  : nrows_ (nrows)
+  , ncols_ (ncols)
+//, data_  ← initialized below after the if...throw statement
+{
+  if (nrows == 0 || ncols == 0)
+    throw BadSize();
+  data_ = new Fred[nrows * ncols];
+}
+
+Matrix::~Matrix()
+{
+  delete[] data_;
+}
+</code></pre>
+
+<p>Note that the above <code>Matrix</code> class accomplishes two things: it moves some tricky memory management code from the user
+code (e.g., <code>main()</code>) to the class, and it reduces the overall bulk of program. The latter point is important. For
+example, assuming <code>Matrix</code> is even mildly reusable, moving complexity from the users [plural] of <code>Matrix</code> into
+<code>Matrix</code> itself [singular] is equivalent to moving complexity from the many to the few. Anyone who has seen <em>Star Trek
+2</em> knows that the good of the many outweighs the good of the few&#8230; or the one.</p>
+
+<h3 id="multidim-arrays3">But the above <code>Matrix</code> class is specific to <code>Fred</code>! Isn&#8217;t there a way to make it generic?</h3>
+
+<p>Yep; just use <a href="templates.html" title="Section: Templates">templates</a>:</p>
+
+<p>Here&#8217;s how this can be used:</p>
+
+<pre><code>#include "Fred.h"  // To get the definition for class Fred
+
+// The code for Matrix&lt;T&gt; is shown below...
+void someFunction(Fred&amp; fred);
+
+void manipulateArray(unsigned nrows, unsigned ncols)
+{
+  Matrix&lt;Fred&gt; matrix(nrows, ncols);   // Construct a Matrix&lt;Fred&gt; called matrix
+
+  for (unsigned i = 0; i &lt; nrows; ++i) {
+    for (unsigned j = 0; j &lt; ncols; ++j) {
+      // Here's the way you access the (i,j) element:
+      someFunction( matrix(i,j) );
+
+      // You can safely "return" without any special delete code:
+      if (today == "Tuesday" &amp;&amp; moon.isFull())
+        return;     // Quit early on Tuesdays when the moon is full
+    }
+  }
+
+  // No explicit delete code at the end of the function either
+}
+</code></pre>
+
+<p>Now it&#8217;s easy to use <code>Matrix&lt;T&gt;</code> for things other than <code>Fred</code>. For example, the following uses a <code>Matrix</code> of
+<code>std::string</code> (where <code>std::string</code> is the standard string class):</p>
+
+<pre><code>#include &lt;string&gt;
+
+void someFunction(std::string&amp; s);
+
+void manipulateArray(unsigned nrows, unsigned ncols)
+{
+  Matrix&lt;std::string&gt; matrix(nrows, ncols);   // Construct a Matrix&lt;std::string&gt;
+
+  for (unsigned i = 0; i &lt; nrows; ++i) {
+    for (unsigned j = 0; j &lt; ncols; ++j) {
+      // Here's the way you access the (i,j) element:
+      someFunction( matrix(i,j) );
+
+      // You can safely "return" without any special delete code:
+      if (today == "Tuesday" &amp;&amp; moon.isFull())
+        return;     // Quit early on Tuesdays when the moon is full
+    }
+  }
+
+  // No explicit delete code at the end of the function either
+}
+</code></pre>
+
+<p>You can thus get an entire <em>family</em> of classes from a <a href="templates.html" title="Section: Templates">template</a>. For example, <code>Matrix&lt;Fred&gt;</code>,
+<code>Matrix&lt;std::string&gt;</code>, <code>Matrix&lt; Matrix&lt;std::string&gt;&gt;</code>, etc.</p>
+
+<p>Here&#8217;s one way that the <a href="templates.html" title="Section: Templates">template</a> can be implemented:</p>
+
+<pre><code>template&lt;typename T&gt;  // See section on templates for more
+class Matrix {
+public:
+  Matrix(unsigned nrows, unsigned ncols);
+  // Throws a BadSize object if either size is zero
+  class BadSize { };
+
+  // Based on the Law Of The Big Three:
+ ~Matrix();
+  Matrix(const Matrix&lt;T&gt;&amp; m);
+  Matrix&lt;T&gt;&amp; operator= (const Matrix&lt;T&gt;&amp; m);
+
+  // Access methods to get the (i,j) element:
+  T&amp;       operator() (unsigned i, unsigned j);        // Subscript operators often come in pairs
+  const T&amp; operator() (unsigned i, unsigned j) const;  // Subscript operators often come in pairs
+  // These throw a BoundsViolation object if i or j is too big
+  class BoundsViolation { };
+
+private:
+  unsigned nrows_, ncols_;
+  T* data_;
+};
+
+template&lt;typename T&gt;
+inline T&amp; Matrix&lt;T&gt;::operator() (unsigned row, unsigned col)
+{
+  if (row &gt;= nrows_ || col &gt;= ncols_) throw BoundsViolation();
+  return data_[row*ncols_ + col];
+}
+
+template&lt;typename T&gt;
+inline const T&amp; Matrix&lt;T&gt;::operator() (unsigned row, unsigned col) const
+{
+  if (row &gt;= nrows_ || col &gt;= ncols_)
+    throw BoundsViolation();
+  return data_[row*ncols_ + col];
+}
+
+template&lt;typename T&gt;
+inline Matrix&lt;T&gt;::Matrix(unsigned nrows, unsigned ncols)
+  : nrows_ (nrows)
+  , ncols_ (ncols)
+//, data_  ← initialized below after the if...throw statement
+{
+  if (nrows == 0 || ncols == 0)
+    throw BadSize();
+  data_ = new T[nrows * ncols];
+}
+
+template&lt;typename T&gt;
+inline Matrix&lt;T&gt;::~Matrix()
+{
+  delete[] data_;
+}
+</code></pre>
+
+<h3 id="multidim-arrays4">What&#8217;s another way to build a <code>Matrix</code> template?</h3>
+
+<p>Use the standard <code>vector</code> template, and make a <code>vector</code> of <code>vector</code>.</p>
+
+<p>The following uses a <code>std::vector&lt;std::vector&lt;T&gt;&gt;</code>.</p>
+
+<pre><code>#include &lt;vector&gt;
+
+template&lt;typename T&gt;  // See section on templates for more
+class Matrix {
+public:
+  Matrix(unsigned nrows, unsigned ncols);
+  // Throws a BadSize object if either size is zero
+  class BadSize { };
+
+  // No need for any of The Big Three!
+
+  // Access methods to get the (i,j) element:
+  T&amp;       operator() (unsigned i, unsigned j);        // Subscript operators often come in pairs
+  const T&amp; operator() (unsigned i, unsigned j) const;  // Subscript operators often come in pairs
+  // These throw a BoundsViolation object if i or j is too big
+  class BoundsViolation { };
+
+  unsigned nrows() const;  // #rows in this matrix
+  unsigned ncols() const;  // #columns in this matrix
+
+private:
+  std::vector&lt;std::vector&lt;T&gt;&gt; data_;
+};
+
+template&lt;typename T&gt;
+inline unsigned Matrix&lt;T&gt;::nrows() const
+{ return data_.size(); }
+
+template&lt;typename T&gt;
+inline unsigned Matrix&lt;T&gt;::ncols() const
+{ return data_[0].size(); }
+
+template&lt;typename T&gt;
+inline T&amp; Matrix&lt;T&gt;::operator() (unsigned row, unsigned col)
+{
+  if (row &gt;= nrows() || col &gt;= ncols()) throw BoundsViolation();
+  return data_[row][col];
+}
+
+template&lt;typename T&gt;
+inline const T&amp; Matrix&lt;T&gt;::operator() (unsigned row, unsigned col) const
+{
+  if (row &gt;= nrows() || col &gt;= ncols()) throw BoundsViolation();
+  return data_[row][col];
+}
+
+template&lt;typename T&gt;
+Matrix&lt;T&gt;::Matrix(unsigned nrows, unsigned ncols)
+  : data_ (nrows)
+{
+  if (nrows == 0 || ncols == 0)
+    throw BadSize();
+  for (unsigned i = 0; i &lt; nrows; ++i)
+    data_[i].resize(ncols);
+}
+</code></pre>
+
+<p>Note how much simpler this is than <a href="freestore-mgmt.html#multidim-arrays3" title="FAQ: But the above Matrix class is specific to Fred! Isn't there a way to make it generic?">the previous</a>: there is no explicit <code>new</code> in the constructor, and
+there is no need for any of <a href="coding-standards.html#lint-guidelines" title="FAQ: Are there any lint-like guidelines for C++?">The Big Three</a> (destructor, copy constructor or assignment operator).
+Simply put, your code is a <em>lot</em> less likely to have memory leaks if you use <code>std::vector</code> than if you use explicit
+<code>new T[n]</code> and <code>delete[] p</code>.</p>
+
+<p>Note also that <code>std::vector</code> doesn&#8217;t force you to allocate numerous chunks of memory. If you prefer to allocate only one
+chunk of memory for the entire matrix, <a href="freestore-mgmt.html#multidim-arrays3" title="FAQ: But the above Matrix class is specific to Fred! Isn't there a way to make it generic?">as was done in the previous</a>, just change the type of <code>data_</code>
+to <code>std::vector&lt;T&gt;</code> and add member variables <code>nrows_</code> and <code>ncols_</code>. You&#8217;ll figure out the rest: initialize <code>data_</code>
+using <code>data_(nrows * ncols)</code>, change <code>operator()()</code> to <code>return data_[row*ncols_ + col];</code>, etc.</p>
+
+<h3 id="dynamic-array-len">Does C++ have arrays whose length can be specified at run-time?</h3>
+
+<p>Yes, in the sense that <a href="class-libraries.html#stl" title="FAQ: What is the 'STL'?">the standard library</a> has a <code>std::vector</code> template that provides this behavior.</p>
+
+<p>No, in the sense that built-in array types need to have their length specified at compile time.</p>
+
+<p>Yes, in the sense that even built-in array types can specify the first index bounds at run-time. E.g., comparing with
+the previous FAQ, if you only need the first array dimension to vary then you can just ask new for an array of arrays,
+rather than an array of pointers to arrays:</p>
+
+<pre><code>const unsigned ncols = 100;           // ncols = number of columns in the array
+
+class Fred { /*...*/ };
+
+void manipulateArray(unsigned nrows)  // nrows = number of rows in the array
+{
+  Fred (*matrix)[ncols] = new Fred[nrows][ncols];
+  // ...
+  delete[] matrix;
+}
+</code></pre>
+
+<p>You can&#8217;t do this if you need anything other than the first dimension of the array to change at run-time.</p>
+
+<p>But please, don&#8217;t use arrays unless you have to. <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">Arrays are evil</a>. Use some object of some class if
+you can. Use arrays only when you have to.</p>
+
+<h3 id="static-create-methods">How can I force objects of my class to always be created via <code>new</code> rather than as local, namespace-scope, global, or <code>static</code>?</h3>
+
+<p>Use the <a href="ctors.html#named-ctor-idiom" title="FAQ: What is the 'Named Constructor Idiom'?">Named Constructor Idiom</a>.</p>
+
+<p>As usual with the Named Constructor Idiom, the constructors are all <code>private</code> or <code>protected</code>, and there are one or more
+<code>public</code> <code>static</code> <code>create()</code> methods (the so-called &#8220;named constructors&#8221;), one per constructor. In this case the
+<code>create()</code> methods allocate the objects via <code>new</code>. Since the constructors themselves are not <code>public</code>, there is no other
+way to create objects of the class.</p>
+
+<pre><code>class Fred {
+public:
+  // The create() methods are the "named constructors":
+  static Fred* create()                 { return new Fred();     }
+  static Fred* create(int i)            { return new Fred(i);    }
+  static Fred* create(const Fred&amp; fred) { return new Fred(fred); }
+  // ...
+
+private:
+  // The constructors themselves are private or protected:
+  Fred();
+  Fred(int i);
+  Fred(const Fred&amp; fred);
+  // ...
+};
+</code></pre>
+
+<p>Now the only way to create <code>Fred</code> objects is via <code>Fred::create()</code>:</p>
+
+<pre><code>int main()
+{
+  Fred* p = Fred::create(5);
+  // ...
+  delete p;
+  // ...
+}
+</code></pre>
+
+<p>Make sure your constructors are in the <code>protected</code> section if you expect <code>Fred</code> to have derived classes.</p>
+
+<p>Note also that you can make another class <code>Wilma</code> a <a href="friends.html" title="Section: Friends"><code>friend</code></a> of <code>Fred</code> if you want to allow a <code>Wilma</code> to have
+a member object of class <code>Fred</code>, but of course this is a softening of the original goal, namely to force <code>Fred</code> objects
+to be allocated via <code>new</code>.</p>
+
+<h3 id="ref-count-simple">How do I do simple reference counting?</h3>
+
+<p>If all you want is the ability to pass around a bunch of pointers to the same object, with the feature that the object
+will automagically get <code>delete</code>d when the last pointer to it disappears, you can use something like the following &#8220;smart
+pointer&#8221; class:</p>
+
+<pre><code>// Fred.h
+
+class FredPtr;
+
+class Fred {
+public:
+  Fred() : count_(0) /*...*/ { }  // All ctors set count_ to 0 !
+  // ...
+private:
+  friend class FredPtr;     // A friend class
+  unsigned count_;
+  // count_ must be initialized to 0 by all constructors
+  // count_ is the number of FredPtr objects that point at this
+};
+
+class FredPtr {
+public:
+  Fred* operator-&gt; () { return p_; }
+  Fred&amp; operator* ()  { return *p_; }
+  FredPtr(Fred* p)    : p_(p) { ++p_-&gt;count_; }  // p must not be null
+ ~FredPtr()           { if (--p_-&gt;count_ == 0) delete p_; }
+  FredPtr(const FredPtr&amp; p) : p_(p.p_) { ++p_-&gt;count_; }
+  FredPtr&amp; operator= (const FredPtr&amp; p)
+        { // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
+          // (This order properly handles self-assignment)
+          // (This order also properly handles recursion, e.g., if a Fred contains FredPtrs)
+          Fred* const old = p_;
+          p_ = p.p_;
+          ++p_-&gt;count_;
+          if (--old-&gt;count_ == 0) delete old;
+          return *this;
+        }
+private:
+  Fred* p_;    // p_ is never NULL
+};
+</code></pre>
+
+<p>Naturally you can use nested classes to rename <code>FredPtr</code> to <code>Fred::Ptr</code>.</p>
+
+<p>Note that you can soften the &#8220;never <code>NULL</code>&#8221; rule above with a little more checking in the constructor, copy constructor,
+assignment operator, and destructor. If you do that, you might as well put a <code>p_ != NULL</code> check into the &#8220;<code>*</code>&#8221; and
+&#8220;<code>-&gt;</code>&#8221; operators (at least as an <code>assert()</code>). I would recommend against an <code>operator Fred*()</code> method, since that would
+let people accidentally get at the <code>Fred*</code>.</p>
+
+<p>One of the implicit constraints on <code>FredPtr</code> is that it must only point to <code>Fred</code> objects which have been allocated via
+<code>new</code>. If you want to be really safe, you can enforce this constraint by making all of <code>Fred</code>&#8217;s constructors <code>private</code>,
+and for each constructor have a <code>public</code> (<code>static</code>) <code>create()</code> method which allocates the <code>Fred</code> object via <code>new</code> and
+returns a <code>FredPtr</code> (not a <code>Fred*</code>). That way the <em>only</em> way anyone could create a <code>Fred</code> object would be to get a
+<code>FredPtr</code> (&#8220;<code>Fred* p = new Fred()</code>&#8221; would be replaced by &#8220;<code>FredPtr p = Fred::create()</code>&#8221;). Thus no one could accidentally
+subvert the reference counting mechanism.</p>
+
+<p>For example, if <code>Fred</code> had a <code>Fred::Fred()</code> and a <code>Fred::Fred(int i, int j)</code>, the changes to <code>class</code> <code>Fred</code> would be:</p>
+
+<pre><code>class Fred {
+public:
+  static FredPtr create();              // Defined below class FredPtr {...};
+  static FredPtr create(int i, int j);  // Defined below class FredPtr {...};
+  // ...
+private:
+  Fred();
+  Fred(int i, int j);
+  // ...
+};
+
+class FredPtr { /* ... */ };
+
+inline FredPtr Fred::create()             { return new Fred(); }
+inline FredPtr Fred::create(int i, int j) { return new Fred(i,j); }
+</code></pre>
+
+<p>The end result is that you now have a way to use simple reference counting to provide &#8220;pointer semantics&#8221; for a given
+object. Users of your <code>Fred</code> <code>class</code> explicitly use <code>FredPtr</code> objects, which act more or less like <code>Fred*</code> pointers. The
+benefit is that users can make as many copies of their <code>FredPtr</code> &#8220;smart pointer&#8221; objects, and the pointed-to <code>Fred</code>
+object will automagically get <code>delete</code>d when the last such <code>FredPtr</code> object vanishes.</p>
+
+<p>If you&#8217;d rather give your users &#8220;reference semantics&#8221; rather than &#8220;pointer semantics,&#8221; you can use <a href="freestore-mgmt.html#ref-count-with-cow" title="FAQ: How do I provide reference counting with copy-on-write semantics?">reference counting
+to provide &#8220;copy on write&#8221;</a>.</p>
+
+<h3 id="ref-count-with-cow">How do I provide reference counting with copy-on-write semantics?</h3>
+
+<p>Reference counting can be done with either pointer semantics or reference semantics. The <a href="freestore-mgmt.html#ref-count-simple" title="FAQ: How do I do simple reference counting?">previous
+FAQ</a> shows how to do reference counting with pointer semantics. This FAQ shows how to do reference
+counting with reference semantics.</p>
+
+<p>The basic idea is to allow users to think they&#8217;re copying your <code>Fred</code> objects, but in reality the underlying
+implementation doesn&#8217;t actually do any copying unless and until some user actually tries to modify the underlying <code>Fred</code>
+object.</p>
+
+<p>Class <code>Fred::Data</code> houses all the data that would normally go into the <code>Fred</code> <code>class</code>. <code>Fred::Data</code> also has an extra
+data member, <code>count_</code>, to manage the reference counting. Class <code>Fred</code> ends up being a &#8220;smart reference&#8221; that
+(internally) points to a <code>Fred::Data</code>.</p>
+
+<pre><code>class Fred {
+public:
+
+  Fred();                               // A default constructor
+  Fred(int i, int j);                   // A normal constructor
+
+  Fred(const Fred&amp; f);
+  Fred&amp; operator= (const Fred&amp; f);
+ ~Fred();
+
+  void sampleInspectorMethod() const;   // No changes to this object
+  void sampleMutatorMethod();           // Change this object
+
+  // ...
+
+private:
+
+  class Data {
+  public:
+    Data();
+    Data(int i, int j);
+    Data(const Data&amp; d);
+
+    // Since only Fred can access a Fred::Data object,
+    // you can make Fred::Data's data public if you want.
+    // But if that makes you uncomfortable, make the data private
+    // and make Fred a friend class via friend class Fred;
+
+    // ...your data members are declared here...
+
+    unsigned count_;
+    // count_ is the number of Fred objects that point at this
+    // count_ must be initialized to 1 by all constructors
+    // (it starts as 1 since it is pointed to by the Fred object that created it)
+  };
+
+  Data* data_;
+};
+
+Fred::Data::Data()              : count_(1) /*init other data*/ { }
+Fred::Data::Data(int i, int j)  : count_(1) /*init other data*/ { }
+Fred::Data::Data(const Data&amp; d) : count_(1) /*init other data*/ { }
+
+Fred::Fred()             : data_(new Data()) { }
+Fred::Fred(int i, int j) : data_(new Data(i, j)) { }
+
+Fred::Fred(const Fred&amp; f)
+  : data_(f.data_)
+{
+  ++data_-&gt;count_;
+}
+
+Fred&amp; Fred::operator= (const Fred&amp; f)
+{
+  // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
+  // (This order properly handles self-assignment)
+  // (This order also properly handles recursion, e.g., if a Fred::Data contains Freds)
+  Data* const old = data_;
+  data_ = f.data_;
+  ++data_-&gt;count_;
+  if (--old-&gt;count_ == 0) delete old;
+  return *this;
+}
+
+Fred::~Fred()
+{
+  if (--data_-&gt;count_ == 0) delete data_;
+}
+
+void Fred::sampleInspectorMethod() const
+{
+  // This method promises ("const") not to change anything in *data_
+  // Other than that, any data access would simply use "data_-&gt;..."
+}
+
+void Fred::sampleMutatorMethod()
+{
+  // This method might need to change things in *data_
+  // Thus it first checks if this is the only pointer to *data_
+  if (data_-&gt;count_ &gt; 1) {
+    Data* d = new Data(*data_);    // Invoke Fred::Data's copy ctor
+    --data_-&gt;count_;
+    data_ = d;
+  }
+  assert(data_-&gt;count_ == 1);
+
+  // Now the method proceeds to access "data_-&gt;..." as normal
+}
+</code></pre>
+
+<p>If it is fairly common to call <code>Fred</code>&#8217;s <a href="ctors.html#default-ctor" title="FAQ: Is the default constructor for Fred always Fred::Fred()?">default constructor</a>, you can avoid all those <code>new</code> calls by
+sharing a common <code>Fred::Data</code> object for all <code>Fred</code>s that are constructed via <code>Fred::Fred()</code>. To avoid <a href="ctors.html#static-init-order" title="FAQ: What's the 'static initialization order fiasco'?"><code>static</code>
+initialization order problems</a>, this shared <code>Fred::Data</code> object is <a href="ctors.html#static-init-order-on-first-use" title="FAQ: How do I prevent the 'static initialization order fiasco'?">created &#8220;on first use&#8221; inside a
+function</a>. Here are the changes that would be made to the above code (note that the
+shared <code>Fred::Data</code> object&#8217;s destructor is never invoked; if that is a problem, either hope you don&#8217;t have any <code>static</code>
+initialization order problems, or drop back to the approach described above):</p>
+
+<pre><code>class Fred {
+public:
+  // ...
+private:
+  // ...
+  static Data* defaultData();
+};
+
+Fred::Fred()
+  : data_(defaultData())
+{
+  ++data_-&gt;count_;
+}
+
+Fred::Data* Fred::defaultData()
+{
+  static Data* p = nullptr;
+  if (p == nullptr) {
+    p = new Data();
+    ++p-&gt;count_;    // Make sure it never goes to zero
+  }
+  return p;
+}
+</code></pre>
+
+<p>Note: You can also provide <a href="freestore-mgmt.html#ref-count-with-cow-hierarchy" title="FAQ: How do I provide reference counting with copy-on-write semantics for a hierarchy of classes?">reference counting for a hierarchy of classes</a> if your <code>Fred</code>
+class would normally have been a base class.</p>
+
+<h3 id="ref-count-with-cow-hierarchy">How do I provide reference counting with copy-on-write semantics for a hierarchy of classes?</h3>
+
+<p>The <a href="freestore-mgmt.html#ref-count-with-cow" title="FAQ: How do I provide reference counting with copy-on-write semantics?">previous FAQ</a> presented a reference counting scheme that provided users with reference
+semantics, but did so for a single class rather than for a hierarchy of classes. This FAQ extends the previous technique
+to allow for a hierarchy of classes. The basic difference is that <code>Fred::Data</code> is now the root of a hierarchy of
+classes, which probably cause it to have some <a href="virtual-functions.html" title="Section: Inheritance — virtual functions"><code>virtual</code></a> functions. Note that class <code>Fred</code> itself
+will still not have any <code>virtual</code> functions.</p>
+
+<p>The <a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">Virtual Constructor Idiom</a> is used to make copies of the <code>Fred::Data</code> objects. To select which
+derived class to create, the sample code below uses the <a href="ctors.html#named-ctor-idiom" title="FAQ: What is the 'Named Constructor Idiom'?">Named Constructor Idiom</a>, but other
+techniques are possible (a <code>switch</code> statement in the constructor, etc). The sample code assumes two derived classes:
+<code>Der1</code> and <code>Der2</code>. Methods in the derived classes are unaware of the reference counting.</p>
+
+<pre><code>class Fred {
+public:
+
+  static Fred create1(const std::string&amp; s, int i);
+  static Fred create2(float x, float y);
+
+  Fred(const Fred&amp; f);
+  Fred&amp; operator= (const Fred&amp; f);
+ ~Fred();
+
+  void sampleInspectorMethod() const;   // No changes to this object
+  void sampleMutatorMethod();           // Change this object
+
+  // ...
+
+private:
+
+  class Data {
+  public:
+    Data() : count_(1) { }
+    Data(const Data&amp; d) : count_(1) { }              // Do NOT copy the 'count_' member!
+    Data&amp; operator= (const Data&amp;) { return *this; }  // Do NOT copy the 'count_' member!
+    virtual ~Data() { assert(count_ == 0); }         // A virtual destructor
+    virtual Data* clone() const = 0;                 // A virtual constructor
+    virtual void sampleInspectorMethod() const = 0;  // A pure virtual function
+    virtual void sampleMutatorMethod() = 0;
+  private:
+    unsigned count_;   // count_ doesn't need to be protected
+    friend class Fred; // Allow Fred to access count_
+  };
+
+  class Der1 : public Data {
+  public:
+    Der1(const std::string&amp; s, int i);
+    virtual void sampleInspectorMethod() const;
+    virtual void sampleMutatorMethod();
+    virtual Data* clone() const;
+    // ...
+  };
+
+  class Der2 : public Data {
+  public:
+    Der2(float x, float y);
+    virtual void sampleInspectorMethod() const;
+    virtual void sampleMutatorMethod();
+    virtual Data* clone() const;
+    // ...
+  };
+
+  Fred(Data* data);
+  // Creates a Fred smart-reference that owns *data
+  // It is private to force users to use a createXXX() method
+  // Requirement: data must not be NULL
+
+  Data* data_;   // Invariant: data_ is never NULL
+};
+
+Fred::Fred(Data* data) : data_(data)  { assert(data != nullptr); }
+
+Fred Fred::create1(const std::string&amp; s, int i) { return Fred(new Der1(s, i)); }
+Fred Fred::create2(float x, float y)            { return Fred(new Der2(x, y)); }
+
+Fred::Data* Fred::Der1::clone() const { return new Der1(*this); }
+Fred::Data* Fred::Der2::clone() const { return new Der2(*this); }
+
+Fred::Fred(const Fred&amp; f)
+  : data_(f.data_)
+{
+  ++data_-&gt;count_;
+}
+
+Fred&amp; Fred::operator= (const Fred&amp; f)
+{
+  // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
+  // (This order properly handles self-assignment)
+  // (This order also properly handles recursion, e.g., if a Fred::Data contains Freds)
+  Data* const old = data_;
+  data_ = f.data_;
+  ++data_-&gt;count_;
+  if (--old-&gt;count_ == 0) delete old;
+  return *this;
+}
+
+Fred::~Fred()
+{
+  if (--data_-&gt;count_ == 0) delete data_;
+}
+
+void Fred::sampleInspectorMethod() const
+{
+  // This method promises ("const") not to change anything in *data_
+  // Therefore we simply "pass the method through" to *data_:
+  data_-&gt;sampleInspectorMethod();
+}
+
+void Fred::sampleMutatorMethod()
+{
+  // This method might need to change things in *data_
+  // Thus it first checks if this is the only pointer to *data_
+  if (data_-&gt;count_ &gt; 1) {
+    Data* d = data_-&gt;clone();   // The Virtual Constructor Idiom
+    --data_-&gt;count_;
+    data_ = d;
+  }
+  assert(data_-&gt;count_ == 1);
+
+  // Now we "pass the method through" to *data_:
+  data_-&gt;sampleMutatorMethod();
+}
+</code></pre>
+
+<p>Naturally the constructors and <code>sampleXXX</code> methods for <code>Fred::Der1</code> and <code>Fred::Der2</code> will need to be implemented in
+whatever way is appropriate.</p>
+
+<h3 id="ref-count-mistakes-vs-espionage">Can I absolutely <em>prevent</em> people from subverting the reference counting mechanism, and if so, <em>should</em> I?</h3>
+
+<p>No, and (normally) no.</p>
+
+<p>There are two basic approaches to subverting the reference counting mechanism:</p>
+
+<ol>
+<li>The scheme could be subverted if someone got a <code>Fred*</code> (rather than being forced to use a <code>FredPtr</code>). Someone could
+get a <code>Fred*</code> if class <code>FredPtr</code> has an <code>operator*()</code> that returns a <code>Fred&amp;</code>:
+<code>FredPtr p = Fred::create(); Fred* p2 = &amp;*p;</code>. Yes it&#8217;s bizarre and unexpected, but it could happen. This hole could
+be closed in two ways: overload <code>Fred::operator&amp;()</code> so it returns a <code>FredPtr</code>, or change the return type of
+<code>FredPtr::operator*()</code> so it returns a <code>FredRef</code> (<code>FredRef</code> would be a class that simulates a reference; it would
+need to have all the methods that <code>Fred</code> has, and it would need to forward all those method calls to the underlying
+<code>Fred</code> object; there might be a performance penalty for this second choice depending on how good the compiler is at
+inlining methods). Another way to fix this is to eliminate <code>FredPtr::operator*()</code> &#8212; and lose the corresponding
+ability to get and use a <code>Fred&amp;</code>. But even if you did all this, someone could still generate a <code>Fred*</code> by explicitly
+calling <code>operator-&gt;()</code>: <code>FredPtr p = Fred::create(); Fred* p2 = p.operator-&gt;();</code>.</li>
+<li>The scheme could be subverted if someone had a leak and/or dangling pointer to a <code>FredPtr</code>. Basically what we&#8217;re
+saying here is that <code>Fred</code> is now safe, but we somehow want to prevent people from doing stupid things with
+<code>FredPtr</code> objects. (And if we could solve that via <code>FredPtrPtr</code> objects, we&#8217;d have the same problem again with
+them). One hole here is if someone created a <code>FredPtr</code> using <code>new</code>, then allowed the <code>FredPtr</code> to leak (worst case
+this is a leak, which is bad but is <em>usually</em> a little better than a dangling pointer). This hole could be plugged
+by declaring <code>FredPtr::operator new()</code> as <code>private</code>, thus preventing someone from saying <code>new FredPtr()</code>. Another
+hole here is if someone creates a local <code>FredPtr</code> object, then takes the address of that <code>FredPtr</code> and passed around
+the <code>FredPtr*</code>. If that <code>FredPtr*</code> lived longer than the <code>FredPtr</code>, you could have a dangling pointer &#8212; shudder.
+This hole could be plugged by preventing people from taking the address of a <code>FredPtr</code> (by overloading
+<code>FredPtr::operator&amp;()</code> as <code>private</code>), with the corresponding loss of functionality. But even if you did all that,
+they could still create a <code>FredPtr&amp;</code> which is almost as dangerous as a <code>FredPtr*</code>, simply by doing this:
+<code>FredPtr p; ... FredPtr&amp; q = p;</code> (or by passing the <code>FredPtr&amp;</code> to someone else).</li>
+</ol>
+
+<p>And even if we closed <em>all</em> those holes, C++ has those wonderful pieces of syntax called pointer casts. Using a
+pointer cast or two, a sufficiently motivated programmer can normally create a hole that&#8217;s big enough to drive a
+proverbial truck through. (By the way, <a href="coding-standards.html#pointer-casts" title="FAQ: Why do people worry so much about pointer casts and/or reference casts?">pointer casts are evil</a>.)</p>
+
+<p>So the lessons here seem to be: (a) you can&#8217;t prevent espionage no matter how hard you try, and (b) you can easily
+prevent mistakes.</p>
+
+<p>So I recommend settling for the &#8220;low hanging fruit&#8221;: use the easy-to-build and easy-to-use mechanisms that prevent
+mistakes, and don&#8217;t bother trying to prevent espionage. You won&#8217;t succeed, and even if you do, it&#8217;ll (probably) cost you
+more than it&#8217;s worth.</p>
+
+<p>So if we can&#8217;t use the C++ language itself to prevent espionage, are there other ways to do it? Yes. I personally use
+old fashioned code reviews for that. And since the espionage techniques usually involve some bizarre syntax and/or use
+of pointer-casts and unions, you can use a tool to point out most of the &#8220;hot spots.&#8221;</p>
+
+<h3 id="garbage-collector-basics">Can I use a garbage collector in C++?</h3>
+
+<p>Yes.</p>
+
+<p>If you want automatic garbage collection, there are good commercial and public-domain garbage collectors for C++. For applications where garbage collection is suitable, C++ is an excellent garbage collected language with a performance that compares favorably with other garbage collected languages. See <a href="http://www.stroustrup.com/4th.html">The C++ Programming Language (4th Edition)</a> for a discussion of automatic garbage collection in C++. See also, Hans-J. Boehm&#8217;s <a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc">site for C and C++ garbage collection</a>.</p>
+
+<p>Also, C++ supports programming techniques that allows memory management to be <a href="freestore-mgmt.html#memory-leaks" title="FAQ: How do I deal with memory leaks?">safe and implicit without a garbage collector</a>. Garbage collection is useful for specific needs, such as inside the implementation of lock-free data structures to avoid ABA issues, but not as a general-purpose default way of handling for resource management. We are not saying that GC is not useful, just that there are better approaches in many situations.</p>
+
+<p><a href="cpp11.html" title="Section: C++11 Overview">C++11</a> offers a GC ABI.</p>
+
+<p>Compared with the <a href="freestore-mgmt.html#ref-count-simple" title="FAQ: How do I do simple reference counting?">&#8220;smart pointer&#8221; techniques</a>, the two kinds of <a href="freestore-mgmt.html#garbage-collector-kinds" title="FAQ: What are the two kinds of garbage collectors for C++?">garbage collector
+techniques</a> are:</p>
+
+<ul>
+<li>less portable</li>
+<li>usually more efficient (especially when the average object size is small or in multithreaded environments)</li>
+<li>able to handle &#8220;cycles&#8221; in the data (reference counting techniques normally &#8220;leak&#8221; if the data structures can form a
+cycle)</li>
+<li>sometimes leak other objects (since the garbage collectors are necessarily conservative, they sometimes see a random
+bit pattern that appears to be a pointer into an allocation, especially if the allocation is large; this can allow
+the allocation to leak)</li>
+<li>work better with existing libraries (since smart pointers need to be used explicitly, they may be hard to integrate
+with existing libraries)</li>
+</ul>
+
+<h3 id="garbage-collector-kinds">What are the two kinds of garbage collectors for C++?</h3>
+
+<p>In general, there seem to be two flavors of garbage collectors for C++:</p>
+
+<ol>
+<li><em>Conservative garbage collectors.</em> These know little or nothing about the layout of the stack or of C++ objects,
+and simply look for bit patterns that appear to be pointers. In practice they seem to work with both C and C++
+code, particularly when the average object size is small. Here are some examples, in alphabetical order:
+
+<ul>
+<li><a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc">Boehm-Demers-Weiser collector</a></li>
+<li><a href="http://www.geodesic.com/solutions/greatcircle.html">Geodesic Systems collector</a></li>
+</ul></li>
+<li><em>Hybrid garbage collectors.</em> These usually scan the stack conservatively, but require the programmer to supply
+layout information for heap objects. This requires more work on the programmer&#8217;s part, but may result in improved
+performance. Here are some examples, in alphabetical order:
+
+<ul>
+<li><a href="http://citeseer.nj.nec.com/attardi96memory.html">Attardi and Flagella&#8217;s CMM</a></li>
+<li><a href="ftp://gatekeeper.dec.com/pub/DEC/WRL/research-reports/WRL-TR-88.2.pdf">Bartlett&#8217;s mostly copying collector</a></li>
+</ul></li>
+</ol>
+
+<p>Since garbage collectors for C++ are normally conservative, they can sometimes leak if a bit pattern &#8220;looks like&#8221; it
+might be a pointer to an otherwise unused block. Also they sometimes get confused when pointers to a block actually
+point outside the block&#8217;s extent (which is illegal, but some programmers simply <em>must</em> push the envelope; sigh) and
+(rarely) when a pointer is hidden by a compiler optimization. In practice these problems are not usually serious,
+however providing the collector with hints about the layout of the objects can sometimes ameliorate these issues.</p>
+
+<h3 id="garbage-collector-more-info">Where can I get more info on garbage collectors for C++?</h3>
+
+<p>For more information, see <a href="http://www.iecc.com/gclist/GC-faq.html">the Garbage Collector FAQ</a>.</p>
+
+<h3 id="auto-ptr">What is an <code>auto_ptr</code> and why isn&#8217;t there an <code>auto_array</code>?</h3>
+
+<p>It&#8217;s now spelled <a href="cpp11-library.html#unique-ptr" title="FAQ: unique_ptr"><code>unique_ptr</code></a>, which supports both single objects and arrays.</p>
+
+<p><code>auto_ptr</code> is an old standard smart pointer that has been deprecated, and is only being kept in the standard for backward compatibility with older code. It should not be used in new code.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/freestore-mgmt",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/freestore-mgmt",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/freestore-mgmt by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ptr.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/gil/example/interleaved_ptr.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/gil/example/interleaved_ptr.hpp</h3>
+<pre>
+/*
+    Copyright 2005-2007 Adobe Systems Incorporated
+   
+    Use, modification and distribution are subject to the Boost Software License,
+    Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+
+    See <a href="http://opensource.adobe.com/gil">http://opensource.adobe.com/gil</a> for most recent version including documentation.
+*/
+
+/*************************************************************************************************/
+
+////////////////////////////////////////////////////////////////////////////////////////
+/// \file               
+/// \brief Example on how to create a pixel iterator
+/// \author Lubomir Bourdev and Hailin Jin \n
+///         Adobe Systems Incorporated
+/// \date 2005-2007 \n Last updated on February 26, 2007
+///
+/// Definitions of standard GIL channel models
+///
+////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef GIL_INTERLEAVED_PTR_HPP
+#define GIL_INTERLEAVED_PTR_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/pixel_iterator.hpp">boost/gil/pixel_iterator.hpp</a>&gt;
+#include &quot;interleaved_ref.hpp&quot;
+
+namespace boost { namespace gil {
+
+/////////////////////////////////////////////////////////////////////////
+///
+/// A model of an interleaved pixel iterator. Contains an iterator to the first channel of the current pixel
+///
+/// Models: 
+///     MutablePixelIteratorConcept
+///        PixelIteratorConcept
+///           boost_concepts::RandomAccessTraversalConcept
+///           PixelBasedConcept
+///     HomogeneousPixelBasedConcept
+///        PixelBasedConcept
+///     ByteAdvanceableConcept
+///     HasDynamicXStepTypeConcept
+///
+/////////////////////////////////////////////////////////////////////////
+
+template &lt;typename ChannelPtr,  // Models Channel Iterator (examples: unsigned char* or const unsigned char*)
+          typename Layout&gt;      // A layout (includes the color space and channel ordering)
+struct interleaved_ptr : public  boost::iterator_facade&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt;,
+                                   pixel&lt;typename std::iterator_traits&lt;ChannelPtr&gt;::value_type,Layout&gt;,
+                                   boost::random_access_traversal_tag,
+                                   const interleaved_ref&lt;typename std::iterator_traits&lt;ChannelPtr&gt;::reference,Layout&gt; &gt;
+{
+private:
+    typedef boost::iterator_facade&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt;,
+                                   pixel&lt;typename std::iterator_traits&lt;ChannelPtr&gt;::value_type,Layout&gt;,
+                                   boost::random_access_traversal_tag,
+                                   const interleaved_ref&lt;typename std::iterator_traits&lt;ChannelPtr&gt;::reference,Layout&gt; &gt; parent_t;
+    typedef typename std::iterator_traits&lt;ChannelPtr&gt;::value_type channel_t;
+public:
+    typedef typename parent_t::reference                  reference;
+    typedef typename parent_t::difference_type            difference_type;
+
+    interleaved_ptr() {}
+    interleaved_ptr(const interleaved_ptr&amp; ptr) : _channels(ptr._channels) {}
+    template &lt;typename CP&gt; interleaved_ptr(const interleaved_ptr&lt;CP,Layout&gt;&amp; ptr) : _channels(ptr._channels) {}
+
+    interleaved_ptr(const ChannelPtr&amp; channels) : _channels(channels) {}
+
+    // Construct from a pointer to the reference type. Not required by concepts but important
+    interleaved_ptr(reference* pix) : _channels(&amp;((*pix)[0])) {}
+    interleaved_ptr&amp; operator=(reference* pix) { _channels=&amp;((*pix)[0]); return *this; }
+
+    /// For some reason operator[] provided by boost::iterator_facade returns a custom class that is convertible to reference
+    /// We require our own reference because it is registered in iterator_traits
+    reference operator[](difference_type d) const { return memunit_advanced_ref(*this,d*sizeof(channel_t));}
+
+    // Put this for every iterator whose reference is a proxy type
+    reference operator-&gt;()                  const { return **this; }
+
+    // Channels accessor (not required by any concept)
+    const ChannelPtr&amp; channels()            const { return _channels; }
+          ChannelPtr&amp; channels()                  { return _channels; }
+    
+    // Not required by concepts but useful
+    static const std::size_t num_channels = mpl::size&lt;typename Layout::color_space_t&gt;::value;
+private:
+    ChannelPtr _channels;
+    friend class boost::iterator_core_access;
+    template &lt;typename CP, typename L&gt; friend struct interleaved_ptr;
+
+    void increment()            { _channels+=num_channels; }
+    void decrement()            { _channels-=num_channels; }
+    void advance(ptrdiff_t d)   { _channels+=num_channels*d; }
+
+    ptrdiff_t distance_to(const interleaved_ptr&amp; it) const { return (it._channels-_channels)/num_channels; }
+    bool equal(const interleaved_ptr&amp; it) const { return _channels==it._channels; }
+
+    reference dereference() const { return reference(_channels); }
+};
+
+/////////////////////////////
+//  PixelIteratorConcept
+/////////////////////////////
+
+// To get from the channel pointer a channel pointer to const, we have to go through the channel traits, which take a model of channel
+// So we can get a model of channel from the channel pointer via iterator_traits. Notice that we take the iterator_traits::reference and not
+// iterator_traits::value_type. This is because sometimes multiple reference and pointer types share the same value type. An example of this is
+// GIL's planar reference and iterator (&quot;planar_pixel_reference&quot; and &quot;planar_pixel_iterator&quot;) which share the class &quot;pixel&quot; as the value_type. The
+// class &quot;pixel&quot; is also the value type for interleaved pixel references. Here we are dealing with channels, not pixels, but the principles still apply.
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct const_iterator_type&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; { 
+private:
+    typedef typename std::iterator_traits&lt;ChannelPtr&gt;::reference channel_ref_t;
+    typedef typename channel_traits&lt;channel_ref_t&gt;::const_pointer channel_const_ptr_t;
+public:
+    typedef interleaved_ptr&lt;channel_const_ptr_t,Layout&gt; type; 
+};
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct iterator_is_mutable&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; : public boost::mpl::true_ {};
+template &lt;typename Channel, typename Layout&gt;
+struct iterator_is_mutable&lt;interleaved_ptr&lt;const Channel*,Layout&gt; &gt; : public boost::mpl::false_ {};
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct is_iterator_adaptor&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; : public boost::mpl::false_ {};
+
+/////////////////////////////
+//  PixelBasedConcept
+/////////////////////////////
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct color_space_type&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; {
+    typedef typename Layout::color_space_t type;
+};
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct channel_mapping_type&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; {
+    typedef typename Layout::channel_mapping_t type;
+};
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct is_planar&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; : public mpl::false_ {};
+
+/////////////////////////////
+//  HomogeneousPixelBasedConcept
+/////////////////////////////
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct channel_type&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; {
+    typedef typename std::iterator_traits&lt;ChannelPtr&gt;::value_type type;
+};
+
+/////////////////////////////
+//  ByteAdvanceableConcept
+/////////////////////////////
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+inline std::ptrdiff_t memunit_step(const interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp;) { 
+    return sizeof(typename std::iterator_traits&lt;ChannelPtr&gt;::value_type)*   // size of each channel in bytes
+           interleaved_ptr&lt;ChannelPtr,Layout&gt;::num_channels;                // times the number of channels
+}
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+inline std::ptrdiff_t memunit_distance(const interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp; p1, const interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp; p2) { 
+    return memunit_distance(p1.channels(),p2.channels()); 
+}
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+inline void memunit_advance(interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp; p, std::ptrdiff_t diff) { 
+    memunit_advance(p.channels(), diff);
+}
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+inline interleaved_ptr&lt;ChannelPtr,Layout&gt; memunit_advanced(const interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp; p, std::ptrdiff_t diff) {
+    interleaved_ptr&lt;ChannelPtr,Layout&gt; ret=p;
+    memunit_advance(ret, diff);
+    return ret;
+}
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+inline typename interleaved_ptr&lt;ChannelPtr,Layout&gt;::reference memunit_advanced_ref(const interleaved_ptr&lt;ChannelPtr,Layout&gt;&amp; p, std::ptrdiff_t diff) {
+    interleaved_ptr&lt;ChannelPtr,Layout&gt; ret=p;
+    memunit_advance(ret, diff);
+    return *ret;
+}
+
+/////////////////////////////
+//  HasDynamicXStepTypeConcept
+/////////////////////////////
+
+template &lt;typename ChannelPtr, typename Layout&gt;
+struct dynamic_x_step_type&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; {
+    typedef memory_based_step_iterator&lt;interleaved_ptr&lt;ChannelPtr,Layout&gt; &gt; type;
+};
+
+} }  // namespace boost::gil
+
+#endif
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ptr.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+</html>

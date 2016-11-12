@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-library-stl by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="9bedabbc1198b6c2e8f4ce2843b2b05de9152605" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="67c77b071084941a1ef98bb351d64a5fc1b8378f" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="fee6ab1a30fa728e087bb8e9dd06c68f9dfca789" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        cpp11 library stl
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="cpp11-library-stl.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    cpp11 library stl
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=cpp11%20library%20stl" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="cpp11-library-stl">C++11 Standard Library Extensions &#8212; Containers and Algorithms</h2>
+
+<h3 id="cpp11-algorithms">Algorithms improvements</h3>
+
+<p>The standard library algorithms are improved partly by simple addition of new algorithms, partly by improved implementations made possible by new language features, and partly by new language features enabling easier use:</p>
+
+<ul>
+<li><em>New algorithms:</em></li>
+</ul>
+
+<pre><code>    bool all_of(Iter first, Iter last, Pred pred);
+    bool any_of(Iter first, Iter last, Pred pred);
+    bool none_of(Iter first, Iter last, Pred pred);
+
+    Iter find_if_not(Iter first, Iter last, Pred pred);
+
+    OutIter copy_if(InIter first, InIter last, OutIter result, Pred pred);
+    OutIter copy_n(InIter first, InIter::difference_type n, OutIter result);
+
+    OutIter move(InIter first, InIter last, OutIter result);
+    OutIter move_backward(InIter first, InIter last, OutIter result);
+
+    pair&lt;OutIter1, OutIter2&gt; partition_copy(InIter first, InIter last, OutIter1 out_true, OutIter2 out_false, Pred pred);
+    Iter partition_point(Iter first, Iter last, Pred pred);
+
+    RAIter partial_sort_copy(InIter first, InIter last, RAIter result_first, RAIter result_last);
+    RAIter partial_sort_copy(InIter first, InIter last, RAIter result_first, RAIter result_last, Compare comp);
+    bool is_sorted(Iter first, Iter last);
+    bool is_sorted(Iter first, Iter last, Compare comp);
+    Iter is_sorted_until(Iter first, Iter last);
+    Iter is_sorted_until(Iter first, Iter last, Compare comp);
+
+    bool is_heap(Iter first, Iter last);
+    bool is_heap(Iter first, Iter last, Compare comp);
+    Iter is_heap_until(Iter first, Iter last);
+    Iter is_heap_until(Iter first, Iter last, Compare comp);
+
+    T min(initializer_list&lt;T&gt; t);
+    T min(initializer_list&lt;T&gt; t, Compare comp);
+    T max(initializer_list&lt;T&gt; t);
+    T max(initializer_list&lt;T&gt; t, Compare comp);
+    pair&lt;const T&amp;, const T&amp;&gt; minmax(const T&amp; a, const T&amp; b);
+    pair&lt;const T&amp;, const T&amp;&gt; minmax(const T&amp; a, const T&amp; b, Compare comp);
+    pair&lt;const T&amp;, const T&amp;&gt; minmax(initializer_list&lt;T&gt; t);
+    pair&lt;const T&amp;, const T&amp;&gt; minmax(initializer_list&lt;T&gt; t, Compare comp);
+    pair&lt;Iter, Iter&gt; minmax_element(Iter first, Iter last);
+    pair&lt;Iter, Iter&gt; minmax_element(Iter first, Iter last, Compare comp);
+
+    void iota(Iter first, Iter last, T value);  // For each element referred to by the iterator i in the range [first,last), assigns *i = value and increments value as if by ++value
+</code></pre>
+
+<ul>
+<li><em>Effects of move:</em> Moving can be much more efficient than copying (see <a href="cpp11-language.html#rval" title="FAQ: Rvalue references and move semantics">Move semantics</a>. For example, move-based <code>std::sort()</code> and <code>std::set::insert()</code> have been measured to be 15 times faster than copy based versions. This is less impressive than it sounds because such standard library operations for standard library types, such as <code>string</code> and <code>vector</code>, are usually hand-optimized to gain the effects of moving through techniques such as replacing copies with optimized swaps. However, if your type has a move operation, you gain the performance benefits automatically from the standard algorithms. Consider also that the use of moves allows simple and efficient sort (and other algorithms) of containers of smart pointers, especially <a href="cpp11-library.html#unique-ptr" title="FAQ: unique_ptr"><code>unique_ptr</code></a>: </li>
+</ul>
+
+<pre><code>    template&lt;class P&gt; struct Cmp&lt;P&gt; {   // compare *P values
+        bool operator() (P a, P b) const { return *a&lt;*b; }
+    }
+
+    vector&lt;std::unique_ptr&lt;Big&gt;&gt; vb;
+    // fill vb with unique_ptr's to Big objects
+
+    sort(vb.begin(),vb.end(),Cmp&lt;Big&gt;());   // don't try that with an auto_ptr
+</code></pre>
+
+<ul>
+<li><em>Use of lambdas:</em> For ages, people have complained about having to write functions or (better) function objects for use as operations, such as <code>Cmp&lt;T&gt;</code> above, for standard library (and other) algorithms. This was especially painful to do if you wrote large functions (don&#8217;t) because in C++98 you could not define a local function object to use as an argument; <a href="cpp11-language-templates.html#local-types" title="FAQ: Local types as template arguments">now you can</a>. However, <a href="cpp11-language.html#lambda" title="FAQ: Lambdas">lambdas</a> allows us to define operations &#8220;inline&#8221;: </li>
+</ul>
+
+<pre><code>    sort(vb.begin(),vb.end(),[](unique_ptr&lt;Big&gt; a, unique_ptr&lt;Big&gt; b) { return *a&lt;*b; });
+</code></pre>
+
+<ul>
+<li><em>Use of initializer lists</em>: Sometimes, <a href="cpp11-language.html#init-list" title="FAQ: Initializer lists">initializer lists</a> come in handy as arguments. For example, assuming <code>string</code> variables and <code>Nocase</code> being a case-insensitive comparison: </li>
+</ul>
+
+<pre><code>    auto x = max({x,y,z},Nocase());
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>25 Algorithms library [algorithms] </li>
+<li>26.7 Generalized numeric operations [numeric.ops] </li>
+<li>Howard E. Hinnant, Peter Dimov, and Dave Abrahams: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2002/n1377.htm">A Proposal to Add Move Semantics Support to the C++ Language</a>. N1377=02-0035.</li>
+</ul>
+
+<h3 id="cpp11-containers">Container improvements</h3>
+
+<p>Given the new language features and a decade&#8217;s worth of experience, what has happened to the standard containers? First, of course we got a few new ones: <a href="cpp11-library-stl.html#std-array" title="FAQ: std::array">array</a> (a fixed-sized container), <a href="cpp11-library-stl.html#forward-list" title="FAQ: forward_list">forward_list</a> (a singly-linked list), and <a href="cpp11-library-stl.html#std-unordered" title="FAQ: unordered_* containers">unordered containers</a> (the hash tables). Next, new features, such as <a href="cpp11-language.html#init-list" title="FAQ: Initializer lists">initializer lists</a>, <a href="cpp11-language.html#rval" title="FAQ: Rvalue references and move semantics">rvalue references</a>, <a href="cpp11-language-templates.html#variadic-templates" title="FAQ: Variadic templates">variadic templates</a>, and <a href="cpp11-language.html#constexpr" title="FAQ: constexpr">constexpr</a>[cpp11-constexpr] were put to use. Consider <code>std::vector</code>.</p>
+
+<ul>
+<li><em>Initializer lists:</em> The most visible improvement is the use of initializer-list constructors to allow a container to take an initializer list as its argument: </li>
+</ul>
+
+<pre><code>    vector&lt;string&gt; vs = { "Hello", ", ", "World!", "\n" };
+    for (auto s : vs ) cout &lt;&lt; s;
+</code></pre>
+
+<ul>
+<li><em>Move operators:</em> Containers now have move constructors and move assignments (in addition to the traditional copy operations). The most important implication of this is that we can efficiently return a container by value from a function: </li>
+</ul>
+
+<pre><code>    vector&lt;int&gt; make_random(int n)
+    {
+        vector&lt;int&gt; ref(n);
+        for(auto&amp; x : ref) x = rand_int(0,255); // some random number generator
+        return ref;
+    }
+
+    vector&lt;int&gt; v = make_random(10000);
+    for (auto x : make_random(1000000)) cout &lt;&lt; x &lt;&lt; '\n';
+</code></pre>
+
+<p>The point here is that no <code>vector</code>s are copied. Rewrite this to return a free-store-allocated vector and you have to deal with memory management. Rewrite this to pass the <code>vector</code> to be filled as an argument to <code>make_random()</code> and you have a far less obvious code (plus an added opportunity for making an error).</p>
+
+<ul>
+<li><em>Improved push operations:</em> Many people&#8217;s favorite container operation is <code>push_back()</code> that allows a container to grow gracefully: </li>
+</ul>
+
+<pre><code>    vector&lt;pair&lt;string,int&gt;&gt; vp;
+    string s;
+    int i;
+    while(cin&gt;&gt;s&gt;&gt;i) vp.push_back({s,i});
+</code></pre>
+
+<p>This will construct a <code>pair&lt;string,int&gt;</code> out of <code>s</code> and <code>i</code> and move it into <code>vp</code>. Note &#8220;move&#8221; not &#8220;copy;&#8221; there is a <code>push_back</code> version that takes an <a href="cpp11-language.html#rval" title="FAQ: Rvalue references and move semantics">rvalue reference</a> argument so that we can take advantage of <code>string</code>&#8217;s move constructor. Note also the use of the <a href="cpp11-language.html#uniform-init" title="FAQ: Uniform initialization syntax and semantics">uniform initializer syntax</a> to avoid verbosity.</p>
+
+<ul>
+<li><em>Emplace operations:</em> The <code>push_back()</code> using a move constructor is far more efficient in important cases than the traditional copy-based one, but in extreme cases we can go further. Why copy/move anything? Why not make space in the <code>vector</code> and then construct the desired value in that space? Operations that do that are called &#8220;<code>emplace</code>&#8221; (meaning &#8220;putting in place&#8221;). For example <code>emplace_back()</code>: </li>
+</ul>
+
+<pre><code>    vector&lt;pair&lt;string,int&gt;&gt; vp;
+    string s;
+    int i;
+    while(cin&gt;&gt;s&gt;&gt;i) vp.emplace_back(s,i);
+</code></pre>
+
+<p>An <code>emplace</code> takes a <a href="cpp11-language-templates.html#variadic-templates" title="FAQ: Variadic templates">variadic template</a> argument and uses that to construct an object of the desired type. Whether the <code>emplace_back()</code> really is more efficient than the <code>push_back()</code> depends on the types involved and the implementation (of the library and of variadic templates). If you think it matters, measure. Otherwise, choose based on aesthetics: <code>vp.push_back({s,i});</code> or <code>vp.emplace_back(s,i);</code>. For now, many prefer the <code>push_back()</code> version in part due to familiarity, but that might change over time.</p>
+
+<ul>
+<li><a href="cpp11-library.html#scoped-allocator" title="FAQ: Scoped allocators"><em>Scoped allocators:</em></a> Containers can now hold &#8220;real allocation objects (with state)&#8221; and use those to control nested/scoped allocation (e.g. allocation of elements in a container).</li>
+</ul>
+
+<p>Obviously, the containers are not the only parts of the standard library that have benefited from the new language features. Consider:</p>
+
+<ul>
+<li><em>Compile-time evaluation:</em> <a href="cpp11-language.html#constexpr" title="FAQ: constexpr"><code>constexpr</code></a> is used to ensure compiler time evaluation in <code>&lt;numeric_limits&gt;</code>, <code>bitset</code>, <code>duration</code>, <code>char_traits</code>, <a href="cpp11-library-stl.html#std-array" title="FAQ: std::array"><code>array</code></a>, <code>atomic</code> types, random numbers, <code>complex</code>, etc. In some cases, it means improved performance; in others (where there is no alternative to compile-time evaluation), it means absence of messy low-level code and macros. </li>
+<li><em>Tuples:</em> Tuples would not be possible without variadic templates </li>
+</ul>
+
+<h3 id="std-unordered"><code>unordered_*</code> containers</h3>
+
+<p>An <code>unordered_*</code> container is implemented using a hash table. C++11 offers four standard ones:</p>
+
+<ul>
+<li><code>unordered_map</code></li>
+<li><code>unordered_set</code></li>
+<li><code>unordered_multimap</code></li>
+<li><code>unordered_multiset</code></li>
+</ul>
+
+<p>They would have been called <code>hash_map</code> etc., but there are so many incompatible uses of those names that the committee had to choose new names and the <code>unordered_*</code> name nicely highlighted <em>the</em> key difference between (say) <code>map</code> and <code>unordered_map</code>: When you iterate over a <code>map</code> from <code>begin()</code> to <code>end()</code>, you do so in the order provided by its key type&#8217;s less-than comparison operator (by default <code>&lt;</code>) whereas the value type of <code>unordered_map</code> is not required to have a less-than comparison operator and a hash table doesn&#8217;t naturally provide an order. The are other differences; in particular, conversely, the element type of a map is not required to have a hash function.</p>
+
+<p>The basic idea is simply to use <code>unordered_map</code> as an optimized version of map where optimization is possible and reasonable. For example:</p>
+
+<pre><code>    map&lt;string,int&gt; m {
+        {"Dijkstra",1972}, {"Scott",1976}, {"Wilkes",1967}, {"Hamming",1968}
+    };
+    m["Ritchie"] = 1983;
+    for(auto&amp; x : m) cout &lt;&lt; '{' &lt;&lt; x.first &lt;&lt; ',' &lt;&lt; x.second &lt;&lt; '}';
+
+    unordered_map&lt;string,int&gt; um {
+        {"Dijkstra",1972}, {"Scott",1976}, {"Wilkes",1967}, {"Hamming",1968}
+    };
+    um["Ritchie"] = 1983;
+    for(auto&amp; x : um) cout &lt;&lt; '{' &lt;&lt; x.first &lt;&lt; ',' &lt;&lt; x.second &lt;&lt; '}';
+</code></pre>
+
+<p>The iterator over <code>m</code> will present the elements in alphabetical order; the iteration over <code>um</code> will not (except through a freak accident). Lookup is implemented very differently for <code>m</code> and <code>um</code>. For <code>m</code> lookup involves <code>log2(m.size())</code> less-than comparisons, whereas for <code>um</code> lookup involves a single call of a hash function and one or more equality operations. For a few elements (say a few dozen), it is hard to tell which is faster. For larger numbers of elements (e.g. thousands), lookup in an <code>unordered_map</code> can be much faster than for a map.</p>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 23.5 Unordered associative containers. </li>
+</ul>
+
+<h3 id="std-array"><code>std::array</code></h3>
+
+<p>The standard container array is a fixed-sized random-access sequence of elements defined in <code>&lt;array&gt;</code>. It has no space overheads beyond what it needs to hold its elements, it does not use free store, it can be initialized with an initializer list, it knows its size (number of elements), and doesn&#8217;t convert to a pointer unless you explicitly ask it to. In other words, it is very much like a built-in array without the problems.</p>
+
+<pre><code>    array&lt;int,6&gt; a = { 1, 2, 3 };
+    a[3]=4;
+    int x = a[5];       // x becomes 0 because default elements are zero initialized
+    int* p1 = a;        // error: std::array doesn't implicitly convert to a pointer
+    int* p2 = a.data(); // ok: get pointer to first element 
+</code></pre>
+
+<p>Note that you can have zero-length <code>array</code>s but that you cannot deduce the length of an <code>array</code> from an initializer list:</p>
+
+<pre><code>    array&lt;int&gt; a3 = { 1, 2, 3 };    // error: size unknown/missing
+    array&lt;int,0&gt; a0;        // ok: no elements
+    int* p = a0.data();     // unspecified; don't try it
+</code></pre>
+
+<p>The standard <code>array</code>&#8217;s features makes it attractive for embedded systems programming (and similar constrained, performance-critical, or safety critical tasks). It is a sequence container so it provides the usual member types and functions (just like <code>vector</code>):</p>
+
+<pre><code>    template&lt;class C&gt; C::value_type sum(const C&amp; a)
+    {
+        return accumulate(a.begin(),a.end(),0);
+    }
+
+    array&lt;int,10&gt; a10;
+    array&lt;double,1000&gt; a1000;
+    vector&lt;int&gt; v;
+    // ...
+    int x1 = sum(a10);
+    double x2 = sum(a1000);
+    int x3 = sum(v);
+</code></pre>
+
+<p>Also, you don&#8217;t get (potentially nasty) derived to base conversions:</p>
+
+<pre><code>    struct Apple : Fruit { /* ... */ };
+    struct Pear : Fruit { /* ... */ };
+
+    void nasty(array&lt;Fruit*,10&gt;&amp; f)
+    {
+        f[7] = new Pear();
+    };
+
+    array&lt;Apple*,10&gt; apples;
+    // ...
+    nasty(apples);  // error: can't convert array&lt;Apple*,10&gt; to array&lt;Fruit*,10&gt;;
+</code></pre>
+
+<p>If that was allowed, <code>apples</code> would now contain a <code>Pear</code>.</p>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 23.3.1 Class template array </li>
+</ul>
+
+<h3 id="forward-list"><code>forward_list</code></h3>
+
+<p>The standard container <code>forward_list</code>, defined in <code>&lt;forward_list&gt;</code>, is basically a singly-linked list. It supports forward iteration (only) and guarantees that elements don&#8217;t move if you insert or erase one. It occupies minimal space (an empty list is likely to be one word) and does not provide a <code>size()</code> operation (so that it does not have to store a size member):</p>
+
+<pre><code>    template &lt;ValueType T, Allocator Alloc = allocator&lt;T&gt; &gt;
+        // requires NothrowDestructible&lt;T&gt;
+    class forward_list {
+    public:
+        // the usual container stuff
+        // no size()
+        // no reverse iteration
+        // no back() or push_back()
+    };
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 23.3.3 Class template forward_list </li>
+</ul>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-library-stl",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-library-stl",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-library-stl by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:43 GMT -->
+</html>

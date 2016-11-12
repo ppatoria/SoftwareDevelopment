@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/type_traits/is_enum.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/type_traits/is_enum.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/type_traits/is_enum.hpp</h3>
+<pre>
+
+//  (C) Copyright Dave Abrahams, Steve Cleary, Beman Dawes, Howard
+//  Hinnant &amp; John Maddock 2000.  
+//  Use, modification and distribution are subject to the Boost Software License,
+//  Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+//
+//  See <a href="http://www.boost.org/libs/type_traits">http://www.boost.org/libs/type_traits</a> for most recent version including documentation.
+
+
+#ifndef BOOST_TT_IS_ENUM_HPP_INCLUDED
+#define BOOST_TT_IS_ENUM_HPP_INCLUDED
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/intrinsics.hpp">boost/type_traits/intrinsics.hpp</a>&gt;
+#ifndef BOOST_IS_ENUM
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/add_reference.hpp">boost/type_traits/add_reference.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_arithmetic.hpp">boost/type_traits/is_arithmetic.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_reference.hpp">boost/type_traits/is_reference.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_convertible.hpp">boost/type_traits/is_convertible.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_array.hpp">boost/type_traits/is_array.hpp</a>&gt;
+#ifdef __GNUC__
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_function.hpp">boost/type_traits/is_function.hpp</a>&gt;
+#endif
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/config.hpp">boost/type_traits/config.hpp</a>&gt;
+#if defined(BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION) 
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_class.hpp">boost/type_traits/is_class.hpp</a>&gt;
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_union.hpp">boost/type_traits/is_union.hpp</a>&gt;
+#endif
+#endif
+
+// should be the last #include
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/detail/bool_trait_def.hpp">boost/type_traits/detail/bool_trait_def.hpp</a>&gt;
+
+namespace boost {
+
+#ifndef BOOST_IS_ENUM
+#if !(defined(__BORLANDC__) &amp;&amp; (__BORLANDC__ &lt;= 0x551))
+
+namespace detail {
+
+#if defined(BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION) 
+
+template &lt;typename T&gt;
+struct is_class_or_union
+{
+   BOOST_STATIC_CONSTANT(bool, value =
+      (::boost::type_traits::ice_or&lt;
+           ::boost::is_class&lt;T&gt;::value
+         , ::boost::is_union&lt;T&gt;::value
+      &gt;::value));
+};
+
+#else
+
+template &lt;typename T&gt;
+struct is_class_or_union
+{
+# if BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300) || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x581))// we simply can't detect it this way.
+    BOOST_STATIC_CONSTANT(bool, value = false);
+# else
+    template &lt;class U&gt; static ::boost::type_traits::yes_type is_class_or_union_tester(void(U::*)(void));
+
+#  if BOOST_WORKAROUND(BOOST_MSVC, == 1300)                 \
+    || BOOST_WORKAROUND(__MWERKS__, &lt;= 0x3000) // no SFINAE
+    static ::boost::type_traits::no_type is_class_or_union_tester(...);
+    BOOST_STATIC_CONSTANT(
+        bool, value = sizeof(is_class_or_union_tester(0)) == sizeof(::boost::type_traits::yes_type));
+#  else
+    template &lt;class U&gt;
+    static ::boost::type_traits::no_type is_class_or_union_tester(...);
+    BOOST_STATIC_CONSTANT(
+        bool, value = sizeof(is_class_or_union_tester&lt;T&gt;(0)) == sizeof(::boost::type_traits::yes_type));
+#  endif
+# endif
+};
+#endif
+
+struct int_convertible
+{
+    int_convertible(int);
+};
+
+// Don't evaluate convertibility to int_convertible unless the type
+// is non-arithmetic. This suppresses warnings with GCC.
+template &lt;bool is_typename_arithmetic_or_reference = true&gt;
+struct is_enum_helper
+{
+    template &lt;typename T&gt; struct type
+    {
+        BOOST_STATIC_CONSTANT(bool, value = false);
+    };
+};
+
+template &lt;&gt;
+struct is_enum_helper&lt;false&gt;
+{
+    template &lt;typename T&gt; struct type
+       : public ::boost::is_convertible&lt;typename boost::add_reference&lt;T&gt;::type,::boost::detail::int_convertible&gt;
+    {
+    };
+};
+
+template &lt;typename T&gt; struct is_enum_impl
+{
+   //typedef ::boost::add_reference&lt;T&gt; ar_t;
+   //typedef typename ar_t::type r_type;
+
+#if defined(__GNUC__)
+
+#ifdef BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION
+    
+   // We MUST check for is_class_or_union on conforming compilers in
+   // order to correctly deduce that noncopyable types are not enums
+   // (dwa 2002/04/15)...
+   BOOST_STATIC_CONSTANT(bool, selector =
+      (::boost::type_traits::ice_or&lt;
+           ::boost::is_arithmetic&lt;T&gt;::value
+         , ::boost::is_reference&lt;T&gt;::value
+         , ::boost::is_function&lt;T&gt;::value
+         , is_class_or_union&lt;T&gt;::value
+         , is_array&lt;T&gt;::value
+      &gt;::value));
+#else
+   // ...however, not checking is_class_or_union on non-conforming
+   // compilers prevents a dependency recursion.
+   BOOST_STATIC_CONSTANT(bool, selector =
+      (::boost::type_traits::ice_or&lt;
+           ::boost::is_arithmetic&lt;T&gt;::value
+         , ::boost::is_reference&lt;T&gt;::value
+         , ::boost::is_function&lt;T&gt;::value
+         , is_array&lt;T&gt;::value
+      &gt;::value));
+#endif // BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION
+
+#else // !defined(__GNUC__):
+    
+   BOOST_STATIC_CONSTANT(bool, selector =
+      (::boost::type_traits::ice_or&lt;
+           ::boost::is_arithmetic&lt;T&gt;::value
+         , ::boost::is_reference&lt;T&gt;::value
+         , is_class_or_union&lt;T&gt;::value
+         , is_array&lt;T&gt;::value
+      &gt;::value));
+    
+#endif
+
+#if BOOST_WORKAROUND(__BORLANDC__, &lt; 0x600)
+    typedef ::boost::detail::is_enum_helper&lt;
+          ::boost::detail::is_enum_impl&lt;T&gt;::selector
+        &gt; se_t;
+#else
+    typedef ::boost::detail::is_enum_helper&lt;selector&gt; se_t;
+#endif
+
+    typedef typename se_t::template type&lt;T&gt; helper;
+    BOOST_STATIC_CONSTANT(bool, value = helper::value);
+};
+
+// these help on compilers with no partial specialization support:
+BOOST_TT_AUX_BOOL_TRAIT_IMPL_SPEC1(is_enum,void,false)
+#ifndef BOOST_NO_CV_VOID_SPECIALIZATIONS
+BOOST_TT_AUX_BOOL_TRAIT_IMPL_SPEC1(is_enum,void const,false)
+BOOST_TT_AUX_BOOL_TRAIT_IMPL_SPEC1(is_enum,void volatile,false)
+BOOST_TT_AUX_BOOL_TRAIT_IMPL_SPEC1(is_enum,void const volatile,false)
+#endif
+
+} // namespace detail
+
+BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_enum,T,::boost::detail::is_enum_impl&lt;T&gt;::value)
+
+#else // __BORLANDC__
+//
+// buggy is_convertible prevents working
+// implementation of is_enum:
+BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_enum,T,false)
+
+#endif
+
+#else // BOOST_IS_ENUM
+
+BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_enum,T,BOOST_IS_ENUM(T))
+
+#endif
+
+} // namespace boost
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/detail/bool_trait_undef.hpp">boost/type_traits/detail/bool_trait_undef.hpp</a>&gt;
+
+#endif // BOOST_TT_IS_ENUM_HPP_INCLUDED
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/type_traits/is_enum.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+</html>

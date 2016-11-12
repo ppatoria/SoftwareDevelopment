@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/user.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:23 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/config/user.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/config/user.hpp</h3>
+<pre>
+//  boost/config/user.hpp  ---------------------------------------------------//
+
+//  (C) Copyright John Maddock 2001. 
+//  Use, modification and distribution are subject to the 
+//  Boost Software License, Version 1.0. (See accompanying file 
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  Do not check in modified versions of this file,
+//  This file may be customized by the end user, but not by boost.
+
+//
+//  Use this file to define a site and compiler specific
+//  configuration policy:
+//
+
+// define this to locate a compiler config file:
+// #define BOOST_COMPILER_CONFIG &lt;myheader&gt;
+
+// define this to locate a stdlib config file:
+// #define BOOST_STDLIB_CONFIG   &lt;myheader&gt;
+
+// define this to locate a platform config file:
+// #define BOOST_PLATFORM_CONFIG &lt;myheader&gt;
+
+// define this to disable compiler config,
+// use if your compiler config has nothing to set:
+// #define BOOST_NO_COMPILER_CONFIG
+
+// define this to disable stdlib config,
+// use if your stdlib config has nothing to set:
+// #define BOOST_NO_STDLIB_CONFIG
+
+// define this to disable platform config,
+// use if your platform config has nothing to set:
+// #define BOOST_NO_PLATFORM_CONFIG
+
+// define this to disable all config options,
+// excluding the user config.  Use if your
+// setup is fully ISO compliant, and has no
+// useful extensions, or for autoconf generated
+// setups:
+// #define BOOST_NO_CONFIG
+
+// define this to make the config &quot;optimistic&quot;
+// about unknown compiler versions.  Normally
+// unknown compiler versions are assumed to have
+// all the defects of the last known version, however
+// setting this flag, causes the config to assume
+// that unknown compiler versions are fully conformant
+// with the standard:
+// #define BOOST_STRICT_CONFIG
+
+// define this to cause the config to halt compilation
+// with an #error if it encounters anything unknown --
+// either an unknown compiler version or an unknown
+// compiler/platform/library:
+// #define BOOST_ASSERT_CONFIG
+
+
+// define if you want to disable threading support, even
+// when available:
+// #define BOOST_DISABLE_THREADS
+
+// define when you want to disable Win32 specific features
+// even when available:
+// #define BOOST_DISABLE_WIN32
+
+// BOOST_DISABLE_ABI_HEADERS: Stops boost headers from including any 
+// prefix/suffix headers that normally control things like struct 
+// packing and alignment. 
+// #define BOOST_DISABLE_ABI_HEADERS
+
+// BOOST_ABI_PREFIX: A prefix header to include in place of whatever
+// boost.config would normally select, any replacement should set up 
+// struct packing and alignment options as required. 
+// #define BOOST_ABI_PREFIX my-header-name
+
+// BOOST_ABI_SUFFIX: A suffix header to include in place of whatever 
+// boost.config would normally select, any replacement should undo 
+// the effects of the prefix header. 
+// #define BOOST_ABI_SUFFIX my-header-name
+
+// BOOST_ALL_DYN_LINK: Forces all libraries that have separate source, 
+// to be linked as dll's rather than static libraries on Microsoft Windows 
+// (this macro is used to turn on __declspec(dllimport) modifiers, so that 
+// the compiler knows which symbols to look for in a dll rather than in a 
+// static library).  Note that there may be some libraries that can only 
+// be statically linked (Boost.Test for example) and others which may only 
+// be dynamically linked (Boost.Threads for example), in these cases this 
+// macro has no effect.
+// #define BOOST_ALL_DYN_LINK
+ 
+// BOOST_WHATEVER_DYN_LINK: Forces library &quot;whatever&quot; to be linked as a dll 
+// rather than a static library on Microsoft Windows: replace the WHATEVER 
+// part of the macro name with the name of the library that you want to 
+// dynamically link to, for example use BOOST_DATE_TIME_DYN_LINK or 
+// BOOST_REGEX_DYN_LINK etc (this macro is used to turn on __declspec(dllimport) 
+// modifiers, so that the compiler knows which symbols to look for in a dll 
+// rather than in a static library).  
+// Note that there may be some libraries that can only be statically linked 
+// (Boost.Test for example) and others which may only be dynamically linked 
+// (Boost.Threads for example), in these cases this macro is unsupported.
+// #define BOOST_WHATEVER_DYN_LINK
+ 
+// BOOST_ALL_NO_LIB: Tells the config system not to automatically select 
+// which libraries to link against.  
+// Normally if a compiler supports #pragma lib, then the correct library 
+// build variant will be automatically selected and linked against, 
+// simply by the act of including one of that library's headers.  
+// This macro turns that feature off.
+// #define BOOST_ALL_NO_LIB
+ 
+// BOOST_WHATEVER_NO_LIB: Tells the config system not to automatically 
+// select which library to link against for library &quot;whatever&quot;, 
+// replace WHATEVER in the macro name with the name of the library; 
+// for example BOOST_DATE_TIME_NO_LIB or BOOST_REGEX_NO_LIB.  
+// Normally if a compiler supports #pragma lib, then the correct library 
+// build variant will be automatically selected and linked against, simply 
+// by the act of including one of that library's headers.  This macro turns 
+// that feature off.
+// #define BOOST_WHATEVER_NO_LIB
+ 
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/user.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:23 GMT -->
+</html>

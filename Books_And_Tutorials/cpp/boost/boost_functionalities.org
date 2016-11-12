@@ -1,0 +1,77 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../../css/org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Boost Functionalities 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* type casting
+** ~lexical_cast~     : converts string to integer.
+** ~numeric_cast~     : converts integer to string.
+** ~polymorphic_cast~ : wrapper over dynamic cast . check the object is not null and does ~dynamic_cast~ .
+
+* bind
+   - bind the fundtion and parameters and returns functors. Used while passing function as parameter.
+
+* lambda
+  - *labda expression:* passing lamda expression as parameter.
+
+* Any
+
+* Array
+
+* Smartpointers: 
+  - Handles deallocation and exception.
+
+** ~scoped_ptr~    : scope ptr similar to ~auto_ptr~ without transfer of ownership.
+** ~shared_ptr~    : multiple pointers can share a memory resource. Internally uses reference couting.
+** ~intrusive_ptr~ : similar to shared_ptr only difference is that reference counting need to be handled explicitly by user i.e. user can have custom refrence counting.
+** ~weak_ptr~      : to eliminate issue related to acyclic refrence when ~shared_ptr~ are used. 
+** ~auto_ptr~ (stl): similar to scoped pointer with transfer of ownership.
+** ~unique_ptr~    : similar to ~auto_ptr~ but transfer of ownership is not implicit. User have to use stl:move to transfer the ownership.
+Reference: [[../smartpointers/smartpointers.html][Smart Pointers in C++]]
+
+
+* Threading:
+** *thread* :  if not detached after spawning calls stl::terminate and the program is terminated.
+*** *detach* : detach from the thread before goes out of scope and destructer is called.
+*** *join*   : join before going out of scope and destructer is called.
+
+** ~scoped_thread~ :(RAII) is a scoped thread and it either gets detached or join or interuppted.
+*** ~interuppt_and_join_if_joinable~ 
+*** ~join_if_joinable~
+*** detach
+
+* synchronization objects
+** mutex
+** recursive_mutex
+** ~shared_mutex~: read only lock shared between all the threads who are using ~shared_mutex~.
+** ~conditional_variable~ : have method ~notify_one~ and ~notify_all~. used in conjunction with bool conditional variable.
+
+* locks
+** ~lock_quard~ : RAII
+** ~unique_quard~
+** atomic
+
+	

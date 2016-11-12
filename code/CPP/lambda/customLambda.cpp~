@@ -1,0 +1,27 @@
+#include <iostream>
+#include <functional>
+
+using namespace std;
+
+class Service{
+public:
+    void RegisterListener(func<void (string)> msgListener)
+	{
+	    MsgLisener = msgListener;
+	}
+
+    void OnMessage(string msg)
+	{
+	    MsgListener (msg);
+	}
+private:
+    func<void (string)> MsgListener;
+};
+
+int main (){
+    Service s;
+    s.RegisterListener ([] (string msg){
+	    cout << msg << endl;
+	});
+    return 0;
+}    

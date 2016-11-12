@@ -1,0 +1,1250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+<title>Get Organized with Emacs Org-mode | Linux Journal</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="canonical" href="http://www.linuxjournal.com/article/9116" />
+<meta name="keywords" content="HOWTOs" />
+<meta name="description" content="It is said that Emacs, that versatile toolbox for working with text, is more than merely a text editor—it&#039;s a lifestyle. That&#039;s not just hyperbole. In this article, I show you how to turn Emacs into a flexible personal organizer and productivity system." />
+<link rel="shortcut icon" href="/files/linuxjournal.com/ufiles/linuxjournal_favicon.png" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/files/linuxjournal.com/ufiles/css/css_512ff41a17ca5ff3d544284d5b394b49.css" />
+<link type="text/css" rel="stylesheet" media="print" href="/files/linuxjournal.com/ufiles/css/css_5d4076ca6387a7e4ffcf41a09929c09b.css" />
+<!--[if IE]>
+<link type="text/css" rel="stylesheet" media="all" href="/sites/linuxjournal.com/themes/zen/zen/ie.css?T" />
+<![endif]-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+  <script type="text/javascript" src="/files/linuxjournal.com/ufiles/js/js_6a463abba860706840e2ae8c9a4c5659.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "thickbox": { "close": "Close", "next": "Next \x3e", "prev": "\x3c Prev", "esc_key": "", "next_close": "Next / Close on last", "image_count": "Image !current of !total" }, "user_relationships_ui": { "loadingimage": "/sites/linuxjournal.com/modules/user_relationships/user_relationships_ui/images/loadingAnimation.gif", "savingimage": "/sites/linuxjournal.com/modules/user_relationships/user_relationships_ui/images/savingimage.gif", "position": { "position": "absolute", "left": "0", "top": "0" } }, "quicktabs": { "qt_1": { "tabs": [ 0, 0, 0 ] } } });
+//--><!]]>
+</script>
+
+  <script type="text/javascript">
+jQuery.noConflict();
+
+</script>
+
+
+<script type='text/javascript'>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') + 
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+</script>
+
+<script type='text/javascript'>
+googletag.cmd.push(function() {
+googletag.defineSlot('/1013989/Interstitial', [600, 400], 'div-gpt-ad-1385082703935-0').addService(googletag.pubads());
+googletag.defineOutOfPageSlot('/1013989/Interstitial', 'div-gpt-ad-1385082703935-0-oop').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+});
+</script>
+<!-- PUT THIS TAG IN THE head SECTION -->
+
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+  GS_googleAddAdSenseService("ca-pub-3600556074671070");
+  GS_googleEnableAllServices();
+</script>
+<script type="text/javascript">
+  GA_googleAddSlot("ca-pub-3600556074671070", "Half_Banner336x90");
+  GA_googleAddSlot("ca-pub-3600556074671070", "Large_Rectangle336x280");
+  GA_googleAddSlot("ca-pub-3600556074671070", "Leaderboard728x90");
+GA_googleAddSlot("ca-pub-3600556074671070", "Desktop_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Desktop_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Embedded_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Embedded_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Mobile_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Mobile_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Security_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Security_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "SysAdmin_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "SysAdmin_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "Virtualization_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "Virtualization_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "HPC_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "HPC_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "WebDevelopment_LargeRectangle");
+GA_googleAddSlot("ca-pub-3600556074671070", "WebDevelopment_Leaderboard");
+GA_googleAddSlot("ca-pub-3600556074671070", "large_rectangle_test");
+GA_googleAddSlot("ca-pub-3600556074671070", "article_footer");
+GA_googleAddSlot("ca-pub-3600556074671070", "sidebar_bottom_lr");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square_middle");
+GA_googleAddSlot("ca-pub-3600556074671070", "small_footer_square_right");
+GA_googleAddSlot("ca-pub-3600556074671070", "subscriptions");
+GA_googleAddSlot("ca-pub-3600556074671070", "MediumRectangle300x250");
+
+</script>
+<script type="text/javascript">
+  GA_googleFetchAds();
+</script>
+<!-- END OF TAG FOR head SECTION -->
+
+
+
+ <!-- <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script> -->
+ <!--<script type="text/javascript">_uacct = "UA-1117794-1"; urchinTracker();</script> -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1117794-1");
+pageTracker._setDomainName(".linuxjournal.com");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<!-- Start Quantcast tag -->
+<script type="text/javascript"
+src="http://edge.quantserve.com/quant.js"></script>
+<script
+type="text/javascript">_qacct="p-a3K3N6enFe9wA";quantserve();</script>
+<object>
+<noscript>
+<a href="http://www.quantcast.com/p-a3K3N6enFe9wA"
+target="_blank"><img
+src="http://pixel.quantserve.com/pixel/p-a3K3N6enFe9wA.gif"
+style="display: none;" border="0" height="1" width="1"
+alt="Quantcast"/></a>
+</noscript>
+</object>
+<!-- End Quantcast tag -->
+
+</head>
+<body class="not-front not-logged-in node-type-xmlnode one-sidebar sidebar-right page-node-9116 section-node">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=406458029406839";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+  <div id="page"><div id="page-inner">
+<div id="header-top">
+<!--<div id="login">
+<form action="/?q=user&amp;destination=node%2F9116%3Fpage%3D0%252C0"  method="post" id="user-login">
+Username/Email:&nbsp;<input type="text" maxlength="60" name="name" id="edit-name" size="15" value="" class="form-text required" />
+Password:&nbsp;<input type="password" maxlength="" name="pass" id="edit-pass" size="15" class="form-text required" />
+<input type="submit" name="op" value="Login" class="form-submit" />
+
+
+<input type="hidden" name="form_id" id="edit-user-login" value="user_login" />
+
+</form>
+</div>
+<div id="login-links">
+<a href="/user/register">Register</a> | <a href="/user/password">Forgot your password?</a>
+
+
+
+</div>
+<div id="connect">
+<a href="http://www.twitter.com/linuxjournal" title="Follow us on Twitter"><img alt="Twitter" src="/files/linuxjournal.com/images/twittericon.jpg" /></a><a href="http://www.facebook.com/linuxjournal" title="Become a Fan on Facebook"><img alt="Facebook" src="/files/linuxjournal.com/images/fbicon.jpg" /></a><a href="http://www.flickr.com/groups/linuxjournal/pool/" title="Contribute to Our Flickr Pool"><img alt="Flickr" src="/files/linuxjournal.com/images/flickricon.jpg" /></a><a href="/rss_feeds" title="Subscribe to Our Feeds"><img alt="RSS" src="/files/linuxjournal.com/images/rssicon.jpg" /></a>
+</div>-->
+       <div id="skip-to-nav"><a href="#navigation">Skip to Navigation</a></div>
+    <div id="subscribe-button"><a href="http://www.linuxjournal.com/subscribe">Click to subscribe</a></div>
+<div id="login-button"><a href="/user">Login</a></div>
+
+</div> <!-- /#header-top -->
+
+
+
+
+
+
+    <a name="top" id="navigation-top"></a>
+
+
+    <div id="header"><div id="header-inner" class="clear-block">
+
+              <div id="logo-title">
+
+                      <div id="logo"><a href="/" title="Home" rel="home"><img src="/files/linuxjournal.com/ufiles/logo-lj.jpg" alt="Linux Journal" id="logo-image" /></a></div>
+          
+          
+          
+	<div id="leaderboard-adblock" class="adblock leaderboard-adblock">
+       <div id="block-block-90" class="block block-block region-odd even region-count-1 count-12"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><!-- PUT THIS TAG IN DESIRED LOCATION OF SLOT Leaderboard728x90
+     -->
+<script type="text/javascript">
+  GA_googleFillSlot("Leaderboard728x90");
+</script>
+<!-- END OF TAG FOR SLOT Leaderboard728x90
+     -->
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+	</div>
+
+        </div> <!-- /#logo-title -->
+      
+
+
+      
+    </div></div> <!-- /#header-inner, /#header -->
+
+    <div id="main"><div id="main-inner" class="clear-block with-navbar">
+
+      <div id="content"><div id="content-inner">
+
+        
+        
+                  <div id="content-header">
+                                      <h1 class="title">Get Organized with Emacs Org-mode</h1>
+                                                          </div> <!-- /#content-header -->
+        
+        <div id="content-area">
+          <div id="node-9116" class="node node-type-xmlnode"><div class="node-inner">
+
+
+
+  
+
+  
+  
+  
+
+
+  
+
+<div id="facebook-like">
+<!--<iframe src="http://www.facebook.com/plugins/like.php?href=http://www.linuxjournal.com/article/9116&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=55" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:55px;" allowTransparency="true"></iframe>-->
+<div class="fb-like" data-href="http://www.linuxjournal.com//article/9116" data-send="false" data-width="250" data-show-faces="false"></div>
+
+</div>
+
+<div class="issue"> 
+	<div class="issue-cover">
+	<a href="/issue/164"><img title="Issue 164" alt="Issue 164" src="/files/linuxjournal.com/linuxjournal/issues/164/cover164.small.jpg" /></a>
+	</div>
+	<p><a href="/issue/164">From Issue #164<br />December 2007</a></p>
+</div>
+
+  
+
+  
+
+  
+      <div class="meta">
+              <div class="submitted">
+		Dec 01, 2007		&nbsp;By&nbsp;<a href="/user/801370" title="View user profile.">Abhijeet Chavan</a>	</div>
+      
+              <div class="terms terms-inline">&nbsp;in<ul class="links inline"><li class="taxonomy_term_116 first last"><a href="/tag/howtos" rel="tag" title="">HOWTOs</a></li>
+</ul></div>
+      
+  	 </div>
+    <!-- how'd this get in here?</div> -->
+  
+  
+    	<div class="abstract">
+	Use Emacs to create a flexible plain-text organizer and personal productivity system.	</div>
+    
+
+
+  <div class="content">
+
+    <div class="article" lang="en"><div class="simplesect" lang="en"><div class="titlepage"><a name="N0xa50890.0xb44b70"></a></div>
+
+<p>
+It is said that Emacs, that versatile toolbox for working with text,
+is more than merely a text editor&mdash;it's a lifestyle. That's not just
+hyperbole. In this article, I show you how to turn Emacs into
+a flexible personal organizer and productivity system.
+</p><p>
+I started using Emacs for programming but soon discovered that it worked
+well for nonprogramming writing tasks too. I began experimenting
+with several modes that extend Emacs for writing notes and planning
+projects. Though each one was useful in its own way, none of these
+features or modes fit my style of working. Then I discovered Org-mode.
+</p><p>
+Org-mode is a new Emacs mode developed by Carsten Dominik. It
+is designed for taking notes, outlining, writing, project planning,
+maintaining to-do lists, time management and even publishing to
+Web sites&mdash;all this using only Emacs and plain text.
+</p>
+
+<p>
+Plain text? Why would anyone want to use plain text for doing all of the
+above? Plain text offers several advantages. You are not locked in to a
+file format or an operating system. You can edit plain-text files using
+any available text editor. It is easy to copy and paste plain text from
+and into e-mail messages. You can track changes in your document using a version
+control system, such as CVS or Subversion. When I am writing, I find that
+plain text offers one more advantage&mdash;it enables me to think better
+and focus on my ideas, without the distractions of a word processor.
+</p></div><div class="simplesect" lang="en"><div class="titlepage"><a name="N0xa50890.0xb44e88"></a>
+Getting Started with Org-mode</div><p>
+For this article, I assume that you have Emacs installed and have some
+familiarity with using it. If you are not already an Emacs user, maybe
+Org-mode will give you a good reason to start using it. (See
+Resources for information on getting started with Emacs.)
+</p><p>
+Org-mode is included in GNU Emacs 22. You also can install Org-mode to
+work with GNU Emacs 21 and XEmacs. I used GNU Emacs 22 and Org-mode 4.42
+to write this article. If you already have Emacs on your system, check
+whether Org-mode is available by typing the following command:
+
+<pre class="programlisting">
+M-x org-mode
+</pre>
+</p><p>
+The above notation means press the meta key (Esc or Alt, depending on
+your setup) followed by x, followed by <tt>org-mode</tt>, and then press the
+Return (or Enter) key.
+</p><p>
+If Emacs displays “No Match”, it means you do not have Org-mode
+installed. You will need to install org-mode manually or
+install GNU Emacs 22. You can find precompiled binaries of GNU Emacs 22
+for your Linux distribution and even for other operating systems. On
+Ubuntu 7.04 (Feisty Fawn), you can install GNU Emacs 22 (with Org-mode
+4.56d) by running the following command:
+
+<pre class="programlisting">
+sudo apt-get install emacs-snapshot
+</pre>
+</p><p>
+If you need to install Org-mode for GNU Emacs 21 or XEmacs, download
+the latest version from <a href="http://orgmode.org">orgmode.org</a>, and look for the manual
+that provides detailed installation instructions. (The Org-mode
+documentation includes an excellent manual with more than 100 pages and
+a handy reference card.) Once you have org-mode installed, run the
+<tt>M-x org-mode</tt> command again. If Org-mode is installed correctly, Emacs
+will display “(Org)” in its mode line area, and Org-mode will
+be active.
+If you are running Emacs in a graphical environment, you also should see
+the Org pull-down menu (Figure 1).
+</p><div class="mediaobject"><a href="/files/linuxjournal.com/linuxjournal/articles/091/9116/9116f1.jpg"><img src="/files/linuxjournal.com/linuxjournal/articles/091/9116/9116f1.inline.jpg" /></a><div class="caption"><p>
+Figure 1. Graphical User Interface Menu for Org-mode
+</p></div></div><p>
+Although Org-mode provides a graphical menu, in this article I refer
+to Org-mode keyboard commands only. Once you get familiar with Org-mode
+keystrokes, you will find them to be more efficient than the graphical menu.
+</p><p>
+Add the following lines to your ~/.emacs file and restart Emacs:
+
+
+<pre class="programlisting">
+;; Org-mode settings
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-font-lock-mode 1)
+</pre>
+</p><p>
+Now, if you save your org files with the .org extension, they will
+open up using Org-mode in Emacs. I recommend creating a directory to
+keep all your Org files. I use ~/notes. Although you can invoke org-mode
+for any text file, it's convenient to have them in one directory.
+</p></div><div class="simplesect" lang="en"><div class="titlepage"><a name="N0xa50890.0xb45670"></a>
+Outlining and Writing</div><p>
+Outlining is an effective technique for organizing thoughts, taking notes
+or writing articles. Emacs has a built-in outline-mode that stores
+text as entries. Each entry has a headline and a body. Entries can
+be nested to create a tree of hierarchical information. Emacs uses
+asterisks (stars) to denote the hierarchy of an outline tree. Lines that
+do not begin with a star are considered to be the body of the headline
+above it. In the following example, <tt>** Apples</tt> is a
+headline. <tt>Apples
+are red</tt> is the body for the Apples headline.
+
+<pre class="programlisting">
+* Fruit 
+** Apples 
+Apples are red 
+** Oranges 
+Oranges are orange 
+*Vegetables
+</pre>
+</p><p>
+Branches of a tree can be folded and hidden from view to make it easier
+to navigate the tree and work on specific parts of the tree. When a
+headline is folded, its body and subtree (all branches) are hidden from
+view, and the headline is displayed ending with ellipses (three dots).
+</p></div></div><div class="links"><div class="item-list"><ul class="pager"><li class="pager-current first">1</li>
+<li class="pager-item"><a href="/article/9116?page=0,1" title="Go to page 2" class="active">2</a></li>
+<li class="pager-item"><a href="/article/9116?page=0,2" title="Go to page 3" class="active">3</a></li>
+<li class="pager-item"><a href="/article/9116?page=0,3" title="Go to page 4" class="active">4</a></li>
+<li class="pager-next"><a href="/article/9116?page=0,1" title="Go to next page" class="active">next ›</a></li>
+<li class="pager-last last"><a href="/article/9116?page=0,3" title="Go to last page" class="active">last »</a></li>
+</ul></div></div>
+  </div>
+      <div class="user-signature clear-block">
+______________________
+	<p>
+        <!--paging_filter-->	</p>
+      </div>
+   
+
+
+  <ul class="links inline"><li class="flag-anon first"><a href="/u?destination=node%2F9116%3Fpage%3D0%252C0">Login to save this as favorite</a></li>
+<li class="service-links-delicious"><a href="http://del.icio.us/post?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;title=Get+Organized+with+Emacs+Org-mode" title="Bookmark this post on del.icio.us." id="service-links-delicious-1" class="service-links-delicious" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/delicious.png" alt="del.icio.us" title="" width="16" height="16" /></a></li>
+<li class="service-links-digg"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;title=Get+Organized+with+Emacs+Org-mode" title="Digg this post on digg.com" id="service-links-digg-1" class="service-links-digg" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/digg.png" alt="Digg" title="" width="16" height="16" /></a></li>
+<li class="service-links-facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;t=Get+Organized+with+Emacs+Org-mode" title="Share on Facebook." id="service-links-facebook-1" class="service-links-facebook" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/facebook.png" alt="Facebook" title="" width="16" height="16" /></a></li>
+<li class="service-links-reddit"><a href="http://reddit.com/submit?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;title=Get+Organized+with+Emacs+Org-mode" title="Submit this post on reddit.com." id="service-links-reddit-1" class="service-links-reddit" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/reddit.png" alt="Reddit" title="" width="16" height="16" /></a></li>
+<li class="service-links-slashdot"><a href="http://slashdot.org/bookmark.pl?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;title=Get+Organized+with+Emacs+Org-mode" title="Bookmark this post on SlashDot" id="service-links-slashdot-1" class="service-links-slashdot" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/slashdot.png" alt="SlashDot" title="" width="16" height="16" /></a></li>
+<li class="service-links-stumbleupon"><a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F9116&amp;title=Get+Organized+with+Emacs+Org-mode" title="Thumb this up at StumbleUpon" id="service-links-stumbleupon-1" class="service-links-stumbleupon" rel="nofollow"><img src="/sites/linuxjournal.com/modules/service_links/images/stumbleit.png" alt="StumbleUpon" title="" width="16" height="16" /></a></li>
+<li class="tweet_Twitter last"><a href="http://twitter.com/home?status=+Get+Organized+with+Emacs+Org-mode%3A+http%3A/%2Fwww.linuxjournal.com/article/9116" class="tweet" rel="nofollow" target="_blank"><img src="/sites/linuxjournal.com/modules/tweet/twitter.png" alt="Post to Twitter" title="Post to Twitter" width="16" height="16" /></a></li>
+</ul>
+ <!-- <div class="contentad">
+
+  </div>
+  -->
+
+<div id="article_footer"><!-- article_footer -->
+<!--<script type='text/javascript'>
+GA_googleFillSlot("article_footer");
+</script> -->
+<!-- MediumRectangle300x250 -->
+<center><script type='text/javascript'>
+GA_googleFillSlot("MediumRectangle300x250");
+</script></center>
+</div> <!-- /#article_footer -->
+
+
+
+
+</div></div> <!-- /node-inner, /node -->
+
+
+  <div id="comments">
+          <h2 id="comments-title">Comments</h2>
+        <form action="/article/9116?page=0,0"  accept-charset="UTF-8" method="post" id="comment-controls">
+<div><div class="box"><div class="box-inner">
+
+      <h2 class="title">Comment viewing options</h2>
+  
+  <div class="content">
+    <div class="container-inline"><input type="hidden" name="form_build_id" id="form-ccb8cc48b47b900a07d24b57118ce4ca" value="form-ccb8cc48b47b900a07d24b57118ce4ca"  />
+<input type="hidden" name="form_id" id="edit-comment-controls" value="comment_controls"  />
+<div class="form-item" id="edit-mode-wrapper">
+ <select name="mode" class="form-select" id="edit-mode" ><option value="1">Flat list - collapsed</option><option value="2">Flat list - expanded</option><option value="3">Threaded list - collapsed</option><option value="4" selected="selected">Threaded list - expanded</option></select>
+</div>
+<div class="form-item" id="edit-order-wrapper">
+ <select name="order" class="form-select" id="edit-order" ><option value="1" selected="selected">Date - newest first</option><option value="2">Date - oldest first</option></select>
+</div>
+<div class="form-item" id="edit-comments-per-page-wrapper">
+ <select name="comments_per_page" class="form-select" id="edit-comments-per-page" ><option value="10">10 comments per page</option><option value="30">30 comments per page</option><option value="50" selected="selected">50 comments per page</option><option value="70">70 comments per page</option><option value="90">90 comments per page</option><option value="150">150 comments per page</option><option value="200">200 comments per page</option><option value="250">250 comments per page</option><option value="300">300 comments per page</option></select>
+</div>
+<input type="submit" name="op" id="edit-submit" value="Save settings"  class="form-submit" />
+</div><div class="description">Select your preferred way to display the comments and click "Save settings" to activate your changes.</div>  </div>
+
+</div></div> <!-- /box-inner, /box -->
+
+</div></form>
+<a id="comment-354961"></a>
+<div class="comment comment-published odd first comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-354961" class="active">I have been nurturing an</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="sasima&#039;s picture" title="sasima&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by sasima (not verified) on Tue, 08/17/2010 - 11:06.  </div>
+
+  <div class="content">
+    <p>I have been nurturing an ambition to be a freelance writer for quite few years and also looking for suitable software for the purpose, but haven't gotten any. It seems to me that my searching stopped with Emacs that versatile toolbox for working with text.  Though I haven't tried yet, but I hope it would meet my requirement.<a href="http://www.computerdesksforhomedeals.com/solid-wood-computer-desks.html" rel="nofollow">Solid Wood Computer Desks</a></p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-353524"></a>
+<div class="comment comment-published even comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-353524" class="active">Hi,
+org-mode is included with</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous (not verified) on Wed, 07/07/2010 - 05:55.  </div>
+
+  <div class="content">
+    <p>Hi,</p>
+<p>org-mode is included with emacs 22.1.1 for windows, but has to be activated. You'll find the org-mode manual including installation howto following these steps: emacs -&gt; help -&gt; more manuals -&gt; all other manuals -&gt; (Org Mode) node of the info tree.</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-350676"></a>
+<div class="comment comment-published odd comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-350676" class="active">Tks a lot</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous on Mon, 04/12/2010 - 20:29.  </div>
+
+  <div class="content">
+    <p>I started learning Emacs just to use org-mode and your tutorial is the first I read, thanks a lot, I'm sure I'll use org mode, goodbye strange and uncompatible software, hello pure text. Tks a lot.<br />
+João Brito</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-350257"></a>
+<div class="comment comment-published even comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-350257" class="active">Good info</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous on Fri, 04/02/2010 - 21:15.  </div>
+
+  <div class="content">
+    <p>Hello! bkgfbea interesting bkgfbea site!</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-328142"></a>
+<div class="comment comment-published odd comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-328142" class="active">timestamp insertion</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="llahwehttam&#039;s picture" title="llahwehttam&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by llahwehttam (not verified) on Fri, 11/07/2008 - 15:25.  </div>
+
+  <div class="content">
+    <p>Timestamp insertion is done with "C-c .", not just "C-c".</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-307799"></a>
+<div class="comment comment-published even comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-307799" class="active">Is this possible in windows</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Mridul&#039;s picture" title="Mridul&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Mridul (not verified) on Thu, 01/17/2008 - 23:05.  </div>
+
+  <div class="content">
+    <p>I downloaded GNU Emacs 22.1.1 binary for windows but i could not see "Org-mode" included . So it there any method I can install Org-mode in windows</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<div class="indented"><a id="comment-331272"></a>
+<div class="comment comment-published odd comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-331272" class="active">Hi Mridul,
+just close Emacs,</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous (not verified) on Thu, 01/08/2009 - 08:24.  </div>
+
+  <div class="content">
+    <p>Hi Mridul,</p>
+<p>just close Emacs, download the zipped archive from <a href="http://orgmode.org/index1.html" title="http://orgmode.org/index1.html">http://orgmode.org/index1.html</a>, extract it and open the new folder.  Then copy the files contained in its subfolder "lisp" into the "lisp" subfolder of your Emacs installation.</p>
+<p>Follow the instructions at <a href="http://orgmode.org/manual/Activation.html" title="http://orgmode.org/manual/Activation.html">http://orgmode.org/manual/Activation.html</a> - and start Emacs.  Good luck, it worked for me... ;)</p>
+<p>Martin</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<a id="comment-320067"></a>
+<div class="comment comment-published even comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-320067" class="active">Create new org file</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous (not verified) on Sat, 03/08/2008 - 17:00.  </div>
+
+  <div class="content">
+    <p>Create new org file ('test.org' for example) and open it. You will be in org mode automatically...</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+<div class="indented"><a id="comment-353525"></a>
+<div class="comment comment-published odd last comment-by-anon"><div class="comment-inner clear-block">
+
+      <h3 class="title">
+      <a href="/article/9116#comment-353525" class="active">Hi,
+org-mode is included with</a>          </h3>
+  
+  
+  <div class="picture">
+  <img src="/files/linuxjournal.com/images/personicon.jpg" alt="Anonymous&#039;s picture" title="Anonymous&#039;s picture"  /></div>
+
+  <div class="submitted">
+    Submitted by Anonymous (not verified) on Wed, 07/07/2010 - 05:59.  </div>
+
+  <div class="content">
+    <p>Hi,</p>
+<p>org-mode is included with emacs 22.1.1 for windows, but has to be activated. You'll find the org-mode manual including installation howto following these steps: emacs -&gt; help -&gt; more manuals -&gt; all other manuals -&gt; (Org Mode) node of the info tree.</p>
+      </div>
+
+  
+</div></div> <!-- /comment-inner, /comment -->
+</div></div>  </div>
+        </div> <!-- /#content-area -->
+
+        
+                  <div id="content-bottom" class="region region-content_bottom">
+            <div id="block-block-106" class="block block-block region-odd odd region-count-1 count-11"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><div id="lead-gen-wrapper"> 
+<div id="lead-gen"> 
+<div class="lead-gen-vert-rule"> 
+<div class="lead-gen-left"> 
+<div class="webcast heading"> 
+<div style="float:left;">White Paper
+</div> 
+<div class="lead-gen-read-more"><a href="/whitepapers">More Resources</a>
+</div> 
+</div> 
+<div class="lead-gen-content"> 
+
+<div class="webcast"> <a class="lead-gen-head" href="http://www.linuxjournal.com/content/download-linux-management-red-hat-satellite-measuring-business-impact-and-roi">Linux Management with Red Hat Satellite: Measuring Business Impact and ROI</a> 
+<p class="lead-gen-description">Linux has become a key foundation for supporting today's rapidly growing IT environments. Linux is being used to deploy business applications and databases, trading on its reputation as a low-cost operating environment. For many IT organizations, Linux is a mainstay for deploying Web servers and has evolved from handling basic file, print, and utility workloads to running mission-critical applications and databases, physically, virtually, and in the cloud. As Linux grows in importance in terms of value to the business, managing Linux environments to high standards of service quality — availability, security, and performance — becomes an essential requirement for business success.
+</p>
+<p class="lead-gen-learn_more"><a href="http://www.linuxjournal.com/content/download-linux-management-red-hat-satellite-measuring-business-impact-and-roi">Learn More</a></p> 
+<p class="lead-gen_sponsor">Sponsored by Red Hat</p> 
+</div> 
+
+</div> 
+</div> 
+<div class="lead-gen-right"> 
+<div class="download heading"> 
+<div style="float:left;">White Paper</div> 
+<div class="lead-gen-read-more">
+<a href="/whitepapers">More Resources</a>
+</div> 
+</div> 
+<div class="lead-gen-content"> 
+<div class="download"> 
+<a class="lead-gen-head" href="http://www.linuxjournal.com/content/download-private-paas-agile-enterprise">
+Private PaaS for the Agile Enterprise</a> 
+<p class="lead-gen-description">
+If you already use virtualized infrastructure, you are well on your way to leveraging the power of the cloud. Virtualization offers the promise of limitless resources, but how do you manage that scalability when your DevOps team doesn’t scale? In today’s hypercompetitive markets, fast results can make a difference between leading the pack vs. obsolescence. Organizations need more benefits from cloud computing than just raw resources. They need agility, flexibility, convenience, ROI, and control.
+</p><p class="lead-gen-description">
+Stackato private Platform-as-a-Service technology from ActiveState extends your private cloud infrastructure by creating a private PaaS to provide on-demand availability, flexibility, control, and ultimately, faster time-to-market for your enterprise.
+</p>
+<p class="lead-gen-learn_more">
+<a href="http://www.linuxjournal.com/content/download-private-paas-agile-enterprise">Learn More</a></p> 
+<p class="lead-gen_sponsor">Sponsored by ActiveState</p> 
+</div> 
+
+</div> 
+</div> 
+</div> 
+</div> 
+<div class="clear">
+</div>
+</div>
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+          </div> <!-- /#content-bottom -->
+        
+      </div></div> <!-- /#content-inner, /#content -->
+
+              <div id="navbar"><div id="navbar-inner" class="clear-block region region-navbar">
+
+          <a name="navigation" id="navigation"></a>
+
+          
+                      <div id="primary">
+              <ul class="links"><li class="menu-158 first"><a href="/subscriptions">Subscribe</a></li>
+<li class="menu-150"><a href="/blog">Blogs</a></li>
+<li class="menu-1802"><a href="/tag/reviews" title="">Reviews</a></li>
+<li class="menu-187"><a href="/tag/how-tos">HOWTOs</a></li>
+<li class="menu-1803"><a href="/whitepapers" title="">Knowledge Hub</a></li>
+<li class="menu-71"><a href="/tag/tech-tips" title="">Hep &amp; Tips</a></li>
+<li class="menu-181"><a href="/getlinux">How to Get Linux</a></li>
+<li class="menu-184 last"><a href="/gettinghelp">Getting Help</a></li>
+</ul> <div id="searchbox">
+ 
+<div id="cse-search-form" style="width: 100%;">Loading</div>
+<script src="//www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript"> 
+  google.load('search', '1', {language : 'en'});
+  google.setOnLoadCallback(function() {
+    var customSearchControl = new google.search.CustomSearchControl(
+      '000332554451520836487:ikifqzncxvw');
+
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.enableSearchboxOnly("http://linuxjournal.com/googlesearch","s");
+    customSearchControl.draw('cse-search-form', options);
+  }, true);
+</script>
+<link rel="stylesheet" href="//www.google.com/cse/style/look/default.css" type="text/css" />
+<style type="text/css">
+  input.gsc-input {
+    border-color: #EEEEEE;
+  }
+  input.gsc-search-button {
+    border-color: #666666;
+    background-color: #CECECE;
+  }
+</style>
+</div><!-- /#searchbox -->
+            </div> <!-- /#primary -->
+          
+          
+          
+        </div></div> <!-- /#navbar-inner, /#navbar -->
+      
+      
+              <div id="sidebar-right"><div id="sidebar-right-inner" class="region region-right">
+          <div id="block-block-44" class="block block-block region-odd even region-count-1 count-4"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><!-- PUT THIS TAG IN DESIRED LOCATION OF SLOT Large_Rectangle336x280
+     -->
+<script type="text/javascript">
+  GA_googleFillSlot("Large_Rectangle336x280");
+</script>
+<!-- END OF TAG FOR SLOT Large_Rectangle336x280
+     -->  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-channels" class="block block-menu region-even odd region-count-2 count-5"><div class="block-inner">
+
+      <h2 class="title">Trending Topics</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="/tag/cloud" title="">Cloud</a></li>
+<li class="leaf"><a href="/tag/hpc" title="">HPC</a></li>
+<li class="leaf"><a href="/tag/mobile" title="">Mobile</a></li>
+<li class="leaf"><a href="/tag/security" title="">Security</a></li>
+<li class="leaf"><a href="/tag/sysadmin" title="">SysAdmin</a></li>
+<li class="leaf last"><a href="/tag/web-development" title="">Web Development</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-quicktabs-1" class="block block-quicktabs region-odd even region-count-3 count-6"><div class="block-inner">
+
+  
+  <div class="content">
+    <div id="quicktabs-1" class="quicktabs_wrapper quicktabs-style-zen"><ul class="quicktabs_tabs quicktabs-style-zen"><li class="qtab-0 active first"><a href="/article/9116?quicktabs_1=0#quicktabs-1" id="quicktabs-tab-1-0" class="qt_tab active">The Latest</a></li><li class="qtab-1"><a href="/article/9116?quicktabs_1=1#quicktabs-1" id="quicktabs-tab-1-1" class="qt_tab active">Popular</a></li><li class="qtab-2 last"><a href="/article/9116?quicktabs_1=2#quicktabs-1" id="quicktabs-tab-1-2" class="qt_tab active">Recent Comments</a></li></ul><div id="quicktabs_container_1" class="quicktabs_main quicktabs-style-zen"><div id="quicktabs_tabpage_1_0" class="quicktabs_tabpage"><div id="block-views-latest_stories-block_1" class="block block-views region-odd odd region-count-1 count-1"><div class="block-inner">
+
+  
+  <div class="content">
+    <div class="view view-latest-stories view-id-latest_stories view-display-id-block_1 view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+      <table class="views-table cols-6">
+    <thead>
+    <tr>
+              <th class="views-field views-field-title">
+                  </th>
+              <th class="views-field views-field-created">
+                  </th>
+          </tr>
+  </thead>
+  <tbody>
+          <tr class="odd views-row-first">
+                  <td class="views-field views-field-title">
+            <a href="/node/1238628">Zedge, for All Your Annoying Ringtones!</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 10, 2014          </td>
+              </tr>
+          <tr class="even">
+                  <td class="views-field views-field-title">
+            <a href="/content/linux-kernel-news-december-2013">Linux Kernel News - December 2013</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 08, 2014          </td>
+              </tr>
+          <tr class="odd">
+                  <td class="views-field views-field-title">
+            <a href="/content/taking-fractals-page">Taking Fractals off the Page</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 07, 2014          </td>
+              </tr>
+          <tr class="even">
+                  <td class="views-field views-field-title">
+            <a href="/content/blu-ray-encryption%E2%80%94why-most-people-pirate-movies">Blu-ray Encryption—Why Most People Pirate Movies</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 06, 2014          </td>
+              </tr>
+          <tr class="odd">
+                  <td class="views-field views-field-title">
+            <a href="/content/returning-ground-webs-clouds">Returning to Ground from the Web&#039;s Clouds</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 03, 2014          </td>
+              </tr>
+          <tr class="even views-row-last">
+                  <td class="views-field views-field-title">
+            <a href="/content/january-2014-issue-linux-journal-security">January 2014 Issue of Linux Journal: Security</a>          </td>
+                  <td class="views-field views-field-created">
+            Jan 02, 2014          </td>
+              </tr>
+      </tbody>
+</table>
+    </div>
+  
+  
+  
+      
+<div class="more-link">
+  <a href="/latest">
+    more  </a>
+</div>
+  
+  
+  
+</div>   </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+</div><div id="quicktabs_tabpage_1_1" class="quicktabs_tabpage quicktabs-hide"><div id="block-views-popular-block_1" class="block block-views region-even even region-count-2 count-2"><div class="block-inner">
+
+  
+  <div class="content">
+    <div class="view view-popular view-id-popular view-display-id-block_1 view-dom-id-2">
+    
+  
+  
+      <div class="view-content">
+      <div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/node/1238628">Zedge, for All Your Annoying Ringtones!</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-2 views-row-even">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/content/sublime-text-one-editor-rule-them-all">Sublime Text: One Editor to Rule Them All?</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/content/blu-ray-encryption%E2%80%94why-most-people-pirate-movies">Blu-ray Encryption—Why Most People Pirate Movies</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-4 views-row-even">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/rc2013">Readers&#039; Choice Awards 2013</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-5 views-row-odd">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/article/4234">Network Probes Explained: Understanding Port Scans and Ping Sweeps</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-6 views-row-even">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/content/raspberry-pi-perfect-home-server">Raspberry Pi: the Perfect Home Server</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-7 views-row-odd">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/rss_feeds">RSS Feeds</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-8 views-row-even">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/author">Write for Linux Journal</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-9 views-row-odd">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/content/linux-kernel-news-december-2013">Linux Kernel News - December 2013</a></span>
+  </span>
+</li>
+          <li class="views-row views-row-10 views-row-even views-row-last">  
+  <span class="views-field-title">
+                <span class="field-content"><a href="/content/linux-kernel-news-october-2013">Linux Kernel News - October 2013</a></span>
+  </span>
+</li>
+      </ul>
+</div>    </div>
+  
+  
+  
+      
+<div class="more-link">
+  <a href="/popular/today">
+    more  </a>
+</div>
+  
+  
+  
+</div>   </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+</div><div id="quicktabs_tabpage_1_2" class="quicktabs_tabpage quicktabs-hide"><div id="block-comment-0" class="block block-comment region-odd odd region-count-3 count-3"><div class="block-inner">
+
+  
+  <div class="content">
+    <div class="item-list"><ul><li class="first"><a href="/content/web-administration-scripts#comment-378035">In the suburbs and on country</a><br />59 min 18 sec ago</li>
+<li><a href="/content/linux-graphics-news-0#comment-378034">Some lights dont have any</a><br />59 min 52 sec ago</li>
+<li><a href="/content/cribbage-calculating-hand-value#comment-378033">There is something exotic</a><br />1 hour 46 sec ago</li>
+<li><a href="/content/time-saving-tricks-command-line#comment-378032">Once I am done with the work,</a><br />1 hour 1 min ago</li>
+<li><a href="/content/fight-good-fight-smokeping#comment-378031">My goal is to get the car to</a><br />1 hour 1 min ago</li>
+<li><a href="/content/advanced-hard-drive-caching-techniques#comment-378030">Also on my list is new spark</a><br />1 hour 3 min ago</li>
+<li><a href="/rc2013#comment-378029">As they look original, I am</a><br />1 hour 4 min ago</li>
+<li><a href="/content/music-all-open-source-software#comment-378028">The car ran and drove, but</a><br />1 hour 5 min ago</li>
+<li><a href="/content/aide%E2%80%94developing-android-android#comment-378027">Join us after the break for</a><br />1 hour 34 min ago</li>
+<li class="last"><a href="/content/ibm-will-minimize-impact-future-disasters#comment-378026">The Model S is so much more</a><br />1 hour 35 min ago</li>
+</ul></div>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+</div></div></div>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-views-jobs_page-block_1" class="block block-views region-even odd region-count-4 count-7"><div class="block-inner">
+
+      <h2 class="title">Featured Jobs</h2>
+  
+  <div class="content">
+    <div class="view view-jobs-page view-id-jobs_page view-display-id-block_1 view-dom-id-4">
+    
+  
+  
+      <div class="view-content">
+      <table class="views-table cols-5">
+    <thead>
+    <tr>
+              <th class="views-field views-field-title">
+                  </th>
+          </tr>
+  </thead>
+  <tbody>
+          <tr class="odd views-row-first">
+                  <td class="views-field views-field-title">
+            <a href="/node/1084549">Linux Systems Administrator</a> | Houston and Austin, Texas          </td>
+                  <td class="views-field views-field-field-job-posting-org-url-url">
+            <a href="http://www.hostgator.com">Host Gator</a>          </td>
+              </tr>
+          <tr class="even">
+                  <td class="views-field views-field-title">
+            <a href="/node/1084558">Senior Perl Developer</a> | Austin, Texas          </td>
+                  <td class="views-field views-field-field-job-posting-org-url-url">
+            <a href="http://www.hotgator.com">Host Gator</a>          </td>
+              </tr>
+          <tr class="odd">
+                  <td class="views-field views-field-title">
+            <a href="/node/1084550">Technical Support Rep</a> | Houston and Austin, Texas          </td>
+                  <td class="views-field views-field-field-job-posting-org-url-url">
+            <a href="http://www.hostgator.com">Host Gator</a>          </td>
+              </tr>
+          <tr class="even">
+                  <td class="views-field views-field-title">
+            <a href="/node/1084560">UX Designer</a> | Austin, Texas          </td>
+                  <td class="views-field views-field-field-job-posting-org-url-url">
+            <a href="http://www.hostgator.com">Host Gator</a>          </td>
+              </tr>
+          <tr class="odd views-row-last">
+                  <td class="views-field views-field-title">
+            <a href="/node/1084559">Web &amp; UI Developer (JavaScript &amp; j Query)</a> | Austin, Texas          </td>
+                  <td class="views-field views-field-field-job-posting-org-url-url">
+            <a href="http://www.hostgator.com">Host Gator</a>          </td>
+              </tr>
+      </tbody>
+</table>
+    </div>
+  
+  
+  
+      
+<div class="more-link">
+  <a href="/jobs">
+    view more jobs  </a>
+</div>
+  
+  
+  
+</div>   </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-block-97" class="block block-block region-odd even region-count-5 count-8"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><!-- subscriptions -->
+<script type='text/javascript'>
+GA_googleFillSlot("subscriptions");
+</script>
+<br />
+<a class="red" href="http://www.linuxjournal.com/subs/customer_service">Already a subscriber? Click here for subscriber services.</a>
+
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-block-67" class="block block-block region-even odd region-count-6 count-9"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><p><a href="/enewsletters"><img alt=" Linux Newsletter" src="/files/linuxjournal.com/images/NewsletterBanner_T3b.jpg" /></a></p>
+<p><a href="/new-issue"><img alt="New Issue" src="/files/linuxjournal.com/images/SubscriberButton-Jan2014.png" /></a></p>
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-block-98" class="block block-block region-odd even region-count-7 count-10"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><!-- sidebar_bottom_lr -->
+<script type='text/javascript'>
+GA_googleFillSlot("sidebar_bottom_lr");
+</script>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+        </div></div> <!-- /#sidebar-right-inner, /#sidebar-right -->
+      
+    </div></div> <!-- /#main-inner, /#main -->
+
+          <div id="footer"><div id="footer-inner" class="region region-footer">
+
+        
+        <div id="block-block-62" class="block block-block region-odd odd region-count-1 count-13"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><div id="subsform">  
+     
+        
+	<form  method="post" name="form" action= "https://www.pubservice.com/subnew2page.aspx?PC=LJ&amp;PK&amp;FC=" class="subform">
+        
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td valign="top">First Name</td>
+
+            <td valign="top" colspan="2">Last Name</td>
+          </tr>
+
+    
+          <tr>
+            <td valign="top"><input type="text" value="" name="FN" size= "18" maxlength="" class="form1" /></td>
+
+            <td valign="top" colspan="2"><input type="text" name="LN" value="" size= "18" class="form1" /></td>
+          </tr>
+          <tr>
+            <td valign="top" >Address 1</td>
+
+            <td valign="top" colspan="2">Address 2</td>
+
+
+          </tr>
+          <tr>
+            <td valign="top"><input type="text" value="" name="A1" size= "18" maxlength="" class="form1" /></td>
+
+            <td valign="top" colspan="2"><input type="text" value="" name="A2" size= "18" class="form1" /></td>
+
+  
+          </tr>
+          <tr>
+            <td valign="top">City</td>
+
+            <td valign="top">State</td>
+
+            <td valign="top">Zip</td>
+          </tr>
+
+    
+          <tr>
+            <td valign="top"><input type="text" value="" name="CT" size= "18" maxlength="" class="form1" /></td>
+
+            <td valign="top"><input type="text" value="" name="ST" size="2" class="form2" /></td>
+
+            <td valign="top"><input type="text" value="" name="ZP" size="5" maxlength="5" class="form3" /></td>
+          </tr>
+       <tr>
+            <td valign="top" colspan="3">Email</td>
+       </tr>
+       <tr>
+<td valign="top" colspan="3"><input type="text" value="" name="EM" size="40" class="form4" /></td>
+        </tr>
+        </table>
+        
+        <div align="center">
+         <input type="image" src="/files/linuxjournal.com/images/clickhere.jpg" />
+        </div>
+
+      </form>
+       <div class="subslinks">
+          <a href="https://www.pubservice.com/subnew2page.aspx?PC=LJ&amp;PK=MPUB911&amp;FC=CANADA&amp;SA=P">Canadian Residents</a> | <a href="https://www.pubservice.com/Subnew1.aspx?PC=LJ&amp;PK=MPUB911&amp;FC=UNITED%20STATES&amp;ref=1&amp;SA=P">Foreign Residents</a> | <a href="https://www.pubservice.com/subgift.aspx?PC=LJ">Gift Subscriptions</a> | <a href="http://www.linuxjournal.com/subs/customer_service">Customer Service</a> | <a href="/content/privacystatement">Privacy Policy</a>
+
+          </div>
+ 		</div> 
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-block-63" class="block block-block region-even even region-count-2 count-14"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><iframe src="http://webchat.freenode.net/?channels=linuxjournal" width="99%" height="275"></iframe>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-subscriptions" class="block block-menu region-odd odd region-count-3 count-15"><div class="block-inner">
+
+      <h2 class="title">Digital Edition</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="https://www.pubservice.com/subnew1.aspx?PC=LJ" title="Subscribe to Linux Journal">Subscribe/Renew</a></li>
+<li class="leaf"><a href="https://www.pubservice.com/subinfo.aspx?PC=LJ&amp;DO=P" title="Pay Your Subscription Bill">Pay My Bill</a></li>
+<li class="leaf"><a href="/subs/customer_service" title="">Customer Service</a></li>
+<li class="leaf"><a href="http://www.linuxjournal.com/digital" title="">Digital Downloads</a></li>
+<li class="leaf last"><a href="https://www.pubservice.com/subgift.aspx?PC=LJ" title="Give a Subscription to Linux Journal">Gift Subscriptions</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-linux-resources" class="block block-menu region-even even region-count-4 count-16"><div class="block-inner">
+
+      <h2 class="title">Magazine Formats</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="/content/pdf" title="PC/Mac">PC/Mac</a></li>
+<li class="leaf"><a href="/content/android" title="Android App">Android</a></li>
+<li class="leaf"><a href="/content/ios" title="iPhone/iPad">iPhone/iPad</a></li>
+<li class="leaf"><a href="/content/epub" title="EPUB Format">EPUB</a></li>
+<li class="leaf last"><a href="/content/kindle" title="Kindle Format">Kindle</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-store" class="block block-menu region-odd odd region-count-5 count-17"><div class="block-inner">
+
+      <h2 class="title">The Store</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="http://lj.mybigcommerce.com/categories/Buttons-%26-Stickers/" title="Buttons &amp; Stickers">Stickers</a></li>
+<li class="leaf"><a href="http://lj.mybigcommerce.com/categories/T%252dShirts-%26-Apparel/" title="T-shirts and Apparel">T-shirts</a></li>
+<li class="leaf"><a href="http://lj.mybigcommerce.com/categories/Posters/" title="Posters">Posters</a></li>
+<li class="leaf"><a href="http://lj.mybigcommerce.com/categories/Back-Issues-%252d-Digital-Downloads/" title="Buy Back Issues of Linux Journal">Back Issues</a></li>
+<li class="leaf last"><a href="http://linuxjournal.com/archive_cd" title="Archive CD">Archive CD</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-about" class="block block-menu region-even even region-count-6 count-18"><div class="block-inner">
+
+      <h2 class="title">About Us</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="/advertising" title="Advertise in Linux Journal">Advertise</a></li>
+<li class="leaf"><a href="/author" title="Write for Us">Author Info</a></li>
+<li class="leaf"><a href="/contact" title="Write a Letter to the Editor">Write a Letter</a></li>
+<li class="leaf"><a href="/aboutus/FAQ" title="Frequently Asked Questions">FAQ</a></li>
+<li class="leaf last"><a href="/staff" title="Masthead">Masthead</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-menu-menu-the-site" class="block block-menu region-odd odd region-count-7 count-19"><div class="block-inner">
+
+      <h2 class="title">The Site</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="/content/copyright" title="Copyright">Copyright</a></li>
+<li class="leaf"><a href="/rss_feeds" title="RSS Feeds">RSS Feeds</a></li>
+<li class="leaf"><a href="/content/privacy-statement" title="Privacy Statement">Privacy Policy</a></li>
+<li class="leaf"><a href="/events" title="Events">Events</a></li>
+<li class="leaf last"><a href="/aboutus" title="Contact Us">Contact Us</a></li>
+</ul>  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+<div id="block-block-70" class="block block-block region-even even region-count-8 count-20"><div class="block-inner">
+
+  
+  <div class="content">
+    <!--paging_filter--><div id="copyright">Copyright © 1994 - 2013 <em>Linux Journal</em>. All rights reserved.</div>
+  </div>
+
+  
+</div></div> <!-- /block-inner, /block -->
+
+      </div></div> <!-- /#footer-inner, /#footer -->
+    
+  </div></div> <!-- /#page-inner, /#page -->
+
+  
+  <div id="user_relationships_popup_form" class="user_relationships_ui_popup_form"></div><script type="text/javascript" src="/files/linuxjournal.com/ufiles/js/js_0540c6d5d048bc2b6ea7186a31948283.js"></script>
+<script type="text/javascript" src="http://s3.amazonaws.com/new.cetrk.com/pages/scripts/0010/8219.js"> </script>
+
+
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0010/8219.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+
+<script type="text/javascript">if(!NREUMQ.f){NREUMQ.f=function(){NREUMQ.push(["load",new Date().getTime()]);var e=document.createElement("script");e.type="text/javascript";e.src=(("http:"===document.location.protocol)?"http:":"https:")+"//"+"js-agent.newrelic.com/nr-100.js";document.body.appendChild(e);if(NREUMQ.a)NREUMQ.a();};NREUMQ.a=window.onload;window.onload=NREUMQ.f;};NREUMQ.push(["nrfj","beacon-5.newrelic.com","2a1dc4588f","1935594","b1NTNkdRWhFSVkBZWlYZcAFBWVsMHFtbVFBnRlAFUG9CC1ZC",0,390,new Date().getTime(),"","","","",""]);</script>
+</body>
+</html>

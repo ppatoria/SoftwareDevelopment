@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html id="ie7" lang="en">
+<![endif]-->
+<!--[if (!IE 7)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!--
+	generated in 0.321 seconds
+	73243 bytes batcached for 300 seconds
+-->
+<head>
+<meta charset="UTF-8" />
+<title>Don&#8217;t Abuse Singleton Pattern | Agile Software Craftsmanship</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="http://agiletribe.wordpress.com/xmlrpc.php" />
+<link rel="alternate" type="application/rss+xml" title="Agile Software Craftsmanship &raquo; Feed" href="http://agiletribe.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Agile Software Craftsmanship &raquo; Comments Feed" href="http://agiletribe.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Agile Software Craftsmanship &raquo; Don&#8217;t Abuse Singleton&nbsp;Pattern Comments Feed" href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<style type="text/css">
+	/*body div.jp-relatedposts { border-color:#2F2019; }
+	body div.jp-relatedposts .jp-relatedposts-headline em { background:#ffffff }
+	body div.jp-relatedposts, body div.jp-relatedposts .jp-relatedposts-post a { color:#444444 }*/
+	body div.jp-relatedposts .jp-relatedposts-headline em:before { border-color:#444444; }
+</style><link rel='stylesheet' id='all-css-0' href='http://s1.wp.com/_static/??-eJyNUltuxCAMvFCp+1i1ux9Vz0LAAXYNRmAU9fYlSaVGXTXKFzNoxnhsYMrKcBJMArGpTM2FVIHCDStcUbI2N7WwR1PrA2zkA7H7NbBzaLmJGpmIJ5iCdSh3ps0bBUkLWpW5yh+2Z4v5rV/HrGWBvje4q58LqpF0KFDli/BOKx5jD5vbAMaz4aMyw8SlgsVRN5KjrpDMKlVT7jH2BzSPuEMHXbWhR+N6XWbzz/lfb/4EjnjQtFd2XWddGlmxciVYpZPt36PuLnrrdcy2oLbLyj7jx/Pr+Xy6PF3eX67fWzD0DA==' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-0' href='http://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1387483371g' type='text/css' media='print' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??-eJyVkNmOAiEQRX/IErcYXyZ+Sy8lKaQopMCOfr20y2SMnZh5ogIHDveaIUInIWPIxqlhackjFMXU2LoHFA4ydzozlaPQ+dKjjqA7FUyX5/IVACabmoxzpvCC/1ijaGZUrcqJ03cVhTPh8BVzmGPTHSGh0vXj1daLheiLpaCmzhZ7KRkO4r0MZqDeYv6Hwtdo/RhCp5rohHmsMmH0l6kGuPz+5aG+X3uM0BaO8Iy855/lerddLNerxcbdAKOGpkw='></script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://agiletribe.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://agiletribe.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Error Message should be clear, plain, and&nbsp;direct' href='http://agiletribe.wordpress.com/2013/08/24/error-message-should-be-clear-plain-and-direct/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/' />
+<link rel='shortlink' href='http://wp.me/p1OQTL-aH' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fagiletribe.wordpress.com%2F2013%2F10%2F08%2Fdont-abuse-singleton-pattern%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fagiletribe.wordpress.com%2F2013%2F10%2F08%2Fdont-abuse-singleton-pattern%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Don&#039;t Abuse Singleton Pattern" />
+<meta property="og:url" content="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/" />
+<meta property="og:description" content="The Singleton Pattern is when you create an object that is designed that there be a single instance of that object in the program. There are times that this pattern is appropriate.  There are also ..." />
+<meta property="og:site_name" content="Agile Software Craftsmanship" />
+<meta property="og:image" content="http://wordpress.com/i/blank.jpg?m=1383295312g" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@agilepro" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311975824g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311975824g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="http://s0.wp.com/i/webclip.png?m=1355642671g" />
+<link rel='openid.server' href='http://agiletribe.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://agiletribe.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://agiletribe.wordpress.com/osd.xml" title="Agile Software Craftsmanship" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none !important;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Agile Software Craftsmanship" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Ramblings on how to write good code, and what counts in enterprise software development" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://agiletribe.wordpress.com/feed/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="Don&#8217;t Abuse Singleton&nbsp;Pattern | Agile Software Craftsmanship on WordPress.com" />
+<meta name="description" content="The Singleton Pattern is when you create an object that is designed that there be a single instance of that object in the program. There are times that this pattern is appropriate.  There are also times that it is not appropriate, and a class with static methods is more efficient.  How can you tell when&hellip;" />
+
+<script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'>
+</script>
+<script type='text/javascript'>
+if ( typeof GS_googleAddAdSenseService == 'function' ) { GS_googleAddAdSenseService("ca-pub-3443918307802676"); }
+if ( typeof GS_googleEnableAllServices == 'function' ) { GS_googleEnableAllServices() };
+</script>
+<script type="text/javascript" src="http://c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+<script type="text/javascript">
+try { amznads.getAds("3033","300x250"); } catch(e) { /* ignore */ }
+</script>
+<script type="text/javascript">
+var amznKeys = amznads.getKeys();
+if (typeof amznKeys != "undefined" && amznKeys != "") { for (var i =0; i < amznKeys.length; i++) { var key = amznKeys[i]; GA_googleAddAttr("amzn", key);} }
+document.close();
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleAddSlot == 'function' ) { GA_googleAddSlot("ca-pub-3443918307802676", "wpcom_below_post"); }
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleFetchAds == 'function' ) { GA_googleFetchAds(); }
+</script>
+
+<script type="text/javascript">
+var wpcom_ads = { bid: 26896081, pt: 'permalink', wa: 0, as: 0, domain: 'agiletribe.wordpress.com', url: 'http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/', gid: '', };
+</script>
+<style id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+<body class="single single-post postid-663 single-format-standard mp6 color-default highlander-enabled highlander-light">
+
+<div id="page">
+	<div id="header" class="clear-fix">
+		<div id="logo">
+						<h3 id="site-title">
+				<span>
+					<a href="http://agiletribe.wordpress.com/" title="Agile Software Craftsmanship" rel="home">Agile Software Craftsmanship</a>
+				</span>
+			</h3>
+			<div class="description">Ramblings on how to write good code, and what counts in enterprise software development</div>
+
+		</div><!-- #logo -->
+
+		<div id="nav">
+			<ul class="menu"><li ><a href="http://agiletribe.wordpress.com/">Home</a></li><li class="page_item page-item-2"><a href="http://agiletribe.wordpress.com/about/">About</a></li></ul>
+		</div><!-- #nav -->
+
+	</div><!-- #header -->
+
+	<div id="main">
+		<a href="http://agiletribe.wordpress.com/feed/rss/" id="rss-link">RSS</a>
+		<div id="main-top">
+			<div id="main-bot" class="clear-fix">
+				<div id="content">
+	<div class="post-navigation clear-fix">
+		<div class="nav-previous">
+			<a href="http://agiletribe.wordpress.com/2013/08/24/error-message-should-be-clear-plain-and-direct/" rel="prev"><span class="meta-nav">&larr;</span> Error Message should be clear, plain, and&nbsp;direct</a>		</div>
+		<div class="nav-next">
+					</div>
+	</div><!-- .post-navigation -->
+
+	<div class="post-663 post type-post status-publish format-standard hentry category-uncategorized post">
+
+		
+				<h2 class="post-title">
+							Don&#8217;t Abuse Singleton&nbsp;Pattern					</h2>
+	
+				<div class="date">
+			<div class="bg">
+									<span class="day">08</span>
+					<span>Oct</span>
+							</div>
+		</div><!-- .date -->
+	
+	<div class="entry">
+		
+		<p>The Singleton Pattern is when you create an object that is designed that there be a single instance of that object in the program. There are times that this pattern is appropriate.  There are also times that it is not appropriate, and a class with static methods is more efficient.  How can you tell when and when not to use the Singleton pattern?<span id="more-663"></span></p>
+<h1>Example</h1>
+<p>Consider the example of a class called UserManager that manages all the users in an application.  By its nature you will never need two instances of UserManager.  There is only one place to go to find existing users, or to add new users, and this class is the place to do that.</p>
+<p>Generally the pattern is that you have a &#8220;getInstance&#8221; static method that returns the single instance of the object.  Then you make calls on that instance:</p>
+<pre>UserManager uMan = UserManager.getInstance();
+User user = uMan.findUserById( "A2R3T1F3" );</pre>
+<p>You could put this on one line, but you still would be making two method calls.  A very simple example of such a class might be designed like this:</p>
+<pre>class UserManager {
+    private static UserManager inst;
+    private Hashtable&lt;String, User&gt; table = null;
+    private UserManager() {
+        table = new Hashtable&lt;String, User&gt;();
+    }
+    public static UserManager getInstance() {
+        if (inst==null) {
+            inst= new UserManager();
+        }
+        return inst;
+    }
+    public User findUserById(String id) {
+        return table.get(id);
+    }
+    public User saveUserById(String id, User user) {
+        return table.put(id, user);
+    }    
+}</pre>
+<p>Notice that the constructor is private, only accessible within the class.  The only way to get an instance is with the getInstance method.  The class holds a hashtable of all the users.  This is a fairly typical use of the singleton pattern, however<strong> it is a bad example</strong>.   This is actually abuse of the singleton pattern.</p>
+<h1>Alternatively use a Class with Static Methods</h1>
+<p>Notice that the exact same functionality can be provided through static members and static methods.  A static member is a member that there is only one instance of.  We only want one member anyway.  And if all the data members are static, there is no real reason to create an instance of the object.  If you make all the methods static, they access the static members, and you get the same capability in an easier to use package.</p>
+<p>The class with static methods might look like this:</p>
+<pre>class UserManager {
+    private static Hashtable&lt;String, User&gt; table = 
+        new Hashtable&lt;String, User&gt;();
+
+    public static User findUserById(String id) {
+        return table.get(id);
+    }
+    public static User createUserById(String id, User user) {
+        return table.put(id, user);
+    }    
+}</pre>
+<p>A couple of things to notice immediately: you don&#8217;t need a constructor, and you you don&#8217;t need the getInstance method.  You also don&#8217;t need a variable to hold the instance.  There is no particular advantage in holding the user table as a member of a singleton instance, you might as well simply declare it as static data member.  In a moderately complex class, these savings are a pretty small part of the class.  The real benefit comes from how you use it.  It takes only one line to look up a user:</p>
+<pre>User user = UserManager.findUSerById("A2R3T1F3");</pre>
+<p>This is (1) far easier to use, and (2) a slight bit more efficient to execute.   The real point is: why force the calling logic to go get an instance, and then call a method on that instance?  If you know you will only even need a single instance, then just make the data members and methods all static.  It is easier and more efficient.</p>
+<h1>When is Singleton Appropriate?</h1>
+<p>The singleton pattern is appropriately used when you have an interface and multiple implementations of that interface.  Lets extend this example slightly, and imagine that the system can be configured to either store user information in a XML file, or in a database.  You will also need a Factory class that determines which of several implementations to instantiate, in this case based on system configuration values, and returns the correct, single instance.</p>
+<p>It might look something like this:</p>
+<pre>interface UserManager {
+    public User findUserById(String id);
+    public User createUserById(String id, User user);
+}
+
+class UserManagerFactory {
+    private static UserManager inst;
+    public static UserManager getUserManager() {
+        if (SystemConfig("UserManagerType")==USER_MANAGER_FILE) {
+            inst = new UserManagerFile();
+        }
+        else {
+            inst = new UserManagerDB();
+        }
+        return inst;
+    }
+}
+
+class UserManagerFile implements UserManager {
+    ...
+}
+class UserManagerDB implements UserManager {
+    ...
+}</pre>
+<p>This is a proper singleton pattern where you have two implementations of the UserManager interface, but while the application is running, there will only ever need to be one instance of one of them.  Either all the users are stored in a file, or all the users are in a DB.  The calling code must get an instance, and then call the method on the instance.  You really do need instances of the classes because the two implementations have different data members: the file oriented one probably caches all the users in memory, while the DB one might only hold on to a connection to the DB, so you really do need to have instances of the objects to hold this data.</p>
+<h1>Why Does this Pattern get Abused?</h1>
+<p>In my experience, programmers tend to dislike using static methods.  I believe that somehow they feel that they are not really making it &#8220;object oriented&#8221; unless you have an instance.  It is really just a package of static methods.  This is true.  Yet, you do have encapsulation in the sense that the class hides the data inside itself, and presents only well defined methods to the outside world.  The singleton pattern straddles the boundary between needing data objects, and just providing encapsulation.</p>
+<p>Some programmers feel that if they implement the singleton pattern, it will give the option in the future to make a different implementation and slip it in easily.  This is sort-of true, because the call sites already have the &#8220;getInstance&#8221; call.  Note that this is not really true because the singleton pattern with multiple implementations requires an interface and a factory class &#8212; if you have not provided those you really can not swap in another implementation without reworking all the code.</p>
+<p>If you did implement the interface and the factory just in case you need it, I must response with &#8220;<strong>YAGNI</strong>&#8221; in the loudest possible voice.  (You Aren&#8217;t Gonna Need It)  It is a very bad programming practice to slip architectural features in that you don&#8217;t need today, and might never need in the future.  These kinds of embellishments clutter the code, and create extra work, without providing any value.  If in the future you find you really do need the singleton pattern, it is not hard to find and replace all the call sites with the appropriate code; this is a mechanical change which the compiler will find for you.</p>
+<p>Based on the principle of &#8220;Keep It Simple&#8221; you should always use static members if possible (that is if you need only one instance) and you should use static methods if possible (because they don&#8217;t need any data beyond static data).  If all you need is a set of static methods, then you should implement a set of static methods.  Embellishing it to make it look more elegant as a singleton class is just a waste of effort that complicates the code unnecessarily.</p>
+<h1>How should a Singleton be called?</h1>
+<p>Imagine that you have a class where the Singleton Pattern is justified.  How, then should it be called?  As a client of the class, you have to get a pointer to an instance. You have only four options:</p>
+<ol>
+<li>Hold a reference in a static variable and initialize by &#8216;lazy evaluation&#8217; that is, test for null, and then initialize when null. After that the value is set.</li>
+<li>Hold a reference in a static variable and initialize at static initialization time. Are you sure that the singleton it ready at that time? This is a concern.</li>
+<li>Hold reference in local variable, and initialize every time with call to getInstance().</li>
+<li>Don&#8217;t use a variable at all and call in the method chain. If only one reference for one call is needed, this is fine.</li>
+</ol>
+<p>In general, <strong>getInstance()</strong> should be quite efficient, and there should be little reason to hold a copy of the reference in your own static. In a sense, your static is duplicating the job of the singleton class which also has to have a static. A single shouldn&#8217;t ever change, but if it ever did, you would be left holding a stale reference. Option 4 is OK if you need only one call, but this pattern encourages inefficiency when multiple calls are needed. So, for all these reasons I believe you should use option 3 and get the instance every time.</p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Choco";
+		var wpcom_adclk_slot = "wpcom_below_post";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "agiletribe.wordpress.com");
+GA_googleAddAttr("BlogId", "26896081");
+GA_googleAddAttr("PageURL", "http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("theme_bg", "ffffff");
+GA_googleAddAttr("theme_text", "444444");
+GA_googleAddAttr("theme_link", "cd4517");
+GA_googleAddAttr("theme_border", "2F2019");
+GA_googleAddAttr("theme_url", "AD92C3");
+GA_googleAddAdSensePageAttr("google_page_url", "http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/");
+GA_googleFillSlot("wpcom_below_post");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-663"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" class="share-facebook sd-button share-icon" href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/?share=facebook" title="Share on Facebook" id="sharing-facebook-663"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-26896081-663-52c9075d6d7a5' data-src='//widgets.wp.com/likes/#blog_id=26896081&amp;post_id=663&amp;origin=agiletribe.wordpress.com&amp;obj_id=26896081-663-52c9075d6d7a5' data-name='like-post-frame-26896081-663-52c9075d6d7a5'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts'>
+	<p class="jp-relatedposts-headline"><em>Related</em></p>
+</div></div>
+		<div class="cl">&nbsp;</div>
+
+		
+			</div><!-- .entry -->
+
+				<div class="meta">
+			<div class="bg">
+				<span class="comments-num"><a href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/#respond" title="Comment on Don&#8217;t Abuse Singleton&nbsp;Pattern">Leave a comment</a></span>
+				<p>Posted by <a href="http://agiletribe.wordpress.com/author/kswenson/" title="Posts by kswenson" rel="author">kswenson</a> on October 8, 2013 in <a href="http://agiletribe.wordpress.com/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a></p>
+			</div>
+			<div class="bot">&nbsp;</div>
+		</div><!-- .meta -->
+			</div>
+	<div class="post-navigation clear-fix">
+		<div class="nav-previous">
+			<a href="http://agiletribe.wordpress.com/2013/08/24/error-message-should-be-clear-plain-and-direct/" rel="prev"><span class="meta-nav">&larr;</span> Error Message should be clear, plain, and&nbsp;direct</a>		</div>
+		<div class="nav-next">
+					</div>
+	</div><!-- .post-navigation -->
+
+	
+			<div id="comments">
+
+
+
+
+								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/10/08/dont-abuse-singleton-pattern/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://agiletribe.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																										
+
+
+												<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="1c527facad" /><input type="hidden" name="_wp_http_referer" value="/2013/10/08/dont-abuse-singleton-pattern/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=1" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+	
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='663' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1388906333" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="31f072dcf3" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="20"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>
+</div><!-- #comments -->
+
+
+				</div><!-- END Content -->
+				<div id="sidebar">
+										<ul class="xoxo">
+						<li id="search-2" class="widget widget_search"><h4 class="widgettitle">Lookup Stuff</h4><form action="http://agiletribe.wordpress.com/" id="searchform" method="get">
+	<label for="s" class="screen-reader-text">Search</label>
+	<div class="field-place">
+		<input type="text" class="field" id="s" name="s" value=""/>
+		<input type="submit" class="button" value="Search" id="searchsubmit"/>
+	</div>
+</form></li><li id="blog_subscription-2" class="widget widget_blog_subscription"><h4 class="widgettitle"><label for="subscribe-field">Follow by Email</label></h4>
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+									<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 5 other followers</p>
+					<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="" id="subscribe-field"/></p>
+				
+				<p>
+					<input type="hidden" name="action" value="subscribe"/>
+					<input type="hidden" name="blog_id" value="26896081"/>
+					<input type="hidden" name="source" value="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/"/>
+					<input type="hidden" name="sub-type" value="widget"/>
+					<input type="hidden" name="redirect_fragment" value="blog_subscription-2" />
+					<input type="hidden" id="_wpnonce" name="_wpnonce" value="ea84a01fb2" />					<input type="submit" value="Follow" />
+				</p>
+			</form>
+			
+</li><li id="tag_cloud-2" class="widget widget_tag_cloud"><h4 class="widgettitle">Categories</h4><div style="overflow: hidden;"><a href="http://agiletribe.wordpress.com/category/coding/" style="font-size: 275%; padding: 1px; margin: 1px;"  title="Coding (49)">Coding</a> <a href="http://agiletribe.wordpress.com/category/design/" style="font-size: 191.30434782609%; padding: 1px; margin: 1px;"  title="Design (27)">Design</a> <a href="http://agiletribe.wordpress.com/category/example-code/" style="font-size: 103.80434782609%; padding: 1px; margin: 1px;"  title="Example Code (4)">Example Code</a> <a href="http://agiletribe.wordpress.com/category/poor-error-msg/" style="font-size: 111.41304347826%; padding: 1px; margin: 1px;"  title="Poor Error Msg (6)">Poor Error Msg</a> <a href="http://agiletribe.wordpress.com/category/practice/" style="font-size: 187.5%; padding: 1px; margin: 1px;"  title="practice (26)">practice</a> <a href="http://agiletribe.wordpress.com/category/resource/" style="font-size: 100%; padding: 1px; margin: 1px;"  title="Resource (3)">Resource</a> <a href="http://agiletribe.wordpress.com/category/uncategorized/" style="font-size: 130.4347826087%; padding: 1px; margin: 1px;"  title="Uncategorized (11)">Uncategorized</a> </div></li><li id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h4 class="widgettitle">Tags</h4><div style="overflow:hidden"><a href='http://agiletribe.wordpress.com/tag/administration/' class='tag-link-276' title='1 topic' style='font-size: 8pt;'>administration</a>
+<a href='http://agiletribe.wordpress.com/tag/agile/' class='tag-link-11287' title='6 topics' style='font-size: 16.555555555556pt;'>agile</a>
+<a href='http://agiletribe.wordpress.com/tag/banches/' class='tag-link-56612805' title='1 topic' style='font-size: 8pt;'>banches</a>
+<a href='http://agiletribe.wordpress.com/tag/book/' class='tag-link-2364' title='1 topic' style='font-size: 8pt;'>book</a>
+<a href='http://agiletribe.wordpress.com/tag/branch/' class='tag-link-59379' title='1 topic' style='font-size: 8pt;'>branch</a>
+<a href='http://agiletribe.wordpress.com/tag/branches/' class='tag-link-127005' title='2 topics' style='font-size: 10.8pt;'>branches</a>
+<a href='http://agiletribe.wordpress.com/tag/browser/' class='tag-link-1194' title='1 topic' style='font-size: 8pt;'>browser</a>
+<a href='http://agiletribe.wordpress.com/tag/bug-tracking/' class='tag-link-353024' title='2 topics' style='font-size: 10.8pt;'>bug tracking</a>
+<a href='http://agiletribe.wordpress.com/tag/build/' class='tag-link-21447' title='2 topics' style='font-size: 10.8pt;'>build</a>
+<a href='http://agiletribe.wordpress.com/tag/changes/' class='tag-link-205' title='3 topics' style='font-size: 12.666666666667pt;'>changes</a>
+<a href='http://agiletribe.wordpress.com/tag/character-encoding/' class='tag-link-307145' title='2 topics' style='font-size: 10.8pt;'>character encoding</a>
+<a href='http://agiletribe.wordpress.com/tag/characters/' class='tag-link-634' title='1 topic' style='font-size: 8pt;'>characters</a>
+<a href='http://agiletribe.wordpress.com/tag/collections/' class='tag-link-12763' title='1 topic' style='font-size: 8pt;'>collections</a>
+<a href='http://agiletribe.wordpress.com/tag/comment/' class='tag-link-487' title='1 topic' style='font-size: 8pt;'>comment</a>
+<a href='http://agiletribe.wordpress.com/tag/comments/' class='tag-link-992' title='2 topics' style='font-size: 10.8pt;'>comments</a>
+<a href='http://agiletribe.wordpress.com/tag/compiler-warnings/' class='tag-link-13405292' title='2 topics' style='font-size: 10.8pt;'>compiler warnings</a>
+<a href='http://agiletribe.wordpress.com/tag/complexity/' class='tag-link-3494' title='9 topics' style='font-size: 18.888888888889pt;'>complexity</a>
+<a href='http://agiletribe.wordpress.com/tag/configuration/' class='tag-link-45809' title='5 topics' style='font-size: 15.466666666667pt;'>configuration</a>
+<a href='http://agiletribe.wordpress.com/tag/continuous-integration/' class='tag-link-163615' title='1 topic' style='font-size: 8pt;'>continuous integration</a>
+<a href='http://agiletribe.wordpress.com/tag/csrf/' class='tag-link-709199' title='1 topic' style='font-size: 8pt;'>csrf</a>
+<a href='http://agiletribe.wordpress.com/tag/data-definition/' class='tag-link-23239892' title='2 topics' style='font-size: 10.8pt;'>data definition</a>
+<a href='http://agiletribe.wordpress.com/tag/data-handling/' class='tag-link-1723541' title='1 topic' style='font-size: 8pt;'>data handling</a>
+<a href='http://agiletribe.wordpress.com/tag/data-interchange/' class='tag-link-1180821' title='1 topic' style='font-size: 8pt;'>Data Interchange</a>
+<a href='http://agiletribe.wordpress.com/tag/date-format/' class='tag-link-1968454' title='1 topic' style='font-size: 8pt;'>date format</a>
+<a href='http://agiletribe.wordpress.com/tag/dead-code/' class='tag-link-2318267' title='1 topic' style='font-size: 8pt;'>dead code</a>
+<a href='http://agiletribe.wordpress.com/tag/debugging/' class='tag-link-70886' title='1 topic' style='font-size: 8pt;'>debugging</a>
+<a href='http://agiletribe.wordpress.com/tag/design-2/' class='tag-link-606900' title='12 topics' style='font-size: 20.6pt;'>design</a>
+<a href='http://agiletribe.wordpress.com/tag/development/' class='tag-link-780' title='3 topics' style='font-size: 12.666666666667pt;'>development</a>
+<a href='http://agiletribe.wordpress.com/tag/documentation/' class='tag-link-19551' title='1 topic' style='font-size: 8pt;'>documentation</a>
+<a href='http://agiletribe.wordpress.com/tag/downgrade/' class='tag-link-563267' title='1 topic' style='font-size: 8pt;'>Downgrade</a>
+<a href='http://agiletribe.wordpress.com/tag/errors/' class='tag-link-9553' title='12 topics' style='font-size: 20.6pt;'>errors</a>
+<a href='http://agiletribe.wordpress.com/tag/exceptions/' class='tag-link-449693' title='15 topics' style='font-size: 22pt;'>exceptions</a>
+<a href='http://agiletribe.wordpress.com/tag/gui/' class='tag-link-7168' title='1 topic' style='font-size: 8pt;'>GUI</a>
+<a href='http://agiletribe.wordpress.com/tag/html/' class='tag-link-647' title='1 topic' style='font-size: 8pt;'>HTML</a>
+<a href='http://agiletribe.wordpress.com/tag/indenting/' class='tag-link-9579411' title='2 topics' style='font-size: 10.8pt;'>indenting</a>
+<a href='http://agiletribe.wordpress.com/tag/initialization/' class='tag-link-412346' title='3 topics' style='font-size: 12.666666666667pt;'>initialization</a>
+<a href='http://agiletribe.wordpress.com/tag/installer/' class='tag-link-212876' title='1 topic' style='font-size: 8pt;'>installer</a>
+<a href='http://agiletribe.wordpress.com/tag/j2ee/' class='tag-link-8689' title='1 topic' style='font-size: 8pt;'>J2EE</a>
+<a href='http://agiletribe.wordpress.com/tag/java/' class='tag-link-1017' title='5 topics' style='font-size: 15.466666666667pt;'>Java</a>
+<a href='http://agiletribe.wordpress.com/tag/jsp/' class='tag-link-12917' title='2 topics' style='font-size: 10.8pt;'>JSP</a>
+<a href='http://agiletribe.wordpress.com/tag/line-counting/' class='tag-link-42799992' title='1 topic' style='font-size: 8pt;'>line counting</a>
+<a href='http://agiletribe.wordpress.com/tag/methodology/' class='tag-link-13289' title='8 topics' style='font-size: 18.111111111111pt;'>methodology</a>
+<a href='http://agiletribe.wordpress.com/tag/module/' class='tag-link-82179' title='1 topic' style='font-size: 8pt;'>module</a>
+<a href='http://agiletribe.wordpress.com/tag/multipurpose-method/' class='tag-link-67422059' title='2 topics' style='font-size: 10.8pt;'>multipurpose method</a>
+<a href='http://agiletribe.wordpress.com/tag/npe/' class='tag-link-6537419' title='1 topic' style='font-size: 8pt;'>NPE</a>
+<a href='http://agiletribe.wordpress.com/tag/null/' class='tag-link-53983' title='2 topics' style='font-size: 10.8pt;'>null</a>
+<a href='http://agiletribe.wordpress.com/tag/overloading/' class='tag-link-2711579' title='2 topics' style='font-size: 10.8pt;'>overloading</a>
+<a href='http://agiletribe.wordpress.com/tag/performance/' class='tag-link-1930' title='3 topics' style='font-size: 12.666666666667pt;'>performance</a>
+<a href='http://agiletribe.wordpress.com/tag/program-logic-error/' class='tag-link-65789634' title='3 topics' style='font-size: 12.666666666667pt;'>program logic error</a>
+<a href='http://agiletribe.wordpress.com/tag/project-management/' class='tag-link-510' title='1 topic' style='font-size: 8pt;'>project management</a>
+<a href='http://agiletribe.wordpress.com/tag/projects/' class='tag-link-2008' title='1 topic' style='font-size: 8pt;'>projects</a>
+<a href='http://agiletribe.wordpress.com/tag/rewrite/' class='tag-link-314297' title='1 topic' style='font-size: 8pt;'>rewrite</a>
+<a href='http://agiletribe.wordpress.com/tag/security/' class='tag-link-801' title='3 topics' style='font-size: 12.666666666667pt;'>security</a>
+<a href='http://agiletribe.wordpress.com/tag/session/' class='tag-link-54038' title='1 topic' style='font-size: 8pt;'>session</a>
+<a href='http://agiletribe.wordpress.com/tag/source/' class='tag-link-27313' title='3 topics' style='font-size: 12.666666666667pt;'>source</a>
+<a href='http://agiletribe.wordpress.com/tag/ssl/' class='tag-link-58302' title='1 topic' style='font-size: 8pt;'>SSL</a>
+<a href='http://agiletribe.wordpress.com/tag/structure/' class='tag-link-25716' title='4 topics' style='font-size: 14.222222222222pt;'>structure</a>
+<a href='http://agiletribe.wordpress.com/tag/suppress-warnings/' class='tag-link-84029801' title='1 topic' style='font-size: 8pt;'>suppress warnings</a>
+<a href='http://agiletribe.wordpress.com/tag/tab/' class='tag-link-161389' title='1 topic' style='font-size: 8pt;'>tab</a>
+<a href='http://agiletribe.wordpress.com/tag/ternary-operator/' class='tag-link-3231866' title='1 topic' style='font-size: 8pt;'>ternary operator</a>
+<a href='http://agiletribe.wordpress.com/tag/test-framework/' class='tag-link-32906413' title='1 topic' style='font-size: 8pt;'>test framework</a>
+<a href='http://agiletribe.wordpress.com/tag/testing/' class='tag-link-12' title='5 topics' style='font-size: 15.466666666667pt;'>testing</a>
+<a href='http://agiletribe.wordpress.com/tag/trim/' class='tag-link-10013' title='1 topic' style='font-size: 8pt;'>trim</a>
+<a href='http://agiletribe.wordpress.com/tag/upgrade/' class='tag-link-8683' title='1 topic' style='font-size: 8pt;'>Upgrade</a>
+<a href='http://agiletribe.wordpress.com/tag/usability/' class='tag-link-753' title='8 topics' style='font-size: 18.111111111111pt;'>usability</a>
+<a href='http://agiletribe.wordpress.com/tag/user-interface/' class='tag-link-6171' title='6 topics' style='font-size: 16.555555555556pt;'>user interface</a>
+<a href='http://agiletribe.wordpress.com/tag/utf-8/' class='tag-link-241625' title='2 topics' style='font-size: 10.8pt;'>UTF-8</a>
+<a href='http://agiletribe.wordpress.com/tag/validation/' class='tag-link-53079' title='1 topic' style='font-size: 8pt;'>Validation</a>
+<a href='http://agiletribe.wordpress.com/tag/vulnerability/' class='tag-link-20650' title='1 topic' style='font-size: 8pt;'>vulnerability</a>
+<a href='http://agiletribe.wordpress.com/tag/waterfall/' class='tag-link-39878' title='6 topics' style='font-size: 16.555555555556pt;'>waterfall</a>
+<a href='http://agiletribe.wordpress.com/tag/web/' class='tag-link-151' title='4 topics' style='font-size: 14.222222222222pt;'>web</a>
+<a href='http://agiletribe.wordpress.com/tag/windows/' class='tag-link-800' title='1 topic' style='font-size: 8pt;'>windows</a>
+<a href='http://agiletribe.wordpress.com/tag/xml/' class='tag-link-6852' title='2 topics' style='font-size: 10.8pt;'>XML</a>
+<a href='http://agiletribe.wordpress.com/tag/xml-schema/' class='tag-link-265162' title='1 topic' style='font-size: 8pt;'>XML Schema</a>
+<a href='http://agiletribe.wordpress.com/tag/yagni/' class='tag-link-209557' title='1 topic' style='font-size: 8pt;'>YAGNI</a></div></li><li id="top-posts-2" class="widget widget_top-posts"><h4 class="widgettitle">Top Posts &amp; Pages</h4><ul><li><a href="http://agiletribe.wordpress.com/2013/01/22/ui-guideline-resources/" class="bump-view" data-bump-view="tp">UI Guideline Resources</a></li>
+<li><a href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/" class="bump-view" data-bump-view="tp">Don&#039;t Abuse Singleton Pattern</a></li>
+</ul></li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h4 class="widgettitle">Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/">Don&#8217;t Abuse Singleton&nbsp;Pattern</a>
+						</li>
+					<li>
+				<a href="http://agiletribe.wordpress.com/2013/08/24/error-message-should-be-clear-plain-and-direct/">Error Message should be clear, plain, and&nbsp;direct</a>
+						</li>
+					<li>
+				<a href="http://agiletribe.wordpress.com/2013/07/18/surprising-outrageous-file-handling/">Surprising outrageous file&nbsp;handling</a>
+						</li>
+					<li>
+				<a href="http://agiletribe.wordpress.com/2013/07/17/xml-should-be-streamed-and-never-stringed/">3 reasons that XML should be Streamed and never&nbsp;&#8220;Stringed&#8221;</a>
+						</li>
+					<li>
+				<a href="http://agiletribe.wordpress.com/2013/07/16/designing-the-build/">9 Rules for Designing the&nbsp;Build</a>
+						</li>
+				</ul>
+		</li><li id="meta-4" class="widget widget_meta"><h4 class="widgettitle">Access</h4>			<ul>
+			<li><a href="http://wordpress.com/signup/?ref=wplogin">Register</a></li>			<li><a href="http://agiletribe.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="http://agiletribe.wordpress.com/feed/" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://agiletribe.wordpress.com/comments/feed/" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>						</ul>
+</li><li id="archives-3" class="widget widget_archive"><h4 class="widgettitle">Archives</h4>		<ul>
+			<li><a href='http://agiletribe.wordpress.com/2013/10/'>October 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/08/'>August 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/07/'>July 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/06/'>June 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/05/'>May 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/04/'>April 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/03/'>March 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/02/'>February 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2013/01/'>January 2013</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/12/'>December 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/11/'>November 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/10/'>October 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/08/'>August 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/07/'>July 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/06/'>June 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/05/'>May 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/04/'>April 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/03/'>March 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/02/'>February 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2012/01/'>January 2012</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2011/12/'>December 2011</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2011/11/'>November 2011</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2011/10/'>October 2011</a></li>
+	<li><a href='http://agiletribe.wordpress.com/2011/09/'>September 2011</a></li>
+		</ul>
+</li><li id="rss_links-3" class="widget widget_rss_links"><h4 class="widgettitle">Links</h4><ul><li><a href="http://agiletribe.wordpress.com/feed/" title="Subscribe to Posts">RSS - Posts</a></li><li><a href="http://agiletribe.wordpress.com/comments/feed/" title="Subscribe to Comments">RSS - Comments</a></li></ul>
+</li>					</ul>
+				</div><!-- END Sidebar -->
+				<div class="cl">&nbsp;</div>					</div><!-- #main-bot -->
+				</div><!-- #main-top -->
+			</div><!-- #main -->
+			<div id="footer">
+				<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.
+<a href="http://theme.wordpress.com/themes/choco/" title="Learn more about this theme">The Choco Theme</a>. </p>
+
+				<p class="rss"><a href="http://agiletribe.wordpress.com/feed/rss/">Entries (RSS)</a> and <a href="http://agiletribe.wordpress.com/comments/feed/">Comments (RSS)</a></p>
+			</div><!-- #footer -->
+		</div><!-- #page -->
+		
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":"language.en,type.wpcom,wp.loggedout,as"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cwp.loggedout%2Cas" height="1" width="1" alt="" /></div></noscript>
+
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201401ae'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/agiletribe.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/agiletribe.wordpress.com\/wp-login.php?action=logout&_wpnonce=b1e6f6b800","homeURL":"http:\/\/agiletribe.wordpress.com\/","postID":"663","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1383163422j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;Agile Software Craftsmanship&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+			
+			<p><input type="email" name="email" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="26896081"/>
+			<input type="hidden" name="source" value="http://agiletribe.wordpress.com/2013/10/08/dont-abuse-singleton-pattern/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="ea84a01fb2" /><input type="hidden" name="_wp_http_referer" value="/2013/10/08/dont-abuse-singleton-pattern/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "agiletribe.wordpress.com";
+	</script>
+	<script type="text/javascript" src="http://s.skimresources.com/js/725X1342.skimlinks.js"></script>
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/agiletribe.wordpress.com\/2013\/10\/08\/dont-abuse-singleton-pattern\/":663}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='http://widgets.wp.com/likes/master.html?ver=20140101#ver=20140101&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/js/devicepx.js,/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1373391538j'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'26896081','v':'wpcom','tz':'-7','user_id':'0','post':'663','subd':'agiletribe'});
+ex_go({'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWFnNncxc1tjZG9XVXhRdC5QY2ZQY1U1P1ROQy5kUy1+eFZOJT0uZiU1QV9vPWxNOFVhaHFJakZCVlU4MzlNZnI3ZmlpJWtvdHNxbC9mQU5LVltWTnEsLl1afE85WHklYzB5dmRYTFV3R3l4bjVRWlsyVmh8UnNQZncuQVk/TGlORH5nZVlVQUwlSWxOLTZMYk9aUGVQTGJ0WDU4elR+LHUtJiZsJWc1K3NXNy9OQlliVHMvUH5bTkZQV0VhNHxWN3UrYUQ2ZTZDTnZ4VkgvQnV+S1RlPUVINWdIdz1UJi1QdkpwdzJDdWpsN0wrQnBSLS9sVTczLTlBRlAzSE9fRktoP1pDPzRiSHx8YnFTbC0xY0t+L1dYVk43RGtfc0FEZHBFLTJ8NQ=='});
+addLoadEvent(function(){linktracker_init('26896081',663);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//stats.wordpress.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>	</body>
+</html>

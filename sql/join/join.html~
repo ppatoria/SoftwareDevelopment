@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Join </title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 21:16:57 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Join </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Tables </a></li>
+<li><a href="#sec-2">2 Existing information in the table i.e. No of Rows </a></li>
+<li><a href="#sec-3">3 Cross Join or Cartesian Product </a></li>
+<li><a href="#sec-4">4 Equi-Join/Inner-Join </a>
+<ul>
+<li><a href="#sec-4_1">4.1 <b>Problem Definition:</b> </a></li>
+<li><a href="#sec-4_2">4.2 <b>Soln:</b> </a></li>
+<li><a href="#sec-4_3">4.3 Join variation with nested query </a>
+<ul>
+<li><a href="#sec-4_3_1">4.3.1 <b>Problem Definition:</b> find all accounts opened by experienced tellers currently assigned to the Woburn branch </a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 Self-Join </a>
+<ul>
+<li><a href="#sec-5_1">5.1 <b>Problem :</b> Display name of employees and there superior. </a></li>
+<li><a href="#sec-5_2">5.2 <b>Problem Definition:</b> Display employee first and last name with superiors first and last name. </a></li>
+<li><a href="#sec-5_3">5.3 <b>Soln:</b> </a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6 Non equi-join </a></li>
+<li><a href="#sec-7">7 Natural Joins </a></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Tables </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+
+
+<pre class="src src-sql">mysql&gt; <span style="color: #859900;">DESC</span> product;
++<span style="color: #586e75; font-style: italic;">-----------------+-------------+------+-----+---------+-------+
+</span>| Field           | <span style="color: #859900;">Type</span>        | <span style="color: #859900;">Null</span> | <span style="color: #859900;">Key</span> | <span style="color: #859900;">Default</span> | Extra |
++<span style="color: #586e75; font-style: italic;">-----------------+-------------+------+-----+---------+-------+
+</span>| product_cd      | <span style="color: #b58900;">varchar</span>(10) | <span style="color: #859900;">NO</span>   | PRI | <span style="color: #859900;">NULL</span>    |       |
+| <span style="color: #859900;">name</span>            | <span style="color: #b58900;">varchar</span>(50) | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |       |
+| product_type_cd | <span style="color: #b58900;">varchar</span>(10) | <span style="color: #859900;">NO</span>   | MUL | <span style="color: #859900;">NULL</span>    |       |
+| date_offered    | <span style="color: #b58900;">date</span>        | YES  |     | <span style="color: #859900;">NULL</span>    |       |
+| date_retired    | <span style="color: #b58900;">date</span>        | YES  |     | <span style="color: #859900;">NULL</span>    |       |
++<span style="color: #586e75; font-style: italic;">-----------------+-------------+------+-----+---------+-------+
+</span>5 <span style="color: #859900;">rows</span> <span style="color: #859900;">in</span> <span style="color: #859900;">set</span> (0.23 sec)
+
+ mysql&gt; <span style="color: #859900;">DESC</span> customer;
++<span style="color: #586e75; font-style: italic;">--------------+------------------+------+-----+---------+----------------+
+</span>| Field        | <span style="color: #859900;">Type</span>             | <span style="color: #859900;">Null</span> | <span style="color: #859900;">Key</span> | <span style="color: #859900;">Default</span> | Extra          |
++<span style="color: #586e75; font-style: italic;">--------------+------------------+------+-----+---------+----------------+
+</span>| cust_id      | <span style="color: #b58900;">int</span>(10) unsigned | <span style="color: #859900;">NO</span>   | PRI | <span style="color: #859900;">NULL</span>    | auto_increment |
+| fed_id       | <span style="color: #b58900;">varchar</span>(12)      | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |                |
+| cust_type_cd | enum(<span style="color: #2aa198;">'I'</span>,<span style="color: #2aa198;">'B'</span>)    | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |                |
+| address      | <span style="color: #b58900;">varchar</span>(30)      | YES  |     | <span style="color: #859900;">NULL</span>    |                |
+| city         | <span style="color: #b58900;">varchar</span>(20)      | YES  |     | <span style="color: #859900;">NULL</span>    |                |
+| <span style="color: #859900;">state</span>        | <span style="color: #b58900;">varchar</span>(20)      | YES  |     | <span style="color: #859900;">NULL</span>    |                |
+| postal_code  | <span style="color: #b58900;">varchar</span>(10)      | YES  |     | <span style="color: #859900;">NULL</span>    |                |
++<span style="color: #586e75; font-style: italic;">--------------+------------------+------+-----+---------+----------------+
+</span>7 <span style="color: #859900;">rows</span> <span style="color: #859900;">in</span> <span style="color: #859900;">set</span> (0.04 sec)
+
+mysql&gt; <span style="color: #859900;">DESC</span> employee;
++<span style="color: #586e75; font-style: italic;">--------------------+----------------------+------+-----+---------+
+</span>| Field              | <span style="color: #859900;">Type</span>                 | <span style="color: #859900;">Null</span> | <span style="color: #859900;">Key</span> | <span style="color: #859900;">Default</span> |
++<span style="color: #586e75; font-style: italic;">--------------------+----------------------+------+-----+---------+
+</span>| emp_id             | <span style="color: #b58900;">smallint</span>(5) unsigned | <span style="color: #859900;">NO</span>   | PRI | <span style="color: #859900;">NULL</span>    |
+| fname              | <span style="color: #b58900;">varchar</span>(20)          | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |
+| lname              | <span style="color: #b58900;">varchar</span>(20)          | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |
+| start_date         | <span style="color: #b58900;">date</span>                 | <span style="color: #859900;">NO</span>   |     | <span style="color: #859900;">NULL</span>    |
+| end_date           | <span style="color: #b58900;">date</span>                 | YES  |     | <span style="color: #859900;">NULL</span>    |
+| superior_emp_id    | <span style="color: #b58900;">smallint</span>(5) unsigned | YES  | MUL | <span style="color: #859900;">NULL</span>    |
+| dept_id            | <span style="color: #b58900;">smallint</span>(5) unsigned | YES  | MUL | <span style="color: #859900;">NULL</span>    |
+| title              | <span style="color: #b58900;">varchar</span>(20)          | YES  |     | <span style="color: #859900;">NULL</span>    |
+| assigned_branch_id | <span style="color: #b58900;">smallint</span>(5) unsigned | YES  | MUL | <span style="color: #859900;">NULL</span>    |
++<span style="color: #586e75; font-style: italic;">--------------------+----------------------+------+-----+---------+
+</span>9 <span style="color: #859900;">rows</span> <span style="color: #859900;">in</span> <span style="color: #859900;">set</span> (0.11 sec)
+
+ mysql&gt; <span style="color: #859900;">DESC</span> department;
++<span style="color: #586e75; font-style: italic;">---------+----------------------+------+-----+---------+
+</span>| Field   | <span style="color: #859900;">Type</span>                 | <span style="color: #859900;">Null</span> | <span style="color: #859900;">Key</span> | <span style="color: #859900;">Default</span> |
++<span style="color: #586e75; font-style: italic;">---------+----------------------+------+-----+---------+
+</span>| dept_id | <span style="color: #b58900;">smallint</span>(5) unsigned | <span style="color: #859900;">No</span>   | PRI | <span style="color: #859900;">NULL</span>    |
+| <span style="color: #859900;">name</span>    | <span style="color: #b58900;">varchar</span>(20)          | <span style="color: #859900;">No</span>   |     | <span style="color: #859900;">NULL</span>    |
++<span style="color: #586e75; font-style: italic;">---------+----------------------+------+-----+---------+
+</span>2 <span style="color: #859900;">rows</span> <span style="color: #859900;">in</span> <span style="color: #859900;">set</span> (0.03 sec)
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Existing information in the table i.e. No of Rows </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>There are only 18 employees and 3 different departments
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Cross Join or Cartesian Product </h2>
+<div class="outline-text-2" id="text-3">
+
+<p>Rows count:  18 * 3 = 54 the result of joining multiple tables without specifying any join conditions.
+</p>
+
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> pt.name, p.product_cd, p.name
+<span style="color: #859900;">FROM</span> product p <span style="color: #859900;">CROSS</span> <span style="color: #859900;">JOIN</span> product_type pt;
+
+</pre>
+
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Equi-Join/Inner-Join </h2>
+<div class="outline-text-2" id="text-4">
+
+
+</div>
+
+<div id="outline-container-4_1" class="outline-3">
+<h3 id="sec-4_1"><span class="section-number-3">4.1</span> <b>Problem Definition:</b> </h3>
+<div class="outline-text-3" id="text-4_1">
+
+<p>Retrieve the first and last names of each employee along with the name of the department to which each employee is assigned.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4_2" class="outline-3">
+<h3 id="sec-4_2"><span class="section-number-3">4.2</span> <b>Soln:</b> </h3>
+<div class="outline-text-3" id="text-4_2">
+
+
+
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> emp.fname, emp.lname, dept.name 
+<span style="color: #859900;">FROM</span>   employee emp , department dept
+<span style="color: #859900;">WHERE</span>  emp.dept_id = dept.dept_id;
+
+</pre>
+
+
+<p>
+OR
+</p>
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> emp.fname, emp.lname, dept.name 
+<span style="color: #859900;">FROM</span>   employee emp <span style="color: #859900;">JOIN</span> department dept 
+                <span style="color: #859900;">ON</span> emp.dept_id = emp.dept_id;
+</pre>
+
+
+<p>
+OR
+</p>
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> emp.fname, emp.lname, dept.name 
+<span style="color: #859900;">FROM</span>   employee emp <span style="color: #859900;">INNER</span> <span style="color: #859900;">JOIN</span> department dept 
+                <span style="color: #859900;">ON</span> emp.dept_id = emp.dept_id;
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_3" class="outline-3">
+<h3 id="sec-4_3"><span class="section-number-3">4.3</span> Join variation with nested query </h3>
+<div class="outline-text-3" id="text-4_3">
+
+
+</div>
+
+<div id="outline-container-4_3_1" class="outline-4">
+<h4 id="sec-4_3_1"><span class="section-number-4">4.3.1</span> <b>Problem Definition:</b> find all accounts opened by experienced tellers currently assigned to the Woburn branch </h4>
+<div class="outline-text-4" id="text-4_3_1">
+
+
+
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> acct.account_id, acct.cust_id, acct.open_date, acct.product_cd
+<span style="color: #859900;">FROM</span> account acct <span style="color: #859900;">INNER</span> <span style="color: #859900;">JOIN</span> (<span style="color: #859900;">SELECT</span> emp_id, assigned_branch_id
+                             <span style="color: #859900;">FROM</span> employee
+                             <span style="color: #859900;">WHERE</span> start_date &lt; <span style="color: #2aa198;">'2007-01-01'</span>
+                                   <span style="color: #859900;">AND</span> (title = <span style="color: #2aa198;">'Teller'</span> <span style="color: #859900;">OR</span> title = <span style="color: #2aa198;">'Head Teller'</span>)) emp
+                       <span style="color: #859900;">ON</span> acct.open_emp_id = emp.emp_id
+                  <span style="color: #859900;">INNER</span> <span style="color: #859900;">JOIN</span> (<span style="color: #859900;">SELECT</span> branch_id
+                             <span style="color: #859900;">FROM</span> branch
+                             <span style="color: #859900;">WHERE</span> <span style="color: #859900;">name</span> = <span style="color: #2aa198;">'Woburn Branch'</span>) branch
+                       <span style="color: #859900;">ON</span> emp.assigned_branch_id = branch.branch_id;
+</pre>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Self-Join </h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5_1" class="outline-3">
+<h3 id="sec-5_1"><span class="section-number-3">5.1</span> <b>Problem :</b> Display name of employees and there superior. </h3>
+<div class="outline-text-3" id="text-5_1">
+
+</div>
+
+</div>
+
+<div id="outline-container-5_2" class="outline-3">
+<h3 id="sec-5_2"><span class="section-number-3">5.2</span> <b>Problem Definition:</b> Display employee first and last name with superiors first and last name. </h3>
+<div class="outline-text-3" id="text-5_2">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_3" class="outline-3">
+<h3 id="sec-5_3"><span class="section-number-3">5.3</span> <b>Soln:</b> </h3>
+<div class="outline-text-3" id="text-5_3">
+
+<p>Employee table includes a self-referencing foreign key, 
+which means that it includes a column (superior<sub>emp</sub><sub>id</sub>) that points to the primary key within the same table. 
+Visualize there are two table .
+</p><ol>
+<li>
+employee table with employee information with superior<sub>emp</sub><sub>id</sub> as foreign key which points the information in superior table.
+</li>
+<li>
+superior table with superior information with emp<sub>id</sub> as primary key. 
+
+
+</li>
+</ol>
+
+
+<pre class="src src-sql">   <span style="color: #586e75; font-style: italic;">----------------------------     --------------------
+</span>   |  Employee <span style="color: #859900;">Table</span>          |     | Superior <span style="color: #859900;">Table</span>    |   
+   <span style="color: #586e75; font-style: italic;">----------------------------     --------------------
+</span>   | Emp_ID | Superior_Emp_ID |     | Emp_ID            |
+   <span style="color: #586e75; font-style: italic;">----------------------------     ---------------------
+</span>
+<span style="color: #859900;">SELECT</span> emp.fname, emp.lname, superior.fname, superior.lname
+<span style="color: #859900;">FROM</span>   employee emp <span style="color: #859900;">JOIN</span> employee superior
+                <span style="color: #859900;">ON</span> emp.superior_emp_id = superior.emp_id;
+
+</pre>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Non equi-join </h2>
+<div class="outline-text-2" id="text-6">
+
+<p>You may also find a need for a self-non-equi-join, meaning that a table is joined to itself using a non-equi-join. 
+For example, let's say that the operations manager has decided to have a chess tournament for all bank tellers. 
+You have been asked to create a list of all the pairings. 
+You might try joining the employee table to itself for all tellers (title = 'Teller') and return all rows where the emp<sub>ids</sub> don't match (since a person can’t play chess against himself):
+</p>
+
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> emp1.fname, emp1.lname, "VS" vs, emp2.fname, emp2.lname  
+<span style="color: #859900;">FROM</span>   employee emp1 <span style="color: #859900;">JOIN</span> employee emp2
+                <span style="color: #859900;">ON</span> emp1.emp_id != emp2.emp_id
+<span style="color: #859900;">WHERE</span>  emp1.title = emp2.title = "Teller";
+
+<span style="color: #859900;">SELECT</span> emp1.fname, emp1.lname, "VS" vs, emp2.fname, emp2.lname  
+<span style="color: #859900;">FROM</span>   employee emp1 <span style="color: #859900;">JOIN</span> employee emp2
+                <span style="color: #859900;">ON</span> emp1.title != emp2.title
+<span style="color: #859900;">WHERE</span>  emp1.title = "Teller"
+       <span style="color: #859900;">AND</span> emp1.emp_id != emp2.emp_id;
+
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Natural Joins </h2>
+<div class="outline-text-2" id="text-7">
+
+<p>lets the database server determine what the join conditions need to be. For example, the account table includes a column named cust<sub>id</sub>, which is the foreign key to the customer table,whose primary key is also named cust<sub>id</sub>. Thus, you can write a query that uses natural join to join the two tables:
+</p>
+
+
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span> a.account_id, a.cust_id, c.cust_type_cd, c.fed_id
+<span style="color: #859900;">FROM</span> account a <span style="color: #859900;">NATURAL</span> <span style="color: #859900;">JOIN</span> customer c;
+
+</pre>
+
+
+
+
+
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 21:16:57 </p>
+</div>
+</div>
+</body>
+</html>

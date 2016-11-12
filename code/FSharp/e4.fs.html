@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.47 in css mode. -->
+<html>
+  <head>
+    <title>e4.fs</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #839496;
+        background-color: #002b36;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #2aa198;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #268bd2;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #2aa198;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #b58900;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="type">open</span> <span class="function-name">System</span>.<span class="function-name">Windows</span>.<span class="function-name">Forms</span>
+<span class="type">open</span> <span class="function-name">System</span>.<span class="function-name">IO</span>
+<span class="type">open</span> <span class="function-name">System</span>.<span class="function-name">Net</span>
+
+<span class="type">let</span> http (url: string) =
+    <span class="type">let</span> req    = <span class="function-name">System</span>.<span class="function-name">Net</span>.<span class="function-name">WebRequest</span>.<span class="function-name">Create</span> (url)
+    <span class="type">let</span> resp   = req.<span class="function-name">GetResponse</span>              ()
+    <span class="type">let</span> stream = resp.<span class="function-name">GetResponseStream</span>       ()
+    <span class="type">let</span> reader = <span class="type">new</span> <span class="function-name">StreamReader</span>             (stream)
+    <span class="type">let</span> html   = reader.<span class="function-name">ReadToEnd</span>             ()
+    resp.<span class="function-name">Close</span>()
+    html
+    
+<span class="type">let</span> fetch url =
+     <span class="type">try</span> <span class="function-name">Some</span> (http url)
+     <span class="type">with</span> :? <span class="function-name">System</span>.<span class="function-name">Net</span>.<span class="function-name">WebException</span> <span class="constant">-&gt;</span> <span class="function-name">None</span>
+     
+<span class="type">match</span> (fetch <span class="string">"http://news.bbc.co.us"</span>) <span class="type">with</span>
+   <span class="constant">|</span> <span class="function-name">Some</span> text <span class="constant">-&gt;</span> printfn <span class="string">"text = %s"</span> text
+   <span class="constant">|</span> <span class="function-name">None</span>      <span class="constant">-&gt;</span> printfn <span class="string">"**** no web page found"</span>;;</pre>
+  </body>
+</html>

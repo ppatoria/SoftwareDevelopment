@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch24.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 4.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch24.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRk4yZ9AS4+hRpHZyQbrePuhX0MOpQ=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 24: Application domains</h2>
+
+<p>Using DoCallback:</p>
+<pre>class Program
+{
+  static void Main ()
+  {
+    AppDomain newDomain = AppDomain.CreateDomain (&quot;New Domain&quot;);
+    newDomain.DoCallBack (new CrossAppDomainDelegate (SayHello));
+    AppDomain.Unload (newDomain);
+  }
+
+  static void SayHello()
+  {
+    Console.WriteLine (&quot;Hi from &quot; + AppDomain.CurrentDomain.FriendlyName);
+  }
+}</pre>
+	<p>Isolating unit tests with application domains:</p>
+	<pre>class Program
+{
+  static void Main()
+  { 
+    // Create 20 domains and 20 threads.
+    AppDomain[] domains = new AppDomain [20];
+    Thread[] threads = new Thread [20];
+
+    for (int i = 0; i &lt; 20; i++)
+    {
+      domains [i] = AppDomain.CreateDomain (&quot;Client Login &quot; + i);
+      threads [i] = new Thread (LoginOtherDomain);
+    }
+
+    // Start all the threads, passing to each thread its app domain.
+    for (int i = 0; i &lt; 20; i++) threads [i].Start (domains [i]);
+
+    // Wait for the threads to finish
+    for (int i = 0; i &lt; 20; i++) threads [i].Join ();
+
+    // Unload the app domains
+    for (int i = 0; i &lt; 20; i++) AppDomain.Unload (domains [i]);
+    Console.ReadLine ();
+  }
+
+  // Parameterized thread start – taking the domain on which to run.
+  static void LoginOtherDomain (object domain)
+  {
+    ((AppDomain) domain).DoCallBack (Login);
+  }
+
+  static void Login()
+  {
+    Client.Login (&quot;Joe&quot;, &quot;&quot;);
+    Console.WriteLine (&quot;Logged in as: &quot; + Client.CurrentUser + &quot; on &quot; +
+      AppDomain.CurrentDomain.FriendlyName); 
+  }
+}
+
+class Client
+{
+  // Here's a static field that would interfere with other client logins
+  // if running in the same app domain.
+  public static string CurrentUser = &quot;&quot;;
+
+  public static void Login (string name, string password)
+  {
+    if (CurrentUser.Length == 0)    // If we're not already logged in...
+    {
+      // Sleep to simulate authentication...
+      Thread.Sleep (500);
+      CurrentUser = name;           // Record that we're authenticated.
+    }
+  }
+}</pre>
+	<p>Sharing data via slots:</p>
+	<pre>class Program
+{
+  static void Main()
+  {
+    AppDomain newDomain = AppDomain.CreateDomain (&quot;New Domain&quot;);
+
+    // Write to a named slot called &quot;Message&quot; – any string key will do.
+    newDomain.SetData (&quot;Message&quot;, &quot;guess what...&quot;);
+
+    newDomain.DoCallBack (SayMessage);
+    AppDomain.Unload (newDomain);
+  }
+
+  static void SayMessage()
+  {
+    // Read from the &quot;Message&quot; data slot
+    Console.WriteLine (AppDomain.CurrentDomain.GetData (&quot;Message&quot;));
+  }
+}</pre>
+	<p>Intra-process remoting:</p>
+	<pre>class Program 
+{
+  static void Main()
+  {
+    AppDomain newDomain = AppDomain.CreateDomain (&quot;New Domain&quot;);
+
+    Foo foo = (Foo) newDomain.CreateInstanceAndUnwrap (
+                      typeof (Foo).Assembly.FullName,
+                      typeof (Foo).FullName); 
+    
+    Console.WriteLine (foo.SayHello());
+    AppDomain.Unload (newDomain);
+    Console.ReadLine();
+  }
+}
+
+public class Foo : MarshalByRefObject
+{
+  public string SayHello()
+  {
+    return &quot;Hello from &quot; + AppDomain.CurrentDomain.FriendlyName;
+  }
+
+  public override object InitializeLifetimeService()
+  {
+    // This ensures the object lasts for as long as the client wants it
+    return null;
+  }
+}</pre>
+	<p>A simple plug-in architecture:</p>
+	<pre>namespace Plugin.Common
+{
+  public interface ITextPlugin
+  {
+    string TransformText (string input);
+  }
+}
+</pre>
+	<pre>namespace Plugin.Extensions
+{
+  public class AllCapitals : MarshalByRefObject, Plugin.Common.ITextPlugin
+  {
+    public string TransformText (string input) { return input.ToUpper(); }
+  }
+}
+</pre>
+	<pre>using System;
+using System.Reflection;
+using Plugin.Common;
+
+class Program 
+{
+  static void Main()
+  {
+    AppDomain domain = AppDomain.CreateDomain (&quot;Plugin Domain&quot;);
+
+    ITextPlugin plugin = (ITextPlugin) domain.CreateInstanceFromAndUnwrap
+      (&quot;AllCapitals.dll&quot;, &quot;Plugin.Extensions.AllCapitals&quot;);
+
+    // Call the TransformText method using Remoting:
+    Console.WriteLine (plugin.TransformText (&quot;hello&quot;));   // &quot;HELLO&quot;
+
+    AppDomain.Unload (domain);
+
+    // The AllCapitals.dll file is now completely unloaded and could
+    // be moved or deleted.
+  }
+}</pre>
+	<p>Type discovery:</p>
+	<pre>public class Discoverer : MarshalByRefObject
+{
+  public string[] GetPluginTypeNames (string assemblyPath)
+  {
+    List&lt;string&gt; typeNames = new List&lt;string&gt; ();
+    Assembly a = Assembly.LoadFrom (assemblyPath);
+    foreach (Type t in a.GetTypes ())
+    if (t.IsPublic
+        &amp;&amp; t.IsMarshalByRef 
+        &amp;&amp; typeof (ITextPlugin).IsAssignableFrom (t))
+    {
+      typeNames.Add (t.FullName);
+    }
+    return typeNames.ToArray ();
+  }
+}</pre>
+	<pre>class Program 
+{
+  static void Main()
+  {
+    AppDomain domain = AppDomain.CreateDomain (&quot;Plugin Domain&quot;);
+
+    Discoverer d = (Discoverer) domain.CreateInstanceAndUnwrap (
+      typeof (Discoverer).Assembly.FullName,
+      typeof (Discoverer).FullName);
+
+    string[] plugInTypeNames = d.GetPluginTypeNames (&quot;AllCapitals.dll&quot;);
+
+    foreach (string s in plugInTypeNames)
+      Console.WriteLine (s);              // Plugin.Extensions.AllCapitals
+
+    ...</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch24.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

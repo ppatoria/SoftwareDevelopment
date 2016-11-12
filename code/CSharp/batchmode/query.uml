@@ -1,0 +1,29 @@
+@startuml
+
+/' SampleXML
+ ' ------------
+ ' <Query>
+ '   <FieldMapping>
+ '     <RICCODE>RIC_CODE</RICCODE>
+ '   </FieldMapping>
+ '   <From>join tables and where clause</From>
+ ' </Query>
+ '/
+
+(*) -->["FlatFileField <=> DBFields"]  "CreateMapping from XML"
+-->["extract heading from flat file"] "GetFieldListFromFlatFiles"
+-->["created DataTable using field list from flat file"] "CreateDataTable"
+-->["get the values from the mapping and create query"] "Query DB"
+-->["loop through all the fields and use mapping get the DB field name and get the value"] "FillDataTable"
+--> (*)
+@enduml
+
+
+@startuml
+Sample XML
+----------
+<Sql>
+  select .... from ...
+</Sql>
+
+@enduml

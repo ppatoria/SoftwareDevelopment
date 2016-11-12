@@ -1,0 +1,1349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from www.albahari.com/threading/part3.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Threading in C# - Part 3 - Using Threads
+</title><link rel="stylesheet" type="text/css" href="tstyles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="sh_main.min.js"></script>
+<script type="text/javascript" src="sh_csharp.js"></script>
+<link type="text/css" rel="stylesheet" href="sh_style.css" /></head>
+
+<body onload="sh_highlightDocument();">
+<form name="aspnetForm" method="post" action="http://www.albahari.com/threading/part3.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+
+<div id="navbar">
+<p class="navtitle">Threading in C#, by Joe Albahari</p>
+<div id="ctl00_navcontent">
+<p class='navsectioncontainer'>
+<a class='nav0' href='index.html'>GETTING STARTED</a>
+	<a class='nav1' href='index.html#_Introduction'>+ Introduction and Concepts</a>
+	<a class='nav1' href='index.html#_Creating_and_Starting_Threads'>+ Creating and Starting Threads</a>
+	<a class='nav1' href='index.html#_Thread_Pooling'>+ Thread Pooling</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part2.html'>BASIC SYNCHRONIZATION</a>
+	<a class='nav1' href='part2.html#_Synchronization'>+ Synchronization Essentials</a>
+	<a class='nav1' href='part2.html#_Locking'>+ Locking</a>
+	<a class='nav1' href='part2.html#_Thread_Safety'>+ Thread Safety</a>
+	<a class='nav1' href='part2.html#_Signaling_with_Event_Wait_Handles'>+ Event Wait Handles</a>
+	<a class='nav1' href='part2.html#_Synchronization_Contexts'>+ Synchronization Contexts</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0a' href='part3.html'>USING THREADS</a>
+	<a class='nav1a' href='part3.html#_Event-Based_Asynchronous_Pattern'>Event-Based Asynch Pattern</a>
+	<a class='nav1a' href='part3.html#_BackgroundWorker'>BackgroundWorker</a>
+	<a class='nav2a' href='part3.html#_Using_BackgroundWorker'>Using BackgroundWorker</a>
+	<a class='nav2a' href='part3.html#_Subclassing_BackgroundWorker'>Subclassing BackgroundWorker</a>
+	<a class='nav1a' href='part3.html#_Interrupt_and_Abort'>Interrupt and Abort</a>
+	<a class='nav2a' href='part3.html#_Interrupt'>Interrupt</a>
+	<a class='nav2a' href='part3.html#_Abort'>Abort</a>
+	<a class='nav1a' href='part3.html#_Safe_Cancellation'>Safe Cancellation</a>
+	<a class='nav2a' href='part3.html#_Cancellation_Tokens'>Cancellation Tokens</a>
+	<a class='nav1a' href='part3.html#_Lazy_Initialization'>Lazy Initialization</a>
+	<a class='nav2a' href='part3.html#_LazyT'>Lazy of T class</a>
+	<a class='nav2a' href='part3.html#_LazyInitializer'>LazyInitializer</a>
+	<a class='nav1a' href='part3.html#_Thread-Local_Storage'>Thread-Local Storage</a>
+	<a class='nav2a' href='part3.html#_ThreadStatic'>[ThreadStatic]</a>
+	<a class='nav2a' href='part3.html#_ThreadLocalT'>ThreadLocal of T class</a>
+	<a class='nav2a' href='part3.html#_GetData_and_SetData'>GetData and SetData</a>
+	<a class='nav1a' href='part3.html#_Timers'>Timers</a>
+	<a class='nav2a' href='part3.html#_Multithreaded_Timers'>Multithreaded Timers</a>
+	<a class='nav2a' href='part3.html#_SingleThreaded_Timers'>Single-Threaded Timers</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part4.html'>ADVANCED THREADING</a>
+	<a class='nav1' href='part4.html#_Nonblocking_Synchronization'>+ Nonblocking Synchronization</a>
+	<a class='nav1' href='part4.html#_Signaling_with_Wait_and_Pulse'>+ Signaling with Wait and Pulse</a>
+	<a class='nav1' href='part4.html#_The_Barrier_Class'>+ The Barrier Class</a>
+	<a class='nav1' href='part4.html#_Reader_Writer_Locks'>+ Reader/Writer Locks</a>
+	<a class='nav1' href='part4.html#_Suspend_and_Resume'>+ Suspend and Resume</a>
+	<a class='nav1' href='part4.html#_Aborting_Threads'>+ Aborting Threads</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part5.html'>PARALLEL PROGRAMMING</a>
+	<a class='nav1' href='part5.html#_Parallel_Programming'>+ Parallel Programming</a>
+	<a class='nav1' href='part5.html#_Why_PFX'>+ Why PFX?</a>
+	<a class='nav1' href='part5.html#_PLINQ'>+ PLINQ</a>
+	<a class='nav1' href='part5.html#_The_Parallel_Class'>+ The Parallel Class</a>
+	<a class='nav1' href='part5.html#_Task_Parallelism'>+ Task Parallelism</a>
+	<a class='nav1' href='part5.html#_Working_with_AggregateException'>+ Working with AggregateException</a>
+	<a class='nav1' href='part5.html#_Concurrent_Collections'>+ Concurrent Collections</a>
+	<a class='nav1' href='part5.html#_SpinLock_and_SpinWait'>+ SpinLock and SpinWait</a>
+</p>
+</div>
+<p><a href="../index.html">More by this author</a></p>
+<br />
+</div>
+
+<div id="main">
+<p class="title">Threading in C#</p>
+<p class="author">Joseph Albahari</p>
+<div id="ctl00_toc">
+<table class='toc' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<th class='toc'><a class='toc' href='index.html'> Part 1</a></th>
+		<th class='toc'><a class='toc' href='part2.html'> Part 2</a></th>
+		<th class='tocactive'>Part 3</th>
+		<th class='toc'><a class='toc' href='part4.html'> Part 4</a></th>
+		<th class='toc'><a class='toc' href='part5.html'> Part 5</a></th>
+	</tr>
+	<tr>		<td class='toc'><a class='toc' href='index.html'>Getting Started</a></td>
+		<td class='toc'><a class='toc' href='part2.html'>Basic Synchronization</a></td>
+		<td class='tocactive'>Using Threads</td>
+		<td class='toc'><a class='toc' href='part4.html'>Advanced Threading</a></td>
+		<td class='toc'><a class='toc' href='part5.html'>Parallel Programming</a></td>
+	</tr>
+</table>
+</div>
+<p style="float:right">Last updated: 2011-4-27</p>
+<p>Translations: 
+	<a href="http://knowledge.swanky.wu.googlepages.com/threading_in_c_sharp.html"> Chinese</a>
+	| <a href="threading_czech.pdf">Czech</a>
+	| <a href="threading_persian.pdf"> Persian</a>
+	| <a href="http://rsdn.ru/article/?904"> Russian</a>
+	| <a href="http://article.higlabo.com/ja/thread_fundamentals.html"> Japanese</a>
+</p>
+	
+<p><a href='http://www.albahari.info/threading/threading.pdf' style='font-weight:bold'>Download PDF</a>
+
+</p>	
+
+
+
+<p class="sectiontitle">Part 3: Using Threads</p>
+
+<h1>
+	<a name="_Event-Based_Asynchronous_Pattern">The Event-Based Asynchronous
+Pattern</a>
+</h1>
+
+<p>The event-based asynchronous pattern (EAP) provides a
+simple means by which classes can offer multithreading capability without consumers
+needing to explicitly start or manage threads. It also provides the following
+features:</p>
+
+<ul>
+	<li>A cooperative cancellation model</li>
+	<li>The ability to <a href="part2.html#_Rich_Client_Applications">safely update
+WPF or Windows Forms controls</a> when the worker completes</li>
+	<li>Forwarding of exceptions to the completion event</li>
+</ul>
+
+<p>The EAP is just a pattern, so these features must be
+written by the implementer. Just a few classes in the Framework follow this
+pattern, most notably <code><a href="#_BackgroundWorker">BackgroundWorker</a></code>
+(which we’ll cover next), and <code>WebClient</code> in <code>System.Net</code>. Essentially the pattern is this: a class
+offers a family of members that internally manage multithreading, similar to
+the following (the highlighted sections indicate code that is part of the pattern):</p>
+
+<pre class="sh_csharp">
+// These members are from the WebClient class:
+ 
+public byte[] DownloadData (Uri address);    // Synchronous version
+public void DownloadData<b>Async</b> (Uri address);
+public void DownloadData<b>Async</b> (Uri address, <b>object userToken</b>);
+public event DownloadData<b>CompletedEventHandler</b> DownloadData<b>Completed</b>;
+ 
+public void <b>CancelAsync</b> (<b>object userState</b>);  // Cancels an operation
+public bool <b>IsBusy</b> { get; }                  // Indicates if still running
+</pre>
+
+<p>The <code>*Async</code> methods execute
+asynchronously: in other words, they start an operation on another thread and
+then return immediately to the caller. When the operation completes, the <span class="Replaceable">*</span><code>Completed</code> event fires — automatically
+calling <code>Invoke</code> if <a href="part2.html#_Rich_Client_Applications">required by a WPF or Windows Forms
+application</a>. This event passes back an event arguments object that contains:</p>
+
+<ul>
+	<li>A flag indicating whether the operation was canceled (by the
+consumer calling <code>CancelAsync</code>)</li>
+	<li>An <code>Error</code> object indicating an
+exception that was thrown (if any)</li>
+	<li>The <code>userToken</code> object if supplied when
+calling the <code>Async</code> method</li>
+</ul>
+
+<p>Here’s how we can use <code>WebClient</code>’s
+EAP members to download a web page:</p>
+
+<pre class="sh_csharp">
+var wc = new WebClient();
+wc.DownloadStringCompleted += (sender, args) =&gt;
+{
+  if (args.Cancelled)
+    Console.WriteLine ("Canceled");
+  else if (args.Error != null)
+    Console.WriteLine ("Exception: " + args.Error.Message);
+  else
+  {
+    Console.WriteLine (args.Result.Length + " chars were downloaded");
+    // We could update the UI from here...
+  }
+};
+wc.DownloadStringAsync (new Uri ("http://www.linqpad.net"));  // Start it
+</pre>
+
+<p>A class following the EAP may offer additional groups of asynchronous
+methods. For instance:</p>
+
+<pre class="sh_csharp">
+public string DownloadString (Uri address);
+public void DownloadStringAsync (Uri address);
+public void DownloadStringAsync (Uri address, object userToken);
+public event DownloadStringCompletedEventHandler DownloadStringCompleted;
+</pre>
+
+<p>However, these will share the same <code>CancelAsync</code>
+and <code>IsBusy</code> members. Therefore, only one asynchronous
+operation can happen at once.</p>
+
+<p class="note">The EAP offers the <em>possibility</em> of economizing on
+threads, if its internal implementation follows the APM (this is described in
+Chapter 23 of <a href="../nutshell/index.html">C# 4.0 in a Nutshell</a>).
+</p>
+
+<p>We’ll see in Part 5 how <code><a href="part5.html#_Task_Parallelism">Tasks</a></code>
+offer similar capabilities — including exception forwarding, continuations, cancellation
+tokens, and support for synchronization contexts. This makes <em>implementing</em>
+the EAP less attractive — except in simple cases where <code><a href="#_BackgroundWorker">BackgroundWorker</a></code> will do.</p>
+
+<h1>
+	<a name="_BackgroundWorker">BackgroundWorker</a>
+</h1>
+
+<div class="linqpad">
+	<p style="margin:3pt; font-size:150%; font-weight:bold; color:#A57">Write LINQ queries in a fraction of the time</p>
+	<p>
+		<a href="http://www.linqpad.net/">
+		<img border="0" src="linqpadlogo.png" alt="LINQPad" width="259" height="249" /></a>
+	</p>
+	<p style="margin:0; font-size:270%; font-weight:bold; color:#A57"><a style="color:#A57; text-decoration:none" href="http://www.linqpad.net/">LINQPad</a></p>
+	<p style="margin:0pt; font-size:150%; font-weight:bold; color:teal">Small. Fast. FREE</p>
+</div>
+
+<p>
+	<code>BackgroundWorker</code> is a helper
+class in the <code>System.ComponentModel</code> namespace for
+managing a worker thread. It can be considered a general-purpose implementation
+of the <a href="#_Event-Based_Asynchronous_Pattern">EAP</a>, and provides the
+following features:</p>
+
+<ul>
+	<li>A cooperative cancellation model</li>
+	<li>The ability to <a href="part2.html#_Rich_Client_Applications">safely update
+WPF or Windows Forms controls</a> when the worker completes</li>
+	<li>Forwarding of exceptions to the completion event</li>
+	<li>A protocol for reporting progress</li>
+	<li>An implementation of <code>IComponent</code>
+allowing it to be sited in Visual Studio’s designer</li>
+</ul>
+
+<p>
+	<code>BackgroundWorker</code> uses the <a href="index.html#_Thread_Pooling">thread pool</a>, which means you should never call <code><a href="part4.html#_Aborting_Threads">Abort</a></code> on a <code>BackgroundWorker</code> thread.</p>
+
+<h2>
+	<a name="_Using_BackgroundWorker">Using BackgroundWorker</a>
+</h2>
+
+<p>Here are the minimum steps in using <code>BackgroundWorker</code>:</p>
+
+<ol>
+	<li>Instantiate <code>BackgroundWorker</code> and handle the <code>DoWork</code> event.</li>
+	<li>Call <code>RunWorkerAsync</code>, optionally with an <code>object</code> argument.</li>
+</ol>
+
+<p>This then sets it in motion. Any argument passed to <code>RunWorkerAsync</code> will be forwarded to <code>DoWork</code>’s
+event handler, via the event argument’s <code>Argument</code>
+property. Here’s an example:</p>
+
+<pre class="sh_csharp">
+class Program
+{
+  static BackgroundWorker _bw = new BackgroundWorker();
+ 
+  static void Main()
+  {
+    _bw.DoWork += bw_DoWork;
+    _bw.RunWorkerAsync ("Message to worker");
+    Console.ReadLine();
+  }
+ 
+  static void bw_DoWork (object sender, DoWorkEventArgs e)
+  {
+    // This is called on the worker thread
+    Console.WriteLine (e.Argument);        // writes "Message to worker"
+    // Perform time-consuming task...
+  }
+}
+</pre>
+
+<p>
+	<code>BackgroundWorker</code> has a <code>RunWorkerCompleted</code> event that fires after the <code>DoWork</code> event handler has done its job. Handling <code>RunWorkerCompleted</code> is not mandatory, but you usually do so
+in order to query any exception that was thrown in <code>DoWork</code>.
+Further, code within a <code>RunWorkerCompleted</code> event
+handler is able to update user interface controls without explicit marshaling;
+code within the <code>DoWork</code> event handler cannot.</p>
+
+<p>To add support for progress reporting:</p>
+
+<ol>
+	<li>Set the <code>WorkerReportsProgress</code> property to <code>true</code>.</li>
+	<li>Periodically call <code>ReportProgress</code> from within
+the <code>DoWork</code> event handler with a “percentage
+complete” value, and optionally, a user-state object.</li>
+	<li>Handle the <code>ProgressChanged</code> event, querying its
+event argument’s <code>ProgressPercentage</code> property.</li>
+	<li>Code in the <code>ProgressChanged</code> event handler is
+free to interact with UI controls just as with <code>RunWorkerCompleted</code>.
+This is typically where you will update a progress bar.</li>
+</ol>
+
+<p>To add support for cancellation:</p>
+
+<ol>
+	<li>Set the <code>WorkerSupportsCancellation</code> property
+to <code>true</code>.</li>
+	<li>Periodically check the <code>CancellationPending</code>
+property from within the <code>DoWork</code> event handler. If
+it’s <code>true</code>, set the event argument’s <code>Cancel</code> property to <code>true</code>, and
+return. (The worker can also set <code>Cancel</code> and exit without
+<code>CancellationPending</code> being <code>true</code>
+if it decides that the job is too difficult and it can’t go on.)</li>
+	<li>Call <code>CancelAsync</code> to request cancellation.</li>
+</ol>
+
+<p>Here’s an example that implements all the preceding
+features:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Threading;
+using System.ComponentModel;
+ 
+class Program
+{
+  static BackgroundWorker _bw;
+ 
+  static void Main()
+  {
+    _bw = new BackgroundWorker
+    {
+      WorkerReportsProgress = true,
+      WorkerSupportsCancellation = true
+    };
+    _bw.DoWork += bw_DoWork;
+    _bw.ProgressChanged += bw_ProgressChanged;
+    _bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+ 
+    _bw.RunWorkerAsync ("Hello to worker");
+ 
+    Console.WriteLine ("Press Enter in the next 5 seconds to cancel");
+    Console.ReadLine();
+    if (_bw.IsBusy) _bw.CancelAsync();
+    Console.ReadLine();
+  }
+ 
+  static void bw_DoWork (object sender, DoWorkEventArgs e)
+  {
+    for (int i = 0; i &lt;= 100; i += 20)
+    {
+      if (_bw.CancellationPending) { e.Cancel = true; return; }
+      _bw.ReportProgress (i);
+      Thread.Sleep (1000);      // Just for the demo... don't go sleeping
+    }                           // for real in pooled threads!
+ 
+    e.Result = 123;    // This gets passed to RunWorkerCompleted
+  }
+ 
+  static void bw_RunWorkerCompleted (object sender,
+                                     RunWorkerCompletedEventArgs e)
+  {
+    if (e.Cancelled)
+      Console.WriteLine ("You canceled!");
+    else if (e.Error != null)
+      Console.WriteLine ("Worker exception: " + e.Error.ToString());
+    else
+      Console.WriteLine ("Complete: " + e.Result);      // from DoWork
+  }
+ 
+  static void bw_ProgressChanged (object sender,
+                                  ProgressChangedEventArgs e)
+  {
+    Console.WriteLine ("Reached " + e.ProgressPercentage + "%");
+  }
+}
+</pre>
+
+<pre class="output">
+Press Enter in the next 5 seconds to cancel
+Reached 0%
+Reached 20%
+Reached 40%
+Reached 60%
+Reached 80%
+Reached 100%
+Complete: 123
+ 
+Press Enter in the next 5 seconds to cancel
+Reached 0%
+Reached 20%
+Reached 40%
+ 
+You canceled!
+</pre>
+
+<h2>
+	<a name="_Subclassing_BackgroundWorker">Subclassing BackgroundWorker</a>
+</h2>
+
+<p class="note">Subclassing <code>BackgroundWorker</code> is an
+easy way to implement the <a href="#_Event-Based_Asynchronous_Pattern">EAP</a>, in
+cases when you need to offer only one asynchronously executing method.</p>
+
+<p>
+	<code>BackgroundWorker</code> is not sealed
+and provides a virtual <code>OnDoWork</code> method, suggesting
+another pattern for its use. In writing a potentially long-running method, you
+could write an additional version returning a subclassed <code>BackgroundWorker</code>,
+preconfigured to perform the job concurrently. The consumer then needs to
+handle only the <code>RunWorkerCompleted</code> and <code>ProgressChanged</code> events. For instance, suppose we wrote a
+time-consuming method called <code>GetFinancialTotals</code>:</p>
+
+<pre class="sh_csharp">
+public class Client
+{
+  Dictionary &lt;string,int&gt; GetFinancialTotals (int foo, int bar) { ... }
+  ...
+}
+</pre>
+
+<p>We could refactor it as follows:</p>
+
+<pre class="sh_csharp">
+public class Client
+{
+  public FinancialWorker GetFinancialTotalsBackground (int foo, int bar)
+  {
+    return new FinancialWorker (foo, bar);
+  }
+}
+ 
+public class FinancialWorker : BackgroundWorker
+{
+  public Dictionary &lt;string,int&gt; Result;   // You can add typed fields.
+  public readonly int Foo, Bar;
+ 
+  public FinancialWorker()
+  {
+    WorkerReportsProgress = true;
+    WorkerSupportsCancellation = true;
+  }
+ 
+  public FinancialWorker (int foo, int bar) : this()
+  {
+    this.Foo = foo; this.Bar = bar;
+  }
+ 
+  protected override void OnDoWork (DoWorkEventArgs e)
+  {
+    ReportProgress (0, "Working hard on this report...");
+ 
+    // Initialize financial report data
+    // ...
+ 
+    while (!<i>&lt;finished report&gt;</i>)
+    {
+      if (CancellationPending) { e.Cancel = true; return; }
+      // Perform another calculation step ...
+      // ...
+      ReportProgress (<i>percentCompleteCalc</i>, "Getting there...");
+    }
+    ReportProgress (100, "Done!");
+    e.Result = Result = <i>&lt;completed report data&gt;</i>;
+  }
+}
+</pre>
+
+<p>Whoever calls <code>GetFinancialTotalsBackground</code>
+then gets a <code>FinancialWorker</code>: a wrapper to manage the
+background operation with real-world usability. It can report progress, can be
+canceled, is friendly with WPF and Windows Forms applications, and handles
+exceptions well.</p>
+
+<h1>
+	<a name="_Interrupt_and_Abort">Interrupt and Abort</a>
+</h1>
+
+<p>All <a href="part2.html#_Blocking">blocking</a> methods (such as <code>Sleep</code>, <code>Join</code>, <code>EndInvoke</code>, and <code>Wait</code>) block
+forever if the unblocking condition is never met and no timeout is specified.
+Occasionally, it can be useful to release a blocked thread prematurely; for
+instance, when ending an application. Two methods accomplish this:</p>
+
+<ul>
+	<li>
+		<code>Thread.Interrupt</code>
+	</li>
+	<li>
+		<code>Thread.Abort</code>
+	</li>
+</ul>
+
+<p>The <code>Abort</code> method is also
+capable of ending a nonblocked thread — stuck, perhaps, in an infinite loop. <code>Abort</code> is occasionally useful in <em>niche</em> scenarios; <code>Interrupt</code> is almost never needed.</p>
+
+<p class="warning">
+	<code>Interrupt</code> and <code>Abort</code> can cause considerable trouble: it’s precisely
+because they <em>seem</em> like obvious choices in solving a range of problems
+that it’s worth examining their pitfalls.</p>
+
+<h2>
+	<a name="_Interrupt">Interrupt</a>
+</h2>
+
+<p>Calling <code>Interrupt</code> on a <a href="part2.html#_Blocking">blocked</a> thread forcibly releases it, throwing a <code>ThreadInterruptedException</code>, as follows:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  Thread t = new Thread (delegate()
+  {
+    try { Thread.Sleep (Timeout.Infinite); }
+    catch (ThreadInterruptedException) { Console.Write ("Forcibly "); }
+    Console.WriteLine ("Woken!");
+  });
+  t.Start();
+  t.Interrupt();
+}
+</pre>
+
+<pre class="output">
+Forcibly Woken!
+</pre>
+
+<p>Interrupting a thread does not cause the thread to end,
+unless the <code>ThreadInterruptedException</code> is unhandled.</p>
+
+<p>If <code>Interrupt</code> is called on a
+thread that’s not blocked, the thread continues executing until it next blocks,
+at which point a <code>ThreadInterruptedException</code> is
+thrown. This avoids the need for the following test:</p>
+
+<pre class="sh_csharp">
+if ((worker.ThreadState &amp; ThreadState.WaitSleepJoin) &gt; 0)
+  worker.Interrupt();
+</pre>
+
+<p>which is not thread-safe because of the possibility of
+preemption between the <code>if</code> statement and <code>worker.Interrupt</code>.</p>
+
+<p>Interrupting a thread arbitrarily is dangerous, however,
+because any framework or third-party methods in the calling stack could
+unexpectedly receive the interrupt rather than your intended code. All it would
+take is for the thread to block briefly on a simple <a href="part2.html#_Locking">lock</a>
+or synchronization resource, and any pending interruption would kick in. If the
+method isn’t designed to be interrupted (with appropriate cleanup code in <code>finally</code> blocks), objects could be left in an unusable
+state or resources incompletely released.</p>
+
+<p>Moreover, <code>Interrupt</code> is
+unnecessary: if you are writing the code that blocks, you can achieve the same
+result more safely with a signaling construct — or Framework 4.0’s <a href="#_Safe_Cancellation">cancellation tokens</a>. And if you want to
+“unblock” someone else’s code, <code>Abort</code> is nearly
+always more useful.</p>
+
+<h2>
+	<a name="_Abort">Abort</a>
+</h2>
+
+<p>A <a href="part2.html#_Blocking">blocked thread</a> can also be
+forcibly released via its <code>Abort</code> method. This has an
+effect similar to calling <code>Interrupt</code>, except that a <code>ThreadAbortException</code> is thrown instead of a <code>ThreadInterruptedException</code>. Furthermore, the exception
+will be rethrown at the end of the <code>catch</code> block (in
+an attempt to terminate the thread for good) unless <code>Thread.ResetAbort</code>
+is called within the <code>catch</code> block. In the interim,
+the thread has a <code><a href="part2.html#_ThreadState">ThreadState</a></code>
+of <code>AbortRequested</code>.</p>
+
+<p class="note">An unhandled <code>ThreadAbortException</code>
+is one of only two types of exception that does not <a href="index.html#_Exception_Handling">cause application shutdown</a> (the other is <code>AppDomainUnloadException</code>). </p>
+
+<p>The big difference between <code>Interrupt</code>
+and <code>Abort</code> is what happens when it’s called on a
+thread that is not blocked. Whereas <code>Interrupt</code> waits
+until the thread next blocks before doing anything, <code>Abort</code>
+throws an exception on the thread right where it’s executing (unmanaged code
+excepted). This is a problem because .NET Framework code might be aborted — code
+that is not abort-safe. For example, if an abort occurs while a <code>FileStream</code> is being constructed, it’s possible that an
+unmanaged file handle will remain open until the application domain ends. This
+rules out using <code>Abort</code> in almost any nontrivial
+context.</p>
+
+<p class="note">For more detail on why Abort is unsafe, see <a href="part4.html#_Aborting_Threads">Aborting Threads</a> in Part 4.</p>
+
+<p>There are two cases, though, where you can safely use <code>Abort</code>. One is if you are willing to tear down a thread’s
+application domain after it is aborted. A good example of when you might do
+this is in writing a unit-testing framework. Another case where you can call <code>Abort</code> safely is on your own thread (because you know
+exactly where you are). Aborting your own thread throws an “unswallowable”
+exception: one that gets rethrown after each catch block. ASP.NET does exactly
+this when you call <code>Redirect</code>.</p>
+
+<p class="note"><a href="http://www.linqpad.net/">LINQPad</a> aborts threads when you cancel a runaway query. After
+aborting, it dismantles and re-creates the query’s application domain to avoid
+the potentially polluted state that could otherwise occur.</p>
+
+<h1>
+	<a name="_Safe_Cancellation">Safe Cancellation</a>
+</h1>
+
+<p>As we saw in the preceding section, calling <code>Abort</code> on a thread is dangerous in most scenarios. The
+alternative, then, is to implement a <em>cooperative</em> pattern whereby the
+worker periodically checks a flag that indicates whether it should abort (like
+in <code><a href="#_BackgroundWorker">BackgroundWorker</a></code>).
+To cancel, the instigator simply sets the flag, and then waits for the worker
+to comply. This <code>BackgroundWorker</code> helper class
+implements such a flag-based cancellation pattern, and you easily implement one
+yourself.</p>
+
+<p>The obvious disadvantage is that the worker method must be
+written explicitly to support cancellation. Nonetheless, this is one of the few
+safe cancellation patterns. To illustrate this pattern, we’ll first write a class to encapsulate the cancellation flag:</p>
+
+<pre class="sh_csharp">
+class RulyCanceler
+{
+  object _cancelLocker = new object();
+  bool _cancelRequest;
+  public bool IsCancellationRequested
+  {
+    get { lock (_cancelLocker) return _cancelRequest; }
+  }
+ 
+  public void Cancel() { lock (_cancelLocker) _cancelRequest = true; } 
+ 
+  public void ThrowIfCancellationRequested()
+  {
+    if (IsCancellationRequested) throw new OperationCanceledException();
+  }
+}
+</pre>
+
+<p class="note">
+	<code>OperationCanceledException</code> is a
+Framework type intended for just this purpose. Any exception class will work just
+as well, though.</p>
+
+<p>We can use this as follows:</p>
+
+<pre class="sh_csharp">
+class Test
+{
+  static void Main()
+  {
+    var canceler = new RulyCanceler();
+    new Thread (() =&gt; {
+                        try { Work (canceler); }
+                        catch (OperationCanceledException)
+                        {
+                          Console.WriteLine ("Canceled!");
+                        }
+                      }).Start();
+    Thread.Sleep (1000);
+    canceler.Cancel();               // Safely cancel worker.
+  }
+ 
+  static void Work (RulyCanceler c)
+  {
+    while (true)
+    {
+      c.ThrowIfCancellationRequested();
+      // ...
+      try      { OtherMethod (c); }
+      finally  { /* any required cleanup */ }
+    }
+  }
+ 
+  static void OtherMethod (RulyCanceler c)
+  {
+    // Do stuff...
+    c.ThrowIfCancellationRequested();
+  }
+}
+</pre>
+
+<p>We could simplify our example by eliminating the <code>RulyCanceler</code> class and adding the static boolean field <code>_cancelRequest</code> to the <code>Test</code> class.
+However, doing so would mean that if several threads called <code>Work</code> at once, setting <code>_cancelRequest</code>
+to <code>true</code> would cancel all workers. Our <code>RulyCanceler</code> class is therefore a useful abstraction. Its
+only inelegance is that when we look at the <code>Work</code>
+method’s signature, the intention is unclear:</p>
+
+<pre class="sh_csharp">
+static void Work (RulyCanceler c)
+</pre>
+
+<p>Might the <code>Work</code> method itself
+intend to call <code>Cancel</code> on the <code>RulyCanceler</code>
+object? In this instance, the answer is no, so it would be nice if this could
+be enforced in the type system. Framework 4.0 provides <i>cancellation tokens</i> for this exact purpose.</p>
+
+<h2>
+	<a name="_Cancellation_Tokens">Cancellation Tokens</a>
+</h2>
+
+<p>Framework 4.0 provides two types that formalize the
+cooperative cancellation pattern that we just demonstrated: <code>CancellationTokenSource</code> and <code>CancellationToken</code>.
+The two types work in tandem:</p>
+
+<ul>
+	<li>A <code>CancellationTokenSource</code> defines a <code>Cancel</code> method.</li>
+	<li>A <code>CancellationToken</code> defines an <code>IsCancellationRequested</code> property and <code>ThrowIfCancellationRequested</code>
+method.</li>
+</ul>
+
+<p>Together, these amount to a more sophisticated version of
+the <code>RulyCanceler</code> class in our previous example. But
+because the types are separate, you can isolate the ability to cancel from the
+ability to check the cancellation flag.</p>
+
+<p>To use these types, first instantiate a <code>CancellationTokenSource</code> object:</p>
+
+<pre class="sh_csharp">
+var cancelSource = new CancellationTokenSource();
+</pre>
+
+<p>Then, pass its <code>Token</code> property
+into a method for which you’d like to support cancellation:</p>
+
+<pre class="sh_csharp">
+new Thread (() =&gt; Work (<b>cancelSource.Token</b>)).Start();
+</pre>
+
+<p>Here’s how <code>Work</code> would be
+defined:</p>
+
+<pre class="sh_csharp">
+void Work (CancellationToken cancelToken)
+{
+  cancelToken.ThrowIfCancellationRequested();
+  ...
+}
+</pre>
+
+<p>When you want to cancel, simply call <code>Cancel</code>
+on <code>cancelSource</code>.</p>
+
+<p class="note">
+	<code>CancellationToken</code> is actually a
+struct, although you can treat it like a class. When implicitly copied, the
+copies behave identically and reference the original <code>CancellationTokenSource</code>.</p>
+
+<p>The <code>CancellationToken</code> struct
+provides two additional useful members. The first is <code>WaitHandle</code>,
+which returns a <a href="part2.html#_Signaling_with_Event_Wait_Handles">wait handle</a> that’s
+signaled when the token is canceled. The second is <code>Register</code>,
+which lets you register a callback delegate that will be fired upon cancellation.</p>
+
+<p>Cancellation tokens are used within the .NET Framework
+itself, most notably in the following classes:</p>
+
+<ul>
+	<li>
+		<code>
+			<a href="part2.html#_ManualResetEvent">ManualResetEventSlim</a>
+		</code>
+and <code><a href="part2.html#_Semaphore">SemaphoreSlim</a></code></li>
+	<li>
+		<code>
+			<a href="part2.html#_CountdownEvent">CountdownEvent</a>
+		</code>
+	</li>
+	<li>
+		<code>
+			<a href="part4.html#_The_Barrier_Class">Barrier</a>
+		</code>
+	</li>
+	<li>
+		<code>BlockingCollection</code>
+	</li>
+	<li>
+		<a href="part5.html#_PLINQ">PLINQ</a> and the <a href="part5.html#_The_Parallel_Class">Task
+Parallel Library</a></li>
+</ul>
+
+<p>Most of these classes’ use of cancellation tokens is in
+their <code>Wait</code> methods. For example, if you <code>Wait</code> on a <code>ManualResetEventSlim</code>
+and specify a cancellation token, another thread can <code>Cancel</code>
+its wait. This is much tidier and safer than calling <code><a href="#_Interrupt">Interrupt</a></code> on the blocked thread.</p>
+
+<h1>
+	<a name="_Lazy_Initialization">Lazy Initialization</a>
+</h1>
+
+<p>A common problem in threading is how to lazily initialize
+a shared field in a thread-safe fashion. The need arises when you have a field
+of a type that’s expensive to construct:</p>
+
+<pre class="sh_csharp">
+class Foo
+{
+  <b>public readonly Expensive Expensive = new Expensive();</b>
+  <b>...</b>
+}
+class Expensive {  /* Suppose this is expensive to construct */  }
+</pre>
+
+<p>The problem with this code is that instantiating <code>Foo</code> incurs the performance cost of instantiating <code>Expensive</code> — whether or not the <code>Expensive</code>
+field is ever accessed. The obvious answer is to construct the instance <em>on
+demand</em>:</p>
+
+<pre class="sh_csharp">
+class Foo
+{
+  Expensive _expensive;
+  public Expensive Expensive       // <i>Lazily</i> instantiate Expensive
+  {
+    get
+    {
+      if (_expensive == null) _expensive = new Expensive();
+      return _expensive;
+    }
+  }
+  ...
+}
+</pre>
+
+<p>The question then arises, is this thread-safe? Aside from
+the fact that we’re accessing <code>_expensive</code> outside a <a href="part2.html#_Locking">lock</a> without a <a href="part4.html#_Memory_Barriers_and_Volatility">memory
+barrier</a>, consider what would happen if two threads accessed this property
+at once. They could both satisfy the <code>if</code> statement’s
+predicate and each thread end up with a <em>different</em> instance of <code>Expensive</code>. As this may lead to subtle errors, we would
+say, in general, that this code is not thread-safe.</p>
+
+<p>The solution to the problem is to lock around checking and
+initializing the object: </p>
+
+<pre class="sh_csharp">
+Expensive _expensive;
+readonly object <b>_expenseLock</b> = new object();
+ 
+public Expensive Expensive
+{
+  get
+  {
+    <b>lock (_expenseLock)</b>
+    {
+      if (_expensive == null) _expensive = new Expensive();
+      return _expensive;
+    }
+  }
+}
+</pre>
+
+<h2>
+	<a name="_LazyT">Lazy&lt;T&gt;</a>
+</h2>
+
+<p>Framework 4.0 provides a new class called <code>Lazy&lt;T&gt;</code> to help with lazy initialization. If
+instantiated with an argument of <code>true</code>, it implements
+the thread-safe initialization pattern just described.</p>
+
+<p class="note">
+	<code>Lazy&lt;T&gt;</code> actually implements a
+slightly more efficient version of this pattern, called <i>double-checked locking</i>. Double-checked locking
+performs an additional <a href="part4.html#_The_volatile_keyword">volatile read</a> to
+avoid the cost of obtaining a <a href="part2.html#_Locking">lock</a> if the object is
+already initialized.</p>
+
+<p>To use <code>Lazy&lt;T&gt;</code>,
+instantiate the class with a value factory delegate that tells it how to
+initialize a new value, and the argument <code>true</code>. Then
+access its value via the <code>Value</code> property:</p>
+
+<pre class="sh_csharp">
+Lazy&lt;Expensive&gt; _expensive = new Lazy&lt;Expensive&gt;
+  (() =&gt; new Expensive(), true);
+ 
+public Expensive Expensive { get { return _expensive.<b>Value</b>; } }
+</pre>
+
+<p>If you pass <code>false</code> into <code>Lazy&lt;T&gt;</code>’s constructor, it implements the
+thread-unsafe lazy initialization pattern that we described at the start of
+this section — this makes sense when you want to use <code>Lazy&lt;T&gt;</code>
+in a single-threaded context.</p>
+
+<h2>
+	<a name="_LazyInitializer">LazyInitializer</a>
+</h2>
+
+<p>
+	<code>LazyInitializer</code> is a static
+class that works exactly like <code>Lazy&lt;T&gt;</code> except:</p>
+
+<ul>
+	<li>Its functionality is exposed through a static method that
+operates directly on a field in your own type. This avoids a level of
+indirection, improving performance in cases where you need extreme
+optimization.</li>
+	<li>It offers another mode of initialization that has multiple
+threads race to initialize.</li>
+</ul>
+
+<p>To use <code>LazyInitializer</code>, call <code>EnsureInitialized</code> before accessing the field, passing a
+reference to the field and the factory delegate:</p>
+
+<pre class="sh_csharp">
+Expensive _expensive;
+public Expensive Expensive
+{ 
+  get          // Implement double-checked locking
+  { 
+    LazyInitializer.EnsureInitialized (ref _expensive,
+                                      () =&gt; new Expensive());
+    return _expensive;
+  }
+}
+</pre>
+
+<p>You can also pass in another argument to request that
+competing threads <em>race</em> to initialize. This sounds similar to our
+original thread-unsafe example, except that the first thread to finish always
+wins — and so you end up with only one instance. The advantage of this technique
+is that it’s even faster (on multicores) than double-checked locking — because it
+can be implemented entirely without locks. This is an extreme optimization that
+you rarely need, and one that comes at a cost:</p>
+
+<ul>
+	<li>It’s slower when more threads race to initialize than you have
+cores.</li>
+	<li>It potentially wastes CPU resources performing redundant
+initialization.</li>
+	<li>The initialization logic must be thread-safe (in this case, it
+would be thread-unsafe if <code>Expensive</code>’s constructor
+wrote to static fields, for instance).</li>
+	<li>If the initializer instantiates an object requiring disposal, the
+“wasted” object won’t get disposed without additional logic.</li>
+</ul>
+
+<p>For reference, here’s how double-checked locking is
+implemented:</p>
+
+<pre class="sh_csharp">
+volatile Expensive _expensive;
+public Expensive Expensive
+{
+  get
+  {
+    if (_expensive == null)             // First check (outside lock)
+      lock (_expenseLock)
+        if (_expensive == null)         // Second check (inside lock)
+          _expensive = new Expensive();
+    return _expensive;
+  }
+}
+</pre>
+
+<p>And here’s how the race-to-initialize pattern is
+implemented:</p>
+
+<pre class="sh_csharp">
+volatile Expensive _expensive;
+public Expensive Expensive
+{
+  get
+  {
+    if (_expensive == null)
+    {
+      var instance = new Expensive();
+      Interlocked.CompareExchange (ref _expensive, instance, null);
+    }
+    return _expensive;
+  }
+}
+</pre>
+
+<h1>
+	<a name="_Thread-Local_Storage">Thread-Local Storage</a>
+</h1>
+
+<p>Much of this article has focused on synchronization
+constructs and the issues arising from having threads concurrently access the
+same data. Sometimes, however, you want to keep data isolated, ensuring that
+each thread has a separate copy. Local variables achieve exactly this, but they
+are useful only with transient data.</p>
+
+<p>The solution is <i>thread-local
+storage</i>. You might be hard-pressed to think of a requirement: data you’d
+want to keep isolated to a thread tends to be transient by nature. Its main
+application is for storing “out-of-band” data — that which supports the execution
+path’s infrastructure, such as messaging, transaction, and security tokens.
+Passing such data around in method parameters is extremely clumsy and alienates
+all but your own methods; storing such information in ordinary static fields
+means sharing it among all threads.</p>
+
+<p class="note">Thread-local storage can also be useful in <a href="part5.html#_Using_ThreadLocal">optimizing parallel code</a>. It allows
+each thread to exclusively access its own version of a thread-unsafe object
+without needing locks — and without needing to reconstruct that object between
+method calls.</p>
+
+<p>There are three ways to implement thread-local storage.</p>
+
+<h2>
+	<a name="_ThreadStatic">[ThreadStatic]</a>
+</h2>
+
+<p>The easiest approach to thread-local storage is to mark a
+static field with the <code>ThreadStatic</code> attribute:</p>
+
+<pre class="sh_csharp">
+[ThreadStatic] static int _x;
+</pre>
+
+<p>Each thread then sees a separate copy of <code>_x</code>.</p>
+
+<p>Unfortunately, <code>[ThreadStatic]</code>
+doesn’t work with instance fields (it simply does nothing); nor does it play
+well with field initializers — they execute only <em>once</em> on the thread
+that's running when the static constructor executes. If you need to work with
+instance fields — or start with a nondefault value — <code>ThreadLocal&lt;T&gt;</code>
+provides a better option.</p>
+
+<h2>
+	<a name="_ThreadLocalT">ThreadLocal&lt;T&gt;</a>
+</h2>
+
+<p>
+	<code>ThreadLocal&lt;T&gt;</code> is new to
+Framework 4.0. It provides thread-local storage for both static and instance
+fields — and allows you to specify default values.</p>
+
+<p>Here’s how to create a <code>ThreadLocal&lt;int&gt;</code>
+with a default value of <code>3</code> for each thread:</p>
+
+<pre class="sh_csharp">
+static ThreadLocal&lt;int&gt; _x = new ThreadLocal&lt;int&gt; (() =&gt; 3);
+</pre>
+
+<p>You then use <code>_x</code>’s <code>Value</code> property to get or set its thread-local value. A
+bonus of using <code>ThreadLocal</code> is that values are lazily
+evaluated: the factory function evaluates on the first call (for each thread).</p>
+
+<h3>ThreadLocal&lt;T&gt; and instance fields</h3>
+
+<p>
+	<code>ThreadLocal&lt;T&gt;</code> is also
+useful with instance fields and captured local variables. For example, consider
+the problem of generating random numbers in a multithreaded environment. The <code>Random</code> class is not thread-safe, so we have to either lock
+around using <code>Random</code> (limiting concurrency) or
+generate a separate <code>Random</code> object for each thread. <code>ThreadLocal&lt;T&gt;</code> makes the latter easy:</p>
+
+<pre class="sh_csharp">
+var localRandom = <b>new ThreadLocal&lt;Random&gt;(() =&gt; new Random())</b>;
+Console.WriteLine (localRandom.Value.Next());
+</pre>
+
+<p>Our factory function for creating the <code>Random</code>
+object is a bit simplistic, though, in that <code>Random</code>’s
+parameterless constructor relies on the system clock for a random number seed.
+This may be the same for two <code>Random</code> objects created
+within ~10 ms of each other. Here’s one way to fix it:</p>
+
+<pre class="sh_csharp">
+var localRandom = new ThreadLocal&lt;Random&gt;
+ ( () =&gt; new Random (Guid.NewGuid().GetHashCode()) );
+</pre>
+
+<p>We’ll use this in Part 5 (see the <a href="part5.html#_Using_ThreadLocal">parallel spellchecking example</a> in
+“PLINQ”).</p>
+
+<h2>
+	<a name="_GetData_and_SetData">GetData and SetData</a>
+</h2>
+
+<p>The third approach is to use two methods in the <code>Thread</code> class: <code>GetData</code> and <code>SetData</code>. These store data in thread-specific “slots”. <code>Thread.GetData</code> reads from a thread’s isolated data store; <code>Thread.SetData</code> writes to it. Both methods require a <code>LocalDataStoreSlot</code> object to identify the slot. The same
+slot can be used across all threads and they’ll still get separate values.
+Here’s an example:</p>
+
+<pre class="sh_csharp">
+class Test
+{
+  // The same LocalDataStoreSlot object can be used across all threads.
+  LocalDataStoreSlot _secSlot = Thread.GetNamedDataSlot ("securityLevel");
+ 
+  // This property has a separate value on each thread.
+  int SecurityLevel
+  {
+    get
+    {
+      object data = Thread.GetData (_secSlot);
+      return data == null ? 0 : (int) data;    // null == uninitialized
+    }
+    set { Thread.SetData (_secSlot, value); }
+  }
+  ...
+</pre>
+
+<p>In this instance, we called <code>Thread.GetNamedDataSlot</code>,
+which creates a named slot — this allows sharing of that slot across the
+application. Alternatively, you can control a slot’s scope yourself with an
+unnamed slot, obtained by calling <code>Thread.AllocateDataSlot</code>:</p>
+
+<pre class="sh_csharp">
+class Test
+{
+  LocalDataStoreSlot _secSlot = Thread.AllocateDataSlot();
+  ...
+</pre>
+
+<p>
+	<code>Thread.FreeNamedDataSlot</code> will
+release a named data slot across all threads, but only once all references to
+that <code>LocalDataStoreSlot</code> have dropped out of scope
+and have been garbage-collected. This ensures that threads don’t get data slots
+pulled out from under their feet, as long as they keep a reference to the
+appropriate <code>LocalDataStoreSlot</code> object while the slot
+is needed.</p>
+
+<h1>
+	<a name="_Timers">Timers</a>
+</h1>
+
+<p>If you need to execute some method repeatedly at regular
+intervals, the easiest way is with a <i>timer</i>.
+Timers are convenient and efficient in their use of memory and
+resources — compared with techniques such as the following:</p>
+
+<pre class="sh_csharp">
+new Thread (delegate() {
+                         while (<i>enabled</i>)
+                         {
+                           <i>DoSomeAction</i>();
+                           Thread.Sleep (TimeSpan.FromHours (24));
+                         }
+                       }).Start();
+</pre>
+
+<p>Not only does this permanently tie up a thread resource,
+but without additional coding, <code>DoSomeAction</code> will
+happen at a later time each day. Timers solve these problems.</p>
+
+<p>The .NET Framework provides four timers. Two of these are
+general-purpose multithreaded timers:</p>
+
+<ul>
+	<li>
+		<code>System.Threading.Timer</code>
+	</li>
+	<li>
+		<code>System.Timers.Timer</code>
+	</li>
+</ul>
+
+<p>The other two are special-purpose single-threaded timers:</p>
+
+<ul>
+	<li>
+		<code>System.Windows.Forms.Timer</code> (Windows
+Forms timer)</li>
+	<li>
+		<code>System.Windows.Threading.DispatcherTimer</code>
+(WPF timer)</li>
+</ul>
+
+<p>The multithreaded timers are more powerful, accurate, and
+flexible; the single-threaded timers are safer and more convenient for running
+simple tasks that update Windows Forms controls or WPF elements.</p>
+
+<h2>
+	<a name="_Multithreaded_Timers">Multithreaded Timers</a>
+</h2>
+
+<p>
+	<code>System.Threading.Timer</code> is the
+simplest multithreaded timer: it has just a constructor and two methods (a
+delight for minimalists, as well as book authors!). In the following example, a
+timer calls the <code>Tick</code> method, which writes “tick...”
+after five seconds have elapsed, and then every second after that, until the
+user presses Enter:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Threading;
+ 
+class Program
+{
+  static void Main()
+  {
+    // First interval = 5000ms; subsequent intervals = 1000ms
+    <b>Timer tmr = new Timer (Tick, "tick...", 5000, 1000);</b>
+    Console.ReadLine();
+    tmr.Dispose();         // This both stops the timer and cleans up.
+  }
+ 
+  static void Tick (object data)
+  {
+    // This runs on a pooled thread
+    Console.WriteLine (data);          // Writes "tick..."
+  }
+}
+</pre>
+
+<p>You can change a timer’s interval later by calling its <code>Change</code> method. If you want a timer to fire just once,
+specify <code>Timeout.Infinite</code> in the constructor’s last
+argument.</p>
+
+<p>The .NET Framework provides another timer class of the
+same name in the <code>System.Timers</code> namespace. This
+simply wraps the <code>System.Threading.Timer</code>, providing
+additional convenience while using the identical underlying engine. Here’s a
+summary of its added features:</p>
+
+<ul>
+	<li>A <code>Component</code> implementation, allowing
+it to be sited in Visual Studio’s designer</li>
+	<li>An <code>Interval</code> property instead of a <code>Change</code> method</li>
+	<li>An <code>Elapsed</code><i>event</i> instead of a callback delegate</li>
+	<li>An <code>Enabled</code> property to start and stop
+the timer (its default value being <code>false</code>)</li>
+	<li>
+		<code>Start</code> and <code>Stop</code>
+methods in case you’re confused by <code>Enabled</code></li>
+	<li>An <code>AutoReset</code> flag for indicating a
+recurring event (default value is <code>true</code>)</li>
+	<li>A <code>SynchronizingObject</code> property with <code>Invoke</code> and <code>BeginInvoke</code> methods
+for <a href="part2.html#_Rich_Client_Applications">safely calling methods on WPF elements
+and Windows Forms controls</a></li>
+</ul>
+
+<p>Here’s an example:</p>
+
+<pre class="sh_csharp">
+using System;
+using System.Timers;   // Timers namespace rather than Threading
+ 
+class SystemTimer
+{
+  static void Main()
+  {
+    Timer tmr = new Timer();       // Doesn't require any args
+    tmr.Interval = 500;
+    tmr.Elapsed += tmr_Elapsed;    // Uses an event instead of a delegate
+    tmr.Start();                   // Start the timer
+    Console.ReadLine();
+    tmr.Stop();                    // Stop the timer
+    Console.ReadLine();
+    tmr.Start();                   // Restart the timer
+    Console.ReadLine();
+    tmr.Dispose();                 // Permanently stop the timer
+  }
+ 
+  static void tmr_Elapsed (object sender, EventArgs e)
+  {
+    Console.WriteLine ("Tick");
+  }
+}
+</pre>
+
+<p>Multithreaded timers use the <a href="index.html#_Thread_Pooling">thread
+pool</a> to allow a few threads to serve many timers. This means that the callback
+method or <code>Elapsed</code> event may fire on a different thread
+each time it is called. Furthermore, <code>Elapsed</code> always
+fires (approximately) on time — regardless of whether the previous <code>Elapsed</code> has finished executing. Hence, callbacks or event
+handlers must be thread-safe.</p>
+
+<p>The precision of multithreaded timers depends on the
+operating system, and is typically in the 10–20 ms region. If you need greater
+precision, you can use native interop and call the Windows multimedia timer.
+This has precision down to 1 ms and it is defined in <i>winmm.dll</i>.
+First call <code>timeBeginPeriod</code> to inform the operating
+system that you need high timing precision, and then call <code>timeSetEvent</code>
+to start a multimedia timer. When you’re done, call <code>timeKillEvent</code>
+to stop the timer and <code>timeEndPeriod</code> to inform the OS
+that you no longer need high timing precision. You can find complete examples
+on the Internet that use the multimedia timer by searching for the keywords <em>dllimport
+winmm.dll timesetevent</em>.</p>
+
+<h2>
+	<a name="_SingleThreaded_Timers">Single-Threaded Timers</a>
+</h2>
+
+<p>The .NET Framework provides timers designed to eliminate <a href="part2.html#_Rich_Client_Applications">thread-safety issues for WPF and Windows
+Forms applications</a>:</p>
+
+<ul>
+	<li>
+		<code>System.Windows.Threading.DispatcherTimer</code>
+(WPF)</li>
+	<li>
+		<code>System.Windows.Forms.Timer</code> (Windows
+Forms)</li>
+</ul>
+
+<p class="warning">The single-threaded timers are not designed to work
+outside their respective environments. If you use a Windows Forms timer in a
+Windows Service application, for instance, the <code>Timer</code>
+event won’t fire!</p>
+
+<p>Both are like <code>System.Timers.Timer</code>
+in the members that they expose (<code>Interval</code>, <code>Tick</code>, <code>Start</code>, and <code>Stop</code>) and are used in a similar manner. However, they
+differ in how they work internally. Instead of using the <a href="index.html#_Thread_Pooling">thread pool</a> to generate timer events, the WPF and
+Windows Forms timers rely on the message pumping mechanism of their underlying
+user interface model. This means that the <code>Tick</code> event
+always fires on the same thread that originally created the timer — which, in a
+normal application, is the same thread used to manage all user interface
+elements and controls. This has a number of benefits:</p>
+
+<ul>
+	<li>You can forget about <a href="part2.html#_Thread_Safety">thread safety</a>.</li>
+	<li>A fresh <code>Tick</code> will never fire until the
+previous <code>Tick</code> has finished processing.</li>
+	<li>You can update user interface elements and controls directly from
+<code>Tick</code> event handling code, without calling <code>Control.Invoke</code> or <code>Dispatcher.Invoke</code>.</li>
+</ul>
+
+<p>It sounds too good to be true, until you realize that a
+program employing these timers is not really multithreaded — <em>there is no
+parallel execution.</em> One thread serves all timers — as well as the processing
+UI events. This brings us to the disadvantage of single-threaded timers:</p>
+
+<ul>
+	<li>Unless the <code>Tick</code> event handler executes
+quickly, the user interface becomes unresponsive.</li>
+</ul>
+
+<p>This makes the WPF and Windows Forms timers suitable for
+only small jobs, typically those that involve updating some aspect of the user
+interface (e.g., a clock or countdown display). Otherwise, you need a
+multithreaded timer.</p>
+
+<p>In terms of precision, the single-threaded timers are
+similar to the multithreaded timers (tens of milliseconds), although they are
+typically less <em>accurate</em>, because they can be delayed while other user
+interface requests (or other timer events) are processed.</p>
+
+<p><a href="part2.html">&lt;&lt; Part 2</a>&nbsp;&nbsp; <a href="part4.html">Part 4 &gt;&gt;</a></p>
+
+
+<br />
+<p style="float:right">
+    <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</p>
+
+<p style='font-weight:bold; font-size:105%'><i>Threading in C#</i> is from Chapters 21 and 22 of <a href='../nutshell/index.html'>C# 4.0 in a Nutshell</a>.</p>
+<p>© 2006-2013 Joseph Albahari, O'Reilly Media, Inc. All rights reserved</p>
+</div>
+
+</form>
+</body>
+
+<!-- Mirrored from www.albahari.com/threading/part3.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/network-architecture-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>Network architecture diagrams using UML - overview of graphical notation - server, firewall, router, switch, load balancer, etc.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Network architecture diagrams using UML - overview of graphical notation - node, device, firewall, router, switch, load balancer, etc." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, network architecture, node, device, firewall, router, switch." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130116 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML Graphical Notation Overview and Reference" >Home</a>
+</div>
+<div>
+  <a href="deployment-diagrams-overview.html"
+   title="UML deployment diagrams overview"  >Deployment diagrams overview</a>
+</div>
+<div>
+ <a href="network-architecture-diagrams.html" 
+ title="Network architecture diagrams" class="active-nav" >Network architecture</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html" 
+   title="UML deployment diagrams graphical notation"  >Deployment notation</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#artifact" 
+   title="UML deployment diagrams artifact" >Artifact</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#manifestation" 
+   title="UML deployment diagrams manifestation" >Manifestation</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#deployment-target" 
+   title="UML deployment diagrams deployment target" >Deployment target</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#communication-path" 
+   title="UML deployment diagrams communication path" >Communication path</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#deployment" 
+   title="UML deployment diagrams deployment" >Deployment</a>
+</div>
+<div>
+  <a href="deployment-diagrams-reference.html" 
+   title="UML deployment diagrams reference"  >Reference</a>
+</div>
+<div>
+  <a href="deployment-diagrams-examples.html"
+   title="UML deployment diagrams examples"  >Deployment examples</a>
+</div>
+<div>
+  <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Network Architecture Diagrams</h1>
+
+<p><strong>UML</strong> standard has no separate kind of diagrams to describe
+ <strong>network architecture</strong> and provides no specific elements related to the networking.
+ <a href="deployment-diagrams-overview.html" class="ref-link">Deployment diagrams</a>
+ could be used for this purpose usually with some extra networking
+ <a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>.
+ Network architecture diagram will usually show networking
+ <a href="deployment-diagrams.html#node" class="ref-link">nodes</a> and
+ <a href="deployment-diagrams.html#communication-path" class="ref-link">communication paths</a>
+ between them.
+</p>
+
+<p>
+The example of the network diagram below shows network architecture with configuration
+ called "two firewall demilitarized zone".
+ Demilitarized zone (<strong>DMZ</strong>) is a host or network segment located in
+ a "neutral zone" between the Internet and an organization’s intranet (private network).
+ It prevents outside users from gaining direct access to an organization’s internal network while
+ not exposing a web, email or DNS server directly to the Internet.
+</p>
+
+<div class="figure-left-20">
+<img src="network-diagrams/network-diagram-overview.png" width="958" height="400" 
+ alt="Network architecture diagram overview - network devices and communications."
+ title="Network architecture diagram overview- network devices and communications." />
+<p class="figure-text">
+Network architecture diagram overview - network devices and communications.
+</p>
+</div>
+
+<p>
+Note that this diagram uses networking icons that are <strong>not</strong> part of
+ the UML standard. UML's standard for the node or
+ <a href="deployment-diagrams.html#device" class="ref-link">device</a>
+ is a 3-dimensional view of a cube.
+</p>
+
+<!--
+******************
+ Network devices
+******************
+-->
+ 
+<h2 id="network-devices">Network Devices</h2>
+
+<p>
+Windows Server System Reference Architecture (WSSRA)
+ (see <strong>Microsoft Network Architecture Blueprint</strong> 
+ <a href="references.html#ref-msnab" class="external-ref" title="Microsoft Network Architecture Blueprint.">[MSNAB 05]</a> )
+ uses the following networking devices to show the overall network architecture:
+</p>
+<ul>
+<li><a href="network-architecture-diagrams.html#switch" class="ref-link">Switch devices</a></li>
+<li><a href="network-architecture-diagrams.html#router" class="ref-link">Router devices</a></li>
+<li><a href="network-architecture-diagrams.html#load-balancer" class="ref-link">Load balancing devices</a></li>
+<li><a href="network-architecture-diagrams.html#firewall" class="ref-link">Firewall devices</a></li>
+<li>Virtual Private Network (VPN) devices</li>
+</ul>
+
+<p>
+None of these
+ <a href="deployment-diagrams.html#device" class="ref-link">devices</a>
+ are defined in UML standard so most of the descriptions and examples below
+ use networking icons and descriptions provided by Microsoft as part of the blueprints.
+</p>
+
+
+<!--
+*************
+   Hub
+**************
+-->
+ 
+<h3 id="hub">Hub</h3>
+
+<p>
+<strong>Hub</strong> is a network device that links network components such as workstations and servers
+ at OSI layer 1 (L1).
+ Hub contains a port for each network device and copies data received on one port to every other port
+ whether required or not. Because of this data transmissin collisions are very likely.
+</p>
+
+<p>
+If two devices connected to the hub start transmitting at the same time, a collision occurs.
+ As a result, error frames will be copied to all devices connected to the hub.
+ As network activity increases collisions become more frequent.
+</p>
+
+<p>
+ Hubs are no longer considered as network components in the Microsoft WSSRA
+ (see <strong>Microsoft Network Devices Blueprint </strong> 
+ <a href="references.html#ref-msnab" class="external-ref" title="Microsoft Network Architecture Blueprint.">[MSNAB 05]</a> )
+ as they have largely been replaced
+ by <a href="network-architecture-diagrams.html#switch" class="ref-link">switches</a>.
+</p>
+
+<p>
+Hubs could still be used in some cases such as networking between members of server clusters
+ supporting the heartbeat mechanism of cluster nodes.
+</p>
+
+
+<!--
+*************
+   Switch
+**************
+-->
+ 
+<h3 id="switch">Switch</h3>
+
+<p>
+<strong>Switch</strong> is a network device that moves network packets from one device to another
+ at OSI layer 2.
+ Switching devices can determine MAC addresses of the packets destination devices
+ by monitoring network traffic.
+ Once destination addresses are determined, switches can send specific packets to the port
+ that connects to the network adapter with a specific MAC address.
+ (Hubs send every packet to all the ports.)
+</p>
+
+<p>
+Enterprise-level switches could have the capability to route packets at OSI layer 3
+ between <a href="network-architecture-diagrams.html#network-segment" class="ref-link">network segments</a>,
+ and thus could be used
+ as <a href="network-architecture-diagrams.html#router" class="ref-link">routers</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="network-diagrams/switch.png" width="125" height="110"
+ alt="Network switch." title="Network switch." />
+<p class="figure-text">
+Network switch.
+</p>
+</div>
+
+
+<!--
+*************
+  Router
+**************
+-->
+ 
+<h3 id="router">Router</h3>
+
+<p>
+<strong>Router</strong> is a network device that moves data packets from one
+ <a href="network-architecture-diagrams.html#network-segment" class="ref-link">network segment</a>
+ to another based on OSI layer 3 addresses.
+ Routing devices are capable to exchange information with other routers on the network to determine
+ the most efficient path from one device to another. 
+</p>
+
+<div class="figure-left-80">
+<img src="network-diagrams/router.png" width="90" height="120"
+ alt="Network router." title="Network router." />
+<p class="figure-text">
+Network router.
+</p>
+</div>
+
+<!--
+***************
+ Load balancer
+***************
+-->
+ 
+<h3 id="load-balancer">Load Balancer</h3>
+
+<p>
+<strong>Load balancer</strong> is a network device that
+ facilitates <strong>horizontal clustering</strong>, where multiple servers are configured to perform
+ the same function on the network.
+ The load balancing functionality may be provided by software or a hardware device in one of two ways:
+</p>
+<ul>
+<li>Distributed - each node in the cluster receives every packet destined for the cluster.</li>
+<li>Routed - load balancer receives every inbound packet destined for a cluster and determines
+ which host in the cluster to send the packet to.</li>
+</ul>
+
+<div class="figure-left-80">
+<img src="network-diagrams/load-balancer.png" width="142" height="88"
+ alt="Network load balancer." title="Network load balancer." />
+<p class="figure-text">
+Network load balancer.
+</p>
+</div>
+
+
+
+<!--
+*************
+  Firewall
+**************
+-->
+ 
+<h3 id="firewall">Firewall</h3>
+
+<p>
+<strong>Firewall</strong> is a network device that controls the flow of traffic
+ between <a href="network-architecture-diagrams.html#network-segment" class="ref-link">network segments</a>
+ using OSI layer 3 addresses in order to meet security requirements.
+ Firewall services could be implemented by a dedicated hardware device
+ (particularly to protect the boundary between the internal network and the Internet),
+ or by a network host running software firewall.
+</p>
+
+<div class="figure-left-80">
+<img src="network-diagrams/firewall.png" width="128" height="133"
+ alt="Network firewall." title="Network firewall." />
+<p class="figure-text">
+Network firewall.
+</p>
+</div>
+
+<p> 
+Firewall has set of rules that allow the device performing the firewall services role
+ to determine which traffic is allowed to pass or, conversely, which traffic is not allowed.
+ Most firewalls have an "implicit deny" rule so that if a rule to allow the request does not exist,
+ then the request is denied.
+</p>
+
+
+<!--
+*********************
+ Network segments
+*********************
+-->
+ 
+<h2 id="network-segment">Network Segments</h2>
+
+<p>
+A <strong>network segment</strong> is defined 
+ as two or more devices that communicate with each other at OSI layer 2 (L2)
+ using L2 LAN connectivity devices with no routing at L3 between them.
+ (<strong>Microsoft Network Architecture Blueprint</strong> 
+ <a href="references.html#ref-msnab" class="external-ref" title="Microsoft Network Architecture Blueprint.">[MSNAB 05]</a>)
+</p>
+
+<p>
+Network segments may be <strong>physical</strong> or <strong>logical</strong> (<strong>virtual</strong>).
+ Logical segments are referred to as <strong>virtual local area networks (VLANs)</strong>.
+</p>
+
+<p>
+L2 LAN connectivity devices are moving data packets at OSI layer 2 between hosts or devices
+ on the same network segment. This functionality is typically provided by
+ a <a href="network-architecture-diagrams.html#switch" class="ref-link">switch</a>.
+</p>
+
+<p>
+L3 LAN connectivity devices are moving data packets at OSI layer 3 between multiple network segments.
+ This functionality is typically provided by
+ <a href="network-architecture-diagrams.html#router" class="ref-link">routers</a>
+ or <a href="network-architecture-diagrams.html#load-balancer" class="ref-link">load balancers</a>.
+</p>
+
+<p>
+<strong>Local area networks</strong> (LANs) are created by connecting either multiple network hosts
+ through an L2 LAN connectivity device or multiple network segments using an L3 LAN connectivity device.
+ The wires of the L2 and L3 LAN connectivity devices are typically owned by the organization.
+ The connectivity speeds between hosts and devices on network segments or between network segments
+ on a LAN are typically 10 megabits per second (Mbps), 100 Mbps or 1 Gbps.
+</p>
+
+<p>
+<strong>Wide area networks</strong> are formed by joining one or more LANs through WAN devices
+ and technologies. 
+ The endpoint WAN connectivity devices are generally owned by the organization,
+ but the devices in between are usually owned by telephone carriers. 
+</p>
+
+<!--
+**************
+  Backbone
+**************
+-->
+ 
+<h3 id="backbone">Backbone</h3>
+
+<p>
+<strong>Backbone</strong> is the link that connects multiple
+ <a href="network-architecture-diagrams.html#switch" class="ref-link">switches</a> together.
+</p>
+
+<div class="figure-left-80">
+<img src="network-diagrams/network-backbone.png" width="540" height="356"
+ alt="Network backbone example." title="Network backbone example." />
+<p class="figure-text">
+Network backbone example.
+</p>
+</div>
+
+<p>
+Backbone is usually scaled to allow multiple simultaneous conversations between networked computers and servers
+ to match the speed and number of devices on it.
+ For example, the backbone may be sized at 1 gigabits per second (Gbps) to allow multiple 100 Mbps conversations
+ to occur over the backbone between client computers and servers connected to the switches at 100 Mbps.
+</p>
+
+
+<!--
+**************
+ Multihoming
+**************
+-->
+ 
+<h3 id="multihoming">Multihoming</h3>
+
+<p>
+<strong>Multihoming</strong> of servers is the use of multiple network adapters on the same server,
+ or using multiple IP addresses on the same server (which may be used with one or multiple network adapters).
+ Use of multiple network adapters implies the use of multiple IP addresses.
+</p>
+
+<p>
+Multiple network adapters on the same device allow to separate traffic for better performance
+ or/and for stronger security.
+ Examples of multihoming are public 
+ <a href="network-architecture-diagrams.html#firewall" class="ref-link">firewall</a>
+ with separate network interfaces for applying security rules and routing,
+ and perimeter web server with several network interfaces 
+ to separate perimeter and internal traffic, and to allow front interface for load balancing.
+</p>
+
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'network-architecture-diagrams.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/network-architecture-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

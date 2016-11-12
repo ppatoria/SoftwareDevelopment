@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/mem_fn_cc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/bind/mem_fn_cc.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/bind/mem_fn_cc.hpp</h3>
+<pre>
+//
+//  bind/mem_fn_cc.hpp - support for different calling conventions
+//
+//  Do not include this header directly.
+//
+//  Copyright (c) 2001 Peter Dimov and Multi Media Ltd.
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+//  See <a href="http://www.boost.org/libs/bind/mem_fn.html">http://www.boost.org/libs/bind/mem_fn.html</a> for documentation.
+//
+
+template&lt;class R, class T&gt; _mfi::BOOST_MEM_FN_NAME(mf0)&lt;R, T&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) ())
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf0)&lt;R, T&gt;(f);
+}
+
+template&lt;class R, class T&gt; _mfi::BOOST_MEM_FN_NAME(cmf0)&lt;R, T&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) () const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf0)&lt;R, T&gt;(f);
+}
+
+template&lt;class R, class T, class A1&gt; _mfi::BOOST_MEM_FN_NAME(mf1)&lt;R, T, A1&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf1)&lt;R, T, A1&gt;(f);
+}
+
+template&lt;class R, class T, class A1&gt; _mfi::BOOST_MEM_FN_NAME(cmf1)&lt;R, T, A1&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf1)&lt;R, T, A1&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2&gt; _mfi::BOOST_MEM_FN_NAME(mf2)&lt;R, T, A1, A2&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf2)&lt;R, T, A1, A2&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2&gt; _mfi::BOOST_MEM_FN_NAME(cmf2)&lt;R, T, A1, A2&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf2)&lt;R, T, A1, A2&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3&gt; _mfi::BOOST_MEM_FN_NAME(mf3)&lt;R, T, A1, A2, A3&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf3)&lt;R, T, A1, A2, A3&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3&gt; _mfi::BOOST_MEM_FN_NAME(cmf3)&lt;R, T, A1, A2, A3&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf3)&lt;R, T, A1, A2, A3&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4&gt; _mfi::BOOST_MEM_FN_NAME(mf4)&lt;R, T, A1, A2, A3, A4&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf4)&lt;R, T, A1, A2, A3, A4&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4&gt; _mfi::BOOST_MEM_FN_NAME(cmf4)&lt;R, T, A1, A2, A3, A4&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf4)&lt;R, T, A1, A2, A3, A4&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5&gt; _mfi::BOOST_MEM_FN_NAME(mf5)&lt;R, T, A1, A2, A3, A4, A5&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf5)&lt;R, T, A1, A2, A3, A4, A5&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5&gt; _mfi::BOOST_MEM_FN_NAME(cmf5)&lt;R, T, A1, A2, A3, A4, A5&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf5)&lt;R, T, A1, A2, A3, A4, A5&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6&gt; _mfi::BOOST_MEM_FN_NAME(mf6)&lt;R, T, A1, A2, A3, A4, A5, A6&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf6)&lt;R, T, A1, A2, A3, A4, A5, A6&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6&gt; _mfi::BOOST_MEM_FN_NAME(cmf6)&lt;R, T, A1, A2, A3, A4, A5, A6&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf6)&lt;R, T, A1, A2, A3, A4, A5, A6&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; _mfi::BOOST_MEM_FN_NAME(mf7)&lt;R, T, A1, A2, A3, A4, A5, A6, A7&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6, A7))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf7)&lt;R, T, A1, A2, A3, A4, A5, A6, A7&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7&gt; _mfi::BOOST_MEM_FN_NAME(cmf7)&lt;R, T, A1, A2, A3, A4, A5, A6, A7&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6, A7) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf7)&lt;R, T, A1, A2, A3, A4, A5, A6, A7&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; _mfi::BOOST_MEM_FN_NAME(mf8)&lt;R, T, A1, A2, A3, A4, A5, A6, A7, A8&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6, A7, A8))
+{
+    return _mfi::BOOST_MEM_FN_NAME(mf8)&lt;R, T, A1, A2, A3, A4, A5, A6, A7, A8&gt;(f);
+}
+
+template&lt;class R, class T, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8&gt; _mfi::BOOST_MEM_FN_NAME(cmf8)&lt;R, T, A1, A2, A3, A4, A5, A6, A7, A8&gt; mem_fn(R (BOOST_MEM_FN_CC T::*f) (A1, A2, A3, A4, A5, A6, A7, A8) const)
+{
+    return _mfi::BOOST_MEM_FN_NAME(cmf8)&lt;R, T, A1, A2, A3, A4, A5, A6, A7, A8&gt;(f);
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/mem_fn_cc.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:37 GMT -->
+</html>

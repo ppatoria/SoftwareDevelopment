@@ -1,0 +1,202 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/log/doc/html/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:00 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Chapter&#160;1.&#160;Boost.Log 2.0 - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.Log 2.0">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/how_to_read.html" title="How to read the documentation">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav"><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/how_to_read.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a></div>
+<div class="chapter">
+<div class="titlepage"><div>
+<div><h2 class="title">
+<a name="log"></a>Chapter&#160;1.&#160;Boost.Log 2.0</h2></div>
+<div><div class="author"><h3 class="author">
+<span class="firstname">Andrey</span> <span class="surname">Semashev</span>
+</h3></div></div>
+<div><p class="copyright">Copyright &#169; 2007-2013 Andrey Semashev</p></div>
+<div><div class="legalnotice">
+<a name="log.legal"></a><p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>).
+      </p>
+</div></div>
+</div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl class="toc">
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/index.html#log.moti">Motivation</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/how_to_read.html">How to read the documentation</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/installation.html">Installation and compatibility</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/installation.html#log.installation.supported_compilers">Supported compilers
+      and platforms</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/installation/config.html">Configuring and building the
+      library</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/defs.html">Definitions</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/design.html">Design overview</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial.html">Tutorial</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial.html#log.tutorial.trivial">Trivial logging</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/trivial_filtering.html">Trivial logging with
+      filters</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/sinks.html">Setting up sinks</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/sources.html">Creating loggers and writing logs</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/attributes.html">Adding more information to log:
+      Attributes</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/formatters.html">Log record formatting</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/advanced_filtering.html">Filtering revisited</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/tutorial/wide_char.html">Wide character logging</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed.html">Detailed features description</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed.html#log.detailed.core">Core facilities</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/sources.html">Logging sources</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/sink_frontends.html">Sink frontends</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/sink_backends.html">Sink backends</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/expressions.html">Lambda expressions</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/attributes.html">Attributes</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/detailed/utilities.html">Utilities</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/extension.html">Extending the library</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/extension.html#log.extension.sinks">Writing your own sinks</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/extension/sources.html">Writing your own sources</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/extension/attributes.html">Writing your own attributes</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/extension/settings.html">Extending library settings support</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale.html">Rationale and FAQ</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale.html#log.rationale.why_str_lit">Why string literals as scope
+      names?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/why_weak_scoped_attributes.html">Why scoped
+      attributes don't override existing attributes?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/why_weak_record_ordering.html">Why log records
+      are weakly ordered in a multithreaded application?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/why_attribute_manips_dont_affect_filters.html">Why
+      attributes set with stream manipulators do not participate in filtering?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/why_not_lazy_streaming.html">Why not using lazy
+      streaming?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/why_not_log4j.html">Why not using hierarchy
+      of loggers, like in log4j? Why not Boost.Log4j? Etc.</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/fork_support.html">Does Boost.Log support process
+      forking?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/init_term_support.html">Does Boost.Log support
+      logging at process initialization and termination?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/namespace_mangling.html">Why my application
+      fails to link with Boost.Log? What's the fuss about library namespaces?</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/msvc_link_fails_lnk1123.html">Why MSVC 2010
+      fails to link the library with error LNK1123: failure during conversion to
+      COFF: file invalid or corrupt?</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/reference.html">Reference</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/reference.html#top_level_headers">Top level headers</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/core_components.html">Core components</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/attributes.html">Attributes</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/expressions.html">Expressions</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/logging_sources.html">Logging sources</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/sinks.html">Sinks</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/utilities.html">Utilities</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/other_libraries_support_layer.html">Other libraries support layer</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/changelog.html">Changelog</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/todo.html">TODO in future releases</a></span></dt>
+<dt><span class="section"><a href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/acknowledgments.html">Acknowledgments</a></span></dt>
+</dl>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="log.moti"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/index.html#log.moti" title="Motivation">Motivation</a>
+</h2></div></div></div>
+<p>
+      Today applications grow rapidly, becoming complicated and difficult to test
+      and debug. Most of the time applications run on a remote site, leaving the
+      developer little chance to monitor their execution and figure out the reasons
+      for their failure, once it should happen. Moreover, even the local debugging
+      may become problematic if the application behavior depends heavily on asynchronous
+      side events, such as a device feedback or another process activity.
+    </p>
+<p>
+      This is where logging can help. The application stores all essential information
+      about its execution to a log, and when something goes wrong this information
+      can be used to analyze the program behavior and make the necessary corrections.
+      There are other very useful applications of logging, such as gathering statistical
+      information and highlighting events (i.e. indicating that some situation has
+      occurred or that the application is experiencing some problems). These tasks
+      have proved to be vital for many real-world industrial applications.
+    </p>
+<p>
+      This library aims to make logging significantly easier for the application
+      developer. It provides a wide range of out-of-the-box tools along with public
+      interfaces for extending the library. The main goals of the library are:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          Simplicity. A small example code snippet should be enough to get the feel
+          of the library and be ready to use its basic features.
+        </li>
+<li class="listitem">
+          Extensibility. A user should be able to extend functionality of the library
+          for collecting and storing information into logs.
+        </li>
+<li class="listitem">
+          Performance. The library should have as little performance impact on the
+          user's application as possible.
+        </li>
+</ul></div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"><p><small>Last revised: May 18, 2013 at 00:11:22 +0400</small></p></td>
+<td align="right"><div class="copyright-footer"></div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav"><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/how_to_read.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a></div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/log/doc/html/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:00 GMT -->
+</html>

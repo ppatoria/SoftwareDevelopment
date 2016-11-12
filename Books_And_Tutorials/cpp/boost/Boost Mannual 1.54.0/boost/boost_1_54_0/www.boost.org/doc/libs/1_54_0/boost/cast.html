@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/cast.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:56 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/cast.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/cast.hpp</h3>
+<pre>
+//  boost cast.hpp header file  ----------------------------------------------//
+
+//  (C) Copyright Kevlin Henney and Dave Abrahams 1999.
+//  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/conversion">http://www.boost.org/libs/conversion</a> for Documentation.
+
+//  Revision History
+//  23 JUn 05  numeric_cast removed and redirected to the new verion (Fernando Cacciola)
+//  02 Apr 01  Removed BOOST_NO_LIMITS workarounds and included
+//             &lt;boost/limits.hpp&gt; instead (the workaround did not
+//             actually compile when BOOST_NO_LIMITS was defined in
+//             any case, so we loose nothing). (John Maddock)
+//  21 Jan 01  Undid a bug I introduced yesterday. numeric_cast&lt;&gt; never
+//             worked with stock GCC; trying to get it to do that broke
+//             vc-stlport.
+//  20 Jan 01  Moved BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS to config.hpp.
+//             Removed unused BOOST_EXPLICIT_TARGET macro. Moved
+//             boost::detail::type to boost/type.hpp. Made it compile with
+//             stock gcc again (Dave Abrahams)
+//  29 Nov 00  Remove nested namespace cast, cleanup spacing before Formal
+//             Review (Beman Dawes)
+//  19 Oct 00  Fix numeric_cast for floating-point types (Dave Abrahams)
+//  15 Jul 00  Suppress numeric_cast warnings for GCC, Borland and MSVC
+//             (Dave Abrahams)
+//  30 Jun 00  More MSVC6 wordarounds.  See comments below.  (Dave Abrahams)
+//  28 Jun 00  Removed implicit_cast&lt;&gt;.  See comment below. (Beman Dawes)
+//  27 Jun 00  More MSVC6 workarounds
+//  15 Jun 00  Add workarounds for MSVC6
+//   2 Feb 00  Remove bad_numeric_cast &quot;;&quot; syntax error (Doncho Angelov)
+//  26 Jan 00  Add missing throw() to bad_numeric_cast::what(0 (Adam Levar)
+//  29 Dec 99  Change using declarations so usages in other namespaces work
+//             correctly (Dave Abrahams)
+//  23 Sep 99  Change polymorphic_downcast assert to also detect M.I. errors
+//             as suggested Darin Adler and improved by Valentin Bonnard.
+//   2 Sep 99  Remove controversial asserts, simplify, rename.
+//  30 Aug 99  Move to cast.hpp, replace value_cast with numeric_cast,
+//             place in nested namespace.
+//   3 Aug 99  Initial version
+
+#ifndef BOOST_CAST_HPP
+#define BOOST_CAST_HPP
+
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/assert.hpp">boost/assert.hpp</a>&gt;
+# include &lt;typeinfo&gt;
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type.hpp">boost/type.hpp</a>&gt;
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/select_type.hpp">boost/detail/select_type.hpp</a>&gt;
+
+//  It has been demonstrated numerous times that MSVC 6.0 fails silently at link
+//  time if you use a template function which has template parameters that don't
+//  appear in the function's argument list.
+//
+//  TODO: Add this to config.hpp?
+# if defined(BOOST_MSVC) &amp;&amp; BOOST_MSVC &lt; 1300
+#  define BOOST_EXPLICIT_DEFAULT_TARGET , ::boost::type&lt;Target&gt;* = 0
+# else
+#  define BOOST_EXPLICIT_DEFAULT_TARGET
+# endif
+
+namespace boost
+{
+//  See the documentation for descriptions of how to choose between
+//  static_cast&lt;&gt;, dynamic_cast&lt;&gt;, polymorphic_cast&lt;&gt; and polymorphic_downcast&lt;&gt;
+
+//  polymorphic_cast  --------------------------------------------------------//
+
+    //  Runtime checked polymorphic downcasts and crosscasts.
+    //  Suggested in The C++ Programming Language, 3rd Ed, Bjarne Stroustrup,
+    //  section 15.8 exercise 1, page 425.
+
+    template &lt;class Target, class Source&gt;
+    inline Target polymorphic_cast(Source* x BOOST_EXPLICIT_DEFAULT_TARGET)
+    {
+        Target tmp = dynamic_cast&lt;Target&gt;(x);
+        if ( tmp == 0 ) throw std::bad_cast();
+        return tmp;
+    }
+
+//  polymorphic_downcast  ----------------------------------------------------//
+
+    //  BOOST_ASSERT() checked polymorphic downcast.  Crosscasts prohibited.
+
+    //  WARNING: Because this cast uses BOOST_ASSERT(), it violates
+    //  the One Definition Rule if used in multiple translation units
+    //  where BOOST_DISABLE_ASSERTS, BOOST_ENABLE_ASSERT_HANDLER
+    //  NDEBUG are defined inconsistently.
+
+    //  Contributed by Dave Abrahams
+
+    template &lt;class Target, class Source&gt;
+    inline Target polymorphic_downcast(Source* x BOOST_EXPLICIT_DEFAULT_TARGET)
+    {
+        BOOST_ASSERT( dynamic_cast&lt;Target&gt;(x) == x );  // detect logic error
+        return static_cast&lt;Target&gt;(x);
+    }
+
+#  undef BOOST_EXPLICIT_DEFAULT_TARGET
+
+} // namespace boost
+
+# include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/conversion/cast.hpp">boost/numeric/conversion/cast.hpp</a>&gt;
+
+#endif  // BOOST_CAST_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/cast.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:56 GMT -->
+</html>

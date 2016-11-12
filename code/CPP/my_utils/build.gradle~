@@ -1,0 +1,17 @@
+//build.gradle
+apply plugin: 'cpp'
+model
+{
+    components
+    {
+	my_utils(NativeLibrarySpec) {}
+    }
+
+    test(NativeExecutableSpec)
+    {
+        binaries.all
+	{
+            lib library: "my_utils"
+        }
+    }
+}

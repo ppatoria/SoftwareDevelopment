@@ -1,0 +1,59 @@
+class Immutable
+{
+private:
+  // Use a normal double, copying is cheap
+  double d_;
+  // Use a shared string, because strings can be very large
+  std::shared_ptr<std::string const> s_;
+public:
+  // Default constructor
+  Immutable()
+    : d_(0.0),
+      s_(std::make_shared<std::string const>(""))
+  {}
+  // Constructor taking a string
+  Immutable(const double d, const string& s)
+    : d_(d),
+    s_(std::make_shared<std::string const>(s))
+  {}
+  // Move constructor
+  Immutable(Immutable&& other)
+    : s_()
+  {
+    using std::swap;
+    swap(d_, other.d_);
+    swap(s_, other.s_);
+  }
+  // Move assignment operator
+  Immutable& operator=(Immutable&& other)
+  {
+    swap(d_, other.d_);
+    swap(s_, other.s_);
+    return *this;
+  }
+  // Use default copy constructor and assignment operator
+  // Getter Functions
+  double GetD() const
+  {
+    // Return a copy because double is small (8 bytes)
+    return d_;
+  }
+  const std::string& GetS() const
+  {
+    // Return a const reference because string can be very large
+    return *s_;
+  }
+  // "Setter" Functions (always return a new object)
+  Immutable SetD(double d) const
+  {
+    Immutable newObject(*this);
+    newObject.d_ = d;
+    return newObject;
+  }
+  Immutable SetS(const std::string& s) const
+  {
+    Immutable newObject(*this);
+    newObject.s_ = std::make_shared<std::string const>(s);
+    return newObject;
+  }
+};

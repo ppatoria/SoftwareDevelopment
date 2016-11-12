@@ -1,0 +1,11 @@
+// // #r "open System";;
+// // #r "open System.Xml";;
+#r "System.Xml.Linq";;
+
+let weatherXml =
+    "http://weather.yahooapis.com/forecastrss?w=2484280" |>
+    XDocument.Load
+
+let readTheElements =
+    weatherXml.Elements() |>
+    Seq.iter(fun(e) -> do printfn "%s" e.Value)

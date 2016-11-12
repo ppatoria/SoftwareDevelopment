@@ -1,0 +1,27 @@
+@startuml
+
+title Deadlock scenario
+
+'partition main_thread
+(*) --> Open 
+--> == B1 == 
+--> Query (sql, client_callback)
+--> == B2 == --> "dequeue sql and client_callback_handler" 
+--> enqueue sql and client_callback_handler 
+== B1 == --> OnConnectionChanged
+
+
+'end partition
+
+' partition transport_listner_thread
+'      == B1 == --> OnConnectionChanged
+' end partition
+
+' partition cache_thread
+'      == B2 == --> dequeue sql and client_callback_handler 
+'      --> query against cache
+'      --> call client_callback_handler with the result
+' end partition
+
+
+@enduml

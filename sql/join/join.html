@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Join</title>
+<!-- 2014-01-20 Mon 21:29 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Join</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Tables</a></li>
+<li><a href="#sec-2">2. Existing information in the table i.e. No of Rows</a></li>
+<li><a href="#sec-3">3. Cross Join or Cartesian Product</a></li>
+<li><a href="#sec-4">4. Equi-Join/Inner-Join</a>
+<ul>
+<li><a href="#sec-4-1">4.1. <b>Problem Definition:</b></a></li>
+<li><a href="#sec-4-2">4.2. <b>Soln:</b></a></li>
+<li><a href="#sec-4-3">4.3. Join variation with nested query</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1. <b>Problem Definition:</b> find all accounts opened by experienced tellers currently assigned to the Woburn branch</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Self-Join</a>
+<ul>
+<li><a href="#sec-5-1">5.1. <b>Problem :</b> Display name of employees and there superior.</a></li>
+<li><a href="#sec-5-2">5.2. <b>Problem Definition:</b> Display employee first and last name with superiors first and last name.</a></li>
+<li><a href="#sec-5-3">5.3. <b>Soln:</b></a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6. Non equi-join</a></li>
+<li><a href="#sec-7">7. Natural Joins</a></li>
+</ul>
+</div>
+</div>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+<p>
+[TABLE-OF-CONTENTS]
+</p>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Tables</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; DESC product;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| product_cd      | varchar(10) | NO   | PRI | NULL    |       |
+| name            | varchar(50) | NO   |     | NULL    |       |
+| product_type_cd | varchar(10) | NO   | MUL | NULL    |       |
+| date_offered    | date        | YES  |     | NULL    |       |
+| date_retired    | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.23 sec)
+
+ mysql&gt; DESC customer;
++--------------+------------------+------+-----+---------+----------------+
+| Field        | Type             | Null | Key | Default | Extra          |
++--------------+------------------+------+-----+---------+----------------+
+| cust_id      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| fed_id       | varchar(12)      | NO   |     | NULL    |                |
+| cust_type_cd | enum('I','B')    | NO   |     | NULL    |                |
+| address      | varchar(30)      | YES  |     | NULL    |                |
+| city         | varchar(20)      | YES  |     | NULL    |                |
+| state        | varchar(20)      | YES  |     | NULL    |                |
+| postal_code  | varchar(10)      | YES  |     | NULL    |                |
++--------------+------------------+------+-----+---------+----------------+
+7 rows in set (0.04 sec)
+
+mysql&gt; DESC employee;
++--------------------+----------------------+------+-----+---------+
+| Field              | Type                 | Null | Key | Default |
++--------------------+----------------------+------+-----+---------+
+| emp_id             | smallint(5) unsigned | NO   | PRI | NULL    |
+| fname              | varchar(20)          | NO   |     | NULL    |
+| lname              | varchar(20)          | NO   |     | NULL    |
+| start_date         | date                 | NO   |     | NULL    |
+| end_date           | date                 | YES  |     | NULL    |
+| superior_emp_id    | smallint(5) unsigned | YES  | MUL | NULL    |
+| dept_id            | smallint(5) unsigned | YES  | MUL | NULL    |
+| title              | varchar(20)          | YES  |     | NULL    |
+| assigned_branch_id | smallint(5) unsigned | YES  | MUL | NULL    |
++--------------------+----------------------+------+-----+---------+
+9 rows in set (0.11 sec)
+
+ mysql&gt; DESC department;
++---------+----------------------+------+-----+---------+
+| Field   | Type                 | Null | Key | Default |
++---------+----------------------+------+-----+---------+
+| dept_id | smallint(5) unsigned | No   | PRI | NULL    |
+| name    | varchar(20)          | No   |     | NULL    |
++---------+----------------------+------+-----+---------+
+2 rows in set (0.03 sec)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Existing information in the table i.e. No of Rows</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+There are only 18 employees and 3 different departments
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Cross Join or Cartesian Product</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Rows count:  18 * 3 = 54 the result of joining multiple tables without specifying any join conditions.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT pt.name, p.product_cd, p.name
+FROM product p CROSS JOIN product_type pt;
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Equi-Join/Inner-Join</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> <b>Problem Definition:</b></h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Retrieve the first and last names of each employee along with the name of the department to which each employee is assigned.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <b>Soln:</b></h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT emp.fname, emp.lname, dept.name 
+FROM   employee emp , department dept
+WHERE  emp.dept_id = dept.dept_id;
+</pre>
+</div>
+<p>
+OR
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT emp.fname, emp.lname, dept.name 
+FROM   employee emp JOIN department dept 
+		ON emp.dept_id = emp.dept_id;
+</pre>
+</div>
+<p>
+OR
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT emp.fname, emp.lname, dept.name 
+FROM   employee emp INNER JOIN department dept 
+		ON emp.dept_id = emp.dept_id;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Join variation with nested query</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> <b>Problem Definition:</b> find all accounts opened by experienced tellers currently assigned to the Woburn branch</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT acct.account_id, acct.cust_id, acct.open_date, acct.product_cd
+FROM account acct INNER JOIN (SELECT emp_id, assigned_branch_id
+			     FROM employee
+			     WHERE start_date &lt; '2007-01-01'
+				   AND (title = 'Teller' OR title = 'Head Teller')) emp
+		       ON acct.open_emp_id = emp.emp_id
+		  INNER JOIN (SELECT branch_id
+			     FROM branch
+			     WHERE name = 'Woburn Branch') branch
+		       ON emp.assigned_branch_id = branch.branch_id;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Self-Join</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <b>Problem :</b> Display name of employees and there superior.</h3>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <b>Problem Definition:</b> Display employee first and last name with superiors first and last name.</h3>
+</div>
+
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <b>Soln:</b></h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Employee table includes a self-referencing foreign key, 
+which means that it includes a column (superior<sub>emp</sub><sub>id</sub>) that points to the primary key within the same table. 
+Visualize there are two table .
+</p>
+<ol class="org-ol">
+<li>employee table with employee information with superior<sub>emp</sub><sub>id</sub> as foreign key which points the information in superior table.
+</li>
+<li>superior table with superior information with emp<sub>id</sub> as primary key. 
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-sql">   ----------------------------     --------------------
+   |  Employee Table          |     | Superior Table    |   
+   ----------------------------     --------------------
+   | Emp_ID | Superior_Emp_ID |     | Emp_ID            |
+   ----------------------------     ---------------------
+
+SELECT emp.fname, emp.lname, superior.fname, superior.lname
+FROM   employee emp JOIN employee superior
+		ON emp.superior_emp_id = superior.emp_id;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Non equi-join</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+You may also find a need for a self-non-equi-join, meaning that a table is joined to itself using a non-equi-join. 
+For example, let's say that the operations manager has decided to have a chess tournament for all bank tellers. 
+You have been asked to create a list of all the pairings. 
+You might try joining the employee table to itself for all tellers (title = 'Teller') and return all rows where the emp<sub>ids</sub> don't match (since a person cant play chess against himself):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT emp1.fname, emp1.lname, "VS" vs, emp2.fname, emp2.lname  
+FROM   employee emp1 JOIN employee emp2
+		ON emp1.emp_id != emp2.emp_id
+WHERE  emp1.title = emp2.title = "Teller";
+
+SELECT emp1.fname, emp1.lname, "VS" vs, emp2.fname, emp2.lname  
+FROM   employee emp1 JOIN employee emp2
+		ON emp1.title != emp2.title
+WHERE  emp1.title = "Teller"
+       AND emp1.emp_id != emp2.emp_id;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Natural Joins</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+lets the database server determine what the join conditions need to be. For example, the account table includes a column named cust<sub>id</sub>, which is the foreign key to the customer table,whose primary key is also named cust<sub>id</sub>. Thus, you can write a query that uses natural join to join the two tables:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT a.account_id, a.cust_id, c.cust_type_cd, c.fed_id
+FROM account a NATURAL JOIN customer c;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2014-01-20 Mon 21:29</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

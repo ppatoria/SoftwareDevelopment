@@ -1,0 +1,81 @@
+;;; mylsl-mode.el --- sample major mode for editing LSL.
+
+;; Copyright © 2015, by you
+
+;; Author: your name ( your email )
+;; Version: 2.0.13
+;; Created: 26 Jun 2015
+;; Keywords: languages
+;; Homepage: http://ergoemacs.org/emacs/elisp_syntax_coloring.html
+
+;; This file is not part of GNU Emacs.
+
+;;; License:
+
+;; You can redistribute this program and/or modify it under the terms of the GNU General Public License version 2.
+
+;;; Commentary:
+
+;; short description here
+
+;; full doc on how to use here
+
+;;; Code:
+
+;; define several category of keywords
+(setq mylsl-keywords '("break" "default" "do" "else" "for" "if" "return" "state" "while") )
+(setq mylsl-types '("float" "integer" "key" "list" "rotation" "string" "vector"))
+(setq mylsl-constants '("ACTIVE" "AGENT" "ALL_SIDES" "ATTACH_BACK"))
+(setq mylsl-events '("at_rot_target" "at_target" "attach"))
+(setq mylsl-functions '("llAbs" "llAcos" "llAddToLandBanList" "llAddToLandPassList"))
+
+;; generate regex string for each category of keywords
+(setq mylsl-keywords-regexp (regexp-opt mylsl-keywords 'words))
+(setq mylsl-type-regexp (regexp-opt mylsl-types 'words))
+(setq mylsl-constant-regexp (regexp-opt mylsl-constants 'words))
+(setq mylsl-event-regexp (regexp-opt mylsl-events 'words))
+(setq mylsl-functions-regexp (regexp-opt mylsl-functions 'words))
+
+;; create the list for font-lock.
+;; each category of keyword is given a particular face
+(setq mylsl-font-lock-keywords
+      `(
+        (,mylsl-type-regexp . font-lock-type-face)
+        (,mylsl-constant-regexp . font-lock-constant-face)
+        (,mylsl-event-regexp . font-lock-builtin-face)
+        (,mylsl-functions-regexp . font-lock-function-name-face)
+        (,mylsl-keywords-regexp . font-lock-keyword-face)
+        ;; note: order above matters, because once colored, that part won't change.
+        ;; in general, longer words first
+        ))
+
+;;;###autoload
+(define-derived-mode mylsl-mode fundamental-mode
+  "lsl mode"
+  "Major mode for editing LSL (Linden Scripting Language)…"
+
+  ;; code for syntax highlighting
+  (setq font-lock-defaults '((mylsl-font-lock-keywords))))
+
+;; clear memory. no longer needed
+(setq mylsl-keywords nil)
+(setq mylsl-types nil)
+(setq mylsl-constants nil)
+(setq mylsl-events nil)
+(setq mylsl-functions nil)
+
+;; clear memory. no longer needed
+(setq mylsl-keywords-regexp nil)
+(setq mylsl-types-regexp nil)
+(setq mylsl-constants-regexp nil)
+(setq mylsl-events-regexp nil)
+(setq mylsl-functions-regexp nil)
+
+;; add the mode to the `features' list
+(provide 'mylsl-mode)
+
+;; Local Variables:
+;; coding: utf-8
+;; End:
+
+;;; mylsl-mode.el ends here

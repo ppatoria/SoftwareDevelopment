@@ -1,0 +1,247 @@
+Location: http://www.regular-expressions.info/lookaround.html                                                                
+[logo]                                               
+Tutorial Tools & Languages Examples Books & Reference
+
+                      Easily create and understand regular expressions today.                                               
+                      Compose and analyze regex patterns with RegexBuddy's easy-to-grasp regex blocks and intuitive regex   
+RegexBuddy            tree, instead of or in combination with the traditional regex syntax. Developed by the author of this 
+                      website, RegexBuddy makes learning and using regular expressions easier than ever. Get your own copy  
+                      of RegexBuddy now                                                                                     
+
+Lookahead and Lookbehind Zero-Width Assertions
+
+Perl 5 introduced two very powerful constructs: "lookahead" and "lookbehind". Collectively, these are called "lookaround".
+They are also called "zero-width assertions". They are zero-width just like the start and end of line, and start and end of
+word anchors that I already explained. The difference is that lookarounds will actually match characters, but then give up
+the match and only return the result: match or no match. That is why they are called "assertions". They do not consume
+characters in the string, but only assert whether a match is possible or not. Lookarounds allow you to create regular
+expressions that are impossible to create without them, or that would get very longwinded without them.
+
+Positive and Negative Lookahead
+
+Negative lookahead is indispensable if you want to match something not followed by something else. When explaining character
+classes, I already explained why you cannot use a negated character class to match a "q" not followed by a "u". Negative
+lookahead provides the solution: q(?!u). The negative lookahead construct is the pair of round brackets, with the opening
+bracket followed by a question mark and an exclamation point. Inside the lookahead, we have the trivial regex u.
+
+Positive lookahead works just the same. q(?=u) matches a q that is followed by a u, without making the u part of the match.
+The positive lookahead construct is a pair of round brackets, with the opening bracket followed by a question mark and an
+equals sign.
+
+You can use any regular expression inside the lookahead. (Note that this is not the case with lookbehind. I will explain why
+below.) Any valid regular expression can be used inside the lookahead. If it contains capturing parentheses, the
+backreferences will be saved. Note that the lookahead itself does not create a backreference. So it is not included in the
+count towards numbering the backreferences. If you want to store the match of the regex inside a backreference, you have to
+put capturing parentheses around the regex inside the lookahead, like this: (?=(regex)). The other way around will not work,
+because the lookahead will already have discarded the regex match by the time the backreference is to be saved.
+
+Regex Engine Internals
+
+First, let's see how the engine applies q(?!u) to the string Iraq. The first token in the regex is the literal q. As we
+already know, this will cause the engine to traverse the string until the q in the string is matched. The position in the
+string is now the void behind the string. The next token is the lookahead. The engine takes note that it is inside a
+lookahead construct now, and begins matching the regex inside the lookahead. So the next token is u. This does not match the
+void behind the string. The engine notes that the regex inside the lookahead failed. Because the lookahead is negative, this
+means that the lookahead has successfully matched at the current position. At this point, the entire regex has matched, and
+q is returned as the match.
+
+Let's try applying the same regex to quit. q matches q. The next token is the u inside the lookahead. The next character is
+the u. These match. The engine advances to the next character: i. However, it is done with the regex inside the lookahead.
+The engine notes success, and discards the regex match. This causes the engine to step back in the string to u.
+
+Because the lookahead is negative, the successful match inside it causes the lookahead to fail. Since there are no other
+permutations of this regex, the engine has to start again at the beginning. Since q cannot match anywhere else, the engine
+reports failure.
+
+Let's take one more look inside, to make sure you understand the implications of the lookahead. Let's apply q(?=u)i to quit.
+I have made the lookahead positive, and put a token after it. Again, q matches q and u matches u. Again, the match from the
+lookahead must be discarded, so the engine steps back from i in the string to u. The lookahead was successful, so the engine
+continues with i. But i cannot match u. So this match attempt fails. All remaining attempts will fail as well, because there
+are no more q's in the string.
+
+Positive and Negative Lookbehind
+
+Lookbehind has the same effect, but works backwards. It tells the regex engine to temporarily step backwards in the string,
+to check if the text inside the lookbehind can be matched there. (?<!a)b matches a "b" that is not preceded by an "a", using
+negative lookbehind. It will not match cab, but will match the b (and only the b) in bed or debt. (?<=a)b (positive
+lookbehind) matches the b (and only the b) in cab, but does not match bed or debt.
+
+The construct for positive lookbehind is (?<=text): a pair of round brackets, with the opening bracket followed by a
+question mark, "less than" symbol and an equals sign. Negative lookbehind is written as (?<!text), using an exclamation
+point instead of an equals sign.
+
+More Regex Engine Internals
+
+Let's apply (?<=a)b to thingamabob. The engine starts with the lookbehind and the first character in the string. In this
+case, the lookbehind tells the engine to step back one character, and see if an "a" can be matched there. The engine cannot
+step back one character because there are no characters before the t. So the lookbehind fails, and the engine starts again
+at the next character, the h. (Note that a negative lookbehind would have succeeded here.) Again, the engine temporarily
+steps back one character to check if an "a" can be found there. It finds a t, so the positive lookbehind fails again.
+
+The lookbehind continues to fail until the regex reaches the m in the string. The engine again steps back one character, and
+notices that the a can be matched there. The positive lookbehind matches. Because it is zero-width, the current position in
+the string remains at the m. The next token is b, which cannot match here. The next character is the second a in the string.
+The engine steps back, and finds out that the m does not match a.
+
+The next character is the first b in the string. The engine steps back and finds out that a satisfies the lookbehind. b
+matches b, and the entire regex has been matched successfully. It matches one character: the first b in the string.
+
+Important Notes About Lookbehind
+
+The good news is that you can use lookbehind anywhere in the regex, not only at the start. If you want to find a word not
+ending with an "s", you could use \b\w+(?<!s)\b. This is definitely not the same as \b\w+[^s]\b. When applied to John's, the
+former will match John and the latter John' (including the apostrophe). I will leave it up to you to figure out why. (Hint:
+\b matches between the apostrophe and the s). The latter will also not match single-letter words like "a" or "I". The
+correct regex without using lookbehind is \b\w*[^s\W]\b (star instead of plus, and \W in the character class). Personally, I
+find the lookbehind easier to understand. The last regex, which works correctly, has a double negation (the \W in the
+negated character class). Double negations tend to be confusing to humans. Not to regex engines, though.
+
+The bad news is that most regex flavors do not allow you to use just any regex inside a lookbehind, because they cannot
+apply a regular expression backwards. Therefore, the regular expression engine needs to be able to figure out how many steps
+to step back before checking the lookbehind.
+
+Therefore, many regex flavors, including those used by Perl and Python, only allow fixed-length strings. You can use any
+regex of which the length of the match can be predetermined. This means you can use literal text and character classes. You
+cannot use repetition or optional items. You can use alternation, but only if all options in the alternation have the same
+length.
+
+PCRE is not fully Perl-compatible when it comes to lookbehind. While Perl requires alternatives inside lookbehind to have
+the same length, PCRE allows alternatives of variable length. Each alternative still has to be fixed-length.
+
+Java takes things a step further by allowing finite repetition. You still cannot use the star or plus, but you can use the 
+question mark and the curly braces with the max parameter specified. Java recognizes the fact that finite repetition can be
+rewritten as an alternation of strings with different, but fixed lengths. Unfortunately, the JDK 1.4 and 1.5 have some bugs
+when you use alternation inside lookbehind. These were fixed in JDK 1.6.
+
+The only regex engines that allow you to use a full regular expression inside lookbehind, including infinite repetition, are
+the JGsoft engine and the .NET framework RegEx classes.
+
+Finally, flavors like JavaScript, Ruby and Tcl do not support lookbehind at all, even though they do support lookahead.
+
+Lookaround Is Atomic
+
+The fact that lookaround is zero-width automatically makes it atomic. As soon as the lookaround condition is satisfied, the
+regex engine forgets about everything inside the lookaround. It will not backtrack inside the lookaround to try different
+permutations.
+
+The only situation in which this makes any difference is when you use capturing groups inside the lookaround. Since the
+regex engine does not backtrack into the lookaround, it will not try different permutations of the capturing groups.
+
+For this reason, the regex (?=(\d+))\w+\1 will never match 123x12. First the lookaround captures 123 into \1. \w+ then
+matches the whole string and backtracks until it matches only 1. Finally, \w+ fails since \1 cannot be matched at any
+position. Now, the regex engine has nothing to backtrack to, and the overall regex fails. The backtracking steps created by
+\d+ have been discarded. It never gets to the point where the lookahead captures only 12.
+
+Obviously, the regex engine does try further positions in the string. If we change the subject string, the regex (?=(\d+))\
+w+\1 will match 56x56 in 456x56.
+
+If you don't use capturing groups inside lookaround, then all this doesn't matter. Either the lookaround condition can be
+satisfied or it cannot be. In how many ways it can be satisfied is irrelevant.
+
+Make a Donation
+
+Did this website just save you a trip to the bookstore? Please make a donation to support this site, and you'll get a
+lifetime of advertisement-free access to this site!
+
+Page URL: http://www.Regular-Expressions.info/lookaround.html
+Page last updated: 21 April 2010
+Site last updated: 17 June 2013
+Copyright © 2003-2013 Jan Goyvaerts. All rights reserved.
+
+*
+
+Regex Tutorial           
+                         
+Introduction             
+                         
+Table of Contents        
+                         
+Characters               
+                         
+Regex Engine Internals   
+                         
+Character Classes        
+                         
+Dot                      
+                         
+Anchors                  
+                         
+Word Boundaries          
+                         
+Alternation              
+                         
+Optional Items           
+                         
+Repetition               
+                         
+Grouping & Backreferences
+                         
+Named Groups             
+                         
+Unicode                  
+                         
+Modifiers                
+                         
+Possessive Quantifiers   
+                         
+Atomic Grouping          
+                         
+Lookahead & Lookbehind   
+                         
+Lookaround, part 2       
+                         
+Continuing Matches       
+                         
+Conditionals             
+                         
+XML Character Classes    
+                         
+POSIX Bracket Expressions
+                         
+Comments                 
+                         
+Free-Spacing             
+
+More Information   
+                   
+Introduction       
+                   
+Quick Start        
+                   
+Tutorial           
+                   
+Tools and Languages
+                   
+Examples           
+                   
+Books              
+                   
+Reference          
+                   
+Print PDF          
+                   
+About This Site    
+                   
+RSS Feed & Blog    
+
+PowerGREP 4                                                                                                                 
+                                                                                                                            
+Pow                                                                                                                         
+PowerGREP is probably the most powerful regex-based text processing tool available today. A knowledge worker's Swiss army   
+knife for searching through, extracting information from, and updating piles of files.                                      
+                                                                                                                            
+Use regular expressions to search through large numbers of text and binary files. Quickly find the files you are looking    
+for, or extract the information you need. Look through just a handful of files or folders, or scan entire drives and network
+shares.                                                                                                                     
+                                                                                                                            
+Search and replace using text, binary data or one or more regular expressions to automate repetitive editing tasks. Preview 
+replacements before modifying files, and stay safe with flexible backup and undo options.                                   
+                                                                                                                            
+Use regular expressions to rename files, copy files, or merge and split the contents of files. Work with plain text files,  
+Unicode files, binary files, compressed files, and files in proprietary formats such as MS Office, OpenOffice, and PDF. Runs
+on Windows 2000, XP, Vista, 7, and 8.                                                                                       
+                                                                                                                            
+More information                                                                                                            
+                                                                                                                            
+Download PowerGREP now                                                                                                      
+

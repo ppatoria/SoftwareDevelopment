@@ -1,0 +1,74 @@
+Chapter 11. Event Demultiplexing and Dispatching
+
+
+ 
+
+
+Taxi stand in Munich © Frank Buschmann
+
+At its heart distributed computing is all about handling of, and responding to, events received from the network. This chapter, therefore, presents four patterns that describe different approaches for initiating, receiving, demultiplexing, dispatching, and processing events in distributed and networked systems.
+
+Distributed computing is ultimately event-driven, even when middleware platforms offer applications with a more sophisticated communication model, such as request/response operations or asynchronous messaging. There are a number of challenges that differentiate event-driven software from software with a 'self-directed' flow of control [PLoPD1]:
+
+•Asynchronous arrival of events. Behavior in event-driven software is triggered largely by external or internal events that can arrive asynchronously. Most events must be handled promptly, even if the application is under heavy workload, or while it is executing long-duration services. If not, response time will suffer, and hardware devices with real-time constraints will fail or corrupt data.
+
+
+•Simultaneous arrival of multiple events. Event-driven software typically receives events from multiple independent event sources, such as I/O ports, sensors, keyboards or mice, signals, timers, or asynchronous software components. Consequently, multiple events can arrive at the application simultaneously. To react promptly to any event from any event source, event-driven software must therefore be able to listen for events on all its event sources.
+
+
+•Non-deterministic arrival of events. Although event-driven software generally has little control over the order in which events arrive, it must handle events properly regardless of their order of arrival. Software that processes events in a specific order must be able to detect illegal event sequences in order to prevent improper state transitions. These requirements motivate flexible and effective event demultiplexing and dispatching infrastructure within event-driven software.
+
+
+•Multiple event types. Most event-driven software handles multiple types of events, where each type requires a particular behavior. For example, a Connect event indicates a request to establish a connection between two peers, whereas a Data event indicates an operation request and its parameters. Dispatching the correct handler in response to events is the responsibility of the event-handling infrastructure, which requires an efficient mechanism to demultiplex events onto their intended handler, and to dispatch the correct service or operation to process the event.
+
+
+•Hiding the complexity of event demultiplexing and dispatching. Low-level operating system mechanisms for detecting, receiving, and demultiplexing events are often tedious and error-prone to program [SH03]. To simplify the development of event-driven software, higher-level abstractions are needed that hide the complexity of demultiplexing and dispatching events to application services.
+
+
+To master the challenges described above both elegantly and efficiently, event-driven software is often structured as a Layers architecture (185) with an inverted flow of control [John97]. Each layer in this architecture is responsible for handling a particular aspect of event-driven computation, and hides the complexity that is associated with this aspect from higher layers. Event-driven software typically exhibits three layers:
+
+•Event sources such as sockets [Ste98] occur at the lowest level, which detect and retrieve events from various hardware devices or low-level services that reside within an operating system.
+
+
+•In the next layer up is an event demultiplexer, which uses functions such as WaitForMultipleObjects, GetQueuedCompletionStatus [Sol98], select [Ste98], or poll [Rago93] to wait for events to arrive on the various event sources, and then dispatch events to their corresponding event handler callbacks.
+
+
+•The event handlers, together with the application code, form a further layer, which performs application-specific processing in response to callbacks.
+
+
+Though a Layers approach decouples different concerns in event-driven software in a way that handles each concern separately, it does not explain how to resolve a particular concern optimally under a given set of forces. For example, an event-demultiplexing layer alone does not ensure efficient yet simple demultiplexing and dispatching of events to event handlers.
+
+The four event-handling patterns in our pattern language for distributed computing help to fill this gap. They provide efficient, extensible, and reusable solutions to key event demultiplexing and dispatching problems in event-driven software:
+
+
+The Reactor pattern (259) [POSA2] allows event-driven software to demultiplex and dispatch service requests that are delivered to an application from one or more clients.
+
+The Proactor pattern (262) [POSA2] allows event-driven software to demultiplex and dispatch service requests triggered by the completion of asynchronous operations efficiently, thereby achieving the performance benefits of concurrency without incurring some of its liabilities.
+
+The Acceptor-Connector pattern (265) [POSA2] decouples the connection and initialization of cooperating peer services in a networked system from the processing performed by the peer services after they are connected and initialized.
+
+The Asynchronous Completion Token pattern (268) [POSA2] allows event-driven software to demultiplex and process the responses of asynchronous operations it invokes on services efficiently.
+
+This chapter focuses solely on patterns for event demultiplexing and dispatching that are relevant to distributed computing. Patterns related to other areas of event-driven software, such as handling user interface events, are not included.
+
+The Reactor and Proactor patterns define event demultiplexing and dispatching infrastructures that can be used by event-driven applications to detect, demultiplex, dispatch, and process events they receive from the network. Although both patterns resolve essentially the same problem in a similar context, and also use similar patterns to implement their solutions, the concrete event-handling infrastructures they suggest are distinct, due to the orthogonal forces to which each pattern is exposed.
+
+Reactor focuses on simplifying the programming of event-driven software. It implements a passive event demultiplexing and dispatching model in which services wait until request events arrive and then react by processing the events synchronously without interruption. While this model scales well for services in which the duration of the response to a request is short, it can introduce performance penalties for long-duration services, since executing these services synchronously can unduly delay the servicing of other requests. Proactor, in contrast, is designed to maximize event-driven software performance. It implements a more active event demultiplexing and dispatching model in which services divide their processing into multiple self-contained parts and proactively initiate asynchronous execution of these parts. This design allows multiple services to execute concurrently, which can increase quality of service and throughput.
+
+Consequently, Reactor and Proactor are not really equally weighted alternatives, but rather are complementary patterns that trade-off programming simplicity and performance. Relatively simple event-driven software can benefit from a Reactor-based design, whereas Proactor offers a more efficient and scalable event demultiplexing and dispatching model.
+
+The following diagram illustrates how Reactor and Proactor integrate into our pattern language.
+
+
+ 
+
+
+Acceptor-Connector and Asynchronous Completion Token help in refining the event-handling infrastructures introduced by Reactor and Proactor. In its essence, Acceptor-Connector partitions event handlers according to specialized responsibilities: initiating a connection to a remote peer handler, accepting a connection request from a remote peer, and event processing. This separation supports the variation of connection establishment and initialization behavior independently of service handler functionality. In addition, it shields application developers from dealing with low-level issues of connection management. Asynchronous Completion Token supports the correlation of responses to asynchronous service invocations with the corresponding requests so that the sender of the request can determine the actions to perform on the response in constant time.
+
+The second diagram illustrates how Acceptor-Connector and Asynchronous Completion Token connect with other patterns in our language.
+
+
+ 
+
+
+All four patterns, however, have broader applicability than merely handling network events. For example, Reactor and Proactor can also be applied in demultiplexing and dispatching user input events to user interface elements.

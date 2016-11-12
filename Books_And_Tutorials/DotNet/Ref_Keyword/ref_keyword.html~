@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>ref keyword in C# </title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 02:38:18 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">ref keyword in C# </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 What is the use of ref keyword when we are passing reference type as parameter to a function ? </a></li>
+<li><a href="#sec-2">2 Then the question arises why (or when) we have to pass a reference type by reference to a function ? </a>
+<ul>
+<li><a href="#sec-2_1">2.1 A Reference Type in C# </a></li>
+<li><a href="#sec-2_2">2.2 C++ Example </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> What is the use of ref keyword when we are passing reference type as parameter to a function ? </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Pass by Reference passes in a reference to a variable - this is
+effectively the address of the variable into the function. This is
+more efficient than by value and allows the function to change the
+variable directly.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Then the question arises why (or when) we have to pass a reference type by reference to a function ? </h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+When the reference type is passed by value (i.e. without ref keyword)
+the value of the reference i.e. the address of the referent(that
+reference is pointing to) is passed as a parameter. The calling
+function creates a reference and refer to the value passed by the
+callee.
+</p>
+
+</div>
+
+<div id="outline-container-2_1" class="outline-3">
+<h3 id="sec-2_1"><span class="section-number-3">2.1</span> A Reference Type in C# </h3>
+<div class="outline-text-3" id="text-2_1">
+
+<p>Example:
+</p>
+
+
+<pre class="example">Example:
+class Coffee
+{
+    public bool ContainMilk { get; set; }
+    public bool ContainSugar { get; set; }
+
+    public override string ToString()
+    {
+        return string.Format("ContainMilk: {0}, ContainSugar: {1}", 
+                                  ContainMilk, ContainSugar);
+    }
+}
+
+class CoffeeEnricher
+{
+    public static void AddMilk(Coffee coffee)
+    {
+        //Add Milk        
+        //Set the Flag 
+        coffee.ContainMilk = true;
+    }
+
+    public static void AddMilk(ref Coffee coffee)
+    {
+        //Add Milk        
+        //Set the Flag 
+        coffee.ContainMilk = true;
+    }
+}
+
+class PassByReference
+{
+    public static void Main()
+    {
+        Coffee myCoffeeReference = new Coffee();
+
+        CoffeeEnricher.AddMilk(ref myCoffeeReference);    //Reference is passed by reference        
+        Console.WriteLine("Reference is passed by reference");
+        Console.WriteLine(myCoffeeReference.ToString());
+
+    }
+}
+</pre>
+
+
+
+<p>
+<b>Output:</b>
+<i>Reference is passed by reference</i>
+<i>ContainMilk: True, ContainSugar: False</i>
+</p>
+<p>
+In the Above Example we passed by reference a reference of object coffee 
+</p>
+
+
+<pre class="example">CoffeeEnricher.AddMilk(ref myCoffeeReference); //Reference is passed by reference 
+</pre>
+
+
+
+<p>
+It worked fine when Milk in added in AddMilk Method the myCoffeeReference also got changed.
+</p>
+<p>
+But what if we do not pass the myCoffeeReference by value i.e. without ref keyword.
+</p>
+
+
+
+<pre class="example">class PassByReference
+{
+    public static void Main()
+    {
+        Coffee myCoffeeReference = new Coffee();
+
+        CoffeeEnricher.AddMilk(myCoffeeReference);        //Reference is passed by value
+        Console.WriteLine("Reference is passed by value");
+        Console.WriteLine(myCoffeeReference.ToString()); 
+    }
+}
+</pre>
+
+
+
+<p>
+<b>Output:</b>
+<i>Reference is passed by value</i>
+<i>ContainMilk: True, ContainSugar: False</i>
+</p>
+<p>
+It also worked fine. So why we need ref keyword ? Is it only for required in the case of value type? Where we require ref for reference type.
+</p>
+<p>
+Lets see one more example, we enhance the same class to swap the coffee . So after adding milk in the coffee I didn't like it my friend prepared a coffee and was just going to add milk. I asked him not to add milk and swap the coffee with me. So for swapping I added Two Swap functions in PassByReference class.
+</p>
+<p>
+First Swap function takes parameters by value.  
+</p>
+
+
+
+<pre class="example">public static void Swap(Coffee coffeeOneReference, Coffee coffeeTwoReference)
+</pre>
+
+
+
+<p>
+Second one does exactly the same by takes parameter by reference
+</p>
+
+
+
+<pre class="example">public static void Swap(ref Coffee coffeeOneReference, ref Coffee coffeeTwoReference)
+</pre>
+
+
+
+<p>
+Extended PassByReference class is as below :
+</p>
+
+
+
+<pre class="example">class PassByReference
+{
+    public static void Main()
+    {
+       ....
+        ....
+    }
+    public static void Swap(Coffee coffeeOneReference, Coffee coffeeTwoReference)
+    {
+        Coffee temp          = coffeeOneReference;
+        coffeeOneReference   = coffeeTwoReference;
+        coffeeTwoReference   = temp;
+    }
+    public static void Swap(ref Coffee coffeeOneReference, ref Coffee coffeeTwoReference)
+    {
+        Coffee temp          = coffeeOneReference;
+        coffeeOneReference   = coffeeTwoReference;
+        coffeeTwoReference   = temp;
+    }
+}
+</pre>
+
+
+
+<p>
+First we try to swap using first method where we will pass the coffee
+by value.
+</p>
+
+
+
+<pre class="example">public static void Main()
+{
+    Coffee myCoffeeReference = new Coffee();
+    Coffee friendsCoffeeReference = new Coffee(); //Without Milk
+
+    Swap(myCoffeeReference, friendsCoffeeReference);
+    Console.WriteLine("Passed by value");
+    Console.WriteLine("MyCoffee: {0}{1}FriendsCoffee: {2}", 
+                      myCoffeeReference, Environment.NewLine, friendsCoffeeReference);
+}
+</pre>
+
+
+
+<p>
+<b>Output:</b>
+<i>Passed by value</i>
+<i>MyCoffee: ContainMilk: True, ContainSugar: False</i>
+<i>FriendsCoffee: ContainMilk: False, ContainSugar: False</i>
+</p>
+<p>
+Swap didn't work when we passed the coffeeReferences by value. Let's
+try by passing by reference.
+</p>
+
+
+
+<pre class="example">public static void Main()
+{
+    Coffee myCoffeeReference = new Coffee();
+    Coffee friendsCoffeeReference = new Coffee(); //Without Milk
+
+    Swap(ref myCoffeeReference, ref friendsCoffeeReference);
+    Console.WriteLine("Passed by reference");
+    Console.WriteLine("MyCoffee: {0}{1}FriendsCoffee: {2}", 
+                      myCoffeeReference, Environment.NewLine, friendsCoffeeReference);
+}
+</pre>
+
+
+
+<p>
+<b>Output:</b>
+<i>Passed by reference</i>
+<i>MyCoffee: ContainMilk: False, ContainSugar: False</i>
+<i>FriendsCoffee: ContainMilk: True, ContainSugar: False</i>
+</p>
+<p>
+hen we passed coffeeReference parameters by reference it worked. But by the when we pass the coffeeReference by value it failed  while in the AddMilk method even though we passed coffeeReference by value it worked fine. 
+</p>
+<p>
+Lets go deep into it to under stand it.
+</p>
+<p>
+When we instantiate a reference type a reference is created on the
+stack and it point to the managed heap where memory for that instance
+is allocated.
+</p>
+
+
+
+<pre class="example">Coffee myCoffeeReference = new Coffee();
+</pre>
+
+
+
+<p>
+<a href="#sec-2_1"><img src="coffee.png"/></a>
+</p>
+<p>
+<span style="text-decoration:underline;">When A reference type parameter is passed by Value</span>
+When we pass by the reference type by value  we pass the the memory location in the heap and  a new reference is created in the called function which refer to the existing  value in the managed heap . 
+</p>
+<p>
+<a href="#sec-2_1"><img src="coffee1.png"/></a>
+</p>
+<p>
+So in pass by value in case where parameter is of reference type both
+Caller and Callee refer to same memory location.
+</p>
+<p>
+<a href="#sec-2_1"><img src="coffee2.png"/></a>
+</p>
+<p>
+<span style="text-decoration:underline;">When A reference type parameter is passed by Reference.</span>
+When we pass the reference type by reference  we pass the reference
+and not the memory location in the heap and  a new reference is
+created in the called function which refer to the existing reference and not the managed heap(where memory is allocated) .
+</p>
+<p>
+<a href="#sec-2_1">coffee3</a>
+</p>
+<p>
+So in pass by reference in case where parameter is of reference type
+Callee refer the reference which in turn refer to the managed heap
+where (memory is allocated).
+</p>
+<p>
+So in Case of AddMilk when we passed coffee reference as parameter without ref the (value) managed heap memory location was passed to the callee. The callee created the new reference to the passed managed heap memory location.
+</p>
+<p>
+So when we changed the value of ContainsMilk in Coffee object changes get affected in the caller also.
+</p>
+<p>
+But this didn't work with swap.
+</p>
+<p>
+Internal representation of object orderReference.
+</p>
+<p>
+<a href="#sec-2_1"><img src="Reference.jpg"/></a>
+Passed by reference
+MyCoffee: ContainMilk: False, ContainSugar: False
+FriendsCoffee: ContainMilk: True, ContainSugar: False
+</p>
+
+
+<p>
+<a href="#sec-2_1"><img src="ReferenceEX.jpg"/></a>
+</p>
+<p>
+Example:
+</p>
+
+
+<pre class="example">class PassByReference
+{
+    public static void Main()
+    {
+        Coffee myCoffeeReference = new Coffee();
+
+        CoffeeEnricher.AddMilk(myCoffeeReference);
+        Console.WriteLine(myCoffeeReference.ToString());
+
+        CoffeeEnricher.AddMilk(ref myCoffeeReference);
+        Console.WriteLine(myCoffeeReference.ToString());
+
+        Console.WriteLine("--x--");
+
+        Coffee friendsCoffeeReference = new Coffee(); //Without Milk
+
+        Swap(myCoffeeReference, friendsCoffeeReference);
+        Console.WriteLine("MyCoffee: {0}{1}FriendsCoffee: {2}", myCoffeeReference, Environment.NewLine, friendsCoffeeReference);
+
+        Console.WriteLine("");
+
+        Swap(ref myCoffeeReference, ref friendsCoffeeReference);
+        Console.WriteLine("MyCoffee: {0}{1}FriendsCoffee: {2}", myCoffeeReference, Environment.NewLine, friendsCoffeeReference);
+    }
+
+
+
+    class Coffee
+    {
+        public bool ContainMilk { get; set; }
+        public bool ContainSugar { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("ContainMilk: {0}, ContainSugar: {1}", ContainMilk, ContainSugar);
+        }
+    }
+
+    class CoffeeEnricher
+    {
+        public static void AddMilk(Coffee coffee)
+        {
+            //Add Milk        
+            //Set the Flag 
+            coffee.ContainMilk = true;
+        }
+
+        public static void AddMilk(ref Coffee coffee)
+        {
+            //Add Milk        
+            //Set the Flag 
+            coffee.ContainMilk = true;
+        }
+    }
+
+    public static void Swap(Coffee coffeeOneReference, Coffee coffeeTwoReference)
+    {
+        Coffee temp = coffeeOneReference;
+        coffeeOneReference = coffeeTwoReference;
+        coffeeTwoReference = temp;
+    }
+
+    public static void Swap(ref Coffee coffeeOne, ref Coffee coffeeTwo)
+    {
+        Coffee temp = coffeeOne;
+        coffeeOne = coffeeTwo;
+        coffeeTwo = temp;
+    }
+}
+</pre>
+
+
+
+
+<p>
+Internal representation of object orderReference.
+</p>
+<p>
+<a href="#sec-2_1"><img src="Reference.jpg"/></a>
+</p>
+
+
+
+<p>
+<a href="#sec-2_1"><img src="ReferenceEX.jpg"/></a>
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2_2" class="outline-3">
+<h3 id="sec-2_2"><span class="section-number-3">2.2</span> C++ Example </h3>
+<div class="outline-text-3" id="text-2_2">
+
+
+
+
+
+<pre class="example">#include &lt;iostream&gt;
+
+using namespace std;
+
+class Coffee
+{
+    private:
+    bool _containsMilk;
+
+    public:
+    Coffee()
+    {
+        _containsMilk = false;
+    }
+
+    void Out()
+    {
+        cout &lt;&lt; "Cofee Object{ ContainsMilk: " &lt;&lt; _containsMilk &lt;&lt; " }" &lt;&lt; endl;
+    }
+
+    bool GetContainsMilk()
+    {
+        return _containsMilk;
+    }
+
+    void SetContainsMilk(bool value)
+    {
+            _containsMilk = value;
+    }
+};
+
+ void SwapByPtr(Coffee* paramOne, Coffee* paramTwo)
+ {
+    Coffee* temp = paramOne;
+    paramOne     = paramTwo;
+    paramTwo     = temp;
+}
+
+void SwapByRef(Coffee&amp; paramOne, Coffee&amp; paramTwo)
+{
+    Coffee temp  = paramOne;
+    paramOne     = paramTwo;
+    paramTwo     = temp;
+}
+
+void SwapByRefToPtr(Coffee*&amp; paramOne, Coffee*&amp; paramTwo)
+{
+    Coffee* temp = paramOne;
+    paramOne     = paramTwo;
+    paramTwo     = temp;
+}
+
+void SwapByVal(Coffee paramOne, Coffee paramTwo)
+{
+    Coffee temp = paramOne;
+    paramOne    = paramTwo;
+    paramTwo    = temp;
+}
+
+
+void SwapByValExample()
+{
+    cout&lt;&lt; endl &lt;&lt; "SwapByValExample" &lt;&lt; endl;
+    cout &lt;&lt; "Value Before Swap" &lt;&lt;endl;
+    Coffee myCoffee;
+    myCoffee.SetContainsMilk(true);
+    myCoffee.Out();
+
+    Coffee refCoffee;
+    refCoffee.SetContainsMilk(false);
+    refCoffee.Out();
+
+    SwapByVal(myCoffee,refCoffee);
+
+    cout &lt;&lt; "Value After Swap" &lt;&lt;endl;
+    myCoffee.Out();
+    refCoffee.Out();
+}
+
+void SwapByRefExample()
+{
+    cout&lt;&lt; endl &lt;&lt; "SwapByRefExample" &lt;&lt; endl;
+
+    cout &lt;&lt; "Reference Before Swap" &lt;&lt;endl;
+    Coffee myCoffee;
+    myCoffee.SetContainsMilk(true);
+    myCoffee.Out();
+
+    Coffee refCoffee;
+    refCoffee.SetContainsMilk(false);
+    refCoffee.Out();
+
+    SwapByRef(myCoffee,refCoffee);
+
+    cout &lt;&lt; "Reference After Swap" &lt;&lt;endl;
+    myCoffee.Out();
+    refCoffee.Out();
+}
+
+void SwapByPtrExample()
+{
+    cout&lt;&lt; endl &lt;&lt; "SwapByPtrExample" &lt;&lt; endl;
+
+    cout &lt;&lt; "Ptr Before Swap" &lt;&lt;endl;
+    Coffee* myCoffee = new Coffee();
+    myCoffee-&gt;SetContainsMilk(true);
+    myCoffee-&gt;Out();
+
+    Coffee* refCoffee = new Coffee();
+    refCoffee-&gt;SetContainsMilk(false);
+    refCoffee-&gt;Out();
+
+    SwapByPtr(myCoffee,refCoffee);
+    cout &lt;&lt; "Ptr After Swap" &lt;&lt;endl;
+    myCoffee-&gt;Out();
+    refCoffee-&gt;Out();
+}
+
+void SwapByRefToPtrExample()
+{
+    cout&lt;&lt; endl &lt;&lt; "SwapByRefToPtrExample" &lt;&lt; endl;
+
+    cout &lt;&lt; "Reference Before Swap" &lt;&lt;endl;
+    Coffee* myCoffee = new Coffee();
+    myCoffee-&gt;SetContainsMilk(true);
+    myCoffee-&gt;Out();
+    Coffee* refCoffee = new Coffee();
+    refCoffee-&gt;SetContainsMilk(false);
+    refCoffee-&gt;Out();
+
+    SwapByRefToPtr(myCoffee,refCoffee);
+
+    cout &lt;&lt; "Reference After Swap" &lt;&lt;endl;
+    myCoffee-&gt;Out();
+    refCoffee-&gt;Out();
+}
+
+int main()
+{
+    SwapByValExample();
+    SwapByRefExample();
+
+    SwapByPtrExample();
+    SwapByRefToPtrExample();
+    return 0;
+}
+
+</pre>
+
+
+
+
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 02:38:18 </p>
+</div>
+</div>
+</body>
+</html>

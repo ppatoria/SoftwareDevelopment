@@ -1,0 +1,660 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/linqquiz.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<script language="JavaScript">
+    function toggle(id) {
+        div = document.getElementById(id);
+        if (div == null) return false;
+        div.style.display = div.style.display == 'block' ? 'none' : 'block';
+        return false;
+    }
+</script>
+<link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 5.0/4.0 in a Nutshell - LINQ Quiz
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/linqquiz.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjEwNDQyMTMxMw9kFgJmD2QWAgIDD2QWAgILDxYCHgRUZXh0BYwYDQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iYWJvdXQuYXNweCI+QWJvdXQgdGhlIEJvb2s8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb2RlLmFzcHgiPkNvZGUgTGlzdGluZ3M8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rYSIgaHJlZj0iZXh0cmFzLmFzcHgiPkV4dHJhczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5MSU5RUGFkPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iV2hhdHNOZXdDczQuYXNweCIgY2xhc3M9InN1YmxpbmsiPlZJREVPOiBXaGF0J3MgbmV3IGluIEMjIDQuMDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFraXQuYXNweCIgY2xhc3M9InN1YmxpbmsiPkxJTlFLaXQ8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJwcmVkaWNhdGVidWlsZGVyLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5QcmVkaWNhdGVCdWlsZGVyPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0ibGlucWJyaWRnZS5hc3B4IiBjbGFzcz0ic3VibGluayI+TElOUUJyaWRnZTwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImxpbnFxdWl6LmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5UaGUgTElOUSBRdWl6PC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iMTBsaW5xbXl0aHMuYXNweCIgY2xhc3M9InN1YmxpbmsiPlRlbiBMSU5RIE15dGhzPC9hPjwvdGQ+PC90cj4NCiAgICAgICA8dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iZXh0cmFzLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5Bc3luY2hyb25hdG9yPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdCBBdXRob3JzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+ZGTgRoSzT2oxkiqLQCya50Qi5fhdQw==" />
+</div>
+
+    
+
+<div id="main">
+
+<h1>Extras</h1>
+
+<h2>LINQ Quiz</h2>
+<p><i>Translations:</i> English |
+<a href="http://www.aprendamas.net/Articulos/ExamenLINQ.aspx">Spanish</a></p>
+<p>Take the following short quiz and test your knowledge of LINQ!</p>
+<p>All samples assume the following namespaces are imported:</p>
+<pre>using System;
+using System.Linq;
+using System.Data.Linq;
+using System.Xml.Linq;
+using System.Collections;</pre>
+<p>and that the following array is defined:</p>
+<pre>string[] colors = { &quot;green&quot;, &quot;brown&quot;, &quot;blue&quot;, &quot;red&quot; };</pre>
+<p>OK, let's get started!</p>
+<p class="quizq">Q1. What does the following expression evaluate to?</p>
+<pre>colors.Max (c =&gt; c.Length)</pre>
+<p>(A)&nbsp; 5<br>
+(B)&nbsp; green<br>
+(C)&nbsp; brown<br>
+(D)&nbsp; Compile-time error<br>
+(E)&nbsp; Exception thrown</p>
+<p><a href="#" onclick="return toggle('q1');">Answer</a>
+</p>
+<div id="q1" class="quiza">
+	<p><b>Answer: A</b></p>
+	<p><b>Max</b> is one of the <i>aggregation operators</i>, which are 
+	implemented as extension methods in <b>System.Linq.Enumerable</b> and <b>
+	System.Linq.Queryable</b>.</p>
+	<p><b>Max</b> returns 
+	the maximum value calculated by the lambda expression, not the element that had the maximum value. </p>
+</div>
+
+<p class="quizq">Q2. What does this expression evaluate to? </p>
+<pre><span>colors.OrderBy (c =&gt; c.Length).Single()</span></pre>
+<p>(A)&nbsp; 3<br>
+(B)&nbsp; red<br>
+(C)&nbsp; Compile-time error<br>
+(D)&nbsp; Exception thrown</p>
+<p><a href="#" onclick="return toggle('q2');">Answer</a>
+</p>
+<div id="q2" class="quiza">
+	<p><b>Answer: D</b></p>
+	<p>This throws an <b>InvalidOperationException</b>: the sequence emitted by
+	<b>OrderBy</b> contains four elements, and <b>Single</b> demands 
+	<i>exactly</i> one element. To get the result &quot;red&quot;, you must use the <b>
+	First</b> operator instead:</p>
+	<pre>colors.OrderBy (c =&gt; c.Length).First()</pre>
+	<p>Another option is to use <b>FirstOrDefault</b> (unlike <b>First</b>, <b>FirstOrDefault</b> doesn't throw an exception 
+	there are zero elements in the sequence).</p>
+	<p><b>Single</b> is good for retrieving a row from a table by primary key, in a LINQ 
+	to SQL query:</p>
+	<pre>Customer c =
+  dataContext.Customers.Single (c =&gt; c.ID == 123);</pre>
+	<p>In this case, you'd <i>want</i> an exception to be thrown if there were two customers with that ID.</p>
+</div>
+
+<p class="quizq">Q3. Given the following statement:</p>
+<pre>var query =
+  from c in colors
+  where c.Length &gt; 3
+  orderby c.Length
+  select c;</pre>
+<p><b>what type is </b><i> <b>query</b></i><b>?</b></p>
+<p>(A)&nbsp; <b>int</b><br>
+(B)&nbsp; <b>string</b><br>
+(C)&nbsp; <b>IEnumerable&lt;int&gt;</b><br>
+(D)&nbsp; <b>IEnumerable&lt;string&gt;</b><br>
+(E)&nbsp; <b>IQueryable&lt;int&gt;</b><br>
+(F)&nbsp; <b>IQueryable&lt;string&gt;</b></p>
+
+<p><a href="#" onclick="return toggle('q3');">Answer</a>
+</p>
+<div id="q3" class="quiza">
+<p><b>Answer: D</b></p>
+<p>The compiler translates this query to:</p>
+<pre>IEnumerable&lt;string&gt; query = colors
+  .Where   (c =&gt; c.Length &gt; 3)
+  .OrderBy (c =&gt; c.Length);</pre>
+<p>The <b>Where</b> and <b>OrderBy</b> methods, in this case, resolve to <b>Enumerable.Where</b> 
+and <b>Enumerable.OrderBy</b>, which both return <b>IEnumerable&lt;T&gt;. T</b> 
+is inferred to be <b>string</b> because we haven't transformed or <i>projected</i> 
+the input sequence elements in any way.</p>
+</div>
+
+<p class="quizq">Q4. What's the output from the following?</p>
+<pre>var query =
+  from c in colors
+  where c.Length == colors.Max (c =&gt; c.Length)
+  select c;
+
+foreach (var element in query)
+  Console.WriteLine (element);</pre>
+<p><i>That colors array, again, is { &quot;green&quot;, &quot;brown&quot;, &quot;blue&quot;, &quot;red&quot; 
+}</i></p>
+<p>(A)&nbsp; <b>green</b> followed by <b>brown</b><br>
+(B)&nbsp; <b>5</b> followed by 5<br>
+(C)&nbsp; Compile-time error<br>
+(D)&nbsp; Exception is thrown</p>
+<p><a href="#" onclick="return toggle('q4');">Answer</a>
+</p>
+<div id="q4" class="quiza">
+<p><b>Answer: C</b></p>
+<p>The variable, <b>c</b>, inside the subquery, conflicts with the outer query's 
+iteration variable, so the compiler complains.&nbsp; Here's how to fix it:</p>
+<pre>var query =
+  from c in colors
+  where c.Length == colors.Max (<b>c2 =&gt; c2.Length</b>)
+  select c;</pre>
+<p>The answer is then (A).</div>
+
+<p class="quizq">Q5. Assuming we make it syntactically correct, how many times does
+the
+<i>Max</i> subquery execute in the preceding example, when <i>query</i> is enumerated?</p>
+
+<p>(A)&nbsp; once<br>
+(B)&nbsp; twice<br>
+(C)&nbsp; 3 times<br>
+(D)&nbsp; 4 times</p>
+<p><a href="#" onclick="return toggle('q5');">Answer</a>
+</p>
+<div id="q5" class="quiza">
+<p><b>Answer: D</b></p>
+<p>With local queries, subqueries re-evaluate for each element in the outer 
+sequence. This is somewhat inefficient: we could avoid this by factoring out the subquery as follows:</p>
+<pre>int maxLength = colors.Max (c =&gt; c.Length);
+
+var query
+  from c in colors
+  where <b>c.Length == maxLength</b>
+  select c;  </pre>
+<p>The <b>Max</b> query then executes just once.</div>
+
+<p class="quizq">Q6. What does the following example output?</p>
+
+<pre>var list = new List&lt;string&gt; (colors);
+IEnumerable&lt;string&gt; query = list.Where (c =&gt; c.Length == 3);
+list.Remove (&quot;red&quot;);
+
+Console.WriteLine (query.Count());</pre>
+
+<p>(A)&nbsp; 0<br>
+(B)&nbsp; 1<br>
+(C)&nbsp; 2<br>
+(D)&nbsp; Exception thrown</p>
+<p><a href="#" onclick="return toggle('q6');">Answer</a>
+</p>
+<div id="q6" class="quiza">
+<p><b>Answer: A</b></p>
+<p>Queries execute not when <i>constructed</i>, but when <i>enumerated</i>. This 
+is called lazy or deferred evaluation. Our query doesn't start executing until 
+it encounters the aggregation operator, <b>Count</b>, which forces immediate 
+enumeration. By that stage, <b>red</b> has been removed from the collection.</p>
+<p>Any query operator that returns a scalar value or single element (such as <b>
+Single</b> or <b>First</b>) forces immediate execution.</p>
+</div>
+
+<p class="quizq">Q7. What's the output from the following?</p>
+
+<p><i>string[ ] colors = { &quot;green&quot;, &quot;brown&quot;, &quot;blue&quot;, &quot;red&quot; };</i></p>
+<pre>var query = colors.Where (c =&gt; c.Contains (&quot;e&quot;));
+query     = query.Where  (c =&gt; c.Contains (&quot;n&quot;));
+
+Console.WriteLine (query.Count());</pre>
+
+<p>(A)&nbsp; 1<br>
+(B)&nbsp; 2<br>
+(C)&nbsp; 3<br>
+(D)&nbsp; 4</p>
+<p><a href="#" onclick="return toggle('q7');">Answer</a>
+</p>
+<div id="q7" class="quiza">
+<p><b>Answer: A</b></p>
+<p>We've chained one <b>Where</b> operator after another, so 
+that our final query considers only strings containing both the letters <b>e</b> 
+and <b>n</b> (only <b>green</b>). Our query is compositionally identical to 
+this:</p>
+<pre>var query = colors
+  .Where (c =&gt; c.Contains (&quot;e&quot;))
+  .Where (c =&gt; c.Contains (&quot;n&quot;));</pre>
+<p>and gives the same result as this:</p>
+<pre>var query = colors
+  .Where (c =&gt; c.Contains (&quot;e&quot;)
+            &amp;&amp; c.Contains (&quot;n&quot;));</pre>
+</div>
+
+<p class="quizq">Q8. What's the output from the following?</p>
+
+<pre>string s  = &quot;e&quot;;
+var query = colors.Where (c =&gt; c.Contains (s));
+
+s         = &quot;n&quot;;
+query     = query.Where  (c =&gt; c.Contains (s));
+
+Console.WriteLine (query.Count());</pre>
+
+<p>(A)&nbsp; 1<br>
+(B)&nbsp; 2<br>
+(C)&nbsp; 3<br>
+(D)&nbsp; 4</p>
+
+<p><a href="#" onclick="return toggle('q8');">Answer</a>
+</p>
+<div id="q8" class="quiza">
+<p><b>Answer: B</b></p>
+<p>This query looks very much like the last one, but the result is very 
+different! Because the variable <b>s</b> is referenced from within a lambda 
+expression, it's <b>captured</b> by the compiler and becomes an <b>outer 
+variable</b>.</p>
+<p>With an outer variable, what matters is its value at the time the query <i>
+executes</i>—not its value at the time the query was <i>constructed</i>. In our example, both
+<b>Where</b> operators end up using &quot;n&quot; in their predicates, because this is the 
+value of <b>s</b> when the query was actually enumerated.</p>
+</div>
+
+<p class="quizq">Q9. How does the compiler resolve the <i>let</i> clause, in the 
+following query?</p>
+
+<pre>from c in colors
+<b>let middle = c.Substring (1, c.Length - 2)</b>
+where middle.Contains (&quot;e&quot;)
+select middle</pre>
+
+<p>(A)&nbsp; By translating it into a call to <b>Enumerable.Let</b><br>
+(B)&nbsp; By expanding <b>middle</b> into <b>c.Substring (1, c.Length - 2)</b> in 
+the <b>where</b> and <b>select</b> clauses<br>
+(C)&nbsp; By projecting it into a temporary anonymous type</p>
+<p><a href="#" onclick="return toggle('q9');">Answer</a>
+</p>
+<div id="q9" class="quiza">
+<p><b>Answer: C</b></p>
+<p>Here's how the compiler translates this query:</p>
+<pre>colors.Select (
+  c =&gt; new
+    {
+      c = c, 
+      middle = c.Substring (1, (c.Length - 2))
+    }
+  )
+  .Where (temp0 =&gt; temp0.middle.Contains (&quot;e&quot;))
+  .Select (temp0 =&gt; temp0.middle)</pre>
+<p>To see how the compiler translates comprehension queries, replace <b>colors</b> with <b>
+colors.AsQueryable()</b>, and then run the query in
+<a href="http://www.linqpad.net/">LINQPad</a>. The translation 
+displays in the lambda tab.</div>
+
+<p class="quizq">
+Q10. The compiler translates queries containing multiple generators (i.e., multiple <i>
+from</i> clauses) into:</p>
+
+<p>(A)&nbsp; Multiple <b>Select</b>s<br>
+(B)&nbsp; <b>SelectMany</b><br>
+(C)&nbsp; <b>Join</b></p>
+<p><a href="#" onclick="return toggle('q10');">Answer</a>
+</p>
+<div id="q10" class="quiza">
+<p><b>Answer: B</b></p>
+<p>Queries containing multiple generators translate to <b>SelectMany</b>.&nbsp; 
+LINQ to SQL, in turn, translates <b>SelectMany</b> into a 
+variety of SQL constructs, including inner and outer SQL joins.</p>
+</div>
+
+<p class="quizq">
+<a name="Q11"></a>Q11.
+A LINQ to SQL query that uses multiple <i>from</i> clauses (or <i>SelectMany</i>) 
+can perform the equivalent of which of the following kind(s) of SQL JOIN:</p>
+
+<p>I.&nbsp;&nbsp;&nbsp; Inner joins<br>
+II.&nbsp;&nbsp; Left outer joins<br>
+III.&nbsp; Full outer joins<br>
+IV.&nbsp; Non-equi inner joins<br>
+V.&nbsp;&nbsp; Non-equi outer joins</p>
+<p><a href="#" onclick="return toggle('q11');">Answer</a>
+</p>
+<div id="q11" class="quiza">
+<p><b>Answer: I and IV</b></p>
+<p><b>Answer: II and V</b> (in conjunction with <b>DefaultIfEmpty</b>)</p>
+<p>With LINQ to SQL, <b>SelectMany</b>-based joins are the most flexible, and can 
+perform both equi and non-equi joins. Throw in <b>DefaultIfEmpty</b>, and you 
+can do left outer joins as well!</p>
+<p>Here's an example 
+of a simple inner join:</p>
+<pre>from c in dataContext.Customers
+from i in dataContext.Invoices
+where c.CustomerID == i.CustomerID
+select ...</pre>
+<p>Or, using an association property:</p>
+<pre>from c in dataContext.Customers
+from i in c.Invoices
+select ...</pre>
+<p>A left outer join:</p>
+<pre>from c in dataContext.Customers
+from i in dataContext.Invoices
+  .Where (i =&gt; c.CustomerID == i.CustomerID)
+  .DefaultIfEmpty()
+select ...</pre>
+<p>&nbsp;Or, using an association property:</p>
+<pre>from c in dataContext.Customers
+from i in c.Invoices.DefaultIfEmpty()
+select ...</pre>
+<p>Here's an non-equi inner join that queries post codes that cross states:</p>
+<pre>from t1 in dataContext.Towns
+from t2 in dataContext.Towns
+where t1.PostCode == t2.PostCode
+      &amp;&amp; t1.State.CompareTo (t2.State) &lt; 0
+select ...</pre>
+<p>We can turn this into an non-equi <i>outer</i> join as follows:</p>
+<pre>from t1 in dataContext.Towns
+from t2 in dataContext.Towns
+  .Where (t =&gt; t.PostCode == t1.PostCode
+            &amp;&amp; t.State.CompareTo (t1.State) &lt; 0)
+  .DefaultIfEmpty()
+select ...</pre>
+</div>
+
+<p class="quizq">
+Q12.
+A LINQ to SQL query that uses <i>join</i> clauses can perform the equivalent of 
+which of the following kind(s) of SQL JOIN</p>
+
+<p>I.&nbsp;&nbsp;&nbsp; Inner joins<br>
+II.&nbsp;&nbsp; Left outer joins<br>
+III.&nbsp; Full outer joins<br>
+IV.&nbsp; Non-equi inner joins<br>
+V.&nbsp;&nbsp; Non-equi outer joins</p>
+<p><a href="#" onclick="return toggle('q12');">Answer</a>
+</p>
+<div id="q12" class="quiza">
+<p><b>Answer: I</b></p>
+<p><b>Answer: II</b> (in conjunction with <b>DefaultIfEmpty</b>)</p>
+<p><b>Join</b> is the not as powerful than <b>SelectMany</b> in LINQ to SQL (it 
+cannot perform non-equi-joins.)</p>
+<p>The big advantage of <b>Join</b> over <b>SelectMany</b> is not in LINQ to 
+SQL, but in local queries: <b>Join</b> is much faster with large collections because it preloads the inner 
+sequence into a keyed lookup.</p>
+</div>
+
+<p class="quizq">Q13. A LINQ to SQL query can include calls to your own local 
+methods:</p>
+
+<p>A. In <b>Where</b> clauses only<br>
+B. In the final projection only<br>
+C. Anywhere in the query<br>
+D. Not at all</p>
+<p><a href="#" onclick="return toggle('q13');">Answer</a>
+</p>
+<div id="q13" class="quiza">
+<p><b>Answer: B</b></p>
+<p>In a LINQ to SQL query, you cannot include calls to your own local methods (or unsupported Framework 
+methods) in any place other than the final projection. If you try to do 
+otherwise, 
+one of two things will happen:</p>
+<ul>
+	<li>LINQ to SQL will throw an exception when the query executes (&quot;method XYZ 
+has no translation to SQL&quot;)</li>
+	<li>the query will be executed locally from that point on.</li>
+</ul>
+<p>You can force the second scenario by calling&nbsp; <b>
+AsEnumerable</b> on the query. For instance, the following uses a LINQ to SQL 
+query to retrieve all articles on influenza, and then uses a local query to 
+narrow the results down to only those articles whose abstract is less than 100 
+words:</p>
+<pre>var wordCounter = 
+  new System.Text.RegularExpressions.RegEx (
+    @&quot;\b(\w|[-'])+\b&quot;);
+
+var query = dataContext.Articles
+  .Where (a =&gt; a.Topic == &quot;influenza&quot;)
+<b>  .AsEnumerable()</b>
+  .Where (a =&gt; 
+    wordCounter.Matches (a.Abstract).Count &lt; 100
+  );</pre>
+<p>We have to run the regular expressions filter locally, because Regex has no 
+translation in SQL. 
+</div>
+
+<p class="quizq">Q14. In LINQ to SQL, to request that an entity’s association 
+properties be populated along with the entity (in a single round trip), you would:</p>
+
+<p>(A)&nbsp; set <b>DelayLoaded</b> to false in the <b>Association</b> attribute<br>
+(B)&nbsp; set <b>EagerLoad</b> to true in the <b>Association</b> attribute<br>
+(C)&nbsp; use a <b>DataLoadOptions</b> object, and call <b>AssociateWith</b><br>
+(D)&nbsp; use a <b>DataLoadOptions</b> object, and call <b>LoadWith</b></p>
+<p><a href="#" onclick="return toggle('q14');">Answer</a>
+</p>
+<div id="q14" class="quiza">
+<p><b>Answer: D</b></p>
+<p>Here's an example:</p>
+<pre>var options = new DataLoadOptions();
+options.LoadWith &lt;Customer&gt; (c =&gt; c.Orders);
+dataContext.LoadOptions = options;</pre>
+<p>This ensures that when a customer is retrieved, so are the customer's orders.</div>
+
+<p class="quizq">Q15. What does the following example print?</p>
+
+<pre>var city = new XElement (&quot;city&quot;, &quot;Seattle&quot;);
+
+var customer1 = new XElement (&quot;customer&quot;, city);
+var customer2 = new XElement (&quot;customer&quot;, city);
+
+city.SetValue (&quot;London&quot;);
+Console.WriteLine (customer2.Element (&quot;city&quot;).Value);</pre>
+
+<p>(A)&nbsp; Seattle<br>
+(B)&nbsp; London<br>
+(C)&nbsp; An exception is thrown</p>
+<p><a href="#" onclick="return toggle('q15');">Answer</a>
+</p>
+<div id="q15" class="quiza">
+<p><b>Answer: A</b></p>
+<p>An <b>XElement</b> can have only one parent. When you try and make <b>city</b> 
+also the child of <b>customer2</b>, LINQ to XML automatically makes a deep clone 
+of <b>city</b>, rather than throwing an exception.</p>
+</div>
+
+<p class="quizq">Q16. In the following example, what’s the namespace of the inner 
+element <i>name</i>?</p>
+
+<pre>XNamespace ns = &quot;http://albahari.com/linqquiz&quot;;
+
+var x =
+  new XElement (ns + &quot;customer&quot;,
+    new XElement (&quot;name&quot;, &quot;Bloggs&quot;)
+  );</pre>
+
+<p>(A)&nbsp; <b>&quot;&quot; </b><i>(empty string)</i><br>
+(B)&nbsp; &quot;http://albahari.com/linqquiz&quot;<br>
+(C)&nbsp; <b>&quot;</b>name&quot;</p>
+<p><a href="#" onclick="return toggle('q16');">Answer</a>
+</p>
+<div id="q16" class="quiza">
+<p><b>Answer: A</b></p>
+<p>Child <b>XElement</b>s do not implicitly inherit a namespace from 
+their parent. Here's what the XML serialization of our DOM would look like:</p>
+<pre>&lt;customer xmlns=&quot;http://albahari.com/linqquiz&quot;&gt;
+     &lt;name <b>xmlns=&quot;&quot;</b>&gt;Bloggs&lt;/name&gt;
+&lt;/customer&gt;</pre>
+<p>If we wanted answer (B), we'd have to construct the DOM in the following 
+manner instead:</p>
+<pre>var x =
+  new XElement (ns + &quot;customer&quot;,
+    new XElement (<b>ns + </b>&quot;name&quot;, &quot;Bloggs&quot;)
+  );</pre>
+<p>This would translate to the following XML:</p>
+<pre>&lt;customer xmlns=&quot;http://albahari.com/linqquiz&quot;&gt;
+     &lt;name&gt;Bloggs&lt;/name&gt;
+&lt;/customer&gt;</pre>
+</div>
+
+<p class="quizq">Q17. When you call <i>Save </i>on an <i>XElement</i> 
+or <i>XDocument</i> to write its content to a file, an XML declaration is included in the output:</p>
+
+<p>(A)&nbsp; Always<br>
+(B)&nbsp; Never<br>
+(C)&nbsp; Only if an <b>XDeclaration</b> object is present</p>
+<p><a href="#" onclick="return toggle('q17');">Answer</a>
+</p>
+<div id="q17" class="quiza">
+<p><b>Answer: A</b></p>
+<p>An XML declaration is always written, unless you instead provide an
+<b>XmlWriter</b> and instruct the writer explicitly not to emit the declaration.</p>
+<p>With an <b>XDocument</b>, the presence of an <b>XDeclaration</b> has no 
+effect on whether an XML declaration is written. An <b>XDeclaration</b> merely hints 
+the writer as to what encoding to use, and what to put in the <b>standalone</b> 
+attribute. </p>
+</div>
+
+<p>&nbsp;</p>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="extras.html" class="sublink">LINQPad</a></td></tr>
+       <tr><td align="right"><a href="WhatsNewCs4-2.html" class="sublink">VIDEO: What's new in C# 4.0</a></td></tr>
+       <tr><td align="right"><a href="linqkit.html" class="sublink">LINQKit</a></td></tr>
+       <tr><td align="right"><a href="predicatebuilder.html" class="sublink">PredicateBuilder</a></td></tr>
+       <tr><td align="right"><a href="linqbridge.html" class="sublink">LINQBridge</a></td></tr>
+       <tr><td align="right"><a href="linqquiz.html" class="sublink">The LINQ Quiz</a></td></tr>
+       <tr><td align="right"><a href="10linqmyths.html" class="sublink">Ten LINQ Myths</a></td></tr>
+       <tr><td align="right"><a href="extras.html" class="sublink">Asynchronator</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/linqquiz.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

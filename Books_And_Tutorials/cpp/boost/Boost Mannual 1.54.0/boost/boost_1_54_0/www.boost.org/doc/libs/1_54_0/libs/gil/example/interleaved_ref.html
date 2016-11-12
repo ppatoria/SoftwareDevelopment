@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ref.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/gil/example/interleaved_ref.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/gil/example/interleaved_ref.hpp</h3>
+<pre>
+/*
+    Copyright 2005-2007 Adobe Systems Incorporated
+   
+    Use, modification and distribution are subject to the Boost Software License,
+    Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+
+    See <a href="http://stlab.adobe.com/gil">http://stlab.adobe.com/gil</a> for most recent version including documentation.
+*/
+
+/*************************************************************************************************/
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+/// \file               
+/// \brief Example on how to create a new model of a pixel reference
+/// \author Lubomir Bourdev and Hailin Jin \n
+///         Adobe Systems Incorporated
+/// \date 2005-2007 \n Last updated on February 26, 2007
+//////
+////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef GIL_INTERLEAVED_REF_HPP
+#define GIL_INTERLEAVED_REF_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/range_c.hpp">boost/mpl/range_c.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/mpl/vector_c.hpp">boost/mpl/vector_c.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/dynamic_image/dynamic_image_all.hpp">boost/gil/extension/dynamic_image/dynamic_image_all.hpp</a>&gt;
+
+namespace boost { namespace gil {
+
+
+/////////////////////////////////////////////////////////////////////////
+///
+/// A model of an interleaved pixel reference. Holds a pointer to the first channel
+/// MODELS: 
+///    MutableHomogeneousPixelConcept
+///       MutableHomogeneousColorBaseConcept
+///           MutableColorBaseConcept 
+///           HomogeneousColorBaseConcept
+///               ColorBaseConcept
+///    HomogeneousPixelBasedConcept
+///       PixelBasedConcept
+///
+/// For planar reference proxies to work properly, all of their methods must be const-qualified
+/// and their iterator's reference type must be const-qualified. 
+/// Mutability of the reference proxy is part of its type (in this case, depends on the mutability of ChannelReference)
+/////////////////////////////////////////////////////////////////////////
+
+template &lt;typename ChannelReference, // Models ChannelConcept. A channel reference, unsigned char&amp; or const unsigned char&amp; 
+          typename Layout&gt;           // A layout (includes the color space and channel ordering)
+struct interleaved_ref {
+private:
+    typedef typename channel_traits&lt;ChannelReference&gt;::value_type      channel_t;
+    typedef typename channel_traits&lt;ChannelReference&gt;::reference       channel_reference_t;
+    typedef typename channel_traits&lt;ChannelReference&gt;::const_reference channel_const_reference_t;
+    typedef typename channel_traits&lt;ChannelReference&gt;::pointer         channel_pointer_t;
+public:
+// Required by ColorBaseConcept
+    typedef Layout layout_t;
+
+    // Copy construction from a compatible type. The copy constructor of references is shallow. The channels themselves are not copied.
+    interleaved_ref(const interleaved_ref&amp; p) : _channels(p._channels) {}
+    template &lt;typename P&gt; interleaved_ref(const P&amp; p) : _channels(p._channels) { check_compatible&lt;P&gt;(); }
+
+    template &lt;typename P&gt; bool operator==(const P&amp; p)    const { check_compatible&lt;P&gt;(); return static_equal(*this,p); }
+    template &lt;typename P&gt; bool operator!=(const P&amp; p)    const { return !(*this==p); }
+
+// Required by MutableColorBaseConcept
+    
+    // Assignment from a compatible type 
+    const interleaved_ref&amp;  operator=(const interleaved_ref&amp; p)  const { static_copy(p,*this); return *this; }
+    template &lt;typename P&gt; const interleaved_ref&amp; operator=(const P&amp; p) const { check_compatible&lt;P&gt;(); static_copy(p,*this); return *this; }
+
+// Required by PixelConcept
+    typedef pixel&lt;channel_t, layout_t&gt; value_type;
+    typedef interleaved_ref            reference;
+    typedef interleaved_ref&lt;channel_const_reference_t, layout_t&gt; const_reference;
+    static const bool is_mutable = channel_traits&lt;ChannelReference&gt;::is_mutable;
+
+// Required by HomogeneousPixelConcept
+    ChannelReference                   operator[](std::size_t i) const { return _channels[i]; }
+
+// Custom constructor (not part of any concept)
+    explicit interleaved_ref(channel_pointer_t channels) : _channels(channels) {}
+// This is needed for the reference proxy to work properly
+    const interleaved_ref*             operator-&gt;()              const { return this; }
+private:
+    channel_pointer_t _channels;
+
+    template &lt;typename Pixel&gt; static void check_compatible() { gil_function_requires&lt;PixelsCompatibleConcept&lt;Pixel,interleaved_ref&gt; &gt;(); }
+};
+
+// Required by ColorBaseConcept
+template &lt;typename ChannelReference, typename Layout, int K&gt;
+struct kth_element_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt;,K&gt; { 
+    typedef ChannelReference type; 
+};
+
+template &lt;typename ChannelReference, typename Layout, int K&gt;
+struct kth_element_reference_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt;,K&gt; { 
+    typedef ChannelReference type; 
+};
+
+template &lt;typename ChannelReference, typename Layout, int K&gt;
+struct kth_element_const_reference_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt;,K&gt; {
+    typedef ChannelReference type; 
+//    typedef typename channel_traits&lt;ChannelReference&gt;::const_reference type; 
+};
+
+
+// Required by ColorBaseConcept
+template &lt;int K, typename ChannelReference, typename Layout&gt;
+typename element_reference_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt;::type
+at_c(const interleaved_ref&lt;ChannelReference,Layout&gt;&amp; p) { return p[K]; };
+
+// Required by HomogeneousColorBaseConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+typename element_reference_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt;::type
+dynamic_at_c(const interleaved_ref&lt;ChannelReference,Layout&gt;&amp; p, std::size_t n) { return p[n]; };
+
+namespace detail {
+    struct swap_fn_t {
+        template &lt;typename T&gt; void operator()(T&amp; x, T&amp; y) const {
+            using std::swap;
+            swap(x,y);
+        }
+    };
+}
+
+// Required by MutableColorBaseConcept. The default std::swap does not do the right thing for proxy references - it swaps the references, not the values
+template &lt;typename ChannelReference, typename Layout&gt;
+void swap(const interleaved_ref&lt;ChannelReference,Layout&gt;&amp; x, const interleaved_ref&lt;ChannelReference,Layout&gt;&amp; y) { 
+    static_for_each(x,y,detail::swap_fn_t());
+};
+
+// Required by PixelConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+struct is_pixel&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt; : public boost::mpl::true_ {};
+
+
+// Required by PixelBasedConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+struct color_space_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt; {
+    typedef typename Layout::color_space_t type;
+}; 
+
+// Required by PixelBasedConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+struct channel_mapping_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt; {
+    typedef typename Layout::channel_mapping_t type;
+}; 
+
+// Required by PixelBasedConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+struct is_planar&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt; : mpl::false_ {};
+
+// Required by HomogeneousPixelBasedConcept
+template &lt;typename ChannelReference, typename Layout&gt;
+struct channel_type&lt;interleaved_ref&lt;ChannelReference,Layout&gt; &gt; {
+    typedef typename channel_traits&lt;ChannelReference&gt;::value_type type;
+}; 
+
+} }  // namespace boost::gil
+
+#endif
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/interleaved_ref.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:36 GMT -->
+</html>

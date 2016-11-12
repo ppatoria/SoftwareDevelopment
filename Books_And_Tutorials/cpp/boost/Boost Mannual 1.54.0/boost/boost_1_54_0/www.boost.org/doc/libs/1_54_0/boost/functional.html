@@ -1,0 +1,654 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/functional.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:55 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/functional.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/functional.hpp</h3>
+<pre>
+// ------------------------------------------------------------------------------
+// Copyright (c) 2000 Cadenza New Zealand Ltd
+// Distributed under the Boost Software License, Version 1.0. (See accompany-
+// ing file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+// ------------------------------------------------------------------------------
+// Boost functional.hpp header file
+// See <a href="http://www.boost.org/libs/functional">http://www.boost.org/libs/functional</a> for documentation.
+// ------------------------------------------------------------------------------
+// $Id: functional.hpp 36246 2006-12-02 14:17:26Z andreas_huber69 $
+// ------------------------------------------------------------------------------
+
+#ifndef BOOST_FUNCTIONAL_HPP
+#define BOOST_FUNCTIONAL_HPP
+
+#include &lt;<a href="config.html">boost/config.hpp</a>&gt;
+#include &lt;<a href="call_traits.html">boost/call_traits.hpp</a>&gt;
+#include &lt;functional&gt;
+
+namespace boost
+{
+#ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    // --------------------------------------------------------------------------
+    // The following traits classes allow us to avoid the need for ptr_fun
+    // because the types of arguments and the result of a function can be 
+    // deduced.
+    //
+    // In addition to the standard types defined in unary_function and 
+    // binary_function, we add
+    //
+    // - function_type, the type of the function or function object itself.
+    //
+    // - param_type, the type that should be used for passing the function or
+    //   function object as an argument.
+    // --------------------------------------------------------------------------
+    namespace detail
+    {
+        template &lt;class Operation&gt;
+        struct unary_traits_imp;
+        
+        template &lt;class Operation&gt;
+        struct unary_traits_imp&lt;Operation*&gt;
+        {
+            typedef Operation                         function_type;
+            typedef const function_type &amp;             param_type;
+            typedef typename Operation::result_type   result_type;
+            typedef typename Operation::argument_type argument_type;
+        };
+
+        template &lt;class R, class A&gt;
+        struct unary_traits_imp&lt;R(*)(A)&gt;
+        {
+            typedef R (*function_type)(A);
+            typedef R (*param_type)(A);
+            typedef R result_type;
+            typedef A argument_type;
+        };
+
+        template &lt;class Operation&gt;
+        struct binary_traits_imp;
+
+        template &lt;class Operation&gt;
+        struct binary_traits_imp&lt;Operation*&gt;
+        {
+            typedef Operation                                function_type;
+            typedef const function_type &amp;                    param_type;
+            typedef typename Operation::result_type          result_type;
+            typedef typename Operation::first_argument_type  first_argument_type;
+            typedef typename Operation::second_argument_type second_argument_type;
+        };
+        
+        template &lt;class R, class A1, class A2&gt;
+        struct binary_traits_imp&lt;R(*)(A1,A2)&gt;
+        {
+            typedef R (*function_type)(A1,A2);
+            typedef R (*param_type)(A1,A2);
+            typedef R result_type;
+            typedef A1 first_argument_type;
+            typedef A2 second_argument_type;
+        };
+    } // namespace detail
+    
+    template &lt;class Operation&gt;
+    struct unary_traits
+    {
+        typedef typename detail::unary_traits_imp&lt;Operation*&gt;::function_type function_type;
+        typedef typename detail::unary_traits_imp&lt;Operation*&gt;::param_type    param_type;
+        typedef typename detail::unary_traits_imp&lt;Operation*&gt;::result_type   result_type;
+        typedef typename detail::unary_traits_imp&lt;Operation*&gt;::argument_type argument_type;
+    }; 
+
+    template &lt;class R, class A&gt;
+    struct unary_traits&lt;R(*)(A)&gt;
+    {
+        typedef R (*function_type)(A);
+        typedef R (*param_type)(A);
+        typedef R result_type;
+        typedef A argument_type;
+    };
+
+    template &lt;class Operation&gt;
+    struct binary_traits
+    {
+        typedef typename detail::binary_traits_imp&lt;Operation*&gt;::function_type        function_type;
+        typedef typename detail::binary_traits_imp&lt;Operation*&gt;::param_type           param_type;
+        typedef typename detail::binary_traits_imp&lt;Operation*&gt;::result_type          result_type;
+        typedef typename detail::binary_traits_imp&lt;Operation*&gt;::first_argument_type  first_argument_type;
+        typedef typename detail::binary_traits_imp&lt;Operation*&gt;::second_argument_type second_argument_type;
+    };
+    
+    template &lt;class R, class A1, class A2&gt;
+    struct binary_traits&lt;R(*)(A1,A2)&gt;
+    {
+        typedef R (*function_type)(A1,A2);
+        typedef R (*param_type)(A1,A2);
+        typedef R result_type;
+        typedef A1 first_argument_type;
+        typedef A2 second_argument_type;
+    };
+#else // BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    // --------------------------------------------------------------------------
+    // If we have no partial specialisation available, decay to a situation
+    // that is no worse than in the Standard, i.e., ptr_fun will be required.
+    // --------------------------------------------------------------------------
+
+    template &lt;class Operation&gt;
+    struct unary_traits
+    {
+        typedef Operation                         function_type;
+        typedef const Operation&amp;                  param_type;
+        typedef typename Operation::result_type   result_type;
+        typedef typename Operation::argument_type argument_type;
+    }; 
+    
+    template &lt;class Operation&gt;
+    struct binary_traits
+    {
+        typedef Operation                                function_type;
+        typedef const Operation &amp;                        param_type;
+        typedef typename Operation::result_type          result_type;
+        typedef typename Operation::first_argument_type  first_argument_type;
+        typedef typename Operation::second_argument_type second_argument_type;
+    };    
+#endif // BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+    
+    // --------------------------------------------------------------------------
+    // unary_negate, not1
+    // --------------------------------------------------------------------------
+    template &lt;class Predicate&gt;
+    class unary_negate
+        : public std::unary_function&lt;typename unary_traits&lt;Predicate&gt;::argument_type,bool&gt;
+    {
+      public:
+        explicit unary_negate(typename unary_traits&lt;Predicate&gt;::param_type x)
+            :
+            pred(x)
+        {}
+        bool operator()(typename call_traits&lt;typename unary_traits&lt;Predicate&gt;::argument_type&gt;::param_type x) const
+        {
+            return !pred(x);
+        }
+      private:
+        typename unary_traits&lt;Predicate&gt;::function_type pred;
+    };
+
+    template &lt;class Predicate&gt;
+    unary_negate&lt;Predicate&gt; not1(const Predicate &amp;pred)
+    {
+        // The cast is to placate Borland C++Builder in certain circumstances.
+        // I don't think it should be necessary.
+        return unary_negate&lt;Predicate&gt;((typename unary_traits&lt;Predicate&gt;::param_type)pred);
+    }
+
+    template &lt;class Predicate&gt;
+    unary_negate&lt;Predicate&gt; not1(Predicate &amp;pred)
+    {
+        return unary_negate&lt;Predicate&gt;(pred);
+    }
+
+    // --------------------------------------------------------------------------
+    // binary_negate, not2
+    // --------------------------------------------------------------------------
+    template &lt;class Predicate&gt;
+    class binary_negate
+        : public std::binary_function&lt;typename binary_traits&lt;Predicate&gt;::first_argument_type,
+                                      typename binary_traits&lt;Predicate&gt;::second_argument_type,
+                                      bool&gt;
+    {
+      public:
+        explicit binary_negate(typename binary_traits&lt;Predicate&gt;::param_type x)
+            :
+            pred(x)
+        {}
+        bool operator()(typename call_traits&lt;typename binary_traits&lt;Predicate&gt;::first_argument_type&gt;::param_type x,
+                        typename call_traits&lt;typename binary_traits&lt;Predicate&gt;::second_argument_type&gt;::param_type y) const
+        {
+            return !pred(x,y);
+        }
+      private:
+        typename binary_traits&lt;Predicate&gt;::function_type pred;
+    };
+
+    template &lt;class Predicate&gt;
+    binary_negate&lt;Predicate&gt; not2(const Predicate &amp;pred)
+    {
+        // The cast is to placate Borland C++Builder in certain circumstances.
+        // I don't think it should be necessary.
+        return binary_negate&lt;Predicate&gt;((typename binary_traits&lt;Predicate&gt;::param_type)pred);
+    }
+
+    template &lt;class Predicate&gt;
+    binary_negate&lt;Predicate&gt; not2(Predicate &amp;pred)
+    {
+        return binary_negate&lt;Predicate&gt;(pred);
+    }
+        
+    // --------------------------------------------------------------------------
+    // binder1st, bind1st
+    // --------------------------------------------------------------------------
+    template &lt;class Operation&gt;
+    class binder1st
+        : public std::unary_function&lt;typename binary_traits&lt;Operation&gt;::second_argument_type,
+                                     typename binary_traits&lt;Operation&gt;::result_type&gt;
+    {       
+      public:
+        binder1st(typename binary_traits&lt;Operation&gt;::param_type x,
+                  typename call_traits&lt;typename binary_traits&lt;Operation&gt;::first_argument_type&gt;::param_type y)
+            :
+            op(x), value(y)
+        {}
+        
+        typename binary_traits&lt;Operation&gt;::result_type
+        operator()(typename call_traits&lt;typename binary_traits&lt;Operation&gt;::second_argument_type&gt;::param_type x) const
+        {
+            return op(value, x);
+        }
+        
+      protected:
+        typename binary_traits&lt;Operation&gt;::function_type op;
+        typename binary_traits&lt;Operation&gt;::first_argument_type value;
+    };
+
+    template &lt;class Operation&gt;
+    inline binder1st&lt;Operation&gt; bind1st(const Operation &amp;op,
+                                        typename call_traits&lt;
+                                                    typename binary_traits&lt;Operation&gt;::first_argument_type
+                                        &gt;::param_type x)
+    {
+        // The cast is to placate Borland C++Builder in certain circumstances.
+        // I don't think it should be necessary.
+        return binder1st&lt;Operation&gt;((typename binary_traits&lt;Operation&gt;::param_type)op, x);
+    }
+
+    template &lt;class Operation&gt;
+    inline binder1st&lt;Operation&gt; bind1st(Operation &amp;op,
+                                        typename call_traits&lt;
+                                                    typename binary_traits&lt;Operation&gt;::first_argument_type
+                                        &gt;::param_type x)
+    {
+        return binder1st&lt;Operation&gt;(op, x);
+    }
+
+    // --------------------------------------------------------------------------
+    // binder2nd, bind2nd
+    // --------------------------------------------------------------------------
+    template &lt;class Operation&gt;
+    class binder2nd
+        : public std::unary_function&lt;typename binary_traits&lt;Operation&gt;::first_argument_type,
+                                     typename binary_traits&lt;Operation&gt;::result_type&gt;
+    {
+      public:
+        binder2nd(typename binary_traits&lt;Operation&gt;::param_type x,
+                  typename call_traits&lt;typename binary_traits&lt;Operation&gt;::second_argument_type&gt;::param_type y)
+            :
+            op(x), value(y)
+        {}
+        
+        typename binary_traits&lt;Operation&gt;::result_type
+        operator()(typename call_traits&lt;typename binary_traits&lt;Operation&gt;::first_argument_type&gt;::param_type x) const
+        {
+            return op(x, value);
+        }               
+        
+      protected:
+        typename binary_traits&lt;Operation&gt;::function_type op;
+        typename binary_traits&lt;Operation&gt;::second_argument_type value;
+    };
+
+    template &lt;class Operation&gt;
+    inline binder2nd&lt;Operation&gt; bind2nd(const Operation &amp;op,
+                                        typename call_traits&lt;
+                                                    typename binary_traits&lt;Operation&gt;::second_argument_type
+                                        &gt;::param_type x)
+    {
+        // The cast is to placate Borland C++Builder in certain circumstances.
+        // I don't think it should be necessary.
+        return binder2nd&lt;Operation&gt;((typename binary_traits&lt;Operation&gt;::param_type)op, x);
+    }
+
+    template &lt;class Operation&gt;
+    inline binder2nd&lt;Operation&gt; bind2nd(Operation &amp;op,
+                                        typename call_traits&lt;
+                                                    typename binary_traits&lt;Operation&gt;::second_argument_type
+                                        &gt;::param_type x)
+    {
+        return binder2nd&lt;Operation&gt;(op, x);
+    }
+
+    // --------------------------------------------------------------------------
+    // mem_fun, etc
+    // --------------------------------------------------------------------------
+    template &lt;class S, class T&gt;
+    class mem_fun_t : public std::unary_function&lt;T*, S&gt;
+    {
+      public:
+        explicit mem_fun_t(S (T::*p)())
+            :
+            ptr(p)
+        {}
+        S operator()(T* p) const
+        {
+            return (p-&gt;*ptr)();
+        }
+      private:
+        S (T::*ptr)();
+    };
+
+    template &lt;class S, class T, class A&gt;
+    class mem_fun1_t : public std::binary_function&lt;T*, A, S&gt;
+    {
+      public:   
+        explicit mem_fun1_t(S (T::*p)(A))
+            :
+            ptr(p)
+        {}
+        S operator()(T* p, typename call_traits&lt;A&gt;::param_type x) const
+        {
+            return (p-&gt;*ptr)(x);
+        }
+      private:
+        S (T::*ptr)(A);
+    };
+
+    template &lt;class S, class T&gt;
+    class const_mem_fun_t : public std::unary_function&lt;const T*, S&gt;
+    {
+      public:
+        explicit const_mem_fun_t(S (T::*p)() const)
+            :
+            ptr(p)
+        {}
+        S operator()(const T* p) const
+        {
+            return (p-&gt;*ptr)();
+        }
+      private:
+        S (T::*ptr)() const;        
+    };
+
+    template &lt;class S, class T, class A&gt;
+    class const_mem_fun1_t : public std::binary_function&lt;const T*, A, S&gt;
+    {
+      public:
+        explicit const_mem_fun1_t(S (T::*p)(A) const)
+            :
+            ptr(p)
+        {}
+        S operator()(const T* p, typename call_traits&lt;A&gt;::param_type x) const
+        {
+            return (p-&gt;*ptr)(x);
+        }
+      private:
+        S (T::*ptr)(A) const;
+    };
+    
+    template&lt;class S, class T&gt;
+    inline mem_fun_t&lt;S,T&gt; mem_fun(S (T::*f)())
+    {
+        return mem_fun_t&lt;S,T&gt;(f);
+    }
+    
+    template&lt;class S, class T, class A&gt;
+    inline mem_fun1_t&lt;S,T,A&gt; mem_fun(S (T::*f)(A))
+    {
+        return mem_fun1_t&lt;S,T,A&gt;(f);
+    }
+
+#ifndef BOOST_NO_POINTER_TO_MEMBER_CONST
+    template&lt;class S, class T&gt;
+    inline const_mem_fun_t&lt;S,T&gt; mem_fun(S (T::*f)() const)
+    {
+        return const_mem_fun_t&lt;S,T&gt;(f);
+    }
+    
+    template&lt;class S, class T, class A&gt;
+    inline const_mem_fun1_t&lt;S,T,A&gt; mem_fun(S (T::*f)(A) const)
+    {
+        return const_mem_fun1_t&lt;S,T,A&gt;(f);
+    }
+#endif // BOOST_NO_POINTER_TO_MEMBER_CONST
+
+    // --------------------------------------------------------------------------
+    // mem_fun_ref, etc
+    // --------------------------------------------------------------------------
+    template &lt;class S, class T&gt;
+    class mem_fun_ref_t : public std::unary_function&lt;T&amp;, S&gt;
+    {
+      public:
+        explicit mem_fun_ref_t(S (T::*p)())
+            :
+            ptr(p)
+        {}
+        S operator()(T&amp; p) const
+        {
+            return (p.*ptr)();
+        }
+      private:
+        S (T::*ptr)();
+    };
+
+    template &lt;class S, class T, class A&gt;
+    class mem_fun1_ref_t : public std::binary_function&lt;T&amp;, A, S&gt;
+    {
+      public:
+        explicit mem_fun1_ref_t(S (T::*p)(A))
+            :
+            ptr(p)
+        {}
+        S operator()(T&amp; p, typename call_traits&lt;A&gt;::param_type x) const
+        {
+            return (p.*ptr)(x);
+        }
+      private:
+        S (T::*ptr)(A);
+    };
+    
+    template &lt;class S, class T&gt;
+    class const_mem_fun_ref_t : public std::unary_function&lt;const T&amp;, S&gt;
+    {
+      public:
+        explicit const_mem_fun_ref_t(S (T::*p)() const)
+            :
+            ptr(p)
+        {}
+        
+        S operator()(const T &amp;p) const
+        {
+            return (p.*ptr)();
+        }
+      private:
+        S (T::*ptr)() const;
+    };
+
+    template &lt;class S, class T, class A&gt;
+    class const_mem_fun1_ref_t : public std::binary_function&lt;const T&amp;, A, S&gt;
+    {
+      public:
+        explicit const_mem_fun1_ref_t(S (T::*p)(A) const)
+            :
+            ptr(p)
+        {}
+
+        S operator()(const T&amp; p, typename call_traits&lt;A&gt;::param_type x) const
+        {
+            return (p.*ptr)(x);
+        }
+      private:
+        S (T::*ptr)(A) const;
+    };
+    
+    template&lt;class S, class T&gt;
+    inline mem_fun_ref_t&lt;S,T&gt; mem_fun_ref(S (T::*f)())
+    {
+        return mem_fun_ref_t&lt;S,T&gt;(f);
+    }
+
+    template&lt;class S, class T, class A&gt;
+    inline mem_fun1_ref_t&lt;S,T,A&gt; mem_fun_ref(S (T::*f)(A))
+    {
+        return mem_fun1_ref_t&lt;S,T,A&gt;(f);
+    }
+
+#ifndef BOOST_NO_POINTER_TO_MEMBER_CONST
+    template&lt;class S, class T&gt;
+    inline const_mem_fun_ref_t&lt;S,T&gt; mem_fun_ref(S (T::*f)() const)
+    {
+        return const_mem_fun_ref_t&lt;S,T&gt;(f);
+    }
+
+    template&lt;class S, class T, class A&gt;
+    inline const_mem_fun1_ref_t&lt;S,T,A&gt; mem_fun_ref(S (T::*f)(A) const)
+    {
+        return const_mem_fun1_ref_t&lt;S,T,A&gt;(f);
+    }   
+#endif // BOOST_NO_POINTER_TO_MEMBER_CONST
+
+    // --------------------------------------------------------------------------
+    // ptr_fun
+    // --------------------------------------------------------------------------
+    template &lt;class Arg, class Result&gt;
+    class pointer_to_unary_function : public std::unary_function&lt;Arg,Result&gt;
+    {
+      public:
+        explicit pointer_to_unary_function(Result (*f)(Arg))
+            :
+            func(f)
+        {}
+
+        Result operator()(typename call_traits&lt;Arg&gt;::param_type x) const
+        {
+            return func(x);
+        }
+        
+      private:
+        Result (*func)(Arg);
+    };
+
+    template &lt;class Arg, class Result&gt;
+    inline pointer_to_unary_function&lt;Arg,Result&gt; ptr_fun(Result (*f)(Arg))
+    {
+        return pointer_to_unary_function&lt;Arg,Result&gt;(f);
+    }
+
+    template &lt;class Arg1, class Arg2, class Result&gt;
+    class pointer_to_binary_function : public std::binary_function&lt;Arg1,Arg2,Result&gt;
+    {
+      public:
+        explicit pointer_to_binary_function(Result (*f)(Arg1, Arg2))
+            :
+            func(f)
+        {}
+        
+        Result operator()(typename call_traits&lt;Arg1&gt;::param_type x, typename call_traits&lt;Arg2&gt;::param_type y) const
+        {
+            return func(x,y);
+        }
+        
+      private:
+        Result (*func)(Arg1, Arg2);
+    };
+
+    template &lt;class Arg1, class Arg2, class Result&gt;
+    inline pointer_to_binary_function&lt;Arg1,Arg2,Result&gt; ptr_fun(Result (*f)(Arg1, Arg2))
+    {
+        return pointer_to_binary_function&lt;Arg1,Arg2,Result&gt;(f);
+    }
+} // namespace boost
+
+#endif
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/functional.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:55 GMT -->
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/statechart/doc/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:50 GMT -->
+<head>
+  <meta http-equiv="Content-Language" content="en-us">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+  <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/doc/libs/1_54_0/boost.css">
+
+  <title>The Boost Statechart Library - Overview - 1.54.0</title>
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+
+<body link="#0000FF" vlink="#800080">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+  
+        <h1 align="center">The Boost Statechart Library</h1>
+
+        <p align="center">(formerly known as boost::fsm)</p>
+
+        <h2 align="center">Overview</h2>
+      <h2>Contents</h2>
+
+  <dl class="index">
+    <dt><a href="#Overview">Overview</a></dt>
+
+    <dd><a href="#SupportedPlatforms">Supported platforms</a></dd>
+
+    <dd><a href="#GettingStarted">Getting started</a></dd>
+
+    <dd><a href="#Audience">Audience</a></dd>
+
+    <dt>&nbsp;</dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/tutorial.html">Tutorial</a> [pdf: <a href=
+    "http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/tutorial.pdf">English</a>, <a href=
+    "http://prdownloads.sourceforge.jp/jyugem/7127/fsm-tutorial-jp.pdf">Japanese</a>]</dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/uml_mapping.html">UML to Boost.Statechart mapping
+    summary</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/faq.html">Frequently Asked Questions (FAQs)</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/configuration.html">Configuration</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/definitions.html">Definitions</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/reference.html">Reference</a> [pdf: <a href=
+    "http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/reference.pdf">English</a>]</dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/rationale.html">Rationale</a> [pdf: <a href=
+    "http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/rationale.pdf">English</a>]</dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/performance.html">Performance</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/acknowledgments.html">Acknowledgments</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/future_and_history.html#ToDoList">To-do list</a></dt>
+
+    <dt><a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/future_and_history.html#ChangeHistory">Change
+    history</a></dt>
+  </dl>
+  <hr>
+
+  <h2><a name="Overview" id="Overview">Overview</a></h2>
+
+  <p>Welcome to Boost.Statechart, a C++ library for finite state machines.
+  Features include:</p>
+
+  <ul>
+    <li>Straightforward transformation from UML statechart to executable C++
+    code and vice versa. Currently, this needs to be done manually both ways
+    but it should not be difficult to automate these tasks</li>
+
+    <li>Comprehensive <a href=
+    "http://www.omg.org/cgi-bin/doc?formal/03-03-01">UML semantics</a>
+    support:
+
+      <ul>
+        <li>Hierarchical (composite, nested) states</li>
+
+        <li>Orthogonal (concurrent) states</li>
+
+        <li>Entry-, exit- and transition-actions</li>
+
+        <li>Guards</li>
+
+        <li>Shallow/deep history</li>
+
+        <li>Event deferral</li>
+      </ul>
+    </li>
+
+    <li>Error handling support</li>
+
+    <li>Maximum type-safety</li>
+
+    <li>Compile-time statechart validation</li>
+
+    <li>Support for asynchronous state machines and multi-threading</li>
+
+    <li>State-local storage</li>
+
+    <li>Generic design allowing for the customization of memory management,
+    error handling and threading</li>
+  </ul>
+
+  <h3><a name="SupportedPlatforms" id="SupportedPlatforms">Supported
+  platforms</a></h3>
+
+  <p>Whether and how Boost.Statechart will work on your platform is best
+  determined on the <a href=
+  "http://www.boost.org/development/tests/release/developer/statechart.html">
+  release branch status page</a>. If the cells in your compilers column are
+  all green, the library should work as advertised. Cells of different color
+  indicate possible problems; follow the links for details. Before employing
+  the library I would also advise to run the tests (see <a href=
+  "#GettingStarted">Getting started</a>) on your particular platform in all
+  the modes (debug, release, etc.) that are later used during development
+  (the status page shows debug mode results only). The closer the test
+  compiler switches mirror the ones that are later used during development,
+  the less likely are future surprises. An example of such a surprise is
+  Intel 9.0 with MSVC 7.1 base toolset, where DllTestNormal and DllTestNative
+  pass in debug mode but fail in release mode.</p>
+
+  <h3><a name="GettingStarted" id="GettingStarted">Getting started</a></h3>
+
+  <ol>
+    <li>Follow the steps 1-4 described on the <a href=
+    "http://www.boost.org/doc/libs/1_54_0/more/getting_started.html">Boost Getting Started Page</a>.
+    Since Boost.Statechart is a header-only library, you should now know
+    enough to compile the examples in the tutorial in your favorite
+    environment (except PingPong which requires Boost.Thread binaries)</li>
+
+    <li>Optional: If you want to compile the PingPong example or use <a href=
+    "http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/reference.html#ClassTemplatefifo_scheduler">fifo_scheduler&lt;&gt;</a>
+    in your project, you need to get hold of the Boost.Thread binaries and
+    link against them, see steps 5-6 on the Boost Getting Started Page</li>
+
+    <li>Optional: If you want to run the tests, you need to get the bjam
+    executable, as described under step 5.2 on the Boost Getting Started
+    Page. After doing so, bjam should be installed in your <code>PATH</code>.
+    Open a command prompt and change the current directory to
+    <code>boost_1_38_0/libs/statechart/test</code>. Type
+      <pre>
+bjam --toolset=<i>your-toolset</i>
+</pre>
+
+      <p>(where <code><i>your-toolset</i></code> is one of the names
+      documented under step 5.2.2 on the Boost Getting Started Page) and hit
+      CR. After the test run, failures (if any) are indicated at the end of
+      the output, in the form of&nbsp; a "<code>...failed updating X
+      targets...</code>" message. For some platforms certain failures are
+      expected, see <a href="#SupportedPlatforms">Supported
+      platforms</a>.</p>
+    </li>
+  </ol>
+
+  <h3><a name="Audience" id="Audience">Audience</a></h3>
+
+  <p>Throughout all Boost.Statechart documentation it is assumed that the
+  reader is familiar with the state machine concept, UML statecharts and most
+  of the UML state machine terminology. The following links might be
+  interesting if this is not the case:</p>
+
+  <ul>
+    <li><a href=
+    "http://www.objectmentor.com/resources/articles/umlfsm.pdf">http://www.objectmentor.com/resources/articles/umlfsm.pdf</a>
+    introduces state machines and UML statecharts</li>
+
+    <li><a href=
+    "http://www.sts.tu-harburg.de/teaching/ws-99.00/OOA+D/StateDiagrams.pdf">http://www.sts.tu-harburg.de/teaching/ws-99.00/OOA+D/StateDiagrams.pdf</a>
+    explains most of the UML statechart elements and terminology</li>
+
+    <li>The inventor of statecharts, David Harel, presents a thorough but
+    still very readable discussion in his original paper: : <a href=
+    "http://www.wisdom.weizmann.ac.il/~dharel/SCANNED.PAPERS/Statecharts.pdf">
+    http://www.wisdom.weizmann.ac.il/~dharel/SCANNED.PAPERS/Statecharts.pdf</a></li>
+
+    <li>The UML specifications (formal) can be found here: <a href=
+    "http://www.omg.org/cgi-bin/doc?formal/03-03-01">http://www.omg.org/cgi-bin/doc?formal/03-03-01</a>
+    (see chapters 2.12 and 3.74)</li>
+  </ul>
+
+  <p>Some of the used terminology cannot be found in the UML specifications,
+  please see <a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/definitions.html">Definitions</a> for more
+  information.</p>
+  <hr>
+
+  <p><a href="http://validator.w3.org/check?uri=referer"><img border="0" src=
+  "http://www.boost.org/doc/libs/1_54_0/doc/images/valid-html401.png" alt="Valid HTML 4.01 Transitional"
+  height="31" width="88"></a></p>
+
+  <p>Revised 
+  <!--webbot bot="Timestamp" s-type="EDITED" s-format="%d %B, %Y" startspan -->09 April, 2007<!--webbot bot="Timestamp" endspan i-checksum="30014" --></p>
+
+  <p><i>Copyright &copy; 2003-<!--webbot bot="Timestamp" s-type="EDITED" s-format="%Y" startspan -->2007<!--webbot bot="Timestamp" endspan i-checksum="778" -->
+   <a href="http://www.boost.org/doc/libs/1_54_0/libs/statechart/doc/contact.html">Andreas Huber D&ouml;nni</a></i></p>
+
+  <p><i>Distributed under the Boost Software License, Version 1.0. (See
+  accompanying file <a href="http://www.boost.org/doc/libs/1_54_0/LICENSE_1_0.txt">LICENSE_1_0.txt</a> or
+  copy at <a href=
+  "http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)</i></p>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/statechart/doc/index.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:50 GMT -->
+</html>

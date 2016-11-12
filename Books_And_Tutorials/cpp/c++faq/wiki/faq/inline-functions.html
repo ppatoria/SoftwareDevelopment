@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/inline-functions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="823818031ee76981b6f2263ec868df2bcbbcacbd" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="1244e597829e0851174974ffbf3ea43494e32656" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="99087288ffd88705f5860740f8860e500e61f2f4" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        inline functions
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="inline-functions.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    inline functions
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=inline%20functions" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="inline-functions">Inline Functions</h2>
+
+<h3 id="overview-inline-fns">What&#8217;s the deal with <code>inline</code> functions?</h3>
+
+<p>When the compiler inline-expands a function call, the function&#8217;s code gets inserted into the caller&#8217;s code stream
+(conceptually similar to what happens with a <a href="inline-functions.html#inline-vs-macros" title="FAQ: Why should I use inline functions instead of plain old #define macros?"><code>#define</code> macro</a>). This can, <a href="inline-functions.html#inline-and-perf" title="FAQ: Do inline functions improve performance?">depending on a zillion
+other things</a>, improve performance, because the optimizer can <a href="inline-functions.html#procedural-integration" title="FAQ: What's a simple example of procedural integration?">procedurally
+integrate</a> the called code &#8212; optimize the called code into the caller.</p>
+
+<p>There are several ways to designate that a function is <code>inline</code>, some of which <a href="inline-functions.html#inline-member-fns" title="FAQ: How do you tell the compiler to make a member function inline?">involve the <code>inline</code>
+keyword</a>, others <a href="inline-functions.html#inline-member-fns-more" title="FAQ: Is there another way to tell the compiler to make a member function inline?">do not</a>. No matter how you designate a function as
+<code>inline</code>, it is a request that the compiler is allowed to ignore: the compiler might inline-expand some, all, or none
+of the places where you call a function designated as <code>inline</code>. (Don&#8217;t get discouraged if that seems hopelessly vague.
+The flexibility of the above is actually a huge advantage: it lets the compiler treat large functions differently from
+small ones, plus it lets the compiler generate code that is easy to debug if you select the right compiler options.)</p>
+
+<h3 id="procedural-integration">What&#8217;s a simple example of procedural integration?</h3>
+
+<p>Consider the following call to function <code>g()</code>:</p>
+
+<pre><code>void f()
+{
+  int x = /*...*/;
+  int y = /*...*/;
+  int z = /*...*/;
+  // ...code that uses x, y and z...
+  g(x, y, z);
+  // ...more code that uses x, y and z...
+}
+</code></pre>
+
+<p>Assuming a typical C++ implementation that has registers and a stack, the registers and parameters get written to the
+stack just before the call to <code>g()</code>, then the parameters get read from the stack inside <code>g()</code> and read again to restore
+the registers while <code>g()</code> returns to <code>f()</code>. But that&#8217;s a lot of unnecessary reading and writing, especially in cases
+when the compiler is able to use registers for variables <code>x</code>, <code>y</code> and <code>z</code>: each variable could get written twice (as a
+register and also as a parameter) and read twice (when used within <code>g()</code> and to restore the registers during the return
+to <code>f()</code>).</p>
+
+<pre><code>void g(int x, int y, int z)
+{
+  // ...code that uses x, y and z...
+}
+</code></pre>
+
+<p>If the compiler inline-expands the call to <code>g()</code>, all those memory operations could vanish. The registers wouldn&#8217;t need
+to get written or read since there wouldn&#8217;t be a function call, and the parameters wouldn&#8217;t need to get written or read
+since the optimizer would know they&#8217;re already in registers.</p>
+
+<p>Naturally your mileage may vary, and there are a zillion variables that are outside the scope of this particular FAQ,
+but the above serves as an example of the sorts of things that can happen with procedural integration.</p>
+
+<h3 id="inline-and-perf">Do <code>inline</code> functions improve performance?</h3>
+
+<p>Yes and no. Sometimes. Maybe.</p>
+
+<p>There are no simple answers. <code>inline</code> functions might make the code faster, they might make it slower. They might make
+the executable larger, they might make it smaller. They might cause thrashing, they might prevent thrashing. And they
+might be, and often are, totally irrelevant to speed.</p>
+
+<p><strong><code>inline</code> functions might make it <em>faster</em>:</strong> As shown <a href="inline-functions.html#procedural-integration" title="FAQ: What's a simple example of procedural integration?">above</a>, procedural integration might
+remove a bunch of unnecessary instructions, which might make things run faster.</p>
+
+<p><strong><code>inline</code> functions might make it <em>slower</em>:</strong> Too much inlining might cause code bloat, which might cause &#8220;thrashing&#8221;
+on demand-paged virtual-memory systems. In other words, if the executable size is too big, the system might spend most
+of its time going out to disk to fetch the next chunk of code.</p>
+
+<p><strong><code>inline</code> functions might make it <em>larger</em>:</strong> This is the notion of code bloat, as described above. For example, if a
+system has 100 <code>inline</code> functions each of which expands to 100 bytes of executable code and is called in 100 places,
+that&#8217;s an increase of 1MB. Is that 1MB going to cause problems? Who knows, but it is possible that that last 1MB could
+cause the system to &#8220;thrash,&#8221; and that could slow things down.</p>
+
+<p><strong><code>inline</code> functions might make it <em>smaller</em>:</strong> The compiler often generates more code to push/pop registers/parameters
+than it would by inline-expanding the function&#8217;s body. This happens with very small functions, and it also happens with
+large functions when the optimizer is able to remove a lot of redundant code through procedural integration &#8212; that is,
+when the optimizer is able to make the large function small.</p>
+
+<p><strong><code>inline</code> functions might <em>cause thrashing</em>:</strong> Inlining might increase the size of the binary executable, and that
+might cause thrashing.</p>
+
+<p><strong><code>inline</code> functions might <em>prevent thrashing</em>:</strong> The working set size (number of pages that need to be in memory at
+once) might go down even if the executable size goes up. When <code>f()</code> calls <code>g()</code>, the code is often on two distinct
+pages; when the compiler procedurally integrates the code of <code>g()</code> into <code>f()</code>, the code is often on the same page.</p>
+
+<p><strong><code>inline</code> functions might <em>increase the number of cache misses</em>:</strong> Inlining might cause an inner loop to span across
+multiple lines of the memory cache, and that might cause thrashing of the memory-cache.</p>
+
+<p><strong><code>inline</code> functions might <em>decrease the number of cache misses</em>:</strong> Inlining usually improves locality of reference
+within the binary code, which might decrease the number of cache lines needed to store the code of an inner loop. This
+ultimately could cause a CPU-bound application to run faster.</p>
+
+<p><strong><code>inline</code> functions might be <em>irrelevant to speed</em>:</strong> Most systems are not CPU-bound. Most systems are I/O-bound,
+database-bound or network-bound, meaning the bottleneck in the system&#8217;s overall performance is the file system, the
+database or the network. Unless your &#8220;CPU meter&#8221; is pegged at 100%, <code>inline</code> functions probably won&#8217;t make your system
+faster. (Even in CPU-bound systems, <code>inline</code> will help only when used within the bottleneck itself, and the bottleneck
+is typically in only a small percentage of the code.)</p>
+
+<p><strong>There are no simple answers:</strong> You have to play with it to see what is best. Do <em>not</em> settle for simplistic answers
+like, &#8220;Never use <code>inline</code> functions&#8221; or &#8220;Always use <code>inline</code> functions&#8221; or &#8220;Use <code>inline</code> functions if and only if the
+function is less than <em>N</em> lines of code.&#8221; These one-size-fits-all rules may be easy to write down, but they will
+produce sub-optimal results.</p>
+
+<h3 id="safety-vs-speed">How can <code>inline</code> functions help with the tradeoff of safety vs. speed?</h3>
+
+<p>In straight C, you can achieve &#8220;encapsulated <code>struct</code>s&#8221; by putting a <code>void*</code> in a <code>struct</code>, in which case the <code>void*</code>
+points to the real data that is unknown to users of the <code>struct</code>. Therefore users of the <code>struct</code> don&#8217;t know how to
+interpret the stuff pointed to by the <code>void*</code>, but the access functions cast the <code>void*</code> to the appropriate hidden type.
+This gives a form of encapsulation.</p>
+
+<p>Unfortunately it forfeits type safety, and also imposes a function call to access even trivial fields of the <code>struct</code>
+(if you allowed direct access to the <code>struct</code>&#8217;s fields, anyone and everyone would be able to get direct access since
+they would of necessity know how to interpret the stuff pointed to by the <code>void*</code>; this would make it difficult to
+change the underlying data structure).</p>
+
+<p>Function call overhead is small, but can add up. C++ classes allow function calls to be expanded <code>inline</code>. This lets
+you have the safety of encapsulation along with the speed of direct access. Furthermore the parameter types of these
+<code>inline</code> functions are checked by the compiler, an improvement over C&#8217;s <code>#define</code> macros.</p>
+
+<h3 id="inline-vs-macros">Why should I use <code>inline</code> functions instead of plain old <code>#define</code> macros?</h3>
+
+<p>Because <code>#define</code> macros are <a href="big-picture.html#defn-evil" title="FAQ: What does the FAQ mean by 'such and such is evil'?">evil</a> in 4 different ways: <a href="inline-functions.html#inline-vs-macros" title="FAQ: Why should I use inline functions instead of plain old #define macros?">evil#1</a>,
+<a href="misc-technical-issues.html#macros-with-if" title="FAQ: What should be done with macros that contain if?">evil#2</a>, <a href="misc-technical-issues.html#macros-with-multi-stmts" title="FAQ: What should be done with macros that have multiple lines?">evil#3</a>, and <a href="misc-technical-issues.html#macros-with-token-pasting" title="FAQ: What should be done with macros that need to paste two tokens together?">evil#4</a>. Sometimes you
+should <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">use them anyway</a>, but they&#8217;re still evil.</p>
+
+<p>Unlike <code>#define</code> macros, <code>inline</code> functions avoid infamous macro errors since <code>inline</code> functions always evaluate every
+argument exactly once. In other words, invoking an <code>inline</code> function is semantically just like invoking a regular
+function, only faster:</p>
+
+<pre><code>// A macro that returns the absolute value of i
+#define unsafe(i)  \
+        ( (i) &gt;= 0 ? (i) : -(i) )
+
+// An inline function that returns the absolute value of i
+inline
+int safe(int i)
+{
+  return i &gt;= 0 ? i : -i;
+}
+
+int f();
+
+void userCode(int x)
+{
+  int ans;
+
+  ans = unsafe(x++);   // Error! x is incremented twice
+  ans = unsafe(f());   // Danger! f() is called twice
+
+  ans = safe(x++);     // Correct! x is incremented once
+  ans = safe(f());     // Correct! f() is called once
+}
+</code></pre>
+
+<p>Also unlike macros, argument types are checked, and necessary conversions are performed correctly.</p>
+
+<p>Macros are bad for your health; don&#8217;t use them <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">unless you have to</a>.</p>
+
+<h3 id="inline-nonmember-fns">How do you tell the compiler to make a non-member function <code>inline</code>?</h3>
+
+<p>When you declare an <code>inline</code> function, it looks just like a normal function:</p>
+
+<pre><code>void f(int i, char c);
+</code></pre>
+
+<p>But when you define an <code>inline</code> function, you prepend the function&#8217;s definition with the keyword <code>inline</code>, and you put
+the definition into a header file:</p>
+
+<pre><code>inline
+void f(int i, char c)
+{
+  // ...
+}
+</code></pre>
+
+<p>Note: It&#8217;s imperative that the function&#8217;s definition (the part between the <code>{...}</code>) be placed in a header file, unless
+the function is used only in a single .cpp file. In particular, if you put the <code>inline</code> function&#8217;s definition into a
+<code>.cpp</code> file and you call it from some other <code>.cpp</code> file, you&#8217;ll get an &#8220;unresolved external&#8221; error from the linker.</p>
+
+<h3 id="inline-member-fns">How do you tell the compiler to make a member function <code>inline</code>?</h3>
+
+<p>The declaration of an <code>inline</code> member function looks just like the declaration of a non-<code>inline</code> member function:</p>
+
+<pre><code>class Fred {
+public:
+  void f(int i, char c);
+};
+</code></pre>
+
+<p>But when you define an <code>inline</code> member function (the <code>{...}</code> part), you prepend the member function&#8217;s definition with
+the keyword <code>inline</code>, and you (almost always) put the definition into a header file:</p>
+
+<pre><code>inline
+void Fred::f(int i, char c)
+{
+  // ...
+}
+</code></pre>
+
+<p>The reason you (almost always) put the definition (the <code>{...}</code> part) of an <code>inline</code> function in a header file is to
+avoid &#8220;unresolved external&#8221; errors from the linker. That error will occur if you put the <code>inline</code> function&#8217;s definition
+in a <code>.cpp</code> file and if that function is called from some other <code>.cpp</code> file.</p>
+
+<h3 id="inline-member-fns-more">Is there another way to tell the compiler to make a member function <code>inline</code>?</h3>
+
+<p>Yep: define the member function in the class body itself:</p>
+
+<pre><code>class Fred {
+public:
+  void f(int i, char c)
+    {
+      // ...
+    }
+};
+</code></pre>
+
+<p>This is often more convenient than <a href="inline-functions.html#inline-member-fns" title="FAQ: How do you tell the compiler to make a member function inline?">the alternative of defining your <code>inline</code> functions outside the class
+body</a>. However, although it is easier on the person who writes the class, it is harder on all the
+readers since it mixes <em>what</em> a class does (the external behavior) with <em>how</em> it does it (the implementation). Because
+of this mixture, you should <a href="inline-functions.html#inline-member-fns" title="FAQ: How do you tell the compiler to make a member function inline?">define all your member functions outside the class body</a> if your class
+is intended to be highly reused and your class&#8217;s documentation is the header file itself. This is another application of
+Spock&#8217;s logic: <a href="http://www.youtube.com/watch?v=Xa6c3OTr6yA&amp;t=13">the needs of the many <em>(all the people reusing your class)</em> outweigh the needs of the few <em>(those who
+maintain your class&#8217;s implementation)</em> or the one <em>(the class&#8217;s original
+author)</em></a>.</p>
+
+<p>Of course if you are not writing a highly reused class, or if you are providing documentation of your class&#8217;s external
+behavior outside the header files (e.g., HTML or PDF or whatever), then you should probably define your <code>inline</code>
+functions inside the class body proper, as that will simplify your development as well as maintenance of the class&#8217;s
+implementation.</p>
+
+<p>This approach is further exploited in <a href="inline-functions.html#where-to-put-inline-keyword" title="FAQ: With inline member functions that are defined outside the class, is it best to put the inline keyword next to the declaration within the class body, next to the definition outside the class body, or both?">the next FAQ</a>.</p>
+
+<h3 id="where-to-put-inline-keyword">With <code>inline</code> member functions that are defined outside the class, is it best to put the <code>inline</code> keyword next to the declaration within the class body, next to the definition outside the class body, or both?</h3>
+
+<p>Definition only.</p>
+
+<p>Here is an example of an <code>inline</code> member function <a href="inline-functions.html#inline-member-fns-more" title="FAQ: Is there another way to tell the compiler to make a member function inline?">defined outside the class body</a>:</p>
+
+<pre><code>class Foo {
+public:
+  void method();  // Best practice: Don't put the inline keyword here
+  // ...
+};
+
+inline void Foo::method()  // Best practice: Put the inline keyword here
+{
+  // ...
+}
+</code></pre>
+
+<p>Recall that <a href="inline-functions.html#inline-member-fns-more" title="FAQ: Is there another way to tell the compiler to make a member function inline?">you should define your <code>inline</code> member function outside the class body</a> when your
+class is intended to be highly reused and your reusers will read your header file to determine what the class does &#8212;
+its <em>observable semantics</em> or <em>external behavior</em>. In that case&#8230;</p>
+
+<ul>
+<li>The <code>public:</code> part of the class body is where you describe the <em>observable semantics</em> of the class, its public member
+functions, its friend functions, and any other features of the class to be reused by others. The goal is to keep
+this <code>public:</code> part public &#8212; to drain the <code>public:</code> part of any inklings of anything that is unimportant to
+reusers. If &#8220;it&#8221; can&#8217;t be observed from the caller&#8217;s code, &#8220;it&#8221; shouldn&#8217;t be in the <code>public:</code> part of the class body.</li>
+<li>The other parts of the class, including non-<code>public:</code> part of the class body, the definitions of your member and
+friend functions, etc. are pure implementation. Try not to describe any observable semantics that were not already
+described in the class&#8217;s <code>public:</code> part. If &#8220;it&#8221; can be observed from the caller&#8217;s code, &#8220;it&#8221; should be described in
+the <code>public:</code> part of the class body; &#8220;it&#8221; might <em>also</em> appear in the non-<code>public:</code> parts of the class, but &#8220;it&#8221;
+<em>should</em> be specified, somehow, in the <code>public:</code> part.</li>
+</ul>
+
+<p>From a practical standpoint, this separation makes life easier and safer for your class&#8217;s reusers. Say Chuck wants to
+simply <em>use</em> your reusable class. Because you read this FAQ and used the above separation, Chuck will see, in the
+<code>public:</code> part of your class, <em>everything</em> he needs to see and <em>nothing</em> he doesn&#8217;t need to see. Your class&#8217;s <code>public:</code>
+part will be Chuck&#8217;s one-stop-shop for your class&#8217;s <em>observable semantics</em> AKA <em>external behavior</em>. By purifying your
+class&#8217;s <code>public:</code> parts, you made Chuck&#8217;s life both easier (he needs to look in only one spot) and safer (his pure mind
+isn&#8217;t polluted by implementation minutiae).</p>
+
+<p>Back to inline-ness: the decision of whether a function is or is not <code>inline</code> is an implementation detail that does
+not change the observable semantics (the &#8220;meaning&#8221;) of a call. Therefore the <code>inline</code> keyword should not go within the
+class&#8217;s <code>public:</code> part, so it needs to go next to the function&#8217;s definition.</p>
+
+<p><em>NOTE: most people use the terms &#8220;declaration&#8221; and &#8220;definition&#8221; to differentiate the above two places. For example,
+they might say, &#8220;Should I put the <code>inline</code> keyword next to the declaration or the definition?&#8221; Unfortunately that usage
+is sloppy and somebody out there will eventually gig you for it. The people who gig you are probably insecure, pathetic
+wannabes who know they&#8217;re not good enough to actually acomplish something with their lives, nonetheless you might as
+well learn the correct terminology to avoid getting gigged. Here it is: every definition is also a declaration. This
+means using the two as if they are mutually exclusive would be like asking which is heavier, steel or metal? Almost
+everybody will know what you mean if you use &#8220;definition&#8221; as if it is the opposite of &#8220;declaration,&#8221; and only the worst
+of the techie weenies will gig you for it, but at least you now know how to use the terms correctly.</em></p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/inline-functions",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/inline-functions",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/inline-functions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

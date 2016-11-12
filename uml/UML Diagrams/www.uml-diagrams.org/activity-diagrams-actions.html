@@ -1,0 +1,806 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-actions.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML action represents a single atomic step within activity.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML action represents a single atomic step within activity - object, variable, invocation, structural, link, event actions." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, Activity diagram, object, variable, invocation, structural, link, event action." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 121220 -->
+<div id="globalNav">
+  <div>
+    <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+  </div>
+<div>
+<a href="activity-diagrams.html"
+  title="UML activity diagrams show flow of control or object flow with emphasis on the sequence and conditions of the flow."
+     >Activity diagrams</a>
+</div>
+<div>
+<a href="activity-diagrams-actions.html"
+  title="UML activity diagram actions - object, variable, invocation, structural, link, event actions."
+   class="active-nav" >Actions</a>
+</div>
+<div>
+<a href="activity-diagrams-controls.html"
+ title="UML activity diagram controls - initial, flow final, activity final, decision, merge, fork, join."
+  >Controls</a>
+</div>
+<div>
+<a href="activity-diagrams-objects.html"
+  title="UML activity diagram object nodes - object, pin, parameter, central buffer, data store."
+   >Objects</a>
+</div>  
+<div>
+<a href="activity-diagrams-reference.html"
+ title="UML activity diagrams reference."  >Activity reference</a>
+</div>
+<div>
+<a href="activity-diagrams-examples.html"
+    title="UML activity diagrams examples.">Activity examples</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Actions</h1>
+
+<p>
+<strong>Action</strong> is a
+<a href="uml-core.html#named-element" class="ref-link">named element</a>
+ which represents a single atomic step within
+ <a href="activity-diagrams.html#activity" class="ref-link">activity</a>,
+ i.e. that is not further decomposed within the activity.
+ <strong>Activity</strong> represents a behavior that is composed of individual elements
+ that are <strong>actions</strong>.
+</p>
+ 
+<p>
+Note, that
+ <a href="activity-diagrams-actions.html#call-behavior-action" class="ref-link">call behavior action</a>
+ may reference (call) activity. This action is simple for the activity containing it,
+ but may be complex in its effect.
+ An activity defines a behavior that can be reused in many places.
+</p>
+
+<p>
+Explicitly modeled actions as part of activities are new in UML 2.0, and replace action state,
+ call state, and subactivity state in UML 1.5.
+</p>
+
+<p>
+Actions are notated as round-cornered rectangles.
+ <strong>Name</strong> or <strong>description</strong> of the action is placed inside of the rectangle.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-action.png" width="100" height="53"
+ alt="Actions are notated as round-cornered rectangles." 
+ title="Actions are notated as round-cornered rectangles." />
+<p class="figure-text">
+  The <strong>Process Order</strong> action.
+</p>
+</div>
+
+<p>
+Name of the action is usually action verb or noun for the action with some explanation.
+ Don't use state names as action names. Some action name examples:
+</p>
+<ul>
+<li>Fill Order</li>
+<li>Review Document</li>
+<li>Enroll in Course</li>
+<li>Checkout</li>
+<li>Show Error Page</li>
+</ul>
+
+<p>
+Action could also be expressed in some application-dependent <strong>action language</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-action-language.png" width="200" height="78"
+ alt="Action could be expressed in some application-dependent action language." 
+ title="Action could be expressed in some application-dependent action language." />
+<p class="figure-text">
+ Example of action expressed with tool-dependent <strong>action language</strong>.
+</p>
+</div>
+
+<p>
+An action may have sets of incoming and outgoing <strong>activity edges</strong> that specify
+ <strong>control flow</strong> and <strong>data flow</strong> from and to other nodes.
+</p>
+
+<p>
+ An action will not begin execution until all of its <strong>input conditions</strong> are satisfied.
+  The completion of the
+execution of an action may enable the execution of a set of successor nodes and actions
+ that take their inputs from the outputs of the action.
+</p>
+
+<p>
+If an <strong>exception</strong> occurs during the execution of an action,
+ the execution of the action is abandoned and no regular output
+is generated by this action. If the action has an exception handler,
+ it receives the exception object as a token. If the action
+has no exception handler, the exception propagates to the enclosing node and so on until
+ it is caught by one of them. If an
+exception propagates out of a nested node (action, structured activity node, or activity),
+ all tokens in the nested node are
+terminated. The data describing an exception is represented as an object of any class.
+</p>
+
+<p>
+<strong>Local pre-conditions</strong> and <strong>local post-conditions</strong> are constraints
+ that should hold when the execution starts and completes, respectively.
+They hold only at the point in the flow that they are specified, not globally for other
+ invocations of the behavior at other places in the flow or on other diagrams.
+</p>
+
+<p>
+How local pre- and postconditions are enforced is determined by the implementation.
+ For example, violations may be detected at compile time or runtime.
+  The effect may be an error that stops the execution or just a warning, and so on.
+</p>
+
+<p>
+<strong>Local pre-conditions</strong> and <strong>local post-conditions</strong> are shown as
+ <strong>notes</strong> attached to the invocation with the keywords «localPrecondition» and
+«localPostcondition», respectively.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-action-local-conditions.png" width="220" height="216"
+ alt="Local pre-conditions and post-conditions are shown as notes." 
+ title="Local pre-conditions and post-conditions are shown as notes." />
+<p class="figure-text">
+<strong>Local pre-</strong> and <strong>post-conditions</strong> shown as
+ <strong>notes</strong> attached to <strong>Process Order</strong> action.
+</p>
+</div>
+
+<p>
+<a href="activity-diagrams-actions.html" class="ref-link">Action</a>
+subclasses are listed below. Note, that I added
+ <a href="activity-diagrams-actions.html#object-action" class="ref-link">object actions</a>
+ and <a href="activity-diagrams-actions.html#event-action" class="ref-link">event actions</a>,
+ which are not defined explicitly in UML 2.4 specification.
+</p>
+
+<ul>
+<li><a href="activity-diagrams-actions.html#object-action" class="ref-link">object action</a> (not explicit in UML standard)</li>
+<li><a href="activity-diagrams-actions.html#variable-action" class="ref-link">variable action</a></li>
+<li><a href="activity-diagrams-actions.html#invocation-action" class="ref-link">invocation action</a></li>
+<li>raise exception action</li>
+<li><a href="activity-diagrams-actions.html#structural-feature-action" class="ref-link">structural feature action</a></li>
+<li><a href="activity-diagrams-actions.html#link-action" class="ref-link">link action</a></li>
+<li><a href="activity-diagrams-actions.html#event-action" class="ref-link">event action</a> (not explicit in UML standard)</li>
+<li>opaque action</li>
+</ul>
+
+
+<!--
+*****************
+  Object Actions
+*****************
+-->
+ 
+<h2 id="object-action">Object Action</h2>
+
+<p>
+<strong>Object actions</strong> include different actions on objects, e.g. create and destroy object,
+ test object identity, specify value, etc. Object action is not defined explicitly by UML standard.
+ In the UML standard all object actions are direct subclasses of
+ <a href="activity-diagrams-actions.html" class="ref-link">action</a>.
+</p>
+
+<p>
+<strong>Object actions</strong>:
+</p>
+<ul>
+<li>create object action</li>
+<li>destroy object action</li>
+<li>test identity action</li>
+<li>read self action</li>
+<li>value specification action</li>
+<li>start classifier behavior action</li>
+<li>read is classified object action</li>
+<li>reclassify object action</li>
+<li>read extend action</li>
+</ul>
+
+
+
+<!--
+*********************
+   Variable Action
+*********************
+-->
+ 
+<h2 id="variable-action">Variable Action</h2>
+
+<p>
+<strong>Variable actions</strong> include variable read, write, add, remove and clear actions.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/actions-variable.png" width="400" height="351"
+ alt="UML Variable Actions overview diagram." 
+ title="UML Variable Actions overview diagram." />
+<p class="figure-text">
+<strong>Variable actions</strong> overview diagram
+</p>
+</div>
+
+
+<!--
+*********************
+  Invocation Action
+*********************
+-->
+
+<h2 id="invocation-action">Invocation Action</h2>
+
+<p>
+<strong>Invocation actions</strong> include several call actions, signal send and broadcast actions
+ and send object action.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/actions-invocation.png" width="680" height="408"
+ alt="UML Invocation Actions overview diagram." 
+ title="UML Invocation Actions overview diagram." />
+<p class="figure-text">
+<strong>Invocation actions</strong> overview diagram
+</p>
+</div>
+
+
+<!--
+*************************
+   Call Behavior Action
+*************************
+-->
+
+<h3 id="call-behavior-action">Call Behavior Action</h3>
+
+<p>
+<strong>Call behavior action</strong> is a <strong>call action</strong> that invokes
+ a <a href="common-behaviors.html#behavior" class="ref-link">behavior</a> 
+ directly rather than invoking an operation that invokes the behavior.
+</p> 
+
+<p>
+Parameters could be passed by the action to the invoked behavior.
+The number of argument pins and the number of parameters of the behavior of type in and in-out must be equal.
+Also equal should be the number of result pins and the number of parameters of the behavior of type return,
+ out, and in-out.
+</p>
+
+<p>
+For <strong>synchronous calls</strong> the execution of the call behavior action waits until the execution
+ of the invoked behavior completes. Execution of the calling action is blocked until it receives a reply.
+The reply includes values for any return, out, or inout parameters.
+ The result values are placed on the result pins of the call behavior action,
+ and the execution of the action is complete after that.
+ If the execution of the invoked behavior throws an exception, the exception is transmitted back to
+ the call behavior action to begin search for some exception handler.
+</p>
+
+<p>
+If the call is <strong>asynchronous</strong>, the call action completes immediately after behavior started.
+Any return or out values from the invoked behavior are not passed back.
+</p>
+
+<p>
+<strong>Call behavior action</strong> is shown as action with the <strong>name of the behavior</strong>
+ that is performed by the action or description of the behavior placed inside 
+ the action's round-cornered rectangle.
+ If the node name is different than the behavior name, then it appears in the symbol instead.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/action-call-behavior.png" width="120" height="62"
+ alt="Call behavior action for Checkout behavior." 
+ title="Call behavior action for Checkout behavior." />
+<p class="figure-text">
+Call behavior action for Checkout behavior
+</p>
+</div>
+
+<p>
+ Note, that because it looks exactly the same way as the common action,
+ there is no way just looking at the diagram to say whether the name is common action name,
+ call behavior action name or some behavior name.
+</p>
+
+<p>
+As you know, some subclasses of
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a> are
+<strong>interaction</strong>, <strong>state machine</strong>,
+<a href="activity-diagrams.html#activity" class="ref-link">activity</a>.
+</p>
+
+<p>
+<strong>Call activity action</strong> is indicated by placing a rake-style symbol within the action symbol.
+ The rake resembles a miniature hierarchy, indicating that this invocation starts another activity.
+ Note, that though UML provides this notation, there is no official <strong>call activity action</strong>
+ in UML specification.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/action-call-activity.png" width="130" height="61"
+ alt="Call activity action for User Authentication activity." 
+ title="Call activity action for User Authentication activity." />
+<p class="figure-text">
+Call activity action for User Authentication activity
+</p>
+</div>
+
+<p> 
+An alternative notation for the invoked activity is to show the contents of the invoked activity
+inside a large round-cornered rectangle. Edges flowing into the invocation connect to the parameter
+object nodes in the invoked activity. The parameter object nodes are shown on the border of the invoked activity.
+</p>
+
+<p>
+Pre- and post-conditions on the behavior can be shown using keywords «precondition» and «postcondition».
+</p>
+
+
+<!--
+************************
+   Send Signal Action
+************************
+-->
+
+<h3 id="send-signal-action">Send Signal Action</h3>
+
+<p>
+<strong>Send signal action</strong> is an
+ <a href="activity-diagrams-actions.html#invocation-action" class="ref-link">invocation action</a>
+ that creates a
+ <a href="common-behaviors.html#signal" class="ref-link">signal</a>
+ from its inputs, and transmits it to the specified <strong>target</strong> object, where it
+ may cause the firing of a state machine transition or the execution of an activity.
+</p>
+
+<p>
+When all the prerequisites of the action execution are satisfied, a signal is generated from the arguments
+ and is transmitted to the identified target object. The target object may be local or remote.
+If input of the action is already a <strong>signal</strong>, <strong>send object action</strong>
+ should be used instead.
+</p>
+
+<p>
+The sender of the signal (aka "requestor") continues execution immediately, without waiting for any response.
+ Send signal action receives no reply from the invoked behavior.
+ Any attempt to reply is simply ignored, and no transmission is performed back to the sender.
+</p>
+
+<p>
+ The manner of transmitting the signal, the amount of time required to transmit it,
+ the order in which the transmissions reach the various targets,
+ and the path for reaching the targets are <strong>undefined</strong> in .
+ The signal instance may be copied during transmission, so identity might not be preserved.
+</p>
+
+<p>
+When a transmission arrives at a target object, it may invoke
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ in the target object. The effect of receiving a signal object is specified in
+ <a href="common-behaviors.html" class="ref-link">Common Behaviors</a>.
+ Such effects include executing activities and firing state machine transitions.
+</p>
+
+<p>
+<strong>Send signal action</strong> is notated as <strong>convex pentagon</strong>.
+Note, that the name of the <strong>action</strong> corresponds to the name of
+ <a href="common-behaviors.html#signal" class="ref-link">signal</a> class it sends.
+<strong>Target</strong> object is not specified with this notation. 
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/action-send-signal.png" width="116" height="61"
+ alt="Send signal action notated with a convex pentagon." 
+ title="Send signal action notated with a convex pentagon." />
+<p class="figure-text">
+<strong>Notify Customer</strong> send signal action<br />
+ creates and sends <strong>Notify Customer</strong> signal
+</p>
+</div>
+
+
+<div class="figure-left-80">
+<img src="activity-diagrams/action-send-signal-example.png" width="260" height="59"
+ alt="Send signal action notated with a convex pentagon." 
+ title="Send signal action notated with a convex pentagon." />
+<p class="figure-text">
+After order is shipped, <strong>Notify Customer</strong> send signal action<br />
+ creates and sends <strong>Notify Customer</strong> signal
+</p>
+</div>
+
+
+<!--
+*****************************
+ Structural Feature Action
+*****************************
+-->
+
+<h2 id="structural-feature-action">Structural Feature Action</h2>
+
+<p>
+<strong>Structural feature actions</strong> include several actions working on composite structures - 
+read, write, add, remove, clear and reduce actions.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/actions-structural-feature.png" width="520" height="327"
+ alt="UML Structural Feature Actions overview diagram." 
+ title="UML Structural Feature Actions overview diagram." />
+<p class="figure-text">
+<strong>Structural feature actions</strong> overview diagram
+</p>
+</div>
+
+<p>
+Note, that in UML 2.4 specification <strong>reduce action</strong> is direct subclass of <strong>action</strong>.
+</p>
+
+
+<!--
+**************
+  Link Action
+**************
+-->
+
+<h2 id="link-action">Link Action</h2>
+
+<p>
+<strong>Link actions</strong> include several actions working on links - 
+read, write, create, destroy and clear association actions.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/actions-link.png" width="640" height="410"
+ alt="UML Link Actions overview diagram." 
+ title="UML Link Actions overview diagram." />
+<p class="figure-text">
+<strong>Link actions</strong> overview diagram
+</p>
+</div>
+
+<p>
+Note, that in UML 2.4 specification <strong>read link object end action</strong>,
+ <strong>read link object end qualifier action</strong>, <strong>clear association action</strong>
+ are direct subclasses of <strong>action</strong>.
+</p>
+
+
+<!--
+******************
+   Event Action
+******************
+-->
+
+<h2 id="event-action">Event Action</h2>
+
+<p>
+<strong>Event actions</strong> include accept event action, accept call, accept time event,
+ reply and unmarshall action.
+ Note, that <strong>event action</strong> is not an explicit part of UML specification,
+ In UML 2.4 all event actions are direct subclasses of
+ <a href="activity-diagrams-actions.html" class="ref-link">action</a>.
+ I added <strong>event action</strong> here for clarity. 
+ </p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/actions-event.png" width="480" height="378"
+ alt="UML Event Actions overview diagram." 
+ title="UML Event Actions overview diagram." />
+<p class="figure-text">
+<strong>Event actions</strong> overview diagram
+</p>
+</div>
+
+
+<!--
+************************
+   Accept Event Action
+************************
+-->
+ 
+<h3 id="accept-event-action">Accept Event Action</h3>
+
+<p>
+<strong>Accept event action</strong> is action that waits for a specific event to occur.
+This action handles <strong>asynchronous messages</strong>, including <strong>asynchronous calls</strong>.
+ It cannot be used with <strong>synchronous calls</strong>
+ (except <strong>accept call action</strong>). Accept event action was introduced in UML 2.0.
+</p>
+
+<p>
+Accept event action handles events detected by the object owning the executing behavior.
+ Events are stored by the object in some queue.
+ The order of detected events is not defined by the UML specification, but it could be specified
+ in extensions or profiles.
+</p>
+
+<p>
+If <strong>accept event action</strong> is executed and object detected event
+ matching one of
+ the <a href="common-behaviors.html#trigger" class="ref-link">triggers</a>
+  on the action, then the accept event action outputs a value
+ describing the event. If the event does not match expected event, the action waits for the next event.
+</p>
+
+<p>
+In a system with concurrency, several actions or other behaviors might compete for an available event.
+ Only one action accepts event, unless otherwise specified by an extension or profile,
+ even if the event would satisfy multiple concurrently executing actions.
+</p>
+
+<p>
+An <strong>accept event action</strong> is notated as a <strong>concave pentagon</strong>.
+By default, name of the accept event action corresponds to the name of the <strong>event</strong>
+ this action accepts, so that e.g. Accept Order <strong>accept event action</strong>
+ waits for Accept Order <strong>event</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-accept-signal-implicit.png" width="250" height="54"
+ alt="Accept event action is notated with a concave pentagon." 
+ title="Accept event action is notated with a concave pentagon." />
+<p class="figure-text">
+Acceptance of the <strong>Accept Order</strong> event by <strong>Accept Order</strong> action causes<br />
+ an invocation of a <strong>Process Order</strong> action. The <strong>accept event action</strong> <br />
+ is enabled upon entry to the activity containing it
+</p>
+</div>
+
+<p>
+If an accept event action has <strong>no incoming edges</strong>, then the action starts when the containing
+ activity or structured node does, whichever most immediately contains the action. 
+ In addition, an accept event action with no incoming edges remains enabled after it accepts an event. 
+ It does not terminate after accepting an event and outputting a value, but continues to wait for
+ other events. This semantic is an exception to the normal execution rules in activities.
+ An accept event action with no incoming edges and contained by a structured node is terminated when its
+ container is terminated.
+</p>
+
+
+<!--
+**************************
+   Accept Signal Action
+**************************
+-->
+
+<h3 id="accept-signal-action">Accept Signal Action</h3>
+
+<p>
+<strong>Accept signal action</strong> is informal name for the <strong>accept event action</strong>
+ whose trigger is a <strong>signal event</strong>.
+ It corresponds to
+ <a href="activity-diagrams-actions.html#send-signal-action" class="ref-link">send signal action</a>.
+</p>
+
+<p>
+An <strong>accept signal action</strong> is notated the same way as accept event action -
+ as a <strong>concave pentagon</strong>.
+By default, name of the accept signal action corresponds to the name of the signal this action accepts.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-accept-signal-explicit.png" width="250" height="54"
+ alt="Accept signal action is notated with a concave pentagon." 
+ title="Accept signal action is notated with a concave pentagon." />
+<p class="figure-text">
+<strong>Payment Requested</strong> signal is sent. The activity then waits<br />
+ to receive <strong>Payment Confirmed</strong> signal. 
+ Acceptance of the<br />
+ <strong>Payment Confirmed</strong> signal is enabled only after<br />
+ the request for payment is sent.
+</p>
+</div>
+
+
+<!--
+**********************
+   Wait Time Action
+**********************
+-->
+
+<h3 id="wait-time-action">Wait Time Action</h3>
+
+<p>
+If the event is a <strong>time event occurrence</strong>, the result value contains
+the time at which the occurrence happened. Such an action is informally called
+ a <strong>wait time action</strong>.
+</p>
+
+<p>
+<strong>Accept time event action</strong> (aka informal: <strong>wait time action</strong>) is notated
+ with an hour glass.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-accept-time-event.png" width="250" height="59"
+ alt="Accept time event action (wait time action) is notated with an hour glass." 
+ title="Accept time event action (wait time action) is notated with an hour glass." />
+<p class="figure-text">
+The <strong>Every Hour</strong> accept time event action generates output every hour.<br />
+There are no incoming edges to this time event action, so it is enabled as long<br />
+as its containing activity or structured node is enabled.
+</p>
+</div>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="activity-diagrams-actions.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-actions.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

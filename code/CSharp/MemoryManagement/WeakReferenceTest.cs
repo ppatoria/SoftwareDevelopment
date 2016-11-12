@@ -1,0 +1,6 @@
+class WeakReferenceTest
+{
+    /*
+     * Test W
+     */
+}

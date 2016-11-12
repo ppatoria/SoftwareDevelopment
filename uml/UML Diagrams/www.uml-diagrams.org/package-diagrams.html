@@ -1,0 +1,773 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/package-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:14:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML package diagrams notation - package, model, package import, package access, merge.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML package diagrams notation - package, model, package import, access, merge, etc." />
+<meta name="keywords" content="UML 2, 2.5, diagrams, package, model, package import, package access, merge." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130209 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="package-diagrams-overview.html"
+   title="UML Package Diagrams Overview"  >Package diagrams overview</a>
+</div>
+<div>
+ <a href="package-diagrams.html" 
+  title="UML Package Diagrams Notation" class="active-nav" >Package diagrams notation</a>
+</div>
+<div>
+ <a href="package-diagrams.html#package" title="UML package diagrams notation - Package" >Package</a>
+</div>
+<div>
+ <a href="package-diagrams.html#package-template" title="UML package diagrams notation - Package template" >Package template</a>
+</div>
+<div>
+ <a href="package-diagrams.html#packageable-element" title="UML package diagrams notation - packageable element" >Packageable element</a>
+</div>
+<div>
+ <a href="package-diagrams.html#element-import" title="UML package diagrams notation - element import" >Element import</a>
+</div>
+<div>
+ <a href="package-diagrams.html#package-import" title="UML package diagrams notation - package import" >Package import</a>
+</div>
+<div>
+ <a href="package-diagrams.html#package-merge" title="UML package diagrams notation - package merge" >Package merge</a>
+</div>
+<div>
+ <a href="package-diagrams/model.html"
+  title="UML package diagrams notation - model"  >Model</a>
+</div>
+<div>
+ <a href="package-diagrams-reference.html" 
+  title="UML Package Diagrams Reference"  >Package diagrams reference</a>
+  </div>
+<div>
+ <a href="package-diagrams-examples.html" title="UML Package Diagrams Examples">Package diagrams examples</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Package Diagrams Notation</h1>
+
+<p>
+<strong>Package diagram</strong> is <strong>UML</strong>  
+ <a href="uml-25-diagrams.html#structure-diagram" class="ref-link">structure diagram</a>
+ which shows <a href="package-diagrams.html#package" class="ref-link">packages</a>
+ and dependencies between the packages.
+</p>
+
+<p>
+<a href="package-diagrams/model.html" class="ref-link">Model diagrams</a>
+ allow to show different views of a system, for example, as multi-layered (aka multi-tiered) application -
+ <a href="multi-layered-application-uml-model-diagram-example.html" class="ref-link">multi-layered application model</a>.
+</p>
+
+<p>
+The following nodes and edges are typically drawn in a package diagram:
+<a href="package-diagrams.html#package" class="ref-link">package</a>,
+<a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>,
+<a href="dependency.html" class="ref-link">dependency</a>,
+<a href="package-diagrams.html#element-import" class="ref-link">element import</a>,
+<a href="package-diagrams.html#package-import" class="ref-link">package import</a>,
+<a href="package-diagrams.html#package-merge" class="ref-link">package merge</a>.
+</p>
+
+
+<!--
+***********
+  Package
+***********
+-->
+ 
+<h2 id="package">Package</h2>
+
+<p>
+<strong>Package</strong> is 
+ a <a href="namespace.html" class="ref-link">namespace</a>
+ used to group together elements that are
+ semantically related and might change together. It is a general purpose mechanism to organize elements
+ into groups to provide better structure for system model.
+</p>
+
+<p> 
+<strong>Owned members</strong> of a package should all be
+ <a href="package-diagrams.html#packageable-element" class="ref-link">packageable elements</a>.
+ If a package is removed from a model, so are all the elements <strong>owned</strong> by the package.
+ Package by itself is <strong>packageable element</strong>, so any package could be also a <strong>member</strong>
+ of other packages.
+</p>
+
+<p>
+Because package is a namespace, elements of related or the same type should have unique names
+within the enclosing package. Different types of elements are allowed to have the same name.
+</p>
+
+<p>
+As a <strong>namespace</strong>, a package can <strong>import</strong> either individual members
+ of other packages or all the members of other packages. Package can also be
+ <a href="package-diagrams.html#package-merge" class="ref-link">merged</a>
+ with other packages.
+</p>
+
+<p>
+A package is rendered as a tabbed folder - a rectangle with a small tab attached to the left side
+ of the top of the rectangle. If the members of the package are not shown inside the package rectangle,
+ then the name of the package should be placed inside.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-inside.png" width="130" height="85"
+ alt="Package shown as a rectangle with a small tab." 
+ title="Package shown as a rectangle with a small tab." />
+<p class="figure-text">
+Package org.hibernate
+</p>
+</div>
+
+<p>
+The members of the package may be shown within the boundaries of the package.
+ In this case the name of the package should be placed on the tab.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-container.png" width="270" height="118"
+ alt="Package members shown within the package rectangle."
+ title="Package members shown within the package rectangle." />
+<p class="figure-text">
+Package org.hibernate contains SessionFactory and Session
+</p>
+</div>
+
+<p>
+A diagram showing a package with content is allowed to show only a subset of the contained elements
+ according to some criterion.
+</p>
+
+<p>
+Members of the package may be shown <strong>outside</strong> of the package by branching lines
+ from the package to the members. A <strong>plus sign (+) within a circle</strong> is drawn at the end
+ attached to the namespace (package). This notation for packages is semantically equivalent to 
+ <a href="association.html#composition" class="ref-link">composition</a>
+ (which is shown using solid diamond.)
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-members-outside.png" width="250" height="184"
+ alt="Members of package shown outside the package."
+ title="Members of package shown outside the package." />
+<p class="figure-text">
+Package org.hibernate contains interfaces SessionFactory and Session.
+</p>
+</div>
+
+<p>
+The elements that can be referred to within a package using <strong>non-qualified</strong> names are:
+</p>
+<ul>
+<li>owned elements,</li>
+<li>imported elements, and</li>
+<li>elements in enclosing (outer) namespaces.</li>
+</ul>
+
+<p>
+ Owned and imported elements may have a <strong>visibility</strong> that determines
+ whether they are available outside the package.
+</p>
+
+<p>
+If an element that is owned by a package has <strong>visibility</strong>, it could be only
+ <strong>public</strong> or <strong>private</strong> visibility. Protected or package visibility is not allowed.
+The visibility of a package element may be indicated by preceding the name of the element
+ by a visibility symbol ("+" for public and "-" for private).
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-visibility.png" width="140" height="112"
+ alt="Visibility of a package element may be public or private."
+ title="Visibility of a package element may be public or private." />
+<p class="figure-text">
+All elements of Library Domain package are public except for Account
+</p>
+</div>
+
+<p>
+The public elements of a package are always accessible outside the package through the use of
+ <strong>qualified</strong> names.
+</p>
+
+
+<!--
+**************
+  Package URI 
+***************
+-->
+
+<h3 id="uri-package">Package URI Attribute</h3>
+
+<p>
+Package has optional <strong>URI</strong> attribute which serves as <strong>unique identifier</strong>
+ of the package. 
+This attribute was introduced in <strong>UML 2.4</strong> mostly to support exchange of
+ <a href="profile-diagrams.html#profile" class="ref-link">profiles</a>
+ using XMI.
+</p>
+
+<p>
+Note, that <strong>UML 2.4</strong> specification requires this URI attribute to follow the rules and syntax
+of the IETF URI specification <strong>RFC 2396</strong> while the more recent version of the URI syntax
+<strong>RFC 3986</strong> (released in 2005) rendered the RFC 2396 obsolete.
+</p>
+
+<p>
+Both RFCs allow URIs to be uniform resource locators (URLs), uniform resource names (URNs) or both.
+Though URN actually defines item's identity (unique id) and URL provides a method for finding it,
+it is very common and sometimes confusing to see URLs serving as URNs.
+</p>
+
+<p>
+Here's some examples of package URI attribute in the form of <strong>URL</strong>.
+Note, that using "http://" scheme is often not related to HTTP protocol and no actual resource is located
+at that location. URL is just used as a substitute of unique id:
+</p>
+<ul>
+<li>http://www.ietf.org/rfc/rfc2396.txt</li>
+<li>http://www.omg.org/spec/UML/20100901/PrimitiveTypes.xmi</li>
+<li>http://www.uml-diagrams.org/profiles/20110410/EJB-30.xmi</li>
+</ul>
+
+<p>
+My personal preference is to use URNs instead, as URN was designed specifically to define identity (unique id)
+and does not imply availability of the identified resource (e.g. for obsolete resources):
+</p>
+<ul>
+<li>urn:ietf:rfc:3986</li>
+<li>urn:oasis:names:specification:docbook:dtd:xml:4.1.2</li>
+<li>urn:schemas-microsoft-com:xml-data</li>
+<li>urn:uml-diagrams-org:profiles:20110410:EJB-30</li>
+</ul>
+
+<p>
+The URI attribute of a package may be rendered in the form {uri=&lt;uri&gt;} after the package name.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-uri-attribute.png" width="330" height="163"
+ alt="URI attribute of a package rendered after the package name." 
+ title="URI attribute of a package rendered after the package name." />
+<p class="figure-text">
+EJB Profile shown as a package with URI attribute.
+</p>
+</div>
+
+
+<!--
+********************
+  Package Template
+********************
+-->
+ 
+<h2 id="package-template">Package Template</h2>
+
+<p>
+Package can be used as a <a href="template.html#template" class="ref-link">template</a>
+ for other packages.
+ Note, that <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4.1 - Superstructure">[UML 2.4.1 Specification]</a>
+ inconsistently calls it both <strong>package template</strong> and <strong>template package</strong>.
+</p>
+
+<p>
+<a href="package-diagrams.html#packageable-element" class="ref-link">Packageable element</a>
+ can be used as a <a href="template.html#template-parameter" class="ref-link">template parameter</a>.
+ A package template parameter may refer to any element owned or used by the package template, or
+ templates nested within it.
+</p>
+
+<p>
+A package may be <a href="template.html#template-binding" class="ref-link">bound</a>
+ to one or more template packages.
+ When several bindings are applied the result of bindings is produced
+ by taking the intermediate results and merging them into the combined result
+ using <a href="package-diagrams.html#package-merge" class="ref-link">package merge</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-template-overview.png" width="425" height="414" 
+ alt="Package template Service Provider and bound package Scheduler Service." 
+ title="Package template Service Provider and bound package Scheduler Service." />
+<p class="figure-text">
+Package template Service Provider and bound package Scheduler Service.
+</p>
+</div>
+
+
+<!--
+*************************
+  Packageable Element 
+*************************
+-->
+
+<h2 id="packageable-element">Packageable Element</h2>
+
+<strong>Packageable element</strong> is a
+ <a href="uml-core.html#named-element" class="ref-link">named element</a>
+ that may be <strong>owned</strong> directly by a
+ <a href="package-diagrams.html#package" class="ref-link">package</a>.
+<p>
+Some examples of <strong>packageable elements</strong> are:
+</p>
+<ul>
+<li>Type</li>
+<li><a href="classifier.html" class="ref-link">classifier</a> (--&gt; type)</li>
+<li><a href="class-diagrams.html#class" class="ref-link">class</a> (--&gt; classifier)</li>
+<li><a href="use-case.html" class="ref-link">use case</a> (--&gt; classifier)</li>
+<li><a href="component-diagrams.html#component" class="ref-link">component</a> (--&gt; classifier)</li>
+<li><a href="package-diagrams.html#package" class="ref-link">package</a></li>
+<li><a href="constraint.html" class="ref-link">constraint</a></li>
+<li><a href="dependency.html" class="ref-link">dependency</a></li>
+<li><a href="common-behaviors.html#event" class="ref-link">event</a></li>
+</ul>
+
+<p>
+<strong>Packageable element</strong> by itself has no notation, see specific subclasses.
+</p>
+
+<!--
+*******************
+   Element Import 
+*******************
+-->
+
+<h2 id="element-import">Element Import</h2>
+
+<p>
+<strong>Element import</strong> is
+ a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ between an importing <a href="namespace.html" class="ref-link">namespace</a>
+ and imported <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>.
+ It allows the element to be referenced using its name without a qualifier.
+ An element import is used to selectively import individual elements without relying on
+ a <a href="package-diagrams.html#package-import" class="ref-link">package import</a>.
+</p>
+
+<p>
+The name of the packageable element or its alias is to be added to the namespace
+ of the importing namespace.
+ It works by reference, which means that it is not possible to add features to the element import itself,
+ but it is possible to modify the referenced element in the namespace from which it was imported.
+</p>
+
+<p>
+It is possible to control whether the imported element can be further imported
+ by other namespaces using either element or package imports.
+ The visibility of the element import may be either the same or more restricted than that
+ of the imported element.
+ The visibility of an element import is either public or private.
+</p>
+
+<p>
+The default visibility is the same as that of the imported element.
+ If the imported element does not have a visibility, it is possible to add
+visibility to the element import. Default value is public.
+</p>
+
+<p>
+In case of a name clash with an outer name (an element that is defined in an enclosing namespace
+ is available using its
+unqualified name in enclosed namespaces) in the importing namespace,
+ the outer name is hidden by an element import,
+and the unqualified name refers to the imported element.
+ The outer name can be accessed using its qualified name.
+</p>
+
+<p>
+If more than one element with the same name would be imported to a namespace as a consequence
+ of element imports or package imports,
+ the elements are not added to the importing namespace and the names of
+ those elements must be qualified in order to be used in that namespace.
+ If the name of an imported element is the same as the name of an element
+ owned by the importing namespace, that element is not added to the importing namespace and
+ the name of that element must be qualified in order to be used.
+</p>
+
+<p>
+<strong>Alias</strong> specifies the name that should be added to the namespace
+ of the importing <a href="package-diagrams.html#package" class="ref-link">package</a>
+ in lieu of the name of the imported packagable element.
+ The aliased name must not clash with any other member name in the importing
+ package. By default, no alias is used.
+</p>
+
+<p>
+An element import is shown using a dashed arrow with an open arrowhead from the importing namespace
+ to the imported element.
+ <strong>Note</strong>, that though it looks exactly like
+ <a href="dependency.html" class="ref-link">dependency</a>
+ and <a href="dependency.html#usage" class="ref-link">usage</a>
+ relationships, it is a completely separate 
+ <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>.
+</p>
+
+<p>
+The keyword <strong>«import»</strong> is shown near the dashed arrow if the visibility of import
+ is <strong>public</strong> while the keyword <strong>«access»</strong> is used to indicate
+ <strong>private</strong> visibility.
+ If the imported element is not a package, the keyword may optionally be preceded by element,
+ i.e., «element import». 
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-element-import-access.png" width="360" height="179"
+ alt="Public element import shown using a import keyword, private - using access keyword." 
+ title="Public element import shown using a import keyword, private - using access keyword." />
+<p class="figure-text">
+Public import of PageInfo element and private import of SortInfo element from Domain package.
+</p>
+</div>
+
+<p>
+Elements that become available for use in an importing package through an element import may have
+a distinct color or be dimmed to indicate that they cannot be modified.
+</p>
+
+<p>
+ The aliased name may be shown after or below the keyword «import».
+</p>
+
+<p>
+As an alternative to the dashed arrow, it is allowed to show an element import by having a text
+ that uniquely identifies the imported element within curly brackets either below or after the name
+ of the namespace.
+ The syntax in this case could be described as (note, this is my modified version of the syntax):
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">element-import</span> ::=
+ &nbsp;'{'&nbsp;(&nbsp;'element import'&nbsp;|&nbsp;'element access'&nbsp;)&nbsp; 
+ <span class="nonterm">qualified-name</span>&nbsp;[&nbsp;'as'&nbsp;<span class="nonterm">alias</span>&nbsp;]&nbsp;'}'
+</p>
+
+
+<!--
+********************
+  Package Import 
+********************
+-->
+ 
+<h2 id="package-import">Package Import</h2>
+
+<p>
+<strong>Package import</strong> is
+ a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ between an importing <a href="namespace.html" class="ref-link">namespace</a>
+ and imported <a href="package-diagrams.html#package" class="ref-link">package</a>,
+ that allows the use of unqualified names to refer to the package members from the other namespace(s).
+</p>
+
+<p>
+Importing namespace adds the names of the members of the imported package to its own namespace.
+ Conceptually, a package import is equivalent to having
+ an <a href="package-diagrams.html#element-import" class="ref-link">element import</a>
+ to each individual member of the imported namespace, unless there is already a separately-defined element import.
+</p>
+
+<p>
+A package import is shown using a dashed arrow with an open arrowhead from the importing namespace
+ to the imported package.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-package-import-default.png" width="280" height="68"
+ alt="Package import shown using a dashed arrow with an open arrowhead from the importing namespace to the imported package" 
+ title="Package import shown using a dashed arrow with an open arrowhead from the importing namespace to the imported package" />
+<p class="figure-text">
+WebApplication imports Presentation package.
+</p>
+</div>
+
+<p> 
+Note, that though it looks exactly like
+ <a href="dependency.html" class="ref-link">dependency</a>
+ and <a href="dependency.html#usage" class="ref-link">usage</a>
+ relationships, it is a completely separate <strong>directed relationship</strong>.
+</p>
+
+<p>
+The <strong>visibility</strong> of a package import could be either public or private.
+If the package import is <strong>public</strong>, the imported elements will be added to the namespace
+ and made visible outside the namespace, while if it is <strong>private</strong> they will still be added
+  to the namespace but without being visible outside.
+</p>
+
+<p>
+A keyword is shown near the dashed arrow to identify which kind of package
+ import is intended. The predefined
+ keywords are <strong>«import»</strong> for a <strong>public</strong> package import,
+ and <strong>«access»</strong> for a <strong>private</strong> package import.
+ By default, the value of visibility is public.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-package-import-access.png" width="290" height="147"
+ alt="Public package import shown using a import keyword, private - using access keyword"
+ title="Public package import shown using a import keyword, private - using access keyword" />
+<p class="figure-text">
+<strong>Private import</strong> of Presentation package and <strong>public import</strong> of Domain package
+</p>
+</div>
+
+<p>
+As an alternative to the dashed arrow, it is possible to show an package import by having
+ a text that uniquely identifies the imported package within curly brackets either below or after
+ the name of the namespace.
+ The syntax in this case could be described as (note, this is my modified version of the syntax):
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">package-import</span> ::=
+ &nbsp;'{'&nbsp;(&nbsp;'import'&nbsp;|&nbsp;'access'&nbsp;)&nbsp; 
+ <span class="nonterm">qualified-name</span>&nbsp;'}'
+</p>
+
+<p>
+Elements that become available for use in an importing package through a package import may have
+a distinct color or be dimmed to indicate that they cannot be modified.
+</p>
+
+<!--
+*****************
+ Package Merge
+******************
+-->
+ 
+<h2 id="package-merge">Package Merge</h2>
+
+<p>
+A <strong>package merge</strong> is
+a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ between two packages that indicates that content of one package is extended by the contents of another package.
+</p>
+
+<p>
+Package merge is similar to
+ <a href="generalization.html" class="ref-link">generalization</a>
+ in the sense that the source element conceptually adds the characteristics of the target element
+ to its own characteristics resulting in an element that combines the characteristics of both.
+</p>
+
+<p>
+Package merge can be viewed as an operation that takes the contents of two packages
+ and produces a new package that combines the contents of the packages involved in the merge.
+</p>
+
+<p>
+This mechanism should be used when elements defined in different packages have the <strong>same name</strong>
+ and are intended to represent the <strong>same concept</strong>.
+ Most often it is used to provide different definitions of a given concept for different purposes,
+starting from a common base definition.
+</p>
+
+<p>
+A given base concept is extended in increments, with each increment defined in
+a separate merged package. By selecting which increments to merge, it is possible to obtain a custom definition
+ of a concept for a specific end.
+</p>
+
+<p>
+Package merge is particularly useful in <strong>meta-modeling</strong> and is extensively used in the definition
+of the UML metamodel.
+</p>
+
+<p>
+<strong>Package merge</strong> is shown using a dashed line with an open arrowhead pointing 
+ from the receiving package to the merged package.
+ Keyword «merge» is shown near the dashed line.
+</p>
+
+<div class="figure-left-80">
+<img src="package-diagrams/package-merge.png" width="118" height="276"
+ alt="Package merge shown as dashed line with an open arrowhead from receiving package to merged package." 
+ title="Package merge shown as dashed line with an open arrowhead from receiving package to merged package." />
+<p class="figure-text">
+UML Kernel package merges Constructs package<br />
+which imports Primitive Types.
+</p>
+</div>
+
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="package-diagrams/model.html" title="Package diagram model" >Model</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="package-diagrams.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/package-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:14:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

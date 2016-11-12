@@ -1,0 +1,462 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch20.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch20.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkH2VEqhAIuWNe+zvmWKlUt3LLxGQ=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Security</h2>
+<p>Permission subsets:</p>
+<pre>PrincipalPermission jay = new PrincipalPermission (&quot;Jay&quot;, null);
+PrincipalPermission sue = new PrincipalPermission (&quot;Sue&quot;, null);
+
+PrincipalPermission jayOrSue = (PrincipalPermission) jay.Union (sue);
+Console.WriteLine (jay.IsSubsetOf (jayOrSue));  // True</pre>
+	<p>PermissionSet:</p>
+	<pre>PermissionSet ps = new PermissionSet (PermissionState.None);
+
+ps.AddPermission (new UIPermission (PermissionState.Unrestricted));
+ps.AddPermission (new SecurityPermission (
+                      SecurityPermissionFlag.UnmanagedCode));
+ps.AddPermission (new FileIOPermission (
+                      FileIOPermissionAccess.Read, @&quot;c:\docs&quot;));
+ps.Demand();</pre>
+
+<p>Transparency model - UnsaveXXX pattern</p>
+
+<pre>[SecurityCritical]
+public void UnsafeWatchTV()
+{
+  using (Key key = GetTVRoomKey())
+    PrisonGuard.OpenDoor(key);
+}
+
+// The second is security-safe-critical, and calls the first after
+// satisfying a full stack-walking demand:
+[SecuritySafeCritical]
+public void WatchTV()
+{
+  new TVPermission().Demand();
+  UnsafeWatchTV();
+}
+</pre>
+
+
+	<p>Sandboxing another assembly:</p>
+	<pre>using System;
+using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Security;
+using System.Security.Policy;
+using System.Security.Permissions;
+
+class Program
+{
+  static void Main()
+  {
+    string pluginFolder = Path.Combine (
+      AppDomain.CurrentDomain.BaseDirectory, "plugins");
+
+    string plugInPath = Path.Combine (pluginFolder, "plugin.exe");
+
+    PermissionSet ps = new PermissionSet (PermissionState.None);
+
+    ps.AddPermission
+      (new SecurityPermission (SecurityPermissionFlag.Execution));
+
+    ps.AddPermission
+      (new FileIOPermission (FileIOPermissionAccess.PathDiscovery |
+                             FileIOPermissionAccess.Read, plugInPath));
+
+    ps.AddPermission (new UIPermission (PermissionState.Unrestricted));
+
+    AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+    AppDomain sandbox = AppDomain.CreateDomain ("sbox", null, setup, ps);
+    sandbox.ExecuteAssembly (plugInPath);
+    AppDomain.Unload (sandbox);
+  }
+}
+</pre>
+
+
+<p>Asserting permissions:</p>
+
+<pre>public class Utils
+{
+  [SecuritySafeCritical]
+  public static void WriteLog (string msg)
+  {
+    FileIOPermission f = new FileIOPermission (PermissionState.None);
+    f.AllLocalFiles = FileIOPermissionAccess.AllAccess;
+    f.Assert();
+
+    // Write to log
+    ...
+  }
+}</pre>
+
+<pre>static void Main()
+{
+  string pluginFolder = Path.Combine (
+    AppDomain.CurrentDomain.BaseDirectory, "plugins");
+
+  string plugInPath = Path.Combine (pluginFolder, "plugin.exe");
+
+  PermissionSet ps = new PermissionSet (PermissionState.None);
+
+  // Add desired permissions to ps as we did before
+  // ...
+
+  Assembly utilAssembly = typeof (Utils).Assembly;
+  StrongName utils = utilAssembly.Evidence.GetHostEvidence&lt;StrongName&gt;();
+
+  AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+  AppDomain sandbox = AppDomain.CreateDomain ("sbox", null, setup, ps,
+                                              utils);
+  sandbox.ExecuteAssembly (plugInPath);
+  AppDomain.Unload (sandbox);
+}
+</pre>
+	<p>Administrative elevation and virtualization:</p>
+	<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+  &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
+    &lt;security&gt;
+      &lt;requestedPrivileges&gt;
+        &lt;requestedExecutionLevel level=&quot;requireAdministrator&quot; /&gt;
+      &lt;/requestedPrivileges&gt;
+    &lt;/security&gt;
+  &lt;/trustInfo&gt;
+&lt;/assembly&gt;</pre>
+	<p>Cryptography: Windows data protection:</p>
+	<pre>byte[] original = {1, 2, 3, 4, 5};
+DataProtectionScope scope = DataProtectionScope.CurrentUser;
+
+byte[] encrypted = ProtectedData.Protect (original, null, scope);
+byte[] decrypted = ProtectedData.Unprotect (encrypted, null, scope);
+// decrypted is now {1, 2, 3, 4, 5}</pre>
+	<p>Hashing:</p>
+	<pre>byte[] hash;
+using (Stream fs = File.OpenRead (&quot;checkme.doc&quot;))
+  hash = MD5.Create().ComputeHash (fs);           // hash is 16 bytes long</pre>
+	<p>or:</p>
+	<pre>byte[] data = System.Text.Encoding.UTF8.GetBytes (&quot;stRhong%pword&quot;);
+byte[] hash = SHA256.Create().ComputeHash (data);</pre>
+	<p>Symmetric encryption to a file:</p>
+	<pre>byte[] key = {145,12,32,245,98,132,98,214,6,77,131,44,221,3,9,50};
+byte[] iv  = {15,122,132,5,93,198,44,31,9,39,241,49,250,188,80,7};
+
+byte[] data = { 1, 2, 3, 4, 5 };   // This is what we're encrypting.
+
+using (SymmetricAlgorithm algorithm = Aes.Create())
+using (ICryptoTransform encryptor = algorithm.CreateEncryptor (key, iv))
+using (Stream f = File.Create (&quot;encrypted.bin&quot;))
+using (Stream c = new CryptoStream (f, encryptor, CryptoStreamMode.Write))
+  c.Write (data, 0, data.Length);</pre>
+	<p>Symmetric decryption from a file:</p>
+	<pre>byte[] key = {145,12,32,245,98,132,98,214,6,77,131,44,221,3,9,50};
+byte[] iv  = {15,122,132,5,93,198,44,31,9,39,241,49,250,188,80,7};
+
+byte[] decrypted = new byte[5];
+
+using (SymmetricAlgorithm algorithm = Aes.Create())
+using (ICryptoTransform decryptor = algorithm.CreateDecryptor (key, iv))
+using (Stream f = File.OpenRead (&quot;encrypted.bin&quot;))
+using (Stream c = new CryptoStream (f, decryptor, CryptoStreamMode.Read))
+  for (int b; (b = c.ReadByte()) &gt; -1;)
+    Console.Write (b + &quot; &quot;);                            // 1 2 3 4 5</pre>
+	<p>RandomNumberGenerator:</p>
+	<pre>byte[] key = new byte [16];
+byte[] iv  = new byte [16];
+RandomNumberGenerator rand = RandomNumberGenerator.Create();
+rand.GetBytes (key);
+rand.GetBytes (iv);</pre>
+	<p>Encrypting in memory:</p>
+	<pre>public static byte[] Encrypt (byte[] data, byte[] key, byte[] iv)
+{
+  using (Aes algorithm = Aes.Create())
+  using (ICryptoTransform encryptor = algorithm.CreateEncryptor (key, iv))
+    return Crypt (data, key, iv, encryptor);
+}
+
+public static byte[] Decrypt (byte[] data, byte[] key, byte[] iv)
+{
+  using (Aes algorithm = Aes.Create())
+  using (ICryptoTransform decryptor = algorithm.CreateDecryptor (key, iv))
+    return Crypt (data, key, iv, decryptor);
+}
+
+static byte[] Crypt (byte[] data, byte[] key, byte[] iv,
+                     ICryptoTransform cryptor)
+{
+  MemoryStream m = new MemoryStream();
+  using (Stream c = new CryptoStream (m, cryptor, CryptoStreamMode.Write))
+    c.Write (data, 0, data.Length);
+  return m.ToArray();
+}</pre>
+	<pre>public static string Encrypt (string data, byte[] key, byte[] iv)
+{
+  return Convert.ToBase64String (
+    Encrypt (Encoding.UTF8.GetBytes (data), key, iv));
+}
+
+public static string Decrypt (string data, byte[] key, byte[] iv)
+{
+  return Encoding.UTF8.GetString (
+    Decrypt (Convert.FromBase64String (data), key, iv));
+}</pre>
+	<p>Chaining encryption streams:</p>
+	<pre>// Use default key/iv for demo.
+using (Aes algorithm = Aes.Create())
+{
+  using (ICryptoTransform encryptor = algorithm.CreateEncryptor())
+  using (Stream f = File.Create (&quot;serious.bin&quot;))
+  using (Stream c = new CryptoStream (f,encryptor,CryptoStreamMode.Write))
+  using (Stream d = new DeflateStream (c, CompressionMode.Compress))
+  using (StreamWriter w = new StreamWriter (d))
+    w.WriteLine (&quot;Small and secure!&quot;);
+
+  using (ICryptoTransform decryptor = algorithm.CreateDecryptor())
+  using (Stream f = File.OpenRead (&quot;serious.bin&quot;))
+  using (Stream c = new CryptoStream (f, decryptor, CryptoStreamMode.Read))
+  using (Stream d = new DeflateStream (c, CompressionMode.Decompress))
+  using (StreamReader r = new StreamReader (d))
+    Console.WriteLine (r.ReadLine());            // Small and secure!
+}</pre>
+	<p>The RSA class:</p>
+	<pre>byte[] data = { 1, 2, 3, 4, 5 };   // This is what we're encrypting.
+
+using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+{
+  byte[] encrypted = rsa.Encrypt (data, true);
+  byte[] decrypted = rsa.Decrypt (encrypted, true);
+}</pre>
+	<p>Manufacturing an RSA key pair:</p>
+	<pre>using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+{
+  File.WriteAllText (&quot;PublicKeyOnly.xml&quot;, rsa.ToXmlString (false));
+  File.WriteAllText (&quot;PublicPrivate.xml&quot;, rsa.ToXmlString (true));
+}</pre>
+	<p>Public key encryption and decryption:</p>
+	<pre>byte[] data = Encoding.UTF8.GetBytes (&quot;Message to encrypt&quot;);
+
+string publicKeyOnly = File.ReadAllText (&quot;PublicKeyOnly.xml&quot;);
+string publicPrivate = File.ReadAllText (&quot;PublicPrivate.xml&quot;);
+
+byte[] encrypted, decrypted;
+
+using (var rsaPublicOnly = new RSACryptoServiceProvider())
+{
+  rsaPublicOnly.FromXmlString (publicKeyOnly);
+  encrypted = rsaPublicOnly.Encrypt (data, true);
+
+  // The next line would throw an exception because you need the private
+  // key in order to decrypt:
+  // decrypted = rsaPublicOnly.Decrypt (encrypted, true);
+}
+
+using (var rsaPublicPrivate = new RSACryptoServiceProvider())
+{
+  // With the private key we can successfully decrypt:
+  rsaPublicPrivate.FromXmlString (publicPrivate);
+  decrypted = rsaPublicPrivate.Decrypt (encrypted, true);
+}</pre>
+	<p>Digital signing:</p>
+	<pre>byte[] data = Encoding.UTF8.GetBytes (&quot;Message to sign&quot;);
+byte[] publicKey;
+byte[] signature;
+object hasher = SHA1.Create();         // Our chosen hashing algorithm.
+
+// Generate a new key pair, then sign the data with it:
+using (var publicPrivate = new RSACryptoServiceProvider())
+{
+  signature = publicPrivate.SignData (data, hasher);
+  publicKey = publicPrivate.ExportCspBlob (false);    // get public key
+}
+
+// Create a fresh RSA using just the public key, then test the signature.
+using (var publicOnly = new RSACryptoServiceProvider())
+{
+  publicOnly.ImportCspBlob (publicKey);
+  Console.Write (publicOnly.VerifyData (data, hasher, signature)); // True
+
+  // Let's now tamper with the data, and recheck the signature:
+  data[0] = 0;
+  Console.Write (publicOnly.VerifyData (data, hasher, signature)); // False
+
+  // The following throws an exception as we're lacking a private key:
+  signature = publicOnly.SignData (data, hasher);
+}</pre>
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch20.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

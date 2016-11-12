@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html id="ie8" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CMake Tutorial - Chapter&nbsp;6: Realistically Getting a Boost - JohnLamp.netJohnLamp.net</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="pingback" href="https://www.johnlamp.net/xmlrpc.php" />
+  <!--[if lt IE 9]>
+  <script src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  
+<!-- This site is optimized with the Yoast SEO plugin v3.0.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CMake Tutorial - Chapter&nbsp;6: Realistically Getting a Boost - JohnLamp.net" />
+<meta property="og:description" content="Now that we have our testing simplified and automated we have a great
+    foundation upon which to build our amazing command line To Do list app.
+    What&#039;s that? You say that an awesome To Do app allows you to add items to
+    your list? Indeed it does, and more! But wait, let&#039;s not get ahead &hellip;Continue reading &quot;CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost&quot;" />
+<meta property="og:url" content="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" />
+<meta property="og:site_name" content="JohnLamp.net" />
+<meta property="article:tag" content="CMake" />
+<meta property="article:tag" content="long" />
+<meta property="article:tag" content="tutorial" />
+<meta property="article:section" content="CMake Tutorial" />
+<meta property="article:published_time" content="2015-03-03T21:38:21+00:00" />
+<meta property="article:modified_time" content="2015-03-03T21:39:20+00:00" />
+<meta property="og:updated_time" content="2015-03-03T21:39:20+00:00" />
+<meta property="og:image" content="https://www.johnlamp.net/images/zip.png" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Feed" href="https://www.johnlamp.net/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Comments Feed" href="https://www.johnlamp.net/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost Comments Feed" href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.johnlamp.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='style-css'  href='https://www.johnlamp.net/wp-content/themes/tutorial-theme/style.css?ver=4.3.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel='shortlink' href='https://www.johnlamp.net/?p=54' />
+<style type="text/css">.site-title a,.site-description{color: #f57900 !important;\n}</style></head>
+<body class="single single-post postid-54 single-format-standard">
+<div id="page" class="hfeed site">
+  <header id="masthead" class="site-header" role="banner">
+    <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home"><img src="https://www.johnlamp.net/wp-content/uploads/2014/09/JL-Symbol.png" width="87" height="90" style="width: 87px; height: 90px;" alt="" /></a>    <div class="hgroup">
+      <h1 class="site-title">
+        <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home">JohnLamp.net</a>
+      </h1>
+      <h2 class="site-description">
+              </h2>
+    </div>
+
+    <div id="search">
+      <form method="get" id="searchform" action="https://www.johnlamp.net/" role="search"><label for="searchInput" class="assistive-text">Search</label><input type="text" class="field" name="searchInput" value="" id="searchInput" placeholder="Search &hellip;" /><input type="submit" id="searchsubmit" class="submit" value="Search" /></form>    </div>
+
+    <nav id="site-navigation" role="navigation" class="main-navigation">
+      <h1 class="assistive-text">
+        Menu      </h1>
+      <div class="assistive-text skip-link">
+        <a href="#content" title="Skip to content">Skip to content</a>
+      </div>
+      <div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-4" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4"><a href="https://www.johnlamp.net/">Home</a></li>
+<li id="menu-item-10" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-10"><a href="https://www.johnlamp.net/cmake-tutorial.html">CMake Tutorial</a></li>
+</ul></div>    </nav>
+    <div class="cleared"></div>
+  </header>
+  <div id="main" class="site-main">
+
+<div id="primary" class="content-area">
+  <div id="content" class="site-content" role="main">
+
+    <nav role="navigation" id="nav-above" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing</a></div></nav>
+
+<article id="post-54" class="post-54 post type-post status-publish format-standard hentry category-cmake-tutorial tag-cmake tag-long tag-tutorial">
+  <header class="entry-header">
+    <h1 class="entry-title">
+      CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost    </h1>
+
+    <div class="entry-meta">
+      Posted on <a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" title="21:38:21" rel="bookmark"><time class="entry-date" datetime="2015-03-03T21:38:21+00:00">2015-03-03</time></a> <span class="byline">by <span class="author vcard"><a class="url fn n" href="https://www.johnlamp.net/author/john" title="View all posts by John Lamp" rel="author">John Lamp</a></span></span>    </div>
+  </header>
+
+  <div class="entry-content">
+    <nav class="contents"><h1>Contents</h1><ol><li><a href="#section-Introduction">Introduction</a></li><li><a href="#section-BoostingTheCommandLine">Boosting the Command Line</a></li><li><a href="#section-HowToUseFindboost">How to Use FindBoost</a></li><li><ol><li><a href="#section-ChoosingARoot">Choosing a Root</a></li></ol></li><li><a href="#section-FindingPackages">Finding Packages</a></li><li><a href="#section-DocumentationFound">Documentation Found</a></li></ol></nav>
+<section>
+  <h1 id="section-Introduction">Introduction</h1>
+  <p>
+    Now that we have our testing simplified and automated we have a great
+    foundation upon which to build our amazing command line To Do list app.
+    What&#8217;s that? You say that an awesome To Do app allows you to add items to
+    your list? Indeed it does, and more! But wait, let&#8217;s not get ahead of
+    ourselves. We need to be able to accept and parse command line options if
+    this app is to be of any use at all.
+  </p>
+  <p>
+    I know what you are thinking now: parsing command line options is a drag and
+    who likes parsing stuff anyway? Well we are in luck as the Boost
+    <a href="http://www.boost.org/doc/libs/1_54_0/doc/html/program_options.html">Program Options</a>    library will do all the hard work for us. All we need to do is rewrite our
+    main function to be something useful, let the library do the parsing and our
+    app will be on it&#8217;s way to the top 10 list. Okay, I might be exaggerating
+    that last one.
+  </p>
+</section>
+
+<section>
+  <h1 id="section-BoostingTheCommandLine">Boosting the Command Line</h1>
+  <p>
+    Okay, that section title may be a little over the top. Our main function has
+    languished while we set up testing and streamlined our CMake. Now it&#8217;s time
+    to turn attention back to it and what we find is that it needs to be gutted
+    and re-done, much like an old kitchen. Since we have better tests we don&#8217;t
+    need the one in main anymore. We will update main to have two command line
+    options: <kbd>--add</kbd>, which will add a new entry to the to do list, and
+    <kbd>--help</kbd>, which will do what you&#8217;d expect.
+  </p>
+
+  <section class="code">
+<header class="clear-after"><h1>main.cc</h1>
+</header><div class="highlight"><pre><a id="main.cc-1" class="line-number" href="#main.cc-1"></a><span class="cp">#include &lt;iostream&gt;</span>
+<a id="main.cc-2" class="line-number" href="#main.cc-2"></a>  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">;</span>
+<a id="main.cc-3" class="line-number" href="#main.cc-3"></a>  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
+<a id="main.cc-4" class="line-number" href="#main.cc-4"></a>  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a id="main.cc-5" class="line-number" href="#main.cc-5"></a><span class="cp">#include &lt;string&gt;</span>
+<a id="main.cc-6" class="line-number" href="#main.cc-6"></a>  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+<a id="main.cc-7" class="line-number" href="#main.cc-7"></a>
+<a id="main.cc-8" class="line-number" href="#main.cc-8"></a><span class="cp">#include &lt;boost/program_options.hpp&gt;</span>
+<a id="main.cc-9" class="line-number" href="#main.cc-9"></a>  <span class="k">namespace</span> <span class="n">po</span> <span class="o">=</span> <span class="n">boost</span><span class="o">::</span><span class="n">program_options</span><span class="p">;</span>
+<a id="main.cc-10" class="line-number" href="#main.cc-10"></a>
+<a id="main.cc-11" class="line-number" href="#main.cc-11"></a><span class="cp">#include &quot;ToDoCore/ToDo.h&quot;</span>
+<a id="main.cc-12" class="line-number" href="#main.cc-12"></a>  <span class="k">using</span> <span class="n">ToDoCore</span><span class="o">::</span><span class="n">ToDo</span><span class="p">;</span>
+<a id="main.cc-13" class="line-number" href="#main.cc-13"></a>
+<a id="main.cc-14" class="line-number" href="#main.cc-14"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span>
+<a id="main.cc-15" class="line-number" href="#main.cc-15"></a>    <span class="kt">int</span>    <span class="n">argc</span><span class="p">,</span>
+<a id="main.cc-16" class="line-number" href="#main.cc-16"></a>    <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span>
+<a id="main.cc-17" class="line-number" href="#main.cc-17"></a><span class="p">)</span>
+<a id="main.cc-18" class="line-number" href="#main.cc-18"></a><span class="p">{</span>
+<a id="main.cc-19" class="line-number" href="#main.cc-19"></a>    <span class="n">po</span><span class="o">::</span><span class="n">options_description</span> <span class="n">desc</span><span class="p">(</span><span class="s">&quot;Options&quot;</span><span class="p">);</span>
+<a id="main.cc-20" class="line-number" href="#main.cc-20"></a>    <span class="n">desc</span><span class="p">.</span><span class="n">add_options</span><span class="p">()</span>
+<a id="main.cc-21" class="line-number" href="#main.cc-21"></a>        <span class="p">(</span><span class="s">&quot;help,h&quot;</span><span class="p">,</span> <span class="s">&quot;display this help&quot;</span><span class="p">)</span>
+<a id="main.cc-22" class="line-number" href="#main.cc-22"></a>        <span class="p">(</span><span class="s">&quot;add,a&quot;</span><span class="p">,</span> <span class="n">po</span><span class="o">::</span><span class="n">value</span><span class="o">&lt;</span> <span class="n">string</span> <span class="o">&gt;</span><span class="p">(),</span> <span class="s">&quot;add a new entry to the To Do list&quot;</span><span class="p">)</span>
+<a id="main.cc-23" class="line-number" href="#main.cc-23"></a>        <span class="p">;</span>
+<a id="main.cc-24" class="line-number" href="#main.cc-24"></a>
+<a id="main.cc-25" class="line-number" href="#main.cc-25"></a>    <span class="kt">bool</span> <span class="n">parseError</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<a id="main.cc-26" class="line-number" href="#main.cc-26"></a>    <span class="n">po</span><span class="o">::</span><span class="n">variables_map</span> <span class="n">vm</span><span class="p">;</span>
+<a id="main.cc-27" class="line-number" href="#main.cc-27"></a>    <span class="n">try</span>
+<a id="main.cc-28" class="line-number" href="#main.cc-28"></a>    <span class="p">{</span>
+<a id="main.cc-29" class="line-number" href="#main.cc-29"></a>        <span class="n">po</span><span class="o">::</span><span class="n">store</span><span class="p">(</span><span class="n">po</span><span class="o">::</span><span class="n">parse_command_line</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">desc</span><span class="p">),</span> <span class="n">vm</span><span class="p">);</span>
+<a id="main.cc-30" class="line-number" href="#main.cc-30"></a>        <span class="n">po</span><span class="o">::</span><span class="n">notify</span><span class="p">(</span><span class="n">vm</span><span class="p">);</span>
+<a id="main.cc-31" class="line-number" href="#main.cc-31"></a>    <span class="p">}</span>
+<a id="main.cc-32" class="line-number" href="#main.cc-32"></a>    <span class="k">catch</span> <span class="p">(</span><span class="n">po</span><span class="o">::</span><span class="n">error</span><span class="o">&amp;</span> <span class="n">error</span><span class="p">)</span>
+<a id="main.cc-33" class="line-number" href="#main.cc-33"></a>    <span class="p">{</span>
+<a id="main.cc-34" class="line-number" href="#main.cc-34"></a>        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<a id="main.cc-35" class="line-number" href="#main.cc-35"></a>        <span class="n">parseError</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<a id="main.cc-36" class="line-number" href="#main.cc-36"></a>    <span class="p">}</span>
+<a id="main.cc-37" class="line-number" href="#main.cc-37"></a>
+<a id="main.cc-38" class="line-number" href="#main.cc-38"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">parseError</span> <span class="o">||</span> <span class="n">vm</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;help&quot;</span><span class="p">))</span>
+<a id="main.cc-39" class="line-number" href="#main.cc-39"></a>    <span class="p">{</span>
+<a id="main.cc-40" class="line-number" href="#main.cc-40"></a>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;todo:  A simple To Do list program&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-41" class="line-number" href="#main.cc-41"></a>        <span class="n">cout</span>                                         <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-42" class="line-number" href="#main.cc-42"></a>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage:&quot;</span>                             <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-43" class="line-number" href="#main.cc-43"></a>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;  &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; [options]&quot;</span>      <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-44" class="line-number" href="#main.cc-44"></a>        <span class="n">cout</span>                                         <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-45" class="line-number" href="#main.cc-45"></a>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">desc</span>                                 <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-46" class="line-number" href="#main.cc-46"></a>
+<a id="main.cc-47" class="line-number" href="#main.cc-47"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">parseError</span><span class="p">)</span>
+<a id="main.cc-48" class="line-number" href="#main.cc-48"></a>        <span class="p">{</span>
+<a id="main.cc-49" class="line-number" href="#main.cc-49"></a>            <span class="k">return</span> <span class="mi">64</span><span class="p">;</span>
+<a id="main.cc-50" class="line-number" href="#main.cc-50"></a>        <span class="p">}</span>
+<a id="main.cc-51" class="line-number" href="#main.cc-51"></a>        <span class="k">else</span>
+<a id="main.cc-52" class="line-number" href="#main.cc-52"></a>        <span class="p">{</span>
+<a id="main.cc-53" class="line-number" href="#main.cc-53"></a>            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a id="main.cc-54" class="line-number" href="#main.cc-54"></a>        <span class="p">}</span>
+<a id="main.cc-55" class="line-number" href="#main.cc-55"></a>    <span class="p">}</span>
+<a id="main.cc-56" class="line-number" href="#main.cc-56"></a>
+<a id="main.cc-57" class="line-number" href="#main.cc-57"></a>
+<a id="main.cc-58" class="line-number" href="#main.cc-58"></a>    <span class="n">ToDo</span> <span class="n">list</span><span class="p">;</span>
+<a id="main.cc-59" class="line-number" href="#main.cc-59"></a>
+<a id="main.cc-60" class="line-number" href="#main.cc-60"></a>    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;write code&quot;</span><span class="p">);</span>
+<a id="main.cc-61" class="line-number" href="#main.cc-61"></a>    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;compile&quot;</span><span class="p">);</span>
+<a id="main.cc-62" class="line-number" href="#main.cc-62"></a>    <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+<a id="main.cc-63" class="line-number" href="#main.cc-63"></a>
+<a id="main.cc-64" class="line-number" href="#main.cc-64"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">vm</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;add&quot;</span><span class="p">))</span>
+<a id="main.cc-65" class="line-number" href="#main.cc-65"></a>    <span class="p">{</span>
+<a id="main.cc-66" class="line-number" href="#main.cc-66"></a>        <span class="n">list</span><span class="p">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s">&quot;add&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span> <span class="n">string</span> <span class="o">&gt;</span><span class="p">());</span>
+<a id="main.cc-67" class="line-number" href="#main.cc-67"></a>    <span class="p">}</span>
+<a id="main.cc-68" class="line-number" href="#main.cc-68"></a>
+<a id="main.cc-69" class="line-number" href="#main.cc-69"></a>    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<a id="main.cc-70" class="line-number" href="#main.cc-70"></a>    <span class="p">{</span>
+<a id="main.cc-71" class="line-number" href="#main.cc-71"></a>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">list</span><span class="p">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="main.cc-72" class="line-number" href="#main.cc-72"></a>    <span class="p">}</span>
+<a id="main.cc-73" class="line-number" href="#main.cc-73"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a id="main.cc-74" class="line-number" href="#main.cc-74"></a><span class="p">}</span>
+</pre></div>
+</section>
+  <p>
+    <a href="http://www.boost.org/doc/libs/1_53_0/doc/html/program_options.html">Boost Program Options</a>    makes it easier to parse command line options than it would be to do it by
+    hand. Now that we have the required <kbd>--help</kbd> option and the
+    <kbd>--add</kbd> our app is a bit more useful.
+  </p>
+  <p>
+    There&#8217;s a new problem now. How will we link our app against Boost? As it
+    turns out CMake has a command for finding things like Boost: the
+    <code>find_package()</code> command. Let&#8217;s see how it works.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="CMakeLists.txt-1" class="line-number" href="#CMakeLists.txt-1"></a><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<a id="CMakeLists.txt-2" class="line-number" href="#CMakeLists.txt-2"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_LEGACY_CYGWIN_WIN32</span> <span class="s">0</span><span class="p">)</span>
+<a id="CMakeLists.txt-3" class="line-number" href="#CMakeLists.txt-3"></a>
+<a id="CMakeLists.txt-4" class="line-number" href="#CMakeLists.txt-4"></a><span class="nb">project</span><span class="p">(</span><span class="s2">&quot;To Do List&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-5" class="line-number" href="#CMakeLists.txt-5"></a>
+<a id="CMakeLists.txt-6" class="line-number" href="#CMakeLists.txt-6"></a><span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span> <span class="s">CMAKE_MODULE_PATH</span> <span class="o">${</span><span class="nv">CMAKE_SOURCE_DIR</span><span class="o">}</span><span class="s">/cmake/Modules</span><span class="p">)</span>
+<a id="CMakeLists.txt-7" class="line-number" href="#CMakeLists.txt-7"></a>
+<a id="CMakeLists.txt-8" class="line-number" href="#CMakeLists.txt-8"></a><span class="nb">enable_testing</span><span class="p">()</span>
+<a id="CMakeLists.txt-9" class="line-number" href="#CMakeLists.txt-9"></a><span class="nb">include</span><span class="p">(</span><span class="s">gmock</span><span class="p">)</span>
+<a id="CMakeLists.txt-10" class="line-number" href="#CMakeLists.txt-10"></a>
+<a id="CMakeLists.txt-11" class="line-number" href="#CMakeLists.txt-11"></a>
+<a id="CMakeLists.txt-12" class="line-number" href="#CMakeLists.txt-12"></a><span class="hll"><span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">DEFINED</span>     <span class="s">BOOST_ROOT</span>        <span class="s">AND</span>
+</span><a id="CMakeLists.txt-13" class="line-number" href="#CMakeLists.txt-13"></a><span class="hll">    <span class="s">NOT</span> <span class="s">DEFINED</span> <span class="s">ENV{BOOST_ROOT}</span>       <span class="s">AND</span>
+</span><a id="CMakeLists.txt-14" class="line-number" href="#CMakeLists.txt-14"></a><span class="hll">    <span class="s">NOT</span> <span class="s">DEFINED</span>     <span class="s">BOOST_INCLUDEDIR</span>  <span class="s">AND</span>
+</span><a id="CMakeLists.txt-15" class="line-number" href="#CMakeLists.txt-15"></a><span class="hll">    <span class="s">NOT</span> <span class="s">DEFINED</span> <span class="s">ENV{BOOST_INCLUDEDIR}</span> <span class="s">AND</span>
+</span><a id="CMakeLists.txt-16" class="line-number" href="#CMakeLists.txt-16"></a><span class="hll">    <span class="s">NOT</span> <span class="s">DEFINED</span>     <span class="s">BOOST_LIBRARYDIR</span>  <span class="s">AND</span>
+</span><a id="CMakeLists.txt-17" class="line-number" href="#CMakeLists.txt-17"></a><span class="hll">    <span class="s">NOT</span> <span class="s">DEFINED</span> <span class="s">ENV{BOOST_LIBRARYDIR}</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-18" class="line-number" href="#CMakeLists.txt-18"></a><span class="hll">    <span class="nb">if</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-19" class="line-number" href="#CMakeLists.txt-19"></a><span class="hll">        <span class="nb">set</span><span class="p">(</span><span class="s">BOOST_ROOT</span> <span class="s2">&quot;../../../boost/boost_1_54_0/mac&quot;</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-20" class="line-number" href="#CMakeLists.txt-20"></a><span class="hll">    <span class="nb">elseif</span> <span class="p">(</span><span class="s">WIN32</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-21" class="line-number" href="#CMakeLists.txt-21"></a><span class="hll">        <span class="nb">set</span><span class="p">(</span><span class="s">BOOST_INCLUDEDIR</span> <span class="s2">&quot;C:/local/boost_1_55_0&quot;</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-22" class="line-number" href="#CMakeLists.txt-22"></a><span class="hll">        <span class="nb">set</span><span class="p">(</span><span class="s">BOOST_LIBRARYDIR</span> <span class="s2">&quot;C:/local/boost_1_55_0/lib32-msvc-10.0&quot;</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-23" class="line-number" href="#CMakeLists.txt-23"></a><span class="hll">    <span class="nb">endif</span><span class="p">()</span>
+</span><a id="CMakeLists.txt-24" class="line-number" href="#CMakeLists.txt-24"></a><span class="hll"><span class="nb">endif</span><span class="p">()</span>
+</span><a id="CMakeLists.txt-25" class="line-number" href="#CMakeLists.txt-25"></a><span class="hll"><span class="nb">if</span> <span class="p">(</span><span class="s">APPLE</span> <span class="s">OR</span> <span class="s">WIN32</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-26" class="line-number" href="#CMakeLists.txt-26"></a><span class="hll">    <span class="nb">set</span><span class="p">(</span><span class="s">Boost_USE_STATIC_LIBS</span> <span class="s">TRUE</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-27" class="line-number" href="#CMakeLists.txt-27"></a><span class="hll"><span class="nb">endif</span><span class="p">()</span>
+</span><a id="CMakeLists.txt-28" class="line-number" href="#CMakeLists.txt-28"></a><span class="hll"><span class="nb">find_package</span><span class="p">(</span><span class="s">Boost</span> <span class="s">1.32</span> <span class="s">REQUIRED</span> <span class="s">COMPONENTS</span> <span class="s">program_options</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-29" class="line-number" href="#CMakeLists.txt-29"></a><span class="hll"><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-30" class="line-number" href="#CMakeLists.txt-30"></a><span class="hll">
+</span><a id="CMakeLists.txt-31" class="line-number" href="#CMakeLists.txt-31"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;GNU&quot;</span> <span class="s">OR</span>
+<a id="CMakeLists.txt-32" class="line-number" href="#CMakeLists.txt-32"></a>    <span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-33" class="line-number" href="#CMakeLists.txt-33"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;-Wall -Wextra -Werror&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-34" class="line-number" href="#CMakeLists.txt-34"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="CMakeLists.txt-35" class="line-number" href="#CMakeLists.txt-35"></a><span class="hll">    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;/W4 /wd4512 /WX /EHsc&quot;</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-36" class="line-number" href="#CMakeLists.txt-36"></a><span class="hll">        <span class="c"># Disabled Warnings:</span>
+</span><a id="CMakeLists.txt-37" class="line-number" href="#CMakeLists.txt-37"></a><span class="hll">        <span class="c">#   4512 &quot;assignment operator could not be generated&quot;</span>
+</span><a id="CMakeLists.txt-38" class="line-number" href="#CMakeLists.txt-38"></a><span class="hll">        <span class="c">#        This warning provides no useful information and will occur in</span>
+</span><a id="CMakeLists.txt-39" class="line-number" href="#CMakeLists.txt-39"></a><span class="hll">        <span class="c">#        well formed programs.</span>
+</span><a id="CMakeLists.txt-40" class="line-number" href="#CMakeLists.txt-40"></a><span class="hll">        <span class="c">#        &lt;http://msdn.microsoft.com/en-us/library/hsyx7kbz.aspx&gt;</span>
+</span><a id="CMakeLists.txt-41" class="line-number" href="#CMakeLists.txt-41"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="CMakeLists.txt-42" class="line-number" href="#CMakeLists.txt-42"></a><span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">CONFIGURED_ONCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-43" class="line-number" href="#CMakeLists.txt-43"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${warnings}&quot;</span>
+<a id="CMakeLists.txt-44" class="line-number" href="#CMakeLists.txt-44"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-45" class="line-number" href="#CMakeLists.txt-45"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_FLAGS</span>   <span class="s2">&quot;${warnings}&quot;</span>
+<a id="CMakeLists.txt-46" class="line-number" href="#CMakeLists.txt-46"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="CMakeLists.txt-47" class="line-number" href="#CMakeLists.txt-47"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="CMakeLists.txt-48" class="line-number" href="#CMakeLists.txt-48"></a>
+<a id="CMakeLists.txt-49" class="line-number" href="#CMakeLists.txt-49"></a>
+<a id="CMakeLists.txt-50" class="line-number" href="#CMakeLists.txt-50"></a><span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="p">)</span>
+<a id="CMakeLists.txt-51" class="line-number" href="#CMakeLists.txt-51"></a>
+<a id="CMakeLists.txt-52" class="line-number" href="#CMakeLists.txt-52"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">ToDoCore</span><span class="p">)</span>
+<a id="CMakeLists.txt-53" class="line-number" href="#CMakeLists.txt-53"></a>
+<a id="CMakeLists.txt-54" class="line-number" href="#CMakeLists.txt-54"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">toDo</span> <span class="s">main.cc</span><span class="p">)</span>
+<a id="CMakeLists.txt-55" class="line-number" href="#CMakeLists.txt-55"></a><span class="hll"><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">toDo</span> <span class="s">toDoCore</span> <span class="o">${</span><span class="nv">Boost_LIBRARIES</span><span class="o">}</span><span class="p">)</span>
+</span><a id="CMakeLists.txt-56" class="line-number" href="#CMakeLists.txt-56"></a>
+<a id="CMakeLists.txt-57" class="line-number" href="#CMakeLists.txt-57"></a>
+<a id="CMakeLists.txt-58" class="line-number" href="#CMakeLists.txt-58"></a><span class="nb">set</span><span class="p">(</span><span class="s">CONFIGURED_ONCE</span> <span class="s">TRUE</span> <span class="s">CACHE</span> <span class="s">INTERNAL</span>
+<a id="CMakeLists.txt-59" class="line-number" href="#CMakeLists.txt-59"></a>    <span class="s2">&quot;A flag showing that CMake has configured at least once.&quot;</span><span class="p">)</span>
+</pre></div>
+</section>  <a class="sources" href="https://www.johnlamp.net/sources/chapter6.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>
+  <dl>
+    <dt class="code">
+      find_package(Boost 1.32 REQUIRED COMPONENTS program_options)
+    </dt>
+    <dd>
+      This command searches for Boost, both the headers and the
+      boost_program_options library, and then defines variables that indicate
+      whether or not Boost has been found and if so describe the locations of
+      the libraries and header files.
+    </dd>
+
+    <dt class="code">
+      include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+    </dt>
+    <dd>
+      Add the paths to Boost&#8217;s include files to the compiler&#8217;s include search
+      paths.
+    </dd>
+    <dd>
+      By using the <code>SYSTEM</code> argument CMake will tell the compiler, if
+      possible, that these paths contain system include files. Oftentimes the
+      compiler will ignore warnings from files found in system include paths.
+    </dd>
+    <dd class="note">
+      The <code>SYSTEM</code> option does not have an effect with all
+      generators. When using the Visual Studio 10 or the Xcode generators
+      neither Visual Studio nor Xcode appear to treat system include paths any
+      differently than regular include paths. This can make a big difference
+      when compiler flags are set to treat warnings as errors.
+    </dd>
+
+    <dt class="code">
+      target_link_libraries(toDo ${Boost_LIBRARIES} toDoCore)
+    </dt>
+    <dd>
+      This links our little app, toDo, with the Boost libraries. In this case
+      just <code>boost_program_options</code> since that&#8217;s the only compiled
+      library we requested. It also links toDo with our toDoCore
+      library. Naturally we need this as that library implements all of our to
+      do list functionality.
+    </dd>
+  </dl>
+  <dl>
+    <dt class="code">
+      find_package(<span class="arg">package</span>
+                   <span class="optional"><span class="arg">version</span>
+                     <span class="optional">EXACT</span></span>
+                   <span class="optional">REQUIRED</span>
+                   <span class="optional">COMPONENTS
+                     <span class="arg">components&hellip;</span></span>)
+    </dt>
+    <dd>
+      <dl>
+        <dt class="code arg">
+          package
+        </dt>
+        <dd>
+          The name of the package to find, e.g. <code>Boost</code>. This name is case
+          sensitive.
+        </dd>
+
+        <dt class="arg">
+          <span class="optional">version</span>
+        </dt>
+        <dd>
+          The desired version of the package.
+        </dd>
+
+        <dt class="code">
+          <span class="optional">EXACT</span>
+        </dt>
+        <dd>
+          Match the version of the package exactly instead of accepting a newer version.
+        </dd>
+
+        <dt class="code">
+          <span class="optional">REQUIRED</span>
+        </dt>
+        <dd>
+          Specifying this option causes CMake&#8217;s configure step to fail if the
+          package cannot be found.
+        </dd>
+
+        <dt class="code">
+          <span class="optional">COMPONENTS
+            <span class="arg">components&hellip;</span></span>
+        </dt>
+        <dd>
+          Some libraries, like Boost, have optional components. The
+          <code>find_package()</code> command will only search for these
+          components if they have been listed as arguments when the command is
+          called.
+        </dd>
+      </dl>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_package"><code>find_package()</code> documentation</a>      <time class="access" datetime="2014-11-14">(2014-11-14)</time>    </dd>
+  </dl>
+</section>
+
+<section>
+  <h1 id="section-HowToUseFindboost">How to Use FindBoost</h1>
+
+  <p>
+    We glossed over how to use FindBoost before and actually we
+    glossed over how <code>find_package()</code> really works. Naturally CMake
+    can&#8217;t know how to find any arbitrary package. So
+    <code>find_package()</code>, as invoked above, actually loads a CMake Module
+    file called <code>FindBoost.cmake</code> which does the actual work of
+    finding Boost. CMake installations come with a good complement of Find
+    Modules. CMake searches for <code>FindBoost.cmake</code> just as it would
+    any module included using the <code>include()</code> command.
+  </p>
+  <p>
+    The documentation for it can be obtained using the command <kbd>cmake
+    --help-module FindBoost</kbd>.
+  </p>
+
+  <dl>
+    <dt class="code">
+      set(BOOST_ROOT &#8220;../../../boost/boost_1_54_0/mac&#8221;)
+    </dt>
+    <dd>
+      FindBoost uses the value of <code>BOOST_ROOT</code> as a hint for where to
+      look. It will search in <code>BOOST_ROOT</code> as well as the standard
+      places to look for libraries. In this example I did not install Boost in a
+      standard location on my Mac so I needed to tell FindBoost where to look.
+    </dd>
+
+    <dt class="code">
+      set(BOOST_INCLUDEDIR &#8220;C:/local/boost_1_55_0&#8221;)
+    </dt>
+    <dd>
+      If your installation of boost is not stored in the &ldquo;normal&rdquo;
+      folders, i.e. <code>include</code> and <code>lib</code>, you will need to
+      specify the directory that contains the include files separately. Since
+      libraries don&#8217;t seem to have a standard installation location on Windows
+      as they do on Linux we needed to tell FindBoost where Boost&#8217;s header files
+      are. Usually when providing <code>BOOST_INCLUDEDIR</code>
+      <code>BOOST_ROOT</code> isn&#8217;t needed. If you are using any of Boost&#8217;s
+      compiled libraries you will also need <code>BOOST_LIBRARYDIR</code>.
+    </dd>
+
+    <dt class="code">
+      set(BOOST_LIBRARYDIR &#8220;C:/local/boost_1_55_0/lib32-msvc-10.0&#8221;)
+    </dt>
+    <dd>
+      The same as <code>BOOST_INCLUDEDIR</code>, if specifying
+      <code>BOOST_ROOT</code> doesn&#8217;t find the libraries then you will have to
+      specify the <code>BOOST_LIBRARYDIR</code>.
+    </dd>
+
+    <dt class="code">
+      set(Boost_USE_STATIC_LIBS TRUE)
+    </dt>
+    <dd>
+      By default FindBoost provides the paths to dynamic libraries, however you
+      can set <code>Boost_USE_STATIC_LIBS</code> to true so that FindBoost will
+      provide the paths to the static libraries instead.
+    </dd>
+    <dd>
+      We want to use the static libraries on Mac OS X (<code>APPLE</code>)
+      because when Boost is installed on the Mac the dynamic libraries are not
+      configured properly and our app would not run if we were to link against
+      them.
+    </dd>
+    <dd>
+      On Windows we are linking with static libraries so Visual Studio will look
+      for the static Boost libraries. Since FindBoost normally provides the
+      paths to Boost&#8217;s dynamic libraries linking would fail. By specifying that
+      we want the static libraries linking will succeed and we can use our new
+      command line arguments.
+    </dd>
+  </dl>
+  <p>
+    There are several other variables that affect how FindBoost works, but they
+    aren&#8217;t needed as often. Consult the documentation for more information.
+  </p>
+  <p>
+    <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#module:FindBoost">FindBoost documentation</a>    <time class="access" datetime="2015-03-02">(2015-03-02)</time>  </p>
+
+  <dl>
+    <dt class="code">
+      include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+    </dt>
+    <dd>
+      We add the paths to where the Boost header files are. These assume that
+      your include directives are of the canonical form
+      <code>#include &lt;boost/&hellip;&gt;</code>.
+      <code>Boost_INCLUDE_DIRS</code> is set for us by FindBoost.
+    </dd>
+
+    <dt class="code">
+      target_link_libraries(toDo ${Boost_LIBRARIES} toDoCore)
+    </dt>
+    <dd>
+      The paths to all of the boost libraries we requested,
+      i.e. <code>program_options</code>, are provided by FindBoost in the
+      variable <code>Boost_LIBRARIES</code>. We simply link against the list of
+      libraries provided.
+    </dd>
+  </dl>
+  <p>
+    FindBoost defines several other variables, which are listed in its
+    documentation. The most important one, not used here, is
+    <code>Boost_FOUND</code>. If Boost has been found then
+    <code>Boost_FOUND</code> will be true, otherwise it will be false. Since we
+    specified that Boost was <code>REQUIRED</code> we know that
+    <code>Boost_FOUND</code> must be true otherwise CMake&#8217;s configuration step
+    would have failed. If Boost were not <code>REQUIRED</code> then
+    <code>Boost_FOUND</code> would be an extremely important variable.
+  </p>
+  <p>
+    If we had chosen not to require Boost but not changed anything else in our
+    <code>CMakeLists.txt</code> we would run into trouble if Boost had not been
+    found. You would expect that our code wouldn&#8217;t compile because an include
+    file could not be found. As it turns out you won&#8217;t actually get that
+    far. FindBoost will set <code>Boost_INCLUDE_DIRS</code> to a value
+    indicating that Boost was not found. Because of this the CMake configure
+    step will fail because we use that variable as an include directory. Since
+    CMake checks this for us we need to remember to be careful when using
+    optional packages.
+  </p>
+
+  <h2 id="section-ChoosingARoot">Choosing a Root</h2>
+  <p>
+    Typically <code>BOOST_ROOT</code> should be the directory that contains the
+    <code>include</code> and <code>lib</code> directories in which you will find
+    boost. Remember the boost headers will be inside a <code>boost</code>
+    directory. As you might notice this is the standard layout used on Unix and
+    Linux. When the headers and libraries are not arranged this way, as is
+    likely on Windows, the <code>BOOST_INCLUDEDIR</code> and
+    <code>BOOST_LIBRARYDIR</code> should be used instead.
+  </p>
+  <p>
+    So right now you are probably wondering what use FindBoost really is if I
+    had to specify the root, or worse the include and library directories. Well
+    there are a few reasons:
+  </p>
+  <ul>
+    <li>
+      Most importantly if Boost has been installed in a standard location it
+      would have been found without any information being provided.
+    </li>
+    <li>
+      It will check that the Boost it finds is the desired version, 1.32 or
+      greater in this case. Not all finders actually check version, but when
+      available this feature is very useful as incorrect library versions are
+      caught immediately rather than later through potentially confusing compile
+      errors.
+    </li>
+    <li>
+      In the case of Boost the finder will ensure the desired libraries are
+      found. Since approximately 90% of the Boost libraries are header only some
+      installs only include the headers and none of the compiled libraries.
+    </li>
+    <li>
+      Lastly even though I specified my non-standard install locations for
+      Boost in the <code>CMakeLists.txt</code> you needn&#8217;t install it
+      there. Regardless FindBoost will still find Boost if you have it
+      installed in a standard location. Additionally you can set your own
+      location using by setting the <code>BOOST_ROOT</code> variable using the
+      <code>-D</code> command line option of <code>cmake</code> or by setting
+      it using the GUI or curses interface. Perhaps most conveniently you can
+      set the <code>BOOST_ROOT</code> environment variable and not need to
+      tell CMake separately. This, of course, applies to the
+      <code>BOOST_INCLUDEDIR</code> and <code>BOOST_LIBRARYDIR</code>
+      variables, too.
+    </li>
+  </ul>
+  <p>
+    So this leaves one question: does it make sense to set
+    <code>BOOST_ROOT</code> in the <code>CMakeLists.txt</code>?
+  </p>
+  <p>
+    If you are the only one working on the project then it will certainly be
+    easier to set it in the <code>CMakeLists.txt</code>, although you will have
+    to do this for every project. Setting the environmental variable might be
+    easier.
+  </p>
+  <p>
+    If you work on a team whose development machines are all configured
+    similarly, or should be, then setting <code>BOOST_ROOT</code> in the
+    <code>CMakeLists.txt</code> is a good idea because it simplifies things for
+    most developers and therefore provides and incentive for all developers to
+    use the standard configuration.
+  </p>
+  <p>
+    Now if you work with a disparate group of people, say on an free/open source
+    project, it makes less sense to set <code>BOOST_ROOT</code> in the
+    <code>CMakeLists.txt</code> as there is likely no notion of a standard
+    development environment.
+  </p>
+</section>
+
+<section>
+  <h1 id="section-FindingPackages">Finding Packages</h1>
+
+  <p>
+    Since CMake ships with a reasonable number of Find modules there&#8217;s a good
+    chance that whatever you want to find can be found by simply using the
+    <code>find_package</code> command. While you should review the documentation
+    for that particular module there are some variables that you can expect to
+    be defined.
+  </p>
+  <dl>
+    <dt class="code">
+      <span class="arg">Package</span>_FOUND
+    </dt>
+    <dd>
+      This variable indicates whether or not the package has been found.
+    </dd>
+
+    <dt class="code">
+      <span class="arg">Package</span>_INCLUDE_DIRS
+    </dt>
+    <dd>
+      The include directories for that particular package. This variable should
+      be passed to the <code>include_directories()</code> command.
+    </dd>
+
+    <dt class="code">
+      <span class="arg">Package</span>_LIBRARIES
+    </dt>
+    <dd>
+      The full paths to this package&#8217;s libraries. This variable should be passed
+      to the <code>target_link_libraries()</code> command.
+    </dd>
+
+    <dt class="code">
+      <span class="arg">Package</span>_DEFINITIONS
+    </dt>
+    <dd>
+      Definitions required to compile code that uses this package. This should
+      be passed to the <code>add_definitions()</code> command.
+    </dd>
+  </dl>
+</section>
+
+<section>
+  <h1 id="section-DocumentationFound">Documentation Found</h1>
+
+  <p>
+    As mentioned above you can get the documentation for FindBoost by using the
+    <kbd>cmake</kbd> command. While this is somewhat convenient the terminal is
+    not always the best tool for reading documentation. There is a slightly more
+    useful variant of the command:
+    <kbd>cmake --help-module FindBoost <span class="arg">file</span></kbd>.
+    This allows you to read the documentation however you please.
+  </p>
+  <p>
+    There&#8217;s another convenient command that will list all of the available
+    modules: <kbd>cmake --help-modules</kbd>. This will also provide some
+    documentation for each. Again you can easily save this to a file with the
+    command <kbd>cmake --help-modules <span class="arg">file</span></kbd>.
+  </p>
+  <p>
+    If you have a Unix/Linux-like shell then you can easily get a list of all
+    available Find modules.
+  </p>
+  <section class="terminal">
+    <pre>
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cmake --version
+cmake version 2.8.12.1
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cmake --help-modules | grep -E &quot;^  Find&quot;
+  FindALSA
+  FindASPELL
+  FindAVIFile
+  FindArmadillo
+  FindBISON
+  FindBLAS
+  FindBZip2
+  FindBoost
+  FindBullet
+  FindCABLE
+  FindCUDA
+  FindCURL
+  FindCVS
+  FindCoin3D
+  FindCups
+  FindCurses
+  FindCxxTest
+  FindCygwin
+  FindDCMTK
+  FindDart
+  FindDevIL
+  FindDoxygen
+  FindEXPAT
+  FindFLEX
+  FindFLTK
+  FindFLTK2
+  FindFreetype
+  FindGCCXML
+  FindGDAL
+  FindGIF
+  FindGLEW
+  FindGLUT
+  FindGTK
+  FindGTK2
+  FindGTest
+  FindGettext
+  FindGit
+  FindGnuTLS
+  FindGnuplot
+  FindHDF5
+  FindHSPELL
+  FindHTMLHelp
+  FindHg
+  FindITK
+  FindIcotool
+  FindImageMagick
+  FindJNI
+  FindJPEG
+  FindJasper
+  FindJava
+  FindKDE3
+  FindKDE4
+  FindLAPACK
+  FindLATEX
+  FindLibArchive
+  FindLibLZMA
+  FindLibXml2
+  FindLibXslt
+  FindLua50
+  FindLua51
+  FindMFC
+  FindMPEG
+  FindMPEG2
+  FindMPI
+  FindMatlab
+  FindMotif
+  FindOpenAL
+  FindOpenGL
+  FindOpenMP
+  FindOpenSSL
+  FindOpenSceneGraph
+  FindOpenThreads
+  FindPHP4
+  FindPNG
+  FindPackageHandleStandardArgs
+  FindPackageMessage
+  FindPerl
+  FindPerlLibs
+  FindPhysFS
+  FindPike
+  FindPkgConfig
+  FindPostgreSQL
+  FindProducer
+  FindProtobuf
+  FindPythonInterp
+  FindPythonLibs
+  FindQt
+  FindQt3
+  FindQt4
+  FindQuickTime
+  FindRTI
+  FindRuby
+  FindSDL
+  FindSDL_image
+  FindSDL_mixer
+  FindSDL_net
+  FindSDL_sound
+  FindSDL_ttf
+  FindSWIG
+  FindSelfPackers
+  FindSquish
+  FindSubversion
+  FindTCL
+  FindTIFF
+  FindTclStub
+  FindTclsh
+  FindThreads
+  FindUnixCommands
+  FindVTK
+  FindWget
+  FindWish
+  FindX11
+  FindXMLRPC
+  FindZLIB
+  Findosg
+  FindosgAnimation
+  FindosgDB
+  FindosgFX
+  FindosgGA
+  FindosgIntrospection
+  FindosgManipulator
+  FindosgParticle
+  FindosgPresentation
+  FindosgProducer
+  FindosgQt
+  FindosgShadow
+  FindosgSim
+  FindosgTerrain
+  FindosgText
+  FindosgUtil
+  FindosgViewer
+  FindosgVolume
+  FindosgWidget
+  Findosg_functions
+  FindwxWidgets
+  FindwxWindows
+</pre>
+  </section>
+</section>
+
+  </div>
+
+  <footer class="entry-meta">
+    This entry was tagged <a href="https://www.johnlamp.net/tag/cmake" rel="tag">CMake</a>, <a href="https://www.johnlamp.net/tag/long" rel="tag">long</a>, <a href="https://www.johnlamp.net/tag/tutorial" rel="tag">tutorial</a>. Bookmark the <a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" title="Permalink to CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost" rel="bookmark">permalink</a>.     </footer>
+     <footer class="entry-license"><div class="license"><a class="no-decoration" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width: 0;" width="80" height="15" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/by-nc-sa-r.png" /></a>This entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost</span>," by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> is licensed under a <a rel="license" href="http://creativecommons.org/licensesby-nc-sa/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</div><div class="code-license"><span xmlns:dct="http://purl.org/dc/terms/"><a class="no-decoration" rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/cc-zero-r.png" width="80" height="15" style="border-style: none;" alt="CC0" /></a>To the extent possible under law, <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> has waived all copyright and related or neighboring rights to the code samples in this entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost</span>".</span></div></footer></article>
+<nav role="navigation" id="nav-below" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing</a></div></nav>
+<div id="comments" class="comments-area">
+          <h2 class="comments-title">
+          11 thoughts on &ldquo;<span>CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost</span>&rdquo;        </h2>
+
+        
+        <ol class="commentlist">
+          <li id="li-comment-1027" class="comment even thread-even depth-1"><article id="comment-1027" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1027"><time pubdate date-time="2015-03-19T21:59:16+00:00">2015-03-19 at 21:59:16</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/7dcf183534c94987870537b0d87914e1?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7dcf183534c94987870537b0d87914e1?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">blaskovich</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Awesome, great to see you&#8217;re at this again!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1027#respond' onclick='return addComment.moveForm( "comment-1027", "1027", "respond", "54" )' aria-label='Reply to blaskovich'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1040" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-1040" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1040"><time pubdate date-time="2015-04-08T06:32:49+00:00">2015-04-08 at 06:32:49</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/ccf01a3a3f2d7e662c87c6fab897993c?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ccf01a3a3f2d7e662c87c6fab897993c?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Roger Wehage</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>John, you are a true pioneer. I purchased the CMake book about three years ago and learned almost nothing from it, which means that the &#8220;book&#8221; has been collecting cobwebs on my Macintosh. Now that I really must use it, I debated purchasing a newer version of the book, hoping that it has been improved. But according to the reviews on Amazon, the &#8220;book&#8221; is still terrible; and the CMake website hasn&#8217;t been of much use either. Imagine my elation when I stumbled upon your website today.</p>
+<p>I&#8217;ve already learned more from your first two chapters than from my many wasted hours struggling with the &#8220;book&#8221; and searching trough the Internet. I do have one small problem though. My eyesight isn&#8217;t what it used to be, and reading white on black background is difficult: <a href="http://guidelines.usability.gov/guidelines/106" rel="nofollow">Use Black Text on Plain, High-Contrast Backgrounds</a>. Therefore I must either substantially magnify text in the browser window, which causes navigation problems, or I must copy and past the text into an editor, which changes it to black on white.</p>
+<p>With that said, your black on white examples are still much better than the &#8220;book.&#8221;</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1040#respond' onclick='return addComment.moveForm( "comment-1040", "1040", "respond", "54" )' aria-label='Reply to Roger Wehage'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1063" class="comment byuser comment-author-john bypostauthor even depth-2"><article id="comment-1063" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1063"><time pubdate date-time="2015-05-02T18:59:36+00:00">2015-05-02 at 18:59:36</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I am sorry about the difficulty reading the terminal examples, that is an oversight on my part. I will have to think of how best to change the styling. I was trying to keep the terminal examples obviously different from code samples. I suppose that isn&#8217;t really necessary as the difference in the content should be relatively obvious. Thanks for the reference; I didn&#8217;t even know there was a <a href="http://www.usability.gov/" rel="nofollow">usability.gov</a> site.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1063#respond' onclick='return addComment.moveForm( "comment-1063", "1063", "respond", "54" )' aria-label='Reply to John Lamp'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-1052" class="comment odd alt thread-even depth-1"><article id="comment-1052" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1052"><time pubdate date-time="2015-04-17T06:07:21+00:00">2015-04-17 at 06:07:21</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Simone</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thank you very much for yet another great chapter of your tutorial!<br />
+1. Could you please explain what to do, if there is no Find module for a specific library?<br />
+2. How to write my own Find module?</p>
+<p>Thank you very much in advance!<br />
+Simone</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1052#respond' onclick='return addComment.moveForm( "comment-1052", "1052", "respond", "54" )' aria-label='Reply to Simone'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1064" class="comment byuser comment-author-john bypostauthor even depth-2"><article id="comment-1064" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1064"><time pubdate date-time="2015-05-02T19:02:12+00:00">2015-05-02 at 19:02:12</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I appears as though you have guessed the correct solution: write your own find module. As to your second question that would probably make a good follow up chapter. Any suggestion on what to find?</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1064#respond' onclick='return addComment.moveForm( "comment-1064", "1064", "respond", "54" )' aria-label='Reply to John Lamp'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1073" class="comment odd alt depth-3"><article id="comment-1073" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1073"><time pubdate date-time="2015-05-27T02:28:33+00:00">2015-05-27 at 02:28:33</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Simone</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thank you, also, for your comments.</p>
+<p>1. With regards to Find &#8211; I mistakenly thought that the best way to make one&#8217;s project usable by other CMake-based projects is to supply own Find-module that will find my own project. But since then I have heard that there are better options &#8211; like Export/Import (for cmake-based projects) and pkgconfig(for other projects). Could you, please, cover those two options? And if possible, to make the example more realistic, lets make the toDoCore library dependend on two sub-libraries &#8211; toDoCoreModule1 and toDoCoreModule2(with some public and some internal headers) and lets introduce another library toDoUtilities.</p>
+<p>2. Another interesting chapter would be the Installation (how to install toDoCore, toDoCoreModule1, toDoCoreModule2, toDoUtilities &#8211; libraries, public headers, exported cmake files for use by other projects?)</p>
+<p>Thank you very much!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1073#respond' onclick='return addComment.moveForm( "comment-1073", "1073", "respond", "54" )' aria-label='Reply to Simone'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-1053" class="comment even thread-odd thread-alt depth-1"><article id="comment-1053" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1053"><time pubdate date-time="2015-04-17T06:21:32+00:00">2015-04-17 at 06:21:32</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e62cb662a4c6dc72ddb181cae1eebee1?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Simone</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>One more question with your permission:<br />
+3. how to design CMakeLists.txt if linking against a specific library is optional (good if it is present, but should only warn and not fail if the library is not installed)?</p>
+<p>Thank you again,<br />
+Simone</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1053#respond' onclick='return addComment.moveForm( "comment-1053", "1053", "respond", "54" )' aria-label='Reply to Simone'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1065" class="comment byuser comment-author-john bypostauthor odd alt depth-2"><article id="comment-1065" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1065"><time pubdate date-time="2015-05-02T19:05:43+00:00">2015-05-02 at 19:05:43</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Without going into any detail you would start by omitting the <code>REQUIRED</code> argument from the <code>find_package()</code> call. Then use the <code><i>Package</i>_FOUND</code> variable to conditionally use the library, e.g. only use its include directories, link against it, and, probably, define a variable so your code compiles differently if <code><i>Package</i>_FOUND</code> is true.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1065#respond' onclick='return addComment.moveForm( "comment-1065", "1065", "respond", "54" )' aria-label='Reply to John Lamp'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-1107" class="comment even thread-even depth-1"><article id="comment-1107" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1107"><time pubdate date-time="2015-07-29T07:06:54+00:00">2015-07-29 at 07:06:54</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/56c9c9472f06a9a62aea4aec6f9cb045?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/56c9c9472f06a9a62aea4aec6f9cb045?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Giancarlo</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Hello John! I just wanted to thank you for the tutorials, they have been absolutely the best way to get started with CMake.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1107#respond' onclick='return addComment.moveForm( "comment-1107", "1107", "respond", "54" )' aria-label='Reply to Giancarlo'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1114" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-1114" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1114"><time pubdate date-time="2015-08-16T17:07:30+00:00">2015-08-16 at 17:07:30</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a1137e88f4580fff65ffc30ae0cff162?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a1137e88f4580fff65ffc30ae0cff162?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">kalev</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>like</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1114#respond' onclick='return addComment.moveForm( "comment-1114", "1114", "respond", "54" )' aria-label='Reply to kalev'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1168" class="comment even thread-even depth-1"><article id="comment-1168" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html#comment-1168"><time pubdate date-time="2015-10-20T17:40:49+00:00">2015-10-20 at 17:40:49</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/5ab38707a08665b368128915e24d72eb?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5ab38707a08665b368128915e24d72eb?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">tn</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thank you! Super tutorial.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html?replytocom=1168#respond' onclick='return addComment.moveForm( "comment-1168", "1168", "respond", "54" )' aria-label='Reply to tn'>Reply</a></div></article></li><!-- #comment-## -->
+        </ol>
+
+        						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/cmake-tutorial-6-realistically-getting-a-boost.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="https://www.johnlamp.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="e5932-comment" cols="45" rows="8"  aria-required="true" required="required"></textarea><textarea name="comment" style="display:none" rows="1" cols="1"></textarea></p>						
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='54' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>					</form>
+							</div><!-- #respond -->
+			</div>
+
+  </div>
+</div>
+
+
+<div id="secondary" class="widget-area" role="complementary">
+  <aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+	<li><a href='https://www.johnlamp.net/2015/03'>March 2015</a></li>
+	<li><a href='https://www.johnlamp.net/2013/07'>July 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/05'>May 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/03'>March 2013</a></li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-4"><a href="https://www.johnlamp.net/category/cmake-tutorial" >CMake Tutorial</a>
+</li>
+		</ul>
+</aside></div>
+
+<div id="tertiary" class="widget-area" role="supplementary">
+  <aside id="meta-2" class="widget widget_meta"><h1 class="widget-title">Meta</h1>			<ul>
+						<li><a rel="nofollow" href="https://www.johnlamp.net/wp-login.php">Log in</a></li>
+			<li><a href="https://www.johnlamp.net/feed">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.johnlamp.net/comments/feed">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+</aside></div>
+
+      </div> <!-- #main .site-main -->
+
+      <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="copyright">
+          Site Copyrighted &copy; 2013-2014 John Lamp all rights reserved.        </div>
+
+        <div class="site-info">
+          <a class="no-decoration" href="http://wordpress.org/" title="A Semantic Personal Publishing Platform" rel="generator"><img id="codeIsPoetry" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/images/codeIsPoetry.png" alt="Code is Poetry" /></a>        </div>
+
+        <nav class="footer-navigation">
+                    </nav>
+
+        <div class="cleared"></div>
+      </footer>
+    </div> <!-- #page .hfeed .site -->
+
+    <script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/comment-reply.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/navigation.js?ver=20120206'></script>
+
+  </body>
+</html>

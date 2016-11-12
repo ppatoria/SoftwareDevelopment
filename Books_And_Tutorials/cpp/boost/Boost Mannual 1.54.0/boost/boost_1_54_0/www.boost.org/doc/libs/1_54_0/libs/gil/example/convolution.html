@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/convolution.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/gil/example/convolution.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/gil/example/convolution.cpp</h3>
+<pre>
+/*
+    Copyright 2005-2007 Adobe Systems Incorporated
+   
+    Use, modification and distribution are subject to the Boost Software License,
+    Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+
+    See <a href="http://opensource.adobe.com/gil">http://opensource.adobe.com/gil</a> for most recent version including documentation.
+*/
+
+/*************************************************************************************************/
+
+///////////////////////
+////  NOTE: This sample file uses the numeric extension, which does not come with the Boost distribution.
+////  You may download it from <a href="http://opensource.adobe.com/gil">http://opensource.adobe.com/gil</a> 
+///////////////////////
+
+/// \file
+/// \brief Test file for convolve_rows() and convolve_cols() in the numeric extension
+/// \author Lubomir Bourdev and Hailin Jin
+/// \date February 27, 2007
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/image.hpp">boost/gil/image.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/typedefs.hpp">boost/gil/typedefs.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/io/jpeg_io.hpp">boost/gil/extension/io/jpeg_io.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/numeric/kernel.hpp">boost/gil/extension/numeric/kernel.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/numeric/convolve.hpp">boost/gil/extension/numeric/convolve.hpp</a>&gt;
+
+int main() {
+    using namespace boost::gil;
+
+    rgb8_image_t img;
+    jpeg_read_image(&quot;test.jpg&quot;,img);
+
+    // Convolve the rows and the columns of the image with a fixed kernel
+    rgb8_image_t convolved(img);
+
+    // radius-1 Gaussian kernel, size 9
+    float gaussian_1[]={0.00022923296f,0.0059770769f,0.060597949f,0.24173197f,0.38292751f,
+                        0.24173197f,0.060597949f,0.0059770769f,0.00022923296f};
+    /*
+    // radius-2 Gaussian kernel, size 15
+    float gaussian_2[]={
+        0.00048869418f,0.0024031631f,0.0092463447f,
+        0.027839607f,0.065602221f,0.12099898f,0.17469721f,
+        0.19744757f,
+        0.17469721f,0.12099898f,0.065602221f,0.027839607f,
+        0.0092463447f,0.0024031631f,0.00048869418f
+    };
+    //radius-3 Gaussian kernel, size 23
+    float gaussian_3[]={
+        0.00016944126f,0.00053842377f,0.0015324751f,0.0039068931f,
+        0.0089216027f,0.018248675f,0.033434924f,0.054872241f,
+        0.080666073f,0.10622258f,0.12529446f,
+        0.13238440f,
+        0.12529446f,0.10622258f,0.080666073f,
+        0.054872241f,0.033434924f,0.018248675f,0.0089216027f,
+        0.0039068931f,0.0015324751f,0.00053842377f,0.00016944126f
+    };
+    //radius-4 Gaussian kernel, size 29
+    float gaussian_4[]={
+        0.00022466264f,0.00052009715f,0.0011314391f,0.0023129794f,
+        0.0044433107f,0.0080211498f,0.013606987f,0.021691186f,
+        0.032493830f,0.045742013f,0.060509924f,0.075220309f,
+        0.087870099f,0.096459411f,0.099505201f,0.096459411f,0.087870099f,
+        0.075220309f,0.060509924f,0.045742013f,0.032493830f,
+        0.021691186f,0.013606987f,0.0080211498f,0.0044433107f,
+        0.0023129794f,0.0011314391f,0.00052009715f,0.00022466264f,
+    };
+    */
+
+    kernel_1d_fixed&lt;float,9&gt; kernel(gaussian_1,4);
+
+    convolve_rows_fixed&lt;rgb32f_pixel_t&gt;(const_view(convolved),kernel,view(convolved));
+    convolve_cols_fixed&lt;rgb32f_pixel_t&gt;(const_view(convolved),kernel,view(convolved));
+    jpeg_write_view(&quot;out-convolution.jpg&quot;, view(convolved));
+
+    // This is how to use a resizable kernel
+    kernel_1d&lt;float&gt; kernel2(gaussian_1,9,4);
+    convolve_rows&lt;rgb32f_pixel_t&gt;(const_view(img),kernel2,view(img));
+    convolve_cols&lt;rgb32f_pixel_t&gt;(const_view(img),kernel2,view(img));
+    jpeg_write_view(&quot;out-convolution2.jpg&quot;, view(img));
+
+    return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/convolution.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:37 GMT -->
+</html>

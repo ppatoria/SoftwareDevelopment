@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/composite-structure-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:09:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML composite structure diagrams shows internal structure of a classifier, classifier interactions with environment through ports, or a behavior of a collaboration.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML composite structure diagrams shows internal structure of a classifier, classifier interactions with environment through ports, or a behavior of a collaboration." />
+<meta name="keywords" content="UML 2, UML 2.5, composite structure diagram, collaboration, port, connector, collaboration use, collaboration template." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 140204 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+<a href="composite-structure-diagrams.html"
+ title="UML composite structure diagrams overview of graphical notation" class="active-nav" >Composite structure diagrams</a>
+</div>
+<div>
+<a href="composite-structure-diagrams.html#structured-classifier"
+ title="UML composite structure diagram - structured classifier" >Structured classifier</a>
+</div>
+<div>
+<a href="composite-structure-diagrams.html#port"
+ title="UML composite structure diagram - port" >Port</a>
+</div>
+<div>
+<a href="composite-structure-diagrams.html#connector"
+ title="UML composite structure diagram - connector"  >Connector</a>
+</div>
+<div>
+<a href="collaboration-diagrams/collaboration.html"
+ title="UML collaboration, composite structure diagram"  >Collaboration</a>
+</div>
+<div>
+<a href="collaboration-diagrams/collaboration-use.html"
+ title="UML collaboration use, composite structure diagram"  >Collaboration use</a>
+</div>
+<div>
+<a href="collaboration-diagrams/collaboration-template.html"
+ title="UML collaboration template, composite structure diagram"  >Collaboration template</a>
+</div>
+<div>
+<a href="composite-structure-diagrams-reference.html"
+ title="UML Composite Structure Diagrams - Graphical Notation Reference"  >Composite structures reference</a>
+</div>
+<div>
+<a href="composite-structure-examples.html"
+ title="UML composite structure diagrams examples"  >Composite structures examples</a>
+</div>
+<div>
+  <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+
+<h1>Composite Structure Diagrams</h1>
+
+<p>
+<strong>Composite Structure Diagram</strong> could be used to show:
+</p>
+<ul>
+<li>internal structure of a classifier - <a href="composite-structure-diagrams.html#internal-structure-diagrams" class="ref-link">internal structure diagram</a>,</li>
+<li>classifier interactions with environment through
+ <a href="composite-structure-diagrams.html#port" class="ref-link">ports</a>,</li>
+<li>a behavior of a collaboration - <a href="composite-structure-diagrams.html#collaboration-use-diagrams" class="ref-link">collaboration use diagram</a>.</li>
+</ul>
+
+<p>
+The term "structure" for this type of diagrams is defined in <strong>UML</strong> as
+ a composition of interconnected elements, representing run-time instances collaborating
+ over communications links to achieve some common objectives.
+</p>
+
+<!--
+******************************
+ Internal structure diagrams
+******************************
+-->
+ 
+<h2 id="internal-structure-diagrams">Internal Structure Diagrams</h2>
+
+<p>
+<strong>Internal structure diagram</strong> shows
+<a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>
+ of a classifier - a decomposition of that classifier into its properties, parts and relationships.
+</p>
+
+<p>
+The following graphical elements are typically drawn in a
+ <strong>composite structure diagram</strong> which shows internal structure of a classifier:
+<a href="composite-structure-diagrams.html#structured-class" class="ref-link">structured class</a>,
+<a href="composite-structure-diagrams.html#property" class="ref-link">property</a>,
+<a href="composite-structure-diagrams.html#part" class="ref-link">part</a>,
+<a href="composite-structure-diagrams.html#port" class="ref-link">port</a>,
+<a href="composite-structure-diagrams.html#connector" class="ref-link">connector</a>,
+<a href="dependency.html#usage" class="ref-link">usage</a>.
+</p>
+
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="composite-structure-diagrams/composite-internal-structure-diagram-elements.png" width="861" height="632"
+ alt="Composite structure diagram overview shows elements of internal structure of structured classifier - roles, parts, connectors."
+ title="Composite structure diagram overview shows elements of internal structure of structured classifier - roles, parts, connectors."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Composite structure diagram overview shows elements of internal structure of structured classifier - roles, parts, connectors.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2013-04-28" />
+<meta itemprop="representativeOfPage" content="true" />
+</div>
+
+<p>
+You can see some
+ <a href="composite-structure-examples.html" class="ref-link">examples of internal structure diagrams</a>
+ here:
+</p>
+<ul>
+<li>Internal Structure - <a href="bank-atm-uml-composite-diagram-example33a1.html?context=cst-examples" class="ref-link">Bank ATM Composite Structure</a></li>
+<li>Internal Structure - <a href="tomcat-server-uml-composite-structure-diagram-example33a1.html?context=cst-examples" class="ref-link">Tomcat 7 Server Composite Structure</a></li>
+</ul>
+
+
+<!--
+*****************************
+ Collaboration Use Diagrams
+*****************************
+-->
+ 
+<h2 id="collaboration-use-diagrams">Collaboration Use Diagrams</h2>
+
+<p>
+The <strong>behavior</strong> of the system is the functionality that
+ the system under design will implement or which is already implemented by some existing system.
+ Objects in a system typically cooperate with each other to produce the behavior of a system.
+</p>
+
+<p>
+A behavior of a <strong>collaboration</strong> will eventually
+ be exhibited by a set of cooperating instances (specified by classifiers)
+ that communicate with each other by sending signals or invoking operations.
+ However, to understand the mechanisms used in
+ a design, it may be important to describe only those aspects of these classifiers
+ and their interactions that are involved in
+ accomplishing a <strong>task</strong> or a related set of tasks,
+ projected from these classifiers.
+</p> 
+ 
+<p>
+<strong>Collaborations</strong> allow us to describe only
+the relevant aspects of the cooperation of a set of instances by identifying
+ the specific roles that the instances will play.
+</p> 
+ 
+<p>
+<strong>Interfaces</strong> allow the externally observable properties of
+ an instance to be specified without determining the classifier that
+will eventually be used to specify this instance.
+ Consequentially, the <strong>roles</strong> in a collaboration will often
+  be typed by interfaces and will then prescribe properties that the participating
+ instances must exhibit, but will not determine what class
+will specify the participating instances.
+</p>
+
+
+<p>
+The following nodes and edges are typically drawn in a
+ <strong>composite structure diagram</strong> which shows <strong>behavior of a collaboration</strong>:
+<a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>,
+<a href="composite-structure-diagrams.html#property" class="ref-link">property</a>,
+<a href="composite-structure-diagrams.html#connector" class="ref-link">connector</a>,
+<a href="composite-structure-diagrams.html#part" class="ref-link">part</a>,
+<strong>collaboration specialization</strong>,
+<a href="dependency.html" class="ref-link">dependency</a>.
+</p>
+
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="collaboration-diagrams/collaboration-overview.png" width="406" height="245"
+ alt="Collaboration elements - roles, parts, connectors."
+ title="Collaboration elements - roles, parts, connectors." 
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Collaboration elements - roles, parts, connectors.<br />
+  Collaboration Visit shows cooperation of doctor and patient roles.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2011-11-25" />
+<meta itemprop="dateModified" content="2013-04-29" />
+</div>
+
+<p>
+<strong>Collaboration use</strong> represents one particular use (<strong>occurrence</strong>) or application
+ of the pattern described
+ by a <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>
+ to a specific situation involving specific classes or instances
+ playing the <strong>roles</strong> of the collaboration.
+ A collaboration use shows how the pattern described by a collaboration is applied in a given
+ <strong>context</strong>, by binding specific entities from that context to the roles of the collaboration.
+</p>
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="collaboration-diagrams/collaboration-use-overview.png" width="360" height="333"
+ alt="Collaboration use shown as a dashed ellipse and two role bindings."
+ title="Collaboration use shown as a dashed ellipse and two role bindings."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Collaboration use elements - roles, parts, role binding.<br />
+Collaboration use childVisit represents one particular use<br />
+ of the Visit collaboration.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2011-11-12" />
+<meta itemprop="dateModified" content="2013-04-29" />
+</div>
+
+
+<p>
+You can see an
+ <a href="composite-structure-examples.html" class="ref-link">example of collaboration diagram</a>
+ here:
+</p>
+<ul>
+<li>Collaboration Use as Design Pattern - <a href="composite-structure-examples.html#observer" class="ref-link">Observer Pattern</a></li>
+</ul>
+
+
+<!--
+**************
+  Classifier
+**************
+-->
+ 
+<h2 id="classifier">Classifier</h2>
+
+<p>
+<strong>Classifier</strong> (in internal structures and collaborations) is extended
+ with the capability to own
+<a href="collaboration-diagrams/collaboration-use.html" class="ref-link">collaboration uses</a>.
+These <strong>collaboration uses</strong> link
+ a <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>
+ with the classifier to give a description of the behavior of the classifier.
+</p>
+
+<p>
+One of the collaboration uses owned by the classifier may be selected as representing the behavior
+ of the classifier as a whole. The collaboration related to the classifier
+ by this collaboration use shows how the instances corresponding
+to the structural features of this classifier (e.g., its attributes and parts)
+ interact to generate the overall behavior of the classifier.
+</p>
+
+<p>
+The <strong>representing collaboration</strong> may be used to provide a description of the behavior
+of the classifier at a different level of abstraction than is offered by the
+<a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>
+of the classifier. The properties of the classifier are mapped to <strong>roles</strong> in
+the <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>
+by the <strong>role bindings</strong>
+of the <a href="collaboration-diagrams/collaboration-use.html" class="ref-link">collaboration use</a>.
+</p>
+
+<!--
+************************
+ Structured Classifier
+************************
+-->
+ 
+<h3 id="structured-classifier">Structured Classifier</h3>
+
+<p id="internal-structure">
+UML provides some mechanisms to describe a structure of interconnected elements that is
+created <strong>within an instance</strong> of a containing <strong>classifier</strong>.
+This structure is referred to as <strong>internal structure</strong> (of classifier) and is
+applicable both to
+<a href="composite-structure-diagrams.html#structured-class" class="ref-link">structured classes</a>
+as well as <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>.
+<strong>Internal structure</strong> consists of
+<a href="composite-structure-diagrams.html#property" class="ref-link">properties</a>,
+including <a href="composite-structure-diagrams.html#part" class="ref-link">parts</a>,
+playing specific <strong>roles</strong>, and
+<a href="composite-structure-diagrams.html#connector" class="ref-link">connectors</a>.
+</p>
+
+<p>
+<strong>Structured classifier</strong> is 
+<a href="composite-structure-diagrams.html#classifier" class="ref-link">classifier</a>
+having <a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>
+and whose behavior can be fully or partially described by the collaboration of owned or referenced instances.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-structured-classifier.png" width="240" height="122"
+ alt="Structured classifier Online Shopping with its internal structure."
+ title="Structured classifier Online Shopping with its internal structure." />
+<p class="figure-text">
+Structured classifier Online Shopping with its internal structure.
+</p>
+</div>
+
+<p>
+The <strong>multiplicities</strong> on the structural features and connector ends indicate the number of instances
+ (objects and links) that may be created within an instance of the containing classifier,
+  either when the instance of the containing classifier is
+ created, or in the case of links, when an object is added as the value of a role, or at a later time.
+</p>
+
+<p> 
+The lower bound of the multiplicity range indicates the number of instances that are created
+ (unless indicated differently by an associated instance
+ specification or an invoked constructor function);
+ the upper bound of the multiplicity range indicates the maximum number of instances that may be created.
+ The slots corresponding to the structural features are initialized with these instances.
+</p>
+
+<p>
+The manner of <strong>creation</strong> of the containing classifier may override the default instantiation.
+ When an instance specification is used to specify the initial instance to be created for a classifier,
+ the multiplicities of its parts determine the number of initial instances that will be created
+ within that classifier. Initially, there will be as many
+ instances held in slots as indicated by the corresponding multiplicity. 
+ Multiplicity ranges on such instance specifications may not contain upper bounds.
+</p>
+
+<p>
+All instances corresponding to parts of a structured classifier are <strong>destroyed</strong> recursively,
+ when an instance of that structured classifier is deleted.
+ The instance is removed from the extent of its classifier, and is itself destroyed.
+ When an instance is removed from a role of a composite object, links that exist due to connectors
+ between that role and others are destroyed.
+</p>
+
+
+
+
+<!--
+***************************
+  Encapsulated Classifier
+***************************
+-->
+ 
+<h3 id="encapsulated-classifier">Encapsulated Classifier</h3>
+
+<p>
+<strong>Encapsulated classifier</strong> is 
+ <a href="composite-structure-diagrams.html#structured-classifier" class="ref-link">structured classifier</a>
+ extended with the ability to own
+ <a href="composite-structure-diagrams.html#port" class="ref-link">ports</a>.
+</p>
+
+<p>
+UML 2.4 specification provides no definition of <strong>encapsulation</strong>.
+It also uses term <strong>completely encapsulated</strong> without appropriate explanation.
+It states that classifier could be isolated from its environment (encapsulated ?) by using
+ <a href="composite-structure-diagrams.html#port" class="ref-link">ports</a>.
+Each port could specify a distinct interaction point between classifier and its environment.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-interfaces.png" width="250" height="108"
+ alt="Library Services is classifier encapsulated through Search Port."
+ title="Library Services is classifier encapsulated through Search Port." />
+<p class="figure-text">
+Library Services is classifier encapsulated through Search Port
+</p>
+</div>
+
+<p>
+Note, that because <strong>encapsulated classifier</strong> extends
+<a href="composite-structure-diagrams.html#structured-classifier" class="ref-link">structured classifier</a>,
+it may also have some
+<a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>.
+</p>
+
+
+<!--
+************************
+   Structured Class
+************************
+-->
+ 
+<h3 id="structured-class">Structured Class</h3>
+
+<p>
+<strong>Structured class</strong> is class which extends both
+<a href="composite-structure-diagrams.html#encapsulated-classifier" class="ref-link">encapsulated classifier</a>
+and
+<a href="composite-structure-diagrams.html#structured-classifier" class="ref-link">structured classifier</a>.
+(Note, that encapsulated classifier extends structured classifier as well).
+Because of this, <strong>structured class</strong> may have both
+<a href="composite-structure-diagrams.html#port" class="ref-link">ports</a> and some
+<a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>.
+</p>
+
+<p>
+Structured class is notated as
+<a href="class-diagrams.html#class" class="ref-link">class</a>,
+<a href="composite-structure-diagrams.html#structured-classifier" class="ref-link">structured classifier</a>
+and <a href="composite-structure-diagrams.html#encapsulated-classifier" class="ref-link">encapsulated classifier</a>.
+
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-interfaces.png" width="250" height="108"
+ alt="Library Services is structured class encapsulated through Search Port."
+ title="Library Services is structured class encapsulated through Search Port." />
+<p class="figure-text">
+Library Services is structured class encapsulated through Search Port
+</p>
+</div>
+
+<p>
+Because
+<a href="composite-structure-diagrams.html#encapsulated-classifier" class="ref-link">encapsulated classifier</a>
+extends 
+<a href="composite-structure-diagrams.html#structured-classifier" class="ref-link">structured classifier</a>,
+<strong>structured class</strong> may also have
+an <a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>.
+ The nesting of classifiers defined within the scope of the structured class limits
+ the visibility of the classifiers to the scope of the namespace of the containing structured class
+ and thus supports encapsulation (information hiding) through ports.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-structured-class.png" width="300" height="121"
+ alt="Structured class Online Shopping with Shopping port and internal structure."
+ title="Structured class Online Shopping with Shopping port and internal structure." />
+<p class="figure-text">
+Structured class Online Shopping with Shopping port and internal structure.
+</p>
+</div>
+
+<!--
+********************
+ Property and Part
+********************
+-->
+ 
+<h3 id="property">Property</h3>
+
+<p>
+<strong>Property</strong> (of internal structures) is subclass of
+ <strong>property</strong> from kernel
+ and represents a set of instances that are owned by a containing instance of
+a <a href="classifier.html" class="ref-link">classifier</a>.
+ It is also a <strong>connectable element</strong> (from internal structures).
+</p>
+
+<p> 
+A <strong>property</strong> which specifies an instance that is <strong>not owned</strong> 
+using <a href="association.html#composition" class="ref-link">composition</a>
+ by the instance of the containing classifier is shown by graphical nesting of a box symbol with a dashed outline.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/internal-property.png" width="200"
+ alt="Property not owned by containing classifier shown as box with a dashed outline."
+ title="Property not owned by containing classifier shown as box with a dashed outline." />
+<p class="figure-text">
+Two Data Sources is sources property - but not part - of Search Controller
+</p>
+</div>
+
+
+<p id="part">
+<strong>Part</strong> is a <strong>property</strong> which is contained by classifier using 
+<a href="association.html#composition" class="ref-link">composition</a>.
+It means that all parts are destroyed when the containing classifier instance is destroyed.
+</p>
+
+<p>
+A <strong>part</strong> is shown by graphical nesting of a box symbol with a solid outline representing the part
+ in a separate compartment within the symbol representing the containing classifier.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/internal-part.png" width="200"
+ alt="Part shown by graphical nesting of a box symbol with a solid outline."
+ title="Part shown by graphical nesting of a box symbol with a solid outline." />
+<p class="figure-text">
+Search Controller has 1 to 3 engines - Search Engine <strong>part</strong>
+</p>
+</div>
+
+
+<p>
+The part or property box has only a name compartment, which contains a string according to the syntax defined for
+<strong>property</strong> from Kernel.
+ Details may be shown within the box indicating specific values for properties.
+</p>
+
+<p>
+The <strong>multiplicity</strong> for a <strong>property</strong> or <strong>part</strong> may be shown as
+ a multiplicity mark in the top right corner of the property box.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/internal-part-multiplicity.png" width="200"
+ alt="Multiplicity for a property may be shown as a multiplicity mark in the top right corner of the property box."
+ title="Multiplicity for a property may be shown as a multiplicity mark in the top right corner of the property box." />
+<p class="figure-text">
+Search Controller has 1 to 3 engines - Search Engine <strong>part</strong>
+</p>
+</div>
+
+<p>
+A property symbol may be shown containing just a single name (without the colon) in its name string. This implies the
+definition of an anonymously named class nested within the namespace of the containing class.
+</p>
+
+
+<!--
+*********
+   Port
+*********
+-->
+ 
+<h2 id="port">Port</h2>
+
+<p>
+<strong>Port</strong> is 
+a <a href="composite-structure-diagrams.html#property" class="ref-link">property</a> 
+ of (encapsulated)
+ <a href="classifier.html" class="ref-link">classifier</a>
+ that specifies an interaction point
+</p>
+<ul>
+<li>between the <strong>classifier</strong> and its <strong>environment</strong> 
+  (<a href="composite-structure-diagrams.html#service-port" class="ref-link">service port</a>), or</li>
+<li>between the classifier and its <strong>internal parts</strong> 
+ (<a href="composite-structure-diagrams.html#behavior-port" class="ref-link">behavior port</a>).</li>
+</ul>
+
+<p>
+Port by default has public visibility.
+</p>
+
+
+<!--
+*******************
+  Service Port
+*******************
+-->
+
+<h4 id="service-port">Service Port</h4>
+
+<p>
+<strong>Service port</strong> is used to denote classifier as provider of <strong>services</strong>
+ with published functionality. Ports are service ports by default.
+</p>
+
+<p>
+Service port specifies the <strong>services</strong> a classifier <strong>provides</strong> (offers)
+ to its environment as well as the services that a classifier <strong>expects</strong> (requires) of its environment.
+</p>
+
+<p>
+The <a href="dependency.html#required-interface" class="ref-link">required interfaces</a>
+  of a port characterize the requests that may be made from the classifier to its environment through this port.
+ The <a href="class-diagrams.html#provided-interface" class="ref-link">provided interfaces</a>
+ of a port characterize requests to the classifier that other classifiers may make through this port.
+</p>
+
+<p>
+Port is shown as a small square symbol. The name of the port is placed near the square symbol. The port
+symbol may be placed either overlapping the boundary of the rectangle symbol denoting that classifier
+ or it may be shown inside the rectangle symbol.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port.png" width="200"
+ alt="Port shown as a small square symbol."
+ title="Port is shown as a small square symbol." />
+<p class="figure-text">
+Library Services class has Search Port
+</p>
+</div>
+
+<p>
+Multiplicity of the port (if any) is shown after the port name in square brackets.
+Both name and multiplicity of port are optional.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-multiplicity.png" width="230"
+ alt="Port shown with multiplicity in square brackets."
+ title="Port shown with multiplicity in square brackets." />
+<p class="figure-text">
+Library Services class has 1 to 6 Search Ports
+</p>
+</div>
+
+<p>
+A <strong>provided interface</strong> may be shown using the "lollipop" notation attached to the port.
+A <strong>required interface</strong> may be shown using the "socket" notation attached to the port.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-interfaces.png" width="250" height="108"
+ alt="Port shown with provided and required interfaces."
+ title="Port shown with provided and required interfaces." />
+<p class="figure-text">
+Search Port provides Search Books and Search Video interfaces and requires Inventory interface
+</p>
+</div>
+
+<p>
+At Search Port, the Library Services class is completely <strong>encapsulated</strong> -
+ it can be implemented without any knowledge of the environment the class will be embedded in.
+</p>
+
+<p>
+The <strong>type</strong> of a port (<strong>provided interface</strong>) may be shown after
+ the port name, separated by colon ":".
+If there are multiple interfaces associated with a port, these interfaces may be listed
+ separated by comma "," near the single interface icon.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-interface-type.png" width="260"
+ alt="Port shown with provided and required interfaces."
+ title="Port shown with provided and required interfaces." />
+<p class="figure-text">
+1 to 6 Search Ports provide Search Books and Search Video interfaces and require Inventory interface
+</p>
+</div>
+
+<p>
+Port may also be shown as a small square symbol overlapping the boundary of the rectangle symbol denoting 
+ a <a href="composite-structure-diagrams.html#part" class="ref-link">part</a>
+ typed by that classifier.
+</p>
+
+<!--
+*********************
+    Behavior Port
+*********************
+-->
+
+<h4 id="behavior-port">Behavior Port</h4>
+
+<p>
+<strong>Behavior port</strong> is a port such that requests arriving at this port are sent to 
+ the <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ of the classifier owning the port, rather than being forwarded to some contained instances.
+ If there is no behavior defined for this classifier, any communication arriving at the behavior port is lost.
+ By default, ports are <strong>not</strong> behavior ports.
+</p>
+
+<p>
+A <strong>behavior port</strong> is rendered as a port connected by a solid line to a small state symbol
+ drawn inside the classifier containing the port. The small state symbol denotes the
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a> 
+ of the containing classifier.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/composite-port-behavior.png" width="210"
+ alt="Behavior port rendered connected by a solid line to a small state symbol."
+ title="Behavior port rendered connected by a solid line to a small state symbol." />
+<p class="figure-text">
+Search Port is behavior port with Search Books provided interface
+</p>
+</div>
+
+
+<!--
+*******************
+     Connector
+*******************
+-->
+ 
+<h2 id="connector">Connector</h2>
+
+<p>
+<strong>Connector</strong> is
+ <a href="uml-core.html#feature" class="ref-link">feature</a>
+ which specifies a link that enables communication between two or more instances.
+ This link may be an instance of 
+ an <a href="association.html" class="ref-link">association</a>,
+ or it may represent the possibility of the instances being able to communicate because their identities are
+ known by virtue of being passed in as parameters, held in variables or slots, or because
+ the communicating instances are the same instance.
+</p>
+
+<p>
+ The link may be realized by something as simple as a pointer or by something as complex as a network
+ connection. In contrast to associations, which specify links between any instance of the associated classifiers, connectors
+ specify links between instances playing the connected parts only.
+</p>
+
+<p>
+A connector is drawn using the notation for
+ <a href="association.html" class="ref-link">association</a>.
+</p>
+
+<p>
+ The optional name of the connector follows the following syntax:
+</p>
+<p class="syntax-rule">
+<span class="nonterm">connector-name</span>&nbsp;::=&nbsp;
+[&nbsp;<span class="nonterm">name</span>&nbsp;]&nbsp;':'&nbsp;<span class="nonterm">classname</span>&nbsp;|
+&nbsp;<span class="nonterm">name</span>
+</p>
+
+<p>
+where <span class="nonterm">name</span> is the name of the connector, and <span class="nonterm">classname</span>
+ is the name of the association that is its type.
+ A stereotype keyword within guillemets may be placed above or in front of the connector name.
+ A property string may be placed after or below the connector name.
+</p>
+
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="composite-structure-diagrams.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/composite-structure-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:09:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

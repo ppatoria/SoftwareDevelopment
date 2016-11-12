@@ -1,0 +1,28 @@
+Smart Pointers
+---------------
+(1) auto_ptr:
+    Issues: 
+        (*) implicit transfer of ownership. Which makes this confusing
+        and dangerous if not handles properly.         
+
+(2) scoped_ptr:
+        (*) explicit transfer if ownership.
+
+(3) unique_ptr:
+
+(4) shared_ptr:
+        (*) Multiple pointer can share the same object.
+        (*) automatic reference counting.
+        Issue:
+                cyclic reference: in case of cyclic refrence both the
+                shared pointers which are refering each other will not be deallocated. 
+(5) intrusive_ptr
+        (*) Shared pointer where custom reference counting is
+            maintained by the user.
+(6) weak_ptr:
+        (*) acquire shared pointer when required else just do not
+            refer it. 
+
+
+
+Reference: http://shatteredterminal.com/2008/11/scoped_ptr-and-unique_ptr-smart-pointers/

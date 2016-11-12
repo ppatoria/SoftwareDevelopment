@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Proactor Design Pattern </title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-04-06 17:43:15 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Proactor Design Pattern </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="C:/Users/Administrator/Google Drive/SoftwareDevelopment/CSS/solarized/solarized-dark.css"/>
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Douglas C. Schmidt, Michael Stal
+<a href="mailto:">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: </p>
+</div>
+
+
+
+<p>
+The Proactor architectural pattern allows event-driven applications to efficiently demultiplex and dispatch service requests triggered by the completion of asynchronous operations, to achieve the performance benefits of concurrency without incurring certain of its liabilities.
+</p>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Example </a>
+<ul>
+<li><a href="#sec-1_1">1.1 The browser establishes a connection to the Web server designated in the URL and then sends it an HTTP GET request. </a></li>
+<li><a href="#sec-1_2">1.2 The Web server receives the browser’s CONNECT indication event, accepts the connection, reads and then parses the request. </a></li>
+<li><a href="#sec-1_3">1.3 The server opens and reads the specified file. </a></li>
+<li><a href="#sec-1_4">1.4 Finally, the server sends the contents of the file back to the Web browser and closes the connection. </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Context </a></li>
+<li><a href="#sec-3">3 Problem </a>
+<ul>
+<li><a href="#sec-3_1">3.1 To improve scalability and latency,an application should process multiple completion events simultaneously without allowing long-duration operations to delay other operation processing unduly. </a></li>
+<li><a href="#sec-3_2">3.2 To maximize throughput, any unnecessary context switching, synchronization, and data movement among CPUs should be avoided, as outlined in the Example section. </a></li>
+<li><a href="#sec-3_3">3.3 Integrating new or improved services with existing completion event demultiplexing and dispatching mechanisms should require minimal effort. </a></li>
+<li><a href="#sec-3_4">3.4 Application code should largely be shielded from the complexity of multi-threading and synchronization mechanisms. </a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 Solution </a>
+<ul>
+<li><a href="#sec-4_1">4.1 Split application services into two parts: </a>
+<ul>
+<li><a href="#sec-4_1_1">4.1.1 long-duration operations that execute asynchronously </a></li>
+<li><a href="#sec-4_1_2">4.1.2 and completion handlers that process the results of these operations when they finish. </a></li>
+</ul>
+</li>
+<li><a href="#sec-4_2">4.2 Integrate the demultiplexing of completion events, which are delivered when asynchronous operations finish, with their dispatch to the completion handlers that process them. </a></li>
+<li><a href="#sec-4_3">4.3 Decouple these completion event demultiplexing and dispatching mechanisms from the application-specific processing of completion events within completion handlers. </a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 Structure </a>
+<ul>
+<li><a href="#sec-5_1">5.1 Handles are provided by operating systems to identify entities, such as network connections or open files, that can generate completion events. </a>
+<ul>
+<li><a href="#sec-5_1_1">5.1.1 <span style="text-decoration:underline;">Completion events</span> are generated either in </a></li>
+</ul>
+</li>
+<li><a href="#sec-5_2">5.2 Our Web server creates a <span style="text-decoration:underline;">separate socket handle for each Web browser connection</span>. In Win32 each socket handle is created in ‘overlapped I/O’ mode, which means that operations invoked on the handles run asynchronously. The Windows NT I/O subsystem also generates completion events when asynchronously-executed operations complete. </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Example </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Consider a networking application that must perform multiple operations simultaneously, such as a high-performance Web server that processes HTTP requests sent from multiple remote Web browsers [HPS99]. When a user wants to download content from a URL four steps occur:
+</p>
+
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> The browser establishes a connection to the Web server designated in the URL and then sends it an HTTP GET request. </h3>
+<div class="outline-text-3" id="text-1_1">
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> The Web server receives the browser’s CONNECT indication event, accepts the connection, reads and then parses the request. </h3>
+<div class="outline-text-3" id="text-1_2">
+
+</div>
+
+</div>
+
+<div id="outline-container-1_3" class="outline-3">
+<h3 id="sec-1_3"><span class="section-number-3">1.3</span> The server opens and reads the specified file. </h3>
+<div class="outline-text-3" id="text-1_3">
+
+</div>
+
+</div>
+
+<div id="outline-container-1_4" class="outline-3">
+<h3 id="sec-1_4"><span class="section-number-3">1.4</span> Finally, the server sends the contents of the file back to the Web browser and closes the connection. </h3>
+<div class="outline-text-3" id="text-1_4">
+
+
+<p>
+One way to implement a Web server is to use a reactive event demultiplexing model in accordance with the Reactor pattern (179). In this design, whenever a Web browser connects to a Web server, a new event handler is created to read, parse, and process the request and transfer the contents of the file back to the browser. This handler is registered with a reactor that coordinates the synchronous demultiplexing and dispatching of each indication event to its associated event handler.
+</p>
+<p>
+Although a reactive Web server design is straightforward to program, it does not scale up to support many simultaneous users and/or long-duration user requests, because it serializes all HTTP processing at the event demultiplexing layer. As a result, only one GET request can be dispatched and processed iteratively at any given time.
+</p>
+<p>
+A potentially more scalable way to implement a Web server is to use some form of synchronous multi-threading. In this model a separate server thread processes each browser’s HTTP GET request [HS98]. For example, a new thread can be spawned dynamically for each request, or a pool of threads can be pre-spawned and managed using the Leader/Followers (447) or Half-Sync/Half-Async (423) patterns. In either case each thread performs connection establishment, HTTP request reading, request parsing, and file transfer operations synchronously—that is, server processing operations block until they complete.
+</p>
+<p>
+Synchronous multi-threading is a common concurrency model. However, problems with efficiency, scalability, programming complexity, and portability may occur, as discussed in the Example section of the Reactor pattern (179).
+</p>
+<p>
+On operating systems that support asynchronous I/O efficiently, our Web server can therefore invoke operations asynchronously to improve its scalability further. For example, on Windows NT the Web server can be implemented to invoke asynchronous Win32 operations that process externally-generated indication events, such as TCP CONNECT and HTTP GET requests, and transmit requested files to Web browsers asynchronously.
+</p>
+<p>
+When these asynchronous operations complete, the operating system returns the associated completion events containing their results to the Web server, which processes these events and performs the appropriate actions before returning to its event loop. Building software that achieves the potential performance of this asynchronous event processing model is hard due to the separation in time and space of asynchronous invocations and their subsequent completion events. Thus, asynchronous programming requires a sophisticated yet comprehensible event demultiplexing and dispatching mechanism.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Context </h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+An event-driven application that receives and processes multiple service requests asynchronously.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Problem </h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+The performance of event-driven applications, particularly servers, in a distributed system can often be improved by processing multiple service requests asynchronously. When asynchronous service processing completes, the application must handle the corresponding completion events delivered by the operating system to indicate the end of the asynchronous computations.
+</p>
+<p>
+For example, an application must demultiplex and dispatch each completion event to an internal component that processes the results of an asynchronous operation. This component can reply to external clients, such as a Web browser client, or to internal clients, such as the Web server component that initiated the asynchronous operation originally. To support this asynchronous computation model effectively requires the resolution of four forces:
+</p>
+</div>
+
+<div id="outline-container-3_1" class="outline-3">
+<h3 id="sec-3_1"><span class="section-number-3">3.1</span> To improve scalability and latency,an application should process multiple completion events simultaneously without allowing long-duration operations to delay other operation processing unduly. </h3>
+<div class="outline-text-3" id="text-3_1">
+
+</div>
+
+</div>
+
+<div id="outline-container-3_2" class="outline-3">
+<h3 id="sec-3_2"><span class="section-number-3">3.2</span> To maximize throughput, any unnecessary context switching, synchronization, and data movement among CPUs should be avoided, as outlined in the Example section. </h3>
+<div class="outline-text-3" id="text-3_2">
+
+</div>
+
+</div>
+
+<div id="outline-container-3_3" class="outline-3">
+<h3 id="sec-3_3"><span class="section-number-3">3.3</span> Integrating new or improved services with existing completion event demultiplexing and dispatching mechanisms should require minimal effort. </h3>
+<div class="outline-text-3" id="text-3_3">
+
+</div>
+
+</div>
+
+<div id="outline-container-3_4" class="outline-3">
+<h3 id="sec-3_4"><span class="section-number-3">3.4</span> Application code should largely be shielded from the complexity of multi-threading and synchronization mechanisms. </h3>
+<div class="outline-text-3" id="text-3_4">
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Solution </h2>
+<div class="outline-text-2" id="text-4">
+
+
+
+</div>
+
+<div id="outline-container-4_1" class="outline-3">
+<h3 id="sec-4_1"><span class="section-number-3">4.1</span> Split application services into two parts: </h3>
+<div class="outline-text-3" id="text-4_1">
+
+
+</div>
+
+<div id="outline-container-4_1_1" class="outline-4">
+<h4 id="sec-4_1_1"><span class="section-number-4">4.1.1</span> long-duration operations that execute asynchronously </h4>
+<div class="outline-text-4" id="text-4_1_1">
+
+</div>
+
+</div>
+
+<div id="outline-container-4_1_2" class="outline-4">
+<h4 id="sec-4_1_2"><span class="section-number-4">4.1.2</span> and completion handlers that process the results of these operations when they finish. </h4>
+<div class="outline-text-4" id="text-4_1_2">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4_2" class="outline-3">
+<h3 id="sec-4_2"><span class="section-number-3">4.2</span> Integrate the demultiplexing of completion events, which are delivered when asynchronous operations finish, with their dispatch to the completion handlers that process them. </h3>
+<div class="outline-text-3" id="text-4_2">
+
+</div>
+
+</div>
+
+<div id="outline-container-4_3" class="outline-3">
+<h3 id="sec-4_3"><span class="section-number-3">4.3</span> Decouple these completion event demultiplexing and dispatching mechanisms from the application-specific processing of completion events within completion handlers. </h3>
+<div class="outline-text-3" id="text-4_3">
+
+
+<p>
+In detail: for every service offered by an application, introduce asynchronous operations that initiate the processing of service requests ‘proactively’ via a handle, together with completion handlers that process completion events containing the results of these asynchronous operations. An asynchronous operation is invoked within an application by an initiator, for example, to accept incoming connection requests from remote applications. It is executed by an asynchronous operation processor. When an operation finishes executing, the asynchronous operation processor inserts a completion event containing that operation’s results into a completion event queue.
+</p>
+<p>
+This queue is waited on by an asynchronous event demultiplexer called by a proactor. When the asynchronous event demultiplexer removes a completion event from its queue, the proactor demultiplexes and dispatches this event to the application-specific completion handler associated with the asynchronous operation. This completion handler then processes the results of the asynchronous operation, potentially invoking additional asynchronous operations that follow the same chain of activities outlined above.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Structure </h2>
+<div class="outline-text-2" id="text-5">
+
+
+<p>
+The Proactor pattern includes <span style="text-decoration:underline;">nine participants</span>:
+</p>
+
+</div>
+
+<div id="outline-container-5_1" class="outline-3">
+<h3 id="sec-5_1"><span class="section-number-3">5.1</span> Handles are provided by operating systems to identify entities, such as network connections or open files, that can generate completion events. </h3>
+<div class="outline-text-3" id="text-5_1">
+
+
+</div>
+
+<div id="outline-container-5_1_1" class="outline-4">
+<h4 id="sec-5_1_1"><span class="section-number-4">5.1.1</span> <span style="text-decoration:underline;">Completion events</span> are generated either in </h4>
+<div class="outline-text-4" id="text-5_1_1">
+
+<ul>
+<li id="sec-5_1_1_1">response to external service requests, such as connection or data requests arriving from remote applications, <br/>
+</li>
+<li id="sec-5_1_1_2">or in response to operations an application generates internally, such as time-outs or asynchronous I/O system calls. <br/>
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5_2" class="outline-3">
+<h3 id="sec-5_2"><span class="section-number-3">5.2</span> Our Web server creates a <span style="text-decoration:underline;">separate socket handle for each Web browser connection</span>. In Win32 each socket handle is created in ‘overlapped I/O’ mode, which means that operations invoked on the handles run asynchronously. The Windows NT I/O subsystem also generates completion events when asynchronously-executed operations complete. </h3>
+<div class="outline-text-3" id="text-5_2">
+
+
+<p>
+Asynchronous operations represent potentially long-duration operations that are used in the implementation of services, such as reading and writing data asynchronously via a socket handle. After an asynchronous operation is invoked, it executes without blocking its caller’s thread of control. Thus, the caller can perform other operations. If an operation must wait for the occurrence of an event, such as a connection request generated by a remote application, its execution will be deferred until the event arrives.
+</p>
+<p>
+Our proactive Web server invokes the Win32 AcceptEx() operation to accept connections from Web browsers asynchronously. After accepting connections the Web server invokes the Win32 asynchronous ReadFile() and WriteFile() operations to communicate with its connected browsers.
+</p>
+
+
+<p>
+A completion handler specifies an interface that consists of one or more hook methods [Pree95] [GHJV95]. These methods represent the set of operations available for processing information returned in the application-specific completion events that are generated when asynchronous operations finish executing.
+</p>
+<p>
+Concrete completion handlers specialize the completion handler to define a particular application service by implementing the inherited hook method(s). These hook methods process the results contained in the completion events they receive when the asynchronous operations associated with the completion handler finish executing. A concrete completion handler is associated with a handle that it can use to invoke asynchronous operations itself.
+</p>
+<p>
+For example, a concrete completion handler can itself receive data from an asynchronous read operation it invoked on a handle earlier. When this occurs, the concrete completion handler can process the data it received and then invoke an asynchronous write operation to return the results to its connected remote peer application.
+</p>
+<p>
+Our Web server’s two concrete completion handlers—HTTP acceptor and HTTP handler—perform completion processing on the results of asynchronous AcceptEx(), ReadFile(), and WriteFile() operations. The HTTP acceptor is the completion handler for the asynchronous AcceptEx() operation—it creates and connects HTTP handlers in response to connection request events from remote Web browsers. The HTTP handlers then use asynchronous ReadFile() and WriteFile() operations to process subsequent requests from remote Web browsers.
+</p>
+
+
+<p>
+Asynchronous operations are invoked on a particular handle and run to completion by an asynchronous operation processor, which is often implemented by an operating system kernel. When an asynchronous operation finishes executing the asynchronous operation processor generates the corresponding completion event. It inserts this event into the completion event queue associated with the handle upon which the operation was invoked. This queue buffers completion events while they wait to be demultiplexed to their associated completion handler.
+</p>
+
+
+<p>
+In our Web server example, the Windows NT operating system is the asynchronous operation processor. Similarly, the completion event queue is a Win32 completion port [Sol98], which is a queue of completion events maintained by the Windows NT kernel on behalf of an application. When an asynchronous operation finishes the Windows NT kernel queues the completion event on the completion port associated with the handle on which the asynchronous operation was originally invoked.
+</p>
+<p>
+An asynchronous event demultiplexer is a function that waits for completion events to be inserted into a completion event queue when an asynchronous operation has finished executing. The asynchronous event demultiplexer function then removes one or more completion event results from the queue and returns to its caller.
+</p>
+<p>
+One asynchronous event demultiplexer in Windows NT is GetQueuedCompletionStatus(). This Win32 function allows event-driven proactive applications to wait up to an application-specified amount of time to retrieve the next available completion event.
+</p>
+<p>
+A proactor provides an event loop for an application process or thread. In this event loop, a proactor calls an asynchronous event demultiplexer to wait for completion events to occur. When an event arrives the asynchronous event demultiplexer returns. The proactor then demultiplexes the event to its associated completion handler and dispatches the appropriate hook method on the handler to process the results of the completion event.
+</p>
+
+
+<p>
+Our Web server application calls the proactor’s event loop method. This method calls the GetQueuedCompletionStatus() Win32 function, which is an asynchronous event demultiplexer that waits until it can dequeue the next available completion event from the proactor’s completion port. The proactor’s event loop method uses information in the completion event to demultiplex the next event to the appropriate concrete completion handler and dispatch its hook method.
+</p>
+<p>
+An initiator is an entity local to an application that invokes asynchronous operations on an asynchronous operation processor. The initiator often processes the results of the asynchronous operations it invokes, in which case it also plays the role of a concrete completion handler.
+</p>
+<p>
+In our example HTTP acceptors and HTTP handlers play the role of both initiators and concrete completion handlers within the Web server’s internal thread of control. For example, an HTTP acceptor invokes AcceptEx() operations that accept connection indication events asynchronously from remote Web browsers. When a connection indication event occurs, an HTTP acceptor creates an HTTP handler, which then invokes an asynchronous ReadFile() operation to retrieve and process HTTP GET requests from a connected Web browser.
+</p>
+
+
+<p>
+Note how in the Proactor pattern the application components, represented by initiators and concrete completion handlers, are proactive entities. They instigate the control and data flow within an application by invoking asynchronous operations proactively on an asynchronous operation processor.
+</p>
+<p>
+When these asynchronous operations complete, the asynchronous operation processor and proactor collaborate via a completion event queue. They use this queue to demultiplex the resulting completion events back to their associated concrete completion handlers and dispatch these handlers’ hook methods. After processing a completion event, a completion handler may invoke new asynchronous operations proactively.
+</p>
+<p>
+The structure of the participants in the Proactor pattern is illustrated in the following class diagram:
+</p>
+
+
+<p>
+Dynamics
+</p>
+<p>
+The following collaborations occur in the Proactor pattern:
+•An application component playing the role of an initiator invokes an asynchronous operation on an asynchronous operation processor via a particular handle. In addition to passing data parameters to the asynchronous operation, the initiator also passes certain completion processing parameters, such as the completion handler or a handle to the completion event queue. The asynchronous operation processor stores these parameters internally for later use. 
+The HTTP handler in our Web server can instruct the operating system to read a new HTTP GET request by invoking the ReadFile() operation asynchronously on a particular socket handle. When initiating this operation on the handle, the HTTP handler passes itself as the completion handler so that it can process the results of an asynchronous operation.
+</p>
+<p>
+•After an initiator invokes an operation on the asynchronous operation processor, the operation and initiator can run independently. In particular, the initiator can invoke new asynchronous operations while others continue to execute concurrently.4 If the asynchronous operation is intended to receive a service request from a remote application, the asynchronous operation processor defers the operation until this request arrives. When the event corresponding to the expected request arrives, the asynchronous operation will finish executing. 
+The Windows NT operating system defers the asynchronous ReadFile() operation used to read an HTTP GET request until this request arrives from a remote Web browser.
+</p>
+<p>
+•When an asynchronous operation finishes executing, the asynchronous operation processor generates a completion event. This event contains the results of the asynchronous operation. The asynchronous operation processor then inserts this event into the completion event queue associated with the handle upon with the asynchronous operation was originally invoked. 
+If an HTTP handler invoked an asynchronous ReadFile() operation to read an HTTP GET request, the Windows NT operating system will report the completion status in the completion event, such as its success or failure and the number of bytes read.
+</p>
+<p>
+•When an application is ready to process the completion events resulting from its asynchronous operations, it invokes the proactor’s event loop entry-point method, which we call handle<sub>events</sub>(). This method calls an asynchronous event demultiplexer5 to wait on its completion event queue for completion events to be inserted by the asynchronous operation processor. After removing a completion event from the queue the proactor’s handle<sub>events</sub>() method demultiplexes the event to its associated completion handler. It then dispatches the appropriate hook method on the completion handler, passing it the results of the asynchronous operation. 
+The proactor in our Web server example uses a Win32 completion port as its completion event queue. Similarly, it uses the Win32 GetQueuedCompletionStatus() function [Sol98] as its asynchronous event demultiplexer to remove completion events from a completion port.
+</p>
+<p>
+•The concrete completion handler then processes the completion results it receives. If the completion handler returns a result to its caller, two situations are possible. First, the completion handler that processes the results of the asynchronous operations also can be the initiator that invoked the operation originally. In this case the completion handler need not perform additional work to return the result to its caller, because it is the caller. 
+Second, a remote application or an application internal component may have requested the asynchronous operation. In this case, the completion handler can invoke an asynchronous write operation on its transport handle to return results to the remote application.
+</p>
+<p>
+In response to an HTTP GET request from a remote Web browser, an HTTP handler might instruct the Windows NT operating system to transmit a large file across a network by calling WriteFile() asynchronously. After the operating system completes the asynchronous operation successfully the resulting completion event indicates the number of bytes transferred to the HTTP handler. The entire file may not be transferred in one WriteFile() operation due to transport-layer flow control. In this case the HTTP handler can invoke another asynchronous WriteFile() operation at the appropriate file offset.
+</p>
+<p>
+•After the completion handler finishes its processing it can invoke other asynchronous operations, in which case the whole cycle outlined in this section begins again.
+</p>
+
+
+<p>
+Implementation
+</p>
+<p>
+The participants in the Proactor pattern can be decomposed into two layers:
+•Demultiplexing/dispatching infrastructure layer components. This layer performs generic, application-independent strategies for executing asynchronous operations. It also demultiplexes and dispatches completion events from these asynchronous operations to their associated completion handlers.
+•Application layer components. This layer defines asynchronous operations and concrete completion handlers that perform application-specific service processing.
+</p>
+<p>
+The implementation activities in this section start with the generic demultiplexing/dispatching infrastructure components and then cover the application components. We focus on a proactor implementation that is designed to invoke asynchronous operations and dispatch hook methods on their associated completion handlers using a single thread of control. The Variants section describes the activities associated with developing multi-threaded proactor implementations.
+</p>
+
+<p>
+1 Separate application services into asynchronous operations and completion handlers. To implement the Proactor pattern, application services must be designed to separate the initiation of asynchronous operations via a handle from the processing of these operations’ results. Asynchronous operations are often long-duration and/or concerned with I/O, such as reading and writing data via a socket handle or communicating with a database. The results of asynchronous operations are processed by completion handlers. In addition to processing results, completion handlers can play the role of initiators, that is, they invoke asynchronous operations themselves. 
+</p>
+<p>
+The products of this activity are a set of asynchronous operations, a set of completion handlers, and a set of associations between each asynchronous operation and its completion handler.
+</p>
+
+<p>
+2 Define the completion handler interface. Completion handlers specify an interface consisting of one or more hook methods [Pree95]. These hook methods represent the completion handling for application-specific completion events generated when asynchronous operations finish executing. The implementation of completion handlers consists of three sub-activities: 
+</p>
+<p>
+2.1 Define a type to convey the results of asynchronous operation. When an asynchronous operation completes or is canceled its completion event results must be conveyed to its completion handler. These results indicate its success or failure and the number of bytes that were transmitted successfully. The Adapter pattern [GoF95] is often used to convert information stored in a completion event into a form used to dispatch to its associated concrete completion handler. 
+</p>
+<p>
+The following C++ class conveys the results of an asynchronous Win32 operation back to a concrete completion handler:
+class Async<sub>Result</sub> : public OVERLAPPED {
+// The Win32 OVERLAPPED struct stores the file offset
+// returned when an asynchronous operation completes.
+public:
+// Dispatch to completion handler hook method.
+virtual void complete () = 0;
+// Set/get number of bytes transferred by an
+// asynchronous operation.
+void bytes<sub>transferred</sub> (u<sub>long</sub>);
+u<sub>long</sub> bytes<sub>transferred</sub> () const;
+</p>
+<p>
+// Set/get the status of the asynchronous operation,
+// i.e., whether it succeeded or failed.
+void status (u<sub>long</sub>);
+u<sub>long</sub> status () const;
+</p>
+<p>
+// Set/get error value if the asynchronous operation
+// failed or was canceled by the initiator.
+void error (u<sub>long</sub>);
+u<sub>long</sub> error () const;
+private:
+// … data members omitted for brevity …
+};
+</p>
+
+<p>
+Deriving Async<sub>Result</sub> from the OVERLAPPED struct allows applications to add custom state and methods to the results of asynchronous operations. C++ inheritance is used because the Win32 API does not provide a more direct way to pass a per-operation result object to the operating system when an asynchronous operation is invoked.
+</p>
+
+<p>
+2.2 Determine the type of the dispatching target. Two types of completion handlers can be associated with a handle to serve as the target of a proactor’s dispatching mechanism, objects and pointers to functions. Implementations of the Proactor pattern can choose the type of dispatching target based on the same criteria described in implementation activity 1.1 of the Reactor (179) pattern. 
+</p>
+<p>
+2.3 Define the completion handler dispatch interface strategy. We next define the type of interface supported by the completion handler to process completion events. As with the Reactor pattern (179), assuming that we use completion handler objects rather than pointers to functions, two general strategies exist: 
+•Single-method dispatch interface strategy. The class diagram in the Structure section illustrates an implementation of the Completion<sub>Handler</sub> interface that contains a single event handling method, which we call handle<sub>event</sub>(). A proactor uses this method to dispatch completion events to their associated completion handlers. In this case the type of completion event that has occurred is passed as a parameter to the method. The second parameter is the base class for all asynchronous results, which, depending on the completion event, can be further downcast to the correct type.
+</p>
+<p>
+The following C++ abstract base class illustrates the single-method dispatch interface strategy. We start by defining useful type definitions and enumeration literals that can be used by both the single-method and multi-method dispatch interface strategies: 
+typedef unsigned int Event<sub>Type</sub>;
+enum {
+// Types of indication events.
+READ<sub>EVENT</sub> = 01,
+ACCEPT<sub>EVENT</sub> = 01, // An “alias” for READ<sub>EVENT</sub>.
+WRITE<sub>EVENT</sub> = 02, TIMEOUT<sub>EVENT</sub> = 04,
+SIGNAL<sub>EVENT</sub> = 010, CLOSE<sub>EVENT</sub> = 020
+// These values are powers of two so
+// their bits can be “or’d” together efficiently.
+};
+</p>
+
+<p>
+Next, we implement the Completion<sub>Handler</sub> class: 
+class Completion<sub>Handler</sub> {
+public:
+// Cache the &lt;proactor&gt; so that hook methods can
+// invoke asynchronous operations on &lt;proactor&gt;.
+Completion<sub>Handler</sub> (Proactor *proactor):
+proactor_ (proactor) { }
+</p>
+<p>
+// Virtual destruction.
+virtual ~Completion<sub>Handler</sub> ();
+</p>
+<p>
+// Hook method dispatched by cached &lt;proactor<sub>&gt</sub>; to
+// handle completion events of a particular type that
+// occur on the &lt;handle&gt;. &lt;Async<sub>Result&gt</sub>; reports the
+// results of the completed asynchronous operation.
+virtual void handle<sub>event</sub>
+(HANDLE handle, Event<sub>Type</sub> et,
+const Async<sub>Result</sub> &amp;result) = 0;
+</p>
+<p>
+// Returns underlying I/O &lt;HANDLE&gt;.
+virtual HANDLE get<sub>handle</sub> () const = 0;
+private:
+// Cached &lt;Proactor&gt;.
+Proactor *proactor_;
+};
+</p>
+
+<p>
+The single-method dispatch interface strategy makes it possible to add new types of events without changing the class interface. However, to handle a specific event, this strategy encourages the use of C++ switch and if statements in the concrete event handler’s handle<sub>event</sub>() method implementation, which degrades its internal extensibility. 
+•Multi-method dispatch interface strategy. A different strategy for implementing the Completion<sub>Handler</sub> interface is to define separate hook methods for handling each type of event, such as handle<sub>read</sub>(), handle<sub>write</sub>(), or handle<sub>accept</sub>(). This strategy can be more extensible than the single-method dispatch interface because the demultiplexing is performed by a proactor implementation, rather than by a concrete event handler’s handle<sub>event</sub>() method implementation.
+</p>
+<p>
+The following C++ abstract base class illustrates a multi-method interface used by a proactor for network events in our Windows NT-based Web server example: 
+class Completion<sub>Handler</sub> {
+public:
+// The &lt;proactor&gt; is cached to allow hook methods to
+// invoke asynchronous operations on &lt;proactor&gt;.
+Completion<sub>Handler</sub> (Proactor *proactor):
+proactor_ (proactor) { }
+</p>
+<p>
+// Virtual destruction.
+virtual ~Completion<sub>Handler</sub> ();
+</p>
+<p>
+// The next 3 methods use &lt;Async<sub>Result&gt</sub>; to report
+// results of completed asynchronous operation.
+// Dispatched by &lt;proactor<sub>&gt</sub>; when an asynchronous
+// read operation completes.
+virtual void handle<sub>read</sub>
+(HANDLE handle, const Async<sub>Result</sub> &amp;result) = 0;
+// Dispatched by &lt;proactor<sub>&gt</sub>; when an asynchronous
+// write operation completes.
+virtual void handle<sub>write</sub>
+(HANDLE handle, const Async<sub>Result</sub> &amp;result) = 0;
+// Dispached by &lt;proactor<sub>&gt</sub>; when an asynchronous
+// &lt;accept&gt; operation completes.
+virtual void handle<sub>accept</sub>
+(HANDLE handle, const Async<sub>Result</sub> &amp;result) = 0;
+</p>
+<p>
+// Dispatched by &lt;proactor<sub>&gt</sub>; when a timeout expires.
+virtual void handle<sub>timeout</sub>
+(const Time<sub>Value</sub> &amp;tv, const void *act) = 0;
+</p>
+<p>
+// Returns underlying I/O &lt;HANDLE&gt;.
+virtual HANDLE get<sub>handle</sub> () const = 0;
+private:
+// Cached &lt;Proactor&gt;.
+Proactor *proactor_;
+};
+</p>
+
+<p>
+The multi-method dispatch interface strategy makes it easy to override methods in the base class selectively, which avoids further demultiplexing via switch or if statements in the hook method implementation. However, this strategy requires pattern implementors to anticipate the hook methods in advance. The various handle<sub>*</sub>() hook methods in the Completion<sub>Handler</sub> interface above are tailored for networking events. However, these methods do not encompass all the types of events handled via the Win32 WaitForMultipleObjects() mechanism, such as synchronization object events [SchSt95]. 
+</p>
+<p>
+Both the single-method and multiple-method dispatch interface strategies are implementations of the Hook Method [Pree95] and Template Method [GoF95] patterns. The intent of these patterns is to provide well-defined hooks that can be specialized by applications and called back by lower-level dispatching code.
+</p>
+<p>
+Completion handlers are often designed to act both as a target of a proactor’s completion dispatching and an initiator that invokes asynchronous operations, as shown by the HTTP<sub>Handler</sub> class in the Example Resolved section. Therefore, the constructor of class Completion<sub>Handler</sub> associates a Completion<sub>Handler</sub> object with a pointer to a proactor. This design allows a Completion<sub>Handler’s</sub> hook methods to invoke new asynchronous operations whose completion processing will be dispatched ultimately by the same proactor.
+</p>
+
+<p>
+3 Implement the asynchronous operation processor. An asynchronous operation processor executes operations asynchronously on behalf of initiators. Its primary responsibilities therefore include: 
+•Defining the asynchronous operation interface
+•Implementing a mechanism to execute operations asynchronously and generating and
+•Queueing completion events when an operation finishes
+</p>
+
+<p>
+3.1 Define the asynchronous operation interface. Asynchronous operations can be passed various parameters, such as a handle,6 data buffers, buffer lengths, and information used to perform completion processing when the operation finishes. Two issues must be addressed when designing a programming interface that initiators use to invoke asynchronous operations on an asynchronous operation processor: 
+•Maximizing portability and flexibility. Asynchronous operations can be used to read and write data on multiple types of I/O devices, such as networks and files, and on multiple operating systems, such as Windows NT, VMS, Solaris, and Linux. The Wrapper Facade (47) and Bridge [GoF95] patterns can be applied to decouple the asynchronous operation interface from underlying operating system dependencies and ensure the interface works for multiple types of I/O devices.
+•Handling multiple completion handlers, proactors, and completion event queues efficiently and concisely. More than one completion handler, proactor, and completion event queue can be used simultaneously within an application. For example, different proactors can be associated with threads running at different priorities, to provide different quality of service levels for processing different completion handlers. In addition to its data parameters, an asynchronous operation must then indicate which handle, concrete completion handler, proactor, and completion event queue to use when processing the completion of asynchronous operations. 
+A common strategy to consolidate all this completion processing information efficiently is to apply the Asynchronous Completion Token pattern (261). When an initiator invokes an asynchronous operation on a handle, an asynchronous completion token (ACT) can then be passed to the asynchronous operation processor, which can store this ACT for later use. Each ACT contains information that identifies a particular operation and guides its subsequent completion processing.
+</p>
+<p>
+When an asynchronous operation finishes executing, the asynchronous operation processor locates the operation’s ACT it stored earlier and associates it with the completion event it generates. It then inserts this updated completion event into the appropriate completion event queue. Ultimately, the proactor that runs the application’s event loop will use an asynchronous event demultiplexer to remove the completion event results and ACT from its completion event queue. The proactor will then use this ACT to complete its demultiplexing and dispatching of the completion event results to the completion handler designated by the ACT.
+</p>
+
+<p>
+Although our Web server is implemented using Win32 asynchronous Socket operations, we apply the Wrapper Facade pattern (47) to generalize this class and make it platform-independent. It can therefore be used for other types of I/O devices supported by an asynchronous operation processor.
+</p>
+<p>
+The following Async<sub>Stream</sub> class interface is used by HTTP handlers in our Web server example to invoke asynchronous operations:
+class Async<sub>Stream</sub> {
+public:
+// Constructor ‘zeros out’ the data members.
+Async<sub>Stream</sub> ();
+</p>
+<p>
+// Initialization method.
+void open (Completion<sub>Handler</sub> *handler,
+HANDLE handle, Proactor *proactor);
+</p>
+<p>
+// Invoke an asynchronous read operation.
+void async<sub>read</sub> (void *buf, u<sub>long</sub> n<sub>bytes</sub>);
+</p>
+<p>
+// Invoke an asynchronous write operation.
+void async<sub>write</sub> (const void *buf, u<sub>long</sub> n<sub>bytes</sub>);
+private:
+// Cache parameters passed in &lt;open&gt;.
+Completion<sub>Handler</sub> *completion<sub>handler</sub>_;
+HANDLE handle_;
+Proactor *proactor_;
+};
+</p>
+
+<p>
+A concrete completion handler, such as an HTTP handler, can pass itself to open(), together with the handle on which the Async<sub>Stream’s</sub> async<sub>read</sub>() and async<sub>write</sub>() methods are invoked:
+void Async<sub>Stream</sub>::open (Completion<sub>Handler</sub> *handler,
+HANDLE handle,
+Proactor *proactor) {
+completion<sub>handler</sub>_ = handler;
+handle_ = handle;
+proactor_ = proactor;
+</p>
+<p>
+// Associate handle with &lt;proactor&gt;’s completion
+// port, as shown in implementation activity 4.
+proactor-&gt;register<sub>handle</sub> (handle);
+}
+</p>
+
+<p>
+To illustrate the use of asynchronous completion tokens (ACTs), consider the following implementation of the Async<sub>Stream</sub>::async<sub>read</sub>() method. It uses the Win32 ReadFile() function to read up to n<sub>bytes</sub> asynchronously and store them in its buf parameter:
+void Async<sub>Stream</sub>::read (void *buf, u<sub>long</sub> n<sub>bytes</sub>) {
+u<sub>long</sub> bytes<sub>read</sub>;
+</p>
+<p>
+OVERLAPPED *act = new // Create the ACT.
+Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> (completion<sub>handler</sub>_);
+</p>
+<p>
+ReadFile (handle_, buf, n<sub>bytes</sub>, &amp;bytes<sub>read</sub>, act);
+}
+</p>
+
+<p>
+The ACT passed as a pointer to ReadFile() is a dynamically allocated instance of the Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> class below:
+class Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> : public Async<sub>Result</sub> {
+public:
+// Constructor caches the completion handler.
+Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub>
+(Completion<sub>Handler</sub> *completion<sub>handler</sub>):
+completion<sub>handler</sub>_ (completion<sub>handler</sub>) { }
+</p>
+<p>
+// Adapter that dispatches the &lt;handle<sub>event&gt</sub>;
+// hook method on cached completion handler.
+virtual void complete ();
+private:
+// Cache a pointer to a completion handler.
+Completion<sub>Handler</sub> *completion<sub>handler</sub>_;
+};
+</p>
+
+<p>
+This class plays the role of an ACT and an adapter [GoF95]. It inherits from Async<sub>Result</sub>, which itself inherits from the Win32 OVERLAPPED struct, as shown in implementation activity 2.1 (227). The ACT can be passed as the lpOverlapped parameter to the ReadFile() asynchronous function. ReadFile() forwards the ACT to the Windows NT operating system, which stores it for later use.
+</p>
+<p>
+When the asynchronous ReadFile() operation finishes it generates a completion event that contains the ACT it received when this operation was invoked. When the proactor’s handle<sub>events</sub>() method removes this event from its completion event queue, it invokes the complete() method on the Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub>. This adapter method then dispatches the completion handler’s handle<sub>event</sub>() hook method to pass the event, as shown in implementation activity 5.4 (240).
+</p>
+
+<p>
+3.2 Choose the asynchronous operation processing mechanism. When an initiator invokes an asynchronous operation, an asynchronous operation processor executes the operation without blocking the initiator’s thread of control. An asynchronous operation processor provides mechanisms for managing ACTs and executing operations asynchronously. It also generates completion events when operations finish and queues the events into the appropriate completion event queue. 
+</p>
+<p>
+Some asynchronous operation processors allow initiators to cancel asynchronous operations. However, completion events are still generated. Thus, ACTs and other resources can be reclaimed properly by completion handlers.
+</p>
+<p>
+Certain operating environments provide these asynchronous operation execution and completion event generation mechanisms, such as Real-time POSIX [POSIX95] and Windows NT [Sol98]. In this case implementing the asynchronous completion processor participant simply requires mapping existing operating system APIs onto the asynchronous operation wrapper facade (47) interfaces described in implementation activity 3.1 (232). The Variants section describes techniques for emulating an asynchronous operation processor on operating system platforms that do not support this feature natively.
+</p>
+
+<p>
+4 Define the proactor interface. The proactor’s interface is used by applications to invoke an event loop that removes completion events from a completion event queue, demultiplexes them to their designated completion handlers, and dispatches their associated hook method. The proactor interface is often accessed via a singleton [GoF95] because a single proactor is often sufficient for each application process. 
+</p>
+<p>
+The Proactor pattern can use the Bridge pattern [GoF95] to shield applications from complex and non-portable completion event demultiplexing and dispatching mechanisms. The proactor interface corresponds to the abstraction participant in the Bridge pattern, whereas a platform-specific proactor instance is accessed internally via a pointer, in accordance with the implementation hierarchy in the Bridge pattern.
+</p>
+<p>
+The proactor interface in our Web server defines an abstraction for associating handles with completion ports and running the application’s event loop proactively:
+class Proactor {
+public:
+// Associate &lt;handle&gt; with the &lt;Proactor&gt;’s
+// completion event queue.
+void register<sub>handle</sub> (HANDLE handle);
+</p>
+<p>
+// Entry point into the proactive event loop. The
+// &lt;timeout&gt; can bound time waiting for events.
+void handle<sub>events</sub> (Time<sub>Value</sub> *wait<sub>time</sub> = 0);
+</p>
+<p>
+// Define a singleton access point.
+static Proactor *instance ();
+private:
+// Use the Bridge pattern to hold a pointer to
+// the &lt;Proactor<sub>Implementation&gt</sub>;.
+Proactor<sub>Implementation</sub> *proactor<sub>impl</sub>_;
+};
+</p>
+
+<p>
+A proactor interface also defines a method, which we call register<sub>handle</sub>(), that associates a handle with the proactors completion event queue, as described in implementation activity 5.5 (240). This association ensures that the completion events generated when asynchronous operations finish executing will be inserted into a particular proactor’s completion event queue.
+</p>
+<p>
+The proactor interface also defines the main entry point method, we call it handle<sub>events</sub>(), that applications use to run their proactive event loop.7 This method calls the asynchronous event demultiplexer, which waits for completion events to arrive on its completion event queue, as discussed in implementation activity 3.1 (232). An application can use the timeout parameter to bound the time it spends waiting for completion events. Thus, the application need not block indefinitely if events never arrive.
+</p>
+<p>
+After the asynchronous operation processor inserts a completion event into the proactor’s completion event queue, the asynchronous event demultiplexer function returns. At this point the proactor’s handle<sub>events</sub>() method dequeues the completion event and uses its associated ACT to demultiplex to the asynchronous operation’s completion handler and dispatch the handler’s hook method.
+</p>
+
+<p>
+5 Implement the proactor interface. Five sub-activities can be used to implement the proactor interface: 
+</p>
+<p>
+5.1 Develop a proactor implementation hierarchy. The proactor interface abstraction illustrated in implementation activity 4 (235) delegates all its demultiplexing and dispatching processing to a proactor implementation. This plays the role of the implementation hierarchy in the Bridge pattern [GoF95]. This design allows multiple types of proactors to be implemented and configured transparently. For example, a concrete proactor implementation can be created using different types of asynchronous event demultiplexers, such as POSIX aio<sub>suspend</sub>() [POSIX95], or the Win32 GetQueuedCompletionStatus() or WaitForMultipleObjects() functions [Sol98]. 
+</p>
+<p>
+In our example the base class of the proactor implementation hierarchy is defined by the class Proactor<sub>Implementation</sub>. We omit its declaration here because this class has essentially the same interface as the Proactor interface in implementation activity 4 (235). The primary difference is that its methods are purely virtual, because it forms the base of a hierarchy of concrete proactor implementations.
+</p>
+
+<p>
+5.2 Choose the completion event queue and asynchronous event demultiplexer mechanisms. The handle<sub>events</sub>() method of the proactor implementation calls an asynchronous event demultiplexer function, which waits on the completion event queue for the asynchronous operation processor to insert completion events. This function returns whenever there is a completion event in the queue. Asynchronous event demultiplexers can be distinguished by the types of semantics they support, which include one of the following: 
+•FIFO demultiplexing. This type of asynchronous event demultiplexer function waits for completion events corresponding to any asynchronous operations that are associated with its completion event queue. The events are removed from the queue in the order in which they are inserted. 
+The Win32 GetQueuedCompletionStatus() function allows event-driven proactive applications to wait up to an application-specified amount of time for any completion events to occur on a completion port. Events are removed in FIFO order [Sol98].
+</p>
+<p>
+•Selective demultiplexing. This type of asynchronous event demultiplexer function waits selectively for a particular subset of completion events that must be passed explicitly when the function is called. 
+The POSIX aio<sub>suspend</sub>() function [POSIX95] and the Win32 WaitForMultipleObjects() function [Sol98] are passed an array parameter designating asynchronous operations explicitly. They suspend their callers for an application-specified amount of time until at least one of these asynchronous operations has completed.
+</p>
+
+<p>
+The completion event queue and asynchronous event demultiplexer are often existing operating system mechanisms that need not be developed by Proactor pattern implementors.
+</p>
+<p>
+The primary difference between GetQueuedCompletionStatus(), aio<sub>suspend</sub>(), and WaitForMultipleObjects() is that the latter two functions can wait selectively for completion events specified via an array parameter. Conversely, GetQueuedCompletionStatus() just waits for the next completion event enqueued on its completion port. Moreover, the POSIX aio<sub>*</sub>() functions can only demultiplex asynchronous I/O operations, such as aio<sub>read</sub>() or aio<sub>write</sub>(), whereas GetQueuedCompletionStatus() and WaitForMultipleObjects() can demultiplex other Win32 asynchronous operations, such as timers and synchronization objects.
+</p>
+<p>
+Our Web server uses a Win32 completion port as the completion event queue and the GetQueuedCompletionStatus() function as its asynchronous event demultiplexer:
+BOOL GetQueuedCompletionStatus
+(HANDLE CompletionPort,
+LPDWORD lpNumberOfBytesTransferred,
+LPDWORD lpCompletionKey,
+LPOVERLAPPED *lpOverlapped,
+DWORD dwMilliseconds);
+</p>
+
+<p>
+As shown in implementation activity 5.5 (240), our proactor implementation’s handle<sub>events</sub>() method uses this function to dequeue a completion event from the specified CompletionPort. The number of bytes transferred is returned as an ‘out’ parameter. The lpOverlapped parameter points to the ACT passed by the original asynchronous operation, such as the ReadFile() call in the Async<sub>Stream</sub>::async<sub>read</sub>() method shown in implementation activity 3.1 (232).
+</p>
+<p>
+If there are no completion event results queued on the port, the function blocks the calling thread, waiting for asynchronous operations associated with the completion port to finish. The GetQueuedCompletionStatus() function returns when it is able to dequeue a completion event result or when the dwMilliseconds timeout expires.
+</p>
+
+<p>
+5.3 Determine how to demultiplex completion events to completion handlers. An efficient and concise strategy for demultiplexing completion events to completion handlers is to use the Asynchronous Completion Token pattern (261), as described in implementation activity 3.1 (232). In this strategy, when an asynchronous operation is invoked by an initiator the asynchronous operation processor is passed information used to guide subsequent completion processing. For example, a handle can be passed to identify a particular socket endpoint and completion event queue, and an ACT can be passed to identify a particular completion handler. 
+</p>
+<p>
+When the asynchronous operation completes, the asynchronous operation processor generates the corresponding completion event, associates it with its ACT and inserts the updated completion event into the appropriate completion event queue. After an asynchronous event demultiplexer removes the completion event from its completion event queue, the proactor implementation can use the completion event’s ACT to demultiplex to the designated completion handler in constant O(1) time.
+</p>
+<p>
+As shown in implementation activity 3.1 (232), when an async<sub>read</sub>() or async<sub>write</sub>() method is invoked on an Async<sub>Stream</sub>, they create a new Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> or Async<sub>Stream</sub><sub>Write</sub><sub>Result</sub> ACT, respectively and pass it to the corresponding Win32 asynchronous operation. When this asynchronous operation finishes, the Windows NT kernel queues the completion event on the completion port designated by the handle that was passed during the original asynchronous operation invocation. The ACT is used by the proactor to demultiplex the completion event to the completion handler designated in the original call.
+</p>
+
+<p>
+5.4 Determine how to dispatch the hook method on the designated completion handler. After the proactor’s handle<sub>events</sub>() method demultiplexes to the completion handler it must dispatch the appropriate hook method on the completion handler. An efficient strategy for performing this dispatching operation is to combine the Adapter pattern [GoF95] with the Asynchronous Completion Token pattern (261), as shown at the end of implementation activity 3.1 (232). 
+</p>
+<p>
+An Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> is an adapter, whose complete() method can dispatch the appropriate hook method on the completion handler that it has cached in the state of its ACT:
+void Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub>::complete () {
+completion<sub>handler</sub><sub>-&gt</sub>;handle<sub>event</sub>
+(completion<sub>handler</sub><sub>-&gt</sub>;get<sub>handle</sub> (),
+READ<sub>EVENT</sub>, *this);
+}
+</p>
+
+<p>
+Note how the handle<sub>event</sub>() dispatch hook method is passed a reference to the Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> object that invoked it. This double-dispatching interaction [GoF95] allows the completion handler to access the asynchronous operation results, such as the number of bytes transferred and its success or failure status.
+</p>
+
+<p>
+5.5 Define the concrete proactor implementation. The proactor interface holds a pointer to a concrete proactor implementation and forwards all method calls to it, as shown in implementation activity 4 (235). 
+</p>
+<p>
+Our concrete proactor implementation overrides the pure virtual methods it inherits from class Proactor<sub>Implementation</sub>:
+class Win32<sub>Proactor</sub><sub>Implementation</sub> :
+public Proactor<sub>Implementation</sub> {
+public:
+</p>
+
+<p>
+The Win32<sub>Proactor</sub><sub>Implementation</sub> constructor creates the completion port and caches it in the completion<sub>port</sub>_ data member:
+Win32<sub>Proactor</sub><sub>Implementation</sub>::
+Win32<sub>Proactor</sub><sub>Implementation</sub> () {
+completion<sub>port</sub>_ = CreateIoCompletionPort
+(INVALID<sub>HANDLE</sub>, 0, 0, 0);
+}
+</p>
+
+<p>
+The register<sub>handle</sub>() method associates a HANDLE with the completion port:
+void Win32<sub>Proactor</sub><sub>Implementation</sub>::register<sub>handle</sub>
+(HANDLE h) {
+CreateIoCompletionPort (h, completion<sub>port</sub>_,0,0);
+}
+</p>
+
+<p>
+All subsequent completion events hat result from asynchronous operations invoked via the HANDLE will be inserted into this proactor’s completion port by the Windows NT operating system.
+</p>
+<p>
+The next code fragment shows how to implement the handle<sub>events</sub>() method:
+void Win32<sub>Proactor</sub><sub>Implementation</sub>::handle<sub>events</sub>
+(Time<sub>Value</sub> *wait<sub>time</sub> = 0) {
+u<sub>long</sub> num<sub>bytes</sub>;
+OVERLAPPED *act;
+</p>
+
+<p>
+This method first calls the GetQueuedCompletionStatus() asynchronous event demultiplexing function to dequeue the next completion event from the completion port:
+BOOL status = GetQueuedCompletionStatus
+(completion<sub>port</sub>_, &amp;num<sub>bytes</sub>,
+0, &amp;act,
+wait<sub>time</sub> == 0 ? 0 : wait<sub>time</sub>-&gt;msec ());
+</p>
+
+<p>
+When this function returns, the ACT received from the Windows NT operating system is downcast to become an Async<sub>Result</sub> *:
+Async<sub>Result</sub> *async<sub>result</sub> =
+static<sub>cast</sub> &lt;Async<sub>Result</sub> *&gt; (act);
+</p>
+
+<p>
+The completion event that GetQueuedCompletionStatus() returned updates the completion result data members in async<sub>result</sub>:
+async<sub>result</sub>-&gt;status (status);
+if (!status)
+async<sub>result</sub>-&gt;error (GetLastError ());
+else
+async<sub>result</sub>-&gt;bytes<sub>transferred</sub>(num<sub>bytes</sub>);
+</p>
+
+<p>
+The proactor implementation’s handle<sub>events</sub>() method then invokes the complete() method on the async<sub>result</sub> adapter:
+async<sub>result</sub>-&gt;complete ();
+</p>
+
+<p>
+Implementation activity 5.4 (240) illustrates how the complete() method in the Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> adapter dispatches to the concrete completion handler’s handle<sub>event</sub>() hook method.
+</p>
+<p>
+Finally, the proactor deletes the async<sub>result</sub> pointer, which was allocated dynamically by an asynchronous operation interface method, as shown in implementation activity 3.1 (232).
+delete async<sub>result</sub>;
+}
+</p>
+
+<p>
+The private portion of our proactor implementation caches the handle to its Windows NT completion port:
+private:
+// Store a HANDLE to a Windows NT completion port.
+HANDLE completion<sub>port</sub>_;
+};
+</p>
+
+
+<p>
+6 Determine the number of proactors in an application. Many applications can be structured using just one instance of the Proactor pattern. In this case the proactor can be implemented using the Singleton pattern [GoF95], as shown in implementation activity 4 (235). This design is useful for centralizing event demultiplexing and dispatching of completion events to a single location in an application. 
+</p>
+<p>
+It can be useful to run multiple proactors simultaneously within the same application process, however. For example, different proactors can be associated with threads running at different priorities. This design provides different quality of service levels to process completion handlers for asynchronous operations.
+</p>
+<p>
+Note that completion handlers are only serialized per thread within an instance of the proactor. Multiple completion handlers in multiple threads can therefore run in parallel. This configuration may necessitate the use of additional synchronization mechanisms if completion handlers in different threads access shared state concurrently. Mutexes and synchronization idioms such as Scoped Locking (325) are suitable.
+</p>
+
+<p>
+7 Implement the concrete completion handlers. Concrete completion handlers specialize the completion handler interface described in implementation activity 2.3 (228) to define application-specific functionality. Three sub-activities must be addressed when implementing concrete completion handlers: 
+</p>
+<p>
+7.1 Determine policies for maintaining state in concrete completion handlers. A concrete completion handler may need to maintain state information associated with a particular request. For example, an operating system may notify a server that only part of a file was written to a Socket asynchronously, due to the occurrence of transport-level flow control. A concrete completion handler must then send the remaining data, until the file is fully transferred or the connection becomes invalid. It must therefore know which file was originally specified, how many bytes remain to be sent, and the position of the file at the start of the previous request. 
+</p>
+<p>
+7.2 Select a mechanism to configure concrete completion handlers with a handle. Concrete completion handlers perform operations on handles. The same two strategies described in implementation activity 6.2 of the Reactor (179) pattern—hard-coded and generic—can be applied to configure handles with event handlers in the Proactor pattern. In both strategies wrapper facades (47) can encapsulate handles used by completion handler classes. 
+</p>
+<p>
+7.3 Implement completion handler functionality. Application developers must decide the processing actions that should be performed to implement a service when its corresponding hook method is invoked by a proactor. To separate connection establishment functionality from subsequent service processing, concrete completion handlers can be divided into several categories in accordance with the Acceptor-Connector pattern (285). In particular, service handlers implement application-specific services. In contrast, acceptors and connectors establish connections passively and actively, respectively, on behalf of these service handlers. 
+</p>
+<p>
+8 Implement the initiators. In many proactive applications, such as our Web server example, the concrete completion handlers are the initiators. In this case this implementation activity can be skipped. Initiators that are not completion handlers, however, are often used to initiate asynchronous service processing during an application’s start-up phase. 
+</p>
+<p>
+Example Resolved
+</p>
+<p>
+Our Web server uses Windows NT features, such as overlapped I/O, completion ports, and GetQueuedCompletionStatus(), to implement proactive event demultiplexing. It employs a single-method completion handler dispatch interface strategy that can process multiple Web browser service requests asynchronously. HTTP acceptors asynchronously connect and create HTTP handlers using a variant of the Acceptor-Connector pattern (285). Each HTTP handler is responsible for asynchronously receiving, processing, and replying to a Web browser GET request delivered to the Web server’s proactor via a completion event. The example shown here uses a single thread to invoke asynchronous operations and handle completion event processing. It is straightforward to enhance this example to take advantage of multiple threads, however, as described in the Variants section.
+</p>
+<p>
+The Web server’s main() function starts by performing its initialization activities, such as creating a proactor singleton, a Windows NT completion port, and an HTTP acceptor. This acceptor associates its passive-mode acceptor handle with the proactor singleton’s completion port. The Web server next performs the following scenario during its connection processing:
+</p>
+
+<p>
+•The Web server invokes the HTTP acceptor’s accept() method (1). This method creates an ACT containing itself as the concrete completion handler.
+•Acting in the role of an initiator, the HTTP acceptor’s accept() method then invokes the Win32 AcceptEx() operation asynchronously. It passes the ACT to AcceptEx(), together with a HANDLE that identifies both the passive-mode socket endpoint to accept connections and the completion port that Windows NT8 should use to queue the completion event when AcceptEx() finishes accepting a connection.
+•The Web server’s main() function then invokes the proactor’s (3) handle<sub>events</sub>() method. This method runs the proactor’s event loop, which calls the GetQueuedCompletionStatus() asynchronous event demultiplexer. This function waits on its completion port for the operating system to queue completion events when asynchronous operations finish executing.
+•A remote Web browser subsequently connects to the Web server (4), which causes the asynchronous AcceptEx() operation to accept the connection and generate an accept completion event. The operating system then locates this operation’s ACT and associates it with the completion event. At this point it queues the updated completion event on the appropriate completion port (5).
+•The GetQueuedCompletionStatus() function running in the application’s event loop thread then dequeues the completion event from the completion port. The proactor uses the ACT associated with this completion event to dispatch the handle<sub>event</sub>() hook method on the HTTP acceptor completion handler (6), passing it the ACCEPT<sub>EVENT</sub> event type.
+•To process the completion event, the HTTP acceptor creates an HTTP handler (7) that associates its I/O handle with the proactor’s completion port. This HTTP handler then immediately invokes an asynchronous ReadFile() operation (8) to obtain the GET request data sent by the Web browser. The HTTP handler passes itself as the completion handler in the ACT to ReadFile() together with the I/O handle. The operating system uses the completion port associated with this handle to notify the proactor’s handle<sub>events</sub>() method when the asynchronous ReadFile() operation finishes executing.
+•Control of the Web server then returns to the proactor’s event loop (9), which calls the GetQueuedCompletionStatus() function to continue waiting for completion events.
+</p>
+<p>
+After the connection is established and the HTTP handler is created, the following diagram illustrates the subsequent scenario used by a proactive Web server to service an HTTP GET request:
+</p>
+
+<p>
+•The Web browser sends an HTTP GET request (1).
+•The asynchronous ReadFile() operation invoked in the previous scenario then finishes executing and the operating system queues the read completion event onto the completion port (2). This event is then dequeued by GetQueuedCompletionStatus(), which returns to the proactor’s handle<sub>events</sub>() method. This method demultiplexes the completion event’s ACT to the designated HTTP handler and dispatches the handler’s handle<sub>event</sub>() hook method, passing the READ<sub>EVENT</sub> event type (3).
+•The HTTP handler parses the request (4). Steps (2) through (4) then repeat as necessary until the entire GET request has been received asynchronously.
+•After the GET request has been completely received and validated, the HTTP handler memory-maps the requested file (5) and invokes an asynchronous WriteFile() operation to transfer the file data via the connection (6). The HTTP handler passes an ACT that identifies itself as a completion handler to WriteFile(), so that the proactor can notify it after the asynchronous WriteFile() operation finishes.
+•After the asynchronous WriteFile() operation finishes the operating system inserts a write completion event into the completion port. The proactor uses GetQueuedCompletionStatus() again to dequeue the completion event (7). It uses its associated ACT to demultiplex to the HTTP handler, then dispatches its handle<sub>event</sub>() hook method (8) to process the write completion event results. Steps (6) through (8) continue asynchronously until the entire file has been delivered to the Web browser.
+</p>
+<p>
+Below we illustrate how the HTTP handler in our Web server can be written using the Completion<sub>Handler</sub> class defined in the Implementation section.
+class HTTP<sub>Handler</sub> : public Completion<sub>Handler</sub> {
+// Implements HTTP using asynchronous operations.
+</p>
+
+<p>
+HTTP<sub>Handler</sub> inherits from the ‘single-method’ dispatch interface variant of the Completion<sub>Handler</sub> base class defined in implementation activity 2.3 (228). This design enables the proactor singleton to dispatch its handle<sub>events</sub>() hook method when asynchronous ReadFile() and WriteFile() operations finish. The following data members are contained in each HTTP<sub>Handler</sub> object:
+private:
+// Cached &lt;Proactor&gt;.
+Proactor *proactor_;
+// Memory-mapped file_;
+Mem<sub>Map</sub> file_;
+// Socket endpoint, initialized into “async-mode.”
+SOCK<sub>Stream</sub> *sock_;
+// Hold the HTTP Request while its being processed.
+HTTP<sub>Request</sub> request_;
+// Read/write asynchronous socket I/O.
+Async<sub>Stream</sub> stream_;
+</p>
+
+<p>
+The constructor caches a pointer to the proactor used by the HTTP<sub>Handler</sub>:
+public:
+HTTP<sub>Handler</sub> (Proactor *proactor):
+proactor_ (proactor) { }
+</p>
+
+<p>
+When a Web browser connects to the Web server the following open() method of the HTTP handler is called by the HTTP acceptor:
+virtual void open (SOCK<sub>Stream</sub> *sock) {
+// Initialize state for request.
+request_.state_ = INCOMPLETE;
+</p>
+<p>
+// Store pointer to the socket.
+sock_ = sock;
+</p>
+<p>
+// Initialize &lt;Async<sub>Stream&gt</sub>;.
+stream_.open
+(this, // This completion handler.
+sock<sub>-&gt</sub>;handle (), proactor_);
+</p>
+<p>
+// Start asynchronous read operation on socket.
+stream_.async<sub>read</sub>
+(request_.buffer (), request_.buffer<sub>size</sub> ());
+}
+</p>
+
+<p>
+In open(), the Async<sub>Stream</sub> is initialized with the completion handler, handle, and proactor to use when asynchronous ReadFile() and WriteFile() operations finish. It then invokes an async<sub>read</sub>() operation and returns to the proactor that dispatched it. When the call stack unwinds the Web server will continue running its handle<sub>events</sub>() event loop method on its proactor singleton.
+</p>
+<p>
+After the asynchronous ReadFile() operation completes, the proactor singleton demultiplexes to the HTTP<sub>Handler</sub> completion handler and dispatches its subsequent handle<sub>event</sub>() method:
+virtual void handle<sub>event</sub>
+(HANDLE,
+Event<sub>Type</sub> event<sub>type</sub>,
+const Async<sub>Result</sub> &amp;async<sub>result</sub>) {
+if (event<sub>type</sub> == READ<sub>EVENT</sub>) {
+if (!request_.done
+(async<sub>result</sub>.bytes<sub>transferred</sub> ()))
+// Didn’t get entire request, so start a
+// new asynchronous read operation.
+stream_.async<sub>read</sub> (request_.buffer (),
+request_.buffer<sub>size</sub> ());
+else
+parse<sub>request</sub> ();
+}
+// …
+}
+</p>
+
+<p>
+If the entire request has not arrived, another asynchronous ReadFile() operation is invoked and the Web server returns once again to its event loop. After a complete GET request has been received from a Web browser, however, the following parse<sub>request</sub>() method maps the requested file into memory and writes the file data to the Web browser asynchronously:
+void parse<sub>request</sub> () {
+// Switch on the HTTP command type.
+switch (request_.command ()) {
+</p>
+<p>
+// Web browser is requesting a file.
+case HTTP<sub>Request</sub>::GET:
+// Memory map the requested file.
+file_.map (request_.filename ());
+// Invoke asynchronous write operation.
+stream_.async<sub>write</sub> (file_.buffer (),
+file_.buffer<sub>size</sub> ());
+break;
+// Web browser is storing file at the Web server.
+case HTTP<sub>Request</sub>::PUT:
+// …
+}
+}
+</p>
+
+<p>
+This sample implementation of parse<sub>request</sub>() uses a C++ switch statement for simplicity and clarity. A more extensible implementation could apply the Command pattern [GoF95] or Command Processor pattern [POSA1] instead.
+</p>
+<p>
+When the asynchronous WriteFile() operation completes, the proactor singleton dispatches the handle<sub>event</sub>() hook method of the HTTP<sub>Handler</sub>:
+virtual void handle<sub>event</sub>
+(HANDLE, Event<sub>Type</sub> event<sub>type</sub>,
+const Async<sub>Result</sub> &amp;async<sub>result</sub>) {
+// … see READ<sub>EVENT</sub> case above …
+else if (event<sub>type</sub> == WRITE<sub>EVENT</sub>) {
+if (!file_.done
+(async<sub>result</sub>.bytes<sub>transferred</sub> ()))
+// Didn’t send entire data, so start
+// another asynchronous write.
+stream_.async<sub>write</sub>
+(file_.buffer (),file_.buffer<sub>size</sub> ());
+else
+// Success, so free up resources…
+}
+}
+</p>
+
+<p>
+After all the data has been received the HTTP handler frees resources that were allocated dynamically.
+</p>
+<p>
+The Web server contains a main() function that implements a single-threaded server. This server first calls an asynchronous accept operation and the waits in the proactor singleton’s handle<sub>events</sub>() event loop:
+// HTTP server port number.
+const u<sub>short</sub> PORT = 80;
+</p>
+<p>
+int main () {
+// HTTP server address.
+INET<sub>Addr</sub> addr (PORT);
+</p>
+<p>
+// Initialize HTTP server endpoint, which associates
+// the &lt;HTTP<sub>Acceptor&gt</sub>;’s passive-mode socket handle
+// with the &lt;Proactor&gt; singleton’s completion port.
+HTTP<sub>Acceptor</sub> acceptor (addr, Proactor::instance ());
+</p>
+<p>
+// Invoke an asynchronous &lt;accept&gt; operation to
+// Invoke the Web server processing.
+acceptor.accept ();
+</p>
+<p>
+// Event loop processes client connection requests
+// and HTTP requests proactively.
+for (;;)
+Proactor::instance ()-&gt;handle<sub>events</sub> ();
+<i>* NOTREACHED *</i>
+}
+</p>
+
+<p>
+As service requests arrive from Web browsers and are converted into indication events by the operating system, the proactor singleton invokes the event handling hook methods on the HTTP<sub>Acceptor</sub> and HTTP<sub>Handler</sub> concrete event handlers to accept connections and receive and process logging records asynchronously. The sequence diagram below illustrates the behavior in the proactive Web server.
+</p>
+<p>
+The proactive processing model shown in this diagram can scale when multiple HTTP handlers and HTTP acceptors process requests from remote Web browsers simultaneously. For example, each handler/acceptor can invoke asynchronous ReadFile(), WriteFile(), and AcceptEx() operations that run concurrently. If the underlying asynchronous operation processor supports asynchronous I/O operations efficiently the overall performance of the Web server will scale accordingly.
+</p>
+
+
+<p>
+Variants
+</p>
+<p>
+Asynchronous Completion Handlers. The Implementation section describes activities used to implement a proactor that dispatches completion events to completion handlers within a single proactor event loop thread. When a concrete completion handler is dispatched, it borrows the proactor’s thread to perform its completion processing. However, this design may restrict the concrete completion handler to perform short-duration synchronous processing to avoid decreasing the overall responsiveness of the application significantly.
+</p>
+<p>
+To resolve this restriction, all completion handlers could be required to act as initiators and invoke long-duration asynchronous operations immediately, rather than performing the completion processing synchronously. Some operating systems, such as Windows NT, explicitly support asynchronous procedure calls (APCs). An APC is a function that executes asynchronously in the context of its calling thread. When an APC is invoked the operating system queues it within the thread context. The next time the thread is idle, such as when it blocks on an I/O operation, it can run the queued APCs.
+</p>
+<p>
+Concurrent Asynchronous Event Demultiplexer. One downside to using APCs is that they may not use multiple CPUs effectively. This is because each APC runs in a single thread context. A more scalable strategy therefore may be to create a pool of threads that share an asynchronous event demultiplexer, so that a proactor can demultiplex and dispatch completion handlers concurrently. This strategy is particularly scalable on operating system platforms that implement asynchronous I/O efficiently.
+</p>
+<p>
+For example, a Windows NT completion port [Sol98] is optimized to run efficiently when accessed by GetQueuedCompletionStatus() from multiple threads simultaneously [HPS99]. In particular, the Windows NT kernel schedules threads waiting on a completion port in ‘last-in first-out’ (LIFO) order. This LIFO protocol maximizes CPU cache affinity [Mog95] by ensuring that the thread waiting the shortest time is scheduled first, which is an example of the Fresh Work Before Stale pattern [Mes96].
+</p>
+<p>
+Shared Completion Handlers. Iinitiators can invoke multiple asynchronous operations simultaneously, all of which share the same concrete completion handler [ARSK00]. To behave correctly, however, each shared handler may need to determine unambiguously which asynchronous operation has completed. In this case, the initiator and proactor must collaborate to shepherd operation-specific state information throughout the entire asynchronous processing life-cycle.
+</p>
+<p>
+As with implementation activity 3.1 (232), the Asynchronous Completion Token pattern (261) can be re-applied to disambiguate each asynchronous operation—an initiator can create an asynchronous completion token (ACT) that identifies each asynchronous operation uniquely. It then ‘piggy-backs’ this initiator-ACT onto the ACT passed when an asynchronous operation is invoked on an asynchronous operation processor. When the operation finishes executing and is being processed by the proactor, the ‘initiator-ACT’ can be passed unchanged to the shared concrete completion handler’s hook method. This initiator-ACT allows the concrete completion handler to control its subsequent processing after it receives an asynchronous operation’s completion results.
+</p>
+<p>
+To share a concrete completion handler we first add an initiator-ACT data member and a pair of set/get methods to the Async<sub>Result</sub> class:
+class Async<sub>Result</sub> : public OVERLAPPED {
+private:
+const void *initiator<sub>act</sub>_;
+// ….
+public:
+// Set/get initiator’s ACT.
+void initiator<sub>act</sub> (const void *);
+const void *initiator<sub>act</sub> ();
+// …
+</p>
+
+<p>
+We next modify the Async<sub>Stream</sub> I/O methods to ‘piggy-back’ the initiator-ACT with its existing ACT:
+int Async<sub>Stream</sub>::async<sub>read</sub> (void *buf,
+u<sub>long</sub> n<sub>bytes</sub>,
+const void *initiator<sub>act</sub>)
+{
+u<sub>long</sub> bytes<sub>read</sub>;
+OVERLAPPED *act = new // Create the ACT.
+Async<sub>Stream</sub><sub>Read</sub><sub>Result</sub> (completion<sub>handler</sub>_);
+</p>
+<p>
+// Set &lt;initiator<sub>act&gt</sub>; in existing ACT.
+act-&gt;initiator<sub>act</sub> (initiator<sub>act</sub>);
+</p>
+<p>
+ReadFile (handle_, buf, n<sub>bytes</sub>, &amp;bytes<sub>read</sub>, act);
+}
+</p>
+
+<p>
+Finally, we can retrieve this initiator-ACT in a concrete event handler’s handle<sub>event</sub>() method via the Async<sub>Result</sub> parameter:
+virtual void handle<sub>event</sub>
+(HANDLE, Event<sub>Type</sub> event<sub>type</sub>,
+const Async<sub>Result</sub> &amp;async<sub>result</sub>) {
+const void *initiator<sub>act</sub> =
+async<sub>result</sub>.initiator<sub>act</sub> ();
+// …
+}
+</p>
+
+<p>
+The handle<sub>event</sub>() method can use this initiator<sub>act</sub> to disambiguate its subsequent processing.
+</p>
+<p>
+Asynchronous Operation Processor Emulation. Many operating system platforms, including the traditional versions of UNIX [MBKQ96] and the Java Virtual Machine (JVM), do not export asynchronous operations to applications. There are several techniques that can be used to emulate an asynchronous operation processor on such platforms, however. A common solution is to employ a concurrency mechanism to execute operations without blocking initiators, such as the Active Object pattern (369) or some type of threading model. Three activities must be addressed when implementing a multi-threaded asynchronous operation processor:
+•Operation invocation. When an operation is invoked the asynchronous operation processor must first store its associated ACT in an internal table. This can be implemented using the Manager pattern [Som97].
+•Asynchronous operation execution. The operation will next be executed in a different thread of control than the invoking initiator thread. One strategy is to spawn a thread for each operation. A more scalable strategy is for the asynchronous operation processor to maintain a pool of threads using the Active Object pattern (369) Thread Pool variant. This strategy requires the initiator thread to queue the operation request before continuing with its other computations. 
+Each operation will subsequently be dequeued and executed in a thread internal to the asynchronous operation processor. For example, to implement asynchronous read operations an internal thread can block while reading from socket or file handles. Operations thus appear to execute asynchronously to initiators that invoke them, even though the operations block internally within the asynchronous operation processor in their own thread of control.
+</p>
+<p>
+•Operation completion handling. When an asynchronous operation completes the asynchronous operation processor generates a completion event and associates it with the appropriate ACT it had cached during the original invocation. It then queues the updated completion event into the appropriate completion event queue.
+</p>
+<p>
+Other variants. Several variants of the Proactor pattern are similar to variants in the Reactor pattern (179), such as integrating the demultiplexing of timer and I/O events, and supporting concurrent concrete completion handlers.
+</p>
+<p>
+Known uses
+</p>
+<p>
+Completion ports in Windows NT. The Windows NT operating system provides the mechanisms to implement the Proactor pattern efficiently [Sol98]. Various asynchronous operations are supported by Windows NT, such as time-outs, accepting new network connections, reading and writing to files and Sockets, and transmitting entire files across a Socket connection. The operating system itself is thus the asynchronous operation processor. Results of the operations are queued as completion events on Windows NT completion ports, which are then dequeued and dispatched by an application-provided proactor.
+</p>
+<p>
+The POSIX AIO family of asynchronous I/O operations. On some real-time POSIX platforms the Proactor pattern is implemented by the aio<sub>*</sub>() family of APIs [POSIX95]. These operating system features are similar to those described above for Windows NT. One difference is that UNIX signals can be used to implement a pre-emptively asynchronous proactor in which a signal handler can interrupt an application’s thread of control. In contrast, the Windows NT API is not pre-emptively asynchronous, because application threads are not interrupted. Instead, the asynchronous completion routines are called back at well-defined Win32 function points.
+</p>
+<p>
+ACE Proactor Framework. The ADAPTIVE Communication Environment (ACE) [Sch97] provides a portable object-oriented Proactor framework that encapsulates the overlapped I/O and completion port mechanisms on Windows NT and the aio<sub>*</sub>() family of asynchronous I/O APIs on POSIX platforms. ACE provides an abstraction class, ACE<sub>Proactor</sub>, that defines a common interface to a variety of proactor implementations, such as ACE<sub>Win32</sub><sub>Proactor</sub> and ACE<sub>POSIX</sub><sub>Proactor</sub>. These proactor implementations can be created using different asynchronous event demultiplexers, such as GetQueuedCompletionStatus() and aio<sub>suspend</sub>(), respectively.
+</p>
+<p>
+Operating system device driver interrupt-handling mechanisms. The Proactor pattern is often used to enhance the structure of operating system kernels that invoke I/O operations on hardware devices driven by asynchronous interrupts. For example, a packet of data can be written from an application to a kernel-resident device driver, which then passes it to the hardware device that transmits the data asynchronously. When the device finishes its transmission it generates a hardware interrupt that notifies the appropriate handler in the device driver. The device driver then processes the interrupt to completion, potentially initiating another asynchronous transfer if more data is available from the application.
+</p>
+<p>
+Phone call initiation via voice mail. A real-life application of the Proactor pattern is the scenario in which you telephone a friend, who is currently away from her phone, but who returns calls reliably when she comes home. You therefore leave a message on her voice mail to ask her to call you back. In terms of the Proactor pattern, you are a initiator who invokes an asynchronous operation on an asynchronous operation processor—your friend’s voice mail—to inform your friend that you called. While waiting for your friend’s ‘call-back’ you can do other things, such as re-read chapters in POSA2. After your friend has listened to her voice mail, which corresponds to the completion of the asynchronous operation, she plays the proactor role and calls you back. While talking with her, you are the completion handler that ‘processes’ her ‘callback’.
+</p>
+<p>
+Consequences
+</p>
+<p>
+The Proactor pattern offers a variety of benefits:
+</p>
+<p>
+Separation of concerns. The Proactor pattern decouples application-independent asynchronous mechanisms from application-specific functionality. The application-independent mechanisms become reusable components that know how to demultiplex the completion events associated with asynchronous operations and dispatch the appropriate callback methods defined by concrete completion handlers. Similarly, the application-specific functionality in concrete completion handlers know how to perform particular types of service, such as HTTP processing.
+</p>
+<p>
+Portability. The Proactor pattern improves application portability by allowing its interface to be reused independently of the underlying operating system calls that perform event demultiplexing. These system calls detect and report the events that may occur simultaneously on multiple event sources. Event sources may include I/O ports, timers, synchronization objects, signals, and so on. For example, on real-time POSIX platforms the asynchronous I/O functions are provided by the aio<sub>*</sub>() family of APIs [POSIX95]. Similarly, on Windows NT, completion ports and overlapped I/O are used to implement asynchronous I/O [MDS96].
+</p>
+<p>
+Encapsulation of concurrency mechanisms. A benefit of decoupling the proactor from the asynchronous operation processor is that applications can configure proactors with various concurrency strategies without affecting other application components and services.
+</p>
+<p>
+Decoupling of threading from concurrency. The asynchronous operation processor executes potentially long-duration operations on behalf of initiators. Applications therefore do not need to spawn many threads to increase concurrency. This allows an application to vary its concurrency policy independently of its threading policy. For instance, a Web server may only want to allot one thread per CPU, but may want to service a higher number of clients simultaneously via asynchronous I/O.
+</p>
+<p>
+Performance. Multi-threaded operating systems use context switching to cycle through multiple threads of control. While the time to perform a context switch remains fairly constant, the total time to cycle through a large number of threads can degrade application performance significantly if the operating system switches context to an idle thread.9 For example, threads may poll the operating system for completion status, which is inefficient. The Proactor pattern can avoid the cost of context switching by activating only those logical threads of control that have events to process. If no GET request is pending, for example, a Web server need not activate an HTTP Handler.
+</p>
+<p>
+Simplification of application synchronization. As long as concrete completion handlers do not spawn additional threads of control, application logic can be written with little or no concern for synchronization issues. Concrete completion handlers can be written as if they existed in a conventional single-threaded environment. For example, a Web server’s HTTP handler can access the disk through an asynchronous operation, such as the Windows NT TransmitFile() function [HPS99], hence no additional threads need to be spawned.
+</p>
+<p>
+The Proactor pattern has the following liabilities:
+</p>
+<p>
+Restricted applicability. The Proactor pattern can be applied most efficiently if the operating system supports asynchronous operations natively. If the operating system does not provide this support, however, it is possible to emulate the semantics of the Proactor pattern using multiple threads within the proactor implementation. This can be achieved, for example, by allocating a pool of threads to process asynchronous operations. This design is not as efficient as native operating system support, however, because it increases synchronization and context switching overhead without necessarily enhancing application-level parallelism.
+</p>
+<p>
+Complexity of programming, debugging and testing. It is hard to program applications and higher-level system services using asynchrony mechanisms, due to the separation in time and space between operation invocation and completion. Similarly, operations are not necessarily constrained to run at well-defined points in the processing sequence—they may execute in non-deterministic orderings that are hard for many developers to understand.
+</p>
+<p>
+Applications written with the Proactor pattern can also be hard to debug and test because the inverted flow of control oscillates between the proactive framework infrastructure and the method callbacks on application-specific handlers. This increases the difficulty of ‘single-stepping’ through the run-time behavior of a framework within a debugger, because application developers may not understand or have access to the proactive framework code.
+</p>
+<p>
+Scheduling, controlling, and canceling asynchronously running operations. Initiators may be unable to control the scheduling order in which asynchronous operations are executed by an asynchronous operation processor. If possible, therefore, an asynchronous operation processor should employ the Strategy pattern [GoF95] to allow initiators to prioritize and cancel asynchronous operations. Devising a completely reliable and efficient means of canceling all asynchronous operations is hard, however, because asynchronous operations may complete before they can be cancelled.
+</p>
+<p>
+See Also
+</p>
+<p>
+The Proactor pattern is related to the Observer [GoF95] and Publisher-Subscriber [POSA1] patterns, in which all dependents are informed when a single subject changes. In the Proactor pattern, however, completion handlers are informed automatically when completion events from multiple sources occur. In general, the Proactor pattern is used to demultiplex multiple sources of asynchronously delivered completion events to their associated completion handlers, whereas an observer or subscriber is usually associated with a single source of events.
+</p>
+<p>
+The Proactor pattern can be considered an asynchronous variant of the synchronous Reactor pattern (179). The Reactor pattern is responsible for demultiplexing and dispatching multiple event handlers that are triggered when it is possible to invoke an operation synchronously without blocking. In contrast, the Proactor pattern supports the demultiplexing and dispatching of multiple completion handlers that are triggered by the completion of operations that execute asynchronously.
+</p>
+<p>
+Leader/Followers (447) and Half-Sync/Half-Async (423) are two other patterns that demultiplex and process various types of events synchronously. On platforms that support asynchronous I/O efficiently, the Proactor pattern can often be implemented more efficiently than these patterns. However, the Proactor pattern may be harder to implement because it has more participants, which require more effort to understand. The Proactor’s combination of ‘inversion of control’ and asynchrony may also require application developers to have more experience to use and debug it effectively.
+</p>
+<p>
+The Active Object pattern (369) decouples method execution from method invocation. The Proactor pattern is similar, because an asynchronous operation processor performs operations asynchronously on behalf of initiators. Both patterns can therefore be used to implement asynchronous operations. The Proactor pattern is often used instead of the Active Object pattern on operating systems that support asynchronous I/O efficiently.
+</p>
+<p>
+The Chain of Responsibility [GoF95] pattern decouples event handlers from event sources. The Proactor pattern is similar in its segregation of initiators and completion handlers. In the Chain of Responsibility pattern, however, the event source has no prior knowledge of which handler will be executed, if any. In Proactor, initiators have full control over the target completion handler. The two patterns can be combined by establishing a completion handler that is the entry point into a responsibility chain dynamically configured by an external factory.
+</p>
+<p>
+Current Java implementations do not support Proactor-like event processing schemes, because java.io does not support asynchronous I/O. In basic Java implementations blocking I/O operations can even block the whole Java Virtual Machine (JVM)—the I/O operation blocks the current thread and, as multi-threading may be implemented in user space, the operating system considers the task running the JVM as blocked and schedules other operating system processes instead of other JVM threads.
+</p>
+<p>
+More sophisticated Java implementations work around this problem by implementing asynchronous I/O internally on the native code level—the thread doing the blocking call is blocked, but other threads are able to run. The blocked thread is subsequently called back, or may explicitly wait for the blocking call to return. Applications cannot make use of this directly, however, because current JDK libraries do not expose asynchronous I/O. This will change with the next generation of the Java I/O system, which is under development and will appear as a package called java.nio or something similar [JSR51].
+</p>
+<p>
+Certain programming languages, such as Scheme, support continuations. Continuations can be used in single-threaded programs to enable a sequence of function calls to relinquish its run-time call stack when blocked without losing the execution history of the call stack. In the context of the Proactor pattern, the indirect transfer of control from an asynchronous operation invocation to the subsequent processing by its completion handler can be modeled as a continuation.
+</p>
+<p>
+Credits
+</p>
+<p>
+Tim Harrison, Thomas D. Jordan, and Irfan Pyarali are co-authors of the original version of the Proactor pattern. Irfan also provided helpful comments on this version. Thanks to Ralph Johnson for suggestions that helped improve this pattern and for pointing out how this pattern relates to the programming language feature continuations.
+</p>
+
+
+<p>
+Safari Books Online
+</p>
+<p>
+Create Bookmark (Key: b)
+</p>
+
+<p>
+Create Note or Tag (Key: t)
+</p>
+
+<p>
+Email This Page (Key: e)
+</p>
+
+<p>
+Print
+</p>
+
+
+<p>
+Zoom Out (Key: -)
+</p>
+
+<p>
+Zoom In (Key: +)
+</p>
+
+<p>
+Toggle to Full Screen (Key: f)
+</p>
+
+<p>
+Previous (Key: p)
+</p>
+
+<p>
+Next (Key: n)
+</p>
+
+
+
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2014-04-06 17:43:15 </p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/fusion/doc/html/fusion/sequence/intrinsic.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:57:52 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Intrinsic - 1.54.0</title>
+<link rel="stylesheet" href="../../../../../../doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../../index-2.html" title="Chapter&#160;1.&#160;Fusion 2.1">
+<link rel="up" href="../sequence.html" title="Sequence">
+<link rel="prev" href="concepts/associative_sequence.html" title="Associative Sequence">
+<link rel="next" href="intrinsic/functions.html" title="Functions">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(
+    ['_setAccount', 'UA-11715441-2'],
+    ['_trackPageview'],
+    ['_setDomainName', 'www.boost.org'],
+    ['_setAllowLinker', true]
+    );
+
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script><link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="../../../../../../../../../style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="concepts/associative_sequence.html"><img src="../../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../sequence.html"><img src="../../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../../index-2.html"><img src="../../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="intrinsic/functions.html"><img src="../../../../../../doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="fusion.sequence.intrinsic"></a><a class="link" href="intrinsic.html" title="Intrinsic">Intrinsic</a>
+</h3></div></div></div>
+<div class="toc"><dl class="toc">
+<dt><span class="section"><a href="intrinsic/functions.html">Functions</a></span></dt>
+<dt><span class="section"><a href="intrinsic/metafunctions.html">Metafunctions</a></span></dt>
+</dl></div>
+<p>
+        Intrinsic form the essential interface of every Fusion <a class="link" href="../sequence.html" title="Sequence">Sequence</a>.
+        <a href="http://en.wikipedia.org/wiki/Standard_Template_Library" target="_top">STL</a>
+        counterparts of these functions are usually implemented as member functions.
+        Intrinsic functions, unlike <a class="link" href="../algorithm.html" title="Algorithm">Algorithms</a>,
+        are not generic across the full <a class="link" href="../sequence.html" title="Sequence">Sequence</a>
+        repertoire. They need to be implemented for each Fusion <a class="link" href="../sequence.html" title="Sequence">Sequence</a><a href="#ftn.fusion.sequence.intrinsic.f0" class="footnote" name="fusion.sequence.intrinsic.f0"><sup class="footnote">[5]</sup></a>.
+      </p>
+<h5>
+<a name="fusion.sequence.intrinsic.h0"></a>
+        <span class="phrase"><a name="fusion.sequence.intrinsic.header"></a></span><a class="link" href="intrinsic.html#fusion.sequence.intrinsic.header">Header</a>
+      </h5>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">sequence</span><span class="special">/</span><span class="identifier">intrinsic</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">include</span><span class="special">/</span><span class="identifier">intrinsic</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+<div class="footnotes">
+<br><hr style="width:100; text-align:left;margin-left: 0">
+<div id="ftn.fusion.sequence.intrinsic.f0" class="footnote"><p><a href="#fusion.sequence.intrinsic.f0" class="para"><sup class="para">[5] </sup></a>
+          In practice, many of intrinsic functions have default implementations that
+          will work in majority of cases
+        </p></div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2001-2006, 2011, 2012 Joel de Guzman,
+      Dan Marsden, Tobias Schwinger<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="concepts/associative_sequence.html"><img src="../../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../sequence.html"><img src="../../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../../index-2.html"><img src="../../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="intrinsic/functions.html"><img src="../../../../../../doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/fusion/doc/html/fusion/sequence/intrinsic.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:57:52 GMT -->
+</html>

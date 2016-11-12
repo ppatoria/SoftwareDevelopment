@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/format_class.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/format/format_class.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/format/format_class.hpp</h3>
+<pre>
+// ----------------------------------------------------------------------------
+//  format_class.hpp :  class interface
+// ----------------------------------------------------------------------------
+
+//  Copyright Samuel Krempp 2003. Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/format">http://www.boost.org/libs/format</a> for library home page
+
+// ----------------------------------------------------------------------------
+
+#ifndef BOOST_FORMAT_CLASS_HPP
+#define BOOST_FORMAT_CLASS_HPP
+
+
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+#include &lt;<a href="../optional.html">boost/optional.hpp</a>&gt; // to store locale when needed
+
+#include &lt;<a href="format_fwd.html">boost/format/format_fwd.hpp</a>&gt;
+#include &lt;<a href="internals_fwd.html">boost/format/internals_fwd.hpp</a>&gt;
+#include &lt;<a href="internals.html">boost/format/internals.hpp</a>&gt;
+#include &lt;<a href="alt_sstream.html">boost/format/alt_sstream.hpp</a>&gt;
+
+namespace boost {
+
+    template&lt;class Ch, class Tr, class Alloc&gt;
+    class basic_format 
+    {
+        typedef typename io::CompatTraits&lt;Tr&gt;::compatible_type compat_traits;  
+    public:
+        typedef Ch  CharT;   // borland fails in operator% if we use Ch and Tr directly
+        typedef std::basic_string&lt;Ch, Tr, Alloc&gt;              string_type;
+        typedef typename string_type::size_type               size_type;
+        typedef io::detail::format_item&lt;Ch, Tr, Alloc&gt;        format_item_t;
+        typedef io::basic_altstringbuf&lt;Ch, Tr, Alloc&gt;         internal_streambuf_t;
+        
+
+        explicit basic_format(const Ch* str=NULL);
+        explicit basic_format(const string_type&amp; s);
+        basic_format(const basic_format&amp; x);
+        basic_format&amp; operator= (const basic_format&amp; x);
+        void swap(basic_format&amp; x);
+
+#if !defined(BOOST_NO_STD_LOCALE)
+        explicit basic_format(const Ch* str, const std::locale &amp; loc);
+        explicit basic_format(const string_type&amp; s, const std::locale &amp; loc);
+#endif
+        io::detail::locale_t  getloc() const;
+
+        basic_format&amp; clear();       // empty all converted string buffers (except bound items)
+        basic_format&amp; clear_binds(); // unbind all bound items, and call clear()
+        basic_format&amp; parse(const string_type&amp;); // resets buffers and parse a new format string
+
+        // ** formatted result ** //
+        size_type   size() const;    // sum of the current string pieces sizes
+        string_type str()  const;    // final string 
+
+        // ** arguments passing ** //
+        template&lt;class T&gt;  
+        basic_format&amp;   operator%(const T&amp; x)
+            { return io::detail::feed&lt;CharT, Tr, Alloc, const T&amp;&gt;(*this,x); }
+
+#ifndef BOOST_NO_OVERLOAD_FOR_NON_CONST
+        template&lt;class T&gt;  basic_format&amp;   operator%(T&amp; x) 
+            { return io::detail::feed&lt;CharT, Tr, Alloc, T&amp;&gt;(*this,x); }
+#endif
+
+#if defined(__GNUC__)
+        // GCC can't handle anonymous enums without some help
+        // ** arguments passing ** //
+        basic_format&amp;   operator%(const int&amp; x)
+            { return io::detail::feed&lt;CharT, Tr, Alloc, const int&amp;&gt;(*this,x); }
+
+#ifndef BOOST_NO_OVERLOAD_FOR_NON_CONST
+        basic_format&amp;   operator%(int&amp; x)
+            { return io::detail::feed&lt;CharT, Tr, Alloc, int&amp;&gt;(*this,x); }
+#endif
+#endif
+
+        // The total number of arguments expected to be passed to the format objectt
+        int expected_args() const
+            { return num_args_; }
+        // The number of arguments currently bound (see bind_arg(..) )
+        int bound_args() const;
+        // The number of arguments currently fed to the format object
+        int fed_args() const;
+        // The index (1-based) of the current argument (i.e. next to be formatted)
+        int cur_arg() const;
+        // The number of arguments still required to be fed
+        int remaining_args() const; // same as expected_args() - bound_args() - fed_args()
+
+
+        // ** object modifying **//
+        template&lt;class T&gt;
+        basic_format&amp;  bind_arg(int argN, const T&amp; val) 
+            { return io::detail::bind_arg_body(*this, argN, val); }
+        basic_format&amp;  clear_bind(int argN);
+        template&lt;class T&gt; 
+        basic_format&amp;  modify_item(int itemN, T manipulator) 
+            { return io::detail::modify_item_body&lt;Ch,Tr, Alloc, T&gt; (*this, itemN, manipulator);}
+
+        // Choosing which errors will throw exceptions :
+        unsigned char exceptions() const;
+        unsigned char exceptions(unsigned char newexcept);
+
+#if !defined( BOOST_NO_MEMBER_TEMPLATE_FRIENDS )  \
+    &amp;&amp; !BOOST_WORKAROUND(__BORLANDC__, &lt;= 0x570) \
+    &amp;&amp; !BOOST_WORKAROUND( _CRAYC, != 0) \
+    &amp;&amp; !BOOST_WORKAROUND(__DECCXX_VER, BOOST_TESTED_AT(60590042))
+        // use friend templates and private members only if supported
+
+#ifndef  BOOST_NO_TEMPLATE_STD_STREAM
+        template&lt;class Ch2, class Tr2, class Alloc2&gt;
+        friend std::basic_ostream&lt;Ch2, Tr2&gt; &amp; 
+        operator&lt;&lt;( std::basic_ostream&lt;Ch2, Tr2&gt; &amp; ,
+                    const basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp; );
+#else
+        template&lt;class Ch2, class Tr2, class Alloc2&gt;
+        friend std::ostream &amp; 
+        operator&lt;&lt;( std::ostream &amp; ,
+                    const basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp; );
+#endif
+
+        template&lt;class Ch2, class Tr2, class Alloc2, class T&gt;  
+        friend basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;  
+        io::detail::feed (basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;, T);
+
+        template&lt;class Ch2, class Tr2, class Alloc2, class T&gt;  friend   
+        void io::detail::distribute (basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;, T);
+        
+        template&lt;class Ch2, class Tr2, class Alloc2, class T&gt;  friend
+        basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp; 
+        io::detail::modify_item_body (basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;, int, T);
+        
+        template&lt;class Ch2, class Tr2, class Alloc2, class T&gt; friend
+        basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;  
+        io::detail::bind_arg_body (basic_format&lt;Ch2, Tr2, Alloc2&gt;&amp;, int, const T&amp;);
+
+    private:
+#endif
+        typedef io::detail::stream_format_state&lt;Ch, Tr&gt;  stream_format_state;
+        // flag bits, used for style_
+        enum style_values  { ordered = 1, // set only if all directives are  positional
+                             special_needs = 4 };     
+
+        void make_or_reuse_data(std::size_t nbitems);// used for (re-)initialisation
+
+        // member data --------------------------------------------//
+        std::vector&lt;format_item_t&gt;  items_; // each '%..' directive leads to a format_item
+        std::vector&lt;bool&gt; bound_; // stores which arguments were bound. size() == 0 || num_args
+
+        int              style_; // style of format-string :  positional or not, etc
+        int             cur_arg_; // keep track of wich argument is current
+        int            num_args_; // number of expected arguments
+        mutable bool     dumped_; // true only after call to str() or &lt;&lt;
+        string_type      prefix_; // piece of string to insert before first item
+        unsigned char exceptions_;
+        internal_streambuf_t   buf_; // the internal stream buffer.
+        boost::optional&lt;io::detail::locale_t&gt;     loc_;
+    }; // class basic_format
+
+} // namespace boost
+
+
+#endif // BOOST_FORMAT_CLASS_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/format_class.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:40 GMT -->
+</html>

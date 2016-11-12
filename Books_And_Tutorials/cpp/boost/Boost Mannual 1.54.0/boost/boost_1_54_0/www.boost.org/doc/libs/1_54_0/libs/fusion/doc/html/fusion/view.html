@@ -1,0 +1,119 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/fusion/doc/html/fusion/view.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:58:32 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>View - 1.54.0</title>
+<link rel="stylesheet" href="../../../../../doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../index-2.html" title="Chapter&#160;1.&#160;Fusion 2.1">
+<link rel="up" href="../index-2.html" title="Chapter&#160;1.&#160;Fusion 2.1">
+<link rel="prev" href="container/conversion/metafunctions/as_map.html" title="as_map">
+<link rel="next" href="view/single_view.html" title="single_view">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(
+    ['_setAccount', 'UA-11715441-2'],
+    ['_trackPageview'],
+    ['_setDomainName', 'www.boost.org'],
+    ['_setAllowLinker', true]
+    );
+
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script><link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="../../../../../../../../style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="container/conversion/metafunctions/as_map.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index-2.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index-2.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="view/single_view.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="fusion.view"></a><a class="link" href="view.html" title="View">View</a>
+</h2></div></div></div>
+<div class="toc"><dl class="toc">
+<dt><span class="section"><a href="view/single_view.html">single_view</a></span></dt>
+<dt><span class="section"><a href="view/filter_view.html">filter_view</a></span></dt>
+<dt><span class="section"><a href="view/iterator_range.html">iterator_range</a></span></dt>
+<dt><span class="section"><a href="view/joint_view.html">joint_view</a></span></dt>
+<dt><span class="section"><a href="view/zip_view.html">zip_view</a></span></dt>
+<dt><span class="section"><a href="view/transform_view.html">transform_view</a></span></dt>
+<dt><span class="section"><a href="view/reverse_view.html">reverse_view</a></span></dt>
+<dt><span class="section"><a href="view/nview.html">nview</a></span></dt>
+<dt><span class="section"><a href="view/repetitive_view.html">repetitive_view</a></span></dt>
+</dl></div>
+<p>
+      Views are sequences that do not actually contain data, but instead impart an
+      alternative presentation over the data from one or more underlying sequences.
+      Views are proxies. They provide an efficient yet purely functional way to work
+      on potentially expensive sequence operations. Views are inherently lazy. Their
+      elements are only computed on demand only when the elements of the underlying
+      sequence(s) are actually accessed. Views' lazy nature make them very cheap
+      to copy and be passed around by value.
+    </p>
+<h4>
+<a name="fusion.view.h0"></a>
+      <span class="phrase"><a name="fusion.view.header"></a></span><a class="link" href="view.html#fusion.view.header">Header</a>
+    </h4>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">view</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">include</span><span class="special">/</span><span class="identifier">view</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2001-2006, 2011, 2012 Joel de Guzman,
+      Dan Marsden, Tobias Schwinger<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="container/conversion/metafunctions/as_map.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index-2.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index-2.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="view/single_view.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/fusion/doc/html/fusion/view.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:58:32 GMT -->
+</html>

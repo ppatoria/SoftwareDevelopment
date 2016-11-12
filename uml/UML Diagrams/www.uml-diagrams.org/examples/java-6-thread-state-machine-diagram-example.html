@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/examples/java-6-thread-state-machine-diagram-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:20:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>Java 6 thread states and life cycle UML protocol state machine diagram example.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Java 6 thread states and life cycle UML protocol state machine diagram example." />
+<meta name="keywords" content="UML, UML 2, UML 2.5, example, Java, thread, states." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="shortcut icon" href="../favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body> 
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131230 -->
+<div id="globalNav">
+<div>
+  <a href="../index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+  <a href="../index-examples.html" title="Index of examples of UML diagrams.">All UML examples</a>
+</div>
+<div>
+  <a href="java-uml-examples.html" 
+  title="Java technology examples of UML diagrams."  >Java examples</a>
+</div>
+<div>
+  <a href="../java-7-api-uml-package-diagram-example.html"
+  title="Example of UML package diagram representing Java Platform Standard Edition 7 API."  >Java 7 API</a>
+</div>
+<div>
+  <a href="../java-7-concurrent-uml-class-diagram-example.html"
+  title="Java 7 util.concurrent API UML class diagram examples - executors, concurrent collections, and futures."  >Java util.concurrent</a>
+</div>
+<div>
+ <a href="java-servlet-30-api-package-diagram-example.html"
+  title="Java Servlet 3.0 API UML package diagram example"  >Java servlet 3.0 API</a>
+</div>
+<div>
+ <a href="java-6-thread-state-machine-diagram-example.html" 
+  title="Java 6 Thread States and Life Cycle UML Protocol State Machine Diagram Example." class="active-nav" >Java 6 thread states</a>
+</div>
+<div>
+ <a href="../java-ejb-uml-profile-diagram-example.html" 
+  title="Java EJB 3.0 UML Profile."  >Java EJB 3.0 UML profile</a>
+</div>
+<div>
+ <a href="../java-ejb-state-machine-diagram-example.html" 
+  title="Java EJB life cycle of a session object UML protocol state machine diagram example."  >Life cycle of a session EJB</a>
+</div>
+<div>
+ <a href="../tomcat-server-uml-composite-structure-diagram-example.html" 
+  title="Tomcat 7 server UML composite structure diagram example"  >Tomcat 7 composite structure</a>
+</div>
+<div>
+ <a href="../web-application-clusters-uml-deployment-diagram-example.html" 
+  title="J2EE web application clustered deployment UML deployment diagram example"  >Clustered J2EE application</a>
+</div>
+<div>
+ <a href="../web-application-load-balancing-uml-deployment-diagram-example.html" 
+  title="Clustered J2EE web servers load balancing UML deployment diagram example"  >Clustered J2EE servers</a>
+</div>
+<div>
+ <a href="../index-references.html" title="Index of UML Elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1 class="subtitle">Java 6 Thread States and Life Cycle</h1>
+<h2 class="subtitle">UML Protocol State Machine Diagram Example</h2>
+
+<p>
+This is an example of UML 
+<a href="../protocol-state-machine-diagrams.html#protocol-state-machine" class="ref-link">protocol state machine</a> diagram
+ showing <strong>thread states</strong> and <strong>thread life cycle</strong> 
+ for the Thread class in <strong>Java 6</strong>.
+</p>
+
+<p>
+Thread is a lightweight process, the smallest unit of scheduled execution.
+Instance of the Thread class in <strong>Java 6</strong> could be in one of the following states:
+</p>
+<ul>
+<li><strong>new</strong>,</li>
+<li><strong>runnable</strong>,</li>
+<li><strong>timed waiting</strong>,</li>
+<li><strong>waiting</strong>,</li>
+<li><strong>blocked</strong>,</li>
+<li><strong>terminated</strong>.</li>
+</ul>
+
+<p>
+These states are Java Virtual Machine (JVM) states reported by JVM to Java programs. 
+At any given point in time thread could be in only one state.
+</p>
+
+<div class="figure-left-20" itemscope itemtype="http://schema.org/ImageObject">
+<img src="state-machine-example-java-6-thread-states.png" width="956" height="748"
+ alt="Protocol state machine example - Thread States and Life Cycle in Java 6." 
+ title="Protocol state machine example - Thread States and Life Cycle in Java 6." itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Protocol state machine example - Thread states and life cycle in Java 6
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2011-01-02" />
+<meta itemprop="dateModified" content="2013-07-28" />
+</div>
+
+<p>
+<strong>New</strong> is the thread state for a thread which was created but has not yet started.
+</p>
+
+<p>
+At the lower operating system (OS) level, JVM’s <strong>runnable</strong> state
+ could be considered as a composite state with two substates. 
+ When a thread transitions to the runnable JVM state, the thread first goes into the <strong>ready</strong> substate.
+ Thread scheduling decides when the thread could actually start, proceed or be suspended.
+ Thread.yield() is explicit recommendation to thread scheduler to pause the currently executing thread
+ to allow some other thread to execute. 
+</p>
+
+<p>
+A thread in the <strong>runnable</strong> state is executing from the JVM point of view
+ but in fact it may be waiting for some resources from the operating system.
+</p>
+
+<p>
+<strong>Timed waiting</strong> is a thread state for a thread waiting with a specified waiting time.
+A thread is in the timed waiting state due to calling one of the following methods with a specified
+ positive waiting time: 
+</p>
+<ul>
+<li>Thread.sleep(sleeptime)</li>
+<li>Object.wait(timeout)</li>
+<li>Thread.join(timeout)</li>
+<li>LockSupport.parkNanos(timeout)</li>
+<li>LockSupport.parkUntil(timeout)</li>
+</ul>
+
+<p>
+A thread is in the <strong>waiting</strong> state due to the calling one of the following methods without timeout: 
+</p>
+<ul>
+<li>Object.wait()</li>
+<li>Thread.join()</li>
+<li>LockSupport.park()</li>
+</ul>
+
+<p>
+Note, that thread in the waiting state is waiting for another thread to perform a particular action.
+For example, a thread that has called Object.wait() on an object is waiting for another thread to call
+ Object.notify() or Object.notifyAll() on that object.
+ A thread that has called Thread.join() is waiting for a specified thread to terminate. 
+It means that waiting state could be made a composite state with states corresponding to these specific conditions.
+</p> 
+
+<p>
+Thread is in the <strong>blocked</strong> state while waiting for the monitor lock to enter
+ a synchronized block or method or to reenter a synchronized block or method after calling Object.wait(). 
+</p>
+
+<p>
+A synchronized statement or method acquires a mutual-exclusion lock on behalf of the executing thread,
+ executes a block or method, and then releases the lock.
+While the executing thread owns the lock, no other thread may acquire the lock and is blocked waiting for the lock.
+</p>
+
+<p>
+After thread has completed execution of run() method, it is moved into <strong>terminated</strong> state. 
+</p>
+
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="../orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="java-6-thread-state-machine-diagram-example.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="../orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="../references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/examples/java-6-thread-state-machine-diagram-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:20:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

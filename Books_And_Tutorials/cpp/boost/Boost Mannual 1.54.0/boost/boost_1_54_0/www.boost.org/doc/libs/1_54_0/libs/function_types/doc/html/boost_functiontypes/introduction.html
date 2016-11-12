@@ -1,0 +1,125 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/introduction.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:53 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Introduction - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.FunctionTypes 2.5">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.FunctionTypes 2.5">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.FunctionTypes 2.5">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/use_cases.html" title="Use Cases">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/use_cases.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="boost_functiontypes.introduction"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/introduction.html" title="Introduction">Introduction</a>
+</h2></div></div></div>
+<p>
+      Boost.FunctionTypes provides functionality to classify, decompose and synthesize
+      function, function pointer, function reference and pointer to member types.
+    </p>
+<p>
+      We collectively refer to these types as <span class="emphasis"><em>callable builtin</em></span>
+      types.
+    </p>
+<p>
+      In particular, the library can be used to:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          test whether a type is a specific callable, builtin type,
+        </li>
+<li class="listitem">
+          extract all component properties from callable, builtin types, and
+        </li>
+<li class="listitem">
+          create callable, builtin types from specified properties.
+        </li>
+</ul></div>
+<p>
+      The library is designed to work well with other Boost libraries and uses well-accepted
+      concepts introduced by Boost and TR1.
+    </p>
+<p>
+      Templates that encapsulate boolean or numeric properties define a static member
+      constant called <code class="literal">value</code>.
+    </p>
+<pre class="programlisting"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/reference/classification.html#boost_functiontypes.reference.classification.is_function_pointer" title="is_function_pointer">is_function_pointer</a><span class="special">&lt;</span> <span class="keyword">bool</span><span class="special">(*)(</span><span class="keyword">int</span><span class="special">)</span> <span class="special">&gt;::</span><span class="identifier">value</span> <span class="comment">// == true 
+</span>
+<a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/reference/decomposition.html#boost_functiontypes.reference.decomposition.function_arity" title="function_arity">function_arity</a><span class="special">&lt;</span> <span class="keyword">bool</span><span class="special">(*)(</span><span class="keyword">int</span><span class="special">)</span> <span class="special">&gt;::</span><span class="identifier">value</span> <span class="comment">// == 1
+</span></pre>
+<p>
+      Templates that encapsulate properties that are single types contain a type
+      member called <code class="literal">type</code>.
+    </p>
+<pre class="programlisting"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/reference/synthesis.html#boost_functiontypes.reference.synthesis.function_type" title="function_type">function_type</a><span class="special">&lt;</span> <span class="identifier">mpl</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">bool</span><span class="special">,</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="special">&gt;::</span><span class="identifier">type</span> <span class="comment">// is bool(int)
+</span>
+<a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/reference/decomposition.html#boost_functiontypes.reference.decomposition.result_type" title="result_type">result_type</a><span class="special">&lt;</span> <span class="keyword">bool</span><span class="special">(&amp;)(</span><span class="keyword">int</span><span class="special">)</span> <span class="special">&gt;::</span><span class="identifier">type</span> <span class="comment">// is bool
+</span></pre>
+<p>
+      Templates that encapsulate properties that are type lists model an MPL-compatible
+      type sequence.
+    </p>
+<pre class="programlisting"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/reference/decomposition.html#boost_functiontypes.reference.decomposition.parameter_types" title="parameter_types">parameter_types</a><span class="special">&lt;</span> <span class="keyword">bool</span><span class="special">(</span><span class="keyword">int</span><span class="special">)</span> <span class="special">&gt;</span> <span class="comment">// models an MPL sequence
+</span></pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2004-2007 Tobias
+      Schwinger<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/use_cases.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/function_types/doc/html/boost_functiontypes/introduction.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:53 GMT -->
+</html>

@@ -1,0 +1,1202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/deployment-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML deployment diagrams overview of graphical notation.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML deployment diagrams notation - artifact, node, device, manifest, deployment, component, execution environment, target, etc." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, Deployment diagram, artifact, node, device, manifest, deployment, component, execution environment, target" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130116 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML Graphical Notation Overview and Reference" >Home</a>
+</div>
+<div>
+  <a href="deployment-diagrams-overview.html"
+   title="UML deployment diagrams overview"  >Deployment diagrams overview</a>
+</div>
+<div>
+ <a href="network-architecture-diagrams.html" 
+ title="Network architecture diagrams"  >Network architecture</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html" 
+   title="UML deployment diagrams graphical notation" class="active-nav" >Deployment notation</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#artifact" 
+   title="UML deployment diagrams artifact" >Artifact</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#manifestation" 
+   title="UML deployment diagrams manifestation" >Manifestation</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#deployment-target" 
+   title="UML deployment diagrams deployment target" >Deployment target</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#communication-path" 
+   title="UML deployment diagrams communication path" >Communication path</a>
+</div>
+<div>
+  <a href="deployment-diagrams.html#deployment" 
+   title="UML deployment diagrams deployment" >Deployment</a>
+</div>
+<div>
+  <a href="deployment-diagrams-reference.html" 
+   title="UML deployment diagrams reference"  >Reference</a>
+</div>
+<div>
+  <a href="deployment-diagrams-examples.html"
+   title="UML deployment diagrams examples"  >Deployment examples</a>
+</div>
+<div>
+  <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Deployment Diagrams</h1>
+
+<p>
+<strong>Deployment diagram</strong> shows execution architecture of systems that represent the assignment (deployment)
+ of software <a href="deployment-diagrams.html#artifact" class="ref-link">artifacts</a>
+ to deployment targets
+ (usually <a href="deployment-diagrams.html#node" class="ref-link">nodes</a>).
+</p>
+
+<p>
+<a href="deployment-diagrams.html#node" class="ref-link">Nodes</a> represent
+ either hardware devices or software execution environments.
+ They could be connected through communication paths to create network systems of arbitrary complexity.
+ <a href="deployment-diagrams.html#artifact" class="ref-link">Artifacts</a> represent
+ concrete elements in the physical world that are the result of a development process and are deployed on nodes.
+</p>
+
+<p>
+Note, that <a href="component-diagrams.html#component" class="ref-link">components</a>
+ were directly deployed to nodes in UML 1.x deployment diagrams.
+In UML 2.x <a href="deployment-diagrams.html#artifact" class="ref-link">artifacts</a>
+ are deployed to nodes, and artifacts could
+ <a href="deployment-diagrams.html#manifestation" class="ref-link">manifest</a>
+ (implement) components. So components are now deployed to nodes indirectly through artifacts.
+</p>
+
+<p>
+The following nodes and edges are typically drawn in a UML deployment diagram:
+<a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a>,
+<a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>,
+<strong>association</strong> between artifacts,
+<strong>dependency</strong> between artifacts,
+<a href="component-diagrams.html#component" class="ref-link">component</a>,
+<a href="deployment-diagrams.html#manifestation" class="ref-link">manifestation</a>,
+<a href="deployment-diagrams.html#node" class="ref-link">node</a>,
+<a href="deployment-diagrams.html#device" class="ref-link">device</a>,
+<a href="deployment-diagrams.html#execution-environment" class="ref-link">execution environment</a>,
+<strong>composition</strong> of nodes,
+<a href="deployment-diagrams.html#communication-path" class="ref-link">communication path</a>,
+<a href="deployment-diagrams.html#deployment-spec" class="ref-link">deployment specification</a>,
+deployment specification <strong>dependency</strong>,
+deployment specification <strong>association</strong>.
+</p>
+
+<p>
+You can find some 
+ <a href="deployment-diagrams-examples.html" class="ref-link">deployment diagrams examples</a> here:
+</p>
+<ul>
+<li><a href="web-application-uml-deployment-diagram-example674a.html?context=depl-examples" class="ref-link">Web application deployment</a></li>
+<li><a href="web-application-uml-manifest-diagram-example674a.html?context=depl-examples" class="ref-link">Web application manifestation</a></li>
+<li><a href="web-application-load-balancing-uml-deployment-diagram-example674a.html?context=depl-examples" class="ref-link">Multilayered load balancing</a></li>
+<li><a href="web-application-clusters-uml-deployment-diagram-example674a.html?context=depl-examples" class="ref-link">Clustered deployment of J2EE web application</a></li>
+<li><a href="apple-itunes-uml-deployment-diagram-example.html" class="ref-link">Apple iTunes deployment</a></li>
+<li><a href="android-application-uml-deployment-diagram-example.html" class="ref-link">Android application deployment</a></li>
+</ul>
+
+
+<!--
+*****************
+   Artifact
+*****************
+-->
+ 
+<h2 id="artifact">Artifact</h2>
+
+<p>
+An <strong>artifact</strong> is
+ a <a href="classifier.html" class="ref-link">classifier</a>
+ that represents some <strong>physical entity</strong>, a piece of information that is used or is produced
+ by a software development process, or by deployment and operation of a system.
+ Artifact is a source of 
+ a <a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a>
+ to a <a href="deployment-diagrams.html#node" class="ref-link">node</a>.
+ A particular instance (or "copy") of an artifact is deployed to a node instance.
+</p>
+
+<div class="figure-left-120">
+<img src="deployment-diagrams/deployment-artifact-overview.png" width="380" height="367"
+ alt="UML 2.4 definition of Artifact."
+ title="UML 2.4 definition of Artifact." />
+<p class="figure-text">
+UML 2.4 definition of Artifact
+</p>
+</div>
+
+<p>
+Note, that in UML 2.4 <strong>artifact</strong> is also a subclass of <strong>deployed artifact</strong>.
+It is a weird, upside down relationship, which is most likely a mistake.
+ Deployed artifact is described by UML 2.4 as an <strong>artifact</strong> or artifact instance
+ that has been deployed to
+ a <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment target</a>.
+Common sense assumes that deployed artifact should be a subclass of artifact and it should be allowed
+ for some artifacts not to be deployed.
+</p>
+
+<p>
+Artifacts may have <strong>properties</strong> that represent
+ <a href="uml-core.html#feature" class="ref-link">features</a> of the artifact,
+ and <a href="class-diagrams.html#operation" class="ref-link">operations</a> that can
+ be performed on its instances. Artifacts have <strong>fileName</strong> attribute - a concrete name that is used
+ to refer to the artifact in a physical context - e.g. <strong>file name</strong> or <strong>URI</strong>. 
+Artifact could have nested artifacts.
+</p>
+
+<p>
+Some real life examples of artifacts are:
+</p>
+<ul>
+<li>text document</li>
+<li>source file</li>
+<li>script</li>
+<li>binary executable file</li>
+<li>archive file</li>
+<li>table in a database</li>
+</ul>
+
+<p>
+The <strong>UML</strong> <strong>Standard Profile</strong> defines several <strong>standard stereotypes</strong>
+ that apply to artifacts:
+</p>
+
+<table class="small-table">
+<tr>
+<td class="item">«file»</td>
+<td class="descr">A physical file in the context of the system developed.</td>
+</tr>
+</table>
+
+<p>
+Standard stereotypes - subclasses of <strong>«file»</strong>:
+</p>
+
+<table class="small-table">
+<tr>
+<td class="item">«document»</td>
+<td class="descr">A generic file that is not a «source» file or «executable».</td>
+</tr>
+<tr>
+<td class="item">«source»</td>
+<td class="descr">A source file that can be compiled into an executable file.</td>
+</tr>
+<tr>
+<td class="item">«library»</td>
+<td class="descr">A static or dynamic library file.</td>
+</tr>
+<tr>
+<td class="item">«executable»</td>
+<td class="descr">A program file that can be executed on a computer system.</td>
+</tr>
+<tr>
+<td class="item">«script»</td>
+<td class="descr">A script file that can be interpreted by a computer system.</td>
+</tr>
+</table>
+
+<p>
+Standard UML 1.x stereotype that is now <strong>obsolete</strong>:
+</p>
+
+<table class="small-table">
+<tr>
+<td class="item">«table»</td>
+<td class="descr">Table in database.</td>
+</tr>
+</table>
+
+<p>
+Standard stereotypes can be further specialized into implementation and platform specific stereotypes in profiles.
+For example, Java profile might define <strong>«jar»</strong> as a subclass of «executable» for executable Java archives.
+Specific profiles are expected to provide some stereotype for artifact representing sets of files.
+</p>
+
+<p>
+Artifacts are deployed to a
+ <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment target</a>.
+<strong>Instance specification</strong> was extended in UML to allow instances of <strong>artifacts</strong> to be
+ <strong>deployed artifacts</strong> in
+ a <a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a> relationship.
+</p>
+
+<p>
+An artifact is presented using an ordinary class rectangle with the keyword <strong>«artifact»</strong>.
+Examples in <strong>UML</strong> specification also show <strong>document icon</strong> in upper right corner.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact.png" width="140" height="65"
+ alt="Artifact is presented using an ordinary class rectangle with the keyword artifact."
+ title="Artifact is presented using an ordinary class rectangle with the keyword artifact." />
+<p class="figure-text">
+Artifact web-app.war
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-source.png" width="140" height="67"
+ alt="Artifact presented using an ordinary class rectangle with the keyword source."
+ title="Artifact presented using an ordinary class rectangle with the keyword source." />
+<p class="figure-text">
+C# source file artifact UserServices.cs
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-library.png" width="140" height="66"
+ alt="Artifact presented using an ordinary class rectangle with the keyword library"
+ title="Artifact presented using an ordinary class rectangle with the keyword library." />
+<p class="figure-text">
+Library commons.dll
+</p>
+</div>
+
+<p>
+ Alternatively, artifact may be depicted by an icon.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-custom.png" width="120" height="110"
+ alt="Artifact may be depicted by an icon."
+ title="Artifact may be depicted by an icon." />
+<p class="figure-text">
+Artifact web-tools-lib.jar
+</p>
+</div>
+
+<p>
+Optionally, the underlining of the name of an artifact instance may be omitted,
+ as the context is assumed to be known to users.
+</p>
+
+
+<!--
+*********************************
+ Associations between Artifacts
+*********************************
+-->
+ 
+<h2 id="artifact-association">Associations between Artifacts</h2>
+
+<p>
+Artifacts can be involved in
+ <a href="association.html" class="ref-link">associations</a>
+ to other artifacts, e.g.
+ <a href="association.html#composition" class="ref-link">composition</a> associations.
+For instance, a deployment descriptor artifact for a component may be contained within the artifact that
+ <a href="deployment-diagrams.html#manifestation" class="ref-link">manifests</a> that component.
+ In that way, the component and its descriptor are deployed to a node instance as one artifact instance.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-composition.png" width="300" height="161"
+ alt="Deployment descriptor artifact for a component may be contained within the artifact that manifests that component"
+ title="Deployment descriptor artifact for a component may be contained within the artifact that manifests that component" />
+<p class="figure-text">
+Application book-club.ear artifact contains EJB user-service.jar artifact and deployment descriptor.
+</p>
+</div>
+
+<!--
+**********************************
+  Dependency between Artifacts
+**********************************
+-->
+ 
+<h2>Dependency between Artifacts</h2>
+
+<p>
+<a href="deployment-diagrams.html#artifact" class="ref-link">Artifacts</a> can be involved in
+ <a href="dependency.html" class="ref-link">dependency</a> relationship
+ with other artifacts.
+</p>
+
+<p>
+Dependency between artifacts is notated in the same way as 
+ general <a href="dependency.html" class="ref-link">dependency</a>,
+ i.e. as a general dashed line with an open arrow head directed from client artifact to supplier artifact.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-dependency.png" width="300" height="106"
+ alt="Dependency shown as dashed line with an open arrow-head directed from client artifact to supplier artifact."
+ title="Dependency shown as dashed line with an open arrow-head directed from client artifact to supplier artifact." />
+<p class="figure-text">
+The book-club.war artifact depends on web-tools-lib.jar artifact.
+</p>
+</div>
+
+
+<!--
+****************
+  Manifestation
+****************
+-->
+ 
+<h2 id="manifestation">Manifestation</h2>
+
+<p>
+<strong>Manifestation</strong> is an
+ <a href="abstraction.html" class="ref-link">abstraction</a>
+ relationship which represents concrete physical rendering (implementation)
+ of one or more model elements by an
+ <a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>
+ or utilization of the model elements in the construction or generation of the artifact.
+ An artifact <strong>manifests</strong> one or more model elements.
+</p>
+
+<p>
+Note, that since UML 2.0 artifacts can manifest 
+ any <a href="package-diagrams.html#packageable-element" class="ref-link">packageable elements</a>,
+ not just <a href="component-diagrams.html#component" class="ref-link">components</a>
+ as it was in previous versions of UML.
+</p>
+
+<p>
+The artifact <strong>owns</strong> the manifestations, each representing the utilization of a packageable element.
+</p>
+
+<p>
+Specific <strong>profiles</strong> are expected to stereotype the manifestation relationship to indicate particular forms
+ of manifestation. For example, «<strong>tool generated</strong>» and «<strong>custom code</strong>»
+ might be two manifestations for different classes embodied in an artifact.
+</p>
+
+<p>
+A manifestation is notated in the same way as
+ <a href="abstraction.html" class="ref-link">abstraction</a>,
+ i.e. as a dashed line with an open arrow head directed from <strong>artifact</strong>
+ to <strong>packageable element</strong>, (e.g. to <strong>component</strong> or <strong>package</strong>)
+ and is labeled with the keyword «<strong>manifest</strong>».
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-manifest.png" width="320" height="178"
+ alt="Manifestation shown as abstraction dependency labeled with the keyword manifest."
+ title="Manifestation shown as abstraction dependency labeled with the keyword manifest." />
+<p class="figure-text">
+EJB component UserService and skeleton of web services<br />
+ are manifested (implemented) by EJB module user-service.jar artifact
+</p>
+</div>
+
+<p>
+In <strong>UML 1.x</strong>, the concept of manifestation was referred to as <strong>implementation</strong>
+ and annotated as «<strong>implement</strong>». Since this was one of the many uses of the word
+ "implementation" this has been replaced in UML 2.x by «<strong>manifest</strong>».
+</p>
+
+<!--
+************************
+    Deployment Target
+************************
+-->
+ 
+<h2 id="deployment-target">Deployment Target</h2>
+
+<p>
+Artifacts are deployed to deployment targets.
+<strong>Deployment target</strong> is the location for
+ a deployed <a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>.
+</p>
+
+<div class="figure-left-120">
+<img src="deployment-diagrams/deployment-target-overview.png" width="374" height="350"
+ alt="UML 2.4 definition of deployment target."
+ title="UML 2.4 definition of deployment target." />
+<p class="figure-text">
+UML 2.4 definition of deployment target
+</p>
+</div>
+
+<p>
+<strong>Instance specification</strong> was extended in <strong>UML 2.0</strong> to allow
+instance of a <a href="deployment-diagrams.html#node" class="ref-link">node</a>
+to be <strong>deployment target</strong> in a deployment relationship.
+</p>
+
+<p>
+<strong>Property</strong> was also extended in <strong>UML 2.0</strong> with the capability of being
+ a <strong>deployment target</strong> in a deployment relationship.
+ This enables modeling the deployment to hierarchical nodes that have properties functioning as
+ internal <a href="composite-structure-diagrams.html#part" class="ref-link">parts</a>.
+</p>
+
+<p>
+Deployment target owns the set of
+ <a href="deployment-diagrams.html#deployment" class="ref-link">deployments</a> that target it.
+</p>
+
+<p>
+Deployment target has no specific notation by itself, see notations for subclasses.
+</p>
+
+<!--
+*******************
+       Node
+*******************
+-->
+
+<h2 id="node">Node</h2>
+
+<p>
+<strong>Node</strong> is 
+ a <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment target</a>
+ which represents computational resource upon which
+ <a href="deployment-diagrams.html#artifact" class="ref-link">artifacts</a>
+ may be deployed for execution.
+</p>
+
+<p>
+Node is shown as a perspective, 3-dimensional view of a cube.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-node.png" width="140" height="84"
+ alt="Node is shown as a perspective, 3-dimensional view of a cube."
+ title="Node is shown as a perspective, 3-dimensional view of a cube." />
+<p class="figure-text">
+Application Server Node
+</p>
+</div>
+
+<p>
+Node is associated with 
+<a href="deployment-diagrams.html#deployment" class="ref-link">deployments</a>
+ of artifacts and indirectly with <strong>packageable elements</strong> that are
+involved in the
+<a href="deployment-diagrams.html#manifestation" class="ref-link">manifestations</a>
+ by the artifact that is deployed on the node.
+</p>
+
+<p>
+Nodes can be interconnected with
+ <a href="deployment-diagrams.html#communication-path" class="ref-link">communication paths</a>.
+Communication paths can be defined between nodes such as
+ <strong>application server</strong> and <strong>database server</strong>
+ to define the possible communication paths between the nodes.
+ Specific network topologies can then be defined through <strong>links</strong> between node instances.
+</p>
+
+<p>
+<strong>Node</strong> is specialized by:
+</p>
+<ul>
+<li><a href="deployment-diagrams.html#device" class="ref-link">device</a></li>
+<li><a href="deployment-diagrams.html#execution-environment" class="ref-link">execution environment</a></li>
+</ul>
+
+
+<!--
+*****************************
+      Hierarchical node
+*****************************
+-->
+ 
+<h3>Hierarchical Node</h3>
+
+<p>
+ Hierarchical nodes can be modeled using
+<a href="association.html#composition" class="ref-link">composition</a>
+ or by defining an
+<a href="composite-structure-diagrams.html#internal-structure" class="ref-link">internal structure</a>.
+Internal structure of the node is defined in terms of
+ <a href="composite-structure-diagrams.html#part" class="ref-link">parts</a> and
+<a href="composite-structure-diagrams.html#connector" class="ref-link">connectors</a>.
+Parts of the node could be only nodes.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-node-composition.png" width="260" height="182"
+ alt="Hierarchical nodes can be modeled using composition associations"
+ title="Hierarchical nodes can be modeled using composition associations" />
+<p class="figure-text">
+Application server box runs several web servers and J2EE servers
+</p>
+</div>
+
+<p>
+<a href="deployment-diagrams.html#execution-environment" class="ref-link">Execution environment</a>
+ is usually 
+ <a href="composite-structure-diagrams.html#part" class="ref-link">part</a> of a
+ general <a href="deployment-diagrams.html#node" class="ref-link">node</a>
+ or <a href="deployment-diagrams.html#device" class="ref-link">«device»</a>
+ which represents the physical hardware environment on which this execution environment resides.
+  Execution environments can be <strong>nested</strong> (e.g., a database execution environment
+  may be nested in an operating system execution environment).
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-node-composition-nested.png" width="250" height="242"
+ alt="Several execution environments nested into server device."
+ title="Several execution environments nested into server device." />
+<p class="figure-text">
+Several execution environments nested into server device
+</p>
+</div>
+
+<p>
+Execution environment instances are assigned to node instances by using
+ <a href="association.html#composition" class="ref-link">composite associations</a>
+ between nodes and execution environments, where the execution environment plays the role of
+ the <a href="composite-structure-diagrams.html#part" class="ref-link">part</a>.
+</p>
+
+<!--
+**********
+  Device
+**********
+-->
+ 
+<h2 id="device">Device</h2>
+
+<p>
+A <strong>device</strong> is a 
+ <a href="deployment-diagrams.html#node" class="ref-link">node</a> which represents
+ a physical computational resource with processing capability upon which artifacts may be deployed for execution. 
+</p>
+
+<p>
+A <strong>device</strong> is rendered as a node (perspective, 3-dimensional view of a cube)
+ annotated with keyword «<strong>device</strong>».
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-device.png" width="140" height="85"
+ alt="Device is notated by a perspective view of a cube tagged with the keyword device."
+ title="Device is notated by a perspective view of a cube tagged with the keyword device." />
+<p class="figure-text">
+Application Server device
+</p>
+</div>
+
+<p>
+UML provides no standard stereotypes for devices. Examples of non-normative stereotypes for devices are:
+</p>
+<ul>
+<li>«application server»</li>
+<li>«client workstation»</li>
+<li>«mobile device»</li>
+<li>«embedded device»</li>
+</ul>
+
+<p>
+Device may be depicted using custom icon.
+<a href="profile-diagrams.html" class="ref-link">Profiles</a>,
+ <a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>,
+ and <a href="profile-diagrams.html#tagged-value" class="ref-link">tagged values</a>
+ could be used to provide custom icons and properties for the devices.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-device-app-server.png" width="150" height="140"
+ alt="Application server device depicted using custom icon."
+ title="Application server device depicted using custom icon." />
+<p class="figure-text">
+Application Server device depicted using custom icon
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-computer-applied.png" width="180" height="197" 
+ alt="Computer stereotype with tags applied to Device class." 
+ title="Computer stereotype with tags applied to Device class." />
+<p class="figure-text">
+Computer stereotype with tags applied to
+ <a href="deployment-diagrams.html#device" class="ref-link">Device</a> class.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-device-database-server.png" width="130" height="140"
+ alt="Database server device depicted using custom icon."
+ title="Database server device depicted using custom icon." />
+<p class="figure-text">
+Database Server device depicted using custom icon
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-device-mobile.png" width="100" height="152"
+ alt="Mobile smartphone device depicted using custom icon."
+ title="Mobile smartphone device depicted using custom icon." />
+<p class="figure-text">
+Mobile smartphone device depicted using custom icon
+</p>
+</div>
+
+<p>
+Devices may be complex (i.e., they may consist of other devices)
+ where a physical machine is decomposed into its elements, either through namespace
+ownership or through attributes that are typed by devices.
+</p>
+
+
+<!--
+************************
+ Execution Environment
+************************
+-->
+ 
+<h2 id="execution-environment">Execution Environment</h2>
+
+<p>
+An <strong>execution environment</strong> is a (software)
+ <a href="deployment-diagrams.html#node" class="ref-link">node</a> that offers
+ an execution environment for specific types of
+ <a href="component-diagrams.html#component" class="ref-link">components</a>
+ that are deployed on it in the form of executable
+ <a href="deployment-diagrams.html#artifact" class="ref-link">artifacts</a>.
+Components of the appropriate type are deployed to specific execution environments.
+</p>
+
+<p>
+<strong>Execution environment</strong> implements a standard set of <strong>services</strong>
+ that components require at execution time (at the modeling level these services are usually implicit).
+ For each <a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a>
+ of component, aspects of these services may be determined by properties in
+ a <a href="deployment-diagrams.html#deployment-spec" class="ref-link">deployment specification</a>
+ for a particular kind of execution environment.
+</p>
+
+<p>
+Execution environment is notated the same way as 
+ a <a href="deployment-diagrams.html#node" class="ref-link">node</a>
+ (perspective, 3-dimensional view of a cube), annotated with the standard UML stereotype
+  «<strong>executionEnvironment</strong>».
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-execution-environment.png" width="180" height="102"
+ alt="Execution environment notated as 3-dimensional node."
+ title="Execution environment notated as 3-dimensional node." />
+<p class="figure-text">
+Execution environment - J2EE Container
+</p>
+</div>
+
+<p>
+This «<strong>executionEnvironment</strong>» is pesky sesquipedalian to use. UML provides no other standard
+ stereotypes for execution environments. Examples of reasonable non-normative stereotypes are:
+</p>
+<ul>
+<li>«OS»</li>
+<li>«workflow engine»</li>
+<li>«database system»</li>
+<li>«J2EE container»</li>
+<li>«web server»</li>
+<li>«web browser»</li>
+</ul>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-execution-env-linux.png" width="150" height="97"
+ alt="Linux Operating System Execution Environment."
+ title="Linux Operating System Execution Environment." />
+<p class="figure-text">
+Linux Operating System Execution Environment
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-execution-env-oracle.png" width="160"  height="85"
+ alt="Oracle 10g DBMS Execution Environment."
+ title="Oracle 10g DBMS Execution Environment." />
+<p class="figure-text">
+Oracle 10g DBMS Execution Environment
+</p>
+</div>
+
+<p>
+An execution environment can optionally have 
+ an explicit <a href="class-diagrams.html#interface" class="ref-link">interface</a> of
+ <strong>system level services</strong> that can be used by the deployed elements,
+ in those cases where the modeler wants to make the execution environment software execution
+ environment services explicit.
+</p>
+
+<!--
+********************
+ Communication Path
+********************
+-->
+ 
+<h2 id="communication-path">Communication Path</h2>
+
+<p>
+A <strong>communication path</strong> is 
+ <a href="association.html" class="ref-link">association</a>
+ between two
+ <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment targets</a>,
+through which they are able to exchange signals and messages.
+</p>
+
+<p>
+Communication path is notated as <strong>association</strong>, and it has no additional notation
+ compared to association.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-communication-path.png" width="320" height="79"
+ alt="Communication path shown as association between two deployment targets."
+ title="Communication path shown as association between two deployment targets." />
+<p class="figure-text">
+Communication path between several application servers and database servers.
+</p>
+</div>
+
+<p>
+Note, that when deployment targets are some physical 
+<a href="deployment-diagrams.html#device" class="ref-link">devices</a>,
+ communication path will typically represent a physical connection between the nodes.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-communication-media.png" width="340" height="86"
+ alt="Gigabit Ethernet as communication path between application and database servers."
+ title="Gigabit Ethernet as communication path between application and database servers." />
+<p class="figure-text">
+Gigabit Ethernet as communication path between application and database servers.
+</p>
+</div>
+
+<p>
+When deployment targets are   
+<a href="deployment-diagrams.html#execution-environment" class="ref-link">execution environments</a>,
+ communication path will typically represent some protocol.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-communication-protocol.png" width="350" height="156"
+ alt="TCP/IP protocol as communication path between J2EE server and database system."
+ title="TCP/IP protocol as communication path between J2EE server and database system." />
+<p class="figure-text">
+TCP/IP protocol as communication path between J2EE server and database system.
+</p>
+</div>
+
+
+
+<!--
+*************
+ Deployment
+*************
+-->
+
+<h2 id="deployment">Deployment</h2>
+
+<p>
+A <strong>deployment</strong> is 
+ a <a href="dependency.html" class="ref-link">dependency</a>
+ relationship which describes allocation (deployment) of
+ an <a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a> 
+ to a <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment target</a>.
+ Deployment could be also defined at instance level - as allocation of specific artifact instance
+ to the specific instance of deployment target.
+</p>
+
+<p>
+A <strong>component deployment</strong> is deployment of one or more artifacts or artifact instances,
+ optionally parameterized by
+ a <a href="deployment-diagrams.html#deployment-spec" class="ref-link">deployment specification</a>.
+</p>
+
+<p>
+It is not very clear why UML defines deployment as
+ a <a href="dependency.html" class="ref-link">dependency</a>,
+ and not as an 
+<a href="association.html" class="ref-link">association</a>
+or just a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>.
+The major contradiction is that dependency in UML does not have any runtime implications,
+ and is defined in terms of the model elements, not in terms of their instances. At the same time
+UML 2.4 allows and shows examples of instances of artifacts deployed to instances of nodes.
+</p>
+
+<p>
+Deployment could be shown as
+ a <a href="dependency.html" class="ref-link">dependency</a>
+ that is drawn from the artifact (supplier) to the deployment target (client)
+  and is labeled with «<strong>deploy</strong>».
+Note, that dependency usually points from the client to the supplier, i.e. in the direction
+ opposite to what is recommended by UML 2.4 for deployment. On the other hand, UML specification 
+allows to change direction for a dependency based on user's stipulations.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-deploy.png" width="320" height="78"
+ alt="Deployment as dependency labeled deploy drawn from the artifact to the deployment target."
+ title="Deployment as dependency labeled deploy drawn from the artifact to the deployment target." />
+<p class="figure-text">
+J2EE web application archive portfolio.war<br /> deployed on Apache Tomcat JSP server.
+</p>
+</div>
+
+<p>
+At the "instance level" instances of artifacts could be deployed to specific instances
+ of the deployment target. The underlining of the name of artifact instance may be omitted.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-deploy-instance.png" width="320" height="172"
+ alt="Deployment of artifact instance to several specific deployment targets."
+ title="Deployment of artifact instance to several specific deployment targets." />
+<p class="figure-text">
+J2EE web application archive portfolio.war deployed<br />
+ on two instances of Apache Tomcat JSP server - psrv_023 and psrv_037.
+</p>
+</div>
+
+<p>
+For modeling complex deployment target models consisting of nodes with a composite structure
+ defined through "parts," a property (that functions as a part) may also be the target of a deployment.
+</p>
+
+<p>
+Deployment could be shown with deployed artifacts contained by
+ a <a href="deployment-diagrams.html#deployment-target" class="ref-link">deployment target</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-contained.png" width="200" height="136"
+ alt="Deployment diagram shows deployed artifacts contained within a deployment target symbol."
+ title="Deployment diagram shows deployed artifacts contained within a deployment target symbol." />
+<p class="figure-text">
+The portfolio.ear artifact deployed on application server.
+</p>
+</div>
+
+<p>
+Deployment could be shown using textual list of deployed artifacts within a deployment target.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-artifact-textual.png" width="180" height="125"
+ alt="Deployment could be shown using textual list of deployed artifacts."
+ title="Deployment could be shown using textual list of deployed artifacts." />
+<p class="figure-text">
+The portfolio.ear, stocks.ear, weather.ear artifacts deployed in J2EE 1.4 container.
+</p>
+</div>
+
+<p>
+Deployment could be shown within a rectangular frame with deployment name
+ in a compartment in the upper left corner. The long form name for the diagram heading is
+ <strong>deployment</strong> and abbreviated form is <strong>dep</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-frame.png" width="320" height="129"
+ alt="User Services deployment shown in the diagram frame."
+ title="User Services deployment shown in the diagram frame." />
+<p class="figure-text">
+User Services deployment shown in the diagram frame.
+</p>
+</div>
+
+
+<!--
+*********************************
+    Deployment Specification
+*********************************
+-->
+ 
+<h2 id="deployment-spec">Deployment Specification</h2>
+
+<p>
+A <strong>deployment specification</strong> is 
+ an <a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a>
+ that specifies a set of deployment properties 
+ that determine execution parameters of a <strong>component artifact</strong> that
+is deployed on a <strong>node</strong>.
+ A deployment specification can be aimed at a specific type of 
+  <strong>container</strong> for <strong>components</strong>.
+</p>
+
+<p>
+A deployment specification is a general mechanism to parameterize a
+ <strong>deployment relationship</strong>, as is common in various
+hardware and software technologies.
+ The <strong>deployment specification</strong> element is expected
+  to be extended in specific
+component profiles. Non-normative examples of the standard stereotypes
+ that a profile might add to deployment
+specification are, for example, «<strong>concurrencyMode</strong>»
+ with tagged values {thread, process, none}, or «<strong>transactionMode</strong>»
+with tagged values {transaction, nestedTransaction, none}.
+</p>
+
+<p>
+A <strong>deployment specification</strong> at <strong>specification level</strong> 
+is rendered as a classifier rectangle with optional deployment properties in a compartment.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-specification-spec.png" width="180" height="129"
+ alt="Deployment specification displayed as a classifier rectangle with optional deployment properties."
+ title="Deployment specification displayed as a classifier rectangle with optional deployment properties." />
+<p class="figure-text">
+The ejb-jar.xml deployment specification
+</p>
+</div>
+
+<p>
+An artifact that reifies or implements deployment specification properties at <strong>instance level</strong>
+ is a <strong>deployment descriptor</strong>.
+ A deployment descriptor is rendered as a classifier rectangle with the name underlined and 
+ with deployment properties having specific values in a compartment.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-specification-instance.png" width="180" height="129"
+ alt="Deployment descriptor displayed as a classifier rectangle with optional deployment properties."
+ title="Deployment descriptor displayed as a classifier rectangle with optional deployment properties." />
+<p class="figure-text">
+The ejb-jar.xml deployment descriptor
+</p>
+</div>
+
+<p>
+An instance of a deployment specification with specific values for deployment properties
+may be contained in a complex artifact.
+</p>
+
+
+<!--
+****************************************
+  Deployment Specification Dependency
+****************************************
+-->
+ 
+<h2>Deployment Specification Dependency</h2>
+
+<p>
+A <a href="deployment-diagrams.html#deployment-spec" class="ref-link">deployment specification</a>
+ could be displayed as a classifier rectangle attached to a
+ <strong>component artifact</strong>  using a regular <strong>dependency</strong> arrow pointing
+ to deployed artifact.
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-specification-dependency.png" width="340" height="60"
+ alt="Deployment specification displayed as a classifier attached to a component artifact using a regular dependency."
+ title="Deployment specification displayed as a classifier attached to a component artifact using a regular dependency." />
+<p class="figure-text">
+The ejb-jar.xml deployment specification for user-service.ejb artifact.
+</p>
+</div>
+
+
+<!--
+****************************************
+  Deployment Specification Association
+****************************************
+-->
+ 
+<h2>Deployment Specification Association</h2>
+
+<p>
+<a href="deployment-diagrams.html#deployment-spec" class="ref-link">Deployment specification</a>
+ could be associated with 
+ the <a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a> of
+a <strong>component artifact</strong> on
+ a <a href="deployment-diagrams.html#node" class="ref-link">node</a>.
+In this case deployment specification could be shown as a classifier rectangle attached to the
+ <strong>deployment</strong>.
+</p>
+
+<p>
+ Note, that <strong>UML 2.4 specification</strong> shows this association as a <strong>dashed</strong> line
+ (while <a href="association.html" class="ref-link">association</a>
+ is normally displayed as solid line.)
+</p>
+
+<div class="figure-left-80">
+<img src="deployment-diagrams/deployment-specification-association.png" width="330" height="206"
+ alt="Deployment specification displayed as a classifier attached to deployment of component artifact."
+ title="Deployment specification displayed as a classifier attached to deployment of component artifact." />
+<p class="figure-text">
+The ejb-jar.xml deployment specification attached to deployment.
+</p>
+</div>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'deployment-diagrams.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/deployment-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

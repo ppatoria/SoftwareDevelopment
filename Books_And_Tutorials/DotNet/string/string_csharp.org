@@ -1,0 +1,121 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: String in C# 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* String is a Class then why can't you create a object for the string like this String str = new String();
+
+*Constructing Strings*
+
+Many programming languages (including C#) consider String to be a
+primitive type葉hat is, the compiler lets you express literal
+strings directly in your source code. The compiler places these
+literal strings in the module痴 metadata, and they are then loaded
+and referenced at runtime.
+
+In C#, you can稚 use the new operator to construct a String object from a literal string:
+#+begin_src csharp
+using System;
+public static class Program {
+    public static void Main() {
+        String s = new String("Hi there."); // <-- Error
+        Console.WriteLine(s);
+    }
+}
+#+end_src
+
+Instead, you must use the following simplified syntax:
+
+#+begin_src csharp
+using System;
+public static class Program {
+    public static void Main() {
+        String s = "Hi there.";
+        Console.WriteLine(s);
+    }
+}
+#+end_src
+
+If you compile this code and examine its IL (using ILDasm.exe), you壇 see the following:
+
+#+begin_src csharp
+.method public hidebysig static void Main() cil managed
+{
+.entrypoint
+// Code size 13 (0xd)
+.maxstack 1
+.locals init (string V_0)
+IL_0000: ldstr "Hi there."
+IL_0005: stloc.0
+IL_0006: ldloc.0
+IL_0007: call void [mscorlib]System.Console::WriteLine(string)
+IL_000c: ret
+} // end of method Program::Main
+#+end_src
+
+The newobj IL instruction constructs a new instance of an object. However, no newobj
+instruction appears in the IL code example. Instead, you see the special ldstr (load string) IL
+instruction, which constructs a String object by using a literal string obtained from metadata.
+This shows you that the common language runtime (CLR) does, in fact, have a special way of
+constructing literal String objects.
+
+** Strings
+There is no null-terminating character at the end of a C# string; therefore a C# string can contain any number of embedded null characters ('\0'). <br>
+It is Immutable
+*** Regular and Verbatim String Literals.
+ Use **regular string** literals when you must embed escape characters provided by C#, as shown in the following example: ::
+  #+begin_src csharp
+  string columns = "Column 1\tColumn 2\tColumn 3";
+  //Output: Column 1        Column 2        Column 3
+
+  string rows = "Row 1\r\nRow 2\r\nRow 3";
+  /* Output:
+   Row 1
+   Row 2
+   Row 3
+  */
+
+  string title = "\"The \u00C6olean Harp\", by Samuel Taylor Coleridge";
+  //Output: "The Æolean Harp", by Samuel Taylor Coleridge
+  #+end_src
+  
+ Use *verbatim strings* for convenience and *better readability* when the string text contains backslash characters, for example in file paths. Because verbatim strings **preserve new line characters** as part  of t he string text, they can be used to **initialize multiline strings**. Use **double quotation marks to embed a quotation mark** inside a verbatim string. The following example shows some common uses for verbatim strings: ::
+  #+begin_src csharp
+   string filePath = @"C:\Users\scoleridge\Documents\";
+  //Output: C:\Users\scoleridge\Documents\
+
+  string text = @"My pensive SARA ! thy soft cheek reclined
+      Thus on mine arm, most soothing sweet it is
+      To sit beside our Cot,...";
+  /* Output:
+  My pensive SARA ! thy soft cheek reclined
+     Thus on mine arm, most soothing sweet it is
+     To sit beside our Cot,... 
+  */
+
+  string quote = @"Her name was ""Sara.""";
+  //Output: Her name was "Sara."
+  #+end_src  

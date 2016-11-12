@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/list_of.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:26 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/assign/test/list_of.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/assign/test/list_of.cpp</h3>
+<pre>
+// Boost.Assign library
+//
+//  Copyright Thorsten Ottosen 2003-2004. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+// For more information, see <a href="http://www.boost.org/libs/assign/">http://www.boost.org/libs/assign/</a>
+//
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#  pragma warn -8091 // supress warning in Boost.Test
+#  pragma warn -8057 // unused argument argc/argv in Boost.Test
+#endif
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/assign/list_of.hpp">boost/assign/list_of.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/test_tools.hpp">boost/test/test_tools.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/array.hpp">boost/array.hpp</a>&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;list&gt;
+#include &lt;deque&gt;
+#include &lt;set&gt;
+#include &lt;map&gt;
+#include &lt;stack&gt;
+#include &lt;string&gt;
+#include &lt;cstdlib&gt;
+#include &lt;complex&gt;
+
+struct nothing
+{
+    template&lt; class T &gt;
+    void operator()( T )
+    { }
+    
+};
+
+template&lt; class Range &gt;
+void for_each( const Range&amp; r )
+{
+    std::for_each( r.begin(), r.end(), nothing() );
+}
+
+namespace ba = boost::assign;
+    
+template&lt; class C &gt;
+void test_sequence_list_of_string()
+{
+#if BOOST_WORKAROUND(BOOST_MSVC, &lt;=1300)
+    const C c = ba::list_of( &quot;foo&quot; )( &quot;bar&quot; ).to_container( c );   
+#else
+    const C c = ba::list_of( &quot;foo&quot; )( &quot;bar&quot; );   
+#endif
+    BOOST_CHECK_EQUAL( c.size(), 2u );
+}
+
+struct parameter_list
+{
+    int val;
+    
+    template&lt; class T &gt;
+    parameter_list( T )
+    : val(0)
+    { }
+    
+    template&lt; class T &gt;
+    parameter_list( const T&amp;, int )
+    : val(1)
+    { }
+};
+
+template&lt; class C &gt;
+void test_sequence_list_of_int()
+{
+    using namespace std;
+#if BOOST_WORKAROUND(BOOST_MSVC, &lt;=1300)
+
+    const C c = ba::list_of&lt;int&gt;(1)(2)(3)(4).to_container( c );
+    const C c2 = ba::list_of(1)(2)(3)(4).to_container( c2 );
+    BOOST_CHECK_EQUAL( c.size(), 4u );
+    BOOST_CHECK_EQUAL( c2.size(), 4u );
+    C c3 = ba::list_of(1).repeat( 1, 2 )(3).to_container( c3 );
+    BOOST_CHECK_EQUAL( c3.size(), 3u );
+        
+    c3 = ba::list_of(1).repeat_fun( 10, &amp;rand )(2)(3).to_container( c3 );
+    BOOST_CHECK_EQUAL( c3.size(), 13u );
+
+#else
+
+    const C c = ba::list_of&lt;int&gt;(1)(2)(3)(4);
+    const C c2 = ba::list_of(1)(2)(3)(4);
+    BOOST_CHECK_EQUAL( c.size(), 4u );
+    BOOST_CHECK_EQUAL( c2.size(), 4u );
+    C c3 = ba::list_of(1).repeat( 1, 2 )(3);
+    BOOST_CHECK_EQUAL( c3.size(), 3u );
+        
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+    // BCB fails to use operator=() directly, 
+    // it must be worked around using e.g. auxiliary variable
+    C aux = ba::list_of(1).repeat_fun( 10, &amp;rand )(2)(3);
+    BOOST_CHECK_EQUAL( aux.size(), 13u );
+    c3 = aux;
+    BOOST_CHECK_EQUAL( c3.size(), 13u );
+#else
+    c3 = ba::list_of(1).repeat_fun( 10, &amp;rand )(2)(3);
+    BOOST_CHECK_EQUAL( c3.size(), 13u );
+#endif
+
+#endif
+
+    parameter_list p( ba::list_of(1)(2), 3u );
+    BOOST_CHECK_EQUAL( p.val, 1 );
+
+}
+
+template&lt; class C &gt;
+void test_map_list_of()
+{
+    const C c  = ba::list_of&lt; std::pair&lt;std::string,int&gt; &gt;( &quot;foo&quot;, 1 )( &quot;bar&quot;, 2 )( &quot;buh&quot;, 3 )( &quot;bah&quot;, 4 );
+    BOOST_CHECK_EQUAL( c.size(), 4u );
+    const C c2  = ba::map_list_of( &quot;foo&quot;, 1 )( &quot;bar&quot;, 2 )( &quot;buh&quot;, 3 )( &quot;bah&quot;, 4 );
+    BOOST_CHECK_EQUAL( c2.size(), 4u );
+}
+
+void test_vector_matrix()
+{
+    using namespace boost;
+    using namespace boost::assign;
+    using namespace std;
+
+#if BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, == 1)  || BOOST_WORKAROUND(BOOST_MSVC, &lt;=1300)
+#else    
+      
+    const int              sz = 3;
+    typedef array&lt;int,sz&gt;   row3;
+    typedef array&lt;row3,sz&gt;  matrix3x3;
+    
+
+    matrix3x3 m = list_of( list_of(1)(2)(3) )
+                         ( list_of(4)(5)(6) )
+                         ( list_of(7)(8)(9) );
+
+    for( int i = 0; i != sz; ++i )
+        for( int j = 0; j != sz; ++j )
+            BOOST_CHECK_EQUAL( m[i][j], i*sz + j + 1 );
+
+    typedef vector&lt;int&gt;  row;
+    typedef vector&lt;row&gt;  matrix;
+    
+    //
+    // note: some libraries need a little help
+    //       with the conversion, hence the 'row' template parameter. 
+    //
+    matrix m2 = list_of&lt; row &gt;( list_of(1)(2)(3) )
+                              ( list_of(4)(5) )
+                              ( list_of(6) );
+    
+    for( int i = 0; i != sz; ++i )
+        for( int j = 0; j != sz - i; ++j )
+            BOOST_CHECK_EQUAL( m[i][j], i*sz + j + 1 );
+
+#endif  
+  
+}
+
+void test_map_list_of()
+{
+/*
+    maybe in the future...
+   
+    using namespace std;
+    using namespace boost::assign;
+     
+    typedef vector&lt;int&gt;                   score_type;
+    typedef map&lt;string,score_type&gt;        team_score_map;
+ 
+    team_score_map team_score = map_list_of
+                        ( &quot;Team Foo&quot;,    list_of(1)(1)(0) )
+                        ( &quot;Team Bar&quot;,    list_of(0)(0)(0) )
+                        ( &quot;Team FooBar&quot;, list_of(0)(0)(1) );
+    BOOST_CHECK_EQUAL( team_score.size(), 3 );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Foo&quot; ][1], 1 );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Bar&quot; ][0], 0 );
+*/
+
+}
+
+/*
+void test_complex_list_of()
+{
+    typedef std::complex&lt;float&gt; complex_t;
+    std::vector&lt;complex_t&gt; v;
+    v = ba::list_of&lt;complex_t&gt;(1,2)(2,3)(4,5)(0).
+          repeat_from_to( complex_t(0,0), complex_t(10,10), complex_t(1,1) ); 
+}
+*/
+
+struct five
+{
+    five( int, int, int, int, int )
+    {
+    }
+};
+
+void test_list_of()
+{
+    ba::list_of&lt; five &gt;(1,2,3,4,5)(6,7,8,9,10);
+    
+/* Maybe this could be usefull in a later version?
+
+    // an anonymous lists, fulfills Range concept
+    for_each( ba::list_of( T() )( T() )( T() ) );
+    
+    // non-anonymous lists
+    ba::generic_list&lt;T&gt; list_1 = ba::list_of( T() );
+    BOOST_CHECK_EQUAL( list_1.size(), 1 );
+    ba::generic_list&lt;T&gt; list_2 = list_1 + ba::list_of( T() )( T() ) + list_1;
+    BOOST_CHECK_EQUAL( list_2.size(), 4 );
+    list_1 += list_2;
+    BOOST_CHECK_EQUAL( list_1.size(), 5 );
+*/
+}
+
+//
+// @remark: ADL is required here, but it is a bit wierd to
+//          open up namespace std. Perhaps Boost.Test needs a
+//          better configuration option. 
+//
+namespace std
+{
+    template&lt; class T, class Elem, class Traits &gt;
+    inline std::basic_ostream&lt;Elem,Traits&gt;&amp; 
+    operator&lt;&lt;( std::basic_ostream&lt;Elem, Traits&gt;&amp; Os,
+                const std::vector&lt;T&gt;&amp; r )
+    {
+        return Os &lt;&lt; ::boost::make_iterator_range( r.begin(),  r.end() );
+    }
+}
+
+template &lt;class Seq&gt;
+inline std::vector&lt;int&gt; as_seq( const Seq&amp; s )
+{
+    std::vector&lt;int&gt; c;
+    return s.to_container( c );
+}
+
+void test_comparison_operations()
+{
+    BOOST_CHECK_EQUAL( ba::list_of(0)(1)(2), as_seq(ba::list_of(0)(1)(2)) );
+    BOOST_CHECK_NE( ba::list_of(0)(1)(2), as_seq(ba::list_of(-1)(1)(2)) );
+    BOOST_CHECK_LT( ba::list_of(0)(1)(2), as_seq(ba::list_of(0)(1)(3)) );
+    BOOST_CHECK_LE( ba::list_of(0)(1)(2), as_seq(ba::list_of(0)(1)(2)) );
+    BOOST_CHECK_GT( ba::list_of(0)(1)(3), as_seq(ba::list_of(0)(1)(2)) );
+    BOOST_CHECK_GE( ba::list_of(0)(1)(2), as_seq(ba::list_of(0)(1)(2)) );
+    BOOST_CHECK_EQUAL( as_seq(ba::list_of(0)(1)(2)), ba::list_of(0)(1)(2) );
+    BOOST_CHECK_NE( as_seq(ba::list_of(0)(1)(2)), ba::list_of(-1)(1)(2) );
+    BOOST_CHECK_LT( as_seq(ba::list_of(0)(1)(2)), ba::list_of(0)(1)(3) );
+    BOOST_CHECK_LE( as_seq(ba::list_of(0)(1)(2)), ba::list_of(0)(1)(2) );
+    BOOST_CHECK_GT( as_seq(ba::list_of(0)(1)(3)), ba::list_of(0)(1)(2) );
+    BOOST_CHECK_GE( as_seq(ba::list_of(0)(1)(2)), ba::list_of(0)(1)(2) );
+}
+
+void check_list_of()
+{
+    test_sequence_list_of_int&lt; std::vector&lt;int&gt; &gt;();
+    test_sequence_list_of_int&lt; std::list&lt;int&gt; &gt;();
+    test_sequence_list_of_int&lt; std::deque&lt;int&gt; &gt;();
+    test_sequence_list_of_int&lt; std::set&lt;int&gt; &gt;();
+    test_sequence_list_of_int&lt; std::multiset&lt;int&gt; &gt;();
+    test_sequence_list_of_int&lt; std::vector&lt;float&gt; &gt;();
+
+    test_sequence_list_of_string&lt; std::vector&lt;std::string&gt; &gt;();
+
+    test_map_list_of&lt; std::map&lt;std::string,int&gt; &gt;();
+    test_map_list_of&lt; std::multimap&lt;std::string,int&gt; &gt;();
+    
+    std::stack&lt;std::string&gt; s = ba::list_of( &quot;Foo&quot; )( &quot;Bar&quot; )( &quot;FooBar&quot; ).to_adapter( s );
+    test_list_of();
+    test_vector_matrix();
+    test_comparison_operations();
+}
+
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/unit_test.hpp">boost/test/unit_test.hpp</a>&gt;
+using boost::unit_test::test_suite;
+
+test_suite* init_unit_test_suite( int argc, char* argv[] )
+{
+    test_suite* test = BOOST_TEST_SUITE( &quot;List Test Suite&quot; );
+
+    test-&gt;add( BOOST_TEST_CASE( &amp;check_list_of ) );
+
+    return test;
+}
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/list_of.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:26 GMT -->
+</html>

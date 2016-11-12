@@ -1,0 +1,3671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from www.albahari.com/threading/part5.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Threading in C# - Part 5 - Parallel Programming
+</title><link rel="stylesheet" type="text/css" href="tstyles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="sh_main.min.js"></script>
+<script type="text/javascript" src="sh_csharp.js"></script>
+<link type="text/css" rel="stylesheet" href="sh_style.css" /></head>
+
+<body onload="sh_highlightDocument();">
+<form name="aspnetForm" method="post" action="http://www.albahari.com/threading/part5.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+
+<div id="navbar">
+<p class="navtitle">Threading in C#, by Joe Albahari</p>
+<div id="ctl00_navcontent">
+<p class='navsectioncontainer'>
+<a class='nav0' href='index.html'>GETTING STARTED</a>
+	<a class='nav1' href='index.html#_Introduction'>+ Introduction and Concepts</a>
+	<a class='nav1' href='index.html#_Creating_and_Starting_Threads'>+ Creating and Starting Threads</a>
+	<a class='nav1' href='index.html#_Thread_Pooling'>+ Thread Pooling</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part2.html'>BASIC SYNCHRONIZATION</a>
+	<a class='nav1' href='part2.html#_Synchronization'>+ Synchronization Essentials</a>
+	<a class='nav1' href='part2.html#_Locking'>+ Locking</a>
+	<a class='nav1' href='part2.html#_Thread_Safety'>+ Thread Safety</a>
+	<a class='nav1' href='part2.html#_Signaling_with_Event_Wait_Handles'>+ Event Wait Handles</a>
+	<a class='nav1' href='part2.html#_Synchronization_Contexts'>+ Synchronization Contexts</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part3.html'>USING THREADS</a>
+	<a class='nav1' href='part3.html#_Event-Based_Asynchronous_Pattern'>+ Event-Based Asynch Pattern</a>
+	<a class='nav1' href='part3.html#_BackgroundWorker'>+ BackgroundWorker</a>
+	<a class='nav1' href='part3.html#_Interrupt_and_Abort'>+ Interrupt and Abort</a>
+	<a class='nav1' href='part3.html#_Safe_Cancellation'>+ Safe Cancellation</a>
+	<a class='nav1' href='part3.html#_Lazy_Initialization'>+ Lazy Initialization</a>
+	<a class='nav1' href='part3.html#_Thread-Local_Storage'>+ Thread-Local Storage</a>
+	<a class='nav1' href='part3.html#_Timers'>+ Timers</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0' href='part4.html'>ADVANCED THREADING</a>
+	<a class='nav1' href='part4.html#_Nonblocking_Synchronization'>+ Nonblocking Synchronization</a>
+	<a class='nav1' href='part4.html#_Signaling_with_Wait_and_Pulse'>+ Signaling with Wait and Pulse</a>
+	<a class='nav1' href='part4.html#_The_Barrier_Class'>+ The Barrier Class</a>
+	<a class='nav1' href='part4.html#_Reader_Writer_Locks'>+ Reader/Writer Locks</a>
+	<a class='nav1' href='part4.html#_Suspend_and_Resume'>+ Suspend and Resume</a>
+	<a class='nav1' href='part4.html#_Aborting_Threads'>+ Aborting Threads</a>
+</p>
+
+<p class='navsectioncontainer'>
+<a class='nav0a' href='part5.html'>PARALLEL PROGRAMMING</a>
+	<a class='nav1a' href='part5.html#_Parallel_Programming'>Parallel Programming</a>
+	<a class='nav1a' href='part5.html#_Why_PFX'>Why PFX?</a>
+	<a class='nav2a' href='part5.html#_PFX_Concepts'>PFX Concepts</a>
+	<a class='nav2a' href='part5.html#_PFX_Components'>PFX Components</a>
+	<a class='nav2a' href='part5.html#_When_to_Use_PFX'>When to Use PFX</a>
+	<a class='nav1a' href='part5.html#_PLINQ'>PLINQ</a>
+	<a class='nav2a' href='part5.html#_Parallel_Execution_Ballistics'>Parallel Execution Ballistics</a>
+	<a class='nav2a' href='part5.html#_PLINQ_and_Ordering'>PLINQ and Ordering</a>
+	<a class='nav2a' href='part5.html#_PLINQ_Limitations'>PLINQ Limitations</a>
+	<a class='nav2a' href='part5.html#_PLINQ_Spellchecker'>Example: Parallel Spellchecker</a>
+	<a class='nav2a' href='part5.html#_Functional_Purity'>Functional Purity</a>
+	<a class='nav2a' href='part5.html#_Calling_Blocking_Functions_PLINQ'>Calling Blocking Functions</a>
+	<a class='nav2a' href='part5.html#_PLINQ_Cancellation'>Cancellation</a>
+	<a class='nav2a' href='part5.html#_Optimizing_PLINQ'>Optimizing PLINQ</a>
+	<a class='nav2a' href='part5.html#_Parallelizing_Custom_Aggregations'>Parallelizing Aggregate()</a>
+	<a class='nav1a' href='part5.html#_The_Parallel_Class'>The Parallel Class</a>
+	<a class='nav2a' href='part5.html#_Parallel.Invoke'>Parallel.Invoke</a>
+	<a class='nav2a' href='part5.html#_Parallel.For_and_Parallel.ForEach'>For and ForEach</a>
+	<a class='nav1a' href='part5.html#_Task_Parallelism'>Task Parallelism</a>
+	<a class='nav2a' href='part5.html#_Creating_and_Starting_Tasks'>Creating and Starting Tasks</a>
+	<a class='nav2a' href='part5.html#_Waiting_on_Tasks'>Waiting on Tasks</a>
+	<a class='nav2a' href='part5.html#_Exception-Handling_Tasks'>Exception-Handling Tasks</a>
+	<a class='nav2a' href='part5.html#_Canceling_Tasks'>Canceling Tasks</a>
+	<a class='nav2a' href='part5.html#_Continuations'>Continuations</a>
+	<a class='nav2a' href='part5.html#_Task_Schedulers_and_UIs'>Task Schedulers and UIs </a>
+	<a class='nav2a' href='part5.html#_TaskFactory'>TaskFactory</a>
+	<a class='nav2a' href='part5.html#_TaskCompletionSource'>TaskCompletionSource</a>
+	<a class='nav1a' href='part5.html#_Working_with_AggregateException'>Working with AggregateException</a>
+	<a class='nav2a' href='part5.html#_Flatten_and_Handle'>Flatten and Handle</a>
+	<a class='nav1a' href='part5.html#_Concurrent_Collections'>Concurrent Collections</a>
+	<a class='nav2a' href='part5.html#_IProducerConsumerCollectionT'>IProducerConsumerCollection</a>
+	<a class='nav2a' href='part5.html#_ConcurrentBagT'>ConcurrentBag</a>
+	<a class='nav2a' href='part5.html#_BlockingCollectionT'>BlockingCollection</a>
+	<a class='nav1a' href='part5.html#_SpinLock_and_SpinWait'>SpinLock and SpinWait</a>
+	<a class='nav2a' href='part5.html#_SpinLock'>SpinLock</a>
+	<a class='nav2a' href='part5.html#_SpinWait'>SpinWait</a>
+</p>
+</div>
+<p><a href="../index.html">More by this author</a></p>
+<br />
+</div>
+
+<div id="main">
+<p class="title">Threading in C#</p>
+<p class="author">Joseph Albahari</p>
+<div id="ctl00_toc">
+<table class='toc' border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<th class='toc'><a class='toc' href='index.html'> Part 1</a></th>
+		<th class='toc'><a class='toc' href='part2.html'> Part 2</a></th>
+		<th class='toc'><a class='toc' href='part3.html'> Part 3</a></th>
+		<th class='toc'><a class='toc' href='part4.html'> Part 4</a></th>
+		<th class='tocactive'>Part 5</th>
+	</tr>
+	<tr>		<td class='toc'><a class='toc' href='index.html'>Getting Started</a></td>
+		<td class='toc'><a class='toc' href='part2.html'>Basic Synchronization</a></td>
+		<td class='toc'><a class='toc' href='part3.html'>Using Threads</a></td>
+		<td class='toc'><a class='toc' href='part4.html'>Advanced Threading</a></td>
+		<td class='tocactive'>Parallel Programming</td>
+	</tr>
+</table>
+</div>
+<p style="float:right">Last updated: 2011-4-27</p>
+<p>Translations: 
+	<a href="http://knowledge.swanky.wu.googlepages.com/threading_in_c_sharp.html"> Chinese</a>
+	| <a href="threading_czech.pdf">Czech</a>
+	| <a href="threading_persian.pdf"> Persian</a>
+	| <a href="http://rsdn.ru/article/?904"> Russian</a>
+	| <a href="http://article.higlabo.com/ja/thread_fundamentals.html"> Japanese</a>
+</p>
+	
+<p><a href='http://www.albahari.info/threading/threading.pdf' style='font-weight:bold'>Download PDF</a>
+
+</p>	
+
+
+
+<p class="sectiontitle"><a name="_Parallel_Programming">Part 5: Parallel Programming</a></p>
+
+<p>&nbsp;</p>
+
+<div class="book">
+	<p style='font-weight:bold; font-size:130%; margin:0'>Acknowledgements</p>
+	<p>Huge thanks to Stephen Toub, Jon Skeet and Mitch Wheat for their feedback
+	 — particularly Stephen Toub whose input shaped the entire threading article and the
+	 concurrency chapters in <i>C# 4.0 in a Nutshell.</i></p>
+</div>
+
+<p>In this section, we cover the multithreading APIs new to
+Framework 4.0 for leveraging multicore processors:</p>
+
+<ul>
+	<li>Parallel LINQ or <i><a href="#_PLINQ">PLINQ</a></i></li>
+	<li>The <code><a href="#_The_Parallel_Class">Parallel</a></code>
+class</li>
+	<li>The <i><a href="#_Task_Parallelism">task parallelism</a></i> constructs</li>
+	<li>The <a href="#_Concurrent_Collections">concurrent collections</a></li>
+	<li><a href="#_SpinLock_and_SpinWait">SpinLock and SpinWait</a></li>
+</ul>
+
+<p>These APIs are collectively known (loosely) as PFX
+(Parallel Framework). The <code><a href="#_The_Parallel_Class">Parallel</a></code>
+class together with the <a href="#_Task_Parallelism">task parallelism
+constructs</a> is called the <i>Task Parallel Library</i>
+or TPL.</p>
+
+<p>Framework 4.0 also adds a number of lower-level threading
+constructs that are aimed equally at traditional multithreading. We covered
+these previously:</p>
+
+<ul>
+	<li>The low-latency signaling constructs (<code><a href="part2.html#_Semaphore">SemaphoreSlim</a></code>, <code><a href="part2.html#_ManualResetEvent">ManualResetEventSlim</a></code>, <code><a href="part2.html#_CountdownEvent">CountdownEvent</a></code> and <code><a href="part4.html#_The_Barrier_Class">Barrier</a></code>)</li>
+	<li>
+		<a href="part3.html#_Cancellation_Tokens">Cancellation tokens</a> for
+cooperative cancellation</li>
+	<li>The <a href="part3.html#_Lazy_Initialization">lazy initialization classes</a></li>
+	<li>
+		<code>
+			<a href="part3.html#_ThreadLocalT">ThreadLocal&lt;T&gt;</a>
+		</code>
+	</li>
+</ul>
+
+<p>You’ll need to be comfortable with the fundamentals in Parts
+1-4 before continuing — particularly <a href="part2.html#_Locking">locking</a> and <a href="part2.html#_Thread_Safety">thread safety</a>.</p>
+
+<p class="note">All the code listings in the parallel programming sections are available as interactive samples in <a href="http://www.linqpad.net/">LINQPad</a>. 
+LINQPad is a C# code scratchpad and is ideal for testing code snippets without having to create a surrounding class, project or solution.
+To access the samples, click <strong>Download More Samples</strong> in LINQPad's Samples tab in the bottom left, and select <strong>C# 4.0 in a Nutshell: More Chapters</strong>.</p>
+
+<h1>
+	<a name="_Why_PFX">Why PFX?</a>
+</h1>
+
+<p>In recent times, CPU clock speeds have stagnated and
+manufacturers have shifted their focus to increasing core counts. This is
+problematic for us as programmers because our standard single-threaded code
+will not automatically run faster as a result of those extra cores.</p>
+
+<p>Leveraging multiple cores is easy for most server
+applications, where each thread can independently handle a separate client
+request, but is harder on the desktop — because it typically requires that you
+take your computationally intensive code and do the following:</p>
+
+<ol>
+	<li>
+		<em>Partition</em> it into small chunks.</li>
+	<li>Execute those chunks in parallel via multithreading.</li>
+	<li>
+		<em>Collate</em> the results as they become available, in a thread-safe
+and performant manner.</li>
+</ol>
+
+<p>Although you can do all of this with the classic
+multithreading constructs, it’s awkward — particularly the steps of partitioning
+and collating. A further problem is that the usual strategy of <a href="part2.html#_Locking">locking</a> for <a href="part2.html#_Thread_Safety">thread safety</a>
+causes a lot of contention when many threads work on the same data at once.</p>
+
+<p>The PFX libraries have been designed specifically to help
+in these scenarios.</p>
+
+<p class="note">Programming to leverage multicores or multiple processors is
+called <i>parallel programming</i>. This is a
+subset of the broader concept of multithreading.</p>
+
+<h2>
+	<a name="_PFX_Concepts">PFX Concepts</a>
+</h2>
+
+<p>There are two strategies for partitioning work among threads:
+<i>data parallelism</i> and <i>task parallelism</i>.</p>
+
+<p>When a set of tasks must be performed on many data values,
+we can parallelize by having each thread perform the (same) set of tasks on a
+subset of values. This is called <i>data parallelism</i>
+because we are partitioning the <em>data</em> between threads. In contrast,
+with <i>task parallelism</i> we partition the <em>tasks</em>;
+in other words, we have each thread perform a different task.</p>
+
+<p>In general, data parallelism is easier and scales better
+to highly parallel hardware, because it reduces or eliminates shared data
+(thereby reducing contention and thread-safety issues). Also, data parallelism
+leverages the fact that there are often more data values than discrete tasks,
+increasing the parallelism potential.</p>
+
+<p>Data parallelism is also conducive to <i>structured parallelism</i>, which means that parallel
+work units start and finish in the same place in your program. In contrast, task
+parallelism tends to be unstructured, meaning that parallel work units may
+start and finish in places scattered across your program. Structured parallelism
+is simpler and less error-prone and allows you to farm the difficult job of
+partitioning and thread coordination (and even result collation) out to
+libraries.</p>
+
+<h2>
+	<a name="_PFX_Components">PFX Components</a>
+</h2>
+
+<p>PFX comprises two layers of functionality. The higher
+layer consists of two <em>structured data parallelism</em> APIs: <a href="#_PLINQ">PLINQ</a> and the <code><a href="#_The_Parallel_Class">Parallel</a></code> class. The lower layer contains
+the task parallelism classes — plus a set of additional constructs to help with
+parallel programming activities.</p>
+
+<div class="figure">
+	<img width="750" height="473" src="ParallelProgramming.png" alt="Parallel Programming Components" />
+</div>
+
+<p>PLINQ offers the richest functionality: it automates all
+the steps of parallelization — including partitioning the work into tasks,
+executing those tasks on threads, and collating the results into a single
+output sequence. It’s called <em>declarative</em> — because you simply declare
+that you want to parallelize your work (which you structure as a LINQ query),
+and let the Framework take care of the implementation details. In contrast, the
+other approaches are <em>imperative</em>, in that you need to explicitly write
+code to partition or collate. In the case of the <code>Parallel</code>
+class, you must collate results yourself; with the task parallelism constructs,
+you must partition the work yourself, too:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top"></th>
+		<th valign="top">Partitions work</th>
+		<th valign="top">Collates results</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_PLINQ">PLINQ</a>
+		</td>
+		<td valign="top">Yes</td>
+		<td valign="top">Yes</td>
+	</tr>
+	<tr>
+		<td valign="top">The <code><a href="#_The_Parallel_Class">Parallel</a></code> class</td>
+		<td valign="top">Yes</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">PFX’s <a href="#_Task_Parallelism">task parallelism</a></td>
+		<td valign="top">No</td>
+		<td valign="top">No</td>
+	</tr>
+</table>
+
+<p>The <a href="#_Concurrent_Collections">concurrent collections</a> and <a href="#_SpinLock_and_SpinWait">spinning primitives</a> help
+you with lower-level parallel programming activities. These are important
+because PFX has been designed to work not only with today’s hardware, but also
+with future generations of processors with far more cores. If you want to move
+a pile of chopped wood and you have 32 workers to do the job, the biggest
+challenge is moving the wood without the workers getting in each other's way.
+It’s the same with dividing an algorithm among 32 cores: if ordinary locks are
+used to protect common resources, the resultant <a href="part2.html#_Blocking">blocking</a>
+may mean that only a fraction of those cores are ever actually busy at once.
+The concurrent collections are tuned specifically for highly concurrent access,
+with the focus on minimizing or eliminating blocking. PLINQ and the <code>Parallel</code> class themselves rely on the concurrent
+collections and on spinning primitives for efficient management of work.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">PFX and Traditional Multithreading</p>
+
+<p>A traditional multithreading scenario is one where
+multithreading can be of benefit even on a single-core machine — with no true <em>parallelization</em>
+taking place. We covered these previously: they include such tasks as
+maintaining a responsive user interface and downloading two web pages at once.</p>
+
+<p>Some of the constructs that we’ll cover in the parallel
+programming sections are also sometimes useful in traditional multithreading.
+In particular:</p>
+
+<ul>
+	<li>
+		<a href="#_PLINQ">PLINQ</a> and the <code><a href="#_The_Parallel_Class">Parallel</a></code> class are useful whenever you
+want to execute operations in parallel and then wait for them to complete (<em>structured</em>
+parallelism). This includes non-CPU-intensive tasks such as calling a web
+service.</li>
+	<li>The <a href="#_Task_Parallelism">task parallelism constructs</a>
+are useful when you want to run some operation on a <a href="index.html#_Thread_Pooling">pooled
+thread</a>, and also to manage a task’s workflow through <a href="#_Continuations">continuations</a> and <a href="#_Child_tasks">parent/child
+tasks</a>.</li>
+	<li>The <a href="#_Concurrent_Collections">concurrent collections</a> are sometimes appropriate when you
+want a thread-safe queue, stack, or dictionary.</li>
+	<li>
+		<a href="#_BlockingCollectionT">BlockingCollection</a> provides an easy
+means to implement <a href="part4.html#_Wait_Pulse_Producer_Consumer_Queue">producer/consumer</a>
+structures.</li>
+</ul>
+
+</div>
+
+<h2>
+	<a name="_When_to_Use_PFX">When to Use PFX</a>
+</h2>
+
+<p>The primary use case for PFX is <em>parallel programming</em>:
+leveraging multicore processors to speed up computationally intensive code.</p>
+
+<p>A challenge in leveraging multicores is Amdahl's law,
+which states that the maximum performance improvement from parallelization is
+governed by the portion of the code that must execute sequentially. For
+instance, if only two-thirds of an algorithm’s execution time is
+parallelizable, you can never exceed a threefold performance gain — even with an
+infinite number of cores.</p>
+
+<p>So, before proceeding, it’s worth verifying that the
+bottleneck is in parallelizable code. It’s also worth considering whether your
+code <em>needs</em> to be computationally intensive — optimization is often the
+easiest and most effective approach. There’s a trade-off, though, in that some
+optimization techniques can make it harder to parallelize code.</p>
+
+<p>The easiest gains come with what’s called <i>embarrassingly parallel</i> problems — where a job can
+be divided easily into tasks that execute efficiently on their own (structured
+parallelism is very well suited to such problems). Examples include many image
+processing tasks, ray tracing, and brute force approaches in mathematics or
+cryptography. An example of a nonembarrassingly parallel problem is
+implementing an optimized version of the quicksort algorithm — a good result
+takes some thought and may require unstructured parallelism.</p>
+
+<h1>
+	<a name="_PLINQ">PLINQ</a>
+</h1>
+
+<p>PLINQ automatically parallelizes local LINQ queries. PLINQ
+has the advantage of being easy to use in that it offloads the burden of both
+work partitioning and result collation to the Framework.</p>
+
+<p>To use PLINQ, simply call <code>AsParallel()</code>
+on the input sequence and then continue the LINQ query as usual. The following
+query calculates the prime numbers between 3 and 100,000 — making full use of all
+cores on the target machine:</p>
+
+<pre class="sh_csharp">
+// Calculate prime numbers using a simple (unoptimized) algorithm.
+//
+// NB: All code listings in this chapter are available as interactive code snippets in <a href="http://www.linqpad.net/">LINQPad</a>.
+// To activate these samples, click <strong>Download More Samples</strong> in LINQPad's Samples tab in the 
+// bottom left, and select <strong>C# 4.0 in a Nutshell: More Chapters</strong>.
+ 
+IEnumerable&lt;int&gt; numbers = Enumerable.Range (3, 100000-3);
+ 
+var parallelQuery = 
+  from n in numbers<b>.AsParallel()</b>
+  where Enumerable.Range (2, (int) Math.Sqrt (n)).All (i =&gt; n % i &gt; 0)
+  select n;
+ 
+int[] primes = parallelQuery.ToArray();
+</pre>
+
+<p>
+	<code>AsParallel</code> is an extension
+method in <code>System.Linq.ParallelEnumerable</code>. It wraps
+the input in a sequence based on <code>ParallelQuery&lt;TSource&gt;</code>,
+which causes the LINQ query operators that you subsequently call to bind to an
+alternate set of extension methods defined in <code>ParallelEnumerable</code>.
+These provide parallel implementations of each of the standard query operators.
+Essentially, they work by partitioning the input sequence into chunks that
+execute on different threads, collating the results back into a single output
+sequence for consumption:</p>
+
+<div class="figure">
+	<img width="750" height="298" src="PLINQExecution.png" alt="PLINQ Execution" />
+</div>
+
+<p>Calling <code>AsSequential()</code> unwraps
+a <code>ParallelQuery</code> sequence so that subsequent query
+operators bind to the standard query operators and execute sequentially. This
+is necessary before calling methods that have side effects or are not
+thread-safe.</p>
+
+<p>For query operators that accept two input sequences (<code>Join</code>, <code>GroupJoin</code>, <code>Concat</code>, <code>Union</code>, <code>Intersect</code>, <code>Except</code>, and <code>Zip</code>), you must apply <code>AsParallel()</code>
+to both input sequences (otherwise, an exception is thrown). You don’t,
+however, need to keep applying <code>AsParallel</code> to a query
+as it progresses, because PLINQ’s query operators output another <code>ParallelQuery</code> sequence. In fact, calling <code>AsParallel</code> again introduces inefficiency in that it forces
+merging and repartitioning of the query:</p>
+
+<pre class="sh_csharp">
+mySequence.AsParallel()           // Wraps sequence in ParallelQuery&lt;int&gt;
+          .Where (n =&gt; n &gt; 100)   // Outputs another ParallelQuery&lt;int&gt;
+          <b>.AsParallel()           // Unnecessary - and inefficient!</b>
+          .Select (n =&gt; n * n)
+</pre>
+
+<p>Not all query operators can be effectively parallelized.
+For <a href="#_PLINQ_Limitations">those that cannot</a>, PLINQ implements the
+operator sequentially instead. PLINQ may also operate sequentially if it
+suspects that the overhead of parallelization will actually slow a particular
+query.</p>
+
+<p>PLINQ is only for local collections: it doesn’t work with
+LINQ to SQL or Entity Framework because in those cases the LINQ translates into
+SQL which then executes on a database server. However, you <em>can</em> use
+PLINQ to perform additional local querying on the result sets obtained from
+database queries.</p>
+
+<p class="warning">If a PLINQ query throws an exception, it’s rethrown as
+an <code>AggregateException</code> whose <code>InnerExceptions</code>
+property contains the real exception (or exceptions). See <a href="#_Working_with_AggregateException">Working with AggregateException</a>
+for details.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">Why Isn’t AsParallel the Default?</p>
+
+<p>Given that <code>AsParallel</code>
+transparently parallelizes LINQ queries, the question arises, “Why didn’t
+Microsoft simply parallelize the standard query operators and make PLINQ the
+default?”</p>
+
+<p>There are a number of reasons for the <em>opt-in</em>
+approach. First, for PLINQ to be useful there has to be a reasonable amount of
+computationally intensive work for it to farm out to worker threads. Most LINQ
+to Objects queries execute very quickly, and not only would parallelization be
+unnecessary, but the overhead of partitioning, collating, and coordinating the
+extra threads may actually slow things down.</p>
+
+<p>Additionally:</p>
+
+<ul>
+	<li>The output of a PLINQ query (by default) may <a href="#_PLINQ_and_Ordering">differ from a LINQ query</a> with respect to
+element ordering.</li>
+	<li>PLINQ wraps exceptions in an <code><a href="#_Working_with_AggregateException">AggregateException</a></code> (to
+handle the possibility of multiple exceptions being thrown).</li>
+	<li>PLINQ will give unreliable results if the query invokes
+thread-unsafe methods.</li>
+</ul>
+
+<p>Finally, PLINQ offers quite a few hooks for tuning and
+tweaking. Burdening the standard LINQ to Objects API with such nuances would
+add distraction.</p>
+
+</div>
+
+<h2>
+	<a name="_Parallel_Execution_Ballistics">Parallel Execution Ballistics</a>
+</h2>
+
+<p>Like ordinary LINQ queries, PLINQ queries are lazily
+evaluated. This means that execution is triggered only when you begin consuming
+the results — typically via a <code>foreach</code> loop (although
+it may also be via a conversion operator such as <code>ToArray</code>
+or an operator that returns a single element or value).</p>
+
+<p>As you enumerate the results, though, execution proceeds
+somewhat differently from that of an ordinary sequential query. A sequential
+query is powered entirely by the consumer in a “pull” fashion: each element
+from the input sequence is fetched exactly when required by the consumer. A
+parallel query ordinarily uses independent threads to fetch elements from the
+input sequence slightly <em>ahead</em> of when they’re needed by the consumer
+(rather like a teleprompter for newsreaders, or an antiskip buffer in CD
+players). It then processes the elements in parallel through the query chain,
+holding the results in a small buffer so that they’re ready for the consumer on
+demand. If the consumer pauses or breaks out of the enumeration early, the
+query processor also pauses or stops so as not to waste CPU time or memory.</p>
+
+<p class="note">You can tweak PLINQ’s buffering behavior by calling <code>WithMergeOptions</code> after <code>AsParallel</code>.
+The default value of <code>AutoBuffered</code> generally gives
+the best overall results. <code>NotBuffered</code> disables the
+buffer and is useful if you want to see results as soon as possible; <code>FullyBuffered</code> caches the entire result set before
+presenting it to the consumer (the <code>OrderBy</code> and <code>Reverse</code> operators naturally work this way, as do the
+element, aggregation, and conversion operators).</p>
+
+<h2>
+	<a name="_PLINQ_and_Ordering">PLINQ and Ordering</a>
+</h2>
+
+<p>A side effect of parallelizing the query operators is that
+when the results are collated, it’s not necessarily in the same order that they
+were submitted, as illustrated in the previous diagram. In other words, LINQ’s
+normal order-preservation guarantee for sequences no longer holds.</p>
+
+<p>If you need order preservation, you can force it by
+calling <code>AsOrdered()</code> after <code>AsParallel()</code>:</p>
+
+<pre class="sh_csharp">
+myCollection.AsParallel().AsOrdered()...
+</pre>
+
+<p>Calling <code>AsOrdered</code> incurs a
+performance hit with large numbers of elements because PLINQ must keep track of
+each element’s original position.</p>
+
+<p>You can negate the effect of <code>AsOrdered</code>
+later in a query by calling <code>AsUnordered</code>: this
+introduces a “random shuffle point” which allows the query to execute more
+efficiently from that point on. So if you wanted to preserve input-sequence
+ordering for just the first two query operators, you’d do this:</p>
+
+<pre class="sh_csharp">
+inputSequence.AsParallel()<b>.AsOrdered()</b>
+  <i>.QueryOperator1</i>()
+<i>  .QueryOperator2</i>()
+  <b>.AsUnordered()</b>       // From here on, ordering doesn’t matter
+  .<i>QueryOperator3</i>()
+  ...
+</pre>
+
+
+
+
+<p>
+	<code>AsOrdered</code> is not the default
+because for most queries, the original input ordering doesn’t matter. In other
+words, if <code>AsOrdered</code> was the default, you’d have to
+apply <code>AsUnordered</code> to the majority of your parallel
+queries to get the best performance, which would be burdensome.</p>
+
+<h2>
+	<a name="_PLINQ_Limitations">PLINQ Limitations</a>
+</h2>
+
+<p>There are currently some practical limitations on what
+PLINQ can parallelize. These limitations may loosen with subsequent service
+packs and Framework versions.</p>
+
+<p>The following query operators prevent a query from being
+parallelized, unless the source elements are in their original indexing
+position:</p>
+
+<ul>
+	<li>
+		<code>Take</code>, <code>TakeWhile</code>,
+<code>Skip</code>, and <code>SkipWhile</code></li>
+	<li>The indexed versions of <code>Select</code>, <code>SelectMany</code>, and <code>ElementAt</code></li>
+</ul>
+
+<p>Most query operators change the indexing position of
+elements (including those that remove elements, such as <code>Where</code>).
+This means that if you want to use the preceding operators, they’ll usually
+need to be at the start of the query.</p>
+
+<p>The following query operators are parallelizable, but use
+an expensive partitioning strategy that can sometimes be slower than sequential
+processing:</p>
+
+<ul>
+	<li>
+		<code>Join</code>, <code>GroupBy</code>,
+<code>GroupJoin</code>, <code>Distinct</code>, <code>Union</code>, <code>Intersect</code>, and <code>Except</code></li>
+</ul>
+
+<p>The <code>Aggregate</code> operator’s <em>seeded</em>
+overloads in their standard incarnations are not parallelizable — PLINQ provides <a href="#_Optimizing_PLINQ">special overloads</a> to deal with this.</p>
+
+<p>All other operators are parallelizable, although use of
+these operators doesn’t guarantee that your query will be parallelized. PLINQ
+may run your query sequentially if it suspects that the overhead of
+parallelization will slow down that particular query. You can override this
+behavior and force parallelism by calling the following after <code>AsParallel()</code>:</p>
+
+<pre>
+.WithExecutionMode (ParallelExecutionMode.ForceParallelism)
+</pre>
+
+<h2>
+	<a name="_PLINQ_Spellchecker">Example: Parallel
+Spellchecker</a>
+</h2>
+
+<p>Suppose we want to write a spellchecker that runs quickly
+with very large documents by leveraging all available cores. By formulating our
+algorithm into a LINQ query, we can very easily parallelize it.</p>
+
+<p>The first step is to download a dictionary of English
+words into a <code>HashSet</code> for efficient lookup:</p>
+
+<pre class="sh_csharp">
+if (!File.Exists ("WordLookup.txt"))    // Contains about 150,000 words
+  new WebClient().DownloadFile (
+    "http://www.albahari.com/ispell/allwords.txt", "WordLookup.txt");
+ 
+var wordLookup = new HashSet&lt;string&gt; (
+  File.ReadAllLines ("WordLookup.txt"),
+  StringComparer.InvariantCultureIgnoreCase);
+</pre>
+
+<p>We’ll then use our word lookup to create a test “document”
+comprising an array of a million random words. After building the array, we’ll
+introduce a couple of spelling mistakes: </p>
+
+<pre class="sh_csharp">
+var random = new Random();
+string[] wordList = wordLookup.ToArray();
+ 
+string[] wordsToTest = Enumerable.Range (0, 1000000)
+  .Select (i =&gt; wordList [random.Next (0, wordList.Length)])
+  .ToArray();
+ 
+wordsToTest [12345] = "woozsh";     // Introduce a couple
+wordsToTest [23456] = "wubsie";     // of spelling mistakes.
+</pre>
+
+<p>Now we can perform our parallel spellcheck by testing <code>wordsToTest</code> against <code>wordLookup</code>.
+PLINQ makes this very easy:</p>
+
+<pre class="sh_csharp">
+var query = wordsToTest
+  <b>.AsParallel()</b>
+  .Select  ((word, index) =&gt; new IndexedWord { Word=word, Index=index })
+  .Where   (iword =&gt; !wordLookup.Contains (iword.Word))
+  .OrderBy (iword =&gt; iword.Index);
+ 
+query.Dump();     // Display output in LINQPad
+</pre>
+
+<p>Here's the output, as displayed in LINQPad:</p>
+
+<table class="linqpad" border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="typeheader" colspan="2">
+			OrderedParallelQuery&lt;IndexedWord&gt; (2 items)
+		</td>
+	</tr>
+	<tr>
+		<th title="System.String">Word</th>
+		<th title="System.Int32">Index</th>
+	</tr>
+	<tr>
+		<td>woozsh</td>
+		<td>12345</td>
+	</tr>
+	<tr>
+		<td>wubsie</td>
+		<td>23456</td>
+	</tr>
+</table>
+
+<p>
+	<code>IndexedWord</code> is a custom struct
+that we define as follows:</p>
+
+<pre class="sh_csharp">
+struct IndexedWord { public string Word; public int Index; }
+</pre>
+
+<p>The <code>wordLookup.Contains</code> method
+in the predicate gives the query some “meat” and makes it worth parallelizing.</p>
+
+<div class="note">
+	<p>We could simplify the query slightly by using an anonymous
+type instead of the <code>IndexedWord</code> struct. However,
+this would degrade performance because anonymous types (being classes and
+therefore reference types) incur the cost of heap-based allocation and
+subsequent garbage collection. </p>
+	<p>The difference might not be enough to matter with sequential
+queries, but with parallel queries, favoring stack-based allocation can be
+quite advantageous. This is because stack-based allocation is highly
+parallelizable (as each thread has its own stack), whereas all threads must
+compete for the same heap — managed by a single memory manager and garbage
+collector.</p>
+</div>
+
+<h3>
+	<a name="_Using_ThreadLocal">Using ThreadLocal&lt;T&gt;</a>
+</h3>
+
+<p>Let’s extend our example by parallelizing the creation of
+the random test-word list itself. We structured this as a LINQ query, so it
+should be easy. Here’s the sequential version:</p>
+
+<pre class="sh_csharp">
+string[] wordsToTest = Enumerable.Range (0, 1000000)
+  .Select (i =&gt; wordList [<b>random.Next</b> (0, wordList.Length)])
+  .ToArray();
+</pre>
+
+<p>Unfortunately, the call to <code>random.Next</code>
+is not thread-safe, so it’s not as simple as inserting <code>AsParallel()</code>
+into the query. A potential solution is to write a function that locks around <code>random.Next</code>; however, this would limit concurrency. The
+better option is to use <a href="part3.html#_Thread-Local_Storage">ThreadLocal&lt;Random&gt;</a> to
+create a separate <code>Random</code> object for each thread. We
+can then parallelize the query as follows:</p>
+
+<pre class="sh_csharp">
+var localRandom = new ThreadLocal&lt;Random&gt;
+ ( <b>() =&gt; new Random (Guid.NewGuid().GetHashCode())</b> );
+ 
+string[] wordsToTest = Enumerable.Range (0, 1000000)<b>.AsParallel()</b>
+  .Select (i =&gt; wordList [<b>localRandom.Value.Next</b> (0, wordList.Length)])
+  .ToArray();
+</pre>
+
+<p>In our factory function for instantiating a <code>Random</code> object, we pass in a <code>Guid</code>’s
+hashcode to ensure that if two <code>Random</code> objects are
+created within a short period of time, they’ll yield different random number
+sequences.</p>
+
+<div class="sidebar">
+<p class="sidebartitle">When to Use PLINQ</p>
+
+<p>It’s tempting to search your existing applications for
+LINQ queries and experiment with parallelizing them. This is usually unproductive,
+because most problems for which LINQ is obviously the best solution tend to execute
+very quickly and so don’t benefit from parallelization. A better approach is to
+find a CPU-intensive bottleneck and then consider, “Can this be expressed as a
+LINQ query?” (A welcome side effect of such restructuring is that LINQ
+typically makes code smaller and more readable.)</p>
+
+<p>PLINQ is well suited to embarrassingly parallel problems.
+It also works well for structured blocking tasks, such as calling several web
+services at once (see <a href="#_Calling_Blocking_Functions_PLINQ">Calling Blocking or I/O-Intensive
+Functions</a>).</p>
+
+<p>PLINQ can be a poor choice for imaging, because collating
+millions of pixels into an output sequence creates a bottleneck. Instead, it’s
+better to write pixels directly to an array or unmanaged memory block and use
+the <code><a href="#_The_Parallel_Class">Parallel</a></code>
+class or <a href="#_Task_Parallelism">task parallelism</a> to manage the
+multithreading. (It is possible, however, to defeat result collation using <code><a href="#_Output-side_optimization">ForAll</a></code>. Doing so makes
+sense if the image processing algorithm naturally lends itself to LINQ.)</p>
+
+</div>
+
+<h2>
+	<a name="_Functional_Purity">Functional Purity</a>
+</h2>
+
+<p>Because PLINQ runs your query on parallel threads, you
+must be careful not to perform thread-unsafe operations. In particular, writing
+to variables is <em>side-effecting</em> and therefore thread-unsafe:</p>
+
+<pre class="sh_csharp">
+// The following query multiplies each element by its position.
+// Given an input of Enumerable.Range(0,999), it should output squares.
+int i = 0;
+var query = from n in Enumerable.Range(0,999).AsParallel() select n * <b>i++</b>;
+</pre>
+
+<p>We could make incrementing <code>i</code>
+thread-safe by using locks or <code><a href="part4.html#_Interlocked">Interlocked</a></code>,
+but the problem would still remain that <code>i</code> won’t
+necessarily correspond to the position of the input element. And adding <code><a href="#_PLINQ_and_Ordering">AsOrdered</a></code> to the query
+wouldn’t fix the latter problem, because <code>AsOrdered</code>
+ensures only that the elements are output in an order consistent with them
+having been processed sequentially — it doesn’t actually <em>process</em> them
+sequentially.</p>
+
+<p>Instead, this query should be rewritten to use the indexed
+version of <code>Select</code>:</p>
+
+<pre class="sh_csharp">
+var query = Enumerable.Range(0,999).AsParallel().Select ((n, i) =&gt; n * i);
+</pre>
+
+<p>For best performance, any methods called from query
+operators should be thread-safe by virtue of not writing to fields or
+properties (non-side-effecting, or <i>functionally
+pure</i>). If they’re thread-safe by virtue of <em><a href="part2.html#_Locking">locking</a></em>, the query’s parallelism
+potential will be limited — by the duration of the lock divided by the total time
+spent in that function.</p>
+
+<h2>
+	<a name="_Calling_Blocking_Functions_PLINQ">Calling Blocking or I/O-Intensive
+Functions</a>
+</h2>
+
+<p>Sometimes a query is long-running not because it’s
+CPU-intensive, but because it <em>waits</em> on something — such as a web page to
+download or some hardware to respond. PLINQ can effectively parallelize such
+queries, providing that you hint it by calling <code>WithDegreeOfParallelism</code>
+after <code>AsParallel</code>. For instance, suppose we want to
+ping six websites simultaneously. Rather than using clumsy <a href="index.html#_Asynchronous_delegates">asynchronous delegates</a> or manually spinning
+up six threads, we can accomplish this effortlessly with a PLINQ query:</p>
+
+<pre class="sh_csharp">
+from site in new[]
+{
+  <a href="../index.html">"www.albahari.com"</a>,
+  <a href="http://www.linqpad.net/">"www.linqpad.net"</a>,
+  <a href="http://www.oreilly.com/">"www.oreilly.com"</a>,
+  <a href="http://www.takeonit.com/">"www.takeonit.com"</a>,
+  <a href="http://stackoverflow.com/">"stackoverflow.com"</a>,
+  <a href="http://www.rebeccarey.com/">"www.rebeccarey.com"</a>  
+}
+.AsParallel()<b>.WithDegreeOfParallelism(6)</b>
+let p = new Ping().Send (site)
+select new
+{
+  site,
+  Result = p.Status,
+  Time = p.RoundtripTime
+}
+</pre>
+
+<p>
+	<code>WithDegreeOfParallelism</code> forces
+PLINQ to run the specified number of tasks simultaneously. This is necessary
+when calling <em><a href="part2.html#_Blocking">blocking</a></em>
+functions such as <code>Ping.Send</code> because PLINQ otherwise
+assumes that the query is CPU-intensive and allocates tasks accordingly. On a
+two-core machine, for instance, PLINQ may default to running only two tasks at
+once, which is clearly undesirable in this situation.</p>
+
+<p class="note">PLINQ typically serves each task with a thread, subject to
+allocation by the <a href="index.html#_Thread_Pooling">thread pool</a>. You can
+accelerate the initial ramping up of threads by calling <code><a href="index.html#_Optimizing_the_Thread_Pool">ThreadPool.SetMinThreads</a></code>. </p>
+
+<p>To give another example, suppose we were writing a
+surveillance system and wanted to repeatedly combine images from four security
+cameras into a single composite image for display on a CCTV. We’ll represent a
+camera with the following class:</p>
+
+<pre class="sh_csharp">
+class Camera
+{
+  public readonly int CameraID;
+  public Camera (int cameraID) { CameraID = cameraID; }
+ 
+  // Get image from camera: return a simple string rather than an image
+  public string GetNextFrame()
+  {
+    Thread.Sleep (123);       // Simulate time taken to get snapshot
+    return "Frame from camera " + CameraID;
+  }
+}
+</pre>
+
+<p>To obtain a composite image, we must call <code>GetNextFrame</code> on each of four camera objects. Assuming the
+operation is I/O-bound, we can quadruple our frame rate with
+parallelization — even on a single-core machine. PLINQ makes this possible with
+minimal programming effort:</p>
+
+<pre class="sh_csharp">
+Camera[] cameras = Enumerable.Range (0, 4)    // Create 4 camera objects.
+  .Select (i =&gt; new Camera (i))
+  .ToArray();
+ 
+while (true)
+{
+  string[] data = cameras
+    <b>.AsParallel().AsOrdered().WithDegreeOfParallelism (4)</b>
+    .Select (c =&gt; c.GetNextFrame()).ToArray();
+ 
+  Console.WriteLine (string.Join (", ", data));   // Display data...
+}
+</pre>
+
+<p>
+	<code>GetNextFrame</code> is a <a href="part2.html#_Blocking">blocking</a> method, so we used <code>WithDegreeOfParallelism</code>
+to get the desired concurrency. In our example, the blocking happens when we
+call <code>Sleep</code>; in real life it would block because
+fetching an image from a camera is I/O- rather than CPU-intensive.</p>
+
+<p class="note">Calling <code>AsOrdered</code> ensures the
+images are displayed in a consistent order. Because there are only four
+elements in the sequence, this would have a negligible effect on performance.</p>
+
+<h3>Changing the degree of parallelism</h3>
+
+<p>You can call <code>WithDegreeOfParallelism</code>
+only once within a PLINQ query. If you need to call it again, you must force
+merging and repartitioning of the query by calling <code>AsParallel()</code>
+again within the query:</p>
+
+<pre class="sh_csharp">
+"The Quick Brown Fox"
+  .AsParallel().WithDegreeOfParallelism (2)
+  .Where (c =&gt; !char.IsWhiteSpace (c))
+  <b>.AsParallel().WithDegreeOfParallelism (3)   // Forces Merge + Partition</b>
+  .Select (c =&gt; char.ToUpper (c))
+</pre>
+
+<h2>
+	<a name="_PLINQ_Cancellation">Cancellation</a>
+</h2>
+
+<p>Canceling a PLINQ query whose results you’re consuming in
+a <code>foreach</code> loop is easy: simply break out of the <code>foreach</code> and the query will be automatically canceled as
+the enumerator is implicitly disposed.</p>
+
+<p>For a query that terminates with a conversion, element, or
+aggregation operator, you can cancel it from another thread via a <i><a href="part3.html#_Cancellation_Tokens">cancellation token</a></i>. To insert a token, call <code>WithCancellation</code> after calling <code>AsParallel</code>,
+passing in the <code>Token</code> property of a <code>CancellationTokenSource</code> object. Another thread can then
+call <code>Cancel</code> on the token source, which throws an <code>OperationCanceledException</code> on the query’s consumer:</p>
+
+<pre class="sh_csharp">
+IEnumerable&lt;int&gt; million = Enumerable.Range (3, 1000000);
+ 
+<b>var cancelSource = new CancellationTokenSource();</b> 
+var primeNumberQuery = 
+  from n in million.AsParallel()<b>.WithCancellation (cancelSource.Token)</b>
+  where Enumerable.Range (2, (int) Math.Sqrt (n)).All (i =&gt; n % i &gt; 0)
+  select n;
+ 
+new Thread (() =&gt; {
+                    Thread.Sleep (100);      // Cancel query after
+                    <b>cancelSource.Cancel();</b>   // 100 milliseconds.
+                  }
+           ).Start();
+try 
+{
+  // Start query running:
+  int[] primes = primeNumberQuery.ToArray();
+  // We'll never get here because the other thread will cancel us.
+}
+catch (<b>OperationCanceledException</b>)
+{
+  Console.WriteLine ("Query canceled");
+}
+</pre>
+
+<p>PLINQ doesn’t preemptively abort threads, because of the <a href="part4.html#_Aborting_Threads">danger of doing so</a>. Instead, upon cancellation it
+waits for each worker thread to finish with its current element before ending
+the query. This means that any external methods that the query calls will run
+to completion.</p>
+
+<h2>
+	<a name="_Optimizing_PLINQ">Optimizing PLINQ</a>
+</h2>
+
+<h3>
+	<a name="_Output-side_optimization">Output-side optimization</a>
+</h3>
+
+<p>One of PLINQ’s advantages is that it conveniently collates
+the results from parallelized work into a single output sequence. Sometimes,
+though, all that you end up doing with that sequence is running some function
+once over each element:</p>
+
+<pre class="sh_csharp">
+foreach (int n in parallelQuery)
+  DoSomething (n);
+</pre>
+
+<p>If this is the case — and you don’t care about the order in
+which the elements are processed — you can improve efficiency with PLINQ’s <code>ForAll</code> method.</p>
+
+<p>The <code>ForAll</code> method runs a
+delegate over every output element of a <code>ParallelQuery</code>.
+It hooks right into PLINQ’s internals, bypassing the steps of collating and
+enumerating the results. To give a trivial example:</p>
+
+<pre class="sh_csharp">
+"abcdef".AsParallel().Select (c =&gt; char.ToUpper(c)).ForAll (Console.Write);
+</pre>
+
+<div class="figure">
+	<img width="750" height="329" src="ForAll.png" alt="PLINQ ForAll" />
+</div>
+
+<p class="note">Collating and enumerating results is not a massively expensive
+operation, so the <code>ForAll</code> optimization yields the
+greatest gains when there are large numbers of quickly executing input
+elements.</p>
+
+<h3>Input-side optimization</h3>
+
+<p>PLINQ has three partitioning strategies for assigning input
+elements to threads:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Strategy</th>
+		<th valign="top">Element allocation</th>
+		<th valign="top">Relative performance</th>
+	</tr>
+	<tr>
+		<td valign="top">Chunk partitioning</td>
+		<td valign="top">Dynamic</td>
+		<td valign="top">Average</td>
+	</tr>
+	<tr>
+		<td valign="top">Range partitioning</td>
+		<td valign="top">Static</td>
+		<td valign="top">Poor to excellent</td>
+	</tr>
+	<tr>
+		<td valign="top">Hash partitioning</td>
+		<td valign="top">Static</td>
+		<td valign="top">Poor</td>
+	</tr>
+</table>
+
+<p>For query operators that require comparing elements (<code>GroupBy</code>, <code>Join</code>, <code>GroupJoin</code>, <code>Intersect</code>, <code>Except</code>, <code>Union</code>, and <code>Distinct</code>), you have no choice: PLINQ always uses <i>hash partitioning</i>. Hash partitioning is relatively
+inefficient in that it must precalculate the hashcode of every element (so that
+elements with identical hashcodes can be processed on the same thread). If you
+find this too slow, your only option is to call <code>AsSequential</code>
+to disable parallelization.</p>
+
+<p>For all other query operators, you have a choice as to
+whether to use range or chunk partitioning. By default:</p>
+
+<ul>
+	<li>If the input sequence is <i>indexable</i>
+(if it’s an array or implements <code>IList&lt;T&gt;</code>),
+PLINQ chooses<i> range partitioning</i>.</li>
+	<li>Otherwise, PLINQ chooses <i>chunk partitioning</i>.</li>
+</ul>
+
+<p>In a nutshell, range partitioning is faster with long
+sequences for which every element takes a similar amount of CPU time to process.
+Otherwise, chunk partitioning is usually faster. </p>
+
+<p>To force <em>range partitioning</em>:</p>
+
+<ul>
+	<li>If the query starts with <code>Enumerable.Range</code>,
+replace the latter with <code>ParallelEnumerable.Range</code>.</li>
+	<li>Otherwise, simply call <code>ToList</code> or <code>ToArray</code> on the input sequence (obviously, this incurs a
+performance cost in itself which you should take into account).</li>
+</ul>
+
+<p class="warning">
+	<code>ParallelEnumerable.Range</code> is
+not simply a shortcut for calling <code>Enumerable.Range(</code>…<code>).AsParallel()</code>. It changes the performance of the query by
+activating range partitioning.</p>
+
+<p>To force <em>chunk partitioning</em>, wrap the input
+sequence in a call to <code>Partitioner.Create</code> (in <code>System.Collection.Concurrent</code>) as follows:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { 3, 4, 5, 6, 7, 8, 9 };
+var parallelQuery =
+  <b>Partitioner.Create (numbers, true)</b>.AsParallel()
+  .Where (...)
+</pre>
+
+<p>The second argument to <code>Partitioner.Create</code>
+indicates that you want to <em>load-balance</em> the query, which is another
+way of saying that you want chunk partitioning.</p>
+
+<p>Chunk partitioning works by having each worker thread
+periodically grab small “chunks” of elements from the input sequence to
+process. PLINQ starts by allocating very small chunks (one or two elements at a
+time), then increases the chunk size as the query progresses: this ensures that
+small sequences are effectively parallelized and large sequences don’t cause
+excessive round-tripping. If a worker happens to get “easy” elements (that
+process quickly) it will end up getting more chunks. This system keeps every
+thread equally busy (and the cores “balanced”); the only downside is that
+fetching elements from the shared input sequence requires synchronization
+(typically an <a href="part2.html#_Locking">exclusive lock</a>) — and this can result in
+some overhead and contention.</p>
+
+<div class="figure">
+	<img width="700" height="588" src="Partitioning.png" alt="Chunk vs Range Partitioning" />
+</div>
+
+<p>Range partitioning bypasses the normal input-side
+enumeration and preallocates an equal number of elements to each worker, avoiding
+contention on the input sequence. But if some threads happen to get easy
+elements and finish early, they sit idle while the remaining threads continue
+working. Our earlier prime number calculator might perform poorly with range
+partitioning. An example of when range partitioning would do well is in
+calculating the sum of the square roots of the first 10 million integers:</p>
+
+<pre class="sh_csharp">
+ParallelEnumerable.Range (1, 10000000).Sum (i =&gt; Math.Sqrt (i))
+</pre>
+
+<p>
+	<code>ParallelEnumerable.Range</code>
+returns a <code>ParallelQuery&lt;T&gt;</code>, so you don’t need
+to subsequently call <code>AsParallel</code>.</p>
+
+<p class="note">Range partitioning doesn’t necessarily allocate element ranges
+in <em>contiguous</em> blocks — it might instead choose a “striping” strategy.
+For instance, if there are two workers, one worker might process odd-numbered
+elements while the other processes even-numbered elements. The <code>TakeWhile</code> operator is almost certain to trigger a striping
+strategy to avoid unnecessarily processing elements later in the sequence.</p>
+
+<h2>
+	<a name="_Parallelizing_Custom_Aggregations">Parallelizing Custom Aggregations</a>
+</h2>
+
+<p>PLINQ parallelizes the <code>Sum</code>, <code>Average</code>, <code>Min</code>, and <code>Max</code> operators efficiently without additional intervention.
+The <code>Aggregate</code> operator, though, presents special
+challenges for PLINQ.</p>
+
+<p>If you’re unfamiliar with this operator, you can think of <code>Aggregate</code> as a generalized version of <code>Sum</code>,
+<code>Average</code>, <code>Min</code>, and <code>Max</code> — in other words, an operator that lets you plug in a
+custom accumulation algorithm for implementing unusual aggregations. The
+following demonstrates how <code>Aggregate</code> can do the work
+of <code>Sum</code>:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { 2, 3, 4 };
+int sum = numbers.Aggregate (0, (total, n) =&gt; total + n);   // 9
+</pre>
+
+<p>The first argument to <code>Aggregate</code>
+is the <i>seed</i>, from which accumulation starts. The
+second argument is an expression to update the accumulated value, given a fresh
+element. You can optionally supply a third argument to project the final result
+value from the accumulated value. </p>
+
+<p class="note">Most problems for which <code>Aggregate</code>
+has been designed can be solved as easily with a <code>foreach</code>
+loop — and with more familiar syntax. The advantage of <code>Aggregate</code>
+is precisely that large or complex aggregations can be parallelized
+declaratively with PLINQ.</p>
+
+<h3>Unseeded aggregations</h3>
+
+<p>You can omit the seed value when calling <code>Aggregate</code>, in which case the first element becomes the <em>implicit</em>
+seed, and aggregation proceeds from the second element. Here’s the preceding
+example, <em>unseeded</em>:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { 1, 2, 3 };
+int sum = numbers.Aggregate ((total, n) =&gt; total + n);   // 6
+</pre>
+
+<p>This gives the same result as before, but we’re actually
+doing a <em>different calculation</em>. Before, we were calculating 0+1+2+3;
+now we’re calculating 1+2+3. We can better illustrate the difference by
+multiplying instead of adding:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { 1, 2, 3 };
+int x = numbers.Aggregate (0, (prod, n) =&gt; prod * n);   // 0*1*2*3 = <b>0</b>
+int y = numbers.Aggregate (   (prod, n) =&gt; prod * n);   //   1*2*3 = <b>6</b></pre>
+
+<p>As we’ll see shortly, unseeded aggregations have the
+advantage of being parallelizable without requiring the use of special
+overloads. However, there is a trap with unseeded aggregations: the unseeded aggregation
+methods are intended for use with delegates that are <em>commutative</em> and <em>associative</em>.
+If used otherwise, the result is either <em>unintuitive</em> (with ordinary
+queries) or <em>nondeterministic</em> (in the case that you parallelize the
+query with PLINQ). For example, consider the following function: </p>
+
+<pre class="sh_csharp">
+(total, n) =&gt; total + n * n
+</pre>
+
+<p>This is neither commutative nor associative. (For example,
+1+2*2 != 2+1*1). Let’s see what happens when we use it to sum the square of the
+numbers 2, 3, and 4:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { 2, 3, 4 };
+int sum = numbers.Aggregate ((total, n) =&gt; total + n * n);    // 27
+</pre>
+
+<p>Instead of calculating:</p>
+
+<pre class="sh_csharp">
+2*2 + 3*3 + 4*4    // 29
+</pre>
+
+<p>it calculates:</p>
+
+<pre class="sh_csharp">
+2 + 3*3 + 4*4      // 27
+</pre>
+
+<p>We can fix this in a number of ways. First, we could
+include 0 as the first element:</p>
+
+<pre class="sh_csharp">
+int[] numbers = { <b>0, </b>2, 3, 4 };
+</pre>
+
+<p>Not only is this inelegant, but it will still give
+incorrect results if parallelized — because PLINQ leverages the function’s
+assumed associativity by selecting <em>multiple</em> elements as seeds. To
+illustrate, if we denote our aggregation function as follows:</p>
+
+<pre class="sh_csharp">
+f(total, n) =&gt; total + n * n
+</pre>
+
+<p>then LINQ to Objects would calculate this:</p>
+
+<pre class="sh_csharp">
+f(f(f(0, 2),3),4)
+</pre>
+
+<p>whereas PLINQ may do this:</p>
+
+<pre class="sh_csharp">
+f(f(0,2),f(3,4))
+</pre>
+
+<p>with the following result:</p>
+
+<pre>
+First partition:   a = 0 + 2*2  (= 4)
+Second partition:  b = 3 + 4*4  (= 19)
+Final result:          a + b*b  (= 365)
+OR EVEN:               b + a*a  (= 35)  
+</pre>
+
+<p>There are two good solutions. The first is to turn this
+into a seeded aggregation — with zero as the seed. The only complication is that
+with PLINQ, we’d need to use a special overload in order for the query not to
+execute sequentially (as we’ll see soon).</p>
+
+<p>The second solution is to restructure the query such that
+the aggregation function is commutative and associative:</p>
+
+<pre class="sh_csharp">
+int sum = numbers.Select (n =&gt; n * n).Aggregate ((total, n) =&gt; <b>total + n</b>);
+</pre>
+
+<div class="note">
+	<p>Of course, in such simple scenarios you can (and should) use
+the <code>Sum</code> operator instead of <code>Aggregate</code>:</p>
+
+<pre class="sh_csharp">
+int sum = numbers.Sum (n =&gt; n * n);
+</pre>
+
+<p>You can actually go quite far just with <code>Sum</code>
+and <code>Average</code>. For instance, you can use <code>Average</code> to calculate a root-mean-square:</p>
+
+<pre class="sh_csharp">Math.Sqrt (numbers.Average (n =&gt; n * n))
+</pre>
+
+	<p>and even standard deviation:</p>
+
+<pre class="sh_csharp">
+double mean = numbers.Average();
+double sdev = Math.Sqrt (numbers.Average (n =&gt;
+              {
+                double dif = n - mean;
+                return dif * dif;
+              }));
+</pre>
+
+	<p>Both are safe, efficient and fully parallelizable.</p>
+</div>
+
+<h3>Parallelizing Aggregate</h3>
+
+<p>We just saw that for <em>unseeded</em> aggregations, the
+supplied delegate must be associative and commutative. PLINQ will give
+incorrect results if this rule is violated, because it draws <em>multiple seeds</em>
+from the input sequence in order to aggregate several partitions of the
+sequence simultaneously.</p>
+
+<p>Explicitly seeded aggregations might seem like a safe
+option with PLINQ, but unfortunately these ordinarily execute sequentially because
+of the reliance on a single seed. To mitigate this, PLINQ provides another
+overload of <code>Aggregate</code> that lets you specify multiple
+seeds — or rather, a <em>seed factory function</em>. For each thread, it executes
+this function to generate a separate seed, which becomes a <em>thread-local</em>
+accumulator into which it locally aggregates elements.</p>
+
+<p>You must also supply a function to indicate how to combine
+the local and main accumulators. Finally, this <code>Aggregate</code>
+overload (somewhat gratuitously) expects a delegate to perform any final
+transformation on the result (you can achieve this as easily by running some
+function on the result yourself afterward). So, here are the four delegates, in
+the order they are passed:</p>
+
+<dl>
+	<dt>
+		<code>seedFactory</code>
+	</dt>
+	<dd>Returns a new local accumulator</dd>
+	<dt>
+		<code>updateAccumulatorFunc</code>
+	</dt>
+	<dd>Aggregates an element into a local accumulator</dd>
+	<dt>
+		<code>combineAccumulatorFunc</code>
+	</dt>
+	<dd>Combines a local accumulator with the main accumulator</dd>
+	<dt>
+		<code>resultSelector</code>
+	</dt>
+	<dd>Applies any final transformation on the end result</dd>
+</dl>
+
+<p class="note">In simple scenarios, you can specify a <em>seed value</em>
+instead of a seed factory. This tactic fails when the seed is a reference type
+that you wish to mutate, because the same instance will then be shared by each
+thread.</p>
+
+<p>To give a very simple example, the following sums the
+values in a <code>numbers</code> array:</p>
+
+<pre class="sh_csharp">
+numbers.AsParallel().Aggregate (
+  () =&gt; 0,                                     // seedFactory
+  (localTotal, n) =&gt; localTotal + n,           // updateAccumulatorFunc
+  (mainTot, localTot) =&gt; mainTot + localTot,   // combineAccumulatorFunc
+  finalResult =&gt; finalResult)                  // resultSelector
+</pre>
+
+<p>This example is contrived in that we could get the same
+answer just as efficiently using simpler approaches (such as an unseeded
+aggregate, or better, the <code>Sum</code> operator). To give a
+more realistic example, suppose we wanted to calculate the frequency of each
+letter in the English alphabet in a given string. A simple sequential solution
+might look like this:</p>
+
+<pre class="sh_csharp">
+string text = "Let’s suppose this is a really long string";
+var letterFrequencies = new int[26];
+foreach (char c in text)
+{
+  int index = char.ToUpper (c) - 'A';
+  if (index &gt;= 0 &amp;&amp; index &lt;= 26) letterFrequencies [index]++;
+};
+</pre>
+
+<p class="note">An example of when the input text might be very long is in
+gene sequencing. The “alphabet” would then consist of the letters <em>a</em>, <em>c</em>,
+<em>g</em>, and <em>t</em>.</p>
+
+<p>To parallelize this, we could replace the <code>foreach</code> statement with a call to <code><a href="#_Parallel.For_and_Parallel.ForEach">Parallel.ForEach</a></code> (as
+we’ll cover in the following section), but this will leave us to deal with
+concurrency issues on the shared array. And <a href="part2.html#_Locking">locking</a>
+around accessing that array would all but kill the potential for
+parallelization.</p>
+
+<p>
+	<code>Aggregate</code> offers a tidy
+solution. The accumulator, in this case, is an array just like the <code>letterFrequencies</code> array in our preceding example. Here’s a
+sequential version using <code>Aggregate</code>:</p>
+
+<pre class="sh_csharp">
+int[] result =
+  text.Aggregate (
+    new int[26],                // Create the "accumulator"
+    (letterFrequencies, c) =&gt;   // Aggregate a letter into the accumulator
+    {
+      int index = char.ToUpper (c) - 'A';
+      if (index &gt;= 0 &amp;&amp; index &lt;= 26) letterFrequencies [index]++;
+      return letterFrequencies;
+    });
+</pre>
+
+<p>And now the parallel version, using PLINQ’s special
+overload:</p>
+
+<pre class="sh_csharp">
+int[] result =
+  text.AsParallel().Aggregate (
+    () =&gt; new int[26],             // Create a new local accumulator
+ 
+    (localFrequencies, c) =&gt;       // Aggregate into the local accumulator
+    {
+      int index = char.ToUpper (c) - 'A';
+      if (index &gt;= 0 &amp;&amp; index &lt;= 26) localFrequencies [index]++;
+      return localFrequencies;
+    },
+                                   // Aggregate local-&gt;main accumulator
+    (mainFreq, localFreq) =&gt;
+      mainFreq.Zip (localFreq, (f1, f2) =&gt; f1 + f2).ToArray(),
+ 
+    finalResult =&gt; finalResult     // Perform any final transformation
+  );                               // on the end result.
+</pre>
+
+<p>Notice that the local accumulation function <em>mutates</em>
+the <code>localFrequencies</code> array. This ability to perform
+this optimization is important — and is legitimate because <code>localFrequencies</code>
+is local to each thread.</p>
+
+<h1>
+	<a name="_The_Parallel_Class">The Parallel Class</a>
+</h1>
+
+<p>PFX provides a basic form of structured parallelism via
+three static methods in the <code>Parallel</code> class:</p>
+
+<dl>
+	<dt>
+		<code>Parallel.Invoke</code>
+	</dt>
+	<dd>Executes an array of delegates in parallel</dd>
+	<dt>
+		<code>Parallel.For</code>
+	</dt>
+	<dd>Performs the parallel equivalent of a C# <code>for</code> loop</dd>
+	<dt>
+		<code>Parallel.ForEach</code>
+	</dt>
+	<dd>Performs the parallel equivalent of a C# <code>foreach</code> loop</dd>
+</dl>
+
+<p>All three methods block until all work is complete. As
+with <a href="#_PLINQ">PLINQ</a>, after an unhandled exception, remaining
+workers are stopped after their current iteration and the exception (or exceptions)
+are thrown back to the caller — wrapped in an <code><a href="#_Working_with_AggregateException">AggregateException</a></code>. </p>
+
+<h2>
+	<a name="_Parallel.Invoke">Parallel.Invoke</a>
+</h2>
+
+<p>
+	<code>Parallel.Invoke</code> executes an
+array of <code>Action</code> delegates in parallel, and then
+waits for them to complete. The simplest version of the method is defined as
+follows:</p>
+
+<pre class="sh_csharp">
+public static void <b>Invoke</b> (params Action[] actions);
+</pre>
+
+<p>Here’s how we can use <code>Parallel.Invoke</code>
+to download two web pages at once:</p>
+
+<pre class="sh_csharp">
+Parallel.Invoke (
+ () =&gt; new WebClient().DownloadFile ("http://www.linqpad.net", "lp.html"),
+ () =&gt; new WebClient().DownloadFile ("http://www.jaoo.dk", "jaoo.html"));
+</pre>
+
+<p>On the surface, this seems like a convenient shortcut for
+creating and waiting on two <code><a href="#_Task_Parallelism">Task</a></code>
+objects (or <a href="index.html#_Asynchronous_delegates">asynchronous delegates</a>). But
+there’s an important difference: <code>Parallel.Invoke</code>
+still works efficiently if you pass in an array of a million delegates. This is
+because it <em>partitions</em> large numbers of elements into batches which it
+assigns to a handful of underlying <code>Task</code>s — rather than
+creating a separate <code>Task</code> for each delegate.</p>
+
+<p>As with all of <code>Parallel</code>’s
+methods, you’re on your own when it comes to collating the results. This means
+you need to keep <a href="part2.html#_Thread_Safety">thread safety</a> in mind. The
+following, for instance, is thread-unsafe:</p>
+
+<pre class="sh_csharp">
+var data = new List&lt;string&gt;();
+Parallel.Invoke (
+ () =&gt; <b>data.Add</b> (new WebClient().DownloadString ("http://www.foo.com")),
+ () =&gt; <b>data.Add</b> (new WebClient().DownloadString ("http://www.far.com")));
+</pre>
+
+<p>
+	<a href="part2.html#_Locking">Locking</a> around adding to the list
+would resolve this, although locking would create a bottleneck if you had a
+much larger array of quickly executing delegates. A better solution is to use
+a thread-safe collection such as <a href="#_ConcurrentBagT">ConcurrentBag</a> would be ideal in this case.</p>
+
+<p>
+	<code>Parallel.Invoke</code> is also
+overloaded to accept a <code>ParallelOptions</code> object:</p>
+
+<pre class="sh_csharp">
+public static void <b>Invoke</b> (ParallelOptions options,
+                           params Action[] actions);
+</pre>
+
+<p>With <code>ParallelOptions</code>, you can
+insert a <a href="part3.html#_Cancellation_Tokens">cancellation token</a>, limit the
+maximum concurrency, and specify a <a href="#_Task_Schedulers_and_UIs">custom task
+scheduler</a>. A cancellation token is relevant when you’re executing (roughly)
+more tasks than you have cores: upon cancellation, any unstarted delegates will
+be abandoned. Any already-executing delegates will, however, continue to
+completion. See <a href="#_PLINQ_Cancellation">Cancellation</a> for an example of how
+to use cancellation tokens.</p>
+
+<h2>
+	<a name="_Parallel.For_and_Parallel.ForEach">Parallel.For and
+Parallel.ForEach</a>
+</h2>
+
+<p>
+	<code>Parallel.For</code> and <code>Parallel.ForEach</code> perform the equivalent of a C# <code>for</code> and <code>foreach</code> loop, but with
+each iteration executing in parallel instead of sequentially. Here are their
+(simplest) signatures:</p>
+
+<pre class="sh_csharp">
+public static ParallelLoopResult <b>For</b> (
+  int fromInclusive, int toExclusive, Action&lt;int&gt; body)
+ 
+public static ParallelLoopResult <b>ForEach</b>&lt;TSource&gt; (
+  IEnumerable&lt;TSource&gt; source, Action&lt;TSource&gt; body)
+</pre>
+
+<p>The following sequential <code>for</code>
+loop:</p>
+
+<pre class="sh_csharp">
+for (int i = 0; i &lt; 100; i++)
+  Foo (i);
+</pre>
+
+<p>is parallelized like this:</p>
+
+<pre class="sh_csharp">
+<b>Parallel.For</b> (0, 100, i =&gt; Foo (i));
+</pre>
+
+<p>or more simply:</p>
+
+<pre class="sh_csharp">
+<b>Parallel.For</b> (0, 100, Foo);
+</pre>
+
+<p>And the following sequential <code>foreach</code>:</p>
+
+<pre class="sh_csharp">
+foreach (char c in "Hello, world")
+  Foo (c);
+</pre>
+
+<p>is parallelized like this:</p>
+
+<pre class="sh_csharp">
+Parallel.ForEach ("Hello, world", Foo);
+</pre>
+
+<p>To give a practical example, if we import the <code>System.Security.Cryptography</code> namespace, we can generate
+six public/private key-pair strings in parallel as follows:</p>
+
+<pre class="sh_csharp">
+var keyPairs = new string[6];
+ 
+Parallel.For (0, keyPairs.Length,
+              i =&gt; keyPairs[i] = RSA.Create().ToXmlString (true));
+</pre>
+
+<p>As with <code><a href="#_Parallel.Invoke">Parallel.Invoke</a></code>,
+we can feed <code>Parallel.For</code> and <code>Parallel.ForEach</code>
+a large number of work items and they’ll be efficiently partitioned onto a few
+tasks.</p>
+
+<div class="note">
+	<p>The latter query could also be done with <a href="#_PLINQ">PLINQ</a>:</p>
+
+<pre class="sh_csharp">
+string[] keyPairs =
+  ParallelEnumerable.Range (0, 6)
+  .Select (i =&gt; RSA.Create().ToXmlString (true))
+  .ToArray();
+</pre>
+</div>
+
+<h3>Outer versus inner loops</h3>
+
+<p>
+	<code>Parallel.For</code> and <code>Parallel.ForEach</code> usually work best on outer rather than
+inner loops. This is because with the former, you’re offering larger chunks of
+work to parallelize, diluting the management overhead. Parallelizing both inner
+and outer loops is usually unnecessary. In the following example, we’d
+typically need more than 100 cores to benefit from the inner parallelization: </p>
+
+<pre class="sh_csharp">
+Parallel.For (0, 100, i =&gt;
+{
+  Parallel.For (0, 50, j =&gt; Foo (i, j));   // Sequential would be better
+});                                        // for the inner loop.
+</pre>
+
+<h3>Indexed Parallel.ForEach</h3>
+
+<p>Sometimes it’s useful to know the loop iteration index.
+With a sequential <code>foreach</code>, it’s easy:</p>
+
+<pre class="sh_csharp">
+<b>int i = 0;</b>
+foreach (char c in "Hello, world")
+  Console.WriteLine (c.ToString() + <b>i++</b>);
+</pre>
+
+<p>Incrementing a shared variable, however, is not
+thread-safe in a parallel context. You must instead use the following version
+of <code>ForEach</code>:</p>
+
+<pre class="sh_csharp">
+public static ParallelLoopResult ForEach&lt;TSource&gt; (
+  IEnumerable&lt;TSource&gt; source, Action&lt;TSource,ParallelLoopState<b>,long</b>&gt; body)
+</pre>
+
+<p>We’ll ignore <code>ParallelLoopState</code>
+(which we’ll cover in the following section). For now, we’re interested in <code>Action</code>’s third type parameter of type <code>long</code>,
+which indicates the loop index:</p>
+
+<pre class="sh_csharp">
+Parallel.ForEach ("Hello, world", (c, state, i) =&gt;
+{
+   Console.WriteLine (c.ToString() + i);
+});
+</pre>
+
+<p>To put this into a practical context, we’ll revisit the <a href="#_PLINQ_Spellchecker">spellchecker that we wrote with PLINQ</a>.
+The following code loads up a dictionary along with an array of a million words
+to test:</p>
+
+<pre class="sh_csharp">
+if (!File.Exists ("WordLookup.txt"))    // Contains about 150,000 words
+  new WebClient().DownloadFile (
+    "http://www.albahari.com/ispell/allwords.txt", "WordLookup.txt");
+ 
+var wordLookup = new HashSet&lt;string&gt; (
+  File.ReadAllLines ("WordLookup.txt"),
+  StringComparer.InvariantCultureIgnoreCase);
+ 
+var random = new Random();
+string[] wordList = wordLookup.ToArray();
+ 
+string[] wordsToTest = Enumerable.Range (0, 1000000)
+  .Select (i =&gt; wordList [random.Next (0, wordList.Length)])
+  .ToArray();
+ 
+wordsToTest [12345] = "<a href="http://woozsh.com/">woozsh</a>";     // Introduce a couple
+wordsToTest [23456] = "wubsie";     // of spelling mistakes.
+</pre>
+
+<p>We can perform the spellcheck on our <code>wordsToTest</code>
+array using the indexed version of <code>Parallel.ForEach</code>
+as follows:</p>
+
+<pre class="sh_csharp">
+var misspellings = new ConcurrentBag&lt;Tuple&lt;int,string&gt;&gt;();
+ 
+Parallel.ForEach (wordsToTest, (word, state, i) =&gt;
+{
+  if (!wordLookup.Contains (word))
+    misspellings.Add (Tuple.Create ((int) i, word));
+});
+</pre>
+
+<p>Notice that we had to collate the results into a
+thread-safe collection: having to do this is the disadvantage when compared to
+using PLINQ. The advantage over PLINQ is that we avoid the cost of applying an
+indexed <code>Select</code> query operator — which is less
+efficient than an indexed <code>ForEach</code>.</p>
+
+<h3>ParallelLoopState: Breaking early out of loops </h3>
+
+<p>Because the loop body in a parallel <code>For</code>
+or <code>ForEach</code> is a delegate, you can’t exit the loop
+early with a <code>break</code> statement. Instead, you must call
+<code>Break</code> or <code>Stop</code> on a <code>ParallelLoopState</code> object:</p>
+
+<pre class="sh_csharp">
+public class ParallelLoopState
+{
+  public void Break();
+  public void Stop();
+ 
+  public bool IsExceptional { get; }
+  public bool IsStopped { get; }
+  public long? LowestBreakIteration { get; }
+  public bool ShouldExitCurrentIteration { get; }
+}
+</pre>
+
+<p>Obtaining a <code>ParallelLoopState</code>
+is easy: all versions of <code>For</code> and <code>ForEach</code> are overloaded to accept loop bodies of type <code>Action&lt;TSource,ParallelLoopState&gt;</code>. So, to
+parallelize this:</p>
+
+<pre class="sh_csharp">
+foreach (char c in "Hello, world")
+  if (c == ',')
+    <b>break;</b>
+  else
+    Console.Write (c);
+</pre>
+
+<p>do this:</p>
+
+<pre class="sh_csharp">
+Parallel.ForEach ("Hello, world", <b>(c, loopState)</b> =&gt;
+{
+  if (c == ',')
+    <b>loopState.Break();</b>
+  else
+    Console.Write (c);
+});
+</pre>
+
+<pre class="output">
+Hlloe
+</pre>
+
+<p>You can see from the output that loop bodies may complete
+in a random order. Aside from this difference, calling <code>Break</code>
+yields <em>at least</em> the same elements as executing the loop sequentially:
+this example will always output <em>at least</em> the letters <em>H</em>, <em>e</em>,
+<em>l</em>, <em>l</em>, and <em>o</em> in some order. In contrast, calling <code>Stop</code> instead of <code>Break</code> forces
+all threads to finish right after their current iteration. In our example,
+calling <code>Stop</code> could give us a subset of the letters <em>H</em>,
+<em>e</em>, <em>l</em>, <em>l</em>, and <em>o</em> if another thread was
+lagging behind. Calling <code>Stop</code> is useful when you’ve
+found something that you’re looking for — or when something has gone wrong and
+you won’t be looking at the results.</p>
+
+<div class="note">
+	<p>The <code>Parallel.For</code> and <code>Parallel.ForEach</code> methods return a <code>ParallelLoopResult</code>
+object that exposes properties called <code>IsCompleted</code>
+and <code>LowestBreakIteration</code>. These tell you whether the
+loop ran to completion, and if not, at what cycle the loop was broken.</p>
+	<p>If <code>LowestBreakIteration</code> returns
+null, it means that you called <code>Stop</code> (rather than <code>Break</code>) on the loop.</p>
+</div>
+
+<p>If your loop body is long, you might want other threads to
+break partway through the method body in case of an early <code>Break</code>
+or <code>Stop</code>. You can do this by polling the <code>ShouldExitCurrentIteration</code> property at various places in
+your code; this property becomes true immediately after a <code>Stop</code> — or
+soon after a <code>Break</code>.</p>
+
+<p class="note">
+	<code>ShouldExitCurrentIteration</code> also
+becomes true after a cancellation request — or if an exception is thrown in the
+loop.</p>
+
+<p>
+	<code>IsExceptional</code> lets you know
+whether an exception has occurred on another thread. Any unhandled exception
+will cause the loop to stop after each thread’s current iteration: to avoid
+this, you must explicitly handle exceptions in your code.</p>
+
+<h3>Optimization with local values</h3>
+
+<p>
+	<code>Parallel.For</code> and <code>Parallel.ForEach</code> each offer a set of overloads that
+feature a generic type argument called <code>TLocal</code>. These
+overloads are designed to help you optimize the collation of data with
+iteration-intensive loops. The simplest is this:</p>
+
+<pre class="sh_csharp">
+public static ParallelLoopResult For &lt;<b>TLocal</b>&gt; (
+  int fromInclusive,
+  int toExclusive,
+  <b>Func &lt;TLocal&gt; localInit,</b>  Func &lt;int, ParallelLoopState, <b>TLocal, TLocal</b>&gt; body,
+  <b>Action &lt;TLocal&gt; localFinally);</b></pre>
+
+<p>These methods are rarely needed in practice because their
+target scenarios are covered mostly by <a href="#_PLINQ">PLINQ</a> (which is
+fortunate because these overloads are somewhat intimidating!).</p>
+
+<p>Essentially, the problem is this: suppose we want to sum
+the square roots of the numbers 1 through 10,000,000. Calculating 10 million
+square roots is easily parallelizable, but summing their values is troublesome
+because we must <a href="part2.html#_Locking">lock</a> around updating the total:</p>
+
+<pre class="sh_csharp">
+object locker = new object();
+double total = 0;
+Parallel.For (1, 10000000,
+              i =&gt; { lock (locker) total += Math.Sqrt (i); });
+</pre>
+
+<p>The gain from parallelization is more than offset by the
+cost of obtaining 10 million locks — plus the resultant blocking.</p>
+
+<p>The reality, though, is that we don’t actually <em>need</em>
+10 million locks. Imagine a team of volunteers picking up a large volume of
+litter. If all workers shared a single trash can, the travel and contention
+would make the process extremely inefficient. The obvious solution is for each
+worker to have a private or “local” trash can, which is occasionally emptied
+into the main bin.</p>
+
+<p>The <code>TLocal</code> versions of <code>For</code> and <code>ForEach</code> work in exactly
+this way. The volunteers are internal worker threads, and the <em>local value</em>
+represents a local trash can. In order for <code>Parallel</code>
+to do this job, you must feed it two additional delegates that indicate:</p>
+
+<ol>
+	<li>How to initialize a new local value</li>
+	<li>How to combine a local aggregation with the master value</li>
+</ol>
+
+<p>Additionally, instead of the body delegate returning <code>void</code>, it should return the new aggregate for the local
+value. Here’s our example refactored:</p>
+
+<pre class="sh_csharp">
+object locker = new object();
+double grandTotal = 0;
+ 
+Parallel.For (1, 10000000,
+ 
+  () =&gt; 0.0,                        // Initialize the local value.
+ 
+  (i, state, localTotal) =&gt;         // Body delegate. Notice that it
+     localTotal + Math.Sqrt (i),    // returns the new local total.
+ 
+  localTotal =&gt;                                    // Add the local value
+    { lock (locker) grandTotal += localTotal; }    // to the master value.
+);
+</pre>
+
+<p>We must still lock, but only around aggregating the local
+value to the grand total. This makes the process dramatically more efficient.</p>
+
+<div class="note">
+	<p>As stated earlier, PLINQ is often a good fit in these
+scenarios. Our example could be parallelized with PLINQ simply like this:</p>
+<pre class="sh_csharp">
+ParallelEnumerable.Range(1, 10000000)
+                  .Sum (i =&gt; Math.Sqrt (i))
+</pre>
+	<p>(Notice that we used <code>ParallelEnumerable</code>
+to force <em>range partitioning</em>: this improves performance in this case
+because all numbers will take equally long to process.)</p>
+	<p>In more complex scenarios, you might use LINQ’s <code>Aggregate</code> operator instead of <code>Sum</code>.
+If you supplied a local seed factory, the situation would be somewhat analogous
+to providing a local value function with <code>Parallel.For</code>.</p>
+</div>
+
+<h1>
+	<a name="_Task_Parallelism">Task Parallelism</a>
+</h1>
+
+<p>
+	<i>Task parallelism</i> is the
+lowest-level approach to parallelization with PFX. The classes for working at
+this level are defined in the <code>System.Threading.Tasks</code>
+namespace and comprise the following:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Class</th>
+		<th valign="top">Purpose</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>
+				<a href="#_Creating_and_Starting_Tasks">Task</a>
+			</code>
+		</td>
+		<td valign="top">For managing a unit for work</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>
+				<a href="#_Creating_and_Starting_Tasks">Task&lt;TResult&gt;</a>
+			</code>
+		</td>
+		<td valign="top">For managing a unit for work with a return value</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>
+				<a href="#_TaskFactory">TaskFactory</a>
+			</code>
+		</td>
+		<td valign="top">For creating tasks</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>
+				<a href="#_TaskFactory">TaskFactory&lt;TResult&gt;</a>
+			</code>
+		</td>
+		<td valign="top">For creating tasks and continuations with the same return
+  type</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>
+				<a href="#_Task_Schedulers_and_UIs">TaskScheduler</a>
+			</code>
+		</td>
+		<td valign="top">For managing the scheduling of tasks</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_TaskCompletionSource">TaskCompletionSource</a>
+		</td>
+		<td valign="top">For manually controlling a task’s workflow</td>
+	</tr>
+</table>
+
+<p>Essentially, a task is a lightweight object for managing a
+parallelizable unit of work. A task avoids the overhead of starting a dedicated
+thread by using the CLR’s <a href="index.html#_Thread_Pooling">thread pool</a>: this is
+the same thread pool used by <code>ThreadPool.QueueUserWorkItem</code>,
+tweaked in CLR 4.0 to work more efficiently with <code>Task</code>s
+(and more efficiently in general).</p>
+
+<p>Tasks can be used whenever you want to execute something
+in parallel. However, they’re <em>tuned</em> for leveraging multicores: in
+fact, the <code><a href="#_The_Parallel_Class">Parallel</a></code>
+class and <a href="#_PLINQ">PLINQ</a> are internally built on the task
+parallelism constructs.</p>
+
+<p>Tasks do more than just provide an easy and efficient way
+into the thread pool. They also provide some powerful features for managing units
+of work, including the ability to:</p>
+
+<ul>
+	<li>
+		<a href="#_TaskCreationOptions">Tune a task’s scheduling</a>
+	</li>
+	<li>Establish a <a href="#_Child_tasks">parent/child relationship</a>
+when one task is started from another </li>
+	<li>Implement <a href="#_Canceling_Tasks">cooperative cancellation</a></li>
+	<li>
+		<a href="#_Waiting_on_Tasks">Wait on a set of tasks</a> — without a
+signaling construct</li>
+	<li>Attach “<a href="#_Continuations">continuation</a>” task(s) </li>
+	<li>Schedule a continuation based on <a href="#_Continuations_with_multiple_antecedents">multiple antecedent tasks</a></li>
+	<li>Propagate exceptions <a href="#_Exception-Handling_Tasks">to
+parents</a>, <a href="#_Continuations_and_exceptions">continuations</a>, and <a href="#_Exception-Handling_Tasks">task consumers</a></li>
+</ul>
+
+<p>Tasks also implement <em>local work queues</em>, an
+optimization that allows you to efficiently create many quickly executing child
+tasks without incurring the contention overhead that would otherwise arise with
+a single work queue.</p>
+
+<p class="warning">The Task Parallel Library lets you create hundreds (or
+even thousands) of tasks with minimal overhead. But if you want to create
+millions of tasks, you’ll need to partition those tasks into larger work units
+to maintain efficiency. The <code>Parallel</code> class and PLINQ
+do this automatically.</p>
+
+<p class="note">Visual Studio 2010 provides a new window for monitoring tasks
+(Debug | Window | Parallel Tasks). This is equivalent to the Threads window,
+but for tasks. The Parallel Stacks window also has a special mode for tasks.</p>
+
+<h2>
+	<a name="_Creating_and_Starting_Tasks">Creating and Starting Tasks</a>
+</h2>
+
+<p>As we described in Part 1 in our <a href="index.html#_Thread_Pooling">discussion
+of thread pooling</a>, you can create and start a <code>Task</code>
+by calling <code>Task.Factory.StartNew</code>, passing in an <code>Action</code> delegate:</p>
+
+<pre class="sh_csharp">
+Task.Factory.StartNew (() =&gt; Console.WriteLine ("Hello from a task!"));
+</pre>
+
+<p>The generic version, <code>Task&lt;TResult&gt;</code>
+(a subclass of <code>Task</code>), lets you get data back from a
+task upon completion:</p>
+
+<pre class="sh_csharp">
+Task&lt;string&gt; task = Task.Factory.StartNew<b>&lt;string&gt;</b> (() =&gt;    // Begin task
+{
+  using (var wc = new System.Net.WebClient())
+    return wc.DownloadString ("http://www.linqpad.net");
+});
+ 
+RunSomeOtherMethod();         // We can do other work in parallel...
+ 
+string result = <b>task.Result</b>;  // Wait for task to finish and fetch result.
+</pre>
+
+<p>
+	<code>Task.Factory.StartNew</code> creates
+and starts a task in one step. You can decouple these operations by first
+instantiating a <code>Task</code> object, and then calling <code>Start</code>:</p>
+
+<pre class="sh_csharp">
+var task = new Task (() =&gt; Console.Write ("Hello"));
+...
+task.Start();
+</pre>
+
+<p>A task that you create in this manner can also be run
+synchronously (on the same thread) by calling <code>RunSynchronously</code>
+instead of <code>Start</code>.</p>
+
+<p class="note">You can track a task’s execution status via its <code>Status</code> property. </p>
+
+<h3>Specifying a state object</h3>
+
+<p>When instantiating a task or calling <code>Task.Factory.StartNew</code>,
+you can specify a <em>state</em> object, which is passed to the target method.
+This is useful should you want to call a method directly rather than using a
+lambda expression:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  var task = Task.Factory.StartNew (Greet<b>, "Hello"</b>);
+  task.Wait();  // Wait for task to complete.
+}
+ 
+static void Greet (object state) { Console.Write (state); }   // Hello
+</pre>
+
+<p>Given that we have lambda expressions in C#, we can put
+the <em>state</em> object to better use, which is to assign a meaningful name
+to the task. We can then use the <code>AsyncState</code> property
+to query its name:</p>
+
+<pre class="sh_csharp">
+static void Main()
+{
+  var task = Task.Factory.StartNew (state =&gt; Greet ("Hello")<b>, "Greeting"</b>);
+  Console.WriteLine (task.AsyncState);   // <b>Greeting</b>
+  task.Wait();
+}
+ 
+static void Greet (string message) { Console.Write (message); }
+</pre>
+
+<p class="note">Visual Studio displays each task’s <code>AsyncState</code>
+in the Parallel Tasks window, so having a meaningful name here can ease
+debugging considerably.</p>
+
+<h3>
+	<a name="_TaskCreationOptions">TaskCreationOptions</a>
+</h3>
+
+<p>You can tune a task’s execution by specifying a <code>TaskCreationOptions</code> enum when calling <code>StartNew</code>
+(or instantiating a <code>Task</code>). <code>TaskCreationOptions</code>
+is a flags enum with the following (combinable) values:</p>
+
+<pre>
+LongRunning
+PreferFairness
+AttachedToParent
+</pre>
+
+<p>
+	<code>LongRunning</code> suggests to the
+scheduler to dedicate a thread to the task. This is beneficial for long-running
+tasks because they might otherwise “hog” the queue, and force short-running
+tasks to wait an unreasonable amount of time before being scheduled. <code>LongRunning</code> is also good for <a href="part2.html#_Blocking">blocking</a>
+tasks.</p>
+
+<p class="note">The task queuing problem arises because the task scheduler
+ordinarily tries to keep just enough tasks active on threads at once to keep
+each CPU core busy. Not <em>oversubscribing</em> the CPU with too many active threads
+avoids the degradation in performance that would occur if the operating system
+was forced to perform a lot of expensive time slicing and context switching. </p>
+
+<p>
+	<code>PreferFairness</code> tells the
+scheduler to try to ensure that tasks are scheduled in the order they were
+started. It may ordinarily do otherwise, because it internally optimizes the
+scheduling of tasks using local work-stealing queues. This optimization is of
+practical benefit with very small (fine-grained) tasks.</p>
+
+<p>
+	<code>AttachedToParent</code> is for
+creating <i>child tasks</i>.</p>
+
+<h3>
+	<a name="_Child_tasks">Child tasks</a>
+</h3>
+
+<p>When one task starts another, you can optionally establish
+a parent-child relationship by specifying <code>TaskCreationOptions.AttachedToParent</code>:</p>
+
+<pre class="sh_csharp">
+Task parent = Task.Factory.StartNew (() =&gt;
+{
+  Console.WriteLine ("I am a parent");
+ 
+  Task.Factory.StartNew (() =&gt;        // Detached task
+  {
+    Console.WriteLine ("I am detached");
+  });
+ 
+  Task.Factory.StartNew (() =&gt;        // Child task
+  {
+    Console.WriteLine ("I am a child");
+  }, TaskCreationOptions.<b>AttachedToParent</b>);
+});
+</pre>
+
+<p>A child task is special in that when you wait for the <i>parent</i> task to complete, it waits for any children
+as well. This can be particularly useful when a child task is a <a href="#_Continuations">continuation</a>, as we’ll see shortly.</p>
+
+<h2>
+	<a name="_Waiting_on_Tasks">Waiting on Tasks</a>
+</h2>
+
+<p>You can explicitly wait for a task to complete in two
+ways:</p>
+
+<ul>
+	<li>Calling its <code>Wait</code> method (optionally
+with a timeout)</li>
+	<li>Accessing its <code>Result</code> property (in the
+case of <code>Task&lt;TResult&gt;</code>)</li>
+</ul>
+
+<p>You can also wait on multiple tasks at once — via the static
+methods <code>Task.WaitAll</code> (waits for all the specified
+tasks to finish) and <code>Task.WaitAny</code> (waits for just
+one task to finish).</p>
+
+<p>
+	<code>WaitAll</code> is similar to waiting
+out each task in turn, but is more efficient in that it requires (at most) just
+one context switch. Also, if one or more of the tasks throw an unhandled
+exception, <code>WaitAll</code> still waits out every task — and
+then rethrows a single <code><a href="#_Working_with_AggregateException">AggregateException</a></code> that
+accumulates the exceptions from each faulted task. It’s equivalent to doing
+this:</p>
+
+<pre class="sh_csharp">
+// Assume t1, t2 and t3 are tasks:
+var exceptions = new List&lt;Exception&gt;();
+try { t1.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+try { t2.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+try { t3.Wait(); } catch (AggregateException ex) { exceptions.Add (ex); }
+if (exceptions.Count &gt; 0) throw new AggregateException (exceptions);
+</pre>
+
+<p>Calling <code>WaitAny</code> is equivalent
+to waiting on a <code><a href="part2.html#_ManualResetEvent">ManualResetEventSlim</a></code>
+that’s signaled by each task as it finishes. </p>
+
+<p>As well as a timeout, you can also pass in a <i><a href="part3.html#_Cancellation_Tokens">cancellation token</a></i> to the <code>Wait</code>
+methods: this lets you cancel the wait — <em>not the task itself</em>.</p>
+
+<h2>
+	<a name="_Exception-Handling_Tasks">Exception-Handling Tasks</a>
+</h2>
+
+<p>When you wait for a task to complete (by calling its <code>Wait</code> method or accessing its <code>Result</code>
+property), any unhandled exceptions are conveniently rethrown to the caller,
+wrapped in an <code><a href="#_Working_with_AggregateException">AggregateException</a></code>
+object. This usually avoids the need to write code <em>within</em> task blocks
+to handle unexpected exceptions; instead we can do this:</p>
+
+<pre class="sh_csharp">
+int x = 0;
+Task&lt;int&gt; calc = Task.Factory.StartNew (() =&gt; 7 / x);
+try
+{
+  Console.WriteLine (calc.Result);
+}
+catch (AggregateException aex)
+{
+  Console.Write (aex.InnerException.Message);  // Attempted to divide by 0
+}
+</pre>
+
+<p>You still need to exception-handle detached autonomous
+tasks (unparented tasks that are not waited upon) in order to prevent an
+unhandled exception taking down the application when the task drops out of
+scope and is garbage-collected (subject to the following note). The same
+applies for tasks waited upon with a timeout, because any exception thrown <em>after</em>
+the timeout interval will otherwise be “unhandled.”</p>
+
+<p class="note">The static <code>TaskScheduler.UnobservedTaskException</code>
+event provides a final last resort for dealing with unhandled task exceptions.
+By handling this event, you can intercept task exceptions that would otherwise
+end the application — and provide your own logic for dealing with them. </p>
+
+<p>For parented tasks, waiting on the parent implicitly waits
+on the <a href="#_Child_tasks">children</a> — and any child exceptions then
+bubble up:</p>
+
+<pre class="sh_csharp">
+TaskCreationOptions atp = TaskCreationOptions.AttachedToParent;
+var parent = Task.Factory.StartNew (() =&gt; 
+{
+  Task.Factory.StartNew (() =&gt;   // Child
+  {
+    Task.Factory.StartNew (() =&gt; { throw null; }, atp);   // Grandchild
+  }, atp);
+});
+ 
+// The following call throws a NullReferenceException (wrapped
+// in nested AggregateExceptions):
+parent.Wait();
+</pre>
+
+<p class="note">Interestingly, if you check a task’s <code>Exception</code>
+property after it has thrown an exception, the act of reading that property
+will prevent the exception from subsequently taking down your application. The
+rationale is that PFX’s designers don’t want you <em>ignoring</em>
+exceptions — as long as you acknowledge them in some way, they won’t punish you
+by terminating your program.</p>
+
+<p class="warning">An unhandled exception on a task doesn’t cause <em>immediate</em>
+application termination: instead, it’s delayed until the garbage collector
+catches up with the task and calls its finalizer. Termination is delayed
+because it can’t be known for certain that you don’t plan to call <code>Wait</code> or check its <code>Result</code> or <code>Exception</code> property until the task is garbage-collected.
+This delay can sometimes mislead you as to the original source of the error
+(although Visual Studio’s debugger can assist if you enable breaking on
+first-chance exceptions).</p>
+
+<p>As we’ll see soon, an alternative strategy for dealing
+with exceptions is with <i><a href="#_Continuations">continuations</a></i>.</p>
+
+<h2>
+	<a name="_Canceling_Tasks">Canceling Tasks</a>
+</h2>
+
+<p>You can optionally pass in a <a href="part3.html#_Cancellation_Tokens">cancellation token</a> when starting a task. This
+lets you cancel tasks via the cooperative cancellation pattern <a href="part3.html#_Cancellation_Tokens">described previously</a>:</p>
+
+<pre class="sh_csharp">
+var cancelSource = new CancellationTokenSource();
+CancellationToken token = cancelSource.Token;
+ 
+Task task = Task.Factory.StartNew (() =&gt; 
+{
+  // Do some stuff...
+  token.ThrowIfCancellationRequested();  // Check for cancellation request
+  // Do some stuff...
+}, <b>token</b>);
+...
+cancelSource.Cancel();
+</pre>
+
+<p>To detect a canceled task, catch an <code><a href="#_Working_with_AggregateException">AggregateException</a></code> and
+check the inner exception as follows:</p>
+
+<pre class="sh_csharp">
+try 
+{
+  task.Wait();
+}
+catch (AggregateException ex)
+{
+  if (ex.InnerException is OperationCanceledException)
+    Console.Write ("Task canceled!");
+}
+</pre>
+
+<p class="note">If you want to explicitly throw an <code>OperationCanceledException</code>
+(rather than calling <code>token.ThrowIfCancellationRequested</code>),
+you must pass the cancellation token into <code>OperationCanceledException</code>’s
+constructor. If you fail to do this, the task won’t end up with a <code>TaskStatus.Canceled</code> status and won’t trigger <code>OnlyOnCanceled</code> continuations.</p>
+
+<p>If the task is canceled before it has started, it won’t
+get scheduled — an <code>OperationCanceledException</code> will
+instead be thrown on the task immediately.</p>
+
+<p>Because cancellation tokens are recognized by other APIs,
+you can pass them into other constructs and cancellations will propagate seamlessly:</p>
+
+<pre class="sh_csharp">
+var cancelSource = new CancellationTokenSource();
+CancellationToken token = cancelSource.Token;
+ 
+Task task = Task.Factory.StartNew (() =&gt;
+{
+  // Pass our cancellation token into a PLINQ query:
+  var query = <i>someSequence</i>.AsParallel().<b>WithCancellation (token)</b>...
+  ... <i>enumerate query</i> ...
+});
+</pre>
+
+<p>Calling <code>Cancel</code> on <code>cancelSource</code> in this example will cancel the PLINQ query,
+which will throw an <code>OperationCanceledException</code> on
+the task body, which will then cancel the task.</p>
+
+<p class="note">The cancellation tokens that you can pass into methods such as
+<code>Wait</code> and <code>CancelAndWait</code>
+allow you to cancel the <em>wait</em> operation and not the task itself.</p>
+
+<h2>
+	<a name="_Continuations">Continuations</a>
+</h2>
+
+<p>Sometimes it’s useful to start a task right after another
+one completes (or fails). The <code>ContinueWith</code> method on
+the <code>Task</code> class does exactly this:</p>
+
+<pre class="sh_csharp">
+Task task1 = Task.Factory.StartNew (() =&gt; Console.Write ("antecedant.."));
+Task task2 = task1.<b>ContinueWith</b> (ant =&gt; Console.Write ("..continuation"));
+</pre>
+
+<p>As soon as <code>task1</code> (the <i>antecedent</i>) finishes, fails, or is canceled, <code>task2</code> (the <i>continuation</i>)
+automatically starts. (If <code>task1</code> had completed before
+the second line of code ran, <code>task2</code> would be
+scheduled to execute right away.) The <code>ant</code> argument
+passed to the continuation’s lambda expression is a reference to the antecedent
+task.</p>
+
+<p>Our example demonstrated the simplest kind of
+continuation, and is functionally similar to the following:</p>
+
+<pre class="sh_csharp">
+Task task = Task.Factory.StartNew (() =&gt;
+{
+  Console.Write ("antecedent..");
+  Console.Write ("..continuation");
+});
+</pre>
+
+<p>The continuation-based approach, however, is more flexible
+in that you could first wait on <code>task1</code>, and then
+later wait on <code>task2</code>. This is particularly useful if <code>task1</code> returns data.</p>
+
+<p class="note">Another (subtler) difference is that by default, antecedent
+and continuation tasks may execute on different threads. You can force them to
+execute on the same thread by specifying <code>TaskContinuationOptions.ExecuteSynchronously</code>
+when calling <code>ContinueWith</code>: this can improve
+performance in very fine-grained continuations by lessening indirection.</p>
+
+<h3>Continuations and Task&lt;TResult&gt;</h3>
+
+<p>Just like ordinary tasks, continuations can be of type <code>Task&lt;TResult&gt;</code> and return data. In the following
+example, we calculate <code>Math.Sqrt(8*2)</code> using a series
+of chained tasks and then write out the result:</p>
+
+<pre class="sh_csharp">
+Task.Factory.StartNew&lt;int&gt; (() =&gt; 8)
+  .ContinueWith (ant =&gt; ant.Result * 2)
+  .ContinueWith (ant =&gt; Math.Sqrt (ant.Result))
+  .ContinueWith (ant =&gt; Console.WriteLine (ant.Result));   // 4
+</pre>
+
+<p>Our example is somewhat contrived for simplicity; in real
+life, these lambda expressions would call computationally intensive functions.</p>
+
+<h3>
+	<a name="_Continuations_and_exceptions">Continuations and exceptions</a>
+</h3>
+
+<p>A continuation can find out if an exception was thrown by
+the antecedent via the antecedent task’s <code>Exception</code>
+property. The following writes the details of a <code>NullReferenceException</code>
+to the console:</p>
+
+<pre class="sh_csharp">
+Task task1 = Task.Factory.StartNew (() =&gt; { throw null; });
+Task task2 = task1.ContinueWith (ant =&gt; Console.Write (ant.Exception));
+</pre>
+
+<p class="warning">If an antecedent throws and the continuation fails to
+query the antecedent’s <code>Exception</code> property (and the
+antecedent isn’t otherwise waited upon), the exception is considered unhandled
+and the application dies (unless handled by <code>TaskScheduler.UnobservedTaskException</code>).</p>
+
+<p>A safe pattern is to rethrow antecedent exceptions. As
+long as the continuation is <code>Wait</code>ed upon, the
+exception will be propagated and rethrown to the <code>Wait</code>er:</p>
+
+<pre class="sh_csharp">
+Task continuation = Task.Factory.StartNew     (()  =&gt; { throw null; })
+                                .ContinueWith (ant =&gt;
+  {
+    <b>if (ant.Exception != null) throw ant.Exception;</b>    // Continue processing...
+  });
+ 
+continuation.Wait();    // Exception is now thrown back to caller.
+</pre>
+
+<p>Another way to deal with exceptions is to specify
+different continuations for exceptional versus nonexceptional outcomes. This is
+done with <code>TaskContinuationOptions</code>:</p>
+
+<pre class="sh_csharp">
+Task task1 = Task.Factory.StartNew (() =&gt; { throw null; });
+ 
+Task error = task1.ContinueWith (ant =&gt; Console.Write (ant.Exception),
+                                 <b>TaskContinuationOptions.OnlyOnFaulted</b>);
+ 
+Task ok = task1.ContinueWith (ant =&gt; Console.Write ("Success!"),
+                              <b>TaskContinuationOptions.NotOnFaulted</b>);
+</pre>
+
+<p>This pattern is particularly useful in conjunction with <a href="#_Child_tasks">child tasks</a>, as we’ll <a href="#_Continuations_and_child_tasks">see very soon</a>.</p>
+
+<p>The following extension method “swallows” a task’s
+unhandled exceptions:</p>
+
+<pre class="sh_csharp">
+public static void IgnoreExceptions (this Task task)
+{
+  task.ContinueWith (t =&gt; { var ignore = t.Exception; },
+    TaskContinuationOptions.OnlyOnFaulted);
+} 
+</pre>
+
+<p>(This could be improved by adding code to log the
+exception.) Here’s how it would be used:</p>
+
+<pre class="sh_csharp">
+Task.Factory.StartNew (() =&gt; { throw null; }).IgnoreExceptions();
+</pre>
+
+<h3>
+	<a name="_Continuations_and_child_tasks">Continuations and child tasks</a>
+</h3>
+
+<p>A powerful feature of continuations is that they kick off
+only when all <a href="#_Child_tasks">child tasks</a> have completed. At that
+point, any exceptions thrown by the children are marshaled to the continuation.</p>
+
+<p>In the following example, we start three child tasks, each
+throwing a <code>NullReferenceException</code>. We then catch all
+of them in one fell swoop via a continuation on the parent:</p>
+
+<pre class="sh_csharp">
+TaskCreationOptions atp = TaskCreationOptions.AttachedToParent;
+Task.Factory.StartNew (() =&gt;
+{
+  Task.Factory.StartNew (() =&gt; { throw null; }, atp);
+  Task.Factory.StartNew (() =&gt; { throw null; }, atp);
+  Task.Factory.StartNew (() =&gt; { throw null; }, atp);
+})
+.ContinueWith (p =&gt; Console.WriteLine (p.Exception),
+                    TaskContinuationOptions.OnlyOnFaulted);
+</pre>
+
+<div class="figure">
+	<img width="650" height="503" src="Continuations.png" alt="Continuations" />
+</div>
+
+<h3>Conditional continuations</h3>
+
+<p>By default, a continuation is scheduled <em>unconditionally</em> — whether
+the antecedent completes, throws an exception, or is canceled. You can alter
+this behavior via a set of (combinable) flags included within the <code>TaskContinuationOptions</code> enum. The three core flags that
+control conditional continuation are:</p>
+
+<pre class="sh_csharp">
+NotOnRanToCompletion = 0x10000,
+NotOnFaulted = 0x20000,
+NotOnCanceled = 0x40000,
+</pre>
+
+<p>These flags are subtractive in the sense that the more you
+apply, the less likely the continuation is to execute. For convenience, there
+are also the following precombined values:</p>
+
+<pre class="sh_csharp">
+<b>OnlyOnRanToCompletion</b> = NotOnFaulted | NotOnCanceled,
+<b>OnlyOnFaulted</b> = NotOnRanToCompletion | NotOnCanceled,
+<b>OnlyOnCanceled</b> = NotOnRanToCompletion | NotOnFaulted
+</pre>
+
+<p>(Combining all the <code>Not*</code> flags [<code>NotOnRanToCompletion</code>, <code>NotOnFaulted</code>,
+<code>NotOnCanceled</code>] is nonsensical, as it would result in
+the continuation always being canceled.)</p>
+
+<p>“RanToCompletion” means the antecedent succeeded — without
+cancellation or unhandled exceptions.</p>
+
+<p>“Faulted” means an unhandled exception was thrown on the
+antecedent.</p>
+
+<p>“Canceled” means one of two things:</p>
+
+<ul>
+	<li>The antecedent was canceled via its cancellation token. In other
+words, an <code>OperationCanceledException</code> was thrown on
+the antecedent — whose <code>CancellationToken</code> property
+matched that passed to the antecedent when it was started.</li>
+	<li>The antecedent was implicitly canceled because <em>it</em> didn’t
+satisfy a conditional continuation predicate.</li>
+</ul>
+
+<p>It’s essential to grasp that when a continuation doesn’t
+execute by virtue of these flags, the continuation is not forgotten or
+abandoned — it’s <em>canceled</em>. This means that any continuations on the
+continuation itself <em>will then run</em> — unless you predicate them with <code>NotOnCanceled</code>. For example, consider this:</p>
+
+<pre class="sh_csharp">
+Task t1 = Task.Factory.StartNew (...);
+ 
+Task fault = t1.ContinueWith (ant =&gt; Console.WriteLine ("fault"),
+                              TaskContinuationOptions.OnlyOnFaulted);
+ 
+Task t3 = fault.ContinueWith (ant =&gt; Console.WriteLine ("t3"));
+</pre>
+
+<p>As it stands, <code>t3</code> will always
+get scheduled — even if <code>t1</code> doesn’t throw an exception.
+This is because if <code>t1</code> succeeds, the <code>fault</code> task will be <em>canceled</em>, and with no
+continuation restrictions placed on <code>t3</code>, <code>t3</code> will then execute unconditionally.</p>
+
+<div class="figure">
+	<img width="650" height="110" src="ConditionalContinuations.png" alt="Conditional Continuations" />
+</div>
+
+<p>If we want <code>t3</code> to execute only
+if <code>fault</code> actually runs, we must instead do this:</p>
+
+<pre class="sh_csharp">
+Task t3 = fault.ContinueWith (ant =&gt; Console.WriteLine ("t3"),
+                              <b>TaskContinuationOptions.NotOnCanceled</b>);
+</pre>
+
+<p>(Alternatively, we could specify <code>OnlyOnRanToCompletion</code>;
+the difference is that <code>t3</code> would not then execute if
+an exception was thrown within <code>fault</code>.)</p>
+
+<h3>
+	<a name="_Continuations_with_multiple_antecedents">Continuations with multiple
+antecedents</a>
+</h3>
+
+<p>Another useful feature of continuations is that you can
+schedule them to execute based on the completion of multiple antecedents. <code>ContinueWhenAll</code> schedules execution when all antecedents
+have completed; <code>ContinueWhenAny</code> schedules execution
+when one antecedent completes. Both methods are defined in the <code>TaskFactory</code> class:</p>
+
+<pre class="sh_csharp">
+var task1 = Task.Factory.StartNew (() =&gt; Console.Write ("X"));
+var task2 = Task.Factory.StartNew (() =&gt; Console.Write ("Y"));
+ 
+var continuation = Task.Factory.ContinueWhenAll (
+  new[] { task1, task2 }, tasks =&gt; Console.WriteLine ("Done"));
+</pre>
+
+<p>This writes “Done” after writing “XY” or “YX”. The <code>tasks</code> argument in the lambda expression gives you access
+to the array of completed tasks, which is useful when the antecedents return
+data. The following example adds together numbers returned from two antecedent
+tasks: </p>
+
+<pre class="sh_csharp">
+// task1 and task2 would call complex functions in real life:
+Task&lt;int&gt; task1 = Task.Factory.StartNew (() =&gt; 123);
+Task&lt;int&gt; task2 = Task.Factory.StartNew (() =&gt; 456);
+ 
+Task&lt;int&gt; task3 = Task<b>&lt;int&gt;</b>.Factory.ContinueWhenAll (
+  new[] { task1, task2 }, tasks =&gt; tasks.Sum (t =&gt; t.Result));
+ 
+Console.WriteLine (task3.Result);           // 579
+</pre>
+
+<p class="note">We’ve included the <code>&lt;int&gt;</code> type
+argument in our call to <code>Task.Factory</code> in this example
+to clarify that we’re obtaining a generic task factory. The type argument is
+unnecessary, though, as it will be inferred by the compiler.</p>
+
+<h3>Multiple continuations on a single antecedent</h3>
+
+<p>Calling <code>ContinueWith</code> more than
+once on the same task creates multiple continuations on a single antecedent.
+When the antecedent finishes, all continuations will start together (unless you
+specify <code>TaskContinuationOptions.ExecuteSynchronously</code>,
+in which case the continuations will execute sequentially).</p>
+
+<p>The following waits for one second, and then writes either
+“XY” or “YX”:</p>
+
+<pre class="sh_csharp">
+var t = Task.Factory.StartNew (() =&gt; Thread.Sleep (1000));
+t.ContinueWith (ant =&gt; Console.Write ("X"));
+t.ContinueWith (ant =&gt; Console.Write ("Y"));
+</pre>
+
+<h2>
+	<a name="_Task_Schedulers_and_UIs">Task Schedulers and UIs </a>
+</h2>
+
+<p>A <i>task scheduler</i>
+allocates tasks to threads. All tasks are associated with a task scheduler,
+which is represented by the abstract <code>TaskScheduler</code>
+class. The Framework provides two concrete implementations: the <em>default
+scheduler</em> that works in tandem with the <a href="index.html#_Thread_Pooling">CLR
+thread pool</a>, and the <i>synchronization context
+scheduler</i>. The latter is designed (primarily) to help you with the
+threading model of WPF and Windows Forms, which requires that UI elements and
+controls are accessed <a href="part2.html#_Rich_Client_Applications">only from the thread
+that created them</a>. For example, suppose we wanted to fetch some data from a
+web service in the background, and then update a WPF label called <code>lblResult</code> with its result. We can divide this into two
+tasks:</p>
+
+<ol>
+	<li>Call a method to get data from the web service (antecedent task).</li>
+	<li>Update <code>lblResult</code> with the results (<a href="#_Continuations">continuation</a> task).</li>
+</ol>
+
+<p>If, for a <a href="#_Continuations">continuation task</a>,
+we specify the <em>synchronization context scheduler</em> obtained when the
+window was constructed, we can safely update <code>lblResult</code>:</p>
+
+<pre class="sh_csharp">
+public partial class MyWindow : Window
+{
+  TaskScheduler _uiScheduler;   // Declare this as a field so we can use
+                                // it throughout our class.
+  public MyWindow()
+  {    
+    InitializeComponent();
+ 
+    // Get the UI scheduler for the thread that created the form:
+    _uiScheduler = <b>TaskScheduler.FromCurrentSynchronizationContext()</b>;
+ 
+    Task.Factory.StartNew&lt;string&gt; (SomeComplexWebService)
+      .ContinueWith (ant =&gt; lblResult.Content = ant.Result, <b>_uiScheduler</b>);
+  }
+ 
+  string SomeComplexWebService() { ... }
+}
+</pre>
+
+<p>It’s also possible to write our own task scheduler (by
+subclassing <code>TaskScheduler</code>), although this is
+something you’d do only in very specialized scenarios. For custom scheduling,
+you’d more commonly use <a href="#_TaskCompletionSource">TaskCompletionSource</a>, which
+we’ll cover soon.</p>
+
+<h2>
+	<a name="_TaskFactory">TaskFactory</a>
+</h2>
+
+<p>When you call <code>Task.Factory</code>, you’re
+calling a static property on <code>Task</code> that returns a
+default <code>TaskFactory</code> object. The purpose of a task
+factory is to create tasks — specifically, three kinds of tasks:</p>
+
+<ul>
+	<li>“Ordinary” tasks (via <code>StartNew</code>)</li>
+	<li>Continuations with multiple antecedents (via <code>ContinueWhenAll</code>
+and <code>ContinueWhenAny</code>)</li>
+	<li>Tasks that wrap methods that follow the asynchronous programming
+model (via <code>FromAsync</code>)</li>
+</ul>
+
+<p class="note">Interestingly, <code>TaskFactory</code> is the <em>only</em>
+way to achieve the latter two goals. In the case of <code>StartNew</code>,
+<code>TaskFactory</code> is purely a convenience and technically
+redundant in that you can simply instantiate <code>Task</code>
+objects and call <code>Start</code> on them.</p>
+
+<h3>Creating your own task factories</h3>
+
+<p>
+	<code>TaskFactory</code> is not an <em>abstract</em>
+factory: you can actually instantiate the class, and this is useful when you
+want to repeatedly create tasks using the same (nonstandard) values for <code><a href="#_TaskCreationOptions">TaskCreationOptions</a></code>, <code><a href="#_Continuations_and_exceptions">TaskContinuationOptions</a></code>,
+or <code>TaskScheduler</code>. For example, if we wanted to
+repeatedly create long-running <em>parented</em> tasks, we could create a
+custom factory as follows:</p>
+
+<pre class="sh_csharp">
+var factory = new TaskFactory (
+  TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent,
+  TaskContinuationOptions.None);
+</pre>
+
+<p>Creating tasks is then simply a matter of calling <code>StartNew</code> on the factory:</p>
+
+<pre class="sh_csharp">
+Task task1 = factory.StartNew (Method1);
+Task task2 = factory.StartNew (Method2);
+...
+</pre>
+
+<p>The custom continuation options are applied when calling <code>ContinueWhenAll</code> and <code>ContinueWhenAny</code>.</p>
+
+<h2>
+	<a name="_TaskCompletionSource">TaskCompletionSource</a>
+</h2>
+
+<p>The <code>Task</code> class achieves two
+distinct things:</p>
+
+<ul>
+	<li>It schedules a delegate to run on a pooled thread.</li>
+	<li>It offers a rich set of features for managing work items
+(continuations, child tasks, exception marshaling, etc.).</li>
+
+</ul>
+
+<p>Interestingly, these two things are not joined at the hip:
+you can leverage a task’s features for managing work items without scheduling
+anything to run on the thread pool. The class that enables this pattern of use
+is called <code>TaskCompletionSource</code>.</p>
+
+<p>To use <code>TaskCompletionSource</code> you
+simply instantiate the class. It exposes a <code>Task</code>
+property that returns a task upon which you can wait and attach
+continuations—just like any other task. The task, however, is entirely
+controlled by the <code>TaskCompletionSource</code> object via
+the following methods:</p>
+
+<pre class="sh_csharp">
+public class TaskCompletionSource&lt;TResult&gt;
+{
+  public void SetResult (TResult result);
+  public void SetException (Exception exception);
+  public void SetCanceled();
+ 
+  public bool TrySetResult (TResult result);
+  public bool TrySetException (Exception exception);
+  public bool TrySetCanceled();
+  ...
+}
+</pre>
+
+<p>If called more than once, <code>SetResult</code>,
+<code>SetException</code>, or <code>SetCanceled</code>
+throws an exception; the <code>Try*</code> methods instead return
+
+<code>false</code>.</p>
+
+<p class="note">
+	<code>TResult</code> corresponds to the task’s
+result type, so <code>TaskCompletionSource&lt;int&gt;</code>
+gives you a <code>Task&lt;int&gt;</code>. If you want a task with
+no result, create a <code>TaskCompletionSource</code> of <code>object</code> and pass in <code>null</code> when
+calling <code>SetResult</code>. You can then cast the <code>Task&lt;object&gt;</code> to <code>Task</code>.</p>
+
+<p>The following example prints 123 after waiting for five seconds:</p>
+
+<pre class="sh_csharp">
+var source = new TaskCompletionSource&lt;int&gt;();
+ 
+new Thread (() =&gt; { Thread.Sleep (5000); source.SetResult (123); })
+  .Start();
+ 
+Task&lt;int&gt; task = source.Task;      // Our "slave" task.
+Console.WriteLine (task.Result);   // 123 
+</pre>
+
+<p>Later on, we'll show how <code>BlockingCollection</code> can be used to
+<a href="#_BlockingCollectionT">write a producer/consumer queue</a>. We then demonstrate how <code>TaskCompletionSource</code>
+improves the solution by allowing queued work items to be waited upon and canceled.</p>
+
+<h1>
+	<a name="_Working_with_AggregateException">Working with AggregateException</a>
+</h1>
+
+<p>As we’ve seen, <a href="#_PLINQ">PLINQ</a>, the <code><a href="#_The_Parallel_Class">Parallel</a></code> class, and <code><a href="#_Task_Parallelism">Tasks</a></code>
+automatically marshal exceptions to the consumer. To see why this is essential,
+consider the following LINQ query, which throws a <code>DivideByZeroException</code>
+on the first iteration:</p>
+
+<pre class="sh_csharp">
+try
+{
+  var query = from i in Enumerable.Range (0, 1000000)
+              select 100 / i;
+  ...
+}
+catch (DivideByZeroException)
+{
+  ...
+}
+</pre>
+
+<p>If we asked PLINQ to parallelize this query and it ignored
+the handling of exceptions, a <code>DivideByZeroException</code>
+would probably be thrown on a <em>separate thread</em>, bypassing our <code>catch</code> block and causing the application to die.</p>
+
+<p>Hence, exceptions are automatically caught and rethrown to
+the caller. But unfortunately, it’s not quite as simple as catching a <code>DivideByZeroException</code>. Because these libraries leverage
+many threads, it’s actually possible for two or more exceptions to be thrown
+simultaneously. To ensure that all exceptions are reported, exceptions are
+therefore wrapped in an <code>AggregateException</code>
+container, which exposes an <code>InnerExceptions</code> property
+containing each of the caught exception(s):</p>
+
+<pre class="sh_csharp">
+try
+{
+  var query = from i in ParallelEnumerable.Range (0, 1000000)
+              select 100 / i;
+  // Enumerate query
+  ...
+}
+catch (<b>AggregateException</b> aex)
+{
+  foreach (Exception ex in aex.<b>InnerExceptions</b>)
+    Console.WriteLine (ex.Message);
+}
+</pre>
+
+<p class="note">Both PLINQ and the <code>Parallel</code> class
+end the query or loop execution upon encountering the first exception — by not
+processing any further elements or loop bodies. More exceptions might be
+thrown, however, before the current cycle is complete. The first exception in <code>AggregateException</code> is visible in the <code>InnerException</code>
+property.</p>
+
+<h2>
+	<a name="_Flatten_and_Handle">Flatten and Handle</a>
+</h2>
+
+<p>The <code>AggregateException</code> class
+provides a couple of methods to simplify exception handling: <code>Flatten</code> and <code>Handle</code>.</p>
+
+<h3>Flatten</h3>
+
+<p>
+	<code>AggregateException</code>s will quite
+often contain other <code>AggregateException</code>s. An example
+of when this might happen is if a <a href="#_Child_tasks">child task</a> throws
+an exception. You can eliminate any level of nesting to simplify handling by
+calling <code>Flatten</code>. This method returns a new <code>AggregateException</code> with a simple flat list of inner
+exceptions:</p>
+
+<pre class="sh_csharp">
+catch (AggregateException aex)
+{
+  foreach (Exception ex in aex.<b>Flatten</b>().InnerExceptions)
+    myLogWriter.LogException (ex);
+}
+</pre>
+
+<h3>Handle</h3>
+
+<p>Sometimes it’s useful to catch only specific exception
+types, and have other types rethrown. The <code>Handle</code>
+method on <code>AggregateException</code> provides a shortcut for
+doing this. It accepts an exception predicate which it runs over every inner
+exception: </p>
+
+<pre class="sh_csharp">
+public void Handle (Func&lt;Exception, bool&gt; predicate)
+</pre>
+
+<p>If the predicate returns <code>true</code>,
+it considers that exception “handled.” After the delegate has run over every
+exception, the following happens:</p>
+
+<ul>
+	<li>If all exceptions were “handled” (the delegate returned <code>true</code>), the exception is not rethrown.</li>
+	<li>If there were any exceptions for which the delegate returned <code>false</code> (“unhandled”), a new <code>AggregateException</code>
+is built up containing those exceptions, and is rethrown.</li>
+</ul>
+
+<p>For instance, the following ends up rethrowing another <code>AggregateException</code> that contains a single <code>NullReferenceException</code>:</p>
+
+<pre class="sh_csharp">
+var parent = Task.Factory.StartNew (() =&gt; 
+{
+  // We’ll throw 3 exceptions at once using 3 child tasks:
+ 
+  int[] numbers = { 0 };
+ 
+  var childFactory = new TaskFactory
+   (TaskCreationOptions.AttachedToParent, TaskContinuationOptions.None);
+ 
+  childFactory.StartNew (() =&gt; 5 / numbers[0]);   // Division by zero
+  childFactory.StartNew (() =&gt; numbers [1]);      // Index out of range
+  childFactory.StartNew (() =&gt; { throw null; });  // Null reference
+});
+ 
+try { parent.Wait(); }
+catch (AggregateException aex)
+{
+  <b>aex.Flatten().Handle</b> (ex =&gt;   // Note that we still need to call Flatten
+  {
+    if (ex is DivideByZeroException)
+    {
+      Console.WriteLine ("Divide by zero");
+      return true;                           // This exception is "handled"
+    }
+    if (ex is IndexOutOfRangeException)
+    {
+      Console.WriteLine ("Index out of range");
+      return true;                           // This exception is "handled"   
+    }
+    return false;    // All other exceptions will get rethrown
+  });
+}
+</pre>
+
+<h1>
+	<a name="_Concurrent_Collections">Concurrent Collections</a>
+</h1>
+
+<p>Framework 4.0 provides a set of new collections in the <code>System.Collections.Concurrent</code> namespace. All of these are
+fully thread-safe:</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th valign="top">Concurrent collection</th>
+		<th valign="top">Nonconcurrent equivalent</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>ConcurrentStack&lt;T&gt;</code>
+		</td>
+
+		<td valign="top">
+			<code>Stack&lt;T&gt;</code>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>ConcurrentQueue&lt;T&gt;</code>
+
+		</td>
+		<td valign="top">
+			<code>Queue&lt;T&gt;</code>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_ConcurrentBagT"><code>ConcurrentBag&lt;T&gt;</code></a>
+		</td>
+		<td valign="top">(none)</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<a href="#_BlockingCollectionT">BlockingCollection&lt;T&gt;</a>
+		</td>
+
+		<td valign="top">(none)</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<code>ConcurrentDictionary&lt;TKey,TValue&gt;</code>
+		</td>
+		<td valign="top">
+			<code>Dictionary&lt;TKey,TValue&gt;</code>
+		</td>
+	</tr>
+</table>
+
+<p>The concurrent collections can sometimes be useful in
+general multithreading when you need a thread-safe collection. However, there
+are some caveats:</p>
+
+<ul>
+	<li>The concurrent collections are tuned for <em>parallel programming</em>.
+The conventional collections outperform them in all but highly concurrent
+scenarios.</li>
+	<li>A thread-safe collection doesn’t guarantee that <a href="part2.html#_Thread_Safety_and_NET_Framework_Types">the code using it will be thread-safe</a>.</li>
+	<li>If you enumerate over a concurrent collection while another
+thread is modifying it, no exception is thrown. Instead, you get a mixture of
+old and new content.</li>
+	<li>There’s no concurrent version of <code>List&lt;T&gt;</code>.</li>
+	<li>The concurrent stack, queue, and bag classes are implemented internally
+with linked lists. This makes them less memory-efficient than the nonconcurrent
+<code>Stack</code> and <code>Queue</code> classes,
+but better for concurrent access because linked lists are conducive to
+lock-free or low-lock implementations. (This is because inserting a node into a
+linked list requires updating just a couple of references, while inserting an
+element into a <code>List&lt;T&gt;</code>-like structure may
+require moving thousands of existing elements.)</li>
+
+</ul>
+
+<p>In other words, these collections don’t merely provide
+shortcuts for using an ordinary collection with a lock. To demonstrate, if we
+execute the following code on a <em>single</em> thread:</p>
+
+<pre class="sh_csharp">
+var d = new ConcurrentDictionary&lt;int,int&gt;();
+for (int i = 0; i &lt; 1000000; i++) d[i] = 123;
+</pre>
+
+<p>it runs three times more slowly than this:</p>
+
+<pre class="sh_csharp">
+var d = new Dictionary&lt;int,int&gt;();
+for (int i = 0; i &lt; 1000000; i++) <b>lock (d)</b> d[i] = 123;
+</pre>
+
+<p>(<em>Reading</em> from a <code>ConcurrentDictionary</code>,
+however, is fast because reads are lock-free.)</p>
+
+<p>The concurrent collections also differ from conventional
+collections in that they expose special methods to perform atomic test-and-act
+operations, such as <code>TryPop</code>. Most of these methods
+are unified via the <code>IProducerConsumerCollection&lt;T&gt;</code>
+interface.</p>
+
+<h2>
+	<a name="_IProducerConsumerCollectionT">IProducerConsumerCollection&lt;T&gt;</a>
+</h2>
+
+<p>A producer/consumer collection is one for which the two
+primary use cases are:</p>
+
+<ul>
+	<li>Adding an element (“producing”)</li>
+	<li>Retrieving an element while removing it (“consuming”)</li>
+</ul>
+
+<p>The classic examples are stacks and queues.
+Producer/consumer collections are significant in parallel programming because
+they’re conducive to efficient lock-free implementations.</p>
+
+<p>The <code>IProducerConsumerCollection&lt;T&gt;</code>
+
+interface represents a thread-safe producer/consumer collection. The following
+classes implement this interface:</p>
+
+<pre class="sh_csharp">
+ConcurrentStack&lt;T&gt;
+ConcurrentQueue&lt;T&gt;
+<a href="#_ConcurrentBagT">ConcurrentBag&lt;T&gt;</a>
+</pre>
+
+<p>
+	<code>IProducerConsumerCollection&lt;T&gt;</code> extends <code>ICollection</code>, adding the following methods:</p>
+
+<pre class="sh_csharp">
+void CopyTo (T[] array, int index);
+T[] ToArray();
+bool TryAdd (T item);
+bool TryTake (out T item);</pre>
+
+<p>The <code>TryAdd</code> and <code>TryTake</code> methods test whether an add/remove operation can
+be performed, and if so, they perform the add/remove. The testing and acting are
+performed atomically, eliminating the need to lock as you would around a
+conventional collection:</p>
+
+<pre class="sh_csharp">
+int result;
+<b>lock (myStack)</b> if (myStack.Count &gt; 0) result = myStack.Pop();
+</pre>
+
+<p>
+	<code>TryTake</code> returns <code>false</code> if the collection is empty. <code>TryAdd</code>
+always succeeds and returns <code>true</code> in the three
+implementations provided. If you wrote your own concurrent collection that
+prohibited duplicates, however, you’d make <code>TryAdd</code>
+return <code>false</code> if the element already existed (an
+example would be if you wrote a concurrent <em>set</em>).</p>
+
+<p>The particular element that <code>TryTake</code>
+
+removes is defined by the subclass:</p>
+
+<ul>
+	<li>With a stack, <code>TryTake</code> removes the most
+recently added element.</li>
+	<li>With a queue, <code>TryTake</code> removes the
+least recently added element.</li>
+	<li>With a bag, <code>TryTake</code> removes whatever
+element it can remove most efficiently.</li>
+
+</ul>
+
+<p>The three concrete classes mostly implement the <code>TryTake</code> and <code>TryAdd</code> methods
+explicitly, exposing the same functionality through more specifically named
+public methods such as <code>TryDequeue</code> and <code>TryPop</code>.</p>
+
+<h2>
+	<a name="_ConcurrentBagT">ConcurrentBag&lt;T&gt;</a>
+</h2>
+
+<p>
+	<code>ConcurrentBag&lt;T&gt;</code> stores
+an <em>unordered</em> collection of objects (with duplicates permitted). <code>ConcurrentBag&lt;T&gt;</code> is suitable in situations when you <em>don’t
+care</em> which element you get when calling <code>Take</code> or <code>TryTake</code>.</p>
+
+<p>The benefit of <code>ConcurrentBag&lt;T&gt;</code>
+over a concurrent queue or stack is that a bag’s <code>Add</code>
+method suffers almost <em>no</em> contention when called by many threads at
+once. In contrast, calling <code>Add</code> in parallel on a
+queue or stack incurs <em>some</em> contention (although a lot less than
+locking around a <em>nonconcurrent</em> collection). Calling <code>Take</code> on a concurrent bag is also very efficient — as long as
+each thread doesn’t take more elements than it <code>Add</code>ed.</p>
+
+<p>Inside a concurrent bag, each thread gets it own private
+linked list. Elements are added to the private list that belongs to the thread
+calling <code>Add</code>, eliminating contention. When you
+enumerate over the bag, the enumerator travels through each thread’s private
+list, yielding each of its elements in turn.</p>
+
+<p>When you call <code>Take</code>, the bag
+first looks at the current thread’s private list. If there’s at least one
+element, it can complete the task easily and (in most cases) without
+contention. But if the list is empty, it must “steal” an element from another
+thread’s private list and incur the potential for contention.</p>
+
+<p>So, to be precise, calling <code>Take</code>
+gives you the element added most recently on that thread; if there are no
+elements on that thread, it gives you the element added most recently on
+another thread, chosen at random.</p>
+
+<p>Concurrent bags are ideal when the parallel operation on
+your collection mostly comprises <code>Add</code>ing elements — or
+when the <code>Add</code>s and <code>Take</code>s
+are balanced on a thread. We saw an example of the former previously, when
+using <code>Parallel.ForEach</code> to implement a parallel
+spellchecker:</p>
+
+<pre class="sh_csharp">
+var misspellings = new ConcurrentBag&lt;Tuple&lt;int,string&gt;&gt;();
+ 
+Parallel.ForEach (wordsToTest, (word, state, i) =&gt;
+{
+  if (!wordLookup.Contains (word))
+    misspellings.Add (Tuple.Create ((int) i, word));
+});
+</pre>
+
+<p>A concurrent bag would be a poor choice for a
+producer/consumer queue, because elements are added and removed by <em>different</em>
+threads.</p>
+
+<h2>
+	<a name="_BlockingCollectionT">BlockingCollection&lt;T&gt;</a>
+</h2>
+
+<p>If you call <code>TryTake</code> on any of
+the producer/consumer collections we discussed previously:</p>
+
+<pre>
+ConcurrentStack&lt;T&gt;
+ConcurrentQueue&lt;T&gt;
+ConcurrentBag&lt;T&gt;
+</pre>
+
+<p>and the collection is empty, the method returns <code>false</code>. Sometimes it would be more useful in this scenario
+to <em>wait</em> until an element is available.</p>
+
+<p>Rather than overloading the <code>TryTake</code>
+methods with this functionality (which would have caused a blowout of members
+after allowing for cancellation tokens and timeouts), PFX’s designers
+encapsulated this functionality into a wrapper class called <code>BlockingCollection&lt;T&gt;</code>. A blocking collection wraps
+any collection that implements <a href="#_IProducerConsumerCollectionT">IProducerConsumerCollection&lt;T&gt;</a>
+and lets you <code>Take</code> an element from the wrapped
+collection — blocking if no element is available.</p>
+
+<p>A blocking collection also lets you limit the total size
+of the collection, blocking the <em>producer</em> if that size is exceeded. A
+collection limited in this manner is called a <i>bounded
+blocking collection</i>.</p>
+
+<p>To use <code>BlockingCollection&lt;T&gt;</code>:</p>
+
+<ol>
+	<li>Instantiate the class, optionally specifying the <a href="#_IProducerConsumerCollectionT">IProducerConsumerCollection&lt;T&gt;</a>
+to wrap and the maximum size (bound) of the collection.</li>
+	<li>Call <code>Add</code> or <code>TryAdd</code> to add elements to the underlying collection.</li>
+	<li>3.Call <code>Take</code> or <code>TryTake</code> to remove (consume) elements from the underlying collection.</li>
+</ol>
+
+<p>If you call the constructor without passing in a
+collection, the class will automatically instantiate a <code>ConcurrentQueue&lt;T&gt;</code>.
+The producing and consuming methods let you specify cancellation tokens and
+timeouts. <code>Add</code> and <code>TryAdd</code>
+may block if the collection size is bounded; <code>Take</code>
+and <code>TryTake</code> block while the collection is empty.</p>
+
+<p>Another way to consume elements is to call <code>GetConsumingEnumerable</code>. This returns a (potentially)
+infinite sequence that yields elements as they become available. You can force
+the sequence to end by calling <code>CompleteAdding</code>: this
+method also prevents further elements from being enqueued.</p>
+
+<p>Previously, we wrote a producer/consumer queue <a href="part4.html#_Wait_Pulse_Producer_Consumer_Queue">using Wait and Pulse</a>. Here’s the same class refactored to use <code>BlockingCollection&lt;T&gt;</code> (exception handling aside):</p>
+
+<pre class="sh_csharp">
+public class PCQueue : IDisposable
+{
+<b>  BlockingCollection&lt;Action&gt; _taskQ = new BlockingCollection&lt;Action&gt;();</b> 
+  public PCQueue (int workerCount)
+  {
+    // Create and start a separate Task for each consumer:
+    for (int i = 0; i &lt; workerCount; i++)
+      Task.Factory.StartNew (Consume);
+  }
+ 
+  public void Dispose() { <b>_taskQ.CompleteAdding()</b>; }
+ 
+  public void EnqueueTask (Action action) { <b>_taskQ.Add (action);</b> }
+ 
+  void Consume()
+  {
+    // This sequence that we’re enumerating will <i>block</i> when no elements
+    // are available and will <i>end</i> when CompleteAdding is called. 
+    foreach (Action action in<b> _taskQ.GetConsumingEnumerable()</b>)
+      action();     // Perform task.
+  }
+}
+</pre>
+
+<p>Because we didn’t pass anything into <code>BlockingCollection</code>’s
+constructor, it instantiated a concurrent queue automatically. Had we passed in
+a <code>ConcurrentStack</code>, we’d have ended up with a producer/consumer stack.</p>
+
+<p>
+	<code>BlockingCollection</code> also
+provides static methods called <code>AddToAny</code> and <code>TakeFromAny</code>, which let you add or take an element while
+specifying several blocking collections. The action is then honored by the
+first collection able to service the request. </p>
+
+<h3>Leveraging TaskCompletionSource</h3>
+
+<p>The producer/consumer that we just wrote is inflexible in
+that we can’t track work items after they’ve been enqueued. It would be nice if
+we could:</p>
+
+<ul>
+	<li>Know when a work item has completed.</li>
+	<li>Cancel an unstarted work item.</li>
+	<li>Deal elegantly with any exceptions thrown by a work item.</li>
+</ul>
+
+<p>An ideal solution would be to have the <code>EnqueueTask</code> method return some object giving us the
+functionality just described. The good news is that a class already exists to
+do exactly this — the <a href="#_Task_Parallelism">Task</a> class. All we need to do is
+to hijack control of the task via <code>TaskCompletionSource</code>:</p>
+
+<pre class="sh_csharp">
+public class PCQueue : IDisposable
+{
+  class WorkItem
+  {
+    public readonly <b>TaskCompletionSource&lt;object&gt; TaskSource</b>;
+    public readonly Action Action;
+    public readonly CancellationToken? CancelToken;
+ 
+    public WorkItem (
+      TaskCompletionSource&lt;object&gt; taskSource,
+      Action action,
+      CancellationToken? cancelToken)
+    {
+      TaskSource = taskSource;
+      Action = action;
+      CancelToken = cancelToken;
+    }
+  }
+ 
+  BlockingCollection&lt;WorkItem&gt; _taskQ = new BlockingCollection&lt;WorkItem&gt;();
+ 
+  public PCQueue (int workerCount)
+  {
+    // Create and start a separate Task for each consumer:
+    for (int i = 0; i &lt; workerCount; i++)
+      Task.Factory.StartNew (Consume);
+  }
+ 
+  public void Dispose() { _taskQ.CompleteAdding(); }
+ 
+  public Task EnqueueTask (Action action) 
+  {
+    return EnqueueTask (action, null);
+  }
+ 
+  public Task EnqueueTask (Action action, CancellationToken? cancelToken)
+  {
+    <b>var tcs = new TaskCompletionSource&lt;object&gt;();</b>
+    _taskQ.Add (new WorkItem (tcs, action, cancelToken));
+    return <b>tcs.Task;</b>
+  }
+ 
+  void Consume()
+  {
+    foreach (WorkItem workItem in _taskQ.GetConsumingEnumerable())
+      if (workItem.CancelToken.HasValue &amp;&amp; 
+          workItem.CancelToken.Value.IsCancellationRequested)
+      {
+        workItem.TaskSource.SetCanceled();
+      }
+      else
+        try
+        {
+          workItem.Action();
+          workItem.TaskSource.<b>SetResult</b> (null);   // Indicate completion
+        }
+        catch (OperationCanceledException ex)
+        {
+          if (ex.CancellationToken == workItem.CancelToken)
+            workItem.TaskSource.SetCanceled();
+          else
+            workItem.TaskSource.SetException (ex);
+        }
+        catch (Exception ex)
+        {
+          workItem.TaskSource.<b>SetException</b> (ex);
+        }
+  }
+}
+</pre>
+
+<p>In <code>EnqueueTask</code>, we enqueue a
+work item that encapsulates the target delegate and a task completion
+source — which lets us later control the task that we return to the consumer.</p>
+
+<p>In <code>Consume</code>, we first check
+whether a task has been canceled after dequeuing the work item. If not, we run
+the delegate and then call <code>SetResult</code> on the task
+completion source to indicate its completion.</p>
+
+<p>Here’s how we can use this class:</p>
+
+<pre class="sh_csharp">
+var pcQ = new PCQueue (1);
+Task task = pcQ.EnqueueTask (() =&gt; Console.WriteLine ("Easy!"));
+...
+</pre>
+
+<p>We can now wait on <code>task</code>,
+perform continuations on it, have exceptions propagate to continuations on
+parent tasks, and so on. In other words, we’ve got the richness of the task
+model while, in effect, implementing our own scheduler.</p>
+
+<h1>
+	<a name="_SpinLock_and_SpinWait">SpinLock and SpinWait</a>
+</h1>
+
+<p>In parallel programming, a brief episode of <a href="part2.html#_Blocking_Versus_Spinning">spinning</a> is
+often preferable to blocking, as it avoids the cost of context switching and
+kernel transitions. <code>SpinLock</code> and <code>SpinWait</code> are designed to help in such cases. Their main
+use is in writing custom synchronization constructs.</p>
+
+<p class="warning">
+	<code>SpinLock</code> and <code>SpinWait</code> are structs and not classes! This design decision
+was an extreme optimization technique to avoid the cost of indirection and
+garbage collection. It means that you must be careful not to unintentionally <em>copy</em>
+instances — by passing them to another method without the <code>ref</code>
+modifier, for instance, or declaring them as <code>readonly</code>
+fields. This is particularly important in the case of <code>SpinLock</code>.</p>
+
+<h2>
+	<a name="_SpinLock">SpinLock</a>
+</h2>
+
+<p>The <code>SpinLock</code> struct lets you
+lock without incurring the cost of a context switch, at the expense of keeping
+a thread <a href="part2.html#_Blocking_Versus_Spinning">spinning</a> (uselessly busy). This approach is valid in high-contention
+scenarios when locking will be very brief (e.g., in writing a thread-safe
+linked list from scratch).</p>
+
+<div class="note">
+	<p>If you leave a spinlock contended for too long (we’re talking
+milliseconds at most), it will yield its time slice, causing a context switch
+just like an ordinary lock. When rescheduled, it will yield again — in a
+continual cycle of “spin yielding.” This consumes far fewer CPU resources than
+outright spinning — but more than blocking.</p>
+	<p>On a single-core machine, a spinlock will start “spin yielding”
+immediately if contended.</p>
+</div>
+
+<p>Using a <code>SpinLock</code> is like using
+an ordinary lock, except:</p>
+
+<ul>
+	<li>Spinlocks are structs (as previously mentioned).</li>
+	<li>Spinlocks are not reentrant, meaning that you cannot call <code>Enter</code> on the same <code>SpinLock</code>
+twice in a row on the same thread. If you violate this rule, it will either
+throw an exception (if <i>owner tracking</i> is
+enabled) or <a href="part2.html#_Deadlocks">deadlock</a> (if owner tracking is disabled). You can specify whether
+to enable owner tracking when constructing the spinlock. Owner tracking incurs
+a performance hit.</li>
+	<li>
+		<code>SpinLock</code> lets you query whether the
+lock is taken, via the properties <code>IsHeld</code> and, if
+owner tracking is enabled, <code>IsHeldByCurrentThread</code>.</li>
+	<li>There’s no equivalent to C#'s <code>lock</code>
+statement to provide <code>SpinLock</code> syntactic sugar.</li>
+</ul>
+
+<p>Another difference is that when you call <code>Enter</code>, you <em>must</em> follow <a href="part2.html#_lockTaken_overloads">
+the robust pattern of providing a <code>lockTaken</code> argument</a> (which is nearly
+always done within a <code>try</code>/<code>finally</code>
+
+block).</p>
+
+<p>Here’s an example:</p>
+
+<pre class="sh_csharp">
+var spinLock = new SpinLock (true);   // Enable owner tracking
+bool lockTaken = false;
+try
+{
+  <b>spinLock.Enter (ref lockTaken);</b>
+  // Do stuff...
+}
+finally
+{
+  <b>if (lockTaken) spinLock.Exit();</b>
+}
+</pre>
+
+<p>As with an ordinary lock, <code>lockTaken</code>
+
+will be <code>false</code> after calling <code>Enter</code>
+if (and only if) the <code>Enter</code> method throws an
+exception and the lock was not taken. This happens in very rare scenarios (such
+as <a href="part4.html#_Aborting_Threads">Abort</a> being called on the thread, or an <code>OutOfMemoryException</code> being thrown) and lets you reliably
+know whether to subsequently call <code>Exit</code>.</p>
+
+<p>
+	<code>SpinLock</code> also provides a <code>TryEnter</code> method which accepts a timeout.</p>
+
+<p class="note">Given <code>SpinLock</code>’s ungainly
+value-type semantics and lack of language support, it’s almost as if they <em>want</em>
+you to suffer every time you use it! Think carefully before dismissing <a href="part2.html#_Locking">an ordinary lock</a>.</p>
+
+<p>A <code>SpinLock</code> makes the most sense
+when writing your own reusable synchronization constructs. Even then, a spinlock
+is not as useful as it sounds. It still limits concurrency. And it wastes CPU
+time doing <em>nothing useful</em>. Often, a better choice is to spend some of
+that time doing something <em>speculative</em> — with the help of <code>SpinWait</code>.</p>
+
+<h2>
+	<a name="_SpinWait">SpinWait</a>
+</h2>
+
+<p>
+	<code>SpinWait</code> helps you write lock-free
+code that <a href="part2.html#_Blocking_Versus_Spinning">spins</a> rather than blocks. It works by implementing safeguards to
+avoid the dangers of resource starvation and priority inversion that might
+otherwise arise with spinning. </p>
+
+<p class="warning">Lock-free programming with <code>SpinWait</code>
+is as <em>hardcore</em> as multithreading gets and is intended for when none of
+the higher-level constructs will do. A prerequisite is to understand
+<a href="part4.html#_Nonblocking_Synchronization">Nonblocking Synchronization</a>.</p>
+
+<h3>Why we need SpinWait</h3>
+
+<p>Suppose we wrote a spin-based signaling system based
+purely on a simple flag:</p>
+
+<pre class="sh_csharp">
+bool _proceed;
+void Test()
+{
+  // Spin until another thread sets _proceed to true:
+  while (!_proceed) Thread.MemoryBarrier();
+  ...
+}
+</pre>
+
+<p>This would be highly efficient if <code>Test</code>
+ran when <code>_proceed</code> was already true — or if <code>_proceed</code> became true within a few cycles. But now suppose
+that <code>_proceed</code> remained false for several seconds — and
+that four threads called <code>Test</code> at once. The spinning
+would then fully consume a quad-core CPU! This would cause other threads to run
+slowly (resource starvation) — including the very thread that might eventually
+set <code>_proceed</code> to true (priority inversion). The
+situation is exacerbated on single-core machines, where spinning will nearly <em>always</em>
+
+cause priority inversion. (And although single-core machines are rare nowadays,
+single-core <em>virtual machines</em> are not.)</p>
+
+<p>
+	<code>SpinWait</code> addresses these
+problems in two ways. First, it limits CPU-intensive spinning to a set number
+of iterations, after which it yields its time slice on every spin (by calling <a href="index.html#_Sleep_And_Yield">Thread.Yield and Thread.Sleep</a>),
+lowering its resource consumption. Second, it detects whether it’s running on a
+single-core machine, and if so, it yields on every cycle.</p>
+
+<h3>How to use SpinWait</h3>
+
+<p>There are two ways to use <code>SpinWait</code>.
+The first is to call its static method, <code>SpinUntil</code>.
+This method accepts a predicate (and optionally, a timeout):</p>
+
+<pre class="sh_csharp">
+bool _proceed;
+void Test()
+{
+  <b>SpinWait.SpinUntil (() =&gt; { Thread.MemoryBarrier(); return _proceed; });</b>
+  ...
+}
+</pre>
+
+<p>The other (more flexible) way to use <code>SpinWait</code>
+is to instantiate the struct and then to call <code>SpinOnce</code>
+in a loop:</p>
+
+<pre class="sh_csharp">
+bool _proceed;
+void Test()
+{
+  <b>var spinWait = new SpinWait();</b>
+  while (!_proceed) { Thread.MemoryBarrier(); <b>spinWait.SpinOnce()</b>; }
+  ...
+}
+</pre>
+
+<p>The former is a shortcut for the latter.</p>
+
+<h3>How SpinWait works</h3>
+
+<p>In its current implementation, <code>SpinWait</code>
+performs CPU-intensive spinning for 10 iterations before yielding. However, it
+doesn’t return to the caller <em>immediately</em> after each of those cycles:
+instead, it calls <code>Thread.SpinWait</code> to spin via the
+CLR (and ultimately the operating system) for a set time period. This time
+period is initially a few tens of nanoseconds, but doubles with each iteration
+until the 10 iterations are up. This ensures some predictability in the total
+time spent in the CPU-intensive spinning phase, which the CLR and operating
+system can tune according to conditions. Typically, it’s in the
+few-tens-of-microseconds region — small, but more than the cost of a context switch.</p>
+
+<p>On a single-core machine, <code>SpinWait</code>
+yields on every iteration. You can test whether <code>SpinWait</code>
+will yield on the next spin via the property <code>NextSpinWillYield</code>.</p>
+
+<p>If a <code>SpinWait</code> remains in
+“spin-yielding” mode for long enough (maybe 20 cycles) it will periodically <em>sleep</em>
+
+for a few milliseconds to further save resources and help other threads
+progress.</p>
+
+<h3>Lock-free updates with SpinWait and Interlocked.CompareExchange</h3>
+
+<p>
+	<code>SpinWait</code> in conjunction with <code>Interlocked.CompareExchange</code> can atomically update fields
+with a value calculated from the original (read-modify-write). For example,
+suppose we want to multiply field <em>x</em> by 10. Simply doing the following
+is not thread-safe:</p>
+
+<pre class="sh_csharp">
+x = x * 10;
+</pre>
+
+<p>for the same reason that incrementing a field is not
+thread-safe, as we saw in <a href="part4.html#_Nonblocking_Synchronization">Nonblocking Synchronization</a>.</p>
+
+<p>The correct way to do this without locks is as follows:</p>
+
+<ol>
+	<li>Take a “snapshot” of <em>x</em> into a local variable.</li>
+	<li>Calculate the new value (in this case by multiplying the snapshot by 10).</li>
+	<li>Write the calculated value back <em>if</em> the snapshot is still
+up-to-date (this step must be done atomically by calling <code>Interlocked.CompareExchange</code>).</li>
+	<li>If the snapshot was stale, <em>spin</em> and return to step 1.</li>
+</ol>
+
+<p>For example:</p>
+
+<pre class="sh_csharp">
+int x;
+ 
+void MultiplyXBy (int factor)
+{
+  <b>var spinWait = new SpinWait();</b>
+  while (true)
+  {
+    int snapshot1 = x;
+    Thread.MemoryBarrier();
+    int calc = snapshot1 * factor;
+    <b>int snapshot2 = Interlocked.CompareExchange (ref x, calc, snapshot1);</b>
+    if (snapshot1 == snapshot2) return;   // No one preempted us.
+    <b>spinWait.SpinOnce();</b>
+  }
+}
+</pre>
+
+<p class="note">We can improve performance (slightly) by doing away with the
+call to <a href="part4.html#_Memory_Barriers_and_Volatility">Thread.MemoryBarrier</a>. We can get away with
+this because <code>CompareExchange</code> generates a memory
+barrier anyway — so the worst that can happen is an extra spin if <code>snapshot1</code> happens to read a stale value in its first
+iteration.</p>
+
+<p>
+	<code>Interlocked.CompareExchange</code>
+updates a field with a specified value <em>if</em> the field’s current value
+matches the third argument. It then returns the field’s old value, so you can
+test whether it succeeded by comparing that against the original snapshot. If
+the values differ, it means that another thread preempted you, in which case
+you spin and try again.</p>
+
+<p>
+	<code>CompareExchange</code> is overloaded
+to work with the <code>object</code> type too. We can leverage
+this overload by writing a lock-free update method that works with all
+reference types:</p>
+
+<pre class="sh_csharp">
+static void LockFreeUpdate&lt;T&gt; (ref T field, Func &lt;T, T&gt; updateFunction)
+  where T : class
+{
+  <b>var spinWait = new SpinWait();</b>
+  while (true)
+  {
+    T snapshot1 = field;
+    T calc = updateFunction (snapshot1);
+    <b>T snapshot2 = Interlocked.CompareExchange (ref field, calc, snapshot1);</b>
+    if (snapshot1 == snapshot2) return;
+    <b>spinWait.SpinOnce();</b>
+  }
+}
+</pre>
+
+<p>Here’s how we can use this method to write a thread-safe
+event without locks (this is, in fact, what the C# 4.0 compiler now does by
+default with events):</p>
+
+<pre class="sh_csharp">
+EventHandler _someDelegate;
+public event EventHandler SomeEvent
+{
+  add    { LockFreeUpdate (ref _someDelegate, d =&gt; d + value); }
+  remove { LockFreeUpdate (ref _someDelegate, d =&gt; d - value); }
+}
+</pre>
+
+<div class="sidebar">
+	<p class="sidebartitle">SpinWait Versus SpinLock</p>
+	<p>We could solve these problems instead by wrapping access
+to the shared field around a <code>SpinLock</code>. The problem
+with spin locking, though, is that it allows only one thread to proceed at a
+time — even though the spinlock (usually) eliminates the context-switching
+overhead. With <code>SpinWait</code>, we can proceed speculatively<em></em>and <em>assume</em> no contention. If we do get preempted, we simply try
+again. Spending CPU time doing something that <em>might</em> work is better
+than wasting CPU time in a spinlock!</p>
+</div>
+
+<p>Finally, consider the following class:</p>
+
+<pre class="sh_csharp">
+class Test
+{
+  ProgressStatus _status = new ProgressStatus (0, "Starting");
+ 
+  class ProgressStatus    // Immutable class
+  {
+    public readonly int PercentComplete;
+    public readonly string StatusMessage;
+ 
+    public ProgressStatus (int percentComplete, string statusMessage)
+    {
+      PercentComplete = percentComplete;
+      StatusMessage = statusMessage;
+    }
+  }
+}
+</pre>
+
+<p>We can use our <code>LockFreeUpdate</code>
+method to “increment” the <code>PercentComplete</code> field in <code>_status</code> as follows:</p>
+
+<pre class="sh_csharp">
+LockFreeUpdate (ref _status,
+  s =&gt; new ProgressStatus (s.PercentComplete + 1, s.StatusMessage));
+</pre>
+
+<p>Notice that we’re creating a new <code>ProgressStatus</code>
+object based on existing values. Thanks to the <code>LockFreeUpdate</code>
+method, the act of reading the existing <code>PercentComplete</code>
+value, incrementing it, and writing it back can’t get <em>unsafely</em>
+preempted: any preemption is reliably detected, triggering a spin and retry.</p>
+
+<p><a href="part4.html">&lt;&lt; Part 4</a></p>
+
+
+<br />
+<p style="float:right">
+    <a href="http://validator.w3.org/check?uri=referer"><img border="0" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</p>
+
+<p style='font-weight:bold; font-size:105%'><i>Threading in C#</i> is from Chapters 21 and 22 of <a href='../nutshell/index.html'>C# 4.0 in a Nutshell</a>.</p>
+<p>© 2006-2013 Joseph Albahari, O'Reilly Media, Inc. All rights reserved</p>
+</div>
+
+</form>
+</body>
+
+<!-- Mirrored from www.albahari.com/threading/part5.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:48:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

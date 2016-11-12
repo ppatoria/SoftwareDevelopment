@@ -1,0 +1,64 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE:Constant and internal linkage.
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Shubhi Jain
+<a href="mailto:ppatoria@gmail.com">&lt;shubhij20@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 10-08-2013</p>
+</div>
+#+END_HTML
+#+begin_src c++
+// File: const_1.h
+const int ii = 100;// internal linkage
+
+// File: const_2.h
+const int ii = 100;// internal linkage
+
+// File: using_const_1.cpp
+#include <iostream>
+#include "const_1.h"
+using namespace std;
+class cls{
+public:
+    int func(){ cout << ii << endl; }
+};
+
+// File: using_const_2.cpp
+#include <iostream>
+#include "const_2.h"
+using namespace std;
+class cls{
+public:
+    int func(){ cout << ii << endl; }
+};
+#+end_src
+_Compile_
+
+#+begin_src make
+g++ -c using_const_1.cpp -o using_const_1.o  
+g++ -c using_const_2.cpp -o using_const_2.o 
+g++ using_const_1.o using_const_2.o -o using_const.exe
+#+end_src
+
+#+BEGIN_VERSE
+*NOTE: const in c++  default to internal linkage.* 
+
+_When (non-const) variables are defined in multiple headers._ 
+*Example:* If ii is defines as non-const in const_1.h and const_1.h it would have lead to linker error as below. 
+*Error:* multiple definition of ii
+ #+END_VERSE

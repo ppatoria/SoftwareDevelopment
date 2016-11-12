@@ -1,0 +1,103 @@
+
+* What is the use of ref keyword when we are passing reference type as parameter to a function ?
+
+Pass by Reference passes in a reference to a variable - this is
+effectively the address of the variable into the function. This is
+more efficient than by value and allows the function to change the
+variable directly.
+
+* Then the question arises why (or when) we have to pass a reference type by reference to a function ? 
+
+When the reference type is passed by value (i.e. without ref keyword)
+the value of the refence i.e. the address of the referent(that
+reference is pointing to) is passed as a parameter. The calling
+function creates a reference and refer to the value passed by the
+calee.
+
+** A Reference Type in C#
+Example:
+#+begin_src csharp
+class PassByReference
+{
+    public static void Main()
+    {
+        Cofee myCofeeReference = new Cofee();
+
+        CofeeEnricher.AddMilk(myCofeeReference);
+        Console.WriteLine(myCofeeReference.ToString());
+
+        CofeeEnricher.AddMilk(ref myCofeeReference);
+        Console.WriteLine(myCofeeReference.ToString());
+
+        Console.WriteLine("--x--");
+
+        Cofee friendsCofeeReference = new Cofee(); //Without Milk
+
+        Swap(myCofeeReference, friendsCofeeReference);
+        Console.WriteLine("MyCofee: {0}{1}FriendsCofee: {2}", myCofeeReference, Environment.NewLine, friendsCofeeReference);
+
+        Console.WriteLine("");
+
+        Swap(ref myCofeeReference, ref friendsCofeeReference);
+        Console.WriteLine("MyCofee: {0}{1}FriendsCofee: {2}", myCofeeReference, Environment.NewLine, friendsCofeeReference);
+    }
+
+
+
+    class Cofee
+    {
+        public bool ContainMilk { get; set; }
+        public bool ContainSugar { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("ContainMilk: {0}, ContainSugar: {1}", ContainMilk, ContainSugar);
+        }
+    }
+
+    class CofeeEnricher
+    {
+        public static void AddMilk(Cofee cofee)
+        {
+            //Add Milk        
+            //Set the Flag 
+            cofee.ContainMilk = true;
+        }
+
+        public static void AddMilk(ref Cofee cofee)
+        {
+            //Add Milk        
+            //Set the Flag 
+            cofee.ContainMilk = true;
+        }
+    }
+
+    public static void Swap(Cofee cofeeOneReference, Cofee cofeeTwoReference)
+    {
+        Cofee temp = cofeeOneReference;
+        cofeeOneReference = cofeeTwoReference;
+        cofeeTwoReference = temp;
+    }
+
+    public static void Swap(ref Cofee cofeeOne, ref Cofee cofeeTwo)
+    {
+        Cofee temp = cofeeOne;
+        cofeeOne = cofeeTwo;
+        cofeeTwo = temp;
+    }
+}
+#+end_src
+
+
+Internal representation of object orderReference.
+
+[[.\PassByRef\Reference.jpg]]
+
+
+
+
+[[.\PassByRef\ReferenceEX.jpg]]
+
+
+
+

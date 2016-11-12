@@ -1,0 +1,103 @@
+#include <iostream>
+#include <functional>
+
+
+
+//////////////////////////
+// High-Order Functions //
+//////////////////////////
+
+using Action = std::function<void( const std::string& str )>;
+using Function = std::function<int( int a, int b )>;
+
+void high_order_function_1(
+    Action action,
+    const std::string& param )
+{
+    action( param );
+}
+
+int high_order_function_2(
+    Function func, int a, int b )
+{
+    return func( a, b ); 
+}
+
+Action high_order_function_3( )
+{
+    return []( const std::string& str )
+    { 
+	std::cout << str << std::endl;
+    };
+}
+
+// Pure Functions
+// Closures
+// Immutable State
+
+
+
+///////////////
+// Recursion //
+///////////////
+template<int N>
+struct Fac
+{
+    static int const value= N * Fac<N-1>::value;
+};
+
+template <>
+struct Fac<0>
+{
+    static int const value = 1;
+};
+
+int main()
+{
+  
+    ///////////////////////////
+    // First-Class Functions //
+    ///////////////////////////
+    auto first_class_function = []( int a, int b )
+	{
+	    return a + b;
+	};
+    std::cout << first_class_function( 1, 2 ) << std::endl;
+
+    
+    //////////////////////////
+    // high order functions //
+    //////////////////////////
+
+    auto print_string = [] ( const std::string& str )
+	{
+	    std::cout << str << std::endl;
+	};
+
+    high_order_function_1(
+	print_string,
+	"string_param");
+
+    auto add = []( int a, int b )
+	{
+	    return a + b;
+	};
+    std::cout << high_order_function_2( add, 2, 3 ) << std::endl;
+
+    auto sub = []( int a, int b )
+	{
+	    return b - a;
+	};
+    std::cout << high_order_function_2( sub, 2, 3) << std::endl;
+    
+    
+    auto some_action = high_order_function_3( );
+    some_action("test high order function.");
+
+    //////////////////////////////
+    // Test recursion/factorial //
+    //////////////////////////////
+    std::cout << Fac<5>::value << std::endl;
+    return 1;
+}
+

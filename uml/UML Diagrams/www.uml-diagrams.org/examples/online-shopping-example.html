@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/examples/online-shopping-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:19:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>Online shopping UML examples - use cases, checkout, payment, credit card processing, activities, deployment.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Online shopping UML examples - use cases, checkout, authentication and payment, credit card processing system." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, diagrams, Online Shopping System, example, use cases, checkout, authentication, payment, credit card processing system." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="shortcut icon" href="../favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131219 -->
+<div id="globalNav">
+<div>
+  <a href="../index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+  <a href="../index-examples.html" title="Index of UML diagrams examples.">All UML examples</a>
+</div>
+<div >
+ <a href="online-shopping-example.html"
+  title="Online shopping UML diagrams examples" class="active-nav" >Online shopping</a>
+</div>
+<div>
+ <a href="online-shopping-use-case-diagram-example.html"
+  title="Retail website use cases"  >Use cases</a>
+</div>
+<div>
+ <a href="online-shopping-credit-cards-use-cases-example.html"
+  title="Credit Card Processing System use cases" >Credit card processing</a>
+</div>
+<div>
+ <a href="website-admin-use-case-diagrams-example.html"
+  title="Website management UML use case diagrams example"  >Admin use cases</a>
+</div>
+<div>
+  <a href="online-shopping-domain-uml-diagram-example.html" 
+  title="Online shopping domain class diagram"  >Shopping domain</a>
+</div>
+<div>
+ <a href="online-shopping-user-account-state-diagram-example.html"
+  title="Online shopping user account UML state machine diagram example"  >User account</a>
+</div>
+<div>
+ <a href="../online-shopping-uml-sequence-diagram-example.html"
+  title="Online shopping sequence diagram"  >Sequence diagram</a>
+</div>
+<div>
+ <a href="online-shopping-uml-communication-diagram-example.html"
+  title="Online bookshop UML communication diagram example"  >Communication diagram</a>
+</div>
+<div>
+ <a href="../online-shopping-uml-activity-diagram-example.html"
+ title="Online shopping UML activity diagram example"  >Shopping activity</a>
+</div>
+<div>
+ <a href="../online-shopping-uml-interaction-overview-diagram-example.html"
+  title="Online shopping UML interaction overview diagram" >Interaction overview</a>
+</div>
+<div>
+ <a href="../online-shopping-user-login-uml-object-diagram-example.html"
+ title="Web user login controller UML object diagram example"  >Objects</a>
+</div>
+<div>
+ <a href="online-shopping-uml-component-diagram-example.html"
+ title="Online shopping UML component diagram example"  >Shopping components</a>
+</div>
+<div>
+ <a href="../web-application-uml-deployment-diagram-example.html"
+  title="Online shopping deployment diagram" >Deployment</a>
+</div>
+<div>
+ <a href="web-application-network-diagram-example.html"
+  title="Web application network diagram example"  >Network diagram</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1>UML Diagram Examples <br /> Online Shopping</h1>
+
+<p>
+Here we provide several UML diagrams of different types, 
+ all part of a simple fabricated <strong>Online Shopping</strong> model:
+</p>
+<br />
+
+<div>
+<img src="../images/next-use-case.png" width="60" height="32"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="online-shopping-use-case-diagram-example.html"
+  class="ref-link">Online shopping UML use case diagram examples</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ Provide top level use cases for a web customer making purchases online.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ Web customer <a href="../use-case-actor.html" class="ref-link">actor</a>
+ uses some web site to make purchases online.
+ Top level <a href="../use-case.html" class="ref-link">use cases</a>
+ are <strong>View Items</strong>, <strong>Make Purchase</strong> and <strong>Client Register</strong>.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-use-case-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-use-case-diagram-example.png" width="280" height="209"
+ alt="Online shopping UML use case diagram examples." 
+ title="Online shopping UML use case diagram examples." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-use-case.png" width="60" height="32"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="online-shopping-credit-cards-use-cases-example.html" 
+  class="ref-link">Credit card processing system</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ Define major use cases for a <strong>credit card processing system</strong>
+ (<strong>credit card payment gateway</strong>).
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+The merchant submits a credit card transaction request to the credit card payment gateway
+ on behalf of a customer. Bank which issued customer's credit card is actor which could approve
+ or reject the transaction.
+ If transaction is approved, funds will be transferred to merchant's bank account.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-credit-cards-use-cases-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-credit-cards-use-cases-example.png" width="300" height="214"
+ alt="Credit card processing system UML use case diagrams example." 
+ title="Credit card processing system UML use case diagrams example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-use-case.png" width="60" height="32"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+<a href="website-admin-use-case-diagrams-example.html" class="ref-link" >Website administration</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ Website management or administration UML use case diagrams example.
+</p>
+<p class="citation"> 
+<strong>Summary</strong>:
+ Website Administrator actor could manage user groups, users, user sessions, and logs.
+ Help Desk staff uses a subset of functions available to the Website Administrator.
+</p>
+<div class="figure-left-80">
+<a href="website-admin-use-case-diagrams-example.html" class="ref-link">
+<img src="../thumbnails/website-admin-use-case-diagrams-example.png" width="230" height="243" 
+ alt="Website administration UML use case diagrams example." 
+ title="Website administration UML use case diagrams example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-class.png" width="60" height="32" 
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="online-shopping-domain-uml-diagram-example.html"
+  class="ref-link">Online shopping domain model</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ Show some domain model for online shopping  
+ - Customer, Account, Shopping Cart, Product, Order, Payment.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ Example of a UML class diagram representing online shopping domain.
+ Each customer could have some web user identity.
+ Web user could be in one of several states and could be linked to a shopping cart.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-domain-uml-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-domain-uml-diagram-example.png" width="280" height="271"
+ alt="Online shopping domain model UML class diagram example." 
+ title="Online shopping domain model UML class diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-state.png" width="62" height="30"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+<a href="online-shopping-user-account-state-diagram-example.html" class="ref-link" >User account UML state machine diagram example</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of user account life cycle in the context of
+ <a href="online-shopping-example.html" class="ref-link">online shopping</a>,
+ and shown as UML
+ <a href="../protocol-state-machine-diagrams.html#protocol-state-machine" class="ref-link">protocol state machine</a> diagram.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+Every company having customers maintains customer accounts and supports
+ a complete life cycle of the account from its creation until it is closed.
+ There are differences in what are the stages (states) in the account's life cycle,
+ and what are conditions or events causing account to change its state.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-user-account-state-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-user-account-state-diagram-example.png" width="280" height="296"
+ alt="User account UML state machine diagram example." 
+ title="User account UML state machine diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-sequence.png" width="62" height="42" 
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+<a href="../online-shopping-uml-sequence-diagram-example.html"
+ class="ref-link" >Online bookshop UML sequence diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of high level UML sequence diagram for online bookshop.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+Online customer can search book catalog, view description of a selected book, add book to shopping cart, do checkout.
+</p>
+<div class="figure-left-80">
+<a href="../online-shopping-uml-sequence-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-uml-sequence-diagram-example.png" width="250" height="342" 
+ alt="Online bookshop UML sequence diagram example." 
+ title="Online bookshop UML sequence diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-comm.png" width="56" height="50" 
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+<a href="online-shopping-uml-communication-diagram-example.html"
+ class="ref-link" >Online bookshop communication diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of UML communication diagram for Online Bookshop.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+Web customer actor can search inventory, view and buy books online.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-uml-communication-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-uml-communication-diagram-example.png" width="320" height="246" 
+ alt="Online bookshop UML communication diagram example." 
+ title="Online bookshop UML communication diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-activity.png" width="62" height="28"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="../online-shopping-uml-activity-diagram-example.html"
+  class="ref-link">Online shopping activity diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of activity diagram for online shopping.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ Online customer can browse or search items, view specific item, add it to shopping cart,
+ view and update shopping cart, checkout. User can view shopping cart at any time.
+ Checkout includes user registration and login.
+</p>
+<div class="figure-left-80">
+<a href="../online-shopping-uml-activity-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-uml-activity-diagram-example.png" width="350" height="213" 
+ alt="Online shopping UML activity diagram example." 
+ title="Online shopping UML activity diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-intover.png" width="62" height="30"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="../online-shopping-uml-interaction-overview-diagram-example.html"
+  class="ref-link">Online shopping interaction overview diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of interaction overview diagram for online shopping.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+Customer may search or browse items, add or remove items from shopping cart, do checkout.
+</p>
+<div class="figure-left-80">
+<a href="../online-shopping-uml-interaction-overview-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-uml-interaction-overview-diagram-example.png" width="350" height="194"
+ alt="Online shopping UML interaction overview diagram." 
+ title="Online shopping UML interaction overview diagram." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-activity.png" width="62" height="28"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="../shopping-process-order-uml-activity-diagram-example.html" class="ref-link">Business flow - process purchase order</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of business flow UML activity diagram to process purchase order.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ Requested order is input parameter of the activity.
+ After order is accepted and all required information is filled in, payment is accepted
+ and order is shipped.
+</p>
+<div class="figure-left-80">
+<a href="../shopping-process-order-uml-activity-diagram-example.html" class="ref-link">
+<img src="../thumbnails/shopping-process-order-uml-activity-diagram-example.png" width="330" height="123"  
+ alt="Business flow UML activity diagram example to process purchase order." 
+ title="Business flow UML activity diagram example to process purchase order." />
+</a>
+</div>
+<br />
+</div>
+
+
+<div>
+<img src="../images/next-class.png" width="60" height="32" 
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="../online-shopping-user-login-uml-object-diagram-example.html"
+  class="ref-link">Web application Login Controller object diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of UML object diagram which shows some runtime objects involved into login process
+ for a web user.    
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+An instance of Login Controller class is associated with instances of
+ User Manager, Cookie Manager, and Logger.
+ Login Controller, User Manager, and Hibernate User DAO (Data Access Object)
+ share a single instance of Logger.
+</p>
+<div class="figure-left-80">
+<a href="../online-shopping-user-login-uml-object-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-user-login-uml-object-diagram-example.png" width="360"  height="261"
+ alt="User login controller UML object diagram example." 
+ title="User login controller UML object diagram example." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-component.png" width="59" height="40" 
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="online-shopping-uml-component-diagram-example.html"
+  class="ref-link">Online shopping component diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+An example of a component diagram for online shopping.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ The diagram shows "white-box" view of the internal structure of three related
+ <a href="../component-diagrams.html#subsystem" class="ref-link">subsystems</a>
+ - WebStore, Warehouses, and Accounting.
+ <strong>WebStore</strong> subsystem contains three components related to online shopping -
+ <strong>Search Engine</strong>, <strong>Shopping Cart</strong>, and <strong>Authentication</strong>.
+ <strong>Accounting</strong> subsystem provides two interfaces - <strong>Manage Orders</strong> and
+ <strong>Manage Customers</strong>.
+ <strong>Warehouses</strong> subsystem provides two interfaces <strong>Search Inventory</strong>
+ and <strong>Manage Inventory</strong> used by other subsystems.
+</p>
+<div class="figure-left-80">
+<a href="online-shopping-uml-component-diagram-example.html" class="ref-link">
+<img src="../thumbnails/online-shopping-uml-component-diagram-example.png" width="350" height="244"
+ alt="An example of a UML component diagram for online shopping." 
+ title="An example of a UML component diagram for online shopping." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-deploy.png" width="62" height="31"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="../web-application-uml-manifest-diagram-example.html"
+ class="ref-link">Online shopping web application manifestation</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ An example of manifestation diagram for a web application. 
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+Web application archive artifact book_club_app.war contains several files, folders and subfolders. 
+ Several components are shown on the diagram manifested (implemented) by jar archive files.
+</p>
+<div class="figure-left-80">
+<a href="../web-application-uml-manifest-diagram-example.html" class="ref-link">
+<img src="../thumbnails/web-application-uml-manifest-diagram-example.png" width="350" height="199"  
+ alt="Online shopping web application manifestation diagram." 
+ title="Online shopping web application manifestation diagram." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-deploy.png" width="62" height="31"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="../web-application-uml-deployment-diagram-example.html"
+  class="ref-link">Online shopping web application UML deployment diagram</a>
+<p class="citation">
+<strong>Purpose</strong>:
+ An example of UML deployment diagram for a J2EE web application. 
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+ Book club web application artifact book_club_app.war is deployed on Catalina Servlet 2.4
+ / JSP 2.0 Container which is part of Apache Tomcat 5.5 web server.
+</p>
+<div class="figure-left-80">
+<a href="../web-application-uml-deployment-diagram-example.html" class="ref-link">
+<img src="../thumbnails/web-application-uml-deployment-diagram-example.png" width="350" height="174" 
+ alt="Online shopping web application UML deployment diagram." 
+ title="Online shopping web application UML deployment diagram." />
+</a>
+</div>
+<br />
+</div>
+
+<div>
+<img src="../images/next-deploy.png" width="59" 
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="web-application-network-diagram-example.html"
+  class="ref-link">Web application network diagram example</a>
+<p class="citation">
+<strong>Purpose</strong>:
+UML provides no special kind of diagram to describe logical or physical <strong>network architecture</strong>
+ of the designed or existing system.
+ <a href="../deployment-diagrams-overview.html" class="ref-link">Deployment diagrams</a>
+ could be used for this purpose with elements limited mostly to
+ <a href="../deployment-diagrams.html#device" class="ref-link">devices</a>
+ with neither artifacts nor actual deployments shown.
+</p>
+<p class="citation">
+<strong>Summary</strong>:
+This example of the network diagram shows network architecture with configuration
+ usually called "two firewall demilitarized zone (DMZ)".
+ DMZ is a host or network segment located in a "neutral zone" between
+ the Internet and an organization’s intranet (private network).
+ It prevents outside users from gaining direct access to an organization’s internal network while
+ not exposing a web, email or DNS server directly to the Internet.
+</p>
+<div class="figure-left-80">
+<a href="web-application-network-diagram-example.html" class="ref-link">
+<img src="../thumbnails/web-application-network-diagram-example.png" width="340" height="114"
+ alt="Web application network diagram example." 
+ title="Web application network diagram example" />
+</a>
+</div>
+<br />
+</div>
+
+
+
+</div><!-- end main content -->
+<script type="text/javascript" src="../orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'online-shopping-example.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="../orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="../references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/examples/online-shopping-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:19:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

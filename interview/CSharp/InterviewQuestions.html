@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>CSharp Interview Questions </title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 01:33:30 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">CSharp Interview Questions </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Const Vs ReadOnly </a>
+<ul>
+<li><a href="#sec-1_1">1.1 const: </a></li>
+<li><a href="#sec-1_2">1.2 readonly: </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Interfaces </a>
+<ul>
+<li><a href="#sec-2_1">2.1 Explicit Interface Implementation </a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 Struct </a></li>
+<li><a href="#sec-4">4 Nullable Types </a></li>
+<li><a href="#sec-5">5 ?? Operator </a></li>
+<li><a href="#sec-6">6 Indexers </a></li>
+<li><a href="#sec-7">7 Delegates </a>
+<ul>
+<li><a href="#sec-7_1">7.1 Variance in Delegates </a></li>
+<li><a href="#sec-7_2">7.2 When to Use Delegates Instead of Interfaces </a></li>
+<li><a href="#sec-7_3">7.3 Multicast Delegates </a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8 Anonymous Methods </a></li>
+<li><a href="#sec-9">9 Lambda Expressions </a>
+<ul>
+<li><a href="#sec-9_1">9.1 Expression Lambdas </a></li>
+<li><a href="#sec-9_2">9.2 Statement Lambdas </a></li>
+<li><a href="#sec-9_3">9.3 Lambdas with the Standard Query Operators </a></li>
+<li><a href="#sec-9_4">9.4 Type Inference in Lambdas </a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10 Events </a>
+<ul>
+<li><a href="#sec-10_1">10.1 How to: Implement Custom Event Accessors </a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11 Generics </a>
+<ul>
+<li><a href="#sec-11_1">11.1 Constraints on Type Parameters </a></li>
+<li><a href="#sec-11_2">11.2 Application Domains </a></li>
+<li><a href="#sec-11_3">11.3 Application Domain and Treads </a></li>
+</ul>
+</li>
+<li><a href="#sec-12">12 Threading </a>
+<ul>
+<li><a href="#sec-12_1">12.1 State </a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13 AutoReset Vs MannualReset Event </a></li>
+<li><a href="#sec-14">14 Volatile </a></li>
+<li><a href="#sec-15">15 Semaohore </a></li>
+<li><a href="#sec-16">16 Mutex </a></li>
+<li><a href="#sec-17">17 Monitor </a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Const Vs ReadOnly </h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> const: </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<ul>
+<li>
+You can think of const as a subset of static.  Constants are  accessed as if they were static fields, although they cannot use the static keyword. 
+</li>
+<li>
+Value is evaluated at compile time. Const = value assigned at Compile time and unchangeable once established.
+</li>
+<li>
+Initiailized at declaration only. 
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> readonly: </h3>
+<div class="outline-text-3" id="text-1_2">
+
+<ul>
+<li>
+Can be either instance-level or static. 
+</li>
+<li>
+Value is evaluated at run time. readonly = value assigned at run time and unchangeable once established
+</li>
+<li>
+Can be initialized in declaration or by code in the constructor. 
+</li>
+<li>
+readonly members are not implicitly static, and therefore the static keyword can be applied to a readonly field explicitly if required. 
+</li>
+<li>
+A readonly member can hold a complex object by using the new keyword at initialization. 
+</li>
+<li>
+readonly members cannot hold enumerations. 
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Interfaces </h2>
+<div class="outline-text-2" id="text-2">
+
+<ul>
+<li>
+An interface is like an abstract base class: any non-abstract type that implements the interface must implement all its members.
+</li>
+<li>
+An interface cannot be instantiated directly.
+</li>
+<li>
+Interfaces can contain events, indexers, methods, and properties.
+</li>
+<li>
+Interfaces contain no implementation of methods.
+</li>
+<li>
+Classes and structs can implement more than one interface.
+</li>
+<li>
+An interface itself can inherit from multiple interfaces.
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-2_1" class="outline-3">
+<h3 id="sec-2_1"><span class="section-number-3">2.1</span> Explicit Interface Implementation </h3>
+<div class="outline-text-3" id="text-2_1">
+
+<p>When a class implements two interfaces that contain a member with the same signature, then implementing that member on the class will cause ambiguity . 
+Explicit Interface Implementation is used to remove that ambiguity.
+For example:
+</p>
+
+
+<pre class="example">interface IControl
+{
+    void Paint();
+}
+interface ISurface
+{
+    void Paint();
+}
+public class SampleClass : IControl, ISurface
+{
+    void IControl.Paint()
+    {
+        System.Console.WriteLine("IControl.Paint");
+    }
+    void ISurface.Paint()
+    {
+        System.Console.WriteLine("ISurface.Paint");
+    }
+}
+</pre>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Struct </h2>
+<div class="outline-text-2" id="text-3">
+
+<p>Limitations of struct: :: 
+</p><ul>
+<li>
+Within a struct declaration, fields cannot be initialized unless they are declared as const or static.
+</li>
+<li>
+A struct may not declare a default constructor (a constructor without parameters) or a destructor.
+</li>
+<li>
+Structs are copied on assignment. When a struct is assigned to a new variable, all the data is copied, and any modification to the new copy does not change the data for the original copy. This is important to remember when working with collections of value types such as Dictionary&lt;string, myStruct&gt;.
+</li>
+<li>
+Structs are value types and classes are reference types. 
+</li>
+<li>
+Unlike classes, structs can be instantiated without using a new operator.
+</li>
+<li>
+Structs can declare constructors that have parameters.
+</li>
+<li>
+A struct cannot inherit from another struct or class, and it cannot be the base of a class. All structs inherit directly from System.ValueType, which inherits from System.Object.
+</li>
+<li>
+A struct can implement interfaces.
+</li>
+<li>
+A struct can be used as a nullable type and can be assigned a null value.
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Nullable Types </h2>
+<div class="outline-text-2" id="text-4">
+
+<p>Nullable types are instances of the System.Nullable&lt;T&gt; struct. A nullable type can represent the correct range of values for its underlying value type, plus an additional null value. For example, a Nullable&lt;Int32&gt;, pronounced "Nullable of Int32," can be assigned any value from -2147483648 to 2147483647, or it can be assigned the null value. A Nullable&lt;bool&gt; can be assigned the values truefalse, or null. The ability to assign null to numeric and Boolean types is especially useful when you are dealing with databases and other data types that contain elements that may not be assigned a value. For example, a Boolean field in a database can store the values true or false, or it may be undefined. 
+</p>
+
+
+<pre class="example">class NullableExample
+{
+    static void Main()
+    {
+        int? num = null;
+        if (num.HasValue == true)
+        {
+            System.Console.WriteLine("num = " + num.Value);
+        }
+        else
+        {
+            System.Console.WriteLine("num = Null");
+        }
+
+        // y is set to zero
+        int y = num.GetValueOrDefault();
+
+        // num.Value throws an InvalidOperationException if num.HasValue is false
+        try
+        {
+            y = num.Value;
+        }
+        catch (System.InvalidOperationException e)
+        {
+            System.Console.WriteLine(e.Message);
+        }
+    }
+}
+</pre>
+
+
+
+<p>
+Nullable types have the following characteristics: ::
+</p><ul>
+<li>
+Nullable types represent value-type variables that can be assigned the value of null. You cannot create a nullable type based on a reference type. (Reference types already support the null value.)
+</li>
+<li>
+The syntax T? is shorthand for Nullable&lt;T&gt;, where T is a value type. The two forms are interchangeable.
+</li>
+<li>
+Assign a value to a nullable type just as you would for an ordinary value type, for example int? x = 10; or double? d = 4.108. A nullable type can also be assigned the value null: int? x = null.
+</li>
+<li>
+Use the Nullable&lt;T&gt;.GetValueOrDefault method to return either the assigned value, or the default value for the underlying type if the value is null, for example int j = x.GetValueOrDefault();
+</li>
+<li>
+Use the HasValue and Value read-only properties to test for null and retrieve the value, as shown in the following example: if(x.HasValue) j = x.Value;
+</li>
+<li>
+The HasValue property returns true if the variable contains a value, or false if it is null.
+</li>
+<li>
+The Value property returns a value if one is assigned. Otherwise, a System.InvalidOperationException is thrown.
+</li>
+<li>
+The default value for HasValue is false. The Value property has no default value.
+</li>
+<li>
+You can also use the == and != operators with a nullable type, as shown in the following example: if (x != null) y = x;
+</li>
+<li>
+Use the ?? operator to assign a default value that will be applied when a nullable type whose current value is null is assigned to a non-nullable type, for example int? x = null; int y = x ?? -1;
+</li>
+<li>
+Nested nullable types are not allowed. The following line will not compile: Nullable&lt;Nullable&lt;int&gt;&gt; n;
+</li>
+<li>
+Related Sections
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> ?? Operator </h2>
+<div class="outline-text-2" id="text-5">
+
+<p>The ?? operator is called the null-coalescing operator and is used to define a default value for a nullable value types as well as reference types. It returns the left-hand operand if it is not null; otherwise it returns the right operand. 
+</p>
+
+
+<pre class="example">class NullCoalesce
+{
+    static int? GetNullableInt()
+    {
+        return null;
+    }
+
+    static string GetStringValue()
+    {
+        return null;
+    }
+
+    static void Main()
+    {
+        // ?? operator example.
+        int? x = null;
+
+        // y = x, unless x is null, in which case y = -1.
+        int y = x ?? -1;
+
+        // Assign i to return value of method, unless
+        // return value is null, in which case assign
+        // default value of int to i.
+        int i = GetNullableInt() ?? default(int);
+
+        string s = GetStringValue();
+        // ?? also works with reference types. 
+        // Display contents of s, unless s is null, 
+        // in which case display "Unspecified".
+        Console.WriteLine(s ?? "Unspecified");
+    }
+}
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Indexers </h2>
+<div class="outline-text-2" id="text-6">
+
+<p>Indexers allow instances of a class or struct to be indexed just like arrays. Indexers resemble properties except that their accessors take parameters.
+</p>
+
+
+<pre class="example">class SampleCollection&lt;T&gt;
+{
+    // Declare an array to store the data elements.
+    private T[] arr = new T[100];
+
+    // Define the indexer, which will allow client code
+    // to use [] notation on the class instance itself.
+    // (See line 2 of code in Main below.)        
+    public T this[int i]
+    {
+        get
+        {
+            // This indexer is very simple, and just returns or sets
+            // the corresponding element from the internal array.
+            return arr[i];
+        }
+        set
+        {
+            arr[i] = value;
+        }
+    }
+}
+
+// This class shows how client code uses the indexer.
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Declare an instance of the SampleCollection type.
+        SampleCollection&lt;string&gt; stringCollection = new SampleCollection&lt;string&gt;();
+
+        // Use [] notation on the type.
+        stringCollection[0] = "Hello, World";
+        System.Console.WriteLine(stringCollection[0]);
+    }
+}
+</pre>
+
+
+
+<p>
+Note: ::
+</p><ul>
+<li>
+Indexers enable objects to be indexed in a similar manner to arrays.
+</li>
+<li>
+A get accessor returns a value. A set accessor assigns a value.
+</li>
+<li>
+The this keyword is used to define the indexers.
+</li>
+<li>
+The value keyword is used to define the value being assigned by the set indexer.
+</li>
+<li>
+Indexers do not have to be indexed by an integer value; it is up to you how to define the specific look-up mechanism.
+</li>
+<li>
+Indexers can be overloaded.
+</li>
+<li>
+Indexers can have more than one formal parameter, for example, when accessing a two-dimensional array.
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Delegates </h2>
+<div class="outline-text-2" id="text-7">
+
+<p>A delegate is a type that defines a method signature. When you instantiate a delegate, you can associate its instance with any method with a compatible signature.
+Delegates have the following properties: ::
+</p><ul>
+<li>
+Delegates are like C++ function pointers but are type safe.
+</li>
+<li>
+Delegates allow methods to be passed as parameters.
+</li>
+<li>
+Delegates can be used to define callback methods.
+</li>
+<li>
+Delegates can be chained together; for example, multiple methods can be called on a single event.
+</li>
+<li>
+Methods do not have to match the delegate signature exactly. For more information, see Using Variance in Delegates (C# and Visual Basic).
+</li>
+<li>
+C# version 2.0 introduced the concept of Anonymous Methods, which allow code blocks to be passed as parameters in place of a separately defined method. C# 3.0 introduced lambda expressions as a more concise way of writing inline code blocks. Both anonymous methods and lambda expressions (in certain contexts) are compiled to delegate types. Together, these features are now known as anonymous functions. For more information about lambda expressions, see Anonymous Functions (C# Programming Guide).
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-7_1" class="outline-3">
+<h3 id="sec-7_1"><span class="section-number-3">7.1</span> Variance in Delegates </h3>
+<div class="outline-text-3" id="text-7_1">
+
+<p>When you assign a method to a delegate, covariance and contravariance provide flexibility for matching a delegate type with a method signature. Covariance permits a method to have return type that is more derived than that defined in the delegate. Contravariance permits a method that has parameter types that are less derived than those in the delegate type.
+</p>
+<p>
+Covariance ::
+&lt;br&gt;This example demonstrates how delegates can be used with methods that have return types that are derived from the return type in the delegate signature. The data type returned by DogsHandler is of type Dogs, which derives from the Mammals type that is defined in the delegate.
+</p>
+
+
+<pre class="example">class Mammals{}
+class Dogs : Mammals{}
+
+class Program
+{
+    // Define the delegate.
+    public delegate Mammals HandlerMethod();
+
+    public static Mammals MammalsHandler()
+    {
+        return null;
+    }
+
+    public static Dogs DogsHandler()
+    {
+        return null;
+    }
+
+    static void Test()
+    {
+        HandlerMethod handlerMammals = MammalsHandler;
+
+        // Covariance enables this assignment.
+        HandlerMethod handlerDogs = DogsHandler;
+    }
+}
+</pre>
+
+
+
+
+<p>
+Contravariance ::
+&lt;br&gt;This example demonstrates how delegates can be used with methods that have parameters of a type that are base types of the delegate signature parameter type. With contravariance, you can use one event handler instead of separate handlers. For example, you can create an event handler that accepts an EventArgs input parameter and use it with a Button.MouseClick event that sends a MouseEventArgs type as a parameter, and also with a TextBox.KeyDown event that sends a KeyEventArgs parameter.
+</p>
+
+
+<pre class="example">// Event hander that accepts a parameter of the EventArgs type.
+private void MultiHandler(object sender, System.EventArgs e)
+{
+    label1.Text = System.DateTime.Now.ToString();
+}
+
+public Form1()
+{
+    InitializeComponent();
+
+    // You can use a method that has an EventArgs parameter,
+    // although the event expects the KeyEventArgs parameter.
+    this.button1.KeyDown += this.MultiHandler;
+
+    // You can use the same method 
+    // for an event that expects the MouseEventArgs parameter.
+    this.button1.MouseClick += this.MultiHandler;
+
+}
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7_2" class="outline-3">
+<h3 id="sec-7_2"><span class="section-number-3">7.2</span> When to Use Delegates Instead of Interfaces </h3>
+<div class="outline-text-3" id="text-7_2">
+
+<p>Use a delegate in the following circumstances: ::
+</p><ul>
+<li>
+An eventing design pattern is used.
+</li>
+<li>
+It is desirable to encapsulate a static method.
+</li>
+<li>
+The caller has no need to access other properties, methods, or interfaces on the object implementing the method.
+</li>
+<li>
+Easy composition is desired.
+</li>
+<li>
+A class may need more than one implementation of the method.
+</li>
+</ul>
+
+<p>Use an interface in the following circumstances: ::
+</p><ul>
+<li>
+There is a group of related methods that may be called.
+</li>
+<li>
+A class only needs one implementation of the method.
+</li>
+<li>
+The class using the interface will want to cast that interface to other interface or class types.
+</li>
+<li>
+The method being implemented is linked to the type or identity of the class: for example, comparison methods
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-7_3" class="outline-3">
+<h3 id="sec-7_3"><span class="section-number-3">7.3</span> Multicast Delegates </h3>
+<div class="outline-text-3" id="text-7_3">
+
+<p>A useful property of delegate objects is that multiple objects can be assigned to one delegate instance by using the + operator. The multicast delegate contains a list of the assigned delegates. When the multicast delegate is called, it invokes the delegates in the list, in order. Only delegates of the same type can be combined.
+The - operator can be used to remove a component delegate from a multicast delegate.
+</p>
+
+
+<pre class="example">using System;
+
+// Define a custom delegate that has a string parameter and returns void.
+delegate void CustomDel(string s);
+
+class TestClass
+{
+    // Define two methods that have the same signature as CustomDel.
+    static void Hello(string s)
+    {
+        System.Console.WriteLine("  Hello, {0}!", s);
+    }
+
+    static void Goodbye(string s)
+    {
+        System.Console.WriteLine("  Goodbye, {0}!", s);
+    }
+
+    static void Main()
+    {
+        // Declare instances of the custom delegate.
+        CustomDel hiDel, byeDel, multiDel, multiMinusHiDel;
+
+        // In this example, you can omit the custom delegate if you 
+        // want to and use Action&lt;string&gt; instead.
+        //Action&lt;string&gt; hiDel, byeDel, multiDel, multiMinusHiDel;
+
+        // Create the delegate object hiDel that references the
+        // method Hello.
+        hiDel = Hello;
+
+        // Create the delegate object byeDel that references the
+        // method Goodbye.
+        byeDel = Goodbye;
+
+        // The two delegates, hiDel and byeDel, are combined to 
+        // form multiDel. 
+        multiDel = hiDel + byeDel;
+
+        // Remove hiDel from the multicast delegate, leaving byeDel,
+        // which calls only the method Goodbye.
+        multiMinusHiDel = multiDel - hiDel;
+
+        Console.WriteLine("Invoking delegate hiDel:");
+        hiDel("A");
+        Console.WriteLine("Invoking delegate byeDel:");
+        byeDel("B");
+        Console.WriteLine("Invoking delegate multiDel:");
+        multiDel("C");
+        Console.WriteLine("Invoking delegate multiMinusHiDel:");
+        multiMinusHiDel("D");
+    }
+}
+/* Output:
+Invoking delegate hiDel:
+  Hello, A!
+Invoking delegate byeDel:
+  Goodbye, B!
+Invoking delegate multiDel:
+  Hello, C!
+  Goodbye, C!
+Invoking delegate multiMinusHiDel:
+  Goodbye, D!
+*/
+</pre>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Anonymous Methods </h2>
+<div class="outline-text-2" id="text-8">
+
+<p>By using anonymous methods, you reduce the coding overhead in instantiating delegates because you do not have to create a separate method.
+</p>
+
+
+<pre class="example">void StartThread()
+{
+    System.Threading.Thread t1 = new System.Threading.Thread
+      (delegate()
+            {
+                System.Console.Write("Hello, ");
+                System.Console.WriteLine("World!");
+            });
+    t1.Start();
+}
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Lambda Expressions </h2>
+<div class="outline-text-2" id="text-9">
+
+<p>All lambda expressions use the lambda operator =&gt;, which is read as "goes to". The left side of the lambda operator specifies the input parameters (if any) and the right side holds the expression or statement block. The lambda expression x =&gt; x * x is read "x goes to x times x." 
+</p>
+</div>
+
+<div id="outline-container-9_1" class="outline-3">
+<h3 id="sec-9_1"><span class="section-number-3">9.1</span> Expression Lambdas </h3>
+<div class="outline-text-3" id="text-9_1">
+
+
+
+
+<pre class="example">(x, y) =&gt; x == y
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_2" class="outline-3">
+<h3 id="sec-9_2"><span class="section-number-3">9.2</span> Statement Lambdas </h3>
+<div class="outline-text-3" id="text-9_2">
+
+
+
+
+<pre class="example">delegate void TestDelegate(string s);
+…
+TestDelegate myDel = n =&gt; { string s = n + " " + "World"; Console.WriteLine(s); };
+myDel("Hello");
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_3" class="outline-3">
+<h3 id="sec-9_3"><span class="section-number-3">9.3</span> Lambdas with the Standard Query Operators </h3>
+<div class="outline-text-3" id="text-9_3">
+
+
+
+
+<pre class="example">int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+    int oddNumbers = numbers.Count(n =&gt; n % 2 == 1);
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_4" class="outline-3">
+<h3 id="sec-9_4"><span class="section-number-3">9.4</span> Type Inference in Lambdas </h3>
+<div class="outline-text-3" id="text-9_4">
+
+<p>When writing lambdas, you often **do not have to specify a type for the input parameters** because the compiler can infer the type based on the lambda body, the underlying delegate type, and other factors as described in the C# Language Specification. For most of the standard query operators, the first input is the type of the elements in the source sequence. So if you are querying an IEnumerable&lt;Customer&gt;, then the input variable is inferred to be a Customer object, which means you have access to its methods and properties:
+</p>
+
+
+<pre class="example">customers.Where(c =&gt; c.City == "London");
+</pre>
+
+
+<p>
+The general rules for lambdas are as follows: ::
+</p><ul>
+<li>
+The lambda must contain the same number of parameters as the delegate type.
+</li>
+<li>
+Each input parameter in the lambda must be implicitly convertible to its corresponding delegate parameter.
+</li>
+<li>
+The return value of the lambda (if any) must be implicitly convertible to the delegate's return type.
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Events </h2>
+<div class="outline-text-2" id="text-10">
+
+<p>Events have the following properties: ::
+</p><ul>
+<li>
+The publisher determines when an event is raised; the subscribers determine what action is taken in response to the event.
+</li>
+<li>
+An event can have multiple subscribers. A subscriber can handle multiple events from multiple publishers.
+</li>
+<li>
+Events that have no subscribers are never raised.
+</li>
+<li>
+Events are typically used to signal user actions such as button clicks or menu selections in graphical user interfaces.
+</li>
+<li>
+When an event has multiple subscribers, the event handlers are invoked synchronously when an event is raised. To invoke events asynchronously, see Calling Synchronous Methods Asynchronously.
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-10_1" class="outline-3">
+<h3 id="sec-10_1"><span class="section-number-3">10.1</span> How to: Implement Custom Event Accessors </h3>
+<div class="outline-text-3" id="text-10_1">
+
+<p>An event is a special kind of multicast delegate that can only be invoked from within the class that it is declared in. Client code subscribes to the event by providing a reference to a method that should be invoked when the event is fired. These methods are added to the delegate's invocation list through event accessors, which resemble property accessors, except that event accessors are named add and remove. In most cases, you do not have to supply custom event accessors. When no custom event accessors are supplied in your code, the compiler will add them automatically. However, in some cases you may have to provide custom behavior.
+</p>
+
+
+<pre class="example">event EventHandler IDrawingObject.OnDraw
+{
+    add{
+        lock (PreDrawEvent){
+            PreDrawEvent += value;
+        }
+    }
+    remove{
+        lock (PreDrawEvent){
+                PreDrawEvent -= value;
+        }
+    }
+}
+</pre>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Generics </h2>
+<div class="outline-text-2" id="text-11">
+
+
+</div>
+
+<div id="outline-container-11_1" class="outline-3">
+<h3 id="sec-11_1"><span class="section-number-3">11.1</span> Constraints on Type Parameters </h3>
+<div class="outline-text-3" id="text-11_1">
+
+<ul>
+<li>
+<b>where T: struct</b>
+</li>
+</ul>
+
+<p>The type argument must be a value type. Any value type except Nullable can be specified. See Using Nullable Types (C# Programming Guide) for more information.
+</p>
+<ul>
+<li>
+<b>where T : class</b>
+</li>
+</ul>
+
+<p>The type argument must be a reference type; this applies also to any class, interface, delegate, or array type.
+</p>
+<ul>
+<li>
+<b>where T : new()</b>
+</li>
+</ul>
+
+<p>The type argument must have a public parameterless constructor. When used together with other constraints, the new() constraint must be specified last.
+</p>
+<ul>
+<li>
+<b>where T : base class name</b>
+</li>
+</ul>
+
+<p>The type argument must be or derive from the specified base class.
+</p>
+<ul>
+<li>
+<b>where T : interface name</b>
+</li>
+</ul>
+
+<p>The type argument must be or implement the specified interface. Multiple interface constraints can be specified. The constraining interface can also be generic.
+</p>
+<ul>
+<li>
+<b>where T : U</b>
+</li>
+</ul>
+
+<p>The type argument supplied for T must be or derive from the argument supplied for U. 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-11_2" class="outline-3">
+<h3 id="sec-11_2"><span class="section-number-3">11.2</span> Application Domains </h3>
+<div class="outline-text-3" id="text-11_2">
+
+<p>Provides **isolation**, **unloading**, and **security boundaries** for executing managed code.
+</p>
+<p>
+The Benefits of Isolating Applications:
+</p><ul>
+<li>
+Faults in one application cannot affect other applications**. Because type-safe code cannot cause memory faults, using application domains ensures that code running in one domain cannot affect other applications in the process.
+</li>
+<li>
+Individual applications can be stopped without stopping the entire process. Using application domains enables you to unload the code running in a single application. 
+</li>
+<li>
+Code running in one application cannot directly access code or resources from another application**. The common language runtime enforces this isolation by preventing direct calls between objects in different application domains. Objects that pass between domains are either copied or accessed by proxy. If the object is copied, the call to the object is local. That is, both the caller and the object being referenced are in the same application domain. If the object is accessed through a proxy, the call to the object is remote. In this case, the caller and the object being referenced are in different application domains. Cross-domain calls use the same remote call infrastructure as calls between two processes or between two machines. As such, the metadata for the object being referenced must be available to both application domains to allow the method call to be JIT-compiled properly. If the calling domain does not have access to the metadata for the object being called, the compilation might fail with an exception of type System.IO.FileNotFound. See Remote Objects for more details. The mechanism for determining how objects can be accessed across domains is determined by the object. For more information, see MarshalByRefObject Class.
+</li>
+<li>
+The behavior of code is scoped by the application in which it runs. In other words, the application domain provides configuration settings such as application version policies, the location of any remote assemblies it accesses, and information about where to locate assemblies that are loaded into the domain.
+</li>
+<li>
+Permissions granted to code can be controlled by the application domain in which the code is running.
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-11_3" class="outline-3">
+<h3 id="sec-11_3"><span class="section-number-3">11.3</span> Application Domain and Treads </h3>
+<div class="outline-text-3" id="text-11_3">
+
+<p>There is not a one-to-one correlation between application domains and threads. Several threads can be executing in a single application domain at any given time and a particular thread is not confined to a single application domain. That is, threads are free to cross application domain boundaries; a new thread is not created for each application domain.
+</p>
+<p>
+At any given time, every thread is executing in an application domain. Zero, one, or more than one thread might be executing in any given application domain. The run time keeps track of which threads are running in which application domains. You can locate the domain in which a thread is executing at any time by calling the GetDomain method.
+</p>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Threading </h2>
+<div class="outline-text-2" id="text-12">
+
+
+
+</div>
+
+<div id="outline-container-12_1" class="outline-3">
+<h3 id="sec-12_1"><span class="section-number-3">12.1</span> State </h3>
+<div class="outline-text-3" id="text-12_1">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>Action</td><td>ThreadState</td></tr>
+<tr><td>A thread is created within the common language runtime.</td><td>Unstarted</td></tr>
+<tr><td>A thread calls Start</td><td>Unstarted</td></tr>
+<tr><td>[Causes a thread to be scheduled for execution]</td><td></td></tr>
+<tr><td>The thread starts running.</td><td>Running</td></tr>
+<tr><td>The thread calls Sleep</td><td>WaitSleepJoin</td></tr>
+<tr><td>[Blocks the current thread for the specified number of milliseconds.]</td><td></td></tr>
+<tr><td>The thread calls Wait on another object.</td><td>WaitSleepJoin</td></tr>
+<tr><td>[Releases the lock on an object and blocks the current thread until it reacquires the lock.]</td><td></td></tr>
+<tr><td>The thread calls Join on another thread</td><td>WaitSleepJoin</td></tr>
+<tr><td>[Blocks the calling thread until a thread terminates.]</td><td></td></tr>
+<tr><td>Another thread calls Interrupt</td><td>Running</td></tr>
+<tr><td>[Interrupts a thread that is in the WaitSleepJoin thread state.]</td><td></td></tr>
+<tr><td>Another thread calls Suspend</td><td>SuspendRequested</td></tr>
+<tr><td>[Either suspends the thread, or if the thread is already suspended,has no effect]</td><td></td></tr>
+<tr><td>The thread responds to a Suspend request.</td><td>Suspended</td></tr>
+<tr><td>Another thread calls Resume</td><td>Running</td></tr>
+<tr><td>[Resumes a thread that has been suspended.]</td><td></td></tr>
+<tr><td>Another thread calls Abort</td><td>AbortRequested</td></tr>
+<tr><td>[Raises a ThreadAbortException in the thread on which it is invoked, to begin the process of terminating the thread. Calling this method usually terminates the thread.]</td><td></td></tr>
+<tr><td>The thread responds to a Abort request.</td><td>Stopped</td></tr>
+<tr><td>A thread is terminated.</td><td>Stopped</td></tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> AutoReset Vs MannualReset Event </h2>
+<div class="outline-text-2" id="text-13">
+
+
+<p>
+The most important difference is that an AutoResetEvent will only
+allow one single waiting thread to continue. A ManualResetEvent on the
+other hand will keep allowing threads, several at the same time even,
+to continue until you tell it to stop (Reset it).
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> Volatile </h2>
+<div class="outline-text-2" id="text-14">
+
+
+<p>
+The volatile keyword indicates that a field can be modified in the program by something such as the operating system, the hardware, or a concurrently executing thread.
+The volatile modifier is usually used for a field that is accessed by multiple threads without using the lock statement to serialize access. Using the volatile modifier ensures that one thread retrieves the most up-to-date value written by another thread.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> Semaohore </h2>
+<div class="outline-text-2" id="text-15">
+
+<p>Limits the number of threads that can access a resource or pool of resources concurrently.
+</p>
+<p>
+Use the Semaphore class to control access to a pool of resources. Threads enter the semaphore by calling the WaitOne method, which is inherited from the WaitHandle class, and release the semaphore by calling the Release method.
+The count on a semaphore is decremented each time a thread enters the semaphore, and incremented when a thread releases the semaphore. When the count is zero, subsequent requests block until other threads release the semaphore. When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created.
+There is no guaranteed order, such as FIFO or LIFO, in which blocked threads enter the semaphore.
+A thread can enter the semaphore multiple times, by calling the WaitOne method repeatedly. To release some or all of these entries, the thread can call the parameterless Release() method overload multiple times, or it can call the Release(Int32) method overload that specifies the number of entries to be released.
+The Semaphore class does not enforce thread identity on calls to WaitOne or Release. It is the programmer's responsibility to ensure that threads do not release the semaphore too many times. For example, suppose a semaphore has a maximum count of two, and that thread A and thread B both enter the semaphore. If a programming error in thread B causes it to call Release twice, both calls succeed. The count on the semaphore is full, and when thread A eventually calls Release, a SemaphoreFullException is thrown.
+Semaphores are of two types: local semaphores and named system semaphores. If you create a Semaphore object using a constructor that accepts a name, it is associated with an operating-system semaphore of that name. Named system semaphores are visible throughout the operating system, and can be used to synchronize the activities of processes. You can create multiple Semaphore objects that represent the same named system semaphore, and you can use the OpenExisting method to open an existing named system semaphore.
+A local semaphore exists only within your process. It can be used by any thread in your process that has a reference to the local Semaphore object. Each Semaphore object is a separate local semaphore.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> Mutex </h2>
+<div class="outline-text-2" id="text-16">
+
+<p>synchronization primitive that can also be used for interprocess synchronization. 
+</p>
+<p>
+When two or more threads need to access a shared resource at the same time, the system needs a synchronization mechanism to ensure that only one thread at a time uses the resource. Mutex is a synchronization primitive that grants exclusive access to the shared resource to only one thread. If a thread acquires a mutex, the second thread that wants to acquire that mutex is suspended until the first thread releases the mutex.
+You can use the WaitHandle.WaitOne method to request ownership of a mutex. The thread that owns a mutex can request the same mutex in repeated calls to WaitOne without blocking its execution. However, the thread must call the ReleaseMutex method the same number of times to release ownership of the mutex. The Mutex class enforces thread identity, so a mutex can be released only by the thread that acquired it. By contrast, the Semaphore class does not enforce thread identity. 
+If a thread terminates while owning a mutex, the mutex is said to be abandoned. The state of the mutex is set to signaled, and the next waiting thread gets ownership. Beginning in version 2.0 of the .NET Framework, an AbandonedMutexException is thrown in the next thread that acquires the abandoned mutex. Before version 2.0 of the .NET Framework, no exception was thrown.
+</p>
+<p>
+<b>Caution</b> 
+An abandoned mutex often indicates a serious error in the code. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. The next thread to request ownership of the mutex can handle this exception and proceed, if the integrity of the data structures can be verified. 
+In the case of a system-wide mutex, an abandoned mutex might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager).
+Mutexes are of two types: local mutexes, which are unnamed, and named system mutexes. A local mutex exists only within your process. It can be used by any thread in your process that has a reference to the Mutex object that represents the mutex. Each unnamed Mutex object represents a separate local mutex.
+Named system mutexes are visible throughout the operating system, and can be used to synchronize the activities of processes. You can create a Mutex object that represents a named system mutex by using a constructor that accepts a name. The operating-system object can be created at the same time, or it can exist before the creation of the Mutex object. You can create multiple Mutex objects that represent the same named system mutex, and you can use the OpenExisting method to open an existing named system mutex.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> Monitor </h2>
+<div class="outline-text-2" id="text-17">
+
+<p>The Monitor class controls access to objects by granting a lock for an object to a single thread. Object locks provide the ability to restrict access to a block of code, commonly called a critical section. While a thread owns the lock for an object, no other thread can acquire that lock. You can also use Monitor to ensure that no other thread is allowed to access a section of application code being executed by the lock owner, unless the other thread is executing the code using a different locked object.
+</p>
+<p>
+Note   Use Monitor to lock objects (that is, reference types), not value types. For details, see Enter and the conceptual topic Monitor.
+Monitor has the following features: 
+</p>
+<p>
+It is associated with an object on demand.
+It is unbound, which means it can be called directly from any context.
+An instance of the Monitor class cannot be created.
+The following information is maintained for each synchronized object: 
+</p>
+<p>
+A reference to the thread that currently holds the lock.
+A reference to a ready queue, which contains the threads that are ready to obtain the lock.
+A reference to a waiting queue, which contains the threads that are waiting for notification of a change in the state of the locked object.
+The following table describes the actions that can be taken by threads that access synchronized objects:
+</p>
+<p>
+Enter, TryEnter Acquires a lock for an object. This action also marks the beginning of a critical section. No other thread can enter the critical section unless it is executing the instructions in the critical section using a different locked object. 
+Wait Releases the lock on an object in order to permit other threads to lock and access the object. The calling thread waits while another thread accesses the object. Pulse signals are used to notify waiting threads about changes to an object's state. 
+Pulse (signal), PulseAll Sends a signal to one or more waiting threads. The signal notifies a waiting thread that the state of the locked object has changed, and the owner of the lock is ready to release the lock. The waiting thread is placed in the object's ready queue so that it might eventually receive the lock for the object. Once the thread has the lock, it can check the new state of the object to see if the required state has been reached. 
+Exit Releases the lock on an object. This action also marks the end of a critical section protected by the locked object. 
+</p>
+<p>
+Use the Enter and Exit methods to mark the beginning and end of a critical section. If the critical section is a set of contiguous instructions, then the lock acquired by the Enter method guarantees that only a single thread can execute the enclosed code with the locked object. In this case, it is recommended you place those instructions in a try block and place the Exit instruction in a finally block. This facility is typically used to synchronize access to a static or instance method of a class. If an instance method requires synchronized thread access, it invokes the Enter and corresponding Exit methods using the current instance as the object to lock. Since only one thread can hold the lock on the current instance, the method can only be executed by one thread at a time. Static methods are protected in a similar fashion using the Type of the current instance as the locked object. The functionality provided by the Enter and Exit methods is identical to that provided by the C# lock statement.
+</p>
+<p>
+If a critical section spans an entire method, the locking facility described above can be achieved by placing the System.Runtime.CompilerServices.MethodImplAttribute on the method, and specifying the Synchronized value in the constructor of MethodImplAttribute. Using this attribute, the Enter and Exit statements are not needed. Note that the attribute causes the current thread to hold the lock until the method returns; if the lock can be released sooner, use the Monitor class or the C# lock statement instead of the attribute.
+</p>
+<p>
+While it is possible for the Enter and Exit statements that lock and release a given object to cross member or class boundaries or both, this practice is not recommended.
+</p>
+<p>
+When selecting an object on which to synchronize, you should lock only on private or internal objects. Locking on external objects might result in deadlocks, because unrelated code could choose the same objects to lock on for different purposes.
+</p>
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 01:33:30 </p>
+</div>
+</div>
+</body>
+</html>

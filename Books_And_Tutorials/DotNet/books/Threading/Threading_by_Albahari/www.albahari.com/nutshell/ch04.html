@@ -1,0 +1,1168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch04.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+
+<h2>Chapter 4: Advanced C#</h2>
+<p>Writing plug-in methods with delegates:</p>
+<pre>public delegate int Transformer (int x);
+
+public class Util
+{
+  public static void Transform (int[] values, Transformer t)
+  {
+    for (int i = 0; i &lt; values.Length; i++)
+      values[i] = t(values[i]);
+  }
+}
+
+class Test
+{
+  static void Main()
+  {
+    int[] values = new int[] {1, 2, 3};
+    Util.Transform(values, Square);      // dynamically hook in Square
+    foreach (int i in values)
+      Console.Write (i + &quot;  &quot;);           // 1   4   9
+  }
+ 
+  static int Square (int x) { return x * x; }
+}</pre>
+<p>Multicast delegate example:</p>
+<pre>public delegate void ProgressReporter (int percentComplete);
+
+public class Util
+{
+  public static void HardWork (ProgressReporter p)
+  {
+    for (int i = 0; i &lt; 10; i++)
+    {
+      p (i * 10);                          // Invoke delegate
+      System.Threading.Thread.Sleep(100);  // Simulate hard work
+    }
+  }
+}</pre>
+<pre>class Test
+{
+  static void Main ()
+  {
+    ProgressReporter p = WriteProgressToConsole;
+    p += WriteProgressToFile;
+    Util.HardWork (p);
+  }
+
+  static void WriteProgressToConsole (int percentComplete)
+  {
+    Console.WriteLine (percentComplete);
+  }
+
+  static void WriteProgressToFile (int percentComplete)
+  {
+    System.IO.File.WriteAllText (&quot;progress.txt&quot;, percentComplete.ToString());
+  }
+}</pre>
+<p>Instance Method Targets:</p>
+<pre>public delegate void ProgressReporter (int percentComplete);
+
+class Test
+{
+  static void Main() {new Test();}
+  Test ()
+  {
+    ProgressReporter p = InstanceProgress;
+    p(99);                                  // 99
+    Console.WriteLine (p.Target == this);   // True
+    Console.WriteLine (p.Method);           // Void InstanceProgress(Int32)
+  }
+
+  void InstanceProgress (int percentComplete)
+  {
+    Console.WriteLine(percentComplete);
+  }
+}</pre>
+<p>Generic Delegate Types:</p>
+<pre>public delegate T Transformer&lt;T&gt; (T arg);
+
+public class Util
+{
+  public static void Transform&lt;T&gt; (T[] values, Transformer&lt;T&gt; t)
+  {
+    for (int i = 0; i &lt; values.Length; i++)
+      values[i] = t(values[i]);
+  }
+}
+
+class Test
+{
+  static void Main()
+  {
+    int[] values = new int[] {1, 2, 3};
+    Util.Transform(values, Square);      // dynamically hook in Square
+    foreach (int i in values)
+      Console.Write (i + &quot;  &quot;);           // 1   4   9
+  }
+ 
+  static int Square (int x) { return x * x; }
+}</pre>
+<p>Delegates vs. Interfaces:</p>
+<pre>public interface ITransformer
+{
+  int Transform (int x);
+}
+
+public class Util
+{
+ public static void TransformAll (int[] values, ITransformer t)
+ {
+   for (int i = 0; i &lt; values.Length; i++)
+     values[i] = t.Transform(values[i]);
+ }
+}
+
+class Test : ITransformer
+{
+ static void Main()
+ {
+   int[] values = new int[] {1, 2, 3};
+   Util.TransformAll(values, new Test());
+   foreach (int i in values)
+     Console.WriteLine (i);
+ }
+
+ public int Transform (int x) { return x * x; }
+}</pre>
+<pre>class Test
+{
+ static void Main()
+ {
+   int[] values = new int[] {1, 2, 3};
+   Util.TransformAll(values, new Cuber());
+   foreach (int i in values)
+     Console.WriteLine (i);
+ }
+
+ class Squarer : ITransformer
+ {
+   public int Transform (int x) { return x * x; }
+ }
+ class Cuber : ITransformer
+ {
+   public int Transform (int x) {return x * x * x; }
+ }
+}</pre>
+<p>Delegate Parameter Compatibility (Contravariance):</p>
+<pre>delegate void SpecificDelegate (SpecificClass s);
+
+class SpecificClass {}
+
+class Test
+{
+  static void Main()
+  {
+    SpecificDelegate specificDelegate = GeneralHandler;
+    specificDelegate (new SpecificClass());
+  }
+
+  static void GeneralHandler(object o)
+  {
+    Console.WriteLine(o.GetType()); // SpecificClass
+  }
+}</pre>
+<p>Delegate Return Type Compatibility (Covariance):</p>
+<pre>delegate Asset DebtCollector();
+
+class Asset {}
+
+class House : Asset {}
+
+class Test
+{
+  static void Main()
+  {
+     DebtCollector d = new DebtCollector (GetHomeSweetHome);
+     Asset a = d();
+     Console.WriteLine(a.GetType()); // House
+  }
+  static House GetHomeSweetHome() {return new House(); }
+}</pre>
+<p>Events:</p>
+<pre>public delegate void PriceChangedHandler (decimal oldPrice,
+                                          decimal newPrice);
+
+public class Stock
+{
+  string symbol;
+  decimal price;
+
+  public Stock (string symbol) {this.symbol = symbol;}
+
+  public event PriceChangedHandler PriceChanged;
+  
+  public decimal Price
+  {
+    get { return price; }
+    set
+    {
+      if (price == value) return;      // exit if nothing has changed
+      if (PriceChanged != null)        // if invocation list not empty
+        PriceChanged (price, value);   // fire event
+      price = value;
+    }  
+  }
+}</pre>
+<p>Standard Event Pattern:</p>
+<pre>using System;
+
+public class PriceChangedEventArgs : EventArgs
+{
+  public readonly decimal LastPrice;
+  public readonly decimal NewPrice;
+
+  public PriceChangedEventArgs (decimal lastPrice, decimal newPrice)
+  {
+    LastPrice = lastPrice; NewPrice = newPrice;
+  }
+}
+
+public class Stock
+{
+  string symbol;
+  decimal price;
+
+  public Stock (string symbol) {this.symbol = symbol;}
+
+  public event EventHandler&lt;PriceChangedEventArgs&gt; PriceChanged;
+
+  protected virtual void OnPriceChanged (PriceChangedEventArgs e)
+  {
+    if (PriceChanged != null) PriceChanged (this, e);
+  }
+  
+  public decimal Price
+  {
+    get { return price; }
+    set
+    {
+      if (price == value) return;
+      OnPriceChanged (new PriceChangedEventArgs (price, value));
+      price = value;
+    }  
+  }
+}
+
+class Test
+{
+  static void Main()
+  {
+    Stock stock = new Stock (&quot;THPW&quot;);
+    stock.Price = 27.10M;
+    // register with the PriceChanged event    
+    stock.PriceChanged += stock_PriceChanged;
+    stock.Price = 31.59M;
+  }
+
+  static void stock_PriceChanged (object sender, PriceChangedEventArgs e)
+  {
+    if ((e.NewPrice - e.LastPrice) / e.LastPrice &gt; 0.1M)
+      Console.WriteLine (&quot;Alert, 10% stock price increase!&quot;);
+  }
+}</pre>
+<p>Using EventArgs.Empty:</p>
+<pre>public class Stock
+{
+  string symbol;
+  decimal price;
+
+  public Stock (string symbol) {this.symbol = symbol;}
+
+  public event EventHandler PriceChanged;
+
+  protected virtual void OnPriceChanged (EventArgs e)
+  {
+    if (PriceChanged != null) PriceChanged (this, e);
+  }
+  
+  public decimal Price
+  {
+    get { return price; }
+    set
+    {
+      if (price == value) return;
+      price = value;
+      OnPriceChanged (EventArgs.Empty);      
+    }  
+  }
+}</pre>
+<p>Event Accessors:</p>
+<pre>public interface IFoo
+{
+  event EventHandler Ev;
+}
+
+class Foo : IFoo
+{
+  private EventHandler ev;
+
+  event EventHandler IFoo.Ev
+  {
+    add    { ev += value; }
+    remove { ev -= value; }
+  }
+}</pre>
+<p>Lambda Expressions:</p>
+<pre>delegate int Transformer (int i);
+  
+class Test
+{
+  static void Main()
+  {
+    Transformer square = x =&gt; x * x;
+    Console.WriteLine (square(3));    // 9
+  }
+}</pre>
+<p>Capturing Outer Variables (Closures):</p>
+<pre>delegate int NumericSequence ();
+  
+class Test
+{
+  static void Main()
+  {
+    int seed = 0;
+    NumericSequence natural = () =&gt; seed++;
+    Console.WriteLine (natural());           // 0
+    Console.WriteLine (natural());           // 1
+  }
+}</pre>
+<pre>delegate int NumericSequence ();
+  
+class Test
+{
+  static NumericSequence Natural ()
+  {
+    int seed = 0;         // executes once  (per call to Natural())
+    return () =&gt; seed++;  // executes twice (per call to delegate instance
+                          //                 returned by Natural())
+  }
+
+  static void Main()
+  {
+    NumericSequence natural = Natural ();
+    Console.WriteLine (natural());           // 0
+    Console.WriteLine (natural());           // 1
+  }
+}</pre>
+<pre>delegate int NumericSequence ();
+  
+class Test
+{
+  static NumericSequence Natural ()
+  {    
+    return () =&gt; {int seed = 0; return seed++; };
+  }
+
+  static void Main()
+  {
+    NumericSequence natural = Natural ();
+    Console.WriteLine (natural());                 // 0
+    Console.WriteLine (natural());                 // 0
+  }
+}</pre>
+<p>Anonymous Methods:</p>
+<pre>delegate int Transformer (int i);
+  
+class Test
+{
+  static void Main()
+  {
+    Transformer square = delegate (int x) {return x * x;};
+    Console.WriteLine (square(3));    // 9
+  }
+}</pre>
+<p>Try Statements and Exceptions:</p>
+<pre>class Test
+{
+  static int Calc (int x) {return 10 / x;}
+
+  static void Main()
+  {
+    try
+    {
+      int y = Calc (0);
+      Console.WriteLine (y);
+    }
+    catch (DivideByZeroException ex)
+    {
+      Console.WriteLine(&quot;x cannot be zero&quot;);
+    }
+    Console.WriteLine (&quot;program completed&quot;);
+  }
+}</pre>
+<p>Multiple Catch Clauses:</p>
+<pre>class Test
+{
+  static void Main (string[] args)
+  {
+    try
+    {
+      byte b = byte.Parse (args[0]);
+      Console.WriteLine (b);
+    }
+    catch (IndexOutOfRangeException ex)
+    {
+      Console.WriteLine (&quot;Please provide at least one argument&quot;);
+    }
+    catch (FormatException ex)
+    {
+      Console.WriteLine (&quot;That's not a number!&quot;);
+    }
+    catch (OverflowException ex)
+    {
+      Console.WriteLine (&quot;You've given me more than a byte!&quot;);
+    }
+  }
+}</pre>
+<p>Finally Block:</p>
+<pre>using System;
+using System.IO;
+
+class Test
+{
+  static void Main ()
+  {
+    StreamReader reader = null;
+    try
+    {
+      reader = File.OpenText (&quot;file.txt&quot;);
+      if (reader.EndOfStream) return;
+      Console.WriteLine (reader.ReadToEnd ());
+    }
+    finally
+    {
+      if (reader != null) reader.Dispose ();
+    }
+  }</pre>
+<p>Using Statement:</p>
+<pre>StreamReader reader = File.OpenText (&quot;file.txt&quot;);
+try
+{
+  // ...
+}
+finally
+{
+  if (reader != null)
+   ((IDisposable)reader).Dispose();
+}</pre>
+<p>Throwing Exceptions:</p>
+<pre>class Test
+{
+  static void Display (string name)
+  {
+    if (name == null)
+      throw new ArgumentNullException (&quot;name&quot;);
+
+    Console.WriteLine (name);
+  }
+
+  static void Main()
+  {
+    try { Display (null); }
+    catch (ArgumentNullException ex)
+    {
+      Console.WriteLine (&quot;Caught the exception&quot;);
+    }
+  }
+}</pre>
+<p>Rethrowing:</p>
+<pre>string s;
+
+using (WebClient wc = new WebClient())
+  try { s = wc.DownloadString (&quot;http://albahari.com/&quot;);  }
+  catch (WebException ex)
+  {
+    if (ex.Status == WebExceptionStatus.NameResolutionFailure)
+      Console.WriteLine (&quot;Bad domain name&quot;);
+    else
+      throw;     // Can't handle other sorts of WebException, so rethrow
+  }</pre>
+<p>Atomicity Pattern:</p>
+<pre>class Test
+{
+  static void Main()
+  {
+    Accumulator a = new Accumulator ();
+    try
+    {
+      a.Add (4, 5);             // a.Total is now 9
+      a.Add (1, int.MaxValue);  // will cause OverflowException
+    }
+    catch (OverflowException)
+    {
+      Console.WriteLine (a.Total);  // a.Total is still 9
+    } 
+  }
+}</pre>
+<pre>public class Accumulator
+{
+  public int Total; 
+
+  public void Add(params int[] ints)
+  {
+    bool success = false;
+    int totalSnapshot = Total;
+    try
+    {
+      foreach (int i in ints)
+      {
+        checked 
+        {
+          Total += i;
+        }
+      }
+      success = true;
+    }
+    finally
+    {
+      if (! success)
+        Total = totalSnapshot;
+    }
+  }
+}</pre>
+<p>Iterators:</p>
+<pre>using System;
+using System.Collections.Generic;
+
+class Test
+{
+  static void Main()
+  {
+    foreach (int fib in Fibs(6))
+      Console.Write (fib + &quot;  &quot;);
+  }
+
+  static IEnumerable&lt;int&gt; Fibs(int fibCount)
+  {
+    for (int i = 0, prevFib = 1, curFib = 1; i &lt; fibCount; i++) 
+    {
+      yield return prevFib;
+      int newFib = prevFib+curFib;
+      prevFib = curFib;
+      curFib = newFib;
+    }
+  }
+}</pre>
+<p>Multiple yield statements:</p>
+<pre>class Test
+{
+  static void Main()
+  {
+    foreach (string s in Foo())
+      Console.WriteLine(s);         // prints &quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;
+  }
+
+  static IEnumerable&lt;string&gt; Foo()
+  {
+    yield return &quot;One&quot;;
+    yield return &quot;Two&quot;;
+    yield return &quot;Three&quot;;
+  }
+}</pre>
+<p>Yield break:</p>
+<pre>static IEnumerable&lt;string&gt; Foo(bool breakEarly)
+{
+  yield return &quot;One&quot;;
+  yield return &quot;Two&quot;;
+
+  if (breakEarly)
+    yield break;
+
+  yield return &quot;Three&quot;;
+}</pre>
+<p>Composing Sequences:</p>
+<pre>using System;
+using System.Collections.Generic;
+
+class Test
+{
+  static void Main()
+  {
+    foreach (int fib in EvenNumbersOnly(Fibs(6)))
+      Console.WriteLine(fib);
+  }
+
+  static IEnumerable&lt;int&gt; Fibs(int fibCount)
+  {
+    for (int i = 0, prevFib = 1, curFib = 1; i &lt; fibCount; i++) 
+    {
+      yield return prevFib;
+      int newFib = prevFib+curFib;
+      prevFib = curFib;
+      curFib = newFib;
+    }
+  }
+
+  static IEnumerable&lt;int&gt; EvenNumbersOnly(IEnumerable&lt;int&gt; sequence)
+  {
+    foreach(int x in sequence)
+      if ((x % 2) == 0)
+        yield return x;
+  }
+}</pre>
+<p>Nullable types: Operator Lifting:</p>
+<pre>int? x = 5;
+int? y = null;
+
+// equality operator examples
+Console.WriteLine(x == y);    // false
+Console.WriteLine(x == null); // false
+Console.WriteLine(x == 5);    // true
+Console.WriteLine(y == null); // true
+Console.WriteLine(y == 5);    // false
+Console.WriteLine(y != 5);    // true
+
+// relational operator examples
+Console.WriteLine(x &lt; 6);     // true 
+Console.WriteLine(y &lt; 6);     // false
+Console.WriteLine(y &gt; 6);     // false
+
+// all other operator examples
+Console.WriteLine(x + 5);     // 10
+Console.WriteLine(x + y);     // null (prints empty line)</pre>
+<p>bool? semantics:</p>
+<pre>bool? n = null;
+bool? f = false;
+bool? t = true;
+Console.WriteLine (n | n);    // (null)
+Console.WriteLine (n | f);    // (null)
+Console.WriteLine (n | t);    // True
+Console.WriteLine (n &amp; n);    // (null)
+Console.WriteLine (n &amp; f);    // False
+Console.WriteLine (n &amp; t);    // (null)</pre>
+<p>Ambient Property:</p>
+<pre>public class Row
+{
+  // ...
+  Grid parent;
+  Color? backColor;
+
+  public Color BackColor
+  {
+    get { return backColor ?? parent.BackColor; }
+    set { backColor = backColor == parent.BackColor ? null : value; }
+  }
+}</pre>
+<p>Operator Overloading:</p>
+<pre>public struct Note
+{
+  int value;
+  public Note (int semitonesFromA) { value = semitonesFromA; }
+
+  public static Note operator + (Note x, int semitones)
+  {
+    return new Note (x.value + semitones);
+  }
+}</pre>
+<p>Custom Conversions:</p>
+<pre>// Convert to hertz
+public static implicit operator double(Note x)
+{
+  return 440 * Math.Pow (2,(double) x.value / 12 );
+}
+  
+// Convert from hertz (only accurate to nearest semitone)
+public static explicit operator Note(double x)
+{
+  return new Note ((int) (0.5 + 12 * (Math.Log(x/440) / Math.Log(2)) ));
+}</pre>
+<p>Overloading true and false:</p>
+<pre>class Test
+{
+  static void Main()
+  {
+    SqlBoolean a = SqlBoolean.Null;
+    if (a)
+      Console.WriteLine(&quot;True&quot;);
+    else if (! a)
+      Console.WriteLine(&quot;False&quot;);
+    else
+      Console.WriteLine(&quot;Null&quot;);
+  }
+}</pre>
+<pre>public struct SqlBoolean
+{
+  public static bool operator true (SqlBoolean x)
+  {
+    return x.m_value == True.m_value;
+  }
+
+  public static bool operator false (SqlBoolean x)
+  {
+    return x.m_value == False.m_value;
+  }
+
+  public static SqlBoolean operator !(SqlBoolean x)
+  {
+    if (x.m_value == Null.m_value)  return Null;
+    if (x.m_value == False.m_value) return True;
+    return False;
+  }
+
+  public static readonly SqlBoolean Null =  new SqlBoolean(0);
+  public static readonly SqlBoolean False = new SqlBoolean(1);
+  public static readonly SqlBoolean True =  new SqlBoolean(2);
+
+  private SqlBoolean (byte value) {m_value = value;}
+  private byte m_value;
+}</pre>
+<p>Extension Methods:</p>
+<pre>public static class StringHelper
+{
+  public static bool IsCapitalized (this string s)
+  {
+    if (string.IsNullOrEmpty(s)) return false;
+    return char.IsUpper(s[0]);
+  }
+}</pre>
+<p>Extension Methods on Interfaces:</p>
+<pre>using System;
+using System.Collections.Generic;
+
+static class Test
+{
+  static void Main()
+  {
+    var strings = new string[] { &quot;a&quot;, &quot;b&quot;, null, &quot;c&quot;};
+    foreach (string s in strings.StripNulls())
+      Console.WriteLine(s);
+  }
+
+  static IEnumerable&lt;T&gt; StripNulls&lt;T&gt; (this IEnumerable&lt;T&gt; seq)
+  {
+    foreach (T t in seq)
+      if (t != null)
+        yield return t;
+  }
+}</pre>
+<p>Unsafe Code:</p>
+<pre>unsafe void RedFilter(int[,] bitmap)
+{
+  int length = bitmap.Length;
+  fixed (int* b = bitmap)
+  {
+    int* p = b;
+    for(int i = 0; i &lt; length; i++)
+      *p++ &amp;= 0xFF;
+  }
+}</pre>
+<p>The fixed statement:</p>
+<pre>class Test
+{
+  int x;
+  static void Main()
+  {
+    Test test = new Test ();
+    unsafe
+    {
+       fixed(int* p = &amp;test.x)  // pins test
+       {
+         *p = 9;
+       }
+       System.Console.WriteLine(test.x);
+    }
+  }
+}</pre>
+<p>Member-to-Pointer operator</p>
+<pre>struct Test
+{
+  int x;
+  unsafe static void Main()
+  {
+    Test test = new Test();
+    Test* p = &amp;test;
+    p-&gt;x = 9;
+    System.Console.WriteLine(test.x);
+  }
+}</pre>
+<p>stackalloc:</p>
+<pre>int* a = stackalloc int [10];
+for (int i = 0; i &lt; 10; ++i)
+   Console.WriteLine(a[i]); // print raw memory</pre>
+<p>Fixed-size buffers:</p>
+<pre>unsafe struct UnsafeUnicodeString
+{
+  public short Length;
+  public fixed byte Buffer[30];
+}
+
+unsafe class UnsafeClass
+{
+  private UnsafeUnicodeString uus;
+  public UnsafeClass (string s)
+  {
+    uus.Length = (short)s.Length;
+    fixed (byte* p = uus.Buffer)
+      for (int i = 0; i &lt; s.Length; i++)
+        p[i] = (byte)s[i];
+  }
+}
+
+class Test
+{
+  </pre>
+<p>void*:</p>
+<pre>class Test
+{
+  unsafe static void Main ()
+  {
+    short[ ] a = {1,1,2,3,5,8,13,21,34,55};
+      fixed (short* p = a)
+      {
+        //sizeof returns size of value-type in bytes
+        Zap (p, a.Length * sizeof (short));
+      }
+    foreach (short x in a)
+      System.Console.WriteLine (x); // prints all zeros
+  }
+
+  unsafe static void Zap (void* memory, int byteCount)
+  {
+    byte* b = (byte*)memory;
+      for (int i = 0; i &lt; byteCount; i++)
+        *b++ = 0;
+  }
+}</pre>
+<p>Preprocessor directives:</p>
+<pre>#define DEBUG
+class MyClass
+{
+  int x;
+  void Foo()
+  {
+    # if DEBUG
+    Console.WriteLine(&quot;Testing: x = {0}&quot;, x);
+    # endif
+  }
+  ...
+}</pre>
+<p>Conditional attributes:</p>
+<pre>// file1.cs
+#define DEBUG
+using System;
+using System.Diagnostics;
+
+[Conditional(&quot;DEBUG&quot;)]
+public class TestAttribute : Attribute {}
+
+// file2.cs
+#define DEBUG
+[Test]
+class Foo
+{
+  [Test]
+  private string s;
+}</pre>
+<p>#pragma warning:</p>
+<pre>public class Foo
+{
+  static void Main() { }
+
+  #pragma warning disable 414
+  static string Message = &quot;Hello&quot;;
+  #pragma warning restore 414
+}</pre>
+<p>XML Documentation:</p>
+<pre>using System;
+
+class Test
+{
+  /// &lt;summary&gt;
+  /// The Foo method is called from
+  ///   &lt;see cref=&quot;Main&quot;&gt;Main&lt;/see&gt;
+  /// &lt;/summary&gt;
+  /// &lt;mytag&gt;user defined tag info&lt;/mytag&gt;
+  /// &lt;param name=&quot;s&quot;&gt;Description for s&lt;/param&gt;
+  static void Foo(string s) { Console.WriteLine(s); }
+
+  static void Main() { Foo(&quot;42&quot;); }
+}</pre>
+<pre>namespace NS
+{
+  /// T:NS.MyClass
+  class MyClass
+  {
+    /// F:NS.MyClass.aField
+    string aField;
+
+    /// P:NS.MyClass.aProperty
+    short aProperty {get {...} set {...}}
+
+    /// T:NS.MyClass.NestedType
+    class NestedType {...};
+
+    /// M:NS.MyClass.X()
+    void X() {...}
+
+    /// M:NS.MyClass.Y(System.Int32,System.Double@,System.Decimal@)
+    void Y(int p1, ref double p2, out decimal p3) {...}
+
+    /// M:NS.MyClass.Z(System.Char[ ],System.Single[0:,0:])
+    void Z(char[ ] 1, float[,] p2) {...}
+
+    /// M:NS.MyClass.op_Addition(NS.MyClass,NS.MyClass)
+    public static MyClass operator+(MyClass c1, MyClass c2) {...}
+
+    /// M:NS.MyClass.op_Implicit(NS.MyClass)~System.Int32
+    public static implicit operator int(MyClass c) {...}
+
+    /// M:NS.MyClass.#ctor
+    MyClass() {...}
+
+    /// M:NS.MyClass.Finalize
+    ~MyClass() {...}
+
+    /// M:NS.MyClass.#cctor
+    static MyClass() {...}
+  }
+}</pre>
+<p>&nbsp;</p>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch04.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

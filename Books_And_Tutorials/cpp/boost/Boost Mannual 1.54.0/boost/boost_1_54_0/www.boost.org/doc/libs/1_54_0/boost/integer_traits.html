@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer_traits.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:05 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/integer_traits.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/integer_traits.hpp</h3>
+<pre>
+/* boost integer_traits.hpp header file
+ *
+ * Copyright Jens Maurer 2000
+ * Distributed under the Boost Software License, Version 1.0. (See
+ * accompanying file LICENSE_1_0.txt or copy at
+ * <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ *
+ * $Id: integer_traits.hpp 83381 2013-03-09 22:55:05Z eric_niebler $
+ *
+ * Idea by Beman Dawes, Ed Brey, Steve Cleary, and Nathan Myers
+ */
+
+//  See <a href="http://www.boost.org/libs/integer">http://www.boost.org/libs/integer</a> for documentation.
+
+
+#ifndef BOOST_INTEGER_TRAITS_HPP
+#define BOOST_INTEGER_TRAITS_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;
+
+// These are an implementation detail and not part of the interface
+#include &lt;limits.h&gt;
+// we need wchar.h for WCHAR_MAX/MIN but not all platforms provide it,
+// and some may have &lt;wchar.h&gt; but not &lt;cwchar&gt; ...
+#if !defined(BOOST_NO_INTRINSIC_WCHAR_T) &amp;&amp; (!defined(BOOST_NO_CWCHAR) || defined(sun) || defined(__sun) || defined(__QNX__))
+#include &lt;wchar.h&gt;
+#endif
+
+//
+// We simply cannot include this header on gcc without getting copious warnings of the kind:
+//
+// ../../../boost/integer_traits.hpp:164:66: warning: use of C99 long long integer constant
+//
+// And yet there is no other reasonable implementation, so we declare this a system header
+// to suppress these warnings.
+//
+#if defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 4)
+#pragma GCC system_header
+#endif
+
+namespace boost {
+template&lt;class T&gt;
+class integer_traits : public std::numeric_limits&lt;T&gt;
+{
+public:
+  BOOST_STATIC_CONSTANT(bool, is_integral = false);
+};
+
+namespace detail {
+template&lt;class T, T min_val, T max_val&gt;
+class integer_traits_base
+{
+public:
+  BOOST_STATIC_CONSTANT(bool, is_integral = true);
+  BOOST_STATIC_CONSTANT(T, const_min = min_val);
+  BOOST_STATIC_CONSTANT(T, const_max = max_val);
+};
+
+#ifndef BOOST_NO_INCLASS_MEMBER_INITIALIZATION
+//  A definition is required even for integral static constants
+template&lt;class T, T min_val, T max_val&gt;
+const bool integer_traits_base&lt;T, min_val, max_val&gt;::is_integral;
+
+template&lt;class T, T min_val, T max_val&gt;
+const T integer_traits_base&lt;T, min_val, max_val&gt;::const_min;
+
+template&lt;class T, T min_val, T max_val&gt;
+const T integer_traits_base&lt;T, min_val, max_val&gt;::const_max;
+#endif
+
+} // namespace detail
+
+template&lt;&gt;
+class integer_traits&lt;bool&gt;
+  : public std::numeric_limits&lt;bool&gt;,
+    public detail::integer_traits_base&lt;bool, false, true&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;char&gt;
+  : public std::numeric_limits&lt;char&gt;,
+    public detail::integer_traits_base&lt;char, CHAR_MIN, CHAR_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;signed char&gt;
+  : public std::numeric_limits&lt;signed char&gt;,
+    public detail::integer_traits_base&lt;signed char, SCHAR_MIN, SCHAR_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;unsigned char&gt;
+  : public std::numeric_limits&lt;unsigned char&gt;,
+    public detail::integer_traits_base&lt;unsigned char, 0, UCHAR_MAX&gt;
+{ };
+
+#ifndef BOOST_NO_INTRINSIC_WCHAR_T
+template&lt;&gt;
+class integer_traits&lt;wchar_t&gt;
+  : public std::numeric_limits&lt;wchar_t&gt;,
+    // Don't trust WCHAR_MIN and WCHAR_MAX with Mac OS X's native
+    // library: they are wrong!
+#if defined(WCHAR_MIN) &amp;&amp; defined(WCHAR_MAX) &amp;&amp; !defined(__APPLE__)
+    public detail::integer_traits_base&lt;wchar_t, WCHAR_MIN, WCHAR_MAX&gt;
+#elif defined(__BORLANDC__) || defined(__CYGWIN__) || defined(__MINGW32__) || (defined(__BEOS__) &amp;&amp; defined(__GNUC__))
+    // No WCHAR_MIN and WCHAR_MAX, whar_t is short and unsigned:
+    public detail::integer_traits_base&lt;wchar_t, 0, 0xffff&gt;
+#elif (defined(__sgi) &amp;&amp; (!defined(__SGI_STL_PORT) || __SGI_STL_PORT &lt; 0x400))\
+    || (defined __APPLE__)\
+    || (defined(__OpenBSD__) &amp;&amp; defined(__GNUC__))\
+    || (defined(__NetBSD__) &amp;&amp; defined(__GNUC__))\
+    || (defined(__FreeBSD__) &amp;&amp; defined(__GNUC__))\
+    || (defined(__DragonFly__) &amp;&amp; defined(__GNUC__))\
+    || (defined(__hpux) &amp;&amp; defined(__GNUC__) &amp;&amp; (__GNUC__ == 3) &amp;&amp; !defined(__SGI_STL_PORT))
+    // No WCHAR_MIN and WCHAR_MAX, wchar_t has the same range as int.
+    //  - SGI MIPSpro with native library
+    //  - gcc 3.x on HP-UX
+    //  - Mac OS X with native library
+    //  - gcc on FreeBSD, OpenBSD and NetBSD
+    public detail::integer_traits_base&lt;wchar_t, INT_MIN, INT_MAX&gt;
+#elif defined(__hpux) &amp;&amp; defined(__GNUC__) &amp;&amp; (__GNUC__ == 2) &amp;&amp; !defined(__SGI_STL_PORT)
+    // No WCHAR_MIN and WCHAR_MAX, wchar_t has the same range as unsigned int.
+    //  - gcc 2.95.x on HP-UX
+    // (also, std::numeric_limits&lt;wchar_t&gt; appears to return the wrong values).
+    public detail::integer_traits_base&lt;wchar_t, 0, UINT_MAX&gt;
+#else
+#error No WCHAR_MIN and WCHAR_MAX present, please adjust integer_traits&lt;&gt; for your compiler.
+#endif
+{ };
+#endif // BOOST_NO_INTRINSIC_WCHAR_T
+
+template&lt;&gt;
+class integer_traits&lt;short&gt;
+  : public std::numeric_limits&lt;short&gt;,
+    public detail::integer_traits_base&lt;short, SHRT_MIN, SHRT_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;unsigned short&gt;
+  : public std::numeric_limits&lt;unsigned short&gt;,
+    public detail::integer_traits_base&lt;unsigned short, 0, USHRT_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;int&gt;
+  : public std::numeric_limits&lt;int&gt;,
+    public detail::integer_traits_base&lt;int, INT_MIN, INT_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;unsigned int&gt;
+  : public std::numeric_limits&lt;unsigned int&gt;,
+    public detail::integer_traits_base&lt;unsigned int, 0, UINT_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;long&gt;
+  : public std::numeric_limits&lt;long&gt;,
+    public detail::integer_traits_base&lt;long, LONG_MIN, LONG_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt;unsigned long&gt;
+  : public std::numeric_limits&lt;unsigned long&gt;,
+    public detail::integer_traits_base&lt;unsigned long, 0, ULONG_MAX&gt;
+{ };
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; !defined(BOOST_NO_INT64_T)
+#if defined(ULLONG_MAX) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::long_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::long_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::long_long_type, LLONG_MIN, LLONG_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::ulong_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::ulong_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::ulong_long_type, 0, ULLONG_MAX&gt;
+{ };
+
+#elif defined(ULONG_LONG_MAX) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::long_long_type&gt;  : public std::numeric_limits&lt; ::boost::long_long_type&gt;,    public detail::integer_traits_base&lt; ::boost::long_long_type, LONG_LONG_MIN, LONG_LONG_MAX&gt;{ };
+template&lt;&gt;
+class integer_traits&lt; ::boost::ulong_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::ulong_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::ulong_long_type, 0, ULONG_LONG_MAX&gt;
+{ };
+
+#elif defined(ULONGLONG_MAX) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::long_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::long_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::long_long_type, LONGLONG_MIN, LONGLONG_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::ulong_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::ulong_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::ulong_long_type, 0, ULONGLONG_MAX&gt;
+{ };
+
+#elif defined(_LLONG_MAX) &amp;&amp; defined(_C2) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::long_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::long_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::long_long_type, -_LLONG_MAX - _C2, _LLONG_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::ulong_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::ulong_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::ulong_long_type, 0, _ULLONG_MAX&gt;
+{ };
+
+#elif defined(BOOST_HAS_LONG_LONG)
+//
+// we have long long but no constants, this happens for example with gcc in -ansi mode,
+// we'll just have to work out the values for ourselves (assumes 2's compliment representation):
+//
+template&lt;&gt;
+class integer_traits&lt; ::boost::long_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::long_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::long_long_type, (1LL &lt;&lt; (sizeof(::boost::long_long_type) * CHAR_BIT - 1)), ~(1LL &lt;&lt; (sizeof(::boost::long_long_type) * CHAR_BIT - 1))&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt; ::boost::ulong_long_type&gt;
+  : public std::numeric_limits&lt; ::boost::ulong_long_type&gt;,
+    public detail::integer_traits_base&lt; ::boost::ulong_long_type, 0, ~0uLL&gt;
+{ };
+
+#elif defined(BOOST_HAS_MS_INT64)
+
+template&lt;&gt;
+class integer_traits&lt; __int64&gt;
+  : public std::numeric_limits&lt; __int64&gt;,
+    public detail::integer_traits_base&lt; __int64, _I64_MIN, _I64_MAX&gt;
+{ };
+
+template&lt;&gt;
+class integer_traits&lt; unsigned __int64&gt;
+  : public std::numeric_limits&lt; unsigned __int64&gt;,
+    public detail::integer_traits_base&lt; unsigned __int64, 0, _UI64_MAX&gt;
+{ };
+
+#endif
+#endif
+
+} // namespace boost
+
+#endif /* BOOST_INTEGER_TRAITS_HPP */
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer_traits.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:05 GMT -->
+</html>

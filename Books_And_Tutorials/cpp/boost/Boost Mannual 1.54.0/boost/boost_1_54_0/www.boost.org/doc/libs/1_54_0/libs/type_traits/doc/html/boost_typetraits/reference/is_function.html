@@ -1,0 +1,181 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_function.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:24 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>is_function - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.TypeTraits">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference.html" title="Alphabetical Reference">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_floating_point.html" title="is_floating_point">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_fundamental.html" title="is_fundamental">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_floating_point.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_fundamental.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="boost_typetraits.reference.is_function"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_function.html" title="is_function">is_function</a>
+</h3></div></div></div>
+<pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">T</span><span class="special">&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">is_function</span> <span class="special">:</span> <span class="keyword">public</span> <em class="replaceable"><code><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">true_type</a>-or-<a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">false_type</a></code></em> <span class="special">{};</span>
+</pre>
+<p>
+        <span class="bold"><strong>Inherits:</strong></span> If T is a (possibly cv-qualified)
+        function type then inherits from <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">true_type</a>,
+        otherwise inherits from <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">false_type</a>.
+        Note that this template does not detect <span class="emphasis"><em>pointers to functions</em></span>,
+        or <span class="emphasis"><em>references to functions</em></span>, these are detected by <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_pointer.html" title="is_pointer">is_pointer</a> and <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_reference.html" title="is_reference">is_reference</a> respectively:
+      </p>
+<pre class="programlisting"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="identifier">f1</span><span class="special">();</span>      <span class="comment">// f1 is of function type.</span>
+<span class="keyword">typedef</span> <span class="keyword">int</span> <span class="special">(*</span><span class="identifier">f2</span><span class="special">)();</span>   <span class="comment">// f2 is a pointer to a function.</span>
+<span class="keyword">typedef</span> <span class="keyword">int</span> <span class="special">(&amp;</span><span class="identifier">f3</span><span class="special">)();</span>   <span class="comment">// f3 is a reference to a function.</span>
+</pre>
+<p>
+        <span class="bold"><strong>C++ Standard Reference:</strong></span> 3.9.2p1 and 8.3.5.
+      </p>
+<p>
+        <span class="bold"><strong>Header:</strong></span> <code class="computeroutput"> <span class="preprocessor">#include</span>
+        <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">type_traits</span><span class="special">/</span><span class="identifier">is_function</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span></code>
+        or <code class="computeroutput"> <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">type_traits</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span></code>
+      </p>
+<p>
+        <span class="bold"><strong>Examples:</strong></span>
+      </p>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">int</span> <span class="special">(</span><span class="keyword">void</span><span class="special">)&gt;</span></code> inherits from <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">true_type</a></code>.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="special">(</span><span class="keyword">double</span><span class="special">,</span> <span class="keyword">int</span><span class="special">)&gt;::</span><span class="identifier">type</span></code> is the type <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">true_type</a></code>.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="special">(</span><span class="keyword">double</span><span class="special">,</span> <span class="keyword">int</span><span class="special">)&gt;::</span><span class="identifier">value</span></code> is an integral constant expression
+          that evaluates to <span class="emphasis"><em>true</em></span>.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="special">(*)(</span><span class="keyword">double</span><span class="special">,</span> <span class="keyword">int</span><span class="special">)&gt;::</span><span class="identifier">value</span></code> is an integral constant expression
+          that evaluates to <span class="emphasis"><em>false</em></span>: the argument in this case
+          is a pointer type, not a function type.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="special">(&amp;)(</span><span class="keyword">double</span><span class="special">,</span> <span class="keyword">int</span><span class="special">)&gt;::</span><span class="identifier">value</span></code> is an integral constant expression
+          that evaluates to <span class="emphasis"><em>false</em></span>: the argument in this case
+          is a reference to a function, not a function type.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="special">(</span><span class="identifier">MyClass</span><span class="special">::*)(</span><span class="keyword">double</span><span class="special">,</span> <span class="keyword">int</span><span class="special">)&gt;::</span><span class="identifier">value</span></code> is an integral constant expression
+          that evaluates to <span class="emphasis"><em>false</em></span>: the argument in this case
+          is a pointer to a member function.
+        </p></blockquote></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+          <code class="computeroutput"><span class="identifier">is_function</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">value_type</span></code> is the type <code class="computeroutput"><span class="keyword">bool</span></code>.
+        </p></blockquote></div>
+<div class="tip"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Tip]" src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/tip.png"></td>
+<th align="left">Tip</th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+          Don't confuse function-types with pointers to functions:
+        </p>
+<p>
+          <code class="computeroutput"><span class="keyword">typedef</span> <span class="keyword">int</span>
+          <span class="identifier">f</span><span class="special">(</span><span class="keyword">double</span><span class="special">);</span></code>
+        </p>
+<p>
+          defines a function type,
+        </p>
+<p>
+          <code class="computeroutput"><span class="identifier">f</span> <span class="identifier">foo</span><span class="special">;</span></code>
+        </p>
+<p>
+          declares a prototype for a function of type <code class="computeroutput"><span class="identifier">f</span></code>,
+        </p>
+<p>
+          <code class="computeroutput"><span class="identifier">f</span><span class="special">*</span>
+          <span class="identifier">pf</span> <span class="special">=</span>
+          <span class="identifier">foo</span><span class="special">;</span></code>
+        </p>
+<p>
+          <code class="computeroutput"><span class="identifier">f</span><span class="special">&amp;</span>
+          <span class="identifier">fr</span> <span class="special">=</span>
+          <span class="identifier">foo</span><span class="special">;</span></code>
+        </p>
+<p>
+          declares a pointer and a reference to the function <code class="computeroutput"><span class="identifier">foo</span></code>.
+        </p>
+<p>
+          If you want to detect whether some type is a pointer-to-function then use:
+        </p>
+<p>
+          <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_function.html" title="is_function">is_function</a><span class="special">&lt;</span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/remove_pointer.html" title="remove_pointer">remove_pointer</a><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">type</span><span class="special">&gt;::</span><span class="identifier">value</span>
+          <span class="special">&amp;&amp;</span> <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_pointer.html" title="is_pointer">is_pointer</a><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">value</span></code>
+        </p>
+<p>
+          or for pointers to member functions you can just use <a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_member_function_pointer.html" title="is_member_function_pointer">is_member_function_pointer</a>
+          directly.
+        </p>
+</td></tr>
+</table></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2000, 2011 Adobe Systems Inc, David Abrahams,
+      Frederic Bron, Steve Cleary, Beman Dawes, Aleksey Gurtovoy, Howard Hinnant,
+      Jesse Jones, Mat Marcus, Itay Maman, John Maddock, Alexander Nasonov, Thorsten
+      Ottosen, Roman Perepelitsa, Robert Ramey, Jeremy Siek, Robert Stewart and Steven
+      Watanabe<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_floating_point.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_fundamental.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/is_function.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:24 GMT -->
+</html>

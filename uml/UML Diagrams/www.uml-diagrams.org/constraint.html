@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/constraint.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Constraint represents some condition, restriction or assertion related to a UML element or elements.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Constraint in UML represents some condition, restriction or assertion related to a UML element or elements. It could be used on several types of UML diagrams, e.g. class diagrams, activities, sequence diagrams, etc. See examples of constraints in this article." />
+<meta name="keywords" content="UML, UML 2, 2.5, constraint, class, diagram, examples." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint" class="active-nav" >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Constraint</h1>
+
+<p>
+A <strong>constraint</strong> is 
+ a <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+ which represents some <strong>condition</strong>, <strong>restriction</strong> or <strong>assertion</strong> 
+ related to some element (that owns the constraint) or several elements.
+ Constraint is usually specified by a Boolean expression which must evaluate to a true or false.
+ Constraint must be satisfied (i.e. evaluated to <strong>true</strong>) by a correct design of the system.
+ Constraints are commonly used for various elements on class diagrams.
+</p>
+
+<p>
+In general there are many possible kinds of <strong>owners</strong> for a constraint.
+ Owning element must have access to the constrained elements to verify constraint.
+ The <strong>owner</strong> of the constraint will determine when the constraint is evaluated.
+ For example, <a href="class-diagrams.html#operation" class="ref-link">operation</a>
+ can have pre-condition and/or a post-condition constraints.
+</p>
+
+<p>
+Constraint could have an optional name, though usually it is anonymous.
+A constraint is shown as a text string in curly braces according to the following syntax:
+</p>
+
+<p id="constraint-syntax" class="syntax-rule">
+<span class="nonterm">constraint</span>&nbsp;::=&nbsp;'{'&nbsp;[&nbsp;
+ <span class="nonterm">name</span>&nbsp;':'&nbsp;]&nbsp;<span class="nonterm">boolean-expression</span>&nbsp;'}'
+</p>
+
+<p>
+UML specification does not restrict languages which could be used to express constraint.
+ Some examples of <strong>constraint languages</strong> are:
+</p>
+<ul>
+<li>OCL</li>
+<li>Java</li>
+<li>some machine readable language</li>
+<li>natural language</li>
+</ul>
+
+<p>
+<strong>OCL</strong> is a constraint language predefined in UML but
+ if some UML tool is used to draw diagrams, any constraint language
+ supported by that tool could be applied.
+</p>
+
+<p>
+For an element whose notation is a text string (such as 
+ a class <a href="property.html#classifier-attribute" class="ref-link">attribute</a>),
+ the constraint string may follow the element text string in curly braces.
+</p>
+
+<div class="figure-left-80">
+<img src="class-diagrams/class-constraint-attribute.png" width="240" height="97"
+ alt="Constraint string that follows an attribute within a class symbol." 
+ title="Constraint string that follows an attribute within a class symbol." />
+<p class="figure-text">
+Bank account <strong>attribute constraints</strong><br />
+ - non empty owner and positive balance.
+</p>
+</div>
+
+<p>
+For a constraint that applies to a <strong>single element</strong> (such as
+ a <a href="class-diagrams.html#class" class="ref-link">class</a>
+ or an association path), the constraint string may be placed near the symbol for the element,
+ preferably near the name, if any.
+ A UML tool must make it possible to determine the constrained element.
+</p>
+
+<p>
+For a constraint that applies to <strong>two elements</strong> (such as two classes or two associations),
+ the constraint may be shown as a <strong>dashed line</strong> between the elements labeled by the constraint string
+ in curly braces.
+</p>
+
+<div class="figure-left-80">
+<img src="class-diagrams/class-constraint-dashed.png" width="240" height="147"
+ alt="XOR constraint that applies to two classes." 
+ title="XOR constraint that applies to two classes." />
+<p class="figure-text">
+Account owner is either Person or Corporation,<br />
+ <strong>{xor}</strong> is predefined UML constraint.
+</p>
+</div>
+
+<p>
+If the constraint is shown as a dashed line between two elements, then an arrowhead may be placed on one end. The
+direction of the arrow is relevant information within the constraint. The element at the tail of the arrow is mapped to the
+first position and the element at the head of the arrow is mapped to the second position in the constrainedElements
+collection.
+</p>
+
+<p>
+For three or more paths of the same kind (such as generalization paths or association paths), the constraint may be
+attached to a dashed line crossing all of the paths.
+</p>
+
+<p>
+The constraint string may be placed in a <strong>note</strong> symbol
+ (same as used for <a href="uml-core.html#comment" class="ref-link">comments</a>)
+ and attached to each of the symbols for the constrained elements by a dashed line. 
+</p>
+
+<div class="figure-left-80">
+<img src="class-diagrams/class-constraint-note.png" width="190" height="153"
+ alt="Constraint in a note symbol." 
+ title="Constraint in a note symbol." />
+<p class="figure-text">
+Bank account <strong>constraints</strong> - non empty owner and positive balance.
+</p>
+</div>
+
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="association.html" title="UML association" >Association</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'constraint.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/constraint.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

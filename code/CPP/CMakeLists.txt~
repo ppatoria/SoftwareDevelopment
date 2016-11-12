@@ -1,0 +1,67 @@
+# cmake_minimum_required (VERSION 2.8.11)
+
+# FIND_PACKAGE( Threads )
+# project (registerer)
+
+# ##################################
+# # Download and install GoogleTest
+
+# include(ExternalProject)
+# ExternalProject_Add(gtest
+#   URL https://googletest.googlecode.com/files/gtest-1.7.0.zip
+#   # Comment above line, and uncomment line below to use subversion.
+#   # SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/ 
+#   # Uncomment line below to freeze a revision (here the one for 1.7.0)
+#   # SVN_REVISION -r700
+
+#   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
+#   INSTALL_COMMAND ""
+# )
+# ExternalProject_Get_Property(gtest source_dir binary_dir)
+
+# ################
+# # Define a test
+# add_executable(registerer_test testgtest.cpp)
+
+# ######################################
+# # Configure the test to use GoogleTest
+# #
+# # If used often, could be made a macro.
+
+# add_dependencies(registerer_test gtest pthread)
+# include_directories(${source_dir}/include)
+# target_link_libraries(registerer_test ${binary_dir}/libgtest.a)
+# target_link_libraries(registerer_test ${binary_dir}/libgtest_main.a)
+# cd ii
+# ##################################
+# # Just make the test runnable with
+# #   $ make test
+
+# enable_testing()
+# add_test(NAME    registerer_test 
+#          COMMAND registerer_test)
+
+
+
+
+cmake_minimum_required(VERSION 2.8.11)
+project(basic_test)
+
+#Setup testing
+enable_testing()
+set (GTEST_INCLUDE_DIR "/home/pralay/Downloads/gtest-1.7.0")
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIR})
+
+#Add test cpp file
+add_executable(runUnitTests
+  testgtest.cpp)
+
+
+#link test executable against gtest &gtest_main
+#target_link_libraries(runUnitTests ${GTEST_LIBRARY_DEBUG} ${GTEST_MAIN_LIBRARY_DEBUG})
+target_link_libraries(runUnitTests libgtest.a libgtest_main.a)
+
+add_test(
+  NAME runUnitTests
+  COMMAND runUnitTests)

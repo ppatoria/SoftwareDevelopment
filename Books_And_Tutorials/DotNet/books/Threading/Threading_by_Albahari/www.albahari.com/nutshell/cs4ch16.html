@@ -1,0 +1,585 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch16.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch16.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkSD3YJDgOHQ2wuRZeqkAQAKRPVLk=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Serialization</h2>
+<p>Basic use of DataContractSerializer:</p>
+<pre>namespace SerialTest
+{
+  [DataContract] public class Person
+  {
+    [DataMember] public string Name;
+    [DataMember] public int Age;
+  }
+}</pre>
+<pre>Person p = new Person { Name = &quot;Stacey&quot;, Age = 30 };
+
+DataContractSerializer ds = new DataContractSerializer (typeof (Person));
+
+using (Stream s = File.Create (&quot;person.xml&quot;))
+  ds.WriteObject (s, p);                            // Serialize
+
+Person p2;
+using (Stream s = File.OpenRead (&quot;person.xml&quot;))
+  p2 = (Person) ds.ReadObject (s);                  // Deserialize
+
+Console.WriteLine (p2.Name + &quot; &quot; + p2.Age);         // Stacey 30</pre>
+<p>Formatting the output:</p>
+<pre>Person p = new Person { Name = &quot;Stacey&quot;, Age = 30 };
+DataContractSerializer ds = new DataContractSerializer (typeof (Person));
+
+XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
+using (XmlWriter w = XmlWriter.Create (&quot;person.xml&quot;, settings))
+  ds.WriteObject (w, p);
+
+System.Diagnostics.Process.Start (&quot;person.xml&quot;);</pre>
+<p>Overriding data member names:</p>
+<pre>[DataContract (Name=&quot;Candidate&quot;, Namespace=&quot;http://oreilly.com/nutshell&quot;)]
+public class Person
+{
+  [DataMember (Name=&quot;FirstName&quot;)]  public string Name;
+  [DataMember (Name=&quot;ClaimedAge&quot;)] public int Age;
+}</pre>
+<p>Specifying a binary formatter with the data contract serializer:</p>
+<pre>Person p = new Person { Name = &quot;Stacey&quot;, Age = 30 };
+DataContractSerializer ds = new DataContractSerializer (typeof (Person));
+
+MemoryStream s = new MemoryStream();
+using (XmlDictionaryWriter w = XmlDictionaryWriter.CreateBinaryWriter (s))
+  ds.WriteObject (w, p);
+
+MemoryStream s2 = new MemoryStream (s.ToArray());
+Person p2;
+using (XmlDictionaryReader r = XmlDictionaryReader.CreateBinaryReader (s2,
+                               XmlDictionaryReaderQuotas.Max))
+  p2 = (Person) ds.ReadObject (r);</pre>
+<p>Serializing subclasses:</p>
+<pre>[DataContract, KnownType (typeof (Student)), KnownType (typeof (Teacher))]
+public class Person
+{
+  [DataMember] public string Name;
+  [DataMember] public int Age;
+}
+
+[DataContract] public class Student : Person { }
+[DataContract] public class Teacher : Person { }</pre>
+<pre>static Person DeepClone (Person p)
+{
+  DataContractSerializer ds = new DataContractSerializer (typeof (Person));
+  MemoryStream stream = new MemoryStream();
+  ds.WriteObject (stream, p);
+  stream.Position = 0;
+  return (Person) ds.ReadObject (stream);
+}</pre>
+<pre>Person  person  = new Person  { Name = &quot;Stacey&quot;, Age = 30 };
+Student student = new Student { Name = &quot;Stacey&quot;, Age = 30 };
+Teacher teacher = new Teacher { Name = &quot;Stacey&quot;, Age = 30 };
+
+Person  p2 =           DeepClone (person);
+Student s2 = (Student) DeepClone (student);
+Teacher t2 = (Teacher) DeepClone (teacher);</pre>
+<p>Alternative to KnownType on [DataContract]:</p>
+<pre>DataContractSerializer ds = new DataContractSerializer (typeof (Person),
+  new Type[] { typeof (Student), typeof (Teacher) } );</pre>
+<p>Object references:</p>
+<pre>[DataContract] public class Person
+{
+  [DataMember] public string Name;
+  [DataMember] public int Age;
+  [DataMember] public Address HomeAddress;
+}
+
+[DataContract, KnownType (typeof (USAddress))]
+public class Address
+{
+  [DataMember] public string Street, Postcode;
+}</pre>
+<p>Version tolerance:</p>
+<pre>[DataContract] public class Person : IExtensibleDataObject
+{
+  [DataMember] public string Name;
+  [DataMember] public int Age;
+
+  ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }
+}</pre>
+<p>Member ordering:</p>
+<pre>[DataContract] public class Person
+{
+  [DataMember (Order=0)] public string Name;
+  [DataMember (Order=1)] public int Age;
+}</pre>
+<p>Null and empty values:</p>
+<pre>[DataContract] public class Person
+{
+  [DataMember (EmitDefaultValue=false)] public string Name;
+  [DataMember (EmitDefaultValue=false)] public int Age;
+}</pre>
+<p>Data contracts and collections:</p>
+<pre>[DataContract] public class Person
+{
+  [DataMember (Name=&quot;Addresses&quot;)]
+  List&lt;Address&gt; _addresses;
+  public IList&lt;Address&gt; Addresses { get { return _addresses; } }
+}
+
+[DataContract] public class Address
+{
+  [DataMember] public string Street, Postcode;
+}</pre>
+<p>Subclassing collection elements:</p>
+<pre>[DataContract, KnownType (typeof (USAddress))]
+public class Address
+{
+  [DataMember] public string Street, Postcode;
+}
+
+public class USAddress : Address { }</pre>
+<p>Customizing collection and element names:</p>
+<pre>[CollectionDataContract (ItemName=&quot;Residence&quot;)]
+public class AddressList : Collection&lt;Address&gt; { }
+
+[DataContract] public class Person
+{
+  ...
+  [DataMember] public AddressList Addresses;
+}</pre>
+<pre>[CollectionDataContract (ItemName=&quot;Entry&quot;,
+                          KeyName=&quot;Kind&quot;,
+                        ValueName=&quot;Number&quot;)]
+public class PhoneNumberList : Dictionary &lt;string, string&gt; { }
+
+[DataContract] public class Person
+{
+  ...
+  [DataMember] public PhoneNumberList PhoneNumbers;
+}</pre>
+<p>Serialization and deserialization hooks:</p>
+<pre>public DateTime DateOfBirth;
+
+[DataMember] public bool Confidential;
+
+[DataMember (Name=&quot;DateOfBirth&quot;, EmitDefaultValue=false)]
+DateTime? _tempDateOfBirth;
+
+[OnSerializing]
+void PrepareForSerialization (StreamingContext sc)
+{
+  if (Confidential)
+    _tempDateOfBirth = DateOfBirth;
+  else
+    _tempDateOfBirth = null;
+}</pre>
+<p>Getting started with the binary engine:</p>
+<pre>[Serializable] public sealed class Person
+{
+  public string Name;
+  public int Age;
+}
+</pre>
+<pre>Person p = new Person() { Name = &quot;George&quot;, Age = 25 };
+
+IFormatter formatter = new BinaryFormatter();
+
+using (FileStream s = File.Create (&quot;serialized.bin&quot;))
+  formatter.Serialize (s, p);
+
+using (FileStream s = File.OpenRead (&quot;serialized.bin&quot;))
+{
+  Person p2 = (Person) formatter.Deserialize (s);
+  Console.WriteLine (p2.Name + &quot; &quot; + p.Age);     // George 25
+}</pre>
+<p>[NonSerialized]:</p>
+<pre>[Serializable] public sealed class Person
+{
+  public string Name;
+  public DateTime DateOfBirth;
+
+  // Age can be calculated, so there's no need to serialize it.
+  [NonSerialized] public int Age;  
+}</pre>
+<p>[OnDeserializing] and [OnDeserialized]</p>
+<pre>public sealed class Person
+{
+  public string Name;
+  public DateTime DateOfBirth;
+
+  [NonSerialized] public int Age;
+  [NonSerialized] public bool Valid = true;
+
+  public Person() { Valid = true; }
+}</pre>
+<p>[OnSerializing] and [OnSerialized]</p>
+<pre>[Serializable] public sealed class Team
+{
+  public string Name;  
+  Person[] _playersToSerialize;
+
+  [NonSerialized] public List&lt;Person&gt; Players = new List&lt;Person&gt;();
+
+  [OnSerializing]
+  void OnSerializing (StreamingContext context)
+  {
+    _playersToSerialize = Players.ToArray();
+  }
+
+  [OnSerialized]
+  void OnSerialized (StreamingContext context)
+  {
+    _playersToSerialize = null;   // Allow it to be freed from memory
+  }
+
+  [OnDeserialized]
+  void OnDeserialized (StreamingContext context)
+  {
+    Players = new List&lt;Person&gt; (_playersToSerialize);
+  }
+}</pre>
+<p>[OptionalField] and versioning:</p>
+<pre>[Serializable] public sealed class Person       // Version 2 Robust
+{
+  public string Name;
+  [OptionalField (VersionAdded = 2)] public DateTime DateOfBirth;
+}</pre>
+<p>ISerializable:</p>
+<pre>[Serializable] public class Team : ISerializable
+{
+  public string Name;
+  public List&lt;Person&gt; Players;
+
+  public virtual void GetObjectData (SerializationInfo si,
+                                     StreamingContext sc)
+  {
+    si.AddValue (&quot;Name&quot;, Name);
+    si.AddValue (&quot;PlayerData&quot;, Players.ToArray());
+  }
+
+  public Team() {}
+  
+  protected Team (SerializationInfo si, StreamingContext sc)
+  {
+    Name = si.GetString (&quot;Name&quot;);
+
+    // Deserialize Players to an array to match our serialization:
+    Person[] a = (Person[]) si.GetValue (&quot;PlayerData&quot;, typeof (Person[]));
+
+    // Construct a new List using this array:
+    Players = new List&lt;Person&gt; (a);
+  }
+}</pre>
+<p>Getting started with XmlSerializer:</p>
+<pre>public class Person
+{
+  public string Name;
+  public int Age;
+}</pre>
+<pre>p.Name = &quot;Stacey&quot;; p.Age = 30;
+
+XmlSerializer xs = new XmlSerializer (typeof (Person));
+
+using (Stream s = File.Create (&quot;person.xml&quot;))
+  xs.Serialize (s, p);
+
+Person p2;
+using (Stream s = File.OpenRead (&quot;person.xml&quot;))
+  p2 = (Person) xs.Deserialize (s);
+
+Console.WriteLine (p2.Name + &quot; &quot; + p2.Age);   // Stacey 30</pre>
+<p>Attributes, names and namespaces:</p>
+<pre>public class Person
+{
+  [XmlElement (&quot;FirstName&quot;)] public string Name;
+  [XmlAttribute (&quot;RoughAge&quot;)] public int Age;
+}</pre>
+<p>XML element order:</p>
+<pre>public class Person
+{
+  [XmlElement (Order = 2)] public string Name;
+  [XmlElement (Order = 1)] public int Age;
+}</pre>
+<p>XmlSerializer and subclassing:</p>
+<pre>[XmlInclude (typeof (Student))]
+[XmlInclude (typeof (Teacher))]
+public class Person { public string Name; }
+
+public class Student : Person { }
+
+public class Teacher : Person { }</pre>
+<pre>
+public void SerializePerson (Person p, string path)
+{
+  XmlSerializer xs = new XmlSerializer (typeof (Person));
+  using (Stream s = File.Create (path))
+    xs.Serialize (s, p);
+}</pre>
+<p>Alternative:</p>
+<pre>XmlSerializer xs = new XmlSerializer (typeof (Person),
+                     new Type[] { typeof (Student), typeof (Teacher) } );</pre>
+<p>Serializing child objects:</p>
+<pre>public class Person
+{
+  public string Name;
+  public Address HomeAddress = new Address();
+}
+
+public class Address { public string Street, PostCode; }</pre>
+<pre>Person p = new Person(); p.Name = &quot;Stacey&quot;;
+p.HomeAddress.Street = &quot;Odo St&quot;;
+p.HomeAddress.PostCode = &quot;6020&quot;;</pre>
+<p>Subclassed child objects, solution 1:</p>
+<pre>[XmlInclude (typeof (AUAddress))]
+[XmlInclude (typeof (USAddress))]
+public class Address { public string Street, PostCode; }
+
+public class USAddress : Address {  }
+
+public class AUAddress : Address {  }
+
+public class Person
+{
+  public string Name;
+  public Address HomeAddress = new USAddress();
+}</pre>
+<p>Subclassed child objects, solution 2:</p>
+<pre>public class Address { public string Street, PostCode; }
+
+public class USAddress : Address {  }
+public class AUAddress : Address {  }
+
+public class Person
+{
+  public string Name;
+
+  [XmlElement (&quot;Address&quot;, typeof (Address))]
+  [XmlElement (&quot;AUAddress&quot;, typeof (AUAddress))]
+  [XmlElement (&quot;USAddress&quot;, typeof (USAddress))]
+  public Address HomeAddress = new USAddress();
+}</pre>
+<p>Serializing collections with the outer element:</p>
+<pre>public class Person
+{
+  public string Name;
+
+  [XmlArray (&quot;PreviousAddresses&quot;)]
+  [XmlArrayItem (&quot;Location&quot;)]
+  public List&lt;Address&gt; Addresses = new List&lt;Address&gt;();
+}</pre>
+<p>Serializing collections without the outer element:</p>
+<pre>public class Person
+{
+  public string Name;
+
+  [XmlElement (&quot;Address&quot;)]
+  public List&lt;Address&gt; Addresses = new List&lt;Address&gt;();
+}</pre>
+<p>Subclassing collection elements with the outer element:</p>
+<pre>[XmlArrayItem (&quot;Address&quot;,   typeof (Address))]
+[XmlArrayItem (&quot;AUAddress&quot;, typeof (AUAddress))]
+[XmlArrayItem (&quot;USAddress&quot;, typeof (USAddress))]
+public List&lt;Address&gt; Addresses = new List&lt;Address&gt;();</pre>
+<p>Subclassing collection elements without the outer element:</p>
+<pre>[XmlElement (&quot;Address&quot;,   typeof (Address))]
+[XmlElement (&quot;AUAddress&quot;, typeof (AUAddress))]
+[XmlElement (&quot;USAddress&quot;, typeof (USAddress))]
+public List&lt;Address&gt; Addresses = new List&lt;Address&gt;();</pre>
+<p>IXmlSerializable:</p>
+<pre>using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
+public class Address : IXmlSerializable
+{
+  public string Street, PostCode;
+
+  public XmlSchema GetSchema() { return null; }
+
+  public void ReadXml(XmlReader reader)
+  {
+    reader.ReadStartElement();
+    Street   = reader.ReadElementContentAsString (&quot;Street&quot;, &quot;&quot;);
+    PostCode = reader.ReadElementContentAsString (&quot;PostCode&quot;, &quot;&quot;);
+    reader.ReadEndElement();
+  }
+
+  public void WriteXml (XmlWriter writer)
+  {
+    writer.WriteElementString (&quot;Street&quot;, Street);
+    writer.WriteElementString (&quot;PostCode&quot;, PostCode);
+  }
+}</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch16.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

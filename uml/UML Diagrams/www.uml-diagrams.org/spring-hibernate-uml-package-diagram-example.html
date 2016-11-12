@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/spring-hibernate-uml-package-diagram-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:17:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>Spring and Hibernate data access classes UML package diagram example - Spring framework hibernate3 packages use several hibernate packages.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Spring and Hibernate data access classes UML package diagram example - Spring framework hibernate3 packages use several hibernate packages." />
+<meta name="keywords" content="UML, UML 2, UML 2.5, example, Spring, Hibernate." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body> 
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 140128 -->
+<div id="globalNav">
+<div>
+    <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="package-diagrams-overview.html"
+   title="UML Package Diagrams Overview"  >Package diagrams</a>
+</div>
+<div>
+ <a href="package-diagrams-examples.html" 
+ title="UML Package Diagrams Examples"  >Package diagrams examples</a>
+</div>
+<div>
+  <a href="java-7-api-uml-package-diagram-example5a3f.html?context=pkg-examples"
+  title="Example of UML package diagram representing Java Platform Standard Edition 7 API."  >Java 7 API</a>
+</div>
+<div>
+ <a href="examples/java-servlet-25-api-package-diagram-example5a3f.html?context=pkg-examples" 
+ title="UML package diagram example of Java Servlet 2.5 API"  >Java Servlet 2.5 API</a>
+</div>
+<div>
+<a href="examples/java-servlet-30-api-package-diagram-example5a3f.html?context=pkg-examples" 
+ title="UML package diagram example of Java Servlet 3.0 API"  >Java Servlet 3.0 API</a>
+</div>
+<div>
+<a href="multi-layered-application-uml-model-diagram-example.html" 
+ title="UML package diagram example of multi-layered application model"  >Multi-layered model</a>
+</div>
+<div>
+<a href="multi-layered-web-architecture-uml-package-diagram-example.html" 
+ title="UML package diagram example of multi-layered web architecture"  >Multi-layered web architecture</a>
+</div>
+<div>
+<a href="transfer-object-pattern-uml-package-template-example.html" 
+ title="UML package diagram example of (Data) Transfer Object (Value Object) design pattern"  >Transfer Object design pattern</a>
+</div>
+<div>
+<a href="spring-hibernate-uml-package-diagram-example.html" 
+ title="UML package diagram example of Spring and Hibernate data access classes" class="active-nav" >Spring and Hibernate</a>
+</div>
+<div>
+ <a href="index-examples.html" title="Index of examples of UML diagrams.">All UML examples</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1 class="subtitle">Spring and Hibernate Classes</h1>
+<h2 class="subtitle">UML Package Diagram Example</h2>
+
+<p>
+An example of <strong>UML</strong>
+ <a href="package-diagrams-overview.html" class="ref-link">package diagram</a>
+ representing some <strong>Spring</strong> and <strong>Hibernate</strong> data access classes.
+</p>
+
+<p>
+The Spring Framework provides integration with several Object Relational Mapping (ORM)
+ data access technologies including Hibernate, JDO, Oracle TopLink, iBATIS SQL Maps and JPA.
+ Support packages for object relational mappers comply with
+ Spring's generic transaction and DAO exception hierarchies.
+ Spring framework hibernate3 packages use several Hibernate packages.
+</p>
+
+<div class="figure-left-20" itemscope itemtype="http://schema.org/ImageObject">
+<img src="examples/package-diagrams-example-spring.png" width="960" height="687"
+ alt="UML package diagram of Spring and Hibernate data access classes." 
+ title="UML package diagram of Spring and Hibernate data access classes." itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+An example of UML package diagram for Spring and Hibernate data access classes.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2011-04-16" />
+</div>
+
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'spring-hibernate-uml-package-diagram-example.html';
+ var disqus_url = 'spring-hibernate-uml-package-diagram-example.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/spring-hibernate-uml-package-diagram-example.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:17:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

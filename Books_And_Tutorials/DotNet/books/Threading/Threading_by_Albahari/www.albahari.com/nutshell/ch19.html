@@ -1,0 +1,1067 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch19.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<div>
+	<h1>Code Listings</h1>
+	<h2>Chapter 19: Threading</h2>
+	<p>Getting started:</p>
+	<pre>class ThreadTest
+{
+  static void Main()
+  {
+    Thread t = new Thread (WriteY);          // Kick off a new thread
+    t.Start();                               // running WriteY()
+
+    // Simultaneously, do something on the main thread.
+    for (int i = 0; i &lt; 1000; i++) Console.Write (&quot;x&quot;);
+  }
+
+  static void WriteY()
+  {
+    for (int i = 0; i &lt; 1000; i++) Console.Write (&quot;y&quot;);
+  }
+}</pre>
+	<p>Passing data to a thread:</p>
+	<pre>static void Main()
+{
+  Thread t = new Thread (Print);
+  t.Start (&quot;Hello from t!&quot;);
+  Print (&quot;Hello from the main thread!&quot;);
+}
+
+static void Print (object messageObj)
+{
+  string message = (string) messageObj;
+  Console.WriteLine (message);
+}</pre>
+	<p>The outer variable trap:</p>
+	<pre>static void Main()
+{
+  string text = &quot;t1&quot;;
+  Thread t1 = new Thread (delegate() { Print (text); });
+
+  text = &quot;t2&quot;;
+  Thread t2 = new Thread (delegate() { Print (text); });
+
+  t1.Start();
+  t2.Start();
+}
+
+static void Print (string message) { Console.WriteLine (message); }</pre>
+	<p>Separate local variable stacks:</p>
+	<pre>static void Main()
+{
+  new Thread (Go).Start();      // Call Go() on a new thread
+  Go();                         // Call Go() on the main thread
+}
+ 
+static void Go()
+{
+  // Declare and use a local variable - 'cycles'
+  for (int cycles = 0; cycles &lt; 5; cycles++) Console.Write (cycles);
+}</pre>
+	<p>Sharing data through a common field:</p>
+	<pre>class ThreadTest
+{
+  static void Main()
+  {
+    Introducer intro = new Introducer();
+    intro.Message = &quot;Hello&quot;;
+
+    new Thread (intro.Run).Start();
+
+    Console.ReadLine();
+    Console.WriteLine (intro.Reply);
+  }
+}
+
+class Introducer
+{
+  public string Message;
+  public string Reply;
+
+  public void Run()
+  {
+    Console.WriteLine (Message);
+    Reply = &quot;Hi right back!&quot;;
+  }
+}</pre>
+	<p>Thread pooling:</p>
+	<pre>static void Main()
+{
+  ThreadPool.QueueUserWorkItem (Go);
+  ThreadPool.QueueUserWorkItem (Go, 123);
+  Console.ReadLine();
+}
+
+static void Go (object data)
+{
+  Console.WriteLine (&quot;Hello from the thread pool! &quot; + data);
+}</pre>
+	<p>Optimizing the pool:</p>
+	<pre>static void Main()
+{
+  for (int i = 0; i &lt; 50; i++) ThreadPool.QueueUserWorkItem (Go);
+}
+
+static void Go (object notUsed)
+{
+  // Compute a hash on a 100,000 byte random byte sequence:
+  byte[] data = new byte [100000];
+  new Random().NextBytes (data);
+  System.Security.Cryptography.SHA1.Create().ComputeHash (data);
+}</pre>
+	<p>Exception handling:</p>
+	<pre>public static void Main()
+{
+   new Thread (Go).Start();
+}
+ 
+static void Go()
+{
+  try
+  {
+    ...
+    throw null;      // this exception will get caught below
+    ...
+  }
+  catch (Exception ex)
+  {
+    // Typically log the exception, and/or signal another thread
+    // that we've come unstuck
+    ...
+  }
+}</pre>
+	<p>Asynchronous delegates:</p>
+	<pre>delegate int WorkInvoker (string text);
+
+static void Main()
+{
+  WorkInvoker method = Work;
+  IAsyncResult cookie = method.BeginInvoke (&quot;test&quot;, null, null);
+  //
+  // ... here's where we can do other work in parallel...
+  //
+  int result = method.EndInvoke (cookie);
+  Console.WriteLine (&quot;String length is: &quot; + result);
+}
+
+static int Work (string s) { return s.Length; }</pre>
+	<p>Asynchronous delegates and callbacks:</p>
+	<pre>static void Main()
+{
+  WorkInvoker method = Work;
+  method.BeginInvoke (&quot;test&quot;, Done, method);
+  // ... 
+  //
+}
+
+delegate int WorkInvoker (string text);
+
+static int Work (string s) { return s.Length; }
+
+static void Done (IAsyncResult cookie)
+{
+  WorkInvoker method = (WorkInvoker) cookie.AsyncState;
+  int result = method.EndInvoke (cookie);
+  Console.WriteLine (&quot;String length is: &quot; + result);
+}</pre>
+	<p>SimpleThreadState:</p>
+	<pre>public static ThreadState SimpleThreadState (ThreadState ts)
+{
+  return ts &amp; (ThreadState.Unstarted |
+               ThreadState.WaitSleepJoin |
+               ThreadState.Stopped);
+}</pre>
+	<p>Basic locking:</p>
+	<pre>class ThreadSafe
+{
+  static object locker = new object();
+  static int val1, val2;
+ 
+  static void Go()
+  {
+    lock (locker)
+    {
+      if (val2 != 0) Console.WriteLine (val1 / val2);
+      val2 = 0;
+    }
+  }
+}</pre>
+	<p>Nested locking:</p>
+	<pre>static object x = new object();
+ 
+static void Main()
+{
+  lock (x)
+  {
+     Console.WriteLine (&quot;I have the lock&quot;);
+     Nest();
+     Console.WriteLine (&quot;I still have the lock&quot;);
+  }
+  // Now the lock is released.
+}
+ 
+static void Nest()
+{
+  lock (x) { }
+  // We still have the lock on x!
+}</pre>
+	<p>Using a Mutex to ensure only once instance of an application can run at 
+	once:</p>
+	<pre>class OneAtATimePlease
+{
+  // Naming a Mutex makes it available computer-wide. Use a name that's
+  // unique to your company and application (e.g., include your URL).
+
+  static Mutex mutex = new Mutex (false, &quot;oreilly.com OneAtATimeDemo&quot;);
+  
+  static void Main()
+  {
+    // Wait a few seconds if contended, in case another instance
+    // of the program is still in the process of shutting down.
+ 
+    if (!mutex.WaitOne (TimeSpan.FromSeconds (3), false))
+    {
+      Console.WriteLine (&quot;Another instance of the app is running. Bye!&quot;);
+      return;
+    }
+    try
+    {
+      Console.WriteLine (&quot;Running. Press Enter to exit&quot;);
+      Console.ReadLine();
+    }
+    finally { mutex.ReleaseMutex(); }
+  }
+}</pre>
+	<p>Semaphore:</p>
+	<pre>class TheClub      // No door lists!
+{
+  static Semaphore s = new Semaphore (3, 3);   // Available=3; Capacity=3
+
+  static void Main()
+  {
+    for (int i = 1; i &lt;= 5; i++) new Thread (Enter).Start (i);
+  }
+
+  static void Enter (object id)
+  {
+    Console.WriteLine (id + &quot; wants to enter&quot;);
+    s.WaitOne();
+    Console.WriteLine (id + &quot; is in!&quot;);           // Only three threads
+    Thread.Sleep (1000 * (int) id);               // can be here at
+    Console.WriteLine (id + &quot; is leaving&quot;);       // a time.
+    s.Release();
+  }
+}</pre>
+	<p>Thread safety and .NET Framework types:</p>
+	<pre>class ThreadSafe
+{
+  static List &lt;string&gt; list = new List &lt;string&gt;();
+ 
+  static void Main()
+  {
+    new Thread (AddItems).Start();
+    new Thread (AddItems).Start();
+  }
+ 
+  static void AddItems()
+  {
+    for (int i = 0; i &lt; 100; i++)
+      lock (list)
+        list.Add (&quot;Item &quot; + list.Count);
+ 
+    string[] items;
+    lock (list) items = list.ToArray();
+    foreach (string s in items) Console.WriteLine (s);
+  }
+}</pre>
+	<p>Thread safety in application servers:</p>
+	<pre>static class UserCache
+{
+  static Dictionary &lt;int, User&gt; _users = new Dictionary &lt;int, User&gt;();
+
+  internal static User GetUser (int id)
+  {
+    User u = null;
+
+    lock (_users)
+      if (_users.TryGetValue (id, out u))
+        return u;
+
+    u = RetrieveUser (id);           // Method to retrieve from database;
+    lock (_users) _users [id] = u;
+    return u;
+  }
+}</pre>
+	<p>Atomicity and Interlocked:</p>
+	<pre>class Program
+{
+  static long sum;
+ 
+  static void Main()
+  {                                                               // sum 
+    // Simple increment/decrement operations:
+    Interlocked.Increment (ref sum);                              // 1
+    Interlocked.Decrement (ref sum);                              // 0
+ 
+    // Add/subtract a value:
+    Interlocked.Add (ref sum, 3);                                 // 3
+ 
+    // Read a 64-bit field:
+    Console.WriteLine (Interlocked.Read (ref sum));               // 3
+ 
+    // Write a 64-bit field while reading previous value:
+    // (This prints &quot;3&quot; while updating sum to 10)
+    Console.WriteLine (Interlocked.Exchange (ref sum, 10));       // 10
+ 
+    // Update a field only if it matches a certain value (10):
+    Interlocked.CompareExchange (ref sum, 123, 10);               // 123
+  }
+}</pre>
+	<p>Memory barriers and volatility:</p>
+	<pre>class Unsafe
+{
+  static bool endIsNigh, repented;
+ 
+  static void Main()
+  {
+    new Thread (Wait).Start();        // Start up the spinning waiter
+    Thread.Sleep (1000);              // Give it a second to warm up!
+
+    repented = true;
+    endIsNigh = true;
+  }
+  
+  static void Wait()
+  {
+    while (!endIsNigh);               // Spin until endIsNigh
+    Console.Write (repented);
+  }
+}</pre>
+	<p>Basic signaling with an event wait handle:</p>
+	<pre>class BasicWaitHandle
+{
+  static EventWaitHandle wh = new AutoResetEvent (false);
+ 
+  static void Main()
+  {
+    new Thread (Waiter).Start();
+    Thread.Sleep (1000);                  // Pause for a second...
+    wh.Set();                             // Wake up the Waiter.
+  }
+ 
+  static void Waiter()
+  {
+    Console.WriteLine (&quot;Waiting...&quot;);
+    wh.WaitOne();                        // Wait for notification
+    Console.WriteLine (&quot;Notified&quot;);
+  }
+}</pre>
+	<p>Two-way signaling with EventWaitHandle:</p>
+	<pre>class TwoWaySignaling
+{
+  static EventWaitHandle ready = new AutoResetEvent (false);
+  static EventWaitHandle go = new AutoResetEvent (false);
+
+  static volatile string message;         // We must either use volatile
+                                          // or lock around this field
+  static void Main()
+  {
+    new Thread (Work).Start();
+ 
+    ready.WaitOne();            // First wait until worker is ready
+    message = &quot;ooo&quot;;
+    go.Set();                   // Tell worker to go!
+
+    ready.WaitOne();                
+    message = &quot;ahhh&quot;;           // Give the worker another message
+    go.Set();
+
+    ready.WaitOne();
+    message = null;             // Signal the worker to exit
+    go.Set();
+  }
+ 
+  static void Work()
+  {
+    while (true)
+    {
+      ready.Set();                          // Indicate that we're ready
+      go.WaitOne();                         // Wait to be kicked off...
+      if (message == null) return;          // Gracefully exit
+      Console.WriteLine (message);
+    }
+  }
+}</pre>
+	<p>Pooling wait handles:</p>
+	<pre>class Test
+{
+  static ManualResetEvent starter = new ManualResetEvent (false);
+ 
+  public static void Main()
+  {
+    ThreadPool.RegisterWaitForSingleObject (starter, Go, &quot;hello&quot;, -1, true);
+    Thread.Sleep (5000);
+    Console.WriteLine (&quot;Signaling worker...&quot;);
+    starter.Set();
+    Console.ReadLine();
+  }
+ 
+  public static void Go (object data, bool timedOut)
+  {
+    Console.WriteLine (&quot;Started &quot; + data);
+    // Perform task...
+  }
+}</pre>
+	<p>Signaling with Wait and Pulse:</p>
+	<pre>class SimpleWaitPulse
+{
+  static object locker = new object();
+  static bool go;
+ 
+  static void Main()
+  {                                // The new thread will block
+    new Thread (Work).Start();     // because go==false.
+
+    Console.ReadLine();            // Wait for user to hit Enter
+
+    lock (locker)                  // Let's now wake up the thread by        
+    {                              // setting go=true and pulsing.
+      go = true;
+      Monitor.PulseAll (locker);
+    }
+  }
+ 
+  static void Work()
+  {
+    lock (locker)
+      while (!go)
+        Monitor.Wait (locker);
+
+    Console.WriteLine (&quot;Woken!!!&quot;);
+  }
+}</pre>
+	<p>Producer/Consumer queue:</p>
+	<pre>using System;
+using System.Threading;
+using System.Collections.Generic;
+
+public class TaskQueue : IDisposable
+{
+  object locker = new object();
+  Thread[] workers;
+  Queue&lt;string&gt; taskQ = new Queue&lt;string&gt;();
+
+  public TaskQueue (int workerCount)
+  {
+    workers = new Thread [workerCount];
+
+    // Create and start a separate thread for each worker
+    for (int i = 0; i &lt; workerCount; i++)
+      (workers [i] = new Thread (Consume)).Start();
+  }
+
+  public void Dispose()
+  {
+    // Enqueue one null task per worker to make each exit.
+    foreach (Thread worker in workers) EnqueueTask (null);
+  }
+
+  public void EnqueueTask (string task)
+  {
+    lock (locker)
+    {
+      taskQ.Enqueue (task);            // We must pulse because we're
+      Monitor.Pulse (locker);          // changing a blocking condition.
+    }
+  }
+
+  void Consume()
+  {
+    while (true)                        // Keep consuming until
+    {                                   // told otherwise
+      string task;
+      lock (locker)
+      {
+        while (taskQ.Count == 0) Monitor.Wait (locker);
+        task = taskQ.Dequeue();
+      }
+      if (task == null) return;         // This signals our exit
+      Console.Write (task);             // Perform task.
+      Thread.Sleep (1000);              // Simulate time-consuming task
+    }
+  }
+}</pre>
+	<pre>static void Main()
+{
+  using (TaskQueue q = new TaskQueue (2))
+  {
+    for (int i = 0; i &lt; 10; i++)
+    q.EnqueueTask (&quot; Task&quot; + i);
+ 
+    Console.WriteLine (&quot;Enqueued 10 tasks&quot;);
+    Console.WriteLine (&quot;Waiting for tasks to complete...&quot;);
+  }
+
+  // Exiting the using statement runs TaskQueue's Dispose method, which
+  // shuts down the consumers, after all outstanding tasks are completed.
+
+  Console.WriteLine (&quot;\r\nAll tasks done!&quot;);
+}</pre>
+	<p>Two-way signaling with Wait/Pulse:</p>
+	<pre>class Solved
+{
+  static object locker = new object();
+  static bool ready, go;
+
+  static void Main()
+  {
+    new Thread (SaySomething).Start();
+
+    for (int i = 0; i &lt; 5; i++)
+      lock (locker)
+      {
+        while (!ready) Monitor.Wait (locker);
+        ready = false;
+        go = true;
+        Monitor.PulseAll (locker);
+      }
+  }
+
+  static void SaySomething()
+  {
+    for (int i = 0; i &lt; 5; i++)
+      lock (locker)
+      {
+        ready = true;
+        Monitor.PulseAll (locker);              // Remember that calling
+        while (!go) Monitor.Wait (locker);      // Monitor.Wait releases
+        go = false;                             // and reacquires the lock.
+        Console.WriteLine (&quot;Wassup?&quot;);
+      }
+  }
+}</pre>
+	<p>Interrupt:</p>
+	<pre>static void Main()
+{
+  Thread t = new Thread (delegate()
+  {
+    try
+    {
+      Thread.Sleep (Timeout.Infinite);
+    }
+    catch (ThreadInterruptedException)
+    {
+      Console.Write (&quot;Forcibly &quot;);
+    }
+    Console.WriteLine (&quot;Woken!&quot;);
+  });
+ 
+  t.Start();
+  t.Interrupt();
+}</pre>
+	<p>Safe cancellation:</p>
+	<pre>class ProLife
+{
+  public static void Main()
+  {
+    RulyWorker w = new RulyWorker();
+    Thread t = new Thread (w.Work);
+    t.Start();
+    Thread.Sleep (1000);
+
+    Console.WriteLine (&quot;aborting&quot;);
+    w.Abort();                       // Safely abort the worker.
+    Console.WriteLine (&quot;aborted&quot;);
+  }
+ 
+  public class RulyWorker
+  {
+    volatile bool abort;   
+    public void Abort() { abort = true; }
+ 
+    public void Work()
+    {
+      while (true)
+      {
+        CheckAbort();
+        // Do stuff...
+        try      { OtherMethod(); }
+        finally  { /* any required cleanup */ }
+      }
+    }
+ 
+    void OtherMethod()
+    {
+      // Do stuff...
+      CheckAbort();
+    }
+ 
+    void CheckAbort() { if (abort) Thread.CurrentThread.Abort(); }
+  }
+}</pre>
+	<p>Local storage:</p>
+	<pre>class Test
+{
+  // The same LocalDataStoreSlot object can be used across all threads.
+  LocalDataStoreSlot secSlot = Thread.GetNamedDataSlot (&quot;securityLevel&quot;);
+ 
+  // This property has a separate value on each thread.
+  int SecurityLevel
+  {
+    get
+    {
+      object data = Thread.GetData (secSlot);
+      return data == null ? 0 : (int) data;    // null == uninitialized
+    }
+    set { Thread.SetData (secSlot, value); }
+  }
+  ...</pre>
+	<p>Using BackgroundWorker:</p>
+	<pre>using System;
+using System.Threading;
+using System.ComponentModel;
+&nbsp;
+class Program
+{
+  static BackgroundWorker bw;
+
+  static void Main()
+  {
+    bw = new BackgroundWorker();
+    bw.WorkerReportsProgress = true;
+    bw.WorkerSupportsCancellation = true;
+    bw.DoWork += bw_DoWork;
+    bw.ProgressChanged += bw_ProgressChanged;
+    bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+&nbsp;
+    bw.RunWorkerAsync (&quot;Hello to worker&quot;);
+    
+    Console.WriteLine (&quot;Press Enter in the next 5 seconds to cancel&quot;);
+    Console.ReadLine();
+    if (bw.IsBusy) bw.CancelAsync();
+    Console.ReadLine();
+  }
+&nbsp;
+  static void bw_DoWork (object sender, DoWorkEventArgs e)
+  {
+    for (int i = 0; i &lt;= 100; i += 20)
+    {
+      if (bw.CancellationPending) { e.Cancel = true; return; }
+      bw.ReportProgress (i);
+      Thread.Sleep (1000);      // Just for the demo... don't go sleeping
+    }                           // for real in pooled threads!
+                                  
+    e.Result = 123;    // This gets passed to RunWorkerCompleted
+  }
+&nbsp;
+  static void bw_RunWorkerCompleted (object sender,
+                                     RunWorkerCompletedEventArgs e)
+  {
+    if (e.Cancelled)
+      Console.WriteLine (&quot;You cancelled!&quot;);
+    else if (e.Error != null)
+      Console.WriteLine (&quot;Worker exception: &quot; + e.Error.ToString());
+    else
+      Console.WriteLine (&quot;Complete: &quot; + e.Result);      // from DoWork
+  }
+&nbsp;
+  static void bw_ProgressChanged (object sender,
+                                  ProgressChangedEventArgs e)
+  {
+    Console.WriteLine (&quot;Reached &quot; + e.ProgressPercentage + &quot;%&quot;);
+  }
+}</pre>
+	<p>ReaderWriterLockSlim:</p>
+	<pre>class SlimDemo
+{
+  static ReaderWriterLockSlim rw = new ReaderWriterLockSlim();
+  static List&lt;int&gt; items = new List&lt;int&gt;();
+  static Random rand = new Random();
+
+  static void Main()
+  {
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+
+    new Thread (Write).Start (&quot;A&quot;);
+    new Thread (Write).Start (&quot;B&quot;);
+  }
+
+  static void Read()
+  {
+    while (true)
+    {
+      rw.EnterReadLock();
+      foreach (int i in items) Thread.Sleep (10);
+      rw.ExitReadLock();
+    }
+  }
+
+  static void Write (object threadID)
+  {
+    while (true)
+    {				
+      int newNumber = GetRandNum (100);
+      rw.EnterWriteLock();
+      items.Add (newNumber);
+      rw.ExitWriteLock();
+      Console.WriteLine (&quot;Thread &quot; + threadID + &quot; added &quot; + newNumber);
+      Thread.Sleep (100);
+    }
+  }
+
+  static int GetRandNum (int max) { lock (rand) return rand.Next (max); }
+}</pre>
+	<p>Upgradeable locks with ReaderWriterLockSlim:</p>
+	<pre>class SlimDemo
+{
+  static ReaderWriterLockSlim rw = new ReaderWriterLockSlim();
+  static List&lt;int&gt; items = new List&lt;int&gt;();
+  static Random rand = new Random();
+
+  static void Main()
+  {
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+    new Thread (Read).Start();
+
+    new Thread (Write).Start (&quot;A&quot;);
+    new Thread (Write).Start (&quot;B&quot;);
+  }
+
+  static void Read()
+  {
+    while (true)
+    {
+      rw.EnterReadLock();
+      foreach (int i in items) Thread.Sleep (10);
+      rw.ExitReadLock();
+    }
+  }
+
+  static void Write (object threadID)
+  {
+    while (true)
+    {
+      int newNumber = GetRandNum (100);
+      rw.EnterUpgradeableReadLock();
+      if (!items.Contains (newNumber))
+      {
+        rw.EnterWriteLock();
+        items.Add (newNumber);
+        rw.ExitWriteLock();
+        Console.WriteLine (&quot;Thread &quot; + threadID + &quot; added &quot; + newNumber);
+      }
+      rw.ExitUpgradeableReadLock();
+      Thread.Sleep (100);
+    }
+  }
+
+  static int GetRandNum (int max) { lock (rand) return rand.Next (max); }
+}</pre>
+	<p>Lock recursion:</p>
+	<pre>var rw = new ReaderWriterLockSlim();
+
+rw.EnterReadLock();
+rw.EnterReadLock();        // Exception thrown
+rw.ExitReadLock();
+rw.ExitReadLock();</pre>
+	<pre>var rw = new ReaderWriterLockSlim (LockRecursionPolicy.SupportsRecursion);
+
+rw.EnterWriteLock();
+rw.EnterReadLock();
+Console.WriteLine (rw.IsReadLockHeld);     // True
+Console.WriteLine (rw.IsWriteLockHeld);    // True
+rw.ExitReadLock();
+rw.ExitWriteLock();</pre>
+	<p>Using the Threading Timer:</p>
+	<pre>using System;
+using System.Threading;
+ 
+class Program
+{
+  static void Main()
+  {
+    // First interval = 5000ms; subsequent intervals = 1000ms
+    Timer tmr = new Timer (Tick, &quot;tick...&quot;, 5000, 1000);
+    Console.ReadLine();
+    tmr.Dispose();                     // Ends the timer
+  }
+ 
+  static void Tick (object data)
+  {
+    // This runs on a pooled thread
+    Console.WriteLine (data);          // Writes &quot;tick...&quot;
+  }
+}</pre>
+	<p>Using the System Timer:</p>
+	<pre>using System;
+using System.Timers;   // Timers namespace rather than Threading
+ 
+class SystemTimer
+{
+  static void Main()
+  {
+    Timer tmr = new Timer();       // Doesn't require any args
+    tmr.Interval = 500;
+    tmr.Elapsed += tmr_Elapsed;    // Uses an event instead of a delegate
+    tmr.Start();                   // Start the timer
+    Console.ReadLine();
+    tmr.Stop();                    // Stop the timer
+    Console.ReadLine();
+    tmr.Start();                   // Re-start the timer
+    Console.ReadLine();
+    tmr.Dispose();                 // Permanently stop the timer
+  }
+ 
+  static void tmr_Elapsed (object sender, EventArgs e)
+  {
+    Console.WriteLine (&quot;Tick&quot;);
+  }
+}</pre>
+</div>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch19.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

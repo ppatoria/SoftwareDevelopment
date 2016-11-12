@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/load.php" async=""></script>
+<meta charset="UTF-8">
+<title>CMake/Testing With CTest - KitwarePublic</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+<meta name="generator" content="MediaWiki 1.23.8">
+<meta name="robots" content="noindex,follow">
+<link rel="shortcut icon" href="https://cmake.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://cmake.org/Wiki/opensearch_desc.php" title="KitwarePublic (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://cmake.org/Wiki/api.php?action=rsd">
+<link rel="copyright" href="https://creativecommons.org/licenses/by/2.5/">
+<link rel="alternate" type="application/atom+xml" title="KitwarePublic Atom feed" href="https://cmake.org/Wiki/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/load.css">
+<style>
+#collectionpopup{position:absolute;padding:4px;border:1px solid #000;z-index:9999;display:inline;font-size:10pt} .collection-column{float:left;width:47%}.collection-column-left{margin-right:5%}.collection-column-right-box{margin-bottom:10px;padding:10px;border:1px solid #aaa} #mw-collection-title-form input{direction:ltr}.collection-create-chapter-links{text-align:center;padding:2px;margin-top:20px;margin-bottom:2px;border:1px solid #aaa}.collection-create-chapter-links a{margin:0 1em}.collection-create-chapter-list{padding:10px 20px;border:1px solid rgb(170,170,170)}.collection-create-chapter-list-text{text-align:center;margin-bottom:10px}.collection-create-chapter-list ul{list-style:none;margin-left:0}.collection-create-chapter-list .chapter{margin-top:0.3em}.collection-create-chapter-list .article .title{margin-left:1em}.collection-button{float:left;padding:0 10px;border:1px solid #777;-webkit-border-radius:8px;-moz-border-radius:8px}.collection-button.ok{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAGQAQMAAAAEPUNmAAAABlBMVEU+uC4wjyRfPsEPAAAAcUlEQVR4XuzAAQ0AAADCIPuntscHKwEAAAAAAAAAAAAAAAAAAIC3M8c0AAAwDIDm33RnokkfEEDKhqFQKBQKhUKhUCgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoUPZoxFIxTOAJUAAAAASUVORK5CYII=) center no-repeat;background:url(https://cmake.org/Wiki/extensions/Collection/js/../images/green-button-back.png?2014-12-26T18:35:00Z) center no-repeat!ie;margin-right:10px}.collection-button.cancel{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAGQAQMAAAAEPUNmAAAABlBMVEWwHh6PGBirpf9HAAAAcUlEQVR4XuzAAQ0AAADCIPuntscHKwEAAAAAAAAAAAAAAAAAAIC3M8c0AAAwDIDm33RnokkfEEDKhqFQKBQKhUKhUCgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoVCoVAoFAqFQqFQKBQKhUKhUCgUCoUPZoxFIxTOAJUAAAAASUVORK5CYII=) center no-repeat;background:url(https://cmake.org/Wiki/extensions/Collection/js/../images/red-button-back.png?2014-12-26T18:35:00Z) center no-repeat!ie}.collection-button a{display:block;color:#fff;font-size:1.1em;font-weight:bold;line-height:1.8em}.collection-button a:hover{text-decoration:none} .collection-creatorbox{text-align:left;margin:10px 0;padding:5px 10px;border:1px solid #aaa}.collection-creatorbox-row{margin-left:90px;margin-bottom:0}.collection-creatorbox-book{float:left} .rtl .collection-creatorbox-book{--ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-o-transform:scaleX(-1);-webkit-transform:scaleX(-1);transform:scaleX(-1)}.collection-creatorbox-title{font-weight:bold;font-size:1.2em}.collection-creatorbox-iconlink{margin-left:10px}.collection-creatorbox-row div{float:right}.collection-creatorbox-row img{vertical-align:text-bottom}#collection-suggest-add,#collection-download-button,#collection-save-button,#collection-save-input{float:right}.collection-order-button{clear:right}#coll-orderbox ul{list-style:none}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:1dcec16f4b1278f753b70cdefed4adce */
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none} caption .mw-collapsible-toggle{float:none} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:6c1d24e90626cec584f0869483f983e7 */
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:none;z-index:1099;padding:0;margin:-1px -1px 0 0} html > body .suggestions{margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0}.suggestions-result{color:black;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#4C59A6;color:white}.suggestions-special .special-label{color:gray;text-align:left}.suggestions-special .special-query{color:black;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:silver}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:white}.highlight{font-weight:bold}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:9f9511aa4ef920d34591113e825e6a1e */
+.postedit-container{margin:0 auto;position:fixed;top:0;height:0;left:50%;z-index:1000;font-size:13px}.postedit-container:hover{cursor:pointer}.postedit{position:relative;top:0.6em;left:-50%;padding:.6em 3.6em .6em 1.1em;line-height:1.5625em;color:#626465;background-color:#f4f4f4;border:1px solid #dcd9d9;text-shadow:0 0.0625em 0 rgba(255,255,255,0.5);border-radius:5px;-webkit-box-shadow:0 2px 5px 0 #ccc;box-shadow:0 2px 5px 0 #ccc;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-ms-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out}.skin-monobook .postedit{top:6em !important}.postedit-faded{opacity:0}.postedit-icon{padding-left:41px;  line-height:25px;background-repeat:no-repeat;background-position:8px 50%}.postedit-icon-checkmark{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABblBMVEUAAAD///////9PfTf///80aRdTgjn///9Feij///////////9Rfzf///////////9PfjZRgDh1o1xOfTb///////+bwYqLtnj///////9PfTa82K////9WhT6YxIL///9QgDdTgzr////////j7uDl7eLq8efi693k7OH///////9UhjuBr2rp9uRUhjr///9YljVKgir///9WiTlYjT3////9/v57vFlbkT5PjC9dlD/5/fhuq09stUTs9uhxuElctCpfnT1huDFloEZloUZmpENmvDZpvDxpvTxqvjxrvT5rvT9rwTxsqktswD5uwkBvuUdxw0NztFBztU9ztVBzwkp0tlJ1xkd2t1R3uVR4w1F4xk54x014yE15uVZ5v1R5xVB6v1R7yFJ8wVh9xVl9yFR9yVd9ylN+xVh+yFd/x1l/yFeAylmEx1+Ny2uY0Hqe04Wj1Ymv3Ze33qLD47TJ5L3O6cPU7Mrq9eb2+/Q4j37OAAAAQHRSTlMAAQIEBAUFBQwPFB4fJCUoKiosQEhJS01RUlZZXmdydXaChYuSlJSWmJmoq6uur8LExcvM19fg5ejt8fX2+Pr7SljgewAAAKpJREFUGBkFwQNCAwAAAMDLtl3LtrG4rWXbtvX77gAgZ6grFwC0bhwNVgKgdPZx8b0dgLi+s7Wn0VoAqpfOI9+BNADZI7fLrz2pSEwGHZuH+78lSK8ZLkLezF3ooyUG3VPXq2USei9WngeyoG195yBYWDF3E/2pAhl1e9Gr8bGT+bfOFCC2fnvh4X7rcqIAQNNu+HT6sxkAjceTL/2ZAIhv+PorBwBJxfkA//dFHSCBy/UTAAAAAElFTkSuQmCC);background-image:url(https://cmake.org/Wiki/resources/src/mediawiki.action/images/green-checkmark.png?2014-12-17T20:21:40Z)!ie;background-position:left}.postedit-close{position:absolute;padding:0 .8em;right:0;top:0;font-size:1.25em;font-weight:bold;line-height:2.3em;color:black;text-shadow:0 0.0625em 0 white;text-decoration:none;opacity:0.2;filter:alpha(opacity=20)}.postedit-close:hover{color:black;text-decoration:none;opacity:0.4;filter:alpha(opacity=40)}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:71f1017c4a42cda1b30049f1897c8d1e */</style><style>
+.suggestions a.mw-searchSuggest-link,.suggestions a.mw-searchSuggest-link:hover,.suggestions a.mw-searchSuggest-link:active,.suggestions a.mw-searchSuggest-link:focus{color:black;text-decoration:none}.suggestions-result-current a.mw-searchSuggest-link,.suggestions-result-current a.mw-searchSuggest-link:hover,.suggestions-result-current a.mw-searchSuggest-link:active,.suggestions-result-current a.mw-searchSuggest-link:focus{color:white}.suggestions a.mw-searchSuggest-link .special-query{ overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:ae3fa4570b5ac0c6cf7b3776c8ae4d6f */</style><meta name="ResourceLoaderDynamicStyles" content="">
+<style>a:lang(ar),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-css:7:f67a91830b2c06c30170e182d61a9a1b */</style>
+<script src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/load_003.php"></script><script src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/load_004.php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"CMake/Testing_With_CTest","wgTitle":"CMake/Testing With CTest","wgCurRevisionId":58057,"wgRevisionId":58057,"wgArticleId":696,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["CMake"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"CMake/Testing_With_CTest","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($,jQuery){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"editfont":"default","editondblclick":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":1,"extendwatchlist":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"math":0,"minordefault":0,"newpageshidepatrolled":0,"nickname":"","norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"rcdays":7,"rclimit":50,"rows":25,"showhiddencats":0,"shownumberswatching":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":1,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,
+"useeditwarning":1,"prefershttps":1,"language":"en","variant-gan":"gan","variant-iu":"iu","variant-kk":"kk","variant-ku":"ku","variant-shi":"shi","variant-sr":"sr","variant-tg":"tg","variant-uz":"uz","variant-zh":"zh","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"variant":"en"});},{},{});mw.loader.implement("user.tokens",function($,jQuery){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});},{},{});
+/* cache key: KitwarePublicWikiDB:resourceloader:filter:minify-js:7:6fb34dd1cd86154205b858dd017713f7 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/load_002.php"></script>
+</head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-CMake_Testing_With_CTest skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content" class="mw-body-primary" role="main">
+	<a id="top"></a>
+	<div id="siteNotice"><div class="collection-creatorbox"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/Open_book.png" alt="" class="collection-creatorbox-book" height="45" width="80"><div class="collection-creatorbox-row"><div><a href="https://cmake.org/Wiki/Help:Books" title="Show help about creating books" rel="nofollow"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/silk-help.png" alt="" height="16" width="16">&nbsp;Help</a></div><span class="collection-creatorbox-title">Book creator</span> (<a href="https://cmake.org/Wiki/index.php?title=Special:Book&amp;bookcmd=stop_book_creator&amp;referer=CMake%2FTesting+With+CTest" title="Stop using the book creator" rel="nofollow">disable</a>)</div><div id="coll-book_creator_box" class="collection-creatorbox-row"><a href="https://cmake.org/Wiki/index.php?title=Special:Book&amp;bookcmd=remove_article&amp;arttitle=CMake%2FTesting+With+CTest&amp;oldid=0" title="Remove the current wiki page from your book" id="coll-remove_article" rel="nofollow" onclick="collectionCall('RemoveArticle', ['addarticle', wgNamespaceNumber, wgTitle, &quot;0&quot;]); return false;"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/silk-remove.png" alt="" height="16" width="16">&nbsp;Remove this page from your book</a><a href="https://cmake.org/Wiki/Special:Book" title="Click to edit/download/order your book" rel="nofollow" class="collection-creatorbox-iconlink"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/silk-book_open.png" alt="" height="16" width="16">&nbsp;Show book (1 page)</a><a href="https://cmake.org/Wiki/index.php?title=Special:Book&amp;bookcmd=suggest" title="Show suggestions based on the pages in your book" rel="nofollow" class="collection-creatorbox-iconlink"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/silk-wand.png" alt="" style="vertical-align: text-bottom" height="16" width="16">&nbsp;Suggest pages</a></div></div></div>
+	<h1 id="firstHeading" class="firstHeading" lang="en"><span dir="auto">CMake/Testing With CTest</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From KitwarePublic</div>
+		<div id="contentSub"><span class="subpages">&lt; <a href="https://cmake.org/Wiki/CMake" title="CMake">CMake</a></span></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="#column-one">navigation</a>, <a href="#searchInput">search</a></div>
+
+		<!-- start content -->
+<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Introduction"><span class="tocnumber">1</span> <span class="toctext">Introduction</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Simple_Testing"><span class="tocnumber">2</span> <span class="toctext">Simple Testing</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Dashboards"><span class="tocnumber">3</span> <span class="toctext">Dashboards</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Dashboard_Preparation"><span class="tocnumber">3.1</span> <span class="toctext">Dashboard Preparation</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#Dashboard_Creation"><span class="tocnumber">3.2</span> <span class="toctext">Dashboard Creation</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="#Converting_Dart_to_CTest"><span class="tocnumber">3.3</span> <span class="toctext">Converting Dart to CTest</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-7"><a href="#Advanced_CTest"><span class="tocnumber">4</span> <span class="toctext">Advanced CTest</span></a>
+<ul>
+<li class="toclevel-2 tocsection-8"><a href="#Submission_Of_Tests"><span class="tocnumber">4.1</span> <span class="toctext">Submission Of Tests</span></a></li>
+<li class="toclevel-2 tocsection-9"><a href="#Running_Individual_Tests"><span class="tocnumber">4.2</span> <span class="toctext">Running Individual Tests</span></a></li>
+<li class="toclevel-2 tocsection-10"><a href="#Dynamic_Analysis"><span class="tocnumber">4.3</span> <span class="toctext">Dynamic Analysis</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="#Customizing_CTest"><span class="tocnumber">4.4</span> <span class="toctext">Customizing CTest</span></a></li>
+<li class="toclevel-2 tocsection-12"><a href="#CTest_Scripting"><span class="tocnumber">4.5</span> <span class="toctext">CTest Scripting</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-13"><a href="#Conclusion"><span class="tocnumber">5</span> <span class="toctext">Conclusion</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Introduction">Introduction</span></h2>
+<p>CTest is a testing tool distributed as a part of CMake. It can be used to
+automate updating (using CVS for example), configuring, building, testing,
+performing memory checking, performing coverage, and submitting results to
+a <a rel="nofollow" class="external text" href="http://www.cdash.org/">CDash</a> or  <a rel="nofollow" class="external text" href="http://public.kitware.com/Dart">Dart</a>
+dashboard system.
+</p><p>There are two basic modes of operation for CTest. 
+</p><p>In the first mode, CMake is used to configure and build a project, using
+special commands in the <tt>CMakeLists.txt</tt> file to create tests. CTest
+can then be used to execute the tests, and optionally upload their results
+to a dashboard server. This is what is handled in this tutorial.
+</p><p>In the second mode, CTest runs a script (using the same syntax as 
+<tt>CMakeLists.txt</tt>) to control the whole process of checking out /
+updating source code, configuring and building the project, and running
+the tests. This is handled in <a href="https://cmake.org/Wiki/CMake_Scripting_Of_CTest" title="CMake Scripting Of CTest">CMake Scripting Of CTest</a>.
+</p>
+<h2><span class="mw-headline" id="Simple_Testing">Simple Testing</span></h2>
+<p>CMake has support for adding tests to a project:
+</p>
+<pre>   enable_testing()
+</pre>
+<p>This adds another build target, which is <tt>test</tt> for Makefile
+generators, or <tt>RUN_TESTS</tt> for integrated development environments
+(like Visual Studio).
+</p><p>From that point on, you can use the <tt>ADD_TEST</tt> command to add tests
+to the project:
+</p>
+<pre>   add_test( testname Exename arg1 arg2 ... )
+</pre>
+<p>Or, in its longer form:
+</p>
+<pre>   add_test(NAME &lt;name&gt; [CONFIGURATIONS [Debug|Release|...]]
+            [WORKING_DIRECTORY dir]
+            COMMAND &lt;command&gt; [arg1 [arg2 ...]])
+</pre>
+<p>Once you have built the project, you can execute all tests via
+</p>
+<pre>    make test
+</pre>
+<p>with Makefile generators, or by rebuilding the <tt>RUN_TESTS</tt> target
+in your IDE. Internally this runs CTest to actually perform the testing;
+you could just as well execute
+</p>
+<pre>    ctest
+</pre>
+<p>in the binary directory of your build.
+</p><p>In some projects you will want to set <tt>*_POSTFIX</tt> properties on
+executables that will be executed for testing, e.g. to make executables
+compiled with debug information distinguishable ("&lt;exename&gt;-debug"). Note
+that the shorthand version of <tt>add_test</tt> does <i>not</i> automatically
+append these postfixes to the commands it calls for the test target, i.e.
+your test will want to call "&lt;exename&gt;" but the executable is "&lt;exename&gt;-debug",
+resulting in an error message. Use the long version of the <tt>add_test()</tt>
+in this case, which adds the appropriate <tt>_POSTFIX</tt> to the command name.
+</p><p>For more information, check the
+<a rel="nofollow" class="external text" href="http://www.cmake.org/HTML/Documentation.html">CMake Documentation</a> or run:
+</p>
+<pre>   cmake --help-command enable_testing
+   cmake --help-command add_test
+   cmake --help-property "&lt;CONFIG&gt;_POSTFIX"
+   cmake --help-command set_property
+</pre>
+<h2><span class="mw-headline" id="Dashboards">Dashboards</span></h2>
+<p>The next step is to not only execute the tests, but to log their results
+and provide them in such a way that they could be reviewed easily.
+</p><p>The result of a test run, reformatted for easy review, is called a
+"dashboard". A dashboard can be submitted to a central server, like CDash:
+</p>
+<ul>
+<li> <a rel="nofollow" class="external text" href="http://http//open.cdash.org/index.php">open.cdash.org</a> and
+</li>
+<li> <a rel="nofollow" class="external text" href="http://my.cdash.org/">my.cdash.org</a>.
+</li>
+</ul>
+<p>There are three types of dashboard submissions:
+</p>
+<ul>
+<li> <b>Experimental</b> means the current state of the project. An 
+experimental submission can be performed at any time, usually 
+interactively from the current working copy of a developer.
+</li>
+</ul>
+<ul>
+<li> <b>Nightly</b> is similar to experimental, except that the source 
+tree will be set to the state it was in at a specific nightly time. This
+ ensures that all "nightly" submissions correspond to the state of the 
+project at the same point in time. "Nightly" builds are usually done 
+automatically at a preset time of day.
+</li>
+</ul>
+<ul>
+<li> <b>Continuous</b> means that the source tree is updated to the 
+latest revision, and a build / test cycle is performed only if any files
+ were actually updated. Like "Nightly" builds, "Continuous" ones are 
+usually done automatically and repeatedly in intervals.
+</li>
+</ul>
+<h3><span class="mw-headline" id="Dashboard_Preparation">Dashboard Preparation</span></h3>
+<p>To enable the creation and submission of dashboards, add the following to your
+<tt>CMakeLists.txt</tt>:
+</p>
+<pre>   include( CTest )
+</pre>
+<p>This module will automatically call <tt>enable_testing()</tt> (see above), so
+you no longer have to do so in your CMake files. It will also add several new
+targets to your build.
+</p>
+<pre>* The three main targets:
+** Experimental
+** Nightly
+** Continuous
+* For each of the above, targets for the intermediate steps
+** ...Start
+** ...Update
+** ...Configure
+** ...Build
+** ...Submit
+** ...Test
+** ...Coverage
+** ...MemCheck
+** ...Submit
+</pre>
+<p>The intermediate targets are created so you could submit partial test
+results, or inspect the results before submitting (or continuing with
+more time-consuming steps like MemCheck).
+</p><p>All this can be disabled by setting the option <tt>BUILD_TESTING</tt> (which
+is also added by the CTest module and enabled by default) to OFF / false.
+</p><p>The default settings of the module are to submit the dashboard to
+<a rel="nofollow" class="external text" href="http://www.kitware.com/">Kitware's</a>
+<a rel="nofollow" class="external text" href="http://public.kitware.com/Public/Dashboard/MostRecentResults-Nightly/Dashboard.html">Public Dashboard</a>,
+where you can register your project for free.
+</p><p>In order to submit to some other server, "CTestConfig.cmake" in the top level
+directory of your source, and set your own dashboard preferences. If you are
+using a CDash server, you can download a preconfigured file from the respective
+project page on that server ("Settings" / "Project", tab "Miscellaneous").
+</p><p>An example of a CTestConfig.cmake:
+</p>
+<pre>## This file should be placed in the root directory of your project.
+## Then modify the CMakeLists.txt file in the root directory of your
+## project to incorporate the testing dashboard.
+## # The following are required to uses Dart and the Cdash dashboard
+##   ENABLE_TESTING()
+##   INCLUDE(CTest)
+set(CTEST_PROJECT_NAME "MyProject")
+set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
+
+set(CTEST_DROP_METHOD "http")
+set(CTEST_DROP_SITE "open.cdash.org")
+set(CTEST_DROP_LOCATION "/submit.php?project=MyProject")
+set(CTEST_DROP_SITE_CDASH TRUE)
+</pre>
+<h3><span class="mw-headline" id="Dashboard_Creation">Dashboard Creation</span></h3>
+<p>Once you have the above in place, you can build one of the targets added
+by the CTest module you included. Internally, this calls the CTest command
+line client, which you could also call directly instead:
+</p>
+<pre>   ctest -D Experimental
+</pre>
+<p>A detailed description of CTest options can be seen by running:
+</p>
+<pre>   ctest --help
+</pre>
+<p>A list of the available targets is listed by calling:
+</p>
+<pre>   ctest -D help
+
+</pre>
+<h3><span class="mw-headline" id="Converting_Dart_to_CTest">Converting Dart to CTest</span></h3>
+<p>CTest is actually a fully <a rel="nofollow" class="external text" href="http://www.itk.org/Dart/HTML/Index.shtml">Dart</a>
+compatible client, and could submit to any compatible server.
+</p><p>To convert existing Dart Client invocations to CTest, find lines like:
+</p>
+<pre>   tclsh /location/of/Dart/Source/Client/DashboardManager.tcl DartConfiguration.tcl \
+       Nightly Start Update Configure Build Test Submit
+</pre>
+<p>Then convert them to CTest style:
+</p>
+<pre>    ctest -D Nightly
+</pre>
+<h2><span class="mw-headline" id="Advanced_CTest">Advanced CTest</span></h2>
+<p>CTest has several additional features that include:
+</p>
+<ol>
+<li> FTP/HTTP/SCP/XMLRPC submission support
+</li>
+<li> Run individual tests, subset of tests, exclude tests, etc.
+</li>
+<li> Dynamic analysis using Valgrind or Purify
+</li>
+<li> Customization of the testing by providing:
+<ul>
+<li> Custom build error/warning regular expressions
+</li>
+<li> Ability to suppress some tests from being tested or memory checked and ability to run subset of tests
+</li>
+<li> Ability to run commands before and after tests are run
+</li>
+</ul>
+</li>
+<li> Ability to run whole testing process described in a single script
+</li>
+</ol>
+<h3><span class="mw-headline" id="Submission_Of_Tests">Submission Of Tests</span></h3>
+<p>CTest currently supports four methods directly and any other 
+indirectly. Direct methods are HTTP, FTP, SCP and XML-RPC. Both HTTP and
+ FTP methods require extra trigger mechanism, while SCP method relies on
+ the fact that files are on the right place. To set the appropriate 
+submission method, set CTEST_DROP_METHOD variable in CTestConfig.cmake. 
+</p><p>Example for HTTP submission would be:
+</p>
+<pre> SET (CTEST_DROP_METHOD http)
+ SET (CTEST_DROP_SITE "public.kitware.com")
+ SET (CTEST_DROP_LOCATION "/cgi-bin/HTTPUploadDartFile.cgi")
+ SET (CTEST_TRIGGER_SITE 
+      "http://${DROP_SITE}/cgi-bin/Submit-CMake-TestingResults.pl")
+</pre>
+<p>where <i>http://public.kitware.com/cgi-bin/HTTPUploadDartFile.cgi</i> is a submit script and <i>http://public.kitware.com/cgi-bin/Submit-CMake-TestingResults.pl</i> is a trigger script.
+</p><p>For FTP submission:
+</p>
+<pre>  SET (CTEST_DROP_METHOD ftp) 
+  SET (CTEST_DROP_SITE "public.kitware.com")
+  SET (CTEST_DROP_LOCATION "/incoming")
+  SET (CTEST_DROP_SITE_USER "ftpuser")
+  SET (CTEST_DROP_SITE_PASSWORD "public")
+  SET (CTEST_TRIGGER_SITE 
+      "http://${DROP_SITE}/cgi-bin/Submit-CMake-TestingResults.pl")
+</pre>
+<p>where <i>/incoming</i> is a location on the FTP site <i>public.kitware.com</i> with user <i>ftpuser</i> and password <i>public</i>. The trigger scrip is the same as with the http submit.
+</p><p>For XML-RPC submission (Dart2):
+</p>
+<pre>  SET (CTEST_DROP_METHOD xmlrpc) 
+  SET (CTEST_DROP_SITE "www.na-mic.org:8081")
+  SET (CTEST_DROP_LOCATION "PublicDashboard")
+</pre>
+<p>where XML-RPC submission is on the server <i>www.na-mic.org</i> with the port <i>8081</i>. The project name is <i>PublicDashboard</i>. XML-RPC submission does not require the trigger script.
+</p>
+<h3><span class="mw-headline" id="Running_Individual_Tests">Running Individual Tests</span></h3>
+<p>CTest supports two different ways of specifying subset of tests to run.
+</p><p>The first way is to specify the regular expression using -R and 
+-E. -R specifies tests to be included and -E specifies the tests to be 
+removed. For example, when running ctest in show-only mode, where no 
+tests are run, we may see something like:
+</p>
+<pre>Test project
+  1/ 13 Testing PythonDataDesc                
+  2/ 13 Testing VTKTest                       
+  3/ 13 Testing SystemInformation             
+  4/ 13 Testing TestVTKWriters                
+  5/ 13 Testing TestVTKPython                 
+  6/ 13 Testing VTKPythonMultiGrid            
+  7/ 13 Testing IronImage                     
+  8/ 13 Testing IronImageMagic                
+  9/ 13 Testing IronImageStrideMagic          
+ 10/ 13 Testing IronRectMagic                 
+ 11/ 13 Testing IronRectStrideMagic           
+ 12/ 13 Testing IronStructMagic               
+ 13/ 13 Testing IronStructStrideMagic
+</pre>
+<p>If we now run
+</p>
+<pre> ctest -R Python
+</pre>
+<p>We will only see tests that contain string <i>Python</i>:
+</p>
+<pre>Test project
+  1/  3 Testing PythonDataDesc                
+  2/  3 Testing TestVTKPython                 
+  3/  3 Testing VTKPythonMultiGrid
+</pre>
+<p>We can also omit tests using -E, for example:
+</p>
+<pre> ctest -E Iron
+</pre>
+<p>will produce:
+</p>
+<pre>Test project
+  1/  6 Testing PythonDataDesc                
+  2/  6 Testing VTKTest                       
+  3/  6 Testing SystemInformation             
+  4/  6 Testing TestVTKWriters                
+  5/  6 Testing TestVTKPython                 
+  6/  6 Testing VTKPythonMultiGrid
+</pre>
+<p>Both -R and -E can be used at the same time.
+</p><p>To determine what tests are avilable, you can always run:
+</p>
+<pre> ctest -N
+</pre>
+<p>which will display the list of tests but not actually run them.
+</p><p>The second way of specifying tests is using explicit test number option -I:
+</p>
+<pre> ctest -I 3,5
+</pre>
+<p>will run tests:
+</p>
+<pre>Test project
+Running tests: 3 4 5 
+  3/ 13 Testing SystemInformation             
+  4/ 13 Testing TestVTKWriters                
+  5/ 13 Testing TestVTKPython
+</pre>
+<p>We can also specify stride:
+</p>
+<pre> ctest -I ,,3
+</pre>
+<p>will run tests:
+</p>
+<pre>Test project
+Running tests: 1 4 7 10 13 
+  1/ 13 Testing PythonDataDesc                
+  4/ 13 Testing TestVTKWriters                
+  7/ 13 Testing IronImage                     
+ 10/ 13 Testing IronRectMagic                 
+ 13/ 13 Testing IronStructStrideMagic
+</pre>
+<p>Or run individual tests:
+</p>
+<pre> ctest -I 4,4,,4,7,13
+</pre>
+<p>will run tests:
+</p>
+<pre>Test project
+Running tests: 4 7 13
+  4/ 13 Testing TestVTKWriters
+  7/ 13 Testing IronImage
+ 13/ 13 Testing IronStructStrideMagic
+</pre>
+<p>Make sure that the first and second argument are the index of the first test
+</p>
+<h3><span class="mw-headline" id="Dynamic_Analysis">Dynamic Analysis</span></h3>
+<p>Software development can be significantly hindered when memory leaks 
+are introduced in the code. Both Purify and Valgrind can catch most of 
+them. Setting up both is extremely easy.
+</p><p>For example, to setup purify, all you have to do is to add:
+</p>
+<pre>PURIFYCOMMAND:FILEPATH=c:/Progra~1/Rational/common/purify.exe
+</pre>
+<p>To your cmake cache. Same way to setup valgrind, you add:
+</p>
+<pre>MEMORYCHECK_COMMAND:FILEPATH=/home/kitware/local/bin/valgrind
+</pre>
+<p>You can add additional options by specifying MEMORYCHECK_COMMAND_OPTIONS and MEMORYCHECK_SUPPRESSIONS_FILE.
+</p><p>Make sure to run:
+</p>
+<pre>ctest -D NightlyMemoryCheck
+</pre>
+<p>or
+</p>
+<pre>ctest -D NightlyStart
+ctest -D NightlyUpdate
+ctest -D NightlyConfigure
+ctest -D NightlyBuild
+ctest -D NightlyTest
+ctest -D NightlyMemCheck
+ctest -D NightlySubmit
+</pre>
+<h3><span class="mw-headline" id="Customizing_CTest">Customizing CTest</span></h3>
+<p>CTest can be customized by providing CTestCustom.ctest or CTestCustom.cmake file in the <i>build</i> tree. If both
+files exist, CTestCustom.cmake will be preferred. If the CTestCustom.cmake/.ctest file is distributed 
+with the sources of the project, e.g. CONFIGURE_FILE() can be used to put it in the build tree.
+The file may contain any SET command for any CMake variable, but the following ones will be used:
+</p>
+<table border="1">
+
+<tbody><tr bgcolor="#abcdef">
+<th> Variable </th>
+<th> Description
+</th></tr>
+<tr>
+<td> CTEST_CUSTOM_ERROR_MATCH </td>
+<td> Regular expression for errors during build process
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_ERROR_EXCEPTION </td>
+<td> Regular expression for error exceptions during build process
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_WARNING_MATCH </td>
+<td> Regular expression for warnings during build process
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_WARNING_EXCEPTION </td>
+<td> Regular expression for warning exception during build process
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS </td>
+<td> Maximum number of errors to display
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS </td>
+<td> Maximum number of warnings to display
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_TESTS_IGNORE </td>
+<td> List of tests to ignore during the <i>Test</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_MEMCHECK_IGNORE </td>
+<td> List of tests to ignore during the <i>MemCheck</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_PRE_TEST </td>
+<td> Command to execute before any tests are run during <i>Test</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_POST_TEST </td>
+<td> Command to execute after any tests are run during <i>Test</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE </td>
+<td> Maximum size of passed test output
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_MAXIMUM_FAILED_TEST_OUTPUT_SIZE </td>
+<td> Maximum size of failed test output
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_PRE_MEMCHECK </td>
+<td> Command to execute before any tests are run during <i>MemCheck</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_POST_MEMCHECK </td>
+<td> Command to execute after any tests are run during <i>MemCheck</i> stage
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_COVERAGE_EXCLUDE </td>
+<td> Regular expression for excluding files from coverage testing
+</td></tr>
+<tr>
+<td> CTEST_CUSTOM_COVERAGE_GLOB </td>
+<td> Report on uncovered files matching this expression
+</td></tr></tbody></table>
+<p>Example of CTestCustom.cmake file would be:
+</p>
+<pre>SET(CTEST_CUSTOM_MEMCHECK_IGNORE
+  ${CTEST_CUSTOM_MEMCHECK_IGNORE}
+  TestSetGet
+  otherPrint-ParaView
+  Example-vtkLocal
+  Example-vtkMy
+
+  # These tests do not actually run any VTK code
+  HeaderTesting-Common
+  HeaderTesting-Filtering
+  HeaderTesting-Graphics
+  HeaderTesting-Imaging
+  HeaderTesting-IO
+
+  # this one runs python which then runs two
+  # program so no memory checking there
+  Sockets-image
+  )
+
+SET(CTEST_CUSTOM_WARNING_MATCH
+  ${CTEST_CUSTOM_WARNING_MATCH}
+  "{standard input}:[0-9][0-9]*: Warning: "
+  )
+
+IF("@CMAKE_SYSTEM@" MATCHES "OSF")
+  SET(CTEST_CUSTOM_WARNING_EXCEPTION
+    ${CTEST_CUSTOM_WARNING_EXCEPTION}
+    "XdmfDOM"
+    "XdmfExpr"
+    "vtkKWApplication"
+    "vtkKWObject"
+    )
+ENDIF("@CMAKE_SYSTEM@" MATCHES "OSF")
+
+SET(CTEST_CUSTOM_WARNING_EXCEPTION
+  ${CTEST_CUSTOM_WARNING_EXCEPTION}
+  "tcl8.4.5/[^/]+/../[^/]+/[^.]+.c[:\"]"
+  "tk8.4.5/[^/]+/[^/]+.c[:\"]"
+  "VTK/Utilities/vtktiff/"
+  "Utilities/vtkmpeg2/"
+  "Utilities/hdf5/"
+  "xtree.[0-9]+.&nbsp;: warning C4702: unreachable code"
+  "warning LNK4221"
+  "variable .var_args[2]*. is used before its value is set"
+  )
+</pre>
+<h3><span class="mw-headline" id="CTest_Scripting">CTest Scripting</span></h3>
+<p>For an example of how CTest can run the whole testing process described in a
+single script, look at how CMake dashboards are created with the
+<a rel="nofollow" class="external text" href="http://www.cmake.org/HTML/Testing.html">CTest -S script</a>.
+</p>
+<h2><span class="mw-headline" id="Conclusion">Conclusion</span></h2>
+<p>Performing tests on the project is a great software development 
+practice and can result in significant improvement on the quality of the
+ project. CTest provides a simple and reliable way of performing 
+nightly, continuous, and experimental tests.
+</p><p>More information about CTest can be found in
+<a rel="nofollow" class="external text" href="http://www.kitware.com/products/cmakebook.html">Mastering CMake</a>.
+</p><p><br>
+</p>
+<hr>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+<tbody><tr>
+<td bgcolor="#F9F9F9"> <center><small>CMake: [<a href="https://cmake.org/Wiki/CMake" title="CMake">Welcome</a> | <a href="https://cmake.org/Wiki/Category:CMake" title="Category:CMake">Site Map</a>]</small></center>
+</td></tr></tbody></table>
+
+<!-- 
+NewPP limit report
+CPU time usage: 0.052 seconds
+Real time usage: 0.054 seconds
+Preprocessor visited node count: 117/1000000
+Preprocessor generated node count: 212/1000000
+Post‐expand include size: 232/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key KitwarePublicWikiDB:pcache:idhash:696-0!*!0!!en!*!* and timestamp 20160102094253 and revision id 58057
+ -->
+</div><div class="printfooter">
+Retrieved from "<a href="https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;oldid=58057">https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;oldid=58057</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://cmake.org/Wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="https://cmake.org/Wiki/Category:CMake" title="Category:CMake">CMake</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<h2>Navigation menu</h2>
+	<div id="p-cactions" class="portlet" role="navigation">
+		<h3>Views</h3>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="https://cmake.org/Wiki/CMake/Testing_With_CTest" title="View the content page [alt-shift-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="https://cmake.org/Wiki/index.php?title=Talk:CMake/Testing_With_CTest&amp;action=edit&amp;redlink=1" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;action=history" rel="archives" title="Past revisions of this page [alt-shift-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal" role="navigation">
+		<h3>Personal tools</h3>
+		<div class="pBody">
+			<ul>
+				<li id="pt-anonuserpage"><a href="https://cmake.org/Wiki/User:88.156.138.253" class="new" title="The user page for the IP address you are editing as [alt-shift-.]" accesskey=".">88.156.138.253</a></li>
+				<li id="pt-anontalk"><a href="https://cmake.org/Wiki/User_talk:88.156.138.253" class="new" title="Discussion about edits from this IP address [alt-shift-n]" accesskey="n">Talk for this IP address</a></li>
+				<li id="pt-login"><a href="https://cmake.org/Wiki/index.php?title=Special:UserLogin&amp;returnto=CMake%2FTesting+With+CTest&amp;returntoquery=printable%3Dyes" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+				<li id="pt-createaccount"><a href="https://cmake.org/Wiki/Special:RequestAccount">Request account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo" role="banner">
+<a href="https://cmake.org/Wiki/Main_Page" style="background-image: url(/Wiki/images/KWLogo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation" role="navigation">
+		<h3>Navigation</h3>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage-description"><a href="https://cmake.org/Wiki/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main page</a></li>
+				<li id="n-recentchanges"><a href="https://cmake.org/Wiki/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="https://cmake.org/Wiki/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet" role="search">
+		<h3><label for="searchInput">Search</label></h3>
+		<div id="searchBody" class="pBody">
+			<form action="/Wiki/index.php" id="searchform">
+				<input name="title" value="Special:Search" type="hidden">
+				<input autocomplete="off" name="search" placeholder="Search" title="Search KitwarePublic [alt-shift-f]" accesskey="f" id="searchInput" type="search">
+				<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">&nbsp;
+				<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">
+			</form>
+
+					</div>
+	</div>
+	<div class="portlet" id="p-tb" role="navigation">
+		<h3>Tools</h3>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="https://cmake.org/Wiki/Special:WhatLinksHere/CMake/Testing_With_CTest" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="https://cmake.org/Wiki/Special:RecentChangesLinked/CMake/Testing_With_CTest" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="https://cmake.org/Wiki/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+				<li id="t-permalink"><a href="https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;oldid=58057" title="Permanent link to this revision of the page">Permanent link</a></li>
+				<li id="t-info"><a href="https://cmake.org/Wiki/index.php?title=CMake/Testing_With_CTest&amp;action=info">Page information</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="generated-sidebar portlet" id="p-coll-print_export" role="navigation">
+		<h3>Print/export</h3>
+		<div class="pBody">
+			<ul>
+				<li id="coll-book_creator_disable"><a href="https://cmake.org/Wiki/index.php?title=Special:Book&amp;bookcmd=stop_book_creator&amp;referer=CMake%2FTesting+With+CTest">Disable book creator</a></li>
+				<li id="coll-download-as-rl"><a href="https://cmake.org/Wiki/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=CMake%2FTesting+With+CTest&amp;oldid=58057&amp;writer=rl">Download as PDF</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer" role="contentinfo">
+	<div id="f-copyrightico">
+		<a href="https://creativecommons.org/licenses/by/2.5/"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/somerights20.png" alt="Attribution2.5" height="31" width="88"></a>
+	</div>
+	<div id="f-poweredbyico">
+		<a href="https://www.mediawiki.org/"><img src="CMake_Testing%20With%20CTest%20-%20KitwarePublic_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 13 July 2015, at 11:01.</li>
+		<li id="viewcount">This page has been accessed 271,470 times.</li>
+		<li id="copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by/2.5/">Attribution2.5</a> unless otherwise noted.</li>
+		<li id="privacy"><a href="https://cmake.org/Wiki/KitwarePublic:Privacy_policy" title="KitwarePublic:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="https://cmake.org/Wiki/KitwarePublic:About" title="KitwarePublic:About">About KitwarePublic</a></li>
+		<li id="disclaimer"><a href="https://cmake.org/Wiki/KitwarePublic:General_disclaimer" title="KitwarePublic:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>/*<![CDATA[*/window.jQuery && jQuery.ready();/*]]>*/</script><script>if(window.mw){
+mw.loader.state({"site":"ready","user":"ready","user.groups":"ready"});
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","ext.collection.bookcreator"],null,true);
+}</script>
+<script>if(window.mw){
+mw.config.set({"wgBackendResponseTime":217});
+}</script><div style="display: none;" id="collectionpopup"><a href="javascript:void(0)"></a></div><div class="suggestions" style="display: none; font-size: 13.3333px;"><div class="suggestions-results"></div><div class="suggestions-special"></div></div></body></html>

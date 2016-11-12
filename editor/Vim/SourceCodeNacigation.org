@@ -1,0 +1,46 @@
+To jump to the beginning of a C code block (while, switch, if etc), use the [{ command.
+
+To jump to the end of a C code block (while, switch, if etc), use the ]} command.
+
+The above two commands will work from anywhere inside the code block.
+
+To jump to the beginning of a parenthesis use the [( command.
+
+To jump to the end of a parenthesis use the ]) command.
+
+References[yH5BAE]Edit
+
+  * :help [{
+  * :help ]}
+  * :help [(
+  * :help ])
+
+Comments[yH5BAE]Edit
+
+Related to these motion commands are [[ and ]]
+
+  * [[ : sections backward or to the previous '{' in the first column.
+  * ]] : sections forward or to the next '{' in the first column.
+  * [] : sections backward or to the previous '}' in the first column.
+
+This has specially help me in jumping to the top of the functions and jumping from one
+function to the next function. For instance, the first command takes you to the beginning of
+the current function. The second command takes you to the beginning of the next function. The
+third takes you to the end of the previous function.
+
+May be our coding convention played a part in this
+
+---------------------------------------------------------------------------------------------
+
+To jump to the beginning/end of a function that does not have a "{" in the first column,
+there is a work around in the Vim documentation. Try ":help [[" and search for "map" in that
+text.
+
+---------------------------------------------------------------------------------------------
+
+What's the different between this and just searching "/ or ?" for the braces?
+
+I thought this might be a smarter search, but "[{" will still match in open curlies inside a
+comment.
+
+ /} will not work for nested {}.

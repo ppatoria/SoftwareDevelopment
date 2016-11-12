@@ -1,0 +1,638 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch13.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch13.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkNQx2qJNCeBymWinF82uRRSPEnQw=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 13: Code Contracts and Diagnostics</h2>
+
+<p>Conditional compilation</p>
+
+<pre>#define TESTMODE            // #define directives must be at top of file
+                            // Symbol names are uppercase by convention.
+using System;
+
+class Program
+{
+  static void Main()
+  {
+#if TESTMODE
+    Console.WriteLine ("in test mode!");     // OUTPUT: in test mode!
+#endif
+  }
+}
+</pre>
+
+<p>Conditional attribute</p>
+
+<pre>[Conditional ("LOGGINGMODE")]
+static void LogStatus (string msg)
+{
+  ...
+}
+</pre>
+
+<p>Alternatives to conditional attribute</p>
+
+<pre>using System;
+using System.Linq;
+
+class Program
+{
+  public static bool EnableLogging;
+
+  static void LogStatus (Func&lt;string&gt; message)
+  {
+    string logFilePath = ...
+    if (EnableLogging)
+      System.IO.File.AppendAllText (logFilePath, message() + "\r\n");
+  }
+}
+</pre>
+
+<p>TraceListener</p>
+
+<pre>// Clear the default listener:
+Trace.Listeners.Clear();
+
+// Add a writer that appends to the trace.txt file:
+Trace.Listeners.Add (new TextWriterTraceListener ("trace.txt"));
+
+// Obtain the Console's output stream, then add that as a listener:
+System.IO.TextWriter tw = Console.Out;
+Trace.Listeners.Add (new TextWriterTraceListener (tw));
+
+// Set up a Windows Event log source and then create/add listener.
+// CreateEventSource requires administrative elevation, so this would
+// typically be done in application setup.
+if (!EventLog.SourceExists ("DemoApp"))
+  EventLog.CreateEventSource ("DemoApp", "Application");
+
+Trace.Listeners.Add (new EventLogTraceListener ("DemoApp"));
+</pre>
+
+<p>Code Contracts - why use code contracts?</p>
+
+<pre>public static bool AddIfNotPresent&lt;T&gt; (IList&lt;T&gt; list, T item)
+{
+  Contract.Requires (list != null);          // Precondition
+  Contract.Requires (!list.IsReadOnly);      // Precondition
+  Contract.Ensures (list.Contains (item));   // Postcondition
+  if (list.Contains(item)) return false;
+  list.Add (item);
+  return true;
+}
+</pre>
+
+<p>Contract.Requires&lt;TException&gt;</p>
+
+<pre>static void SetProgress (string message, int percent)  // Classic approach
+{
+  if (message == null)
+    throw new ArgumentNullException ("message");
+
+  if (percent &lt; 0 || percent > 100)
+    throw new ArgumentOutOfRangeException ("percent");
+  ...
+}
+</pre>
+<pre>
+static void SetProgress (string message, int percent)  // Modern approach
+{
+  Contract.Requires (message != null);
+  Contract.Requires (percent >= 0 && percent &lt;= 100);
+  ...
+}
+</pre>
+
+<p>Contract.EndContractBlock</p>
+
+<pre>static void Foo (string name)
+{
+  if (name == null) throw new ArgumentNullException ("name");
+  Contract.EndContractBlock();
+  ...
+}
+</pre>
+
+<p>Postconditions - Contract.Ensures</p>
+
+<pre>static bool AddIfNotPresent&lt;T&gt; (IList&lt;T&gt; list, T item)
+{
+  Contract.Requires (list != null);          // Precondition
+  Contract.Ensures (list.Contains (item));   // Postcondition
+  if (list.Contains(item)) return false;
+  list.Add (item);
+  return true;
+}
+</pre>
+
+<p>Postconditions and Thread Safety</p>
+
+<pre>public class ThreadSafeList&lt;T&gt;
+{
+  List&lt;T&gt; _list = new List&lt;T&gt;();
+  object _locker = new object();
+
+  public bool AddIfNotPresent (T item)
+  {
+    Contract.Ensures (_list.Contains (item));
+    lock (_locker)
+    {
+      if (_list.Contains(item)) return false;
+      _list.Add (item);
+      return true;
+    }
+  }
+
+  public void Remove (T item)
+  {
+    lock (_locker)
+      _list.Remove (item);
+  }
+}
+</pre>
+
+<p>Contract.Result&lt;T&gt; and Contract.ValueAtReturn&lt;T&gt;</p>
+
+<pre>Random _random = new Random();
+int GetOddRandomNumber()
+{
+  Contract.Ensures (Contract.Result&lt;int&gt;() % 2 == 1);
+  return _random.Next (100) * 2 + 1;
+}
+</pre>
+
+<p>Contract.OldValue&lt;T&gt;</p>
+
+<pre>static string Middle (string s)
+{
+  Contract.Requires (s != null && s.Length >= 2);
+  Contract.Ensures (Contract.Result&lt;string&gt; ().Length &lt;
+                    Contract.OldValue (s).Length);
+  s = s.Substring (1, s.Length - 2);
+  return s.Trim();
+}
+</pre>
+
+<p>Object Invariants</p>
+
+<pre>class Test
+{
+  int _x, _y;
+
+  [ContractInvariantMethod]
+  void ObjectInvariant()
+  {
+    Contract.Invariant (_x >= 0);
+    Contract.Invariant (_y >= _x);
+  }
+
+  public int X { get { return _x; } set { _x = value; } }
+  public void Test1() { _x = -3; }  
+  void Test2()        { _x = -3; }  
+} 
+</pre>
+
+<p>Contracts on Interfaces and Abstract Methods</p>
+
+<pre>[ContractClass (typeof (ContractForITest))]
+interface ITest
+{
+  int Process (string s);
+}
+
+[ContractClassFor (typeof (ITest))]
+sealed class ContractForITest : ITest
+{
+  int ITest.Process (string s)     // Must use explicit implementation.
+  {
+    Contract.Requires (s != null);
+    return 0;                      // Dummy value to satisfy compiler.
+  }
+}
+</pre>
+
+<p>ContractFailed event</p>
+
+<pre>Contract.ContractFailed += (sender, args) =>
+{
+  string failureMessage = args.FailureKind + ": " + args.Message;
+  // Log failureMessage with unit testing framework:
+  // ...
+  args.SetUnwind();
+};
+</pre>
+
+<p>Static contract checking</p>
+
+<pre>static void Main()
+{
+  string message = null;
+  WriteLine (message);     // Static checking tool will generate warning
+}
+
+static void WriteLine (string s)
+{
+  Contract.Requires (s != null);
+  Console.WriteLine (s);
+}
+</pre>
+
+<pre>static void WriteLine (string s, bool b)
+{
+  <b>Contract.Requires (s != null);</b>
+  if (b)
+    WriteLine (s);    // Warning: requires unproven
+}
+
+static void WriteLine (string s)
+{
+  Contract.Requires (s != null);
+  Console.WriteLine (s);
+}
+</pre>
+
+
+	<p>Enumerating processes:</p>
+	<pre>foreach (Process p in Process.GetProcesses())
+{
+  Console.WriteLine (p.ProcessName);
+  Console.WriteLine (&quot;   PID:      &quot; + p.Id);
+  Console.WriteLine (&quot;   Started:  &quot; + p.StartTime);
+  Console.WriteLine (&quot;   Memory:   &quot; + p.WorkingSet64);
+  Console.WriteLine (&quot;   CPU time: &quot; + p.TotalProcessorTime);
+  Console.WriteLine (&quot;   Threads:  &quot; + p.Threads.Count);
+}</pre>
+	<p>Enumerating process threads:</p><pre>public void EnumerateThreads (Process p)
+{
+  foreach (ProcessThread pt in p.Threads)
+  {
+    Console.WriteLine (pt.Id);
+    Console.WriteLine (&quot;   State:    &quot; + pt.ThreadState);
+    Console.WriteLine (&quot;   Priority: &quot; + pt.PriorityLevel);
+    Console.WriteLine (&quot;   Started:  &quot; + pt.StartTime);
+    Console.WriteLine (&quot;   CPU time: &quot; + pt.TotalProcessorTime);
+  }    
+}</pre>
+	<p>StackTrace and StackFrame:</p><pre>static void Main() { A (); }
+static void A()    { B (); }
+static void B()    { C (); }
+static void C()
+{
+  StackTrace s = new StackTrace (true);
+
+  Console.WriteLine (&quot;Total frames:   &quot; + s.FrameCount);
+  Console.WriteLine (&quot;Current method: &quot; + s.GetFrame(0).GetMethod().Name);
+  Console.WriteLine (&quot;Calling method: &quot; + s.GetFrame(1).GetMethod().Name);
+  Console.WriteLine (&quot;Entry method:   &quot; + s.GetFrame
+                                       (s.FrameCount-1).GetMethod().Name);
+  Console.WriteLine (&quot;Call Stack:&quot;);
+  foreach (StackFrame f in s.GetFrames())
+    Console.WriteLine (
+      &quot;  File: &quot;   + f.GetFileName() +
+      &quot;  Line: &quot;   + f.GetFileLineNumber() +
+      &quot;  Col: &quot;    + f.GetFileColumnNumber() +
+      &quot;  Offset: &quot; + f.GetILOffset() +
+      &quot;  Method: &quot; + f.GetMethod().Name);
+}</pre>
+	<p>Writing to the Windows Event Log:</p><pre>const string SourceName = &quot;MyCompany.WidgetServer&quot;;
+
+if (!EventLog.SourceExists (SourceName))
+  EventLog.CreateEventSource (SourceName, &quot;Application&quot;);
+
+EventLog.WriteEntry (SourceName,
+  &quot;Service started; using configuration file=...&quot;,
+  EventLogEntryType.Information);</pre>
+	<p>Reading from the Windows Event Log:</p><pre>EventLog log = new EventLog (&quot;Application&quot;);
+
+Console.WriteLine (&quot;Total entries: &quot; + log.Entries.Count);
+
+EventLogEntry last = log.Entries [log.Entries.Count - 1];
+Console.WriteLine (&quot;Index:   &quot; + last.Index);
+Console.WriteLine (&quot;Source:  &quot; + last.Source);
+Console.WriteLine (&quot;Type:    &quot; + last.EntryType);
+Console.WriteLine (&quot;Time:    &quot; + last.TimeWritten);
+Console.WriteLine (&quot;Message: &quot; + last.Message);</pre>
+	<p>Monitoring the Windows Event Log:</p><pre>static void Main()
+{
+  EventLog log = new EventLog (&quot;Application&quot;);
+  log.EnableRaisingEvents = true;
+  log.EntryWritten += DisplayEntry;
+  Console.ReadLine();
+}
+
+static void DisplayEntry (object sender, EntryWrittenEventArgs e)
+{
+  EventLogEntry entry = e.Entry;
+  Console.WriteLine (entry.Message);
+}</pre>
+	<p>Enumerating performance counters:</p><pre>PerformanceCounterCategory[] cats =
+  PerformanceCounterCategory.GetCategories();
+
+foreach (PerformanceCounterCategory cat in cats)
+{
+  Console.WriteLine (&quot;Category: &quot; + cat.CategoryName);
+
+  string[] instances = cat.GetInstanceNames();
+  if (instances.Length == 0)
+  {
+    foreach (PerformanceCounter ctr in cat.GetCounters())
+      Console.WriteLine (&quot;  Counter: &quot; + ctr.CounterName);
+  }
+  else   // Dump counters with instances   
+  {
+    foreach (string instance in instances)
+    {
+      Console.WriteLine (&quot;  Instance: &quot; + instance);
+      if (cat.InstanceExists (instance))
+        foreach (PerformanceCounter ctr in cat.GetCounters (instance))
+          Console.WriteLine (&quot;    Counter: &quot; + ctr.CounterName);
+    }
+  }
+}</pre>
+	<p>Enumerating performance counters with LINQ to XML:</p><pre>var x =
+  new XElement (&quot;counters&quot;,
+    from PerformanceCounterCategory cat in
+         PerformanceCounterCategory.GetCategories()
+    where cat.CategoryName.StartsWith (&quot;.NET&quot;)
+    let instances = cat.GetInstanceNames()
+    select new XElement (&quot;category&quot;,
+      new XAttribute (&quot;name&quot;, cat.CategoryName),
+      instances.Length == 0
+      ?
+        from c in cat.GetCounters ()
+        select new XElement (&quot;counter&quot;,
+          new XAttribute (&quot;name&quot;, c.CounterName))
+      :
+        from i in instances
+        select new XElement (&quot;instance&quot;, new XAttribute (&quot;name&quot;, i),
+          !cat.InstanceExists (i)
+          ?
+            null
+          :
+            from c in cat.GetCounters (i)
+            select new XElement (&quot;counter&quot;,
+              new XAttribute (&quot;name&quot;, c.CounterName))
+        )
+    )
+  );
+x.Save (&quot;counters.xml&quot;);</pre>
+	<p>Reading performance counter data:</p><pre>using (PerformanceCounter pc = new PerformanceCounter (&quot;Processor&quot;,
+                                                       &quot;% Processor Time&quot;,
+                                                       &quot;_Total&quot;))
+  Console.WriteLine (pc.NextValue());
+
+
+string procName = Process.GetCurrentProcess().ProcessName;
+
+using (PerformanceCounter pc = new PerformanceCounter (&quot;Process&quot;,
+                                                       &quot;Private Bytes&quot;,
+                                                       procName))
+  Console.WriteLine (pc.NextValue());</pre>
+	<p>Polling performance counters:</p><pre>static void Monitor (string category, string counter, string instance,
+                     EventWaitHandle stopper)
+{
+  if (!PerformanceCounterCategory.Exists (category))
+    throw new InvalidOperationException (&quot;Category does not exist&quot;);
+
+  if (!PerformanceCounterCategory.CounterExists (counter, category))
+    throw new InvalidOperationException (&quot;Counter does not exist&quot;);
+
+  if (instance == null) instance = &quot;&quot;;   // &quot;&quot; == no instance (not null!)
+  if (instance != &quot;&quot; &amp;&amp;
+      !PerformanceCounterCategory.InstanceExists (instance, category))
+    throw new InvalidOperationException (&quot;Instance does not exist&quot;);
+
+  float lastValue = 0f;
+  using (PerformanceCounter pc = new PerformanceCounter (category,
+                                                      counter, instance))
+    while (!stopper.WaitOne (200, false))
+    {
+      float value = pc.NextValue();
+      if (value != lastValue)         // Only write out the value
+      {                               // if it has changed.
+        Console.WriteLine (value);
+        lastValue = value;
+      }
+    }
+}</pre>
+	<pre>static void Main()
+{
+  EventWaitHandle stopper = new ManualResetEvent (false);
+  new Thread (delegate()
+    { Monitor (&quot;Processor&quot;, &quot;% Processor Time&quot;, &quot;_Total&quot;, stopper); }
+  ).Start();
+  new Thread (delegate()
+    { Monitor (&quot;LogicalDisk&quot;, &quot;% Idle Time&quot;, &quot;C:&quot;, stopper); }
+  ).Start();
+  Console.WriteLine (&quot;Monitoring - press any key to quit&quot;);
+  Console.ReadKey();
+  stopper.Set();
+}</pre>
+	<p>Creating counters:</p><pre>string category = &quot;Nutshell Monitoring&quot;;
+
+// We'll create two counters in this category:
+string eatenPerMin = &quot;Macadamias eaten so far&quot;;
+string tooHard = &quot;Macadamias deemed too hard&quot;;
+
+if (!PerformanceCounterCategory.Exists (category))
+{
+  CounterCreationDataCollection cd = new CounterCreationDataCollection();
+
+  cd.Add (new CounterCreationData (eatenPerMin,
+          &quot;Number of macadamias consumed, including shelling time&quot;,
+          PerformanceCounterType.NumberOfItems32));
+
+  cd.Add (new CounterCreationData (tooHard,
+          &quot;Number of macadamias that will not crack, despite much effort&quot;,
+          PerformanceCounterType.NumberOfItems32));
+
+  PerformanceCounterCategory.Create (category, &quot;Test Category&quot;,
+    PerformanceCounterCategoryType.SingleInstance, cd);
+}</pre>
+	<p>Updating a counter value:</p><pre>string category = &quot;Nutshell Monitoring&quot;;
+string eatenPerMin = &quot;Macadamias eaten so far&quot;;
+
+using (PerformanceCounter pc = new PerformanceCounter (category,
+                                                       eatenPerMin, &quot;&quot;))
+{
+  pc.ReadOnly = false;
+  pc.RawValue = 1000;
+  pc.Increment();
+  pc.IncrementBy (10);
+  Console.WriteLine (pc.NextValue());    // 1011
+}</pre>
+
+</div>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch13.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

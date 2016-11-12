@@ -1,0 +1,756 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch03.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+
+<h2>Chapter 3: Creating Types in C#</h2>
+<p>Overloading Constructors:</p>
+<pre>using System;
+
+public class Wine
+{
+  public decimal Price;
+  public int Year;
+  public Wine (decimal price) { Price = price; }
+  public Wine (decimal price, int year) : this (price) { Year = year; }
+}</pre>
+<p>Object Initializers:</p>
+<pre>public class Bunny
+{
+  public string Name;
+  public bool LikesCarrots;
+  public bool LikesHumans;
+
+  public Bunny () {}
+  public Bunny (string n) { Name = n; }
+}</pre>
+<pre>Bunny b1 = new Bunny { Name=&quot;Bo&quot;, LikesCarrots=true, LikesHumans=false };
+Bunny b2 = new Bunny (&quot;Bo&quot;)     { LikesCarrots=true, LikesHumans=false };</pre>
+<p>The <b>this</b> reference:</p>
+<pre>public class Panda
+{
+  public Panda Mate;
+
+  public void Marry (Panda partner)
+  {
+    Mate = partner;
+    partner.Mate = this;
+  }
+}</pre>
+<pre>public class Test
+{
+  string name;
+  public Test (string name) { this.name = name; }
+}</pre>
+<p>Properties:</p>
+<pre>public class Stock
+{
+  decimal currentPrice;           // The private &quot;backing&quot; field
+
+  public decimal CurrentPrice     // The public property
+  {
+     get { return currentPrice; } set { currentPrice = value; }
+  }
+}</pre>
+<p>Read-only and calculated properties:</p>
+<pre>public class Stock
+{
+  string  symbol;
+  decimal purchasePrice, currentPrice;
+  long    sharesOwned;
+
+  public Stock (string symbol, decimal purchasePrice, long sharesOwned)
+  {
+    this.symbol = symbol;
+    this.purchasePrice = currentPrice = purchasePrice;
+    this.sharesOwned = sharesOwned;
+  }
+
+  public decimal CurrentPrice  { get { return currentPrice;             }
+                                 set { currentPrice = value;            } }
+  public string Symbol         { get { return symbol;                   } }
+  public decimal PurchasePrice { get { return purchasePrice;            } }
+  public long    SharesOwned   { get { return sharesOwned;              } }
+  public decimal Worth         { get { return CurrentPrice*SharesOwned; } }
+}
+
+class Test
+{
+  static void Main()
+  {
+    Stock msft = new Stock (&quot;MSFT&quot;, 20, 1000);
+    Console.WriteLine (msft.Worth);                // 20000
+    msft.CurrentPrice = 30;
+    Console.WriteLine (msft.Worth);                // 30000
+  }
+}</pre>
+<p>Automatic properties:</p>
+<pre>public class Stock
+{
+  // ...
+  public decimal CurrentPrice { get; set; }
+}</pre>
+<p>get and set accessibility:</p>
+<pre>public class Foo
+{
+  private decimal x;
+  public decimal X
+  {
+    get          {return x;} 
+    internal set {x = value;}
+  }
+}</pre>
+<p>Implementing an Indexer:</p>
+<pre>public class Portfolio
+{
+  Stock[] stocks;
+  public Portfolio (int numberOfStocks)
+  {
+    stocks = new Stock [numberOfStocks];
+  }
+
+  public int NumberOfStocks { get { return stocks.Length; } }
+
+  public Stock this [int index]      // indexer
+  { 
+    get { return stocks [index];  }
+    set { stocks [index] = value; }
+  }
+}
+
+class Test
+{
+  static void Main()
+  {
+    Portfolio portfolio = new Portfolio(3);
+    portfolio [0] = new Stock (&quot;MSFT&quot;, 20, 1000);
+    portfolio [1] = new Stock (&quot;GOOG&quot;, 300, 100);
+    portfolio [2] = new Stock (&quot;EBAY&quot;, 33, 77);
+
+    for (int i = 0; i &lt; portfolio.NumberOfStocks; i++)
+      Console.WriteLine (portfolio[i].Symbol);
+  }
+}</pre>
+<p>Multiple indexers:</p>
+<pre>public class Portfolio
+{
+  ...
+  public Stock this[string symbol]
+  {
+    get
+    {
+      foreach (Stock s in stocks)
+        if (s.Symbol == symbol)
+          return s;
+      return null;
+    }
+  }
+}</pre>
+<p>Static Constructors:</p>
+<pre>class Test
+{
+  static Test()
+  {
+    Console.WriteLine (&quot;Type Initialized&quot;);
+  }
+}</pre>
+<p>Partial methods:</p>
+<pre>// PaymentFormGen.cs — auto-generated
+partial class PaymentForm
+{
+  // ...
+  partial void ValidatePayment(decimal amount);
+}
+</pre>
+<pre>// PaymentForm.cs — hand-authored
+partial class PaymentForm
+{
+  // ...
+  // partial void ValidatePayment(decimal amount)
+  {
+    if (amount &gt; 100)
+    {
+      // ...
+    }
+  }
+}</pre>
+<p>Inheritance:</p>
+<pre>public class Asset
+{
+  public string  Name;
+  public decimal PurchasePrice, CurrentPrice;
+}</pre>
+<pre>public class Stock : Asset   // inherits from Asset
+{
+  public long SharesOwned;
+}
+
+public class House : Asset   // inherits from Asset
+{
+  public decimal Mortgage;
+}
+
+class Test
+{
+  static void Main()
+  {
+    Stock msft = new Stock()
+    { Name=&quot;MSFT&quot;, PurchasePrice=20, CurrentPrice=30, SharesOwned=1000 };
+
+    House mansion = new House
+    { Name=&quot;McMansion&quot;, PurchasePrice=300000, CurrentPrice=200000,
+      Mortgage=250000 };
+
+    Console.WriteLine (msft.Name);           // MSFT
+    Console.WriteLine (mansion.Name);        // McMansion
+
+    Console.WriteLine (msft.SharesOwned);    // 1000
+    Console.WriteLine (mansion.Mortgage);    // 250000
+  }
+}</pre>
+<p>Polymorphism:</p>
+<pre>class Test
+{
+  static void Main()
+  {
+    Stock msft    = new Stock ... ;
+    House mansion = new House ... ;
+    Display (msft);
+    Display (mansion);
+  }
+
+  public static void Display (Asset asset)
+  {
+    System.Console.WriteLine (asset.Name);
+  }
+}</pre>
+<pre>static void Main() { Display (new Asset()); }    // Compile-time error
+
+public static void Display (House house)         // Will not accept Asset
+{
+  System.Console.WriteLine (house.Mortgage);
+}</pre>
+<p>Downcasting:</p>
+<pre>Stock msft = new Stock();
+Asset a = msft;                      // upcast
+Stock s = (Stock)a;                  // downcast
+Console.WriteLine (s.SharesOwned);   // &lt;No error&gt;
+Console.WriteLine (s == a);          // true
+Console.WriteLine (s == msft);       // true</pre>
+<p>Virtual function members:</p>
+<pre>public class Asset
+{
+  ...
+  public virtual decimal Liability { get { return 0; } }
+}
+</pre>
+<pre>public class Stock : Asset { ... }
+
+public class House : Asset
+{
+  ...
+  public override decimal Liability { get { return Mortgage; } }
+}</pre>
+<pre>House mansion = new House
+ { Name=&quot;McMansion&quot;, PurchasePrice=300000, CurrentPrice=200000,
+   Mortgage=250000 };
+
+Asset a = mansion;
+decimal d2 = mansion.Liability;      // 250000</pre>
+<p>Abstract classes &amp; abstract members:</p>
+<pre>public abstract class Asset
+{
+  ...
+  public abstract decimal NetValue { get; }   // Note empty implementation
+}
+
+public class Stock : Asset
+{
+  ...                                     // Override an abstract method
+  public override decimal NetValue        // just like a virtual method.
+  {
+    get { return CurrentPrice * SharesOwned; }
+  }
+}
+
+public class House : Asset     // Every non abstract subtype must
+{                              // define NetValue.
+  ...
+  public override decimal NetValue
+  {
+    get { return CurrentPrice - Mortgage; }
+  }
+}</pre>
+<p>new vs. virtual</p>
+<pre>public class BaseClass
+{
+  public virtual void Foo()  { Console.WriteLine (&quot;BaseClass.Foo&quot;); }
+}
+
+public class Overrider : BaseClass
+{
+  public override void Foo() { Console.WriteLine (&quot;Overrider.Foo&quot;); }
+}
+
+public class Hider : BaseClass
+{
+  public new void Foo()      { Console.WriteLine (&quot;Hider.Foo&quot;); }
+}</pre>
+<pre>Overrider o = new Overrider();
+BaseClass b1 = o;
+o.Foo();                           // Overrider.Foo
+b1.Foo();                          // Overrider.Foo
+
+Hider h = new Hider();
+BaseClass b2 = h;
+h.Foo();                           // Hider.Foo
+b2.Foo();                          // BaseClass.Foo</pre>
+<p>GetType() and typeof</p>
+<pre>using System;
+
+public class Point {public int X, Y;}
+
+class Test
+{
+  static void Main()
+  {
+    Point p = new Point();
+    Console.WriteLine (p.GetType().Name);             // Point
+    Console.WriteLine (typeof (Point).Name);          // Point
+    Console.WriteLine (p.GetType() == typeof(Point)); // True
+    Console.WriteLine (p.X.GetType().Name);           // Int32
+    Console.WriteLine (p.Y.GetType().FullName);       // System.Int32
+  }
+}</pre>
+<p>Explicit interface implementation:</p>
+<pre>interface I1 { void Foo(); }
+interface I2 { int Foo(); }
+
+public class Widget : I1, I2
+{
+  public void Foo ()
+  {
+    Console.WriteLine (&quot;Widget's implementation of I1.Foo&quot;);
+  }
+
+  int I2.Foo ()
+  {
+    Console.WriteLine (&quot;Widget's implementation of I2.Foo&quot;);
+    return 42;
+  }
+}</pre>
+<pre>Widget w = new Widget();
+w.Foo();                      // Widget's implementation of I1.Foo
+((I1)w).Foo();                // Widget's implementation of I1.Foo 
+((I2)w).Foo();                // Widget's implementation of I2.Foo</pre>
+<p>Implementing interface members virtually:</p>
+<pre>public interface IUndoable { void Undo(); }
+
+public class TextBox : IUndoable
+{
+  public virtual void Undo()
+  {
+     Console.WriteLine (&quot;TextBox.Undo&quot;);
+  }
+}
+
+public class RichTextBox : TextBox
+{
+  public override void Undo()
+  {
+    Console.WriteLine (&quot;RichTextBox.Undo&quot;);
+  }
+}</pre>
+<pre>RichTextBox r = new RichTextBox();
+r.Undo();                          // RichTextBox.Undo
+((IUndoable)r).Undo();             // RichTextBox.Undo
+((TextBox)r).Undo();               // RichTextBox.Undo</pre>
+<p>Reimplementing an interface in a subclass:</p>
+<pre>public interface IUndoable { void Undo(); }
+
+public class TextBox : IUndoable
+{
+  void IUndoable.Undo() { Console.WriteLine (&quot;TextBox.Undo&quot;); }
+}
+
+public class RichTextBox : TextBox, IUndoable
+{
+  public new void Undo() { Console.WriteLine (&quot;RichTextBox.Undo&quot;); }
+}</pre>
+<pre>RichTextBox r = new RichTextBox();
+r.Undo();                 // RichTextBox.Undo      Case 1
+((IUndoable)r).Undo();    // RichTextBox.Undo      Case 2</pre>
+<pre>public class TextBox : IUndoable
+{
+  public void Undo() { Console.WriteLine (&quot;TextBox.Undo&quot;); }
+}</pre>
+<pre>RichTextBox r = new RichTextBox();
+r.Undo();                 // RichTextBox.Undo      Case 1
+((IUndoable)r).Undo();    // RichTextBox.Undo      Case 2
+((TextBox)r).Undo();      // TextBox.Undo          Case 3</pre>
+<p>Alternatives to interface reimplementation:</p>
+<pre>public class TextBox : IUndoable
+{
+  void IUndoable.Undo()         { Undo(); }   // Calls method below
+  protected virtual void Undo() { Console.WriteLine (&quot;TextBox.Undo&quot;); }
+}
+
+public class RichTextBox : TextBox
+{
+  protected override void Undo() { Console.WriteLine (&quot;RichTextBox.Undo&quot;); }
+}</pre>
+<p>Flags enums:</p>
+<pre>[Flags]
+public enum BorderSides { Left=1, Right=2, Top=4, Bottom=8 }
+</pre>
+<pre>BorderSides leftRight = BorderSides.Left | BorderSides.Right;
+
+if ((leftRight &amp; BorderSides.Left) != 0)
+   System.Console.WriteLine (&quot;Includes Left&quot;);   // Includes Left
+
+string formatted = leftRight.ToString();   // &quot;Left, Right&quot;
+
+BorderSides s = BorderSides.Left;
+s |= BorderSides.Right;
+Console.WriteLine (s == leftRight);   // True
+
+s ^= BorderSides.Right;               // Toggles BorderSides.Right
+Console.WriteLine (s);                // Left  </pre>
+<p>Enum type safety issues:</p>
+<pre>static bool IsFlagDefined (Enum e)
+{
+  decimal d;
+  return ! decimal.TryParse(e.ToString(), out d);
+}
+
+[Flags]
+public enum BorderSides { Left=1, Right=2, Top=4, Bottom=8 }
+
+static void Main()
+{
+  for (int i = 0; i &lt;= 16; i++)
+  {
+    BorderSides side = (BorderSides)i;
+    Console.WriteLine (IsFlagDefined (side) + &quot; &quot; + side);
+  }
+}</pre>
+<p>Generic types:</p>
+<pre>public class Stack&lt;T&gt;
+{
+  int position;
+  T[] data = new T[100];
+  public void Push (T obj)        { data[position++] = obj;  }
+  public T Pop ()                 { return data[--position]; }
+}</pre>
+<pre>Stack&lt;int&gt; stack = new Stack&lt;int&gt;(); 
+stack.Push(5);
+stack.Push(10);
+int x = stack.Pop();</pre>
+<p>Generic methods:</p>
+<pre>static void Swap&lt;T&gt; (ref T a, ref T b)
+{
+  T temp = b;
+  a = b;
+  b = temp;
+}</pre>
+<p>default generic value:</p>
+<pre>static void Zap&lt;T&gt; (T[] array)
+{
+  for (int i = 0; i &lt; array.Length; i++)
+    array[i] = default(T);
+}</pre>
+<p>Constraints:</p>
+<pre>static T Max &lt;T&gt; (T a, T b) where T : IComparable&lt;T&gt;
+{
+  return a.CompareTo (b) &gt; 0 ? a : b;
+}</pre>
+<pre>static void Initialize&lt;T&gt; (T[] array) where T : new()
+{
+  for (int i = 0; i &lt; array.Length; i++)
+    array[i] = new T(); 
+}</pre>
+<pre>class Stack&lt;T&gt;
+{
+  Stack&lt;U&gt; FilteredStack&lt;U&gt;() where U : T {...}
+}</pre>
+<p>Generics and covariance:</p>
+<pre>class Animal {}
+class Bear : Animal {}</pre>
+<pre>public class ZooCleaner
+{
+  public static void Wash&lt;T&gt; (Stack&lt;T&gt; animals) where T : Animal {}
+}</pre>
+<pre>Stack&lt;Bear&gt; bears = new Stack&lt;Bear&gt;();
+ZooCleaner.Wash (bears);</pre>
+<p>Self-referencing generic declarations:</p>
+<pre>interface IEquatable&lt;T&gt; { bool Equals (T obj); }
+
+public class Balloon : IEquatable&lt;Balloon&gt;
+{
+  string color;
+  int cc;
+
+  public bool Equals (Balloon b)
+  {
+    if (b == null) return false;
+    return b.color == color &amp;&amp; b.cc == cc;
+  }
+}</pre>
+<p>Uniqueness of static data in generic types:</p>
+<pre>public class Bob&lt;T&gt; { public static int Count; }
+
+class Test
+{
+  static void Main()
+  {
+    Console.WriteLine (++Bob&lt;int&gt;.Count);     // 1
+    Console.WriteLine (++Bob&lt;int&gt;.Count);     // 2
+    Console.WriteLine (++Bob&lt;string&gt;.Count);  // 1
+    Console.WriteLine (++Bob&lt;object&gt;.Count);  // 1
+  }
+}</pre>
+<p>Object initializers:</p>
+<pre>List&lt;int&gt; list = new List&lt;int&gt; {1, 2, 3};</pre>
+<p>&nbsp;</p>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch03.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

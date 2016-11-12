@@ -1,0 +1,33 @@
+using System;
+using System.Threading;
+
+class Program
+{
+    public static void Main ()
+	{
+	    try
+	    {	
+	    
+	    Thread foregroundThread = new Thread( () => 
+		{
+		    try
+		    {
+			for (int i=0; i<int.MaxValue; i++)
+			{
+			    Console.WriteLine (i);
+			}
+		    }
+		    catch (Exception ex)
+		    {
+			Console.WriteLine (ex.ToString());
+		    } 
+                });
+
+            foregroundThread.Start();
+	    }
+	    catch (Exception ex)
+	    {
+		Console.WriteLine (ex);
+	    }
+        }
+}

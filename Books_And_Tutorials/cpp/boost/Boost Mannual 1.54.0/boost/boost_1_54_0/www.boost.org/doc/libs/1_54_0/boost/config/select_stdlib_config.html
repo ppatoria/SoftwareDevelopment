@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/select_stdlib_config.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:49 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/config/select_stdlib_config.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/config/select_stdlib_config.hpp</h3>
+<pre>
+//  Boost compiler configuration selection header file
+
+//  (C) Copyright John Maddock 2001 - 2003. 
+//  (C) Copyright Jens Maurer 2001 - 2002. 
+//  Use, modification and distribution are subject to the 
+//  Boost Software License, Version 1.0. (See accompanying file 
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+
+//  See http://www.boost.org for most recent version.
+
+// locate which std lib we are using and define BOOST_STDLIB_CONFIG as needed:
+
+// First include &lt;cstddef&gt; to determine if some version of STLport is in use as the std lib
+// (do not rely on this header being included since users can short-circuit this header 
+//  if they know whose std lib they are using.)
+#ifdef __cplusplus
+#  include &lt;cstddef&gt;
+#else
+#  include &lt;stddef.h&gt;
+#endif
+
+#if defined(__SGI_STL_PORT) || defined(_STLPORT_VERSION)
+// STLPort library; this _must_ come first, otherwise since
+// STLport typically sits on top of some other library, we
+// can end up detecting that first rather than STLport:
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/stlport.hpp&quot;
+
+#else
+
+// If our std lib was not some version of STLport, then include &lt;utility&gt; as it is about 
+// the smallest of the std lib headers that includes real C++ stuff.  (Some std libs do not
+// include their C++-related macros in &lt;cstddef&gt; so this additional include makes sure
+// we get those definitions)
+// (again do not rely on this header being included since users can short-circuit this 
+//  header if they know whose std lib they are using.)
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config/no_tr1/utility.hpp">boost/config/no_tr1/utility.hpp</a>&gt;
+
+#if defined(__LIBCOMO__)
+// Comeau STL:
+#define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/libcomo.hpp&quot;
+
+#elif defined(__STD_RWCOMPILER_H__) || defined(_RWSTD_VER)
+// Rogue Wave library:
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/roguewave.hpp&quot;
+
+#elif defined(_LIBCPP_VERSION)
+// libc++
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/libcpp.hpp&quot;
+
+#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+// GNU libstdc++ 3
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/libstdcpp3.hpp&quot;
+
+#elif defined(__STL_CONFIG_H)
+// generic SGI STL
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/sgi.hpp&quot;
+
+#elif defined(__MSL_CPP__)
+// MSL standard lib:
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/msl.hpp&quot;
+
+#elif defined(__IBMCPP__)
+// take the default VACPP std lib
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/vacpp.hpp&quot;
+
+#elif defined(MSIPL_COMPILE_H)
+// Modena C++ standard library
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/modena.hpp&quot;
+
+#elif (defined(_YVALS) &amp;&amp; !defined(__IBMCPP__)) || defined(_CPPLIB_VER)
+// Dinkumware Library (this has to appear after any possible replacement libraries):
+#  define BOOST_STDLIB_CONFIG &quot;boost/config/stdlib/dinkumware.hpp&quot;
+
+#elif defined (BOOST_ASSERT_CONFIG)
+// this must come last - generate an error if we don't
+// recognise the library:
+#  error &quot;Unknown standard library - please configure and report the results to boost.org&quot;
+
+#endif
+
+#endif
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/config/select_stdlib_config.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:49 GMT -->
+</html>

@@ -1,0 +1,110 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../../CSS/org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Factory Method vs Abastract Factory 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Factory Method                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Abstract Factory                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Factory method is a single method                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Abstract factory is an object                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Because the factory method is just a method, it can be overridden in a subclass, hence the Factory Method pattern uses inheritance and relies on a subclass to handle the desired object instantiation. The quote assumes that an object is calling it's own factory method here. Therefor the only thing that could change the return value would be a subclass. The main difference between a "factory method" and an "abstract factory" is that , and an abstract factory is an object. | The abstract factory is an object that has multiple factory methods on it. With the Abstract Factory pattern, a class delegates the responsibility of object instantiation to another object via composition ... What they're saying is that there is an object A, who wants to make a Foo object. Instead of making Foo object itself (e.g. with a factory method), it's going get a different object (the abstract factory) to create the Foo object. |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+#+begin_src csharp
+/************************************************
+ *            factory method                    *
+ ***********************************************/
+
+class A 
+{
+    public void doSomething() 
+	{
+	    Foo f = makeFoo();
+	    f.whatever();   
+	}
+
+    protected Foo makeFoo() 
+	{
+	    return new RegularFoo();
+	}
+}
+
+class B extends A 
+{
+    protected Foo makeFoo() 
+    {
+        //subclass is overriding the factory method to return something different
+        return new SuperFoo();
+    }
+}
+
+/************************************************
+ *             abstract factory                 *
+ ***********************************************/
+
+class A 
+{
+    private Factory factory;
+
+    public A(Factory factory) 
+	{
+	    this.factory = factory;
+	}
+
+    public void doSomething() 
+	{
+	    //The concrete class of "f" depends on the concrete class
+	    //of the factory passed into the constructor. If you provide a
+	    //different factory, you get a different Foo object.
+	    Foo f = factory.makeFoo();
+	    f.whatever();
+	}
+}
+
+interface Factory 
+{
+    Foo makeFoo();
+    Bar makeBar();
+    Aycufcn makeAmbiguousYetCommonlyUsedFakeClassName();
+}
+
+//need to make concrete factories that implement the "Factory" interface here
+#+end_src                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+
+ 
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+
+ 
+
+
+
+
+ 
+
+

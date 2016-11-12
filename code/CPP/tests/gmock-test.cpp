@@ -1,0 +1,46 @@
+#include "mock-turtle.h"
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
+#include <memory>
+
+class MockTurtle : public Turtle {
+ public:
+  MOCK_METHOD0(PenUp, void());
+  MOCK_METHOD0(PenDown, void());
+  MOCK_METHOD1(Forward, void(int distance));
+  MOCK_METHOD1(Turn, void(int degrees));
+  MOCK_METHOD2(GoTo, void(int x, int y));
+  MOCK_CONST_METHOD0(GetX, int());
+  MOCK_CONST_METHOD0(GetY, int());
+  ~MockTurtle() = default;
+
+  ON_CALL(this, GetX(_))
+  .WillByDefault(Return(10))
+};
+
+class Painter{
+public:
+  Painter( std::shared_ptr<Turtle> turtle )
+    : turtle_(turtle)
+  { }
+  bool DrawCircle(int x, int y, int z)
+  {
+    turtle_->PenDown();
+    return true;
+  }
+private:
+  std::shared_ptr<Turtle> turtle_;
+};
+
+using ::testing::AtLeast;                       // #1
+
+TEST(PainterTest, CanDrawSomething) {
+  auto turtle = std::make_shared<MockTurtle>(); // #2
+  EXPECT_CALL(*turtle, PenDown())               // #3
+    .Times(AtLeast(1));
+  
+  Painter painter(turtle);                      // #4
+  
+  EXPECT_TRUE(painter.DrawCircle(0, 0, 10));
+}                                               // #5
+

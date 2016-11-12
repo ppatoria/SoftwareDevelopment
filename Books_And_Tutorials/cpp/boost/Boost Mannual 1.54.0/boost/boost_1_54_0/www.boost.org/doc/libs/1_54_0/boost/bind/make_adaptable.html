@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/make_adaptable.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/bind/make_adaptable.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/bind/make_adaptable.hpp</h3>
+<pre>
+#ifndef BOOST_BIND_MAKE_ADAPTABLE_HPP_INCLUDED
+#define BOOST_BIND_MAKE_ADAPTABLE_HPP_INCLUDED
+
+//
+//  make_adaptable.hpp
+//
+//  Copyright (c) 2002 Peter Dimov and Multi Media Ltd.
+//
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+
+namespace boost
+{
+
+namespace _bi
+{
+
+template&lt;class R, class F&gt; class af0
+{
+public:
+
+    typedef R result_type;
+
+    explicit af0(F f): f_(f)
+    {
+    }
+
+    result_type operator()()
+    {
+        return f_();
+    }
+
+    result_type operator()() const
+    {
+        return f_();
+    }
+
+private:
+
+    F f_;
+};
+
+template&lt;class R, class A1, class F&gt; class af1
+{
+public:
+
+    typedef R result_type;
+    typedef A1 argument_type;
+    typedef A1 arg1_type;
+
+    explicit af1(F f): f_(f)
+    {
+    }
+
+    result_type operator()(A1 a1)
+    {
+        return f_(a1);
+    }
+
+    result_type operator()(A1 a1) const
+    {
+        return f_(a1);
+    }
+
+private:
+
+    F f_;
+};
+
+template&lt;class R, class A1, class A2, class F&gt; class af2
+{
+public:
+
+    typedef R result_type;
+    typedef A1 first_argument_type;
+    typedef A2 second_argument_type;
+    typedef A1 arg1_type;
+    typedef A2 arg2_type;
+
+    explicit af2(F f): f_(f)
+    {
+    }
+
+    result_type operator()(A1 a1, A2 a2)
+    {
+        return f_(a1, a2);
+    }
+
+    result_type operator()(A1 a1, A2 a2) const
+    {
+        return f_(a1, a2);
+    }
+
+private:
+
+    F f_;
+};
+
+template&lt;class R, class A1, class A2, class A3, class F&gt; class af3
+{
+public:
+
+    typedef R result_type;
+    typedef A1 arg1_type;
+    typedef A2 arg2_type;
+    typedef A3 arg3_type;
+
+    explicit af3(F f): f_(f)
+    {
+    }
+
+    result_type operator()(A1 a1, A2 a2, A3 a3)
+    {
+        return f_(a1, a2, a3);
+    }
+
+    result_type operator()(A1 a1, A2 a2, A3 a3) const
+    {
+        return f_(a1, a2, a3);
+    }
+
+private:
+
+    F f_;
+};
+
+template&lt;class R, class A1, class A2, class A3, class A4, class F&gt; class af4
+{
+public:
+
+    typedef R result_type;
+    typedef A1 arg1_type;
+    typedef A2 arg2_type;
+    typedef A3 arg3_type;
+    typedef A4 arg4_type;
+
+    explicit af4(F f): f_(f)
+    {
+    }
+
+    result_type operator()(A1 a1, A2 a2, A3 a3, A4 a4)
+    {
+        return f_(a1, a2, a3, a4);
+    }
+
+    result_type operator()(A1 a1, A2 a2, A3 a3, A4 a4) const
+    {
+        return f_(a1, a2, a3, a4);
+    }
+
+private:
+
+    F f_;
+};
+
+} // namespace _bi
+
+template&lt;class R, class F&gt; _bi::af0&lt;R, F&gt; make_adaptable(F f)
+{
+    return _bi::af0&lt;R, F&gt;(f);
+}
+
+template&lt;class R, class A1, class F&gt; _bi::af1&lt;R, A1, F&gt; make_adaptable(F f)
+{
+    return _bi::af1&lt;R, A1, F&gt;(f);
+}
+
+template&lt;class R, class A1, class A2, class F&gt; _bi::af2&lt;R, A1, A2, F&gt; make_adaptable(F f)
+{
+    return _bi::af2&lt;R, A1, A2, F&gt;(f);
+}
+
+template&lt;class R, class A1, class A2, class A3, class F&gt; _bi::af3&lt;R, A1, A2, A3, F&gt; make_adaptable(F f)
+{
+    return _bi::af3&lt;R, A1, A2, A3, F&gt;(f);
+}
+
+template&lt;class R, class A1, class A2, class A3, class A4, class F&gt; _bi::af4&lt;R, A1, A2, A3, A4, F&gt; make_adaptable(F f)
+{
+    return _bi::af4&lt;R, A1, A2, A3, A4, F&gt;(f);
+}
+
+} // namespace boost
+
+#endif // #ifndef BOOST_BIND_MAKE_ADAPTABLE_HPP_INCLUDED
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/bind/make_adaptable.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:37 GMT -->
+</html>

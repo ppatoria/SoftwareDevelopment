@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    
+    <title>C# lambda - curry usecases - Stack Overflow</title>
+    <link rel="stylesheet" type="text/css" href="http://sstatic.net/stackoverflow/all.css?v=47d5eba4f7df">
+    <link rel="stylesheet" type="text/css" href="http://sstatic.net/genuwine/senetwork.css?v=bacc48f8740c">
+    <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
+    <link rel="apple-touch-icon" href="http://sstatic.net/stackoverflow/img/apple-touch-icon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="/opensearch.xml">
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="http://sstatic.net/js/master.js?v=fcd4e99fc38d"></script>
+    <script type="text/javascript">
+    var imagePath='http://sstatic.net/stackoverflow/img/';
+    
+    </script>
+    
+    <link rel="canonical" href="http://stackoverflow.com/questions/520083/c-lambda-curry-usecases">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'C# lambda - curry usecases'" href="/feeds/question/520083">
+    <script src="http://sstatic.net/js/question.js?v=b05e8725a843" type="text/javascript"></script>
+    
+
+
+    <script type="text/javascript">
+        var fkey = "710c516c6fcf26a20832c9a7d27c869e";
+    
+        
+        
+        $(function() {
+            
+            vote.init(520083);
+            comments.init();
+            styleCode();
+        
+        });
+    </script>
+
+
+   
+</head>
+<body class="question-page">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+
+
+    <script type="text/javascript">
+        $(function() { notify.showFirstTime('Q&A for professional and enthusiast programmers'); });
+    </script>
+
+
+    <div id="custom-header"></div>
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+                
+                <a id="genu" href="http://stackexchange.com">Stack Exchange</a>
+            </div>
+            <div id="topbar">
+                <div id="hlinks">
+                    <span id="hlinks-user">
+                    
+                    
+                    </span>
+                    <span id="hlinks-nav">
+                    <a href="/users/login?returnurl=%2fquestions%2f520083%2fc-lambda-curry-usecases">log in</a>
+<span class="lsep">|</span>
+<a href="http://careers.stackoverflow.com">careers</a>
+<span class="lsep">|</span>
+
+                    </span>
+                    <span id="hlinks-custom">
+                
+                    <a href="/about">about</a> <span class="lsep">|</span> <a href="/faq">faq</a>
+                    </span>
+                </div>
+                <div id="hsearch">
+                    <form id="search" action="/search" method="get">
+                    <div>
+                        <input name="q" class="textbox" tabindex="1" onfocus="if (this.value=='search') this.value = ''" type="text" maxlength="80" size="28" value="search">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="/">Stack Overflow</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="/tags">Tags</a></li>
+                        <li><a id="nav-users" href="/users">Users</a></li>
+                        <li><a id="nav-badges" href="/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li >
+                            <a id="nav-askquestion" href="/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <div id="content">
+            
+
+<div id="question-header">
+    <h1><a href="/questions/520083/c-lambda-curry-usecases" class="question-hyperlink">C# lambda - curry usecases</a></h1>
+</div>
+
+<div id="mainbar">
+<div id="question">
+    
+    <div class="everyonelovesstackoverflow">
+        <script type="text/javascript">
+            document.write('<s'+'cript lang' + 'uage="jav' + 'ascript" src="http://ads.stackoverflow.com/a.aspx?ZoneID=3&amp;Task=Get&amp;IFR=False&amp;PageID=52405&amp;SiteID=1&amp;Random=' + (+new Date()) + '&amp;Keywords=c%23,.net,lambda-expressions">'); 
+            document.write('</'+'scr'+'ipt>');
+        </script>
+        <noscript>
+            <div>
+            <a href="http://ads.stackoverflow.com/a.aspx?ZoneID=3&amp;Task=Click&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405">
+            <img src="http://ads.stackoverflow.com/a.aspx?ZoneID=3&amp;Task=Get&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405" alt="">
+            </a>
+            </div>
+        </noscript>
+    </div>
+     
+    
+
+    <table>
+    <tr>
+    <td class="votecell">
+        
+<div class="vote">
+    <input type="hidden" value="520083">
+    <span class="vote-up-off" title="This question is useful and clear (click again to undo)">up vote</span>
+    <span class="vote-count-post">3</span>
+    <span class="vote-down-off" title="This question is unclear or not useful (click again to undo)">down vote</span>
+
+    <span class="star-off" title="This is a favorite question (click again to undo)">favorite</span>
+    <div class="favoritecount"><b>3</b></div>    
+
+</div>
+
+    </td>
+    <td class="postcell">
+        <div>          
+            <div class="post-text">
+                <p>I read <a href="http://jacobcarpenter.wordpress.com/2008/01/02/c-abuse-of-the-day-functional-library-implemented-with-lambdas/" rel="nofollow">This article</a> and i found it interesting.</p>
+
+<p>To sum it up for those who don't want to read the entire post. The author implements a higher order function named Curry like this (refactored by me without his internal class):</p>
+
+<pre><code> public static Func&lt;T1, Func&lt;T2, TResult&gt;&gt; 
+             Curry&lt;T1, T2, TResult&gt;(this Func&lt;T1, T2, TResult&gt; fn)
+ {
+     Func&lt;Func&lt;T1, T2, TResult&gt;, Func&lt;T1, Func&lt;T2, TResult&gt;&gt;&gt; curry = 
+     f =&gt; x =&gt; y =&gt; f(x, y);
+     return curry(fn);
+ }
+</code></pre>
+
+<p>That gives us the ability to take an expression like F(x, y) 
+eg. </p>
+
+<pre><code>Func&lt;int, int, int&gt; add = (x, y) =&gt; x + y;
+</code></pre>
+
+<p>and call it in the F.Curry()(x)(y) manner;</p>
+
+<p>This part i understood and i find it cool in a geeky way. What i fail to wrap my head around is the practical usecases for this approach. When and where this technique is necessary and what can be gained from it?</p>
+
+<p>Thanks in advance.</p>
+
+<p>Edited:
+ After the initial 3 responses i understand that the gain would be that in some cases when we create a new function from the curried some parameters are not re evalued.
+I made this little test in C# (keep in mind that i'm only interested in the C# implementation and not the curry theory in general):</p>
+
+<pre><code>public static void Main(string[] args)
+{
+    Func&lt;Int, Int, string&gt; concat = (a, b) =&gt; a.ToString() + b.ToString();
+    Func&lt;Int, Func&lt;Int, string&gt;&gt; concatCurry = concat.Curry();
+    Func&lt;Int, string&gt; curryConcatWith100 = (a) =&gt; concatCurry(100)(a);
+
+    Console.WriteLine(curryConcatWith100(509));
+    Console.WriteLine(curryConcatWith100(609));
+}
+
+    public struct Int
+    {
+        public int Value {get; set;}
+
+        public override string ToString()
+        {
+             return Value.ToString();
+        }
+
+        public static implicit operator Int(int value)
+        {
+            return new Int { Value = value };
+        }
+    }
+</code></pre>
+
+<p>On the 2 consecutive calls to curryConcatWith100 the ToString() evaluation for the value 100 is called twice (once for each call) so i dont see any gain in evaluation here. Am i missing something ?</p>
+
+            </div>            
+            <div class="post-taglist">
+                <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag"><img src="http://sstatic.net/stackoverflow/img/tag-devexpress.png" height="16" width="18" alt="" class="sponsor-tag-img">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a> <a href="/questions/tagged/lambda-expressions" class="post-tag" title="show questions tagged 'lambda-expressions'" rel="tag">lambda-expressions</a> 
+            </div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a id="flag-post-520083" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+        
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">edited <a href="/posts/520083/revisions" title="show all edits to this post"><span title="2009-02-06 13:05:32Z" class="relativetime">Feb 6 '09 at 13:05</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>
+            
+            </td>
+            
+            <td class="post-signature owner">
+            <div class="user-info"><div class="user-action-time">asked <span title="2009-02-06 12:16:14Z" class="relativetime">Feb 6 '09 at 12:16</span></div><div class="user-gravatar32"><a href="/users/35128/az"><img src="http://www.gravatar.com/avatar/183f937123a37dce2928ef539e48eb20?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/35128/az" >AZ</a><br><span class="reputation-score" title="reputation score">1,467</span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+            <br class="cbt">
+            <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 8 of 9 eligible questions">89% accept rate</div>
+            
+            </td>
+            </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+
+    
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520083" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+    
+    </table>
+    
+</div>
+
+
+
+
+<div id="answers">
+
+    <a name="tab-top"></a>
+    <div id="answers-header">
+        <div class="subheader answers-subheader">
+            <h2>5 Answers</h2>
+            <div id="tabs">
+                <a href="/questions/520083?tab=oldest#tab-top" title="Answers in the order they were given">oldest</a>
+<a href="/questions/520083?tab=newest#tab-top" title="Most recent answers first">newest</a>
+<a class="youarehere" href="/questions/520083?tab=votes#tab-top" title="Answers with the most votes first">votes</a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <a name="520101"></a>
+    
+    <div id="answer-520101" class="answer">
+        
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="520101">
+    <span class="vote-up-off" title="This answer is useful (click again to undo)">up vote</span>
+    <span class="vote-count-post">3</span>
+    <span class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</span>
+<span class="vote-accepted-on" title="The question owner accepted this as the best answer Feb 6 '09 at 14:09">accepted</span>
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>Its easier to first consider fn(x,y,z).  This could by curried using fn(x,y) giving you a function that only takes one parameter, the z.  Whatever needs to be done with x and y alone can be done and stored by a closure that the returned function holds on to.</p>
+
+<p>Now you call the returned function several times with various values for z without having to recompute the part the required x and y.</p>
+
+<p><strong>Edit:</strong></p>
+
+<p>There are effectively two reasons to curry.</p>
+
+<p><br /></p>
+
+<h2>Parameter reduction</h2>
+
+<p>As Cameron says to convert a function that takes say 2 parameters into a function that only takes 1.  The result of calling this curried function with a parameter is the same as calling the original with the 2 parameters.</p>
+
+<p>With Lambdas present in C# this has limited value since these can provide this effect anyway.  Although it you are use C# 2 then the Curry function in your question has much greater value.<br />
+<br />  </p>
+
+<h2>Staging computation</h2>
+
+<p>The other reason to curry is as I stated earlier.  To allow complex/expensive operations to be staged and re-used several times when the final parameter(s) are supplied to the curried function.</p>
+
+<p>This type of currying isn't truely possible in C#, it really takes a functional language that can natively curry any of its functions to acheive.   </p>
+
+<p><br /></p>
+
+<h2>Conclusion</h2>
+
+<p>Parameter reduction via the Curry you mention is useful in C# 2 but is considerably de-valued in C# 3 due to Lambdas.</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/520083/c-lambda-curry-usecases/520101#520101" title="permalink to this answer">link</a><span class="lsep">|</span><a id="flag-post-520101" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">edited <a href="/posts/520101/revisions" title="show all edits to this post"><span title="2009-02-06 13:49:19Z" class="relativetime">Feb 6 '09 at 13:49</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">answered <span title="2009-02-06 12:24:03Z" class="relativetime">Feb 6 '09 at 12:24</span></div><div class="user-gravatar32"><a href="/users/17516/anthonywjones"><img src="http://www.gravatar.com/avatar/91973b1bef91ee4f314cd95a37a45f2b?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/17516/anthonywjones" >AnthonyWJones</a><br><span class="reputation-score" title="reputation score 45836">45.8k</span><span title="3 gold badges"><span class="badge1"></span><span class="badgecount">3</span></span><span title="28 silver badges"><span class="badge2"></span><span class="badgecount">28</span></span><span title="68 bronze badges"><span class="badge3"></span><span class="badgecount">68</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520101" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-333777" class="comment">
+        <td></td>
+        <td class="comment-text"><div>Staging: Couldn't you create &quot;curried&quot; functions using Lambdas and then re-use them. Since lambdas are a form of currying you can do everything that currying can with them already. &ndash;&nbsp;<a href="/users/3820/cameron-macfarland" title="8180 reputation" class="comment-user">Cameron MacFarland</a> <span class="comment-date"><span title="2009-02-06 14:12:49Z">Feb 6 '09 at 14:12</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-333782" class="comment">
+        <td></td>
+        <td class="comment-text"><div>Also I'd agree that currying is more useful in C#2 than in C#3, if it wasn't for the fact that the curry functions mentioned in the question are implemented using C#3 features. <i>shrug</i> &ndash;&nbsp;<a href="/users/3820/cameron-macfarland" title="8180 reputation" class="comment-user">Cameron MacFarland</a> <span class="comment-date"><span title="2009-02-06 14:14:20Z">Feb 6 '09 at 14:14</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-333931" class="comment">
+        <td></td>
+        <td class="comment-text"><div>@Cameron: To your first comment: The problem is to reuse data that is computed once that data would have to be stored outside the lambda using a closure.  By doing that though we will lose the semantics of that type of currying.  &ndash;&nbsp;<a href="/users/17516/anthonywjones" title="45836 reputation" class="comment-user">AnthonyWJones</a> <span class="comment-date"><span title="2009-02-06 14:48:30Z">Feb 6 '09 at 14:48</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+        </table>
+    </div>
+
+    <div class="everyonelovesstackoverflow">
+        <script type="text/javascript">
+            document.write('<s'+'cript lang' + 'uage="jav' + 'ascript" src="http://ads.stackoverflow.com/a.aspx?ZoneID=14&amp;Task=Get&amp;IFR=False&amp;PageID=52405&amp;SiteID=1&amp;Random=' + (+new Date()) + '&amp;Keywords=c%23,.net,lambda-expressions">'); 
+            document.write('</'+'scr'+'ipt>');
+        </script>
+        <noscript>
+            <div>
+            <a href="http://ads.stackoverflow.com/a.aspx?ZoneID=14&amp;Task=Click&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405">
+            <img src="http://ads.stackoverflow.com/a.aspx?ZoneID=14&amp;Task=Get&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405" alt="">
+            </a>
+            </div>
+        </noscript>
+    </div>
+     
+           
+
+    <a name="520197"></a>
+    
+    <div id="answer-520197" class="answer">
+        
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="520197">
+    <span class="vote-up-off" title="This answer is useful (click again to undo)">up vote</span>
+    <span class="vote-count-post">6</span>
+    <span class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</span>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>Currying is used to transform a function with x parameters to a function with y parameters, so it can be passed to another function that needs a function with y parameters.</p>
+
+<p>For example, <code>Enumerable.Select(this IEnumerable&lt;T&gt; source, Func&lt;TSource, bool&gt; selector)</code> takes a function with 1 parameter. <code>Math.Round(double, int)</code> is a function that has 2 parameters.</p>
+
+<p>You could use currying to "store" the <code>Round</code> function as data, and then pass that curried function to the <code>Select</code> like so</p>
+
+<pre><code>Func&lt;double, int, double&gt; roundFunc = (n, p) =&gt; Math.Round(n, p);
+Func&lt;double, double&gt; roundToTwoPlaces = roundFunc.Curry()(2);
+var roundedResults = numberList.Select(roundToTwoPlaces);
+</code></pre>
+
+<p>The problem here is that there's also anonymous delegates, which make currying redundant. In fact anonymous delegates <em>are</em> a form of currying.</p>
+
+<pre><code>Func&lt;double, double&gt; roundToTwoPlaces = n =&gt; Math.Round(n, 2);
+var roundedResults = numberList.Select(roundToTwoPlaces);
+</code></pre>
+
+<p>Or even just</p>
+
+<pre><code>var roundedResults = numberList.Select(n =&gt; Math.Round(n, 2));
+</code></pre>
+
+<p>Currying was a way of solving a particular problem given the syntax of certain functional languages. With anonymous delegates and the lambda operator the syntax in .NET is alot simpler.</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/520083/c-lambda-curry-usecases/520197#520197" title="permalink to this answer">link</a><span class="lsep">|</span><a id="flag-post-520197" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">edited <a href="/posts/520197/revisions" title="show all edits to this post"><span title="2009-02-06 13:20:03Z" class="relativetime">Feb 6 '09 at 13:20</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">answered <span title="2009-02-06 13:04:41Z" class="relativetime">Feb 6 '09 at 13:04</span></div><div class="user-gravatar32"><a href="/users/3820/cameron-macfarland"><img src="http://www.gravatar.com/avatar/2b0e52bf0c9a323d12d0839c796dc1d1?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/3820/cameron-macfarland" >Cameron MacFarland</a><br><span class="reputation-score" title="reputation score">8,180</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="18 silver badges"><span class="badge2"></span><span class="badgecount">18</span></span><span title="40 bronze badges"><span class="badge3"></span><span class="badgecount">40</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520197" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+        </table>
+    </div>
+
+
+    <a name="520110"></a>
+    
+    <div id="answer-520110" class="answer">
+        
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="520110">
+    <span class="vote-up-off" title="This answer is useful (click again to undo)">up vote</span>
+    <span class="vote-count-post">0</span>
+    <span class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</span>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><blockquote>
+  <p>In a sense, curring is a technique to
+  enable automatic partial application. </p>
+  
+  <p>More formally, currying is a technique
+  to turn a function into a function
+  that accepts one and only one
+  argument. </p>
+  
+  <p>In turn, when called, that function
+  returns another function that accepts
+  one and only one argument . . . and so
+  on until the 'original' function is
+  able to be executed.</p>
+</blockquote>
+
+<p>from a thread in <a href="http://codingforums.com/showthread.php?t=138769" rel="nofollow">codingforums</a></p>
+
+<p>I particularly like the explanation and length at which this is explained on this <a href="http://www.cs.aau.dk/~normark/prog3-03/html/notes/higher-order-fu_themes-curry-section.html" rel="nofollow">page</a>.</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/520083/c-lambda-curry-usecases/520110#520110" title="permalink to this answer">link</a><span class="lsep">|</span><a id="flag-post-520110" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">answered <span title="2009-02-06 12:27:11Z" class="relativetime">Feb 6 '09 at 12:27</span></div><div class="user-gravatar32"><a href="/users/42019/ric-tokyo"><img src="http://www.gravatar.com/avatar/968600e7af6142f855bee42cef332d21?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/42019/ric-tokyo" >Ric Tokyo</a><br><span class="reputation-score" title="reputation score">3,921</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="7 silver badges"><span class="badge2"></span><span class="badgecount">7</span></span><span title="28 bronze badges"><span class="badge3"></span><span class="badgecount">28</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520110" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-333503" class="comment">
+        <td></td>
+        <td class="comment-text"><div>I got that part. The real life usability eludes me. &ndash;&nbsp;<a href="/users/35128/az" title="1467 reputation" class="comment-user owner">AZ</a> <span class="comment-date"><span title="2009-02-06 12:32:31Z">Feb 6 '09 at 12:32</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+        </table>
+    </div>
+
+
+    <a name="520136"></a>
+    
+    <div id="answer-520136" class="answer">
+        
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="520136">
+    <span class="vote-up-off" title="This answer is useful (click again to undo)">up vote</span>
+    <span class="vote-count-post">0</span>
+    <span class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</span>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>One example: You have a function <code>compare(criteria1, criteria2, option1, option2, left, right)</code>. But when you want to supply the function <code>compare</code> to some method with sorts a list, then <code>compare()</code> must only take two arguments, <code>compare(left, right)</code>.  With curry you then bind the criteria arguments as you need it for sorting this list, and then finally this highly configurable function presents to the sort algorithm as any other plain <code>compare(left,right)</code>.</p>
+
+<p>Detail:  .NET delegates employ implicit currying.  Each non-static member function of a class has an implicit <code>this</code> reference, still, when you write delegates, you do not need to manually use some currying to bind <code>this</code> to the function.  Instead C# cares for the syntactic sugar, automatically binds this, and returns a function which only requires the arguments left.</p>
+
+<p>In C++ boost::bind et al. are used for the same.  And as always, in C++ everything is a little bit more explicit (for instance, if you want to pass a instance-member function as a callback, you need to explicitly bind <code>this</code>).</p>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/520083/c-lambda-curry-usecases/520136#520136" title="permalink to this answer">link</a><span class="lsep">|</span><a id="flag-post-520136" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">answered <span title="2009-02-06 12:39:17Z" class="relativetime">Feb 6 '09 at 12:39</span></div><div class="user-gravatar32"><a href="/users/15529/gimpf"><img src="http://www.gravatar.com/avatar/094c4877f215aa468d84c42a4127c585?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/15529/gimpf" >gimpf</a><br><span class="reputation-score" title="reputation score">2,488</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="14 bronze badges"><span class="badge3"></span><span class="badgecount">14</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520136" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+        </table>
+    </div>
+
+
+    <a name="520270"></a>
+    
+    <div id="answer-520270" class="answer">
+        
+        <table>
+        <tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input type="hidden" value="520270">
+    <span class="vote-up-off" title="This answer is useful (click again to undo)">up vote</span>
+    <span class="vote-count-post">-1</span>
+    <span class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</span>
+
+</div>
+
+        </td>
+        <td>
+            <div class="post-text"><p>Hi, here's another example of how you might use a Curry function.  Depending on some condition (e.g. day of week) you could decide what archive policy to apply before updating a file.</p>
+
+<pre><code>    void ArchiveAndUpdate(string[] files)
+    {
+        Func&lt;string, bool&gt; archiveCurry1 = (file) =&gt;
+            Archive1(file, "archiveDir", 30, 20000000, new[] { ".tmp", ".log" });
+
+        Func&lt;string, bool&gt; archiveCurry2 = (file) =&gt;
+            Archive2("netoworkServer", "admin", "nimda", new FileInfo(file));
+
+        Func&lt;string, bool&gt; archvieCurry3 = (file) =&gt; true;
+
+        // backup locally before updating
+        UpdateFiles(files, archiveCurry1);
+
+        // OR backup to network before updating
+        UpdateFiles(files, archiveCurry2);
+
+        // OR do nothing before updating
+        UpdateFiles(files, archvieCurry3);
+    }
+
+    void UpdateFiles(string[] files, Func&lt;string, bool&gt; archiveCurry)
+    {
+        foreach (var file in files)
+        {
+            if (archiveCurry(file))
+            {
+                // update file //
+            }
+        }
+    }
+
+    bool Archive1(string fileName, string archiveDir, 
+        int maxAgeInDays, long maxSize, string[] excludedTypes)
+    {
+        // backup to local disk
+        return true;
+    }
+
+    bool Archive2(string sereverName, string username, 
+        string password, FileInfo fileToArchvie)
+    {
+        // backup to network
+        return true;
+    }
+</code></pre>
+</div>
+            <table class="fw">
+            <tr>
+            <td class="vt">
+                <div class="post-menu"><a href="/questions/520083/c-lambda-curry-usecases/520270#520270" title="permalink to this answer">link</a><span class="lsep">|</span><a id="flag-post-520270" title="flag this post for serious problems">flag</a></div>
+                
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">edited <a href="/posts/520270/revisions" title="show all edits to this post"><span title="2009-02-06 13:56:45Z" class="relativetime">Feb 6 '09 at 13:56</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>
+            </td>
+            
+            <td align="right" class="post-signature">
+            <div class="user-info"><div class="user-action-time">answered <span title="2009-02-06 13:23:55Z" class="relativetime">Feb 6 '09 at 13:23</span></div><div class="user-gravatar32"><a href="/users/53252/it-depends"><img src="http://www.gravatar.com/avatar/c10c29a890092eaca10a1e1c58e7e248?s=32&amp;d=identicon&amp;r=PG" height="32" width="32" alt=""></a></div><div class="user-details"><a href="/users/53252/it-depends" >it depends</a><br><span class="reputation-score" title="reputation score">1,319</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="11 bronze badges"><span class="badge3"></span><span class="badgecount">11</span></span></div></div>
+            </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-520270" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+</td>
+</tr>
+        </table>
+    </div>
+
+
+    <form id="post-form" action="/questions/520083/answer/submit" method="post">
+        <h2 class="space">Your Answer</h2>
+        
+<script src="http://sstatic.net/Js/wmd.js?v=43cf6ec1a500" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function() { 
+        editorReady(1, heartbeat.answers);
+    });   
+</script>
+
+<div id="post-editor">
+
+    
+    <div id="wmd-container">
+        <div id="wmd-button-bar"></div>
+        <textarea id="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+    </div>
+
+
+    <div class="community-option">
+        <input id="communitymode" name="communitymode" type="checkbox" >
+        <label for="communitymode" title="community owned posts do not generate any reputation for the owner, have a lower reputation barrier for collaborative editing, and show only a revision history instead of a signature block">community wiki</label>
+    </div>
+
+    <div id="wmd-preview"></div>
+
+
+    <div id="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="710c516c6fcf26a20832c9a7d27c869e">
+        <input id="author" name="author" type="text">
+    </div>
+</div>   
+    <div class="form-item">
+        <table>
+        <tr>
+        <td class="vm">
+            <label for="openid_identifier">OpenID Login</label>
+            <input id="openid_identifier" name="openid_identifier" class="openid-identifer" type="text" size="40" maxlength="200" value="" tabindex="104">
+            <div class="form-item-info">
+                get an <a href="http://openid.net/get/" target="_blank">OpenID</a>
+            </div>
+        </td>
+    
+        <td class="orcell">
+            <div class="orword">or</div>
+            <div class="orline"></div>
+        </td>
+        <td class="vm">
+            <div>
+                <label for="display-name">Name</label>
+                <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+            </div>
+            <div>
+                <label for="m-address">Email</label>
+                <input id="m-address" name="m-address" type="text" size="40" maxlength="100" value="" tabindex="106">
+                <span class="edit-field-overlay">never shown</span>
+            </div>
+            <div>
+                <label for="home-page">Home Page</label>
+                <input id="home-page" name="home-page" type="text" size="40" maxlength="200" value="" tabindex="107">
+            </div>
+        </td>
+    
+        </tr>
+        </table>
+    </div>
+    
+        <div class="form-submit cbt"><input id="submit-button" type="submit" value="Post Your Answer" tabindex="110"></div>
+    
+    </form>
+    
+    
+
+    <h2 class="bottom-notice">
+        Not the answer you're looking for?
+        Browse other questions tagged <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag"><img src="http://sstatic.net/stackoverflow/img/tag-devexpress.png" height="16" width="18" alt="" class="sponsor-tag-img">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a> <a href="/questions/tagged/lambda-expressions" class="post-tag" title="show questions tagged 'lambda-expressions'" rel="tag">lambda-expressions</a> 
+        
+        or <a href="/questions/ask">ask your own question</a>.
+        
+    </h2>
+</div>
+
+<img src="/posts/520083/ivc/d439" class="dno" alt="">
+
+</div>
+
+<div id="sidebar">
+
+
+<div class="module newuser" style="display:none">
+    <h4>Hello World!</h4>
+    <div>
+        <p>Stack Overflow is a <b>collaboratively edited question and answer site for programmers</b> &ndash; regardless of platform or language. It's 100% free, no registration required.</p>
+        <p class="ar"><a href="/about">about &raquo;</a>&nbsp;&nbsp;&nbsp;<a href="/faq">faq &raquo;</a></p>
+    </div>
+</div>
+    <div class="module">
+        <p class="label-key">tagged</p>
+        <div class="tagged">
+            <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag"><img src="http://sstatic.net/stackoverflow/img/tag-devexpress.png" height="16" width="18" alt="" class="sponsor-tag-img">c#</a>&nbsp;<span class="item-multiplier">&times;&nbsp;99691</span><br>
+<a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>&nbsp;<span class="item-multiplier">&times;&nbsp;48878</span><br>
+<a href="/questions/tagged/lambda-expressions" class="post-tag" title="show questions tagged 'lambda-expressions'" rel="tag">lambda-expressions</a>&nbsp;<span class="item-multiplier">&times;&nbsp;558</span><br>
+
+        </div> 
+        <p class="label-key">asked</p>
+        <p class="label-value" title="2009-02-06 12:16:14Z">1 year ago</p>
+        <p class="label-key">viewed</p>
+        <p class="label-value">1,117 times</p>
+
+        <p class="label-key">latest activity</p>
+        <p class="label-value"><a href="?lastactivity" class="lastactivity-link" title="2009-02-06 13:56:45Z">1 year ago</a></p>
+
+    </div>
+    
+    
+    <div class="everyonelovesstackoverflow">
+        <script type="text/javascript">
+            document.write('<s'+'cript lang' + 'uage="jav' + 'ascript" src="http://ads.stackoverflow.com/a.aspx?ZoneID=4&amp;Task=Get&amp;IFR=False&amp;PageID=52405&amp;SiteID=1&amp;Random=' + (+new Date()) + '&amp;Keywords=c%23,.net,lambda-expressions">'); 
+            document.write('</'+'scr'+'ipt>');
+        </script>
+        <noscript>
+            <div>
+            <a href="http://ads.stackoverflow.com/a.aspx?ZoneID=4&amp;Task=Click&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405">
+            <img src="http://ads.stackoverflow.com/a.aspx?ZoneID=4&amp;Task=Get&amp;Mode=HTML&amp;SiteID=1&amp;PageID=52405" alt="">
+            </a>
+            </div>
+        </noscript>
+    </div>
+     
+
+
+    <div class="module">
+    <h4 id="h-related">Related</h4>
+    <div class="related">
+    <div class="spacer">
+<a href="/questions/677803/change-parameter-from-lambda-function-to-lambda-expression" class="question-hyperlink">Change parameter from lambda function to lambda expression</a>
+</div>
+<div class="spacer">
+<a href="/questions/855447/linq-substitute-non-generic-lambda-expression-for-generic-lambda-expression" class="question-hyperlink">linq - Substitute Non-Generic Lambda Expression for Generic Lambda Expression </a>
+</div>
+<div class="spacer">
+<a href="/questions/1574427/lambda-parameter-not-in-scope-while-building-binary-lambda-expression" class="question-hyperlink">Lambda Parameter not in scope &mdash; while building binary lambda expression</a>
+</div>
+<div class="spacer">
+<a href="/questions/2748389/invalidoperationexception-lambda-parameter-not-in-scope-when-trying-to-compile" class="question-hyperlink">InvalidOperationException (Lambda parameter not in scope) when trying to Compile a Lambda Expression</a>
+</div>
+<div class="spacer">
+<a href="/questions/411572/proper-currying-in-c" class="question-hyperlink">Proper Currying in C#</a>
+</div>
+<div class="spacer">
+<a href="/questions/2402020/please-interpret-this-code-c" class="question-hyperlink">Please Interpret this code (C#)</a>
+</div>
+<div class="spacer">
+<a href="/questions/564935/c-no-implicit-conversion-between-lambda-expression-and-lambda-expression" class="question-hyperlink">C#: No implicit conversion between &lsquo;lambda expression&rsquo; and &lsquo;lambda expression&rsquo;?</a>
+</div>
+<div class="spacer">
+<a href="/questions/564961/events-in-lambda-expressions-c-compiler-bug" class="question-hyperlink">Events in lambda expressions - C# compiler bug?</a>
+</div>
+<div class="spacer">
+<a href="/questions/497871/best-resource-for-learning-lambda-expressions" class="question-hyperlink">Best resource for learning LAMBDA expressions</a>
+</div>
+<div class="spacer">
+<a href="/questions/485473/whats-the-deal-with-this-lambda" class="question-hyperlink">What&rsquo;s the deal with this Lambda?</a>
+</div>
+<div class="spacer">
+<a href="/questions/491780/concatenating-lambda-functions-in-c" class="question-hyperlink">Concatenating Lambda Functions in C#</a>
+</div>
+<div class="spacer">
+<a href="/questions/662346/does-linq-and-lambda-expressions-reduce-cyclomatic-complexity" class="question-hyperlink">Does LINQ and Lambda expressions reduce Cyclomatic-complexity?</a>
+</div>
+<div class="spacer">
+<a href="/questions/676904/using-conditional-lambda-statements-with-a-foreach-action-on-a-list" class="question-hyperlink">Using conditional lambda statements with a foreach Action on a list</a>
+</div>
+<div class="spacer">
+<a href="/questions/725499/vs-debugging-quick-watch-tool-and-lambda-expressions" class="question-hyperlink">VS debugging &ldquo;quick watch&rdquo; tool and lambda expressions</a>
+</div>
+<div class="spacer">
+<a href="/questions/722868/sorting-a-list-using-lambda-linq-to-objects" class="question-hyperlink">Sorting a list using Lambda/Linq to objects</a>
+</div>
+<div class="spacer">
+<a href="/questions/756758/combining-multiple-lambda-functions-together-with-efficient-execution" class="question-hyperlink">Combining multiple lambda functions together with efficient execution</a>
+</div>
+<div class="spacer">
+<a href="/questions/756939/lambda-expression-to-verify-list-is-correctly-ordered" class="question-hyperlink">lambda expression to verify list is correctly ordered</a>
+</div>
+<div class="spacer">
+<a href="/questions/795483/is-a-lambda-expression-from-this-possible" class="question-hyperlink">Is a lambda expression from this possible?</a>
+</div>
+<div class="spacer">
+<a href="/questions/795569/is-this-lambda-expression-possible" class="question-hyperlink">Is this lambda expression possible?</a>
+</div>
+
+    </div>
+    </div>
+ 
+</div>
+
+
+<div id="feed-link">
+    <div id="feed-link-text"><a href="/feeds/question/520083" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+</div>
+
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="/about">about</a> |
+                <a href="/faq">faq</a> |
+                <a href="http://blog.stackoverflow.com">blog</a> |
+                <a href="http://itc.conversationsnetwork.org/series/stackoverflow.html">podcast</a> |
+                <a href="/legal">legal</a> |
+                <a href="http://ads.stackoverflow.com/a.aspx?ZoneID=0&amp;BannerID=323&amp;AdvertiserID=5&amp;CampaignID=194&amp;Task=Click&amp;SiteID=1">advertising info</a> |
+                <b><a href="mailto:team@stackoverflow.com">contact us</a></b>
+
+                 | <b><a href="http://meta.stackoverflow.com">feedback always welcome</a></b>
+
+                <div id="footer-sites">
+                    <span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://stackoverflow.com">stackoverflow.com</a>&nbsp;&nbsp;<span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://stackapps.com">api/apps</a>&nbsp;&nbsp;<span style="color:#FE7A15;font-size:140%">&#9632;</span>&nbsp;<a href="http://careers.stackoverflow.com">careers</a>&nbsp;&nbsp;<span style="color:#E8272C;font-size:140%">&#9632;</span>&nbsp;<a href="http://serverfault.com">serverfault.com</a>&nbsp;&nbsp;<span style="color:#00AFEF;font-size:140%">&#9632;</span>&nbsp;<a href="http://superuser.com">superuser.com</a>&nbsp;&nbsp;<span style="color:#969696;font-size:140%">&#9632;</span>&nbsp;<a href="http://meta.stackoverflow.com">meta</a>&nbsp;&nbsp;<span style="color:#46937D;font-size:140%">&#9632;</span>&nbsp;<a href="http://area51.stackexchange.com">area 51</a>&nbsp;&nbsp;<a href="http://doctype.com">doctype.com</a>
+                </div>
+            </div>
+            <div id="footer-flair">
+	            <a href="http://creativecommons.org/licenses/by-sa/2.5/" class="cc-wiki-link"></a>
+	            <a href="http://www.peakinternet.com/business/hosting/colocation-dedicated#" class="peak-link"></a>
+                <div id="svnrev">revision: 2010.8.8.1</div>
+            
+            </div>
+            <div id="copyright">
+                site design / logo &copy; 2010 stack overflow internet services, inc; 
+                user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/2.5/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+        </div>
+    </div>
+    
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount','UA-5620270-1']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        _qoptions = { qacct: "p-c1rF4kxgLUzNc" };
+    </script>
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+        
+</body>
+</html>

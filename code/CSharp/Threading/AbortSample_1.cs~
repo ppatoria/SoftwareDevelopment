@@ -1,0 +1,18 @@
+class Program {
+    private static void thread() {
+	while (true){}
+    }
+    static void Main(string[] args) {
+	AppDomain.CurrentDomain.UnhandledException 
+	    += new UnhandledExceptionEventHandler(handler);
+	Thread th = new Thread(new ThreadStart(thread));
+	th.Start();
+	Thread.Sleep(5000);
+	th.Abort();
+	Thread.Sleep(50000);
+    }
+
+    static void handler(object sender, UnhandledExceptionEventArgs e) {
+	System.Console.WriteLine("Unhandled exception.");
+    }
+}

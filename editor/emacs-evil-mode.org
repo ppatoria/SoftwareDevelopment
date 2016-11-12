@@ -1,0 +1,39 @@
+
+* Block Selection
+Tutorial: http://vimcasts.org/episodes/selecting-columns-with-visual-block-mode/
+https://www.youtube.com/watch?v=ar8Jls9rh64
+
+* cscope evil bindings
+;; evil cscope key configuration
+(define-key evil-normal-state-map "-1" 'cscope-set-initial-directory)
+(define-key evil-normal-state-map "-s" 'cscope-find-this-symbol-no-prompting)
+(define-key evil-normal-state-map "-S" 'cscope-find-this-symbol)
+(define-key evil-normal-state-map "-d" 'cscope-find-global-definition-no-prompting)
+(define-key evil-normal-state-map "-D" 'cscope-find-global-definition)
+(define-key evil-normal-state-map "-g" 'cscope-find-this-text-string-no-prompting)
+(define-key evil-normal-state-map "-G" 'cscope-find-this-text-string)
+(define-key evil-normal-state-map "-f" 'cscope-find-this-file)
+(define-key evil-normal-state-map "-u" 'cscope-pop-mark)
+(define-key evil-normal-state-map "-c" 'cscope-find-functions-calling-this-function-no-prompting)
+(define-key evil-normal-state-map "-C" 'cscope-find-functions-calling-this-function)
+(define-key evil-normal-state-map "-t" 'cscope-display-buffer)
+(define-key evil-normal-state-map "-j" 'my-semantic-jump)
+(define-key evil-normal-state-map "-J" 'semantic-ia-fast-jump)
+(define-key evil-normal-state-map "-r" 'semantic-symref)
+(define-key evil-normal-state-map "-R" 'semantic-symref-symbol)
+
+
+;; cscope key bindings at evil normal mode
+(define-prefix-command 'wf-cscope-map)
+(define-key wf-cscope-map "s" 'cscope-find-this-symbol)
+(define-key wf-cscope-map "g" 'cscope-find-global-definition)
+(define-key wf-cscope-map "c" 'cscope-find-functions-calling-this-function)
+(define-key wf-cscope-map "d" 'cscope-find-called-functions)
+(define-key wf-cscope-map "t" 'cscope-find-this-text-string)
+(define-key wf-cscope-map "e" 'cscope-find-egrep-pattern)
+(define-key wf-cscope-map "f" 'cscope-find-this-file)
+(define-key wf-cscope-map "i" 'cscope-find-files-including-file)
+(define-key wf-cscope-map "n" 'cscope-next-symbol)
+(define-key wf-cscope-map "p" 'cscope-prev-symbol)
+(define-key wf-cscope-map "u" 'cscope-pop-mark)
+(define-key evil-normal-state-map "\C-_" 'wf-cscope-map)

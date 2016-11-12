@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/virtual-functions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="f429da5aea7d8d1169c424a09faa345effb2f2f4" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="c278ea6b36125b956e16f2ed37c915aafb4850ad" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="2efd9948c79875a065820321ffe44eca56b42096" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        virtual functions
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="virtual-functions.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    virtual functions
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=virtual%20functions" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="virtual-functions">Inheritance &#8212; <code>virtual</code> functions</h2>
+
+<h3 id="overview-virtual-fns">What is a &#8220;<code>virtual</code> member function&#8221;?</h3>
+
+<p>Virtual member functions are <a href="big-picture.html#virt-is-central-to-oo" title="FAQ: Are virtual functions (dynamic binding) central to OO/C++?">key to the object-oriented paradigm</a>, such as making it easy for
+<a href="big-picture.html#old-code-can-call-new-code" title="FAQ: I'm from Missouri. Can you give me a simple reason why virtual functions (dynamic binding) make a big difference?">old code to call new code</a>.</p>
+
+<p>A <code>virtual</code> function allows derived classes to replace the implementation provided by the base class. The compiler makes
+sure the replacement is always called whenever the object in question is actually of the derived class, even if the
+object is accessed by a base pointer rather than a derived pointer. This allows algorithms in the base class to be
+replaced in the derived class, even if users don&#8217;t know about the derived class.</p>
+
+<p>The derived class can either fully replace (&#8220;override&#8221;) the base class member function, or the derived class can
+partially replace (&#8220;augment&#8221;) the base class member function. The latter is accomplished by having the derived class
+member function call the base class member function, if desired.</p>
+
+<h3 id="virtual-by-default">Why are member functions not <code>virtual</code> by default?</h3>
+
+<p>Because many classes are not designed to be used as base classes. For example, see <a href="classes-and-objects.html#data-in-class" title="FAQ: Why do I have to put the data in my class declarations?">class <code>complex</code></a>.</p>
+
+<p>Also, objects of a class with a virtual function require space needed by the virtual function call mechanism - typically one word per object. This overhead can be significant, and can get in the way of layout compatibility with data from other languages (e.g. C and Fortran).</p>
+
+<p>See <a href="http://stroustrup.com/dne.html">The Design and Evolution of C++</a> for more design rationale.</p>
+
+<h3 id="dyn-binding-and-static-typing">How can C++ achieve dynamic binding yet also static typing?</h3>
+
+<p>When you have a pointer to an object, the object may actually be of a class that is derived from the class of the
+pointer (e.g., a <code>Vehicle*</code> that is actually pointing to a <code>Car</code> object; this is called &#8220;polymorphism&#8221;). Thus there are
+two types: the (static) type of the pointer (<code>Vehicle</code>, in this case), and the (dynamic) type of the pointed-to object
+(<code>Car</code>, in this case).</p>
+
+<p><em>Static typing</em> means that the legality of a member function invocation is checked at the earliest possible moment: by
+the compiler at compile time. The compiler uses the static type of the pointer to determine whether the member function
+invocation is legal. If the type of the pointer can handle the member function, certainly the pointed-to object can
+handle it as well. E.g., if <code>Vehicle</code> has a certain member function, certainly <code>Car</code> also has that member function since
+<code>Car</code> is a kind-of <code>Vehicle</code>.</p>
+
+<p><em>Dynamic binding</em> means that the address of the code in a member function invocation is determined at the last possible
+moment: based on the dynamic type of the object at run time. It is called &#8220;dynamic binding&#8221; because the binding to the
+code that actually gets called is accomplished dynamically (at run time). Dynamic binding is a result of <code>virtual</code>
+functions.</p>
+
+<h3 id="pure-virtual">What is a pure virtual function?</h3>
+
+<p>A pure virtual function is a function that must be overridden in a derived class and need not be defined. A virtual function is declared to be &#8220;pure&#8221; using the curious <code>=0</code> syntax. For example:</p>
+
+<pre><code>    class Base {
+    public:
+        void f1();      // not virtual
+        virtual void f2();  // virtual, not pure
+        virtual void f3() = 0;  // pure virtual
+    };
+
+    Base b; // error: pure virtual f3 not overridden
+</code></pre>
+
+<p>Here, <code>Base</code> is an abstract class (because it has a pure virtual function), so no objects of class <code>Base</code> can be directly created: <code>Base</code> is (explicitly) meant to be a base class. For example:</p>
+
+<pre><code>    class Derived : public Base {
+        // no f1: fine
+        // no f2: fine, we inherit Base::f2
+        void f3();
+    };
+
+    Derived d;  // ok: Derived::f3 overrides Base::f3
+</code></pre>
+
+<p>Abstract classes are immensely useful for defining interfaces. In fact, a class with no data and where all functions are pure virtual functions is often called an interface.</p>
+
+<p>You can provide a definition for a pure virtual function:</p>
+
+<pre><code>    Base::f3() { /* ... */ }
+</code></pre>
+
+<p>This is very occasionally useful (to provide some simple common implementation detail for derived classes), but <code>Base::f3()</code> must still be overridden in some derived class.
+If you don&#8217;t override a pure virtual function in a derived class, that derived class becomes abstract:</p>
+
+<pre><code>    class D2 : public Base {
+        // no f1: fine
+        // no f2: fine, we inherit Base::f2
+        // no f3: fine, but D2 is therefore still abstract
+    };
+
+    D2 d;   // error: pure virtual Base::f3 not overridden
+</code></pre>
+
+<h3 id="dyn-binding">What&#8217;s the difference between how <code>virtual</code> and non-<code>virtual</code> member functions are called?</h3>
+
+<p>Non-<code>virtual</code> member functions are resolved statically. That is, the member function is selected statically (at
+compile-time) based on the type of the pointer (or reference) to the object.</p>
+
+<p>In contrast, <code>virtual</code> member functions are resolved dynamically (at run-time). That is, the member function is
+selected dynamically (at run-time) based on the type of the object, not the type of the pointer/reference to that
+object. This is called &#8220;dynamic binding.&#8221; Most compilers use some variant of the following technique: if the object has
+one or more <code>virtual</code> functions, the compiler puts a hidden pointer in the object called a &#8220;virtual-pointer&#8221; or
+&#8220;v-pointer.&#8221; This v-pointer points to a global table called the &#8220;virtual-table&#8221; or &#8220;v-table.&#8221;</p>
+
+<p>The compiler creates a v-table for each class that has at least one <code>virtual</code> function. For example, if class <code>Circle</code>
+has <code>virtual</code> functions for <code>draw()</code> and <code>move()</code> and <code>resize()</code>, there would be exactly one v-table associated with
+class <code>Circle</code>, even if there were a gazillion <code>Circle</code> objects, and the v-pointer of each of those <code>Circle</code> objects
+would point to the <code>Circle</code> v-table. The v-table itself has pointers to each of the virtual functions in the class.
+For example, the <code>Circle</code> v-table would have three pointers: a pointer to <code>Circle::draw()</code>, a pointer to
+<code>Circle::move()</code>, and a pointer to <code>Circle::resize()</code>.</p>
+
+<p>During a dispatch of a <code>virtual</code> function, the run-time system follows the object&#8217;s v-pointer to the class&#8217;s v-table,
+then follows the appropriate slot in the v-table to the method code.</p>
+
+<p>The space-cost overhead of the above technique is nominal: an extra pointer per object (but only for objects that will
+need to do dynamic binding), plus an extra pointer per method (but only for virtual methods). The time-cost overhead is
+also fairly nominal: compared to a normal function call, a <code>virtual</code> function call requires two extra fetches (one to
+get the value of the v-pointer, a second to get the address of the method). None of this runtime activity happens with
+non-<code>virtual</code> functions, since the compiler resolves non-<code>virtual</code> functions exclusively at compile-time based on the
+type of the pointer.</p>
+
+<p><em>Note: the above discussion is simplified considerably, since it doesn&#8217;t account for extra structural things like
+multiple inheritance, <code>virtual</code> inheritance, RTTI, etc., nor does it account for space/speed issues such as page faults,
+calling a function via a pointer-to-function, etc. If you want to know about those other things, please ask
+<a href="news:comp.lang.c++"><code>comp.lang.c++</code></a>; PLEASE DO NOT SEND E-MAIL TO ME!</em></p>
+
+<h3 id="dyn-binding2">What happens in the hardware when I call a virtual function? How many layers of indirection are there? How much overhead is there?</h3>
+
+<p>This is a drill-down of <a href="virtual-functions.html#dyn-binding" title="FAQ: What's the difference between how virtual and non-virtual member functions are called?">the previous FAQ</a>. The answer is entirely compiler-dependent, so your mileage
+may vary, but most C++ compilers use a scheme similar to the one presented here.</p>
+
+<p>Let&#8217;s work an example. Suppose class <code>Base</code> has 5 virtual functions: <code>virt0()</code> through <code>virt4()</code>.</p>
+
+<pre><code>// Your original C++ source code
+
+class Base {
+public:
+  virtual arbitrary_return_type virt0( /*...arbitrary params...*/ );
+  virtual arbitrary_return_type virt1( /*...arbitrary params...*/ );
+  virtual arbitrary_return_type virt2( /*...arbitrary params...*/ );
+  virtual arbitrary_return_type virt3( /*...arbitrary params...*/ );
+  virtual arbitrary_return_type virt4( /*...arbitrary params...*/ );
+  // ...
+};
+</code></pre>
+
+<p>Step #1: the compiler builds a static table containing 5 function-pointers, burying that table into static memory
+somewhere. Many (not all) compilers define this table while compiling the .cpp that defines <code>Base</code>&#8217;s first non-inline
+virtual function. We call that table the v-table; let&#8217;s pretend its technical name is <code>Base::__vtable</code>. If a function
+pointer fits into one machine word on the target hardware platform, <code>Base::__vtable</code> will end up consuming 5 hidden
+words of memory. Not 5 per instance, not 5 per function; just 5. It might look something like the following
+pseudo-code:</p>
+
+<pre><code>// Pseudo-code (not C++, not C) for a static table defined within file Base.cpp
+
+// Pretend FunctionPtr is a generic pointer to a generic member function
+// (Remember: this is pseudo-code, not C++ code)
+FunctionPtr Base::__vtable[5] = {
+  &amp;Base::virt0, &amp;Base::virt1, &amp;Base::virt2, &amp;Base::virt3, &amp;Base::virt4
+};
+</code></pre>
+
+<p>Step #2: the compiler adds a hidden pointer (typically also a machine-word) to each object of class <code>Base</code>. This is
+called the v-pointer. Think of this hidden pointer as a hidden data member, as if the compiler rewrites your class to
+something like this:</p>
+
+<pre><code>// Your original C++ source code
+
+class Base {
+public:
+  // ...
+  FunctionPtr* __vptr;  // Supplied by the compiler, hidden from the programmer
+  // ...
+};
+</code></pre>
+
+<p>Step #3: the compiler initializes <code>this-&gt;__vptr</code> within each constructor. The idea is to cause each object&#8217;s v-pointer
+to point at its class&#8217;s v-table, as if it adds the following instruction in each constructor&#8217;s
+<a href="ctors.html#init-lists" title="FAQ: Should my constructors use 'initialization lists' or 'assignment'?">init-list</a>:</p>
+
+<pre><code>Base::Base( /*...arbitrary params...*/ )
+  : __vptr(&amp;Base::__vtable[0])  // Supplied by the compiler, hidden from the programmer
+  // ...
+{
+  // ...
+}
+</code></pre>
+
+<p>Now let&#8217;s work out a derived class. Suppose your C++ code defines class <code>Der</code> that inherits from class <code>Base</code>. The
+compiler repeats steps #1 and #3 (but not #2). In step #1, the compiler creates a hidden v-table, keeping the same
+function-pointers as in <code>Base::__vtable</code> but replacing those slots that correspond to overrides. For instance, if <code>Der</code>
+overrides <code>virt0()</code> through <code>virt2()</code> and inherits the others as-is, <code>Der</code>&#8217;s v-table might look something like this
+(pretend <code>Der</code> doesn&#8217;t add any new virtuals):</p>
+
+<pre><code>// Pseudo-code (not C++, not C) for a static table defined within file Der.cpp
+
+// Pretend FunctionPtr is a generic pointer to a generic member function
+// (Remember: this is pseudo-code, not C++ code)
+FunctionPtr Der::__vtable[5] = {
+  &amp;Der::virt0, &amp;Der::virt1, &amp;Der::virt2, &amp;Base::virt3, &amp;Base::virt4
+                                          ↑↑↑↑          ↑↑↑↑ // Inherited as-is
+};
+</code></pre>
+
+<p>In step #3, the compiler adds a similar pointer-assignment at the beginning of each of <code>Der</code>&#8217;s constructors. The idea
+is to change each <code>Der</code> object&#8217;s v-pointer so it points at its class&#8217;s v-table. (This is not a second v-pointer; it&#8217;s
+the same v-pointer that was defined in the base class, <code>Base</code>; remember, the compiler does not repeat step #2 in class
+<code>Der</code>.)</p>
+
+<p>Finally, let&#8217;s see how the compiler implements a call to a virtual function. Your code might look like this:</p>
+
+<pre><code>// Your original C++ code
+
+void mycode(Base* p)
+{
+  p-&gt;virt3();
+}
+</code></pre>
+
+<p>The compiler has no idea whether this is going to call <code>Base::virt3()</code> or <code>Der::virt3()</code> or perhaps the <code>virt3()</code> method
+of another derived class that doesn&#8217;t even exist yet. It only knows for sure that you are calling <code>virt3()</code> which
+happens to be the function in slot #3 of the v-table. It rewrites that call into something like this:</p>
+
+<pre><code>// Pseudo-code that the compiler generates from your C++
+
+void mycode(Base* p)
+{
+  p-&gt;__vptr[3](p);
+}
+</code></pre>
+
+<p>On typical hardware, the machine-code is two &#8216;load&#8217;s plus a call:</p>
+
+<ol>
+<li>The first load gets the v-pointer, storing it into a register, say r1.</li>
+<li>The second load gets the word at <code>r1 + 3*4</code> (pretend function-pointers are 4-bytes long, so <code>r1 + 12</code> is the
+pointer to the right class&#8217;s <code>virt3()</code> function). Pretend it puts that word into register r2 (or r1 for that
+matter).</li>
+<li>The third instruction calls the code at location r2.</li>
+</ol>
+
+<p>Conclusions:</p>
+
+<ul>
+<li>Objects of classes with virtual functions have only a small space-overhead compared to those that don&#8217;t have virtual
+functions.</li>
+<li>Calling a virtual function is fast &#8212; almost as fast as calling a non-virtual function.</li>
+<li>You don&#8217;t get any additional per-call overhead no matter how deep the inheritance gets. You could have 10 levels of
+inheritance, but there is no &#8220;chaining&#8221; &#8212; it&#8217;s always the same &#8212; fetch, fetch, call.</li>
+</ul>
+
+<p><em>Caveat: I&#8217;ve intentionally ignored multiple inheritance, virtual inheritance and RTTI. Depending on the compiler,
+these can make things a little more complicated. If you want to know about these things, DO NOT EMAIL ME, but instead
+ask <a href="news:comp.lang.c++"><code>comp.lang.c++</code></a>.</em></p>
+
+<p><em>Caveat: Everything in this FAQ is compiler-dependent. Your mileage may vary.</em></p>
+
+<h3 id="fully-qualified-calls-to-base">How can a member function in my derived class call the same function from its base class?</h3>
+
+<p>Use <code>Base::f();</code></p>
+
+<p>Let&#8217;s start with a simple case. When you call a non-virtual function, the compiler obviously doesn&#8217;t use <a href="virtual-functions.html#dyn-binding2" title="FAQ: What happens in the hardware when I call a virtual function? How many layers of indirection are there? How much overhead is there?">the
+virtual-function mechanism</a>. Instead it calls the function by name, using the fully qualified name of the
+member function. For instance, the following C++ code&#8230;</p>
+
+<pre><code>void mycode(Fred* p)
+{
+  p-&gt;goBowling();  // Pretend Fred::goBowling() is non-virtual
+}
+</code></pre>
+
+<p>&#8230;might get compiled into something like this C-like code (the <code>p</code> parameter becomes the <code>this</code> object within the
+member function):</p>
+
+<pre><code>void mycode(Fred* p)
+{
+  __Fred__goBowling(p);  // Pseudo-code only; not real
+}
+</code></pre>
+
+<p>The actual name-mangling scheme is more involved than the simple one implied above, but you get the idea. The point is
+that there is nothing strange about this particular case &#8212; it resolves to a normal function more-or-less like
+<code>printf()</code>.</p>
+
+<p>Now for the case being addressed in the question above: When you call a virtual function using its fully-qualified
+name (the class-name followed by &#8220;<code>::</code>&#8221;), the compiler does not use the virtual call mechanism, but instead uses the
+same mechanism as if you called a non-virtual function. Said another way, it calls the function <em>by name</em> rather than
+<a href="virtual-functions.html#dyn-binding2" title="FAQ: What happens in the hardware when I call a virtual function? How many layers of indirection are there? How much overhead is there?">by slot-number</a>. So if you want code within derived class <code>Der</code> to call <code>Base::f()</code>, that is, the
+version of <code>f()</code> defined in its base class <code>Base</code>, you should write:</p>
+
+<pre><code>void Der::f()
+{
+  Base::f();  // Or, if you prefer, this-&gt;Base::f();
+}
+</code></pre>
+
+<p>The complier will turn that into something vaguely like the following (again using an overly simplistic name-mangling
+scheme):</p>
+
+<pre><code>void __Der__f(Der* this)  // Pseudo-code only; not real
+{
+  __Base__f(this);        // Pseudo-code only; not real
+}
+</code></pre>
+
+<h3 id="inversion">I have a heterogeneous list of objects, and my code needs to do class-specific things to the objects. Seems like this ought to use dynamic binding but can&#8217;t figure it out. What should I do?</h3>
+
+<p>It&#8217;s surprisingly easy.</p>
+
+<p>Suppose there is a base class <code>Vehicle</code> with derived classes <code>Car</code> and <code>Truck</code>. The code traverses a list of <code>Vehicle</code>
+objects and does different things depending on the type of <code>Vehicle</code>. For example it might weigh the <code>Truck</code> objects (to
+make sure they&#8217;re not carrying too heavy of a load) but it might do something different with a <code>Car</code> object &#8212; check
+the registration, for example.</p>
+
+<p>The initial solution for this, at least with most people, is to use an <code>if</code> statement. E.g., &#8220;if the object is a
+<code>Truck</code>, do this, else if it is a <code>Car</code>, do that, else do a third thing&#8221;:</p>
+
+<pre><code>typedef std::vector&lt;Vehicle*&gt;  VehicleList;
+
+void myCode(VehicleList&amp; v)
+{
+  for (VehicleList::iterator p = v.begin(); p != v.end(); ++p) {
+    Vehicle&amp; v = **p;  // just for shorthand
+
+    // generic code that works for any vehicle...
+    // ...
+
+    // perform the "foo-bar" operation.
+    // note: the details of the "foo-bar" operation depend
+    // on whether we're working with a car or a truck.
+    if (v is a Car) {
+      // car-specific code that does "foo-bar" on car v
+      // ...
+    } else if (v is a Truck) {
+      // truck-specific code that does "foo-bar" on truck v
+      // ...
+    } else {
+      // semi-generic code that does "foo-bar" on something else
+      // ...
+    }
+
+    // generic code that works for any vehicle...
+    // ...
+  }
+}
+</code></pre>
+
+<p>The problem with this is what I call &#8220;else-if-heimer&#8217;s disease&#8221; (say it fast and you&#8217;ll understand). The above code
+gives you else-if-heimer&#8217;s disease because eventually you&#8217;ll forget to add an <code>else if</code> when you add a new derived
+class, and you&#8217;ll probably have a bug that won&#8217;t be detected until run-time, or worse, when the product is in the
+field.</p>
+
+<p>The solution is to use dynamic binding rather than dynamic typing. Instead of having (what I call) the live-code
+dead-data metaphor (where the code is alive and the car/truck objects are relatively dead), we move the code into the
+data. This is a slight variation of Bertrand Meyer&#8217;s <em>Law of Inversion</em>.</p>
+
+<p>The idea is simple: use the <em>description</em> of the code within the <code>{...}</code> blocks of each <code>if</code> (in this case it is &#8220;the
+foo-bar operation&#8221;; obviously your name will be different). Just pick up this descriptive name and use it as the name
+of a new <code>virtual</code> member function in the base class (in this case we&#8217;ll add a <code>fooBar()</code> member function to class
+<code>Vehicle</code>).</p>
+
+<pre><code>class Vehicle {
+public:
+  // performs the "foo-bar" operation
+  virtual void fooBar() = 0;
+};
+</code></pre>
+
+<p>Then you remove the whole <code>if...else if</code>&#8230; block and replace it with a simple call to this <code>virtual</code> function:</p>
+
+<pre><code>typedef std::vector&lt;Vehicle*&gt;  VehicleList;
+
+void myCode(VehicleList&amp; v)
+{
+  for (VehicleList::iterator p = v.begin(); p != v.end(); ++p) {
+    Vehicle&amp; v = **p;  // just for shorthand
+
+    // generic code that works for any vehicle...
+    // ...
+
+    // perform the "foo-bar" operation.
+    v.fooBar();
+
+    // generic code that works for any vehicle...
+    // ...
+  }
+}
+</code></pre>
+
+<p>Finally you <em>move</em> the code that used to be in the <code>{...}</code> block of each <code>if</code> into the <code>fooBar()</code> member function of the
+appropriate derived class:</p>
+
+<pre><code>class Car : public Vehicle {
+public:
+  virtual void fooBar();
+};
+
+void Car::fooBar()
+{
+  // car-specific code that does "foo-bar" on 'this'
+  // this is the code that was in {...} of if (v is a Car)
+}
+
+class Truck : public Vehicle {
+public:
+  virtual void fooBar();
+};
+
+void Truck::fooBar()
+{
+  // truck-specific code that does "foo-bar" on 'this'
+  // this is the code that was in {...} of if (v is a Truck)
+}
+</code></pre>
+
+<p>If you actually have an <code>else</code> block in the original <code>myCode()</code> function (see above for the &#8220;semi-generic code that
+does the &#8216;foo-bar&#8217; operation on something other than a Car or Truck&#8221;), change <code>Vehicle</code>&#8217;s <code>fooBar()</code> from pure virtual
+to plain virtual and move the code into that member function:</p>
+
+<pre><code>class Vehicle {
+public:
+  // performs the "foo-bar" operation
+  virtual void fooBar();
+};
+
+void Vehicle::fooBar()
+{
+  // semi-generic code that does "foo-bar" on something else
+  // this is the code that was in {...} of the else
+  // you can think of this as "default" code...
+}
+</code></pre>
+
+<p>That&#8217;s it!</p>
+
+<p>The point, of course, is that we try to avoid decision logic with decisions based on the kind-of derived class you&#8217;re
+dealing with. In other words, you&#8217;re trying to avoid <code>if the object is a car</code> <em>do xyz</em>, <code>else if it's a truck</code> <em>do pqr</em>,
+etc., because that leads to else-if-heimer&#8217;s disease.</p>
+
+<h3 id="virtual-dtors">When should my destructor be <code>virtual</code>?</h3>
+
+<p>When someone will <code>delete</code> a derived-class object via a base-class pointer.</p>
+
+<p>In particular, here&#8217;s when you need to make your destructor <code>virtual</code>:</p>
+
+<ul>
+<li><em>if</em> someone will derive from your class,</li>
+<li><em>and if</em> someone will say <code>new Derived</code>, where <code>Derived</code> is derived from your class,</li>
+<li><em>and if</em> someone will say <code>delete p</code>, where the actual object&#8217;s type is <code>Derived</code> but the pointer <code>p</code>&#8217;s type is your
+class.</li>
+</ul>
+
+<p>Confused? Here&#8217;s a simplified rule of thumb that usually protects you and usually doesn&#8217;t cost you anything: make your
+destructor <code>virtual</code> if your class has <em>any</em> <code>virtual</code> functions. Rationale:</p>
+
+<ul>
+<li>that <em>usually</em> protects you because most base classes have at least one <code>virtual</code> function.</li>
+<li>that <em>usually</em> doesn&#8217;t cost you anything because there is no added per-object space-cost for the second or
+subsequent <code>virtual</code> in your class. In other words, you&#8217;ve already paid all the per-object space-cost that you&#8217;ll
+ever pay once you add the first <code>virtual</code> function, so the <code>virtual</code> destructor doesn&#8217;t add any additional
+per-object space cost. (Everything in this bullet is <em>theoretically</em> compiler-specific, but in practice it will be
+valid on almost all compilers.)</li>
+</ul>
+
+<p>Note: in a derived class, if your base class has a <code>virtual</code> destructor, your own destructor is automatically
+<code>virtual</code>. You might need an explicitly defined destructor for other reasons, but there&#8217;s no need to redeclare a
+destructor simply to make sure it is <code>virtual</code>. No matter whether you declare it with the <code>virtual</code> keyword, declare it
+without the <code>virtual</code> keyword, or don&#8217;t declare it at all, it&#8217;s still <code>virtual</code>.</p>
+
+<p>By the way, if you&#8217;re interested, here are the mechanical details of <em>why</em> you need a <code>virtual</code> destructor when someone says
+<code>delete</code> using a <code>Base</code> pointer that&#8217;s pointing at a <code>Derived</code> object. When you say <code>delete p</code>, and the class of <code>p</code> has
+a <code>virtual</code> destructor, the destructor that gets invoked is the one associated with the type of the object <code>*p</code>, not
+necessarily the one associated with the type of the pointer. This is A Good Thing. In fact, violating that rule makes
+your program undefined. The technical term for that is, &#8220;Yuck.&#8221;</p>
+
+<h3 id="virtual-dtor-rationale">Why are destructors not <code>virtual</code> by default?</h3>
+
+<p>Because many classes are not designed to be used as base classes. Virtual functions make sense only in classes meant to act as interfaces to objects of derived classes (typically allocated on a heap and accessed through pointers or references).</p>
+
+<p>So when should I declare a destructor virtual? Whenever the class has at least one virtual function. Having virtual functions indicate that a class is meant to act as an interface to derived classes, and when it is, an object of a derived class may be destroyed through a pointer to the base. For example:</p>
+
+<pre><code>    class Base {
+        // ...
+        virtual ~Base();
+    };
+
+    class Derived : public Base {
+        // ...
+        ~Derived();
+    };
+
+    void f()
+    {
+        Base* p = new Derived;
+        delete p;   // virtual destructor used to ensure that ~Derived is called
+    }
+</code></pre>
+
+<p>Had <code>Base</code>&#8217;s destructor not been virtual, <code>Derived</code>&#8217;s destructor would not have been called &#8211; with likely bad effects, such as resources owned by <code>Derived</code> not being freed.</p>
+
+<h3 id="virtual-ctors">What is a &#8220;<code>virtual</code> constructor&#8221;?</h3>
+
+<p>An idiom that allows you to do something that C++ doesn&#8217;t directly support.</p>
+
+<p>You can get the effect of a <code>virtual</code> constructor by a <code>virtual</code> <code>clone()</code> member function (for copy constructing), or a
+<code>virtual</code> <code>create()</code> member function (for the <a href="ctors.html#default-ctor" title="FAQ: Is the default constructor for Fred always Fred::Fred()?">default constructor</a>).</p>
+
+<pre><code>class Shape {
+public:
+  virtual ~Shape() { }                 // A virtual destructor
+  virtual void draw() = 0;             // A pure virtual function
+  virtual void move() = 0;
+  // ...
+  virtual Shape* clone()  const = 0;   // Uses the copy constructor
+  virtual Shape* create() const = 0;   // Uses the default constructor
+};
+
+class Circle : public Shape {
+public:
+  Circle* clone()  const;   // Covariant Return Types; see below
+  Circle* create() const;   // Covariant Return Types; see below
+  // ...
+};
+
+Circle* Circle::clone()  const { return new Circle(*this); }
+Circle* Circle::create() const { return new Circle();      }
+</code></pre>
+
+<p>In the <code>clone()</code> member function, the <code>new Circle(*this)</code> code calls <code>Circle</code>&#8217;s copy constructor to copy the state of
+<code>this</code> into the newly created <code>Circle</code> object. (Note: unless <code>Circle</code> is known to be <a href="strange-inheritance.html#final-classes" title="FAQ: How can I set up my class so it won't be inherited from?">final (AKA a
+leaf)</a>, you can reduce the chance of <a href="value-vs-ref-semantics.html#pass-by-value" title="FAQ: Does the poor performance of reference semantics mean I should pass-by-value?">slicing</a> by making its copy constructor
+<code>protected</code>.) In the <code>create()</code> member function, the <code>new Circle()</code> code calls <code>Circle</code>&#8217;s <a href="ctors.html#default-ctor" title="FAQ: Is the default constructor for Fred always Fred::Fred()?">default
+constructor</a>.</p>
+
+<p>Users use these as if they were &#8220;<code>virtual</code> constructors&#8221;:</p>
+
+<pre><code>void userCode(Shape&amp; s)
+{
+  Shape* s2 = s.clone();
+  Shape* s3 = s.create();
+  // ...
+  delete s2;    // You need a virtual destructor here
+  delete s3;
+}
+</code></pre>
+
+<p>This function will work correctly regardless of whether the <code>Shape</code> is a <code>Circle</code>, <code>Square</code>, or some other kind-of
+<code>Shape</code> that doesn&#8217;t even exist yet.</p>
+
+<p>Note: The return type of <code>Circle</code>&#8217;s <code>clone()</code> member function is intentionally different from the return type of
+<code>Shape</code>&#8217;s <code>clone()</code> member function. This is called <em>Covariant Return Types</em>, a feature that was not originally part of
+the language. If your compiler complains at the declaration of <code>Circle* clone() const</code> within class <code>Circle</code> (e.g.,
+saying &#8220;The return type is different&#8221; or &#8220;The member function&#8217;s type differs from the base class virtual function by
+return type alone&#8221;), you have an old compiler and you&#8217;ll have to change the return type to <code>Shape*</code>.</p>
+
+<h3 id="virtual-ctor-rationale">Why don&#8217;t we have <code>virtual</code> constructors?</h3>
+
+<p>A virtual call is a mechanism to get work done given partial information. In particular, <code>virtual</code> allows us to call a function knowing only an interfaces and not the exact type of the object. To create an object you need complete information. In particular, you need to know the exact type of what you want to create. Consequently, a &#8220;call to a constructor&#8221; cannot be virtual.</p>
+
+<p>Techniques for using an indirection when you ask to create an object are often referred to as &#8220;Virtual constructors&#8221;. For example, see <a href="http://stroustrup.com/3rd.html">TC++PL3</a> 15.6.2.</p>
+
+<p>For example, here is a technique for generating an object of an appropriate type using an abstract class:</p>
+
+<pre><code>    struct F {  // interface to object creation functions
+        virtual A* make_an_A() const = 0;
+        virtual B* make_a_B() const = 0;
+    };
+
+    void user(const F&amp; fac)
+    {
+        A* p = fac.make_an_A(); // make an A of the appropriate type
+        B* q = fac.make_a_B();  // make a B of the appropriate type
+        // ...
+    }
+
+    struct FX : F {
+        A* make_an_A() const { return new AX(); } // AX is derived from A
+        B* make_a_B() const { return new BX();  } // BX is derived from B
+    };
+
+    struct FY : F {
+        A* make_an_A() const { return new AY(); } // AY is derived from A
+        B* make_a_B() const { return new BY();  } // BY is derived from B
+    };
+
+    int main()
+    {
+        FX x;
+        FY y;
+        user(x);    // this user makes AXs and BXs
+        user(y);    // this user makes AYs and BYs
+
+        user(FX()); // this user makes AXs and BXs
+        user(FY()); // this user makes AYs and BYs
+        // ...
+    }
+</code></pre>
+
+<p>This is a variant of what is often called &#8220;the factory pattern&#8221;. The point is that <code>user()</code> is completely isolated from knowledge of classes such as <code>AX</code> and <code>AY</code>.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/virtual-functions",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/virtual-functions",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/virtual-functions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

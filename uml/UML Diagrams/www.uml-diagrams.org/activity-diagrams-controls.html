@@ -1,0 +1,659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-controls.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML activity diagram controls are activity nodes coordinating the flows between other nodes: initial node, flow final, activity final, decision, merge, fork, join.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Activity Diagram Controls are activity nodes coordinating the flows between other nodes: initial node, flow final, activity final, decision, merge, fork, join." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, Activity diagram, initial node, flow final, activity final, decision, merge, fork, join." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 121220 -->
+<div id="globalNav">
+  <div>
+    <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+  </div>
+<div>
+<a href="activity-diagrams.html"
+  title="UML activity diagrams show flow of control or object flow with emphasis on the sequence and conditions of the flow."
+     >Activity diagrams</a>
+</div>
+<div>
+<a href="activity-diagrams-actions.html"
+  title="UML activity diagram actions - object, variable, invocation, structural, link, event actions."
+    >Actions</a>
+</div>
+<div>
+<a href="activity-diagrams-controls.html"
+ title="UML activity diagram controls - initial, flow final, activity final, decision, merge, fork, join."
+ class="active-nav" >Controls</a>
+</div>
+<div>
+<a href="activity-diagrams-objects.html"
+  title="UML activity diagram object nodes - object, pin, parameter, central buffer, data store."
+   >Objects</a>
+</div>  
+<div>
+<a href="activity-diagrams-reference.html"
+ title="UML activity diagrams reference."  >Activity reference</a>
+</div>
+<div>
+<a href="activity-diagrams-examples.html"
+    title="UML activity diagrams examples.">Activity examples</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Activity Diagram Controls</h1>
+
+<p>
+<strong>Control node</strong> is an activity node used to coordinate the flows between other nodes.
+It includes:
+</p>
+<ul>
+<li><a href="activity-diagrams-controls.html#initial-node" class="ref-link">initial node</a></li>
+<li><a href="activity-diagrams-controls.html#flow-final-node" class="ref-link">flow final node</a></li>
+<li><a href="activity-diagrams-controls.html#activity-final-node" class="ref-link">activity final node</a></li>
+<li><a href="activity-diagrams-controls.html#decision-node" class="ref-link">decision node</a></li>
+<li><a href="activity-diagrams-controls.html#merge-node" class="ref-link">merge node</a></li>
+<li><a href="activity-diagrams-controls.html#fork-node" class="ref-link">fork node</a></li>
+<li><a href="activity-diagrams-controls.html#join-node" class="ref-link">join node</a></li>
+</ul>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="activity-diagrams/control-nodes-overview.png" width="720" height="248"
+ alt="UML activity control nodes overview." 
+ title="UML activity control nodes overview." itemprop="contentURL" />
+<p class="figure-text" itemprop="description" >
+Activity control nodes overview.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="datePublished" content="2010-01-01" />
+<meta itemprop="dateModified" content="2011-12-09" />
+</div>
+
+<p>
+Activity controls nodes could be used both
+ in <a href="activity-diagrams.html" class="ref-link">activity diagrams</a>
+ as well as in <a href="interaction-overview-diagrams.html" class="ref-link">interaction overview diagrams</a>.
+</p>
+
+
+<!--
+*********************
+      Initial Node
+*********************
+-->
+ 
+<h2 id="initial-node">Initial Node</h2>
+
+<p>
+<strong>Initial node</strong> is a control node at which flow starts when the activity is invoked.
+</p>
+
+<p>
+A control token is placed at the initial node when the
+ activity starts, but not in initial nodes in structured nodes contained by the activity.
+ Tokens in an initial node are offered to all outgoing edges.
+ For convenience, initial nodes are an exception to the rule that control nodes cannot hold
+ tokens if they are blocked from moving downstream, for example, by guards.
+</p>
+
+<p>
+Activities may have more than one initial node.
+ In this case, invoking the activity starts multiple flows, one at each initial node.
+</p>
+
+<p>
+Note that flows can also start at other nodes, so initial nodes are not required for an activity
+ to start execution.
+</p>
+
+<p>
+Initial nodes are shown as a small solid circle.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-activity-initial.png" width="120" height="38"
+ alt="Activity initial node is shown as a small solid circle." 
+ title="Activity initial node is shown as a small solid circle." />
+<p class="figure-text">
+Activity initial node.
+</p>
+</div>
+
+<!--
+**********************
+    Flow Final Node
+**********************
+-->
+ 
+<h2 id="flow-final-node">Flow Final Node</h2>
+
+<p>
+<strong>Flow final node</strong> is a control final node that terminates a <strong>flow</strong>.
+It destroys all tokens that arrive at it but has no effect on other flows in the activity.
+Flow final was introduced in UML 2.0.
+</p>
+
+<p>
+The notation for flow final node is small circle with X inside.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-flow-final.png" width="120" height="51"
+ alt="The notation for flow final node is small circle with X inside." 
+ title="The notation for flow final node is small circle with X inside." />
+<p class="figure-text">
+Flow final node.
+</p>
+</div>
+
+
+<!--
+*************************
+   Activity Final Node
+*************************
+-->
+
+<h2 id="activity-final-node">Activity Final Node</h2>
+
+<p>
+<strong>Activity final node</strong> is a control final node that stops all flows in an <strong>activity</strong>.
+Activity final was introduced in UML 2.0.
+</p>
+
+<p>
+An activity may have more than one activity final node.
+ The first one reached stops all flows in the activity.
+ A token reaching an activity final node terminates the activity.
+ In particular, it stops all executing actions in the
+activity, and destroys all tokens in object nodes, except in the output activity parameter nodes.
+ Terminating the execution
+of synchronous invocation actions also terminates whatever behaviors they are waiting on for return.
+ Any behaviors invoked asynchronously by the activity are not affected.
+ If it is not desired to abort all flows in the activity, use flow final instead.
+</p>
+
+<p>
+Activity final nodes are shown as a solid circle with a hollow circle inside.
+ It can be thought of as a goal notated as "bull’s eye," or target.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-activity-final.png" width="120" height="45"
+ alt="Activity final node is shown as a solid circle with a hollow circle inside (target)." 
+ title="Activity final node is shown as a solid circle with a hollow circle inside (target)." />
+<p class="figure-text">
+Activity final node.
+</p>
+</div>
+
+<!--
+*******************
+   Decision node
+*******************
+-->
+
+<h2 id="decision-node">Decision Node</h2>
+
+<p>
+<strong>Decision node</strong> is a <strong>control node</strong> that accepts tokens on one or two <strong>incoming edges</strong>
+and selects one <strong>outgoing edge</strong> from one or more outgoing flows.
+ Decision nodes were introduced in UML to support conditionals in activities.
+</p>
+
+<p>
+The edges coming into and out of a decision node, other than the <strong>decision input flow</strong> (if any),
+ must be either all <strong>object flows</strong> or all <strong>control flows</strong>.
+</p>
+
+<p>
+Each token arriving at a decision node can traverse <strong>only one</strong> outgoing edge.
+ Tokens are not duplicated. Each token offered by the incoming edge is offered to the outgoing edges.
+</p>
+
+<p>
+ Which of the edges is actually traversed depends on the evaluation of the <strong>guards</strong> on the outgoing edges.
+ The order in which guards are evaluated is <strong>not defined</strong>, i.e. we should not rely on any visual or text description order.
+</p>
+
+<p>
+The notation for a decision node is a diamond-shaped symbol.
+</p>
+
+
+<div class="figure-left-80">
+<img src="activity-diagrams/decision-binary.png" width="224" height="149"
+ alt="The notation for a decision node is a diamond-shaped symbol." 
+ title="The notation for a decision node is a diamond-shaped symbol." />
+<p class="figure-text">
+<strong>Decision node</strong> with two <strong>outgoing edges</strong> with guards.
+</p>
+</div>
+
+<p>
+ The modeler should arrange that each token only be chosen to traverse <strong>one outgoing edge</strong>.
+ For <strong>decision points</strong>, a predefined guard "<strong>else</strong>" may be defined for at most one outgoing edge.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/decision-ternary.png" width="217" height="151"
+ alt="For decision points, a predefined guard [else] may be defined." 
+ title="For decision points, a predefined guard [else] may be defined." />
+<p class="figure-text">
+<strong>Decision node</strong> with three <strong>outgoing edges</strong> and [else] guard.
+</p>
+</div>
+
+<p>
+<strong>Decision</strong> can have <strong>decision input behavior</strong> specified.
+ Decision input behaviors were introduced in UML to avoid redundant recalculations in guards.
+</p>
+
+<p>
+In this case each data token is passed to the <strong>behavior</strong> before guards are evaluated on the outgoing edges.
+ The behavior is invoked without input for control tokens.
+ The output of the behavior is available to each guard.
+ Because the behavior is used during the process of offering tokens to outgoing edges, it may be run <strong>many times</strong> on
+the same token before the token is accepted by those edges. This means the behavior cannot have <strong>side effects</strong>.
+</p>
+
+<p>
+<strong>Decision input behavior</strong> is specified by the keyword <strong>«decisionInput»</strong> and some
+ decision behavior or condition placed in a <strong>note symbol</strong>, and attached to the appropriate decision node.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/decision-input.png" width="250" height="177"
+ alt="Decision input behavior is specified by the keyword «decisionInput» placed in a note." 
+ title="Decision input behavior is specified by the keyword «decisionInput» placed in a note." />
+<p class="figure-text">
+<strong>Decision node</strong> with <strong>decision input behavior</strong>.
+</p>
+</div>
+
+<p>
+<strong>Decision</strong> may also have <strong>decision input flow</strong>.
+In this case the tokens offered on the decision input flow that are made available to the guard on each outgoing edge
+ determine whether the offer on the regular incoming edge is passed along that outgoing edge.
+</p>
+
+<p>
+A <strong> decision input flow</strong> is specified by the keyword <strong>«decisionInputFlow»</strong> annotating that flow.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/decision-input-flow.png" width="220" height="153"
+ alt="Decision input flow is specified by the keyword «decisionInputFlow» annotating that flow." 
+ title="Decision input flow is specified by the keyword «decisionInputFlow» annotating that flow." />
+<p class="figure-text">
+<strong>Decision node</strong> with <strong>decision input flow</strong>.
+</p>
+</div>
+
+<p>
+If there are both a <strong>decision input behavior</strong> as well as <strong>decision input flow</strong>, the token offered on the
+decision input flow is passed to the behavior (as the only argument if the regular incoming edge is control flow, as the
+second argument if it is an object flow). Decision nodes with the additional decision input flow offer tokens to outgoing
+edges only when one token is offered on each incoming edge.
+</p>
+
+
+<!--
+*****************
+    Merge Node
+*****************
+-->
+ 
+<h2 id="merge-node">Merge Node</h2>
+
+<p>
+<strong>Merge node</strong> is a control node that brings together multiple incoming <strong>alternate flows</strong> 
+ to accept single outgoing flow.  There is no joining of tokens.
+ Merge <strong>should not</strong> be used to synchronize <strong>concurrent flows</strong>. 
+</p>
+ 
+<p>
+For example, if a decision is used after a fork, the two flows coming out of the decision need to be merged into one
+ before going to a join; otherwise, the join will wait for <strong>both</strong> flows, only one of which will arrive.
+</p>
+
+<p>
+All edges coming into and out of a merge node must be either <strong>object flows</strong> or <strong>control flows</strong>.
+</p>
+
+<p>
+The notation for a merge node is a diamond-shaped symbol with two or more edges entering it and a single activity edge leaving it.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-control-merge.png" width="160" height="110"
+ alt="Merge node shown as diamond-shaped symbol with three edges entering it and a single activity edge leaving it." 
+ title="Merge node shown as diamond-shaped symbol with three edges entering it and a single activity edge leaving it." />
+<p class="figure-text">
+<strong>Merge node</strong> with three incoming edges and a single outgoing edge
+</p>
+</div>
+
+<p>
+The functionality of <strong>merge node</strong> and <strong>decision node</strong> can be combined by using the same node symbol,
+ as illustrated below. This case maps to a model containing a merge node with all the incoming edges shown in the diagram and
+one outgoing edge to a decision node that has all the outgoing edges shown in the diagram.
+</p>
+
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-control-merge-decision.png" width="160" height="105"
+ alt="Merge node and decision node can be combined by using the same node symbol." 
+ title="Merge node and decision node can be combined by using the same node symbol." />
+<p class="figure-text">
+<strong>Merge node</strong> and <strong>decision node</strong> combined using the same symbol
+</p>
+</div>
+
+
+<!--
+***************
+   Fork Node
+***************
+-->
+ 
+<h2 id="fork-node">Fork Node</h2>
+
+<p>
+<strong>Fork node</strong> is a control node that has one incoming edge and multiple outgoing edges
+and is used to split incoming flow into multiple <strong>concurrent</strong> flows.
+ Fork nodes are introduced to support <strong>parallelism</strong> in <strong>activities</strong>.
+As compared to <strong>UML 1.5</strong>, <strong>UML 2.0</strong> activity forks model unrestricted parallelism.
+</p>
+
+<p>
+Tokens arriving at a fork are duplicated across the outgoing edges.
+ If at least one outgoing edge accepts the token,
+duplicates of the token are made and one copy traverses each edge that accepts the token.
+ The outgoing edges that did not accept the token due to failure of their targets to accept it,
+  keep their copy in an implicit FIFO queue until it can be
+accepted by the target. The rest of the outgoing edges do not receive a token.
+</p>
+
+<p>
+The notation for a fork node is a line segment with a single activity edge entering it,
+ and two or more edges leaving it.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-fork.png" width="120" height="63"
+ alt="Fork node shown as line segment with a single activity edge entering it, and two or more edges leaving it." 
+ title="Fork node shown as line segment with a single activity edge entering it, and two or more edges leaving it." />
+<p class="figure-text">
+<strong>Fork node</strong> with a single activity edge entering it, and three edges leaving it.
+</p>
+</div>
+
+<p>
+The functionality of <strong>join node</strong> and <strong>fork node</strong> can be combined
+ by using the same node symbol.
+ This case maps to a model containing a join node with all the incoming edges shown in the diagram
+  and one outgoing edge to a fork node that has all the outgoing edges shown in the diagram.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-join-fork.png" width="120" height="62"
+ alt="Join node and fork node can be combined by using the same node symbol." 
+ title="Join node and fork node can be combined by using the same node symbol." />
+<p class="figure-text">
+Combined <strong>join node</strong> and <strong>fork node</strong>.
+</p>
+</div>
+
+<p>
+If guards are used on edges outgoing from forks, the modelers should ensure that
+ no downstream joins depend on the
+arrival of tokens passing through the guarded edge.
+ If that cannot be avoided, then a <strong>decision node</strong> should be introduced
+to have the guard, and shunt the token to the downstream join if the guard fails.
+</p>
+
+
+<!--
+***************
+   Join Node
+***************
+-->
+ 
+<h2 id="join-node">Join Node</h2>
+
+<p>
+<strong>Join node</strong> is a control node that has multiple incoming edges and one outgoing edge
+and is used to synchronize incoming concurrent flows.
+ Join nodes are introduced to support parallelism in activities.
+</p>
+
+<p>
+The notation for a join node is a line segment with several activity edges entering it,
+ and only one edge leaving it.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-join.png" width="120" height="61"
+ alt="Join node shown as line segment with several activity edges entering it, and only one edge leaving it." 
+ title="Join node shown as line segment with several activity edges entering it, and only one edge leaving it." />
+<p class="figure-text">
+<strong>Join node</strong> with three activity edges entering it, and a single edge leaving it.
+</p>
+</div>
+
+<p>
+The functionality of join node and fork node can be combined by using the same node symbol.
+ This case maps to a model containing a join node with all the incoming edges shown in the diagram
+  and one outgoing edge to a fork node that has all the outgoing edges shown in the diagram.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-join-fork.png" width="120" height="62"
+ alt="Join node and fork node can be combined by using the same node symbol." 
+ title="Join node and fork node can be combined by using the same node symbol." />
+<p class="figure-text">
+Combined <strong>join node</strong> and <strong>fork node</strong>.
+</p>
+</div>
+
+<p>
+Join nodes have a <strong>join specification</strong> which is Boolean value specification
+ using the <strong>names of the incoming edges</strong> to specify the conditions under which
+  the join will emit a token.
+</p>
+
+<p>
+The join specification is evaluated whenever a new token is offered on
+any incoming edge. The evaluation is not interrupted by any new tokens offered during the evaluation,
+ nor are concurrent evaluations started when new tokens are offered during an evaluation.
+</p>
+
+<p>
+The <strong>default join specification</strong> is the reserved string "<strong>and</strong>".
+It is equivalent to a specification that requires at least one token offered on each incoming edge.
+</p>
+
+<p>
+Join specifications are shown in curly braces near the join node as <strong>joinSpec=...</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-join-spec.png" width="130" height="78"
+ alt="Join specification shown in curly braces near the join node as joinSpec=..." 
+ title="Join specification shown in curly braces near the join node as joinSpec=..." />
+<p class="figure-text">
+<strong>Join node</strong> with <strong>join specification</strong> shown in curly braces.
+</p>
+</div>
+
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="activity-diagrams-controls.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-controls.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:16:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

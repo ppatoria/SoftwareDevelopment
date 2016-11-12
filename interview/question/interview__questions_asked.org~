@@ -1,0 +1,543 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../CSS/org-style.css" type="text/css"/>
+<!--<link rel="stylesheet" href="../../CSS/boost-style/boostbook.css" type="text/css" />-->
+<style type="text/css"/>
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+</style>
+#+END_HTML
+#+TITLE: Interview Questions 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil, toc:5
+#+TOC: headlines:5, listings, tables      
+#+INFOJS_OPT: sdepth:5 tdepth:5 toc view:overview      
+
+[TABLE-OF-CONTENTS]
+
+
+* Object Oriented Concept
+
+** _Access Modifiers_
+
+*** Is private member of an instance accessible with other class with same type ?
+#+begin_src csharp
+using System;
+class cls {
+    private int i;
+    public int I {
+	get { return i;	 } 
+	set { i = value; }
+    }
+    public cls() {}
+    public cls (cls right) { 
+	i = right.i;	    // No Error: Private member of same type is accessible
+    }
+}
+class program {
+    public static void Main () {
+	cls a = new cls ();
+	a.I = 10;
+	cls b = new cls (a);
+	Console.WriteLine (b.I);	    
+    }
+}
+#+end_src
+Code Reference: [[../../code/csharp/accessibility][Access Modifier]]
+
+*** What are the advantages and disadvantages of multiple inheritance ?
+**** How can we achive this via delegation ? 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* C++ Questions
+
+** _Threading_
+
+*** _Timer in C++._
+**** What are the different timer classes provided in boost and standard c++ ?
+**** Does it has a separate timer thread as csharp ? How does it works ?
+     - Code Reference: [[../../code/cpp/threading/timers][Timers]]
+*** _Synchronization_
+**** _Lock Free Algorithm_
+***** What is lock free algorithm ? How can we implement it ?
+***** Implement a thread safe lock free queue. 
+      - Reference: [[../../Books_And_Tutorials/cpp/c++_concurrency_in_action/CConcurrencyinActionPracticalMultithreadingChapter7Designinglockfree.pdf][Lock-Free]]
+      - Code Samples: [[../../Code/CPP/threading/lock_free][Lock-Free]]
+**** What are different types of synchronization objects provided by windows and Linux ? 
+     - Reference:[[../../books_and_tutorials/win_and_linux/linux_vs_windows_sync_obj.html][Windows and Linux Synchronization Objects]]
+
+**** _Deadlock_
+
+**** What is a deadlock ? Explain the scenario(s) where you faced deadlock . How did you resolved it ?
+     - Reference: [[../../books_and_tutorials/deadlock/deadlock.html][Deadlock]]
+*** Threading vs Parallel programming.
+
+** _Smart Pointers_
+
+*** What are different types of smart pointers ?
+    - Reference [[../../books_and_tutorials/cpp/smartpointers/smartpointers.html][Smart Pointers in C++]]
+
+** _Assignment Operator_
+
+*** What is difference between copy constructor and assignment operator ?
+*** What are the precautions developer need to to take while implementing assignment operator ?
+*** What is the signature of assignment operator ?
+**** What assignment operator returns ? Does it return reference or Pointer and Why ?
+**** Does it take pointer or reference as parameter ? Why ?
+*** Implement assignment operator for MyString class.
+    - Reference: [[../../Code/CPP/assignment][MyString class]]
+
+** _Bind_
+
+*** What is the use of bind ?
+*** When we have functors why we have bind ?
+
+** _Constant and Internal linkage._
+*** What is internal linkage ?
+*** What is mutable and immutable objects in cpp ?
+*** Are const static in c++ ?
+*** syntax and meaning for /constant pointer/ and /pointer to constant/ ?
+*** What is mutable  keyword in cpp ? How and when it is used ?
+*** How to remove constness using casting in cPP ?
+   - Reference: [[../../Books_and_Tutorials/cpp/const/const_internal_linkage.html][Constant and Internal Linkage]]
+   - Code Reference: [[../../code/cpp/const][const]]
+
+** _Functors_
+
+*** What are functors or function objects ?
+*** What are the benefits compared to function pointers ?
+*** Bind vs Functors ?
+
+** _Lambda_
+
+*** What is the syntax of lambda in cpp ?
+*** What square bracket '[]' means in lambda ?
+*** Does lambda in c++ has closure property ?
+    - Code Reference: [[../../code/cpp/lambda][lambda]]
+
+** _asyn_
+
+*** What is async ?
+Ans: async is a asynchronous callable objects. It runs as background task.
+Code Sample: [[../../code/cpp/async][async]]
+
+** _Templates_
+
+*** What is specialization and partial specialization ? Provide real time sample of both .
+  - Code Samples: [[../../code/cpp/templates][templates]]
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* .Net Questions
+
+** _AppDomain_
+*** What is AppDomain ?
+*** AppDomain and Thread ?
+*** AppDomain and Security ?
+*** Inter-AppDomain Communication ? InterProcess Communication and Appdomain ? Remoting ?
+    - [[../../code/csharp/appdomain][AppDomain Code Samples]]
+
+** Why constant are static?
+
+** _Generics_
+
+*** What is the differenece between Covariance and Contra-variance ?
+    - Given a Sample :
+      * We have Employee class and Manager class .
+      * Manager is derived from Employee.
+      * We have a method which takes a Employee list as parameter.
+      * Can List of Manager be passed to the above method ?
+      * What if we are dealing with array i.e. in the above methods we use array and not List ?
+Ans)  - References: [[../../Books_and_Tutorials/DotNet/Variance_CSharp][Covariance and Contra-variance]] 
+
+** _Object class_
+
+*** What are the different methods in object class?
+**** What are different non-virtual, protected, virtual and static methods ?
+*** Is everything derived from object ? 
+**** What about primitive types like int long etc ?
+     - Ans) Yes even primitive types.
+
+** _String_
+
+*** Describe efficient string builder implementation.
+
+** _Virtual Methods_
+
+*** If virtual method called in constructor ?   
+    * In C# virtual method of derived will be called.
+    * It s is not safe as Derived class constructor is not called yet and this derived call is not properly initialized.
+
+** static vs non-static method ?
+*** What are problems while unit testing static methods/classes ?
+
+** Can a constructor be static ?
+   http://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx
+** Mutable vs Immutable objects.  
+*** What are immutable objects in .Net ? 
+*** What are the benefits of immutability ?
+
+** _Object Identity and Equality_
+
+*** What is difference between object equality and object identity ?  
+**** If a = b that a.hash = b.hash and visa versa ?
+**** How to override equal functionality ? 
+**** When we have to override GetHashCode ? Why ? Provide a sample .
+**** By default does Equals method check reference ? If yes than what is the use of ReferenceEqual ?
+**** Why operator== is not defined in object class ?
+[[../../Books_And_Tutorials/DotNet/Object Equality and Identity][Reference to 'Effective C#' chapters]]
+
+** How to create a deep copy og object in c# ? What is ICloneable interface and its pitfall ?
+[[../../Books_And_Tutorials/DotNet/Object Cloning or Copying][Reference to chapter from 'Effective C#']]
+
+** _Threading_
+
+*** _TPL_
+    - [[../../Books_And_Tutorials/DotNet/TPL/Task.html][Task Summary]]
+    - [[../../Code/CSharp/Threading/TPL][Code Samples]]
+**** Task
+**** Task Factory/Group Tasks/Parent Child relationship.
+**** TaskScheduler
+**** ContinueWith
+**** Delay
+**** CancellationTokenSource/ConcellationContext.
+**** Handle exceptions in thread.
+**** ExecutionContext
+**** Parallel ForEach
+
+*** _Timer_ 
+    - Code Reference: [[../../Code/CSharp/Threading/Timer][Timer]]
+**** What is delay?
+**** What is problem with the Threading.Timer which is resolved by delay ?
+ 
+*** _Threading vs Parallel programming._
+
+*** What is _worker thread_ ? 
+    Ans) Wroker thread is a pattern. It has two variants.
+	 1) Single thread listeneing to queue of task. Task are interted by client. 
+	 2) Thread Pools listeneing to queue of task.
+    [[Worker Thread Pattern (Chapter from Book)]]
+
+*** What is difference between _foreground and background thread_?
+**** What will happen if in the main method we spawn a background thread  and without waiting main terminates ?
+**** What will happen if in the main method we spawn a foreground thread  and without waiting main terminates ?
+|------------------------------------------------------+----------------------------------------------------------------------------------------------|
+| Foreground Thread                                    | Background Thread                                                                            |
+|------------------------------------------------------+----------------------------------------------------------------------------------------------|
+| Thread will run even after main goes out of control. | The thread will terminated once main goes out of scope.                                      |
+| The application will not terminate.                  | The application will terminate and not wait for the foreground thread to complete.           |
+|                                                      | There will be no exception even if it terminates unexpectedly in-between when main finishes. |
+|------------------------------------------------------+----------------------------------------------------------------------------------------------|
+
+*** What is _backgroung worker thread_ ?
+
+*** _Abort and interrupt:_
+**** What abort and interrupt does ?
+**** Does exception occurs in the thread when abort or interrupt is called  ? If yes what are the  name of the exception for abort and interrupt resp ?
+**** Is the abort or interrupt exception once handled thrown agian ? if yes why ?
+**** What happen if the thread is in suspended mode and abort or interrupt is called on the thread ?
+[[../..//Books_And_Tutorials/DotNet/books/Threading/threading.pdf::49][Interrupt and Abort Introduction]]
+[[../..//Books_And_Tutorials/DotNet/books/Threading/threading.pdf::80][Abort Thread details]]
+
+AcroRd32.exe /A "page=49=OpenActions" P:\Books_And_Tutorials\DotNet\books\Threading\threading.pdf
+ile:///P:/Books_And_Tutorials/DotNet/books/Threading/threading.pdf#page=
+
+[[../../code/csharp/threading/background_vs_foreground_thread.cs][Code Sample: Background VS Foreground Threads]]
+
+*** _Synchronization_
+    - Code Reference: [[../../Code/CSharp/Threading/SynchronizationObjects][Examples]]
+**** InterLocked
+**** Conditional Variable in C#.
+**** Semaphore
+**** SpinWait
+**** Simple Hybrid Lock
+**** Volatile
+**** _Lock Free Algorithm_
+     - Reference: [[Lock Free Algorithm]]
+
+**** What is _IO bound asynchronous operation_ ?
+***** What is async and await ?
+     - Reference: [[../../Books_And_Tutorials/DotNet/IO-BoundAsynchronous-Operations/IO-BoundAsynchronous-Operations.pdf][IO-Bound-Asynchronous-Operations]]
+     - Code Reference: [[../../code/csharp/threading/asyncio][IO-Bound-Async-Operations]]  
+
+*** _Deadlock_
+     - Reference: [[../../books_and_tutorials/deadlock/deadlock.html][Deadlock]]
+     - Code Reference: [[../../Code/CSharp/Threading/Deadlock][Deadlock]]
+**** What is a deadlock ? Explain the scenario(s) where you faced deadlock . How did you resolved it ?
+**** How can you detect deadlock ? 
+**** How can you prevent deadlock ?
+     Ans) Using Leveled lock (see Code Reference).
+
+** Memory Management
+*** How .Net identify the object is still referenced ? What are Application roots ? How .Net create reachable graph ?
+Ans) [[../../Books_And_Tutorials/DotNet/books/Pro .NET Performance/Garbage Collection][Reference to Garbase Collection chapter of book 'Pro .Net Performance']]
+*** How to handle memory leak in .Net ?
+[[../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 2 Troubleshooting/Chapter 4 Common Memory Problems\Memory Leaks.pdf][Capter Memory Leaks from Under the Hood of .NET Memory Management]]
+*** What is weak reference in .Net ?
+*Ans:* Weak references are a supplementary mechanism for handling references
+to managed objects. The typical object reference (also known as
+strong reference) is very deterministic: as long as you have a
+reference to the object, the object will stay alive. This is the
+correctness promise of the garbage collector.
+
+However, in some scenarios, we would like to keep an invisible string
+attached to an object without interfering with the garbage collector's
+ability to reclaim that object's memory. If the GC reclaimed the
+memory, our string becomes unattached and we can detect this. If the
+GC hasn't touched the object yet, we can pull the string and retrieve
+a strong reference to the object to use it again.
+
+This facility is useful for various scenarios, of which the following are the most common:
+  * Providing an external service without keeping the object
+    alive. Services such as timers and events can be provided to
+    objects without keeping them referenced, which can solve many typical memory leaks.
+  * Automatically managing a cache or pool strategy. A cache can keep
+    weak references to the least recently used objects without
+    preventing them from being collected; a pool can be partitioned
+    into a minimum size which contains strong references and an
+    optional size which contains weak references.
+  * Keeping a large object alive with the hope that it will not be
+    collected. The application can hold a weak reference to a large
+    object that took a long time to create and initialize. The object
+    might be collected, in which case the application will
+    reinitialize it; otherwise, it can be used the next time it is
+    needed.
+
+[[../../C:/Users/Pralay/Google Drive/SoftwareDevelopment/Books_And_Tutorials/DotNet\books/Pro .NET Performance/Garbage Collection/Weak References.pdf][Chapter on Weak Reference from Pro .NET Performance]]
+[[../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 1 Introduction to DotNET Memory Management/Chapter3 A Little More Detail/Weak References.pdf][Chapter on Weak References introduction from Under the Hood of .NET Memory Management]]
+[[../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 3 Deeper .NET/Chapter 6 A Few More Advanced Topics/Weak References.pdf][Chapter on Weak Reference problems and usage from Under the Hood of .Net Memory Management]] 
+[[../../Code/CSharp/MemoryManagement/WeakReferences][Code Sample for Weak Reference]]
+
+*** If there is a class with two members int and a reference type . Where will int be allocated in stack or heap ?
+    - Ans) It will be allocated on heap.
+
+- Reference: [[../..//Books_And_Tutorials/DotNet/MemoryManagement/MemoryManagement.html][Memory Management in .Net]]
+
+** LINQ
+   - Code Reference [[../../Code/CSharp/LINQ][LINQ]]
+*** What is difference between IQueriable and IEnumerable ?
+    - References: [[../../Books_And_Tutorials/DotNet/iqueryable_vs_ienumerable][IQueryable vs IEnumerable]] 
+|------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------|
+| IQueryable                                                       | IEnumerable                                                                                                            |
+|------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------|
+| Used for querying databases.                                     | Used for querying in-memory containers.                                                                                |
+| It takes care of the conditions and include in the select query. | Retrieves all the rows in the table does not include constraints while generating select query. Apply condition later. |
+|------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------|
+Refer: [[../../Books_And_Tutorials/DotNet/IQueryable_vs_IEnumerable][IQueryable_vs_IEnumerable]]
+*** What is /Expression Tree/ in c# ?
+
+** Dynamic Programming Concepts in .Net:
+- Code Reference: [[../../Code/CSharp/DynamicProgramming][Samples]]
+*** What is /dynamic/ keyword in c# ?
+   
+** Collections/Iterators/Algorithm
+*** What is difference between IEnumerator and IEnumerable ?
+*** What is yield ? What is the purpose ?
+    Code Reference: [[../..//Code/CSharp/Enumerator][Enumerator]]
+
+** Unmanaged Programming
+*** What is pinvoke ? 
+*** What is unsafe keyword ?
+    Code Reference: [[../../Code/CSharp/pinvoke][pinvoke and unsafe]]
+** WPF/WinForm/GUI
+*** [[What is MVVM ?]]
+*** [[What is MVC ?]]
+*** What is Dependency-Property ?
+Ans) Dependency Property provides
+     . Change notification
+     . Property value inheritance
+     . Support for multiple providers
+     . Property which is registered with the WPF framework and is available to all the child components.
+     . child can override the property.
+*** What is routed event ?
+**** Explain tunnelling and bubbleup event ?
+*** Explain in brief ICommand.
+*** Explain in brief XAML.
+*** Explain in brief Binding.
+*** Explain in brief INotifyChange.
+*** Explain in brief Context.
+*** What is Prism ?
+**** What are the functionality Prism provides ?
+***** What is IOC/DI ? How it is provided in Prism ?
+***** What is a Loader in Prism ?
+***** What is a Shell in Prism ?
+***** What are Events in Prism ? How are they different from .Net Events ?
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Data Structure Questions
+  - [[../../Code/datastructure][Data Structure Code Samples]]
+** Create queue with two stacks .
+  - one stack should be used at time in case of (TODO complete it)
+** How hash table is implemented internally ? 
+*** What are the different ways to resolve collision ?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Programming Logic and Computer Science fundamentals
+** Write a program to give Fibonacci series ?
+*** Write both recursive and non-recursive method for this ?
+**** Which is mode optimal in terms of space and time ?
+** Write a code to represent int into binary.
+*** Implement it usung  bitwise operator ? Explain in detain the flow.
+** What is Bitwise operations ?
+** What are the different types of Bitwise operations ?
+** Why are the advantages of Bitwise operations ?
+   - Code Reference: [[../../Code/BitwiseOperations][Bitwise operation code samples]]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Software Design
+
+** Design Pattern
+*** Explain Visitor design pattern.
+*** IOC.
+**** What are the benefits of IOC ?
+**** What is the difference between IOC and DI ?
+**** How IOC simplify unit testing ?
+*** What is Observer pattern. How we can implement it in c# if we don't have events ?
+**** What is difference between observer pattern and publisher subscriber pattern?
+*** What is MVVM ?
+    [[../../Books_and_Tutorials/Design/MVVM/MVVM.html][MVVM Pattern]]
+*** What is MVC ?
+    [[../../Books_and_Tutorials/Design/MVC/MVC.html][MVC Pattern]]
+*** What is worker thread pattern ? # TODO
+    [[../../books_and_tutorials/design/workerthreadpattern/workerthreadpattern.pdf][Worker Thread Pattern (Chapter from Book)]]
+
+** Design a website which provides pizza . It provides daily offer. How to implement Price class when there are dynamic Offers ? 
+** Write a code to represent Address Book with name,contact number and email. IT can be search able by all the members.
+** What are different types of Software Development Methodologies ? What is Agile Methodology ? What is TDD ? What is Scrum ? 
+   - References:  [[../../sdlc/Agile_And_Other_Methodologies/Agile_And_Other_Methodologies.html][Agile and other methodologies]]                
+** What is continuous integration ?
+   - Reference:  [[../../sdlc/ContinousIntegration/ContinousIntegration.html][Continuous Integration]]
+** What is TestDrivenDevelopment ?
+   - Reference: [[../../sdlc/TestDrivenDevelopment/TestDrivenDevelopment.html][Test Driven Development]]
+ 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Distributed programming and Inter-Process Communication.
+  - Code Reference: [[../../Code/CSharp/DistrubutedProgramming][Samples]]
+** What is protobuf ?
+** What is microsoft one message bus ?
+** Implement a distributed cache.
+** What are different inter-process communication methods ?
+*** What is Memory-Map.
+*** What is Shared Memory.
+*** What is difference between Memory-Map and Shared Memory ? 
+    - Code Reference: [[../../code/CSharp/Cache_And_MMF][Cache and Memory Mapped Files]]
+** How socket is implemented in Hermes ?
+** What is the difference between Topic and Queue in EMS ?
+** Two process sharing a file . Make sure they are synchronized and no one get starved if there is continues flow of data (both for read and write).
+** What is Latency ? What is Throughput ? What is the difference between the two ?
+  - Reference: [[../../Networking/Latency_And_Throughput/low_latency_high_throughput.html][Latency and Throughput]]   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* SQL
+** What are different types of joins ? What is cross/equi/inner/self/non-equi/natual join ?
+   - Reference: [[../../sql/join/join.html][Join]]
+** What are Set commands in Sql ? What is Union/Union All ? What is difference between Union and Union All ?
+   - Reference: [[..\..\sql\set.html][Set]] (Incomplete)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Interview Questions Asked
+** .Net Lead Poland Interview questions :
+*** [[What is difference between IQueriable and IEnumerable ?]]
+***  [[Mutable vs Immutable objects]]
+**** [[If a = b that a.hash = b.hash and visa versa ?]]
+*** [[Explain Visitor design pattern.]]
+*** [[IOC]]
+**** [[How IOC simplify unit testing ?]]
+*** [[static vs non-static method ?]] 
+**** [[What are problems while unit testing static methods/classes ?]]
+*** [[Threading vs Parallel programming.]]
+*** [[What is /dynamic/ keyword in c# ?]]
+*** [[What is /Expression Tree/ in c# ?]]
+
+
+** Mobile Technologies
+*** [[What is a deadlock ? Explain the scenario(s) where you faced deadlock . How did you resolved it ?]]
+*** [[Write a program to give Fibonacci series ?]]
+*** [[What are the advantages and disadvantages of multiple inheritance ?]]
+
+** eCommerce .Net Developer Poland (Selected)
+*** What is protofix ?
+*** [[What is protobuf ?]]
+*** [[What is microsoft one message bus ?]]
+*** [[Implement a thread safe lock free queue.]]
+*** [[Implement a distributed cache.]]
+*** [[What are different inter-process communication methods ?]]
+*** [[How socket is implemented in Hermes ?]]
+
+** Tool Development Credit-Suisse Mumbai
+*** [[What is the difference between Topic and Queue in EMS ?]]
+
+** Morgan Stanley Interview for Equity Derivatives Trader Desktop Team (Position VP) : Round 1
+*** [[What are the different methods in object class?]]
+*** [[Is everything derived from object ?]] 
+**** [[What about primitive types like int long etc ?]]
+*** [[If there is a class with two members int and a reference type . Where will int be allocated in stack or heap ?]]
+*** [[Describe efficient string builder implementation.]]
+*** [[If virtual method called in constructor ?]]
+*** [[Create queue with two stacks .]]
+*** [[Two process sharing a file . Make sure they are synchronized and no one get starved if there is continues flow of data (both for read and write).]]
+
+** Morgan Stanley Interview for Equity Derivatives Trader Desktop Team (Position VP) : Round 2
+*** [[What is MVVM ?]]
+*** [[What is the differenece between Covariance and Contra-variance ?]]
+    - Given a Sample 
+      [[* we have Employee class and Manager class .]]
+      [[* Manager is derived from Employee.]]
+      [[* We have a method which takes a Employee list as parameter.]]
+      [[* Can List of Manager be passed to the above method ?]]
+      [[* What if we are dealing with array i.e. in the above methods we use array and not List ?]]    
+*** [[How .Net identify the object is still referenced ?]]
+*** [[What is worker thread ?]] 
+*** [[What is background thread ?]]
+*** [[What is difference between foreground and background ?]]
+*** [[What will happen if in the main method we spawn a background thread  and without waiting main terminates ?]]
+*** [[What will happen if in the main method we spawn a foreground thread  and without waiting main terminates ?]]
+*** [[How to handle memory leak in .Net ?]]
+*** [[What is weak reference in .Net ?]]
+*** [[How hash table is implemented internally ?]] 
+**** [[What are the different ways to resolve collision ?]]
+*** [[What is Observer pattern. How we can implement it in c# if we don't have events ?]]
+*** [[Design a website which provides pizza . It provides daily offer. How to implement Price class when there are dynamic Offers ?]] 
+*** [[What is backgroung worker thread ?]]
+** 1e
+*** [[Write a code to represent int into binary.]]
+**** [[Implement it usung  bitwise operator ? Explain in detain the flow.]]
+*** [[Write a code to represent Address Book with name,contact number and email. IT can be search able by all the members.]]
+  
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/detail/compressed_pair.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:04 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/detail/compressed_pair.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/detail/compressed_pair.hpp</h3>
+<pre>
+//  (C) Copyright Steve Cleary, Beman Dawes, Howard Hinnant &amp; John Maddock 2000.
+//  Use, modification and distribution are subject to the Boost Software License,
+//  Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+//
+//  See <a href="http://www.boost.org/libs/utility">http://www.boost.org/libs/utility</a> for most recent version including documentation.
+
+// compressed_pair: pair that &quot;compresses&quot; empty members
+// (see libs/utility/compressed_pair.htm)
+//
+// JM changes 25 Jan 2004:
+// For the case where T1 == T2 and both are empty, then first() and second()
+// should return different objects.
+// JM changes 25 Jan 2000:
+// Removed default arguments from compressed_pair_switch to get
+// C++ Builder 4 to accept them
+// rewriten swap to get gcc and C++ builder to compile.
+// added partial specialisations for case T1 == T2 to avoid duplicate constructor defs.
+
+#ifndef BOOST_DETAIL_COMPRESSED_PAIR_HPP
+#define BOOST_DETAIL_COMPRESSED_PAIR_HPP
+
+#include &lt;algorithm&gt;
+
+#include &lt;<a href="../type_traits/remove_cv.html">boost/type_traits/remove_cv.hpp</a>&gt;
+#include &lt;<a href="../type_traits/is_empty.html">boost/type_traits/is_empty.hpp</a>&gt;
+#include &lt;<a href="../type_traits/is_same.html">boost/type_traits/is_same.hpp</a>&gt;
+#include &lt;<a href="../call_traits.html">boost/call_traits.hpp</a>&gt;
+
+#ifdef BOOST_MSVC
+# pragma warning(push)
+# pragma warning(disable:4512)
+#endif 
+namespace boost
+{
+
+template &lt;class T1, class T2&gt;
+class compressed_pair;
+
+
+// compressed_pair
+
+namespace details
+{
+   // JM altered 26 Jan 2000:
+   template &lt;class T1, class T2, bool IsSame, bool FirstEmpty, bool SecondEmpty&gt;
+   struct compressed_pair_switch;
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, false, false, false&gt;
+      {static const int value = 0;};
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, false, true, true&gt;
+      {static const int value = 3;};
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, false, true, false&gt;
+      {static const int value = 1;};
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, false, false, true&gt;
+      {static const int value = 2;};
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, true, true, true&gt;
+      {static const int value = 4;};
+
+   template &lt;class T1, class T2&gt;
+   struct compressed_pair_switch&lt;T1, T2, true, false, false&gt;
+      {static const int value = 5;};
+
+   template &lt;class T1, class T2, int Version&gt; class compressed_pair_imp;
+
+#ifdef __GNUC__
+   // workaround for GCC (JM):
+   using std::swap;
+#endif
+   //
+   // can't call unqualified swap from within classname::swap
+   // as Koenig lookup rules will find only the classname::swap
+   // member function not the global declaration, so use cp_swap
+   // as a forwarding function (JM):
+   template &lt;typename T&gt;
+   inline void cp_swap(T&amp; t1, T&amp; t2)
+   {
+#ifndef __GNUC__
+      using std::swap;
+#endif
+      swap(t1, t2);
+   }
+
+   // 0    derive from neither
+
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 0&gt;
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {} 
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : first_(x), second_(y) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_(x) {}
+
+      compressed_pair_imp(second_param_type y)
+         : second_(y) {}
+
+      first_reference       first()       {return first_;}
+      first_const_reference first() const {return first_;}
+
+      second_reference       second()       {return second_;}
+      second_const_reference second() const {return second_;}
+
+      void swap(::boost::compressed_pair&lt;T1, T2&gt;&amp; y)
+      {
+         cp_swap(first_, y.first());
+         cp_swap(second_, y.second());
+      }
+   private:
+      first_type first_;
+      second_type second_;
+   };
+
+   // 1    derive from T1
+
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 1&gt;
+      : protected ::boost::remove_cv&lt;T1&gt;::type
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {}
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : first_type(x), second_(y) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_type(x) {}
+
+      compressed_pair_imp(second_param_type y)
+         : second_(y) {}
+
+      first_reference       first()       {return *this;}
+      first_const_reference first() const {return *this;}
+
+      second_reference       second()       {return second_;}
+      second_const_reference second() const {return second_;}
+
+      void swap(::boost::compressed_pair&lt;T1,T2&gt;&amp; y)
+      {
+         // no need to swap empty base class:
+         cp_swap(second_, y.second());
+      }
+   private:
+      second_type second_;
+   };
+
+   // 2    derive from T2
+
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 2&gt;
+      : protected ::boost::remove_cv&lt;T2&gt;::type
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {}
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : second_type(y), first_(x) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_(x) {}
+
+      compressed_pair_imp(second_param_type y)
+         : second_type(y) {}
+
+      first_reference       first()       {return first_;}
+      first_const_reference first() const {return first_;}
+
+      second_reference       second()       {return *this;}
+      second_const_reference second() const {return *this;}
+
+      void swap(::boost::compressed_pair&lt;T1,T2&gt;&amp; y)
+      {
+         // no need to swap empty base class:
+         cp_swap(first_, y.first());
+      }
+
+   private:
+      first_type first_;
+   };
+
+   // 3    derive from T1 and T2
+
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 3&gt;
+      : protected ::boost::remove_cv&lt;T1&gt;::type,
+        protected ::boost::remove_cv&lt;T2&gt;::type
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {}
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : first_type(x), second_type(y) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_type(x) {}
+
+      compressed_pair_imp(second_param_type y)
+         : second_type(y) {}
+
+      first_reference       first()       {return *this;}
+      first_const_reference first() const {return *this;}
+
+      second_reference       second()       {return *this;}
+      second_const_reference second() const {return *this;}
+      //
+      // no need to swap empty bases:
+      void swap(::boost::compressed_pair&lt;T1,T2&gt;&amp;) {}
+   };
+
+   // JM
+   // 4    T1 == T2, T1 and T2 both empty
+   //      Originally this did not store an instance of T2 at all
+   //      but that led to problems beause it meant &amp;x.first() == &amp;x.second()
+   //      which is not true for any other kind of pair, so now we store an instance
+   //      of T2 just in case the user is relying on first() and second() returning
+   //      different objects (albeit both empty).
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 4&gt;
+      : protected ::boost::remove_cv&lt;T1&gt;::type
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {}
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : first_type(x), m_second(y) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_type(x), m_second(x) {}
+
+      first_reference       first()       {return *this;}
+      first_const_reference first() const {return *this;}
+
+      second_reference       second()       {return m_second;}
+      second_const_reference second() const {return m_second;}
+
+      void swap(::boost::compressed_pair&lt;T1,T2&gt;&amp;) {}
+   private:
+      T2 m_second;
+   };
+
+   // 5    T1 == T2 and are not empty:   //JM
+
+   template &lt;class T1, class T2&gt;
+   class compressed_pair_imp&lt;T1, T2, 5&gt;
+   {
+   public:
+      typedef T1                                                 first_type;
+      typedef T2                                                 second_type;
+      typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+      typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+      typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+      typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+      typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+      typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+      compressed_pair_imp() {}
+
+      compressed_pair_imp(first_param_type x, second_param_type y)
+         : first_(x), second_(y) {}
+
+      compressed_pair_imp(first_param_type x)
+         : first_(x), second_(x) {}
+
+      first_reference       first()       {return first_;}
+      first_const_reference first() const {return first_;}
+
+      second_reference       second()       {return second_;}
+      second_const_reference second() const {return second_;}
+
+      void swap(::boost::compressed_pair&lt;T1, T2&gt;&amp; y)
+      {
+         cp_swap(first_, y.first());
+         cp_swap(second_, y.second());
+      }
+   private:
+      first_type first_;
+      second_type second_;
+   };
+
+}  // details
+
+template &lt;class T1, class T2&gt;
+class compressed_pair
+   : private ::boost::details::compressed_pair_imp&lt;T1, T2,
+             ::boost::details::compressed_pair_switch&lt;
+                    T1,
+                    T2,
+                    ::boost::is_same&lt;typename remove_cv&lt;T1&gt;::type, typename remove_cv&lt;T2&gt;::type&gt;::value,
+                    ::boost::is_empty&lt;T1&gt;::value,
+                    ::boost::is_empty&lt;T2&gt;::value&gt;::value&gt;
+{
+private:
+   typedef details::compressed_pair_imp&lt;T1, T2,
+             ::boost::details::compressed_pair_switch&lt;
+                    T1,
+                    T2,
+                    ::boost::is_same&lt;typename remove_cv&lt;T1&gt;::type, typename remove_cv&lt;T2&gt;::type&gt;::value,
+                    ::boost::is_empty&lt;T1&gt;::value,
+                    ::boost::is_empty&lt;T2&gt;::value&gt;::value&gt; base;
+public:
+   typedef T1                                                 first_type;
+   typedef T2                                                 second_type;
+   typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+   typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+   typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+   typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+   typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+   typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+            compressed_pair() : base() {}
+            compressed_pair(first_param_type x, second_param_type y) : base(x, y) {}
+   explicit compressed_pair(first_param_type x) : base(x) {}
+   explicit compressed_pair(second_param_type y) : base(y) {}
+
+   first_reference       first()       {return base::first();}
+   first_const_reference first() const {return base::first();}
+
+   second_reference       second()       {return base::second();}
+   second_const_reference second() const {return base::second();}
+
+   void swap(compressed_pair&amp; y) { base::swap(y); }
+};
+
+// JM
+// Partial specialisation for case where T1 == T2:
+//
+template &lt;class T&gt;
+class compressed_pair&lt;T, T&gt;
+   : private details::compressed_pair_imp&lt;T, T,
+             ::boost::details::compressed_pair_switch&lt;
+                    T,
+                    T,
+                    ::boost::is_same&lt;typename remove_cv&lt;T&gt;::type, typename remove_cv&lt;T&gt;::type&gt;::value,
+                    ::boost::is_empty&lt;T&gt;::value,
+                    ::boost::is_empty&lt;T&gt;::value&gt;::value&gt;
+{
+private:
+   typedef details::compressed_pair_imp&lt;T, T,
+             ::boost::details::compressed_pair_switch&lt;
+                    T,
+                    T,
+                    ::boost::is_same&lt;typename remove_cv&lt;T&gt;::type, typename remove_cv&lt;T&gt;::type&gt;::value,
+                    ::boost::is_empty&lt;T&gt;::value,
+                    ::boost::is_empty&lt;T&gt;::value&gt;::value&gt; base;
+public:
+   typedef T                                                  first_type;
+   typedef T                                                  second_type;
+   typedef typename call_traits&lt;first_type&gt;::param_type       first_param_type;
+   typedef typename call_traits&lt;second_type&gt;::param_type      second_param_type;
+   typedef typename call_traits&lt;first_type&gt;::reference        first_reference;
+   typedef typename call_traits&lt;second_type&gt;::reference       second_reference;
+   typedef typename call_traits&lt;first_type&gt;::const_reference  first_const_reference;
+   typedef typename call_traits&lt;second_type&gt;::const_reference second_const_reference;
+
+            compressed_pair() : base() {}
+            compressed_pair(first_param_type x, second_param_type y) : base(x, y) {}
+#if !(defined(__SUNPRO_CC) &amp;&amp; (__SUNPRO_CC &lt;= 0x530))
+   explicit 
+#endif
+      compressed_pair(first_param_type x) : base(x) {}
+
+   first_reference       first()       {return base::first();}
+   first_const_reference first() const {return base::first();}
+
+   second_reference       second()       {return base::second();}
+   second_const_reference second() const {return base::second();}
+
+   void swap(::boost::compressed_pair&lt;T,T&gt;&amp; y) { base::swap(y); }
+};
+
+template &lt;class T1, class T2&gt;
+inline
+void
+swap(compressed_pair&lt;T1, T2&gt;&amp; x, compressed_pair&lt;T1, T2&gt;&amp; y)
+{
+   x.swap(y);
+}
+
+} // boost
+
+#ifdef BOOST_MSVC
+# pragma warning(pop)
+#endif 
+
+#endif // BOOST_DETAIL_COMPRESSED_PAIR_HPP
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/detail/compressed_pair.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:07 GMT -->
+</html>

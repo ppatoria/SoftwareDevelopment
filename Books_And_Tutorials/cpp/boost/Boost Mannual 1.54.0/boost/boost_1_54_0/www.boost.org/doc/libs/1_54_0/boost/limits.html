@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/limits.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:02 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/limits.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/limits.hpp</h3>
+<pre>
+
+//  (C) Copyright John maddock 1999. 
+//  (C) David Abrahams 2002.  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+// use this header as a workaround for missing &lt;limits&gt;
+
+//  See <a href="http://www.boost.org/libs/compatibility/index.html">http://www.boost.org/libs/compatibility/index.html</a> for documentation.
+
+#ifndef BOOST_LIMITS
+#define BOOST_LIMITS
+
+#include &lt;<a href="config.html">boost/config.hpp</a>&gt;
+
+#ifdef BOOST_NO_LIMITS
+#  error &quot;There is no std::numeric_limits suppport available.&quot;
+#else
+# include &lt;limits&gt;
+#endif
+
+#if (defined(BOOST_HAS_LONG_LONG) &amp;&amp; defined(BOOST_NO_LONG_LONG_NUMERIC_LIMITS)) \
+      || (defined(BOOST_HAS_MS_INT64) &amp;&amp; defined(BOOST_NO_MS_INT64_NUMERIC_LIMITS))
+// Add missing specializations for numeric_limits:
+#ifdef BOOST_HAS_MS_INT64
+#  define BOOST_LLT __int64
+#  define BOOST_ULLT unsigned __int64
+#else
+#  define BOOST_LLT  ::boost::long_long_type
+#  define BOOST_ULLT  ::boost::ulong_long_type
+#endif
+
+#include &lt;climits&gt;  // for CHAR_BIT
+
+namespace std
+{
+  template&lt;&gt;
+  class numeric_limits&lt;BOOST_LLT&gt; 
+  {
+   public:
+
+      BOOST_STATIC_CONSTANT(bool, is_specialized = true);
+#ifdef BOOST_HAS_MS_INT64
+      static BOOST_LLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 0x8000000000000000i64; }
+      static BOOST_LLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 0x7FFFFFFFFFFFFFFFi64; }
+#elif defined(LLONG_MAX)
+      static BOOST_LLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return LLONG_MIN; }
+      static BOOST_LLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return LLONG_MAX; }
+#elif defined(LONGLONG_MAX)
+      static BOOST_LLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return LONGLONG_MIN; }
+      static BOOST_LLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return LONGLONG_MAX; }
+#else
+      static BOOST_LLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 1LL &lt;&lt; (sizeof(BOOST_LLT) * CHAR_BIT - 1); }
+      static BOOST_LLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ~(min)(); }
+#endif
+      BOOST_STATIC_CONSTANT(int, digits = sizeof(BOOST_LLT) * CHAR_BIT -1);
+      BOOST_STATIC_CONSTANT(int, digits10 = (CHAR_BIT * sizeof (BOOST_LLT) - 1) * 301L / 1000);
+      BOOST_STATIC_CONSTANT(bool, is_signed = true);
+      BOOST_STATIC_CONSTANT(bool, is_integer = true);
+      BOOST_STATIC_CONSTANT(bool, is_exact = true);
+      BOOST_STATIC_CONSTANT(int, radix = 2);
+      static BOOST_LLT epsilon() throw() { return 0; };
+      static BOOST_LLT round_error() throw() { return 0; };
+
+      BOOST_STATIC_CONSTANT(int, min_exponent = 0);
+      BOOST_STATIC_CONSTANT(int, min_exponent10 = 0);
+      BOOST_STATIC_CONSTANT(int, max_exponent = 0);
+      BOOST_STATIC_CONSTANT(int, max_exponent10 = 0);
+
+      BOOST_STATIC_CONSTANT(bool, has_infinity = false);
+      BOOST_STATIC_CONSTANT(bool, has_quiet_NaN = false);
+      BOOST_STATIC_CONSTANT(bool, has_signaling_NaN = false);
+      BOOST_STATIC_CONSTANT(bool, has_denorm = false);
+      BOOST_STATIC_CONSTANT(bool, has_denorm_loss = false);
+      static BOOST_LLT infinity() throw() { return 0; };
+      static BOOST_LLT quiet_NaN() throw() { return 0; };
+      static BOOST_LLT signaling_NaN() throw() { return 0; };
+      static BOOST_LLT denorm_min() throw() { return 0; };
+
+      BOOST_STATIC_CONSTANT(bool, is_iec559 = false);
+      BOOST_STATIC_CONSTANT(bool, is_bounded = true);
+      BOOST_STATIC_CONSTANT(bool, is_modulo = true);
+
+      BOOST_STATIC_CONSTANT(bool, traps = false);
+      BOOST_STATIC_CONSTANT(bool, tinyness_before = false);
+      BOOST_STATIC_CONSTANT(float_round_style, round_style = round_toward_zero);
+      
+  };
+
+  template&lt;&gt;
+  class numeric_limits&lt;BOOST_ULLT&gt; 
+  {
+   public:
+
+      BOOST_STATIC_CONSTANT(bool, is_specialized = true);
+#ifdef BOOST_HAS_MS_INT64
+      static BOOST_ULLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 0ui64; }
+      static BOOST_ULLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 0xFFFFFFFFFFFFFFFFui64; }
+#elif defined(ULLONG_MAX) &amp;&amp; defined(ULLONG_MIN)
+      static BOOST_ULLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ULLONG_MIN; }
+      static BOOST_ULLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ULLONG_MAX; }
+#elif defined(ULONGLONG_MAX) &amp;&amp; defined(ULONGLONG_MIN)
+      static BOOST_ULLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ULONGLONG_MIN; }
+      static BOOST_ULLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ULONGLONG_MAX; }
+#else
+      static BOOST_ULLT min BOOST_PREVENT_MACRO_SUBSTITUTION (){ return 0uLL; }
+      static BOOST_ULLT max BOOST_PREVENT_MACRO_SUBSTITUTION (){ return ~0uLL; }
+#endif
+      BOOST_STATIC_CONSTANT(int, digits = sizeof(BOOST_LLT) * CHAR_BIT);
+      BOOST_STATIC_CONSTANT(int, digits10 = (CHAR_BIT * sizeof (BOOST_LLT)) * 301L / 1000);
+      BOOST_STATIC_CONSTANT(bool, is_signed = false);
+      BOOST_STATIC_CONSTANT(bool, is_integer = true);
+      BOOST_STATIC_CONSTANT(bool, is_exact = true);
+      BOOST_STATIC_CONSTANT(int, radix = 2);
+      static BOOST_ULLT epsilon() throw() { return 0; };
+      static BOOST_ULLT round_error() throw() { return 0; };
+
+      BOOST_STATIC_CONSTANT(int, min_exponent = 0);
+      BOOST_STATIC_CONSTANT(int, min_exponent10 = 0);
+      BOOST_STATIC_CONSTANT(int, max_exponent = 0);
+      BOOST_STATIC_CONSTANT(int, max_exponent10 = 0);
+
+      BOOST_STATIC_CONSTANT(bool, has_infinity = false);
+      BOOST_STATIC_CONSTANT(bool, has_quiet_NaN = false);
+      BOOST_STATIC_CONSTANT(bool, has_signaling_NaN = false);
+      BOOST_STATIC_CONSTANT(bool, has_denorm = false);
+      BOOST_STATIC_CONSTANT(bool, has_denorm_loss = false);
+      static BOOST_ULLT infinity() throw() { return 0; };
+      static BOOST_ULLT quiet_NaN() throw() { return 0; };
+      static BOOST_ULLT signaling_NaN() throw() { return 0; };
+      static BOOST_ULLT denorm_min() throw() { return 0; };
+
+      BOOST_STATIC_CONSTANT(bool, is_iec559 = false);
+      BOOST_STATIC_CONSTANT(bool, is_bounded = true);
+      BOOST_STATIC_CONSTANT(bool, is_modulo = true);
+
+      BOOST_STATIC_CONSTANT(bool, traps = false);
+      BOOST_STATIC_CONSTANT(bool, tinyness_before = false);
+      BOOST_STATIC_CONSTANT(float_round_style, round_style = round_toward_zero);
+      
+  };
+}
+#endif 
+
+#endif
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/limits.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:02 GMT -->
+</html>

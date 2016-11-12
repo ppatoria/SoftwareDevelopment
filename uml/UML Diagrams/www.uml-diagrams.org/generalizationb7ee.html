@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/generalization.html?context=class-diagrams by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML generalization is binary taxonomic relationship between a more general classifier (superclass) and a more specific classifier (subclass).</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML generalization is a binary taxonomic relationship between a more general classifier (superclass) and a more specific classifier (subclass)." />
+<meta name="keywords" content="UML, UML 2, 2.5, relationship, generalization, superclass, subclass, iheritance, multiple inheritance." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130225 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+  <a href="class-diagrams-overview.html" title="UML class diagrams overview"  >Class diagrams overview</a>
+</div>
+<div>
+  <a href="class-diagrams.html" title="UML class diagrams notation"  >Class diagrams notation</a>
+</div>
+<div >
+ <a href="propertyb7ee.html?context=class-diagrams"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicityb7ee.html?context=class-diagrams"
+  title="UML multiplicity"  >Multiplicity</a>
+</div>
+<div>
+ <a href="visibilityb7ee.html?context=class-diagrams"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div >
+ <a href="constraintb7ee.html?context=class-diagrams"
+  title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="associationb7ee.html?context=class-diagrams"
+  title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalizationb7ee.html?context=class-diagrams"
+  title="UML generalization" class="active-nav" >Generalization</a>
+</div>
+<div>
+ <a href="dependencyb7ee.html?context=class-diagrams"
+  title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstractionb7ee.html?context=class-diagrams"
+  title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="nested-classifier.html" 
+ title="Nested Classifiers in UML"  >Nested classifiers</a>
+</div>
+<div>
+  <a href="class-reference.html" title="UML class diagrams reference"  >Class diagrams reference</a>
+</div>
+<div>
+  <a href="class-diagrams-examples.html" title="UML class diagrams examples"  >Class diagrams examples</a>
+</div>
+<div>
+  <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1>Generalization in UML</h1>
+
+<p>
+A <strong>generalization</strong> is a binary taxonomic (i.e. related to classification) 
+ <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ between a more general
+ <a href="classifier.html" class="ref-link">classifier</a> (superclass)
+ and a more specific classifier (subclass). 
+</p>
+
+<p>
+Each instance of the specific classifier is also an indirect instance of the general classifier, so that
+ we can say "Patient is a Person", "Savings account is an Account", etc.
+ Because of this, <strong>generalization</strong> relationship is also informally called "<strong>Is A</strong>"
+ relationship.
+</p>
+
+<p>
+Generalization is <strong>owned by</strong> the specific classifier.
+</p>
+
+<p>
+A <strong>generalization</strong> is shown as a line with a hollow triangle as an arrowhead
+ between the symbols representing the involved classifiers.
+  The arrowhead points to the symbol representing the general classifier.
+ This notation is referred to as the <strong>"separate target style."</strong> 
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-generalizaion-separate.png" width="270" height="139"
+ alt="Checking, Savings, and Credit Accounts are generalized by Account." 
+ title="Checking, Savings, and Credit Accounts are generalized by Account."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Checking, Savings, and Credit Accounts are <strong>generalized</strong> by Account
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+</div>
+
+<p>
+Generalization relationships that reference the same general classifier can also be connected together
+ in the <strong>"shared target style."</strong>
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-generalizaion-shared.png" width="270" height="145"
+ alt="Checking, Savings, and Credit Accounts are generalized by Account." 
+ title="Checking, Savings, and Credit Accounts are generalized by Account."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Checking, Savings, and Credit Accounts are <strong>generalized</strong> by Account
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+</div>
+
+<!--
+*************
+ Inheritance
+*************
+-->
+
+<h2 id="inheritance">Inheritance</h2>
+
+<p>
+In OOAD <strong>inheritance</strong> is usually defined as a mechanism by which more specific classes
+ (called subclasses or derived classes) incorporate structure and behavior of more general classes
+ (called superclasses or base classes).
+</p>
+
+<p>
+Inheritance was explained in <strong>UML 1.4.2</strong> using the concepts of a
+ <strong>full descriptor</strong> and a <strong>segment descriptor</strong>.
+A full descriptor contains a description of all of
+ the attributes, associations, operations, and constraints that the object contains,
+ and is usually implicit because it is built out of incremental segments combined together using inheritance.
+</p>
+
+<p class="citation">
+In an object-oriented language, the description of an object is built out of incremental segments
+ that are combined using inheritance to produce a full descriptor for an object.
+ The segments are the modeling elements that are actually declared in a model.
+ They include elements such as class and other generalizable elements.
+ Each generalizable element contains a list of features and other
+ relationships that it adds to what it inherits from its ancestors.
+ </p>
+ 
+<p class="citation">
+Each kind of generalizable element has a set of inheritable features.
+ For any model element, these include constraints.
+ For classifiers, these include features ( attributes, operations, signal receptions, and methods)
+ and participation in associations.
+ [<a href="references.html#ref-uml-142" class="external-ref" title="UML 1.4.2 Specification">UML 1.4.2 Specification</a>]
+</p>
+
+<p>
+If a generalizable element has more than one parent (<strong>multiple inheritance</strong>),
+ then its full descriptor contains the union of the features from its own segment descriptor and the
+ segment descriptors of all of its ancestors.
+</p>
+
+<p>
+Attributes in UML 1.4 could not be redefined but a method may be declared in more than one subclass.
+ A method declared in any segment supersedes and replaces a method with the same signature declared in
+any ancestor.
+</p>
+
+<p>
+<strong>UML 2.4</strong> and the newest <strong>UML 2.5</strong> specifications provide no definition
+ for <strong>inheritance</strong>.
+ UML 2.x specifications say that with generalization specializing classifier <strong>inherits</strong>
+ <a href="uml-core.html#feature" class="ref-link">features</a>
+ of the more general classifier.
+ Also, any <a href="class-diagrams.html#constraint" class="ref-link">constraint</a>
+ applying to instances of the general classifier also applies to instances of the specific classifier.
+</p>
+
+<p>
+<strong>UML 2.5</strong> provides some vague and incomplete explanation of how <strong>inheritance</strong>
+ works in UML:
+</p>
+
+<p class="citation"> 
+When a Classifier is generalized, certain members of its generalizations are inherited,
+ that is they behave as though they were defined in the inheriting Classifier itself.
+ For example, an inherited member that is an attribute has a value or collection of values
+ in any instance of the inheriting Classifier, and an inherited member that is an Operation
+ may be invoked on an instance of the inheriting Classifier.
+ [UML 2.5 Specification]
+</p>
+
+
+<!--
+**********************
+ Multiple Inheritance
+**********************
+-->
+
+<h3 id="multiple-inheritance">Multiple Inheritance</h3>
+
+<p>
+<strong>Multiple inheritance</strong> is implicitly allowed by UML standard, while the standard
+ provides no definition of what it is.
+</p>
+
+<p>
+<a href="classifier.html" class="ref-link">Classifier</a> in UML
+ can have zero, one or many generalization relationships to more general classifiers.
+ In OOAD <strong>multiple inheritance</strong> refers to the ability
+ of a class to inherit behaviors and features from more than one superclass. 
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-multiple-inheritance.png" width="400" height="359"
+ alt="Multiple inheritance example for Consultant Manager and Permanent Manager." 
+ title="Multiple inheritance example for Consultant Manager and Permanent Manager."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Multiple inheritance for Consultant Manager and Permanent Manager -
+ both inherit from two classes
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+</div>
+
+<p>
+The origin of multiple inheritance could be in orthogonal taxonomies combined together.
+For example, the diagram above combines two different classifications of employees - 
+one is based on whether employee is permanent or temporary, and another one is based
+on the position employee holds.
+</p>
+
+<p>
+Though UML standard implicitly allows <strong>multiple inheritance</strong>, it provides
+ no explicit resolutions or recommendations for well known issues and ambiguities,
+ such as the <strong>diamond problem</strong>.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/class-multiple-inheritance-diamond.png" width="260" height="280"
+ alt="Diamond problem example - Button inherits 2 implementations of equals()." 
+ title="Diamond problem example - Button inherits 2 implementations of equals()."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Diamond problem example - Button inherits 2 implementations of equals()
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+</div>
+
+<p>
+In the multiple inheritance <strong>diamond problem</strong> example above Button class inherits
+ two different implementations of equals() while it has no own implementation of the operation.
+ When button.equals() is called, it is unknown which implementation - from Rectangle or from Clickable - 
+ will be used.
+</p>
+
+<p>
+UML <a href="profile-diagrams.html#profile" class="ref-link">profiles</a>
+ allow to specialize the semantics of generalization.
+ For example, in the <strong>Java</strong> language profile, generalization of classes should be restricted
+ to single inheritance.
+</p>
+
+
+<!--
+*******************
+ Generalization Set
+*******************
+-->
+
+<h2 id="generalization-set">Generalization Set</h2>
+
+<p>
+<strong>Generalization set</strong> is
+ a <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+ that allows us to define classification hierarchies by combining some generalizations
+ of a particular general classifier into (sub)sets.
+ Each generalization set may be also associated with
+ a <a href="classifier.html" class="ref-link">classifier</a>
+ called its <strong>powertype</strong>.
+</p>
+
+<p>
+Each generalization set has two properties - <strong>isCovering</strong>
+ (<strong>complete</strong> or <strong>incomplete</strong> constraint) and
+ <strong>isDisjoint</strong> (<strong>disjoint</strong> or <strong>overlapping</strong> constraint),
+ to clarify what kind of set it is.
+</p>
+
+<p id="is-covering">
+The <strong>isCovering</strong> property of generalization set specifies whether the set
+ of specific classifiers in that generalization set is complete.
+ For the covering (<strong>{complete}</strong>) generalization set, every instance
+ of the general classifier is also an instance of (at least) one of the specific classifiers.
+ If the set is not covering (<strong>{incomplete}</strong>), there could be some instances
+ of the general classifier that could not be classified as any of the specific classifiers
+ from the generalization set.
+</p>
+
+<p id="is-disjoint">
+The <strong>isDisjoint</strong> property specifies whether the specific classifiers
+ of the generalization set may overlap.
+ Generalization set constrained as <strong>{disjoint}</strong> has
+  no instance of any specific classifier may also be an instance of another specific classifier
+ (i.e there is no overlapping of classifiers).
+ If generalization set is <strong>{overlapping}</strong>, 
+ some or all of its specific classifiers could share common instances.
+</p>
+
+<p>
+By default, in <strong>UML 2.0</strong> to <strong>UML 2.4.1</strong>
+  generalization set is <strong>{incomplete, disjoint}</strong>,
+  while in <strong>UML 2.5</strong> default was changed to <strong>{incomplete, overlapping}</strong>.
+</p>
+
+<p id="power-type">
+A generalization set may optionally be associated with a classifier called its <strong>power type</strong>.
+ The power type instances in this case may be treated as semantically equivalent
+ to each of the corresponding specializing classifiers in every generalization in the generalization set.
+ UML specification does not mandate how this semantic equivalence is implemented
+ and how its integrity is maintained.
+</p>
+
+<p>
+On the diagram, the generalization set constraints are placed next to the sets,
+ close to the common arrowhead of the generalization set or near the dashed line for the generalization set.
+</p>
+
+<p>
+<strong>Power type</strong> specification is shown as colon followed by the name
+ of the power type classifier near the corresponding generalization set.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="class-diagrams/generalization-set-power-types.png" width="620" height="418"
+ alt="Health insurance policy generalization sets and powertypes example." 
+ title="Health insurance policy generalization sets and powertypes example."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Health insurance policy generalization sets and powertypes example -<br />
+ Coverage type is complete and overlapping while insurance plan is incomplete and disjoint.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+</div>
+
+<p>
+The complete example can be found here:
+ <a href="examples/health-insurance-policy-domain-diagram-example.html" class="ref-link">Health insurance policy generalization sets and powertypes example</a>.
+</p>
+
+<p>
+<img src="images/next-class.png" width="60" height="32"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="dependencyb7ee.html?context=class-diagrams" class="ref-link" title="UML dependency" >Dependency</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'generalization.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/generalization.html?context=class-diagrams by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

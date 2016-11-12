@@ -1,0 +1,160 @@
+* _basic_
+ Undo  U 
+* TODO Redo  ^R 
+
+* _file_
+ Save current and continue  :W 
+ Save current file and exit  :WQ 
+ Exit without saving changes to current file  :Q! 
+ Quit (no changes made)  :Q 
+ Save as new file "new-file"  :W NEW-FILE 
+ Load the file "myfile" into vi  :E MYFILE 
+
+* _cursor_
+ move left  LEFT ARROW OR H 
+ move left 5 characters  5H 
+ move down  DOWN ARROW OR J 
+ move down 5 characters  5J 
+ move up  UP ARROW OR K 
+ move up 5 characters  5K 
+ move right  RIGHT ARROW OR L 
+ move right 5 characters  5L 
+* TODO move to next words based on puctuation  W 
+* TODO move to next words based on spaces  W 
+* TODO move to the end of words based on punctuation  E 
+* TODO move to end of words regardless of punctuation  E 
+* TODO  move backward by words by punctuation  B 
+* TODO move backward by words regardless of punctuation  B 
+* TODO go to the start of the line  0 (ZERO) 
+* TODO move to the first non-blank character of line  ^ 
+* TODO move to the end of line  $ 
+ move to the specified character number (prefixed)  G 
+ Toggle inserting or appending text  INSERT 
+ start insert mode at cursor  I 
+* TODO  insert at the beginning of the line  I 
+ append after the cursor  A 
+ append at the end of the line  A 
+ open (append) blank line below current line (no need to press return)  O 
+ open blank line above current line  O 
+* TODO append at end of word  EA 
+ exit insert mode  ESC 
+ Jump to the bottom of the file  G 
+ Jump to e.g. the tenth line of the file  10G 
+ Jump to the top of the file  GG 
+* TODO Jump one page forward  ^F 
+ Jump half a page forward  ^U 
+ Jump one page back  ^B 
+ Jump half a page back  ^D 
+ Start of next word  W 
+ End of next word  E 
+ Start of next sentence  ) 
+ Start of previous sentence  ( 
+ Start of line  0 (ZERO) 
+ End of line  $ 
+ Top of screen  H 
+ Bottom of screen  L 
+ Middle of screen  M 
+
+* _edit_
+ Delete the character under the cursor  X OR DEL 
+* TODO Delete the current word (inc. space)  DW 
+ Delete the next 10 words  10DW 
+ Delete the current line  DD 
+* TODO Delete the next 10 lines  10DD 
+ Delete rest of this line, right of the cursor  D$ 
+ Yank the current line onto the clipboard  YY 
+ Yank the current word onto the clipboard  YW 
+ Paste the clipboard  P 
+ replace a character  R 
+ join the line below to the current one  J 
+ change an entire line  CC 
+ replace up to the end of word  CW 
+ replace to the end of line  C$ 
+ delete the character at cursor and subsitute in text  S 
+ delete line at cursor and substitute text  S 
+ transpose two letters  XP 
+ shift right  > 
+ shift left  < 
+ yank (copy) marked text  Y 
+ delete marked text  D 
+ switch case  ~ 
+
+* _search_
+ Find next occurrence of text  N 
+ Find previous occurrence of text  N 
+ search for pattern  /PATTERN 
+ search backward for pattern  ?PATTERN 
+ repeat search in same direction  N 
+ repeat search in opposite direction  N 
+ replace all old with new throughout file  :%S/OLD/NEW/G 
+ replace all old with new throughout file with confirmations  :%S/OLD/NEW/GC 
+
+* _files_
+pvote4 0  Edit a file in a new buffer  :E FILENAME 
+* TODO go to next buffer  :BNEXT (OR :BN) 
+* TODO go to previous buffer  :BPREV (OF :BP) 
+* TODO delete a buffer (close a file)  :BD 
+* TODO Open a file in a new buffer and split window  :SP FILENAME 
+* TODO  Split windows  CTRL+WS 
+* TODO switch between windows  CTRL+WW 
+* TODO Quit a window  CTRL+WQ 
+* TODO Split windows vertically  CTRL+WV 
+
+
+* _Go to definition using g_
+* TODO gd will take you to the local declaration.
+* TODO gD will take you to the global declaration.
+  g* search for the word under the cursor (like *, but g* on 'rain' will find words like 'rainbow').
+  g# same as g* but in backward direction.
+  gg goes to the first line in the buffer (or provide a count before the command for a specific line).
+  G goes to the last line (or provide a count before the command for a specific line). 
+* TODO gf will go to the file under the cursor
+* TODO g] and other commands will jump to a tag definition (a tag can be a function or variable name, or more). 
+
+
+* _Moving Around Code_
+
+* TODO %: Move between parentheses/brackets
+    [(: Move to previous available parenthesis
+    [): Move to next available parenthesis
+    [{: Move to previous available bracket
+    [}: Move to next available bracket
+
+* _Faster navigation in a file_
+
+** Moving around within a code file
+
+* TODO { : Goto begining of the paragraph 
+
+* TODO } : Goto end of the paragraph
+
+* TODO g, got to middle
+
+* TODO g; 
+Using this command several times in a row will loop you through locations of previous changes in the file. As with the { command, this command also has a counterpart that moves forward through the list of recent locations where changes have taken place. The command for this is:
+
+* TODO    (: Move to the beginning of the sentence
+* TODO     ): Move to the end of the sentence
+
+* TODO    w: Move to the beginning of the next word
+* TODO    b: Move to the beginning of the previous word
+* TODO    e: Move to the end of the word
+
+* TODO we
+
+* TODO  A word consisting of alphabetic letters, numbers, dashes, and underscores
+* TODO   A WORD consisting of any character except whitespaces (tab and space)
+
+
+* TODO %
+
+
+    [[ and ][: Move backwards / forward to the next section beginning (for example, start of a function)
+    [] and ]]: Move backwards / forward to the next section end (for example, end of a function)
+
+    [{: Move to the beginning of the block
+    ]}: Move to the end of the block 
+
+    [/: Move to the beginning of the comment block
+    ]/: Move to the end of the comment block
+

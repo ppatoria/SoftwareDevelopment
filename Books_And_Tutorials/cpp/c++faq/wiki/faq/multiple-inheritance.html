@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/multiple-inheritance by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="4c0c451f83d604a0b74cd0a341e72d6d931b3bf7" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="c5f3db080e93fbbc0c4aa68428fe212bcb5ebc27" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="b032f33581decb3e467bc0289375f92b58765913" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        multiple inheritance
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="multiple-inheritance.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    multiple inheritance
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=multiple%20inheritance" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="multiple-inheritance">Inheritance &#8212; Multiple and Virtual Inheritance</h2>
+
+<h3 id="mi-overview">How is this section organized?</h3>
+
+<p>This section covers a wide spectrum of questions/answers, ranging from the high-level / strategy / design issues, going
+all the way down to low-level / tactical / programming issues. We cover them in that order.</p>
+
+<p>Please make <em>sure</em> you understand the high-level / strategy / design issues. Too many programmers worry about getting
+&#8220;it&#8221; to compile without first deciding whether they really want &#8220;it&#8221; in the first place. So please read the first
+several FAQs in this section before worrying about the (important) mechanical details in the last several FAQs.</p>
+
+<h3 id="mi-needed">Do we really need multiple inheritance?</h3>
+
+<p>Not really. We can do without multiple inheritance by using workarounds, exactly as we can do without single inheritance by using workarounds. We can even do without classes by using workarounds. C is a proof of that contention. However, every modern language with static type checking and inheritance provides some form of multiple inheritance. In C++, abstract classes often serve as interfaces and a class can have many interfaces. Other languages &#8211; often deemed &#8220;not MI&#8221; &#8211; simply have a separate name for their equivalent to a pure abstract class: an interface. The reason languages provide inheritance (both single and multiple) is that language-supported inheritance is typically superior to workarounds (e.g. use of forwarding functions to sub-objects or separately allocated objects) for ease of programming, for detecting logical problems, for maintainability, and often for performance.</p>
+
+<h3 id="mi-not-evil">I&#8217;ve been told that I should never use multiple inheritance. Is that right?</h3>
+
+<p>Grrrrrrrrr.</p>
+
+<p>It <em>really</em> bothers me when people think they know what&#8217;s best for <em>your</em> problem even though they&#8217;ve never seen <em>your</em>
+problem!! How can anybody possibly know that multiple inheritance won&#8217;t help <em>you</em> accomplish <em>your</em> goals without
+knowing <em>your</em> goals?!?!?!?!!!</p>
+
+<p>Next time somebody tells you that you should never use multiple inheritance, look them straight in the eye and say, &#8220;One
+size does not fit all.&#8221; If they respond with something about <em>their</em> bad experience on <em>their</em> project, look them in the
+eye and repeat, slower this time, &#8220;One size does not fit all.&#8221;</p>
+
+<p>People who spout off one-size-fits-all rules presume to make your design decisions without knowing your requirements.
+They don&#8217;t know where you&#8217;re going but know how you should get there.</p>
+
+<p>Don&#8217;t trust an answer from someone who doesn&#8217;t know the question.</p>
+
+<h3 id="mi-not-evil-2">So there are times when multiple inheritance isn&#8217;t bad?!??</h3>
+
+<p>Of <em>course</em> there are!</p>
+
+<p>You won&#8217;t use it all the time. You might not even use it regularly. But there are some situations where a solution with
+multiple inheritance is cheaper to build, debug, test, optimize, and maintain than a solution without multiple
+inheritance. If multiple inheritance cuts your costs, improves your schedule, reduces your risk, and performs well, then
+please use it.</p>
+
+<p>On the other hand, just because it&#8217;s there doesn&#8217;t mean you should use it. Like any tool, use the right tool for the
+job. If MI (multiple inheritance) helps, use it; if not, don&#8217;t. And if you have a bad experience with it, don&#8217;t blame
+the tool. Take responsibility for your mistakes, and say, &#8220;I used the wrong tool for the job; it was my fault.&#8221; Do <em>not</em>
+say, &#8220;Since it didn&#8217;t help <em>my</em> problem, it&#8217;s bad for all problems in all industries across all time.&#8221; Good workmen
+never blame their tools.</p>
+
+<h3 id="mi-disciplines">What are some disciplines for using multiple inheritance?</h3>
+
+<p><strong>M.I. rule of thumb #1:</strong> Use inheritance only if doing so will remove <code>if</code> / <code>switch</code> statements from the caller
+code. <em>Rationale:</em> this steers people away from &#8220;gratuitous&#8221; inheritance (either of the single or multiple variety),
+which is often a good thing. There are a <em>few</em> times when you&#8217;ll use inheritance without dynamic binding, but beware:
+if you do that a lot, you may have been infected with wrong thinking. In particular, <a href="objective-c.html#objective-c-and-inherit" title="FAQ: How do you use inheritance in C++, and is that different from Objective-C?">inheritance is <em>not</em> for
+code-reuse</a>. You sometimes get a little code reuse via inheritance, but the primary purpose
+for inheritance is dynamic binding, and that is for flexibility. Composition is for code reuse, inheritance is for
+flexibility. This rule of thumb isn&#8217;t specific to MI, but is generic to all usages of inheritance.</p>
+
+<p><strong>M.I. rule of thumb #2:</strong> Try especially hard to use <a href="abcs.html" title="Section: Inheritance — Abstract Base Classes (ABCs)">ABCs</a> when you use MI. In particular, most classes above
+the <a href="multiple-inheritance.html#mi-diamond" title="FAQ: What is the 'dreaded diamond'?">join class</a> (and often the join class itself) should be ABCs. In this context, &#8220;ABC&#8221; doesn&#8217;t simply
+mean &#8220;a class with at least one pure virtual function&#8221;; it actually means a <em>pure</em> ABC, meaning a class with as little
+data as possible (often none), and with most (often all) its methods being <a href="abcs.html#pure-virtual-fns" title="FAQ: What is a 'pure virtual' member function?">pure virtual</a>.
+<em>Rationale:</em> this discipline helps you avoid situations where you need to inherit data or code along two paths, plus it
+encourages you to use inheritance properly. This second goal is subtle but is extremely powerful. In particular, if
+you&#8217;re in the habit of using inheritance for code reuse (dubious at best; see above), this rule of thumb will steer you
+away from MI and perhaps (hopefully!) away from inheritance-for-code-reuse in the first place. In other words, this
+rule of thumb tends to push people toward inheritance-for-interface-substitutability, which is always safe, and away
+from inheritance-just-to-help-me-write-less-code-in-my-derived-class, which is often (not always) unsafe.</p>
+
+<p><strong>M.I. rule of thumb #3:</strong> Consider <a href="multiple-inheritance.html#mi-example" title="FAQ: Can you provide an example that demonstrates the above guidelines?">the &#8220;bridge&#8221; pattern</a> or <a href="multiple-inheritance.html#mi-example" title="FAQ: Can you provide an example that demonstrates the above guidelines?">nested generalization</a> as
+possible alternatives to multiple inheritance. This does not imply that there is something &#8220;wrong&#8221; with MI; it simply
+implies that there are at least three alternatives, and a wise designer checks out all the alternatives before choosing
+which is best.</p>
+
+<h3 id="mi-example">Can you provide an example that demonstrates the above guidelines?</h3>
+
+<p>Suppose you have land vehicles, water vehicles, air vehicles, and space vehicles. (Forget the whole concept of
+amphibious vehicles for this example; pretend they don&#8217;t exist for this illustration.) Suppose we also have different
+power sources: gas powered, wind powered, nuclear powered, pedal powered, etc. We <em>could</em> use multiple inheritance to
+tie everything together, but before we do, we should ask a few tough questions:</p>
+
+<ol>
+<li>Will the <em>users</em> of <code>LandVehicle</code> need to have a <code>Vehicle&amp;</code> that refers to a <code>LandVehicle</code> object? In particular,
+will the <em>users</em> call methods on a <code>Vehicle</code>-reference and expect the actual implementation of those methods to be
+specific to <code>LandVehicle</code>s?</li>
+<li>Ditto for <code>GasPoweredVehicle</code>s: will the users want a <code>Vehicle</code> reference that refers to a <code>GasPoweredVehicle</code>
+object, and in particular will they want to call methods on that <code>Vehicle</code> reference and expect the implementations
+to get overridden by <code>GasPoweredVehicle</code>?</li>
+</ol>
+
+<p>If <em>both</em> answers are &#8220;yes,&#8221; multiple inheritance is probably the best way to go. But before you close the door on the
+alternatives, here are a few more &#8220;decision criteria.&#8221; Suppose there are N geographies (land, water, air, space, etc.)
+and M power sources (gas, nuclear, wind, pedal, etc.). There are at least three choices for the overall design: the
+bridge pattern, nested generalization, and multiple inheritance. Each has its pros/cons:</p>
+
+<ul>
+<li><strong>With the bridge pattern</strong>, you create two distinct hierarchies: ABC <code>Vehicle</code> has derived classes <code>LandVehicle</code>,
+<code>WaterVehicle</code>, etc., and ABC <code>Engine</code> has derived classes <code>GasPowered</code>, <code>NuclearPowered</code>, etc. Then the <code>Vehicle</code>
+has an <code>Engine*</code> (that is, an <code>Engine</code>-pointer), and users mix and match vehicles and engines at run-time. This has
+the advantage that you only have to write N+M derived classes, which means things grow very gracefully: when you
+add a new geography (incrementing N) or engine type (incrementing M), you need add only one new derived class.
+However you have several disadvantages as well: you only have N+M derived classes which means you only have at most
+N+M overrides and therefore N+M concrete algorithms / data structures. If you ultimately want different algorithms
+and/or data structures in the N×M combinations, you&#8217;ll have to work hard to make that happen, and you&#8217;re probably
+better off with something other than a pure bridge pattern. The other thing the bridge doesn&#8217;t solve for you is
+eliminating the nonsensical choices, such as pedal powered space vehicles. You can solve that by adding extra checks
+when the users combine vehicles and engines at run-time, but it requires a bit of skullduggery, something the bridge
+pattern doesn&#8217;t provide for free. The bridge also restricts users since, although there is a common base class above
+all geographies (meaning a user can pass any kind of vehicle as a <code>Vehicle&amp;</code>), there is not a common base class
+above, for example, all gas powered vehicles, and therefore users cannot pass any gas powered vehicle as a
+<code>GasPoweredVehicle&amp;</code>. Finally, the bridge has the advantage that it shares code between the group of, for example,
+water vehicles as well as the group of, for example, gas powered vehicles. In other words, the various gas powered
+vehicles share the code in derived class <code>GasPoweredEngine</code>.</li>
+<li><strong>With nested generalization</strong>, you pick one of the hierarchies as primary and the other as secondary, and you have a
+nested hierarchy. For example, if you choose geography as primary, <code>Vehicle</code> would have derived classes
+<code>LandVehicle</code>, <code>WaterVehicle</code>, etc., and those would each have further derived classes, one per power source type.
+E.g., <code>LandVehicle</code> would have derived classes <code>GasPoweredLandVehicle</code>, <code>PedalPoweredLandVehicle</code>,
+<code>NuclearPoweredLandVehicle</code>, etc.; <code>WaterVehicle</code> would have a similar set of derived classes, etc. This requires you
+to write roughly N×M different derived classes, which means things don&#8217;t grow gracefully when you increment N or M,
+but it gives you the advantage over the bridge that you can have N×M different algorithms and data structures. It
+also gives you fine granular control, since the user cannot select nonsensical combinations, such as pedal powered
+space vehicles, since the user can select only those combinations that a programmer has decided are reasonable.
+Unfortunately nested generalization doesn&#8217;t improve the problem with passing any gas powered vehicle as a common base
+class, since there is no common base class above the secondary hierarchy, e.g., there is no <code>GasPoweredVehicle</code> base
+class. And finally, it&#8217;s not obvious how to share code between all vehicles that use the same power source, e.g.,
+between all gas powered vehicles.</li>
+<li><strong>With multiple inheritance</strong>, you have two distinct hierarchies, just like the bridge, but you remove the <code>Engine*</code>
+from the bridge and instead create roughly N×M derived classes below both the hierarchy of geographies and the
+hierarchy of power sources. It&#8217;s not as simple as this, since you&#8217;ll need to change the concept of the <code>Engine</code>
+classes. In particular, you&#8217;ll want to rename the classes in that hierarchy from, for example, <code>GasPoweredEngine</code> to
+<code>GasPoweredVehicle</code>; plus you&#8217;ll need to make corresponding changes to the methods in the hierarchy. In any case,
+class <code>GasPoweredLandVehicle</code> will multiply inherit from <code>GasPoweredVehicle</code> and <code>LandVehicle</code>, and similarly with
+<code>GasPoweredWaterVehicle</code>, <code>NuclearPoweredWaterVehicle</code>, etc. Like nested generalization, you have to write roughly
+N×M classes, which doesn&#8217;t grow gracefully, but it does give you fine granular control over both which algorithm and
+data structures to use in the various derived classes as well as which combinations are deemed &#8220;reasonable,&#8221; meaning
+you simply don&#8217;t create nonsensical choices like <code>PedalPoweredSpaceVehicle</code>. It solves a problem shared by both
+bridge and nested generalization, namely it allows a user to pass any gas powered vehicle using a common base class.
+Finally it provides a solution to the code-sharing problem, a solution that is at least as good as that of the
+bridge solution: it lets all gas powered vehicles share common code when that is desired. We say this is &#8220;at least
+as good as the solution from the bridge&#8221; since, unlike the bridge, the derived classes can share common code within
+gas powered vehicles, but can also, unlike with the bridge, override and replace that code in cases where the shared
+code is not ideal.</li>
+</ul>
+
+<p><strong>The most important point:</strong> there is no universally &#8220;best&#8221; answer. Perhaps you were hoping I would tell you to always
+use one or the other of the above choices. I&#8217;d be happy to do that except for one minor detail: it would be a lie. If
+exactly one of the above was <em>always</em> best, then one size would fit all, and we know it does not.</p>
+
+<p>So here&#8217;s what you have to do: T H I N K. You&#8217;ll have to make a decision. I&#8217;ll give you some guidelines, but ultimately
+you will have to decide what is best (or perhaps <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">&#8220;least bad&#8221;</a>) for <em>your</em> situation.</p>
+
+<h3 id="mi-tradeoffs">Is there a simple way to visualize all these tradeoffs?</h3>
+
+<p>Here are some of the &#8220;goodness criteria,&#8221; that is, qualities you might want. In this description, <em>N</em> is the number of
+geographies and <em>M</em> is the number of power sources:</p>
+
+<ul>
+<li><strong>Grow Gracefully</strong>: Does the size of the code-base grow gracefully when you add a new geography or power source?
+If you add a new geography (going from <em>N</em> to <em>N+1</em>), do you need to add one new chunk of code (best), <em>M</em> new
+chunks of code (worst), or something in between?</li>
+<li><strong>Low Code Bulk</strong>: Is there a reasonably small amount of code bulk? This usually is proportional to ongoing
+maintenance cost &#8212; the more code the more cost, all other things being equal. It is also usually related to the
+&#8220;Grow Gracefully&#8221; criteria: in addition to the code bulk of the framework proper, best case there would be <em>N+M</em>
+chunks of code, worst case there would be <em>N×M</em> chunks of code.</li>
+<li><strong>Fine Grained Control</strong>: Do you have fine granular control over the algorithms and data structures? For example, do
+you have the <em>option</em> of having a different algorithm and/or data structure for any of the <em>N×M</em> possibilities, or
+are you stuck with using the same algorithm and/or data structure for all, say, gas powered vehicles?</li>
+<li><strong>Static Detect Bad Combos</strong>: Can you statically (&#8220;at compile time&#8221;) detect and prevent invalid combinations. For
+example, suppose for the moment that there are no pedal-powered space vehicles. If someone tries to create a
+pedal-powered space vehicle, can that be detected at compile time (good), or do we need to detect it at run-time?</li>
+<li><strong>Polymorphic on Both Sides</strong>: Does it let users treat either base class polymorphically? In other words, can you
+create some user code <code>f()</code> that takes any and all, say, land vehicles (where you can add a new kind of land vehicle
+without requiring any changes to <code>f()</code>), and also create some other user code <code>g()</code> that takes any and all, say, gas
+powered vehicles (where you can add a new kind of gas powered vehicle without requiring any changes to <code>g()</code>)?</li>
+<li><strong>Share Common Code</strong>: Does it let new combinations share common code from <em>either</em> side? For example, when you
+create a new kind of gas powered land vehicle, can that new class choose to optionally share code that is common to
+many gas-powered vehicles <em>and</em> choose to optionally share code is common to many land vehicles?</li>
+</ul>
+
+<p>This matrix shows techologies as rows and &#8220;goodness criteria&#8221; as columns. <img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /> means the row&#8217;s
+technology has the column&#8217;s goodness criteria, &#8220;&#8212;&#8221; means it does not.</p>
+
+<table>
+<thead>
+<tr>
+  <th> </th>
+  <th><strong>Grow Gracefully?</strong></th>
+  <th><strong>Low Code Bulk?</strong></th>
+  <th><strong>Fine Grained Control?</strong></th>
+  <th><strong>Static Detect Bad Combos?</strong></th>
+  <th><strong>Polymorphic on Both Sides?</strong></th>
+  <th><strong>Share Common Code?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Bridge</strong></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /><br>(N+M chunks)</td>
+  <td>&#8212;</td>
+  <td>&#8212;</td>
+  <td>&#8212;</td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+</tr>
+<tr>
+  <td><strong>Nested generalization</strong></td>
+  <td>&#8212;</td>
+  <td>&#8212; <br>(N×M chunks)</td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td>&#8212;</td>
+  <td>&#8212;</td>
+</tr>
+<tr>
+  <td><strong>Multiple inheritance</strong></td>
+  <td>&#8212;</td>
+  <td>&#8212; <br>(N×M chunks)</td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+  <td><img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" /></td>
+</tr>
+</tbody>
+</table>
+
+<p><em>Important:</em> do not be naive. Do <em>not</em> simply add up the number of <img src="../../themes/wiki_themes/isocpp/images/smile.gif" alt="SMILE!" title="SMILE!" />s, choosing based on most good
+or least bad. <em>THINK!!</em></p>
+
+<ol>
+<li>The first step is to <em>think</em> about whether your particular situation has other design options, that is, additional
+rows.
+
+<ul>
+<li>Recall that the <a href="multiple-inheritance.html#mi-example" title="FAQ: Can you provide an example that demonstrates the above guidelines?">&#8220;bridge&#8221;</a> row is really a <em>pair</em> of rows &#8212; it has <a href="multiple-inheritance.html#mi-example" title="FAQ: Can you provide an example that demonstrates the above guidelines?">an assymetry</a> that
+could go in either direction. In other words, one could put an <code>Engine*</code> in <code>Vehicle</code> or a <code>Vehicle*</code> in <code>Engine</code>
+(or both, or some other way to pair them up, such as a small object that contains just a <code>Vehicle*</code> and an
+<code>Engine*</code>).</li>
+<li>Similar comments for the <a href="multiple-inheritance.html#mi-example" title="FAQ: Can you provide an example that demonstrates the above guidelines?">nested generalization</a> row: it is actually a pair of rows because it also
+has an assymetry, and that assymetry gives you an extra option: you could first decompose by geography (land,
+water, etc.) or first by power source (gas, nuclear, etc.). These two orders yield two distinct designs with
+distinct tradeoffs.</li>
+</ul></li>
+<li>The second step in using the above matrix is to <em>think</em> about which column is most important <em>for your particular
+situation</em>. This will let you give a &#8220;weight&#8221; or &#8220;importance&#8221; to each column.
+
+<ul>
+<li>For example, <em>in your particular situation</em>, the amount of code that must get written (second column) may be more
+or less important than the fine grained control over algorithms/data structures. Do <em>not</em> get caught up trying to
+figure out which column is more important in some abstract, generic, one-size-fits-all view of the world,
+because one size does not fit all!!</li>
+<li>Question: is code bulk (and therefore maintenance cost) more or less important than fine grained control?
+Answer: Yes, code bulk (and therefore maintenance cost) is either more or less important than fine grained
+control. That&#8217;s a joke; lighten up.</li>
+<li>But this part isn&#8217;t a joke: don&#8217;t trust anyone who thinks they know whether code bulk (and therefore maintenance
+cost) is always more or always less important than fine grained control. There&#8217;s no way to know until you look at
+<em>all</em> the requirements and constraints on <em>your particular situation</em>! Far too many programmers think they know
+the answer before they are familiar with the situation. That&#8217;s worse than dumb; it is unprofessional and
+dangerous. Their one-size-fits-all answer will <em>sometimes</em> be right. Their one-size-fits-all answer might
+have been right in every case they have ever seen in their limited range of experience. But if their past success
+blinds them from asking the tough questions in the future, they are a danger to your project and should get a
+thonk on the noggin (&#8220;thonk&#8221; and &#8220;noggin&#8221; are highly technical terms).</li>
+</ul></li>
+</ol>
+
+<p>Your ultimate choice will be made by finding out which approach is best <em>for your situation</em>. One size does not fit all
+&#8212; do <em>not</em> expect the answer in one project to be the same as the answer in another project. Your past successes can
+become, if you are not careful, the seeds of your future failure. Just because &#8220;it&#8221; was best on your previous project
+does not mean &#8220;it&#8221; will be best on your next project.</p>
+
+<h3 id="mi-example-2">Can you give another example to illustrate the above disciplines?</h3>
+
+<p>This second example is only slightly different from the previous since it is more obviously symmetric. This symmetry
+tilts the scales slightly toward the multiple inheritance solution, but one of the others still might be best in some
+situations.</p>
+
+<p>In this example, we have only two categories of vehicles: land vehicles and water vehicles. Then somebody points out
+that we need amphibious vehicles. Now we get to the good part: the questions.</p>
+
+<ol>
+<li>Do we even need a distinct <code>AmphibiousVehicle</code> class? Is it also viable to use one of the other classes with a &#8220;bit&#8221;
+indicating the vehicle can be both in water and on land? Just because &#8220;the real world&#8221; has amphibious vehicles
+doesn&#8217;t mean we need to mimic that in software.</li>
+<li>Will the users of <code>LandVehicle</code> need to use a <code>LandVehicle&amp;</code> that refers to an <code>AmphibiousVehicle</code> object? Will they
+need to call methods on the <code>LandVehicle&amp;</code> and expect the actual implementation of those methods to be specific to
+(&#8220;overridden in&#8221;) <code>AmphibiousVehicle</code>?</li>
+<li>Ditto for water vehicles: will the users want a <code>WaterVehicle&amp;</code> that might refer to an <code>AmphibiousVehicle</code> object,
+and in particular to call methods on that reference and expect the implementation will get overridden by
+<code>AmphibiousVehicle</code>?</li>
+</ol>
+
+<p>If we get three &#8220;yes&#8221; answers, multiple inheritance is probably the right choice. To be sure, you should ask the other
+questions as well, e.g., the grow-gracefully issue, the granularity of control issues, etc.</p>
+
+<h3 id="mi-diamond">What is the &#8220;dreaded diamond&#8221;?</h3>
+
+<p>The &#8220;dreaded diamond&#8221; refers to a class structure in which a particular class appears more than once in a class&#8217;s
+inheritance hierarchy. For example,</p>
+
+<pre><code>class Base {
+public:
+  // ...
+protected:
+  int data_;
+};
+
+class Der1 : public Base { /*...*/ };
+
+class Der2 : public Base { /*...*/ };
+
+class Join : public Der1, public Der2 {
+public:
+  void method()
+  {
+     data_ = 1;  // Bad: this is ambiguous; see below
+  }
+};
+
+int main()
+{
+  Join* j = new Join();
+  Base* b = j;   // Bad: this is ambiguous; see below
+}
+</code></pre>
+
+<p>Forgive the ASCII-art, but the inheritance hierarchy looks something like this:</p>
+
+<pre><code>                         Base
+                         /  \
+                        /    \
+                       /      \
+                    Der1      Der2
+                       \      /
+                        \    /
+                         \  /
+                         Join
+</code></pre>
+
+<p>Before we explain why the dreaded diamond is dreaded, it is important to note that C++ provides techniques to deal
+with each of the &#8220;dreads.&#8221; In other words, this structure is often <em>called</em> the dreaded diamond, but it really isn&#8217;t
+dreaded; it&#8217;s more just something to be aware of.</p>
+
+<p>The key is to realize that <code>Base</code> is inherited twice, which means any data members declared in <code>Base</code>, such as <code>data_</code>
+above, will appear twice within a <code>Join</code> object. This can create ambiguities: which <code>data_</code> did you want to change? For
+the same reason the conversion from <code>Join*</code> to <code>Base*</code>, or from <code>Join&amp;</code> to <code>Base&amp;</code>, is ambiguous: which <code>Base</code> class
+subobject did you want?</p>
+
+<p>C++ lets you resolve the ambiguities. For example, instead of saying <code>data_ = 1</code> you could say <code>Der2::data_ = 1</code>, or
+you could convert from <code>Join*</code> to a <code>Der1*</code> and then to a <code>Base*</code>. However please, Please, <em>PLEASE</em> think before you do
+that. That is almost always <em>not</em> the best solution. The best solution is typically to tell the C++ compiler that only
+one <code>Base</code> subobject should appear within a <code>Join</code> object, and that is described <a href="multiple-inheritance.html#virtual-inheritance-where" title="FAQ: Where in a hierarchy should I use virtual inheritance?">next</a>.</p>
+
+<h3 id="virtual-inheritance-where">Where in a hierarchy should I use virtual inheritance?</h3>
+
+<p>Just below the top of the diamond, <em>not</em> at the join-class.</p>
+
+<p>To avoid the duplicated base class subobject that occurs with the &#8220;dreaded diamond&#8221;, you should use the <code>virtual</code>
+keyword in the inheritance part of the classes that derive directly from the top of the diamond:</p>
+
+<pre><code>class Base {
+public:
+  // ...
+protected:
+  int data_;
+};
+
+class Der1 : public virtual Base {
+                    ↑↑↑↑↑↑↑ // This is the key
+public:
+  // ...
+};
+
+class Der2 : public virtual Base {
+                    ↑↑↑↑↑↑↑ // This is the key
+public:
+  // ...
+};
+
+class Join : public Der1, public Der2 {
+public:
+  void method()
+  {
+     data_ = 1;  // Good: this is now unambiguous
+  }
+};
+
+int main()
+{
+  Join* j = new Join();
+  Base* b = j;   // Good: this is now unambiguous
+}
+</code></pre>
+
+<p>Because of the <code>virtual</code> keyword in the base-class portion of <code>Der1</code> and <code>Der2</code>, an instance of <code>Join</code> will have only a
+single <code>Base</code> subobject. This eliminates the ambiguities. This is usually better than using full qualification as
+described in <a href="multiple-inheritance.html#mi-diamond" title="FAQ: What is the 'dreaded diamond'?">the previous FAQ</a>.</p>
+
+<p>For emphasis, the <code>virtual</code> keyword goes in the hierarchy above <code>Der1</code> and <code>Der2</code>. It doesn&#8217;t help to put the <code>virtual</code>
+keyword in the <code>Join</code> class itself. In other words, you have to know that a join class will exist when you are creating
+class <code>Der1</code> and <code>Der2</code>.</p>
+
+<pre><code>                         Base
+                         /  \
+                        /    \
+               virtual /      \ virtual
+                    Der1      Der2
+                       \      /
+                        \    /
+                         \  /
+                         Join
+</code></pre>
+
+<h3 id="mi-delegate-to-sister">What does it mean to &#8220;delegate to a sister class&#8221; via virtual inheritance?</h3>
+
+<p>Consider the following example:</p>
+
+<pre><code>class Base {
+public:
+  virtual void foo() = 0;
+  virtual void bar() = 0;
+};
+
+class Der1 : public virtual Base {
+public:
+  virtual void foo();
+};
+
+void Der1::foo()
+{ bar(); }
+
+class Der2 : public virtual Base {
+public:
+  virtual void bar();
+};
+
+class Join : public Der1, public Der2 {
+public:
+  // ...
+};
+
+int main()
+{
+  Join* p1 = new Join();
+  Der1* p2 = p1;
+  Base* p3 = p1;
+
+  p1-&gt;foo();
+  p2-&gt;foo();
+  p3-&gt;foo();
+}
+</code></pre>
+
+<p>Believe it or not, when <code>Der1::foo()</code> calls <code>this-&gt;bar()</code>, it ends up calling <code>Der2::bar()</code>. Yes, that&#8217;s right: a class
+that <code>Der1</code> knows nothing about will supply the override of a virtual function invoked by <code>Der1::foo()</code>. This &#8220;cross
+delegation&#8221; can be a powerful technique for customizing the behavior of polymorphic classes.</p>
+
+<h3 id="virtual-inheritance-abcs">What special considerations do I need to know about when I use virtual inheritance?</h3>
+
+<p>Generally, virtual base classes are most suitable when the classes that derive from the virtual base, and especially the
+virtual base itself, are pure abstract classes. This means the classes above the &#8220;join class&#8221; have very little if any
+data.</p>
+
+<p>Note: even if the virtual base itself is a pure abstract class with <em>no</em> member data, you still probably don&#8217;t want to
+remove the virtual inheritance within classes <code>Der1</code> and <code>Der2</code>. You can use fully qualified names to resolve any
+ambiguities that arise, and you might even be able to squeeze out a few cycles in some cases, however the object&#8217;s
+address is somewhat ambiguous (there are still two <code>Base</code> class subobjects in the <code>Join</code> object), so simple things like
+trying to find out if two pointers point at the same instance might be tricky. Just be careful &#8212; very careful.</p>
+
+<h3 id="virtual-inheritance-ctors">What special considerations do I need to know about when I inherit from a class that uses virtual inheritance?</h3>
+
+<p>Initialization list of most-derived-class&#8217;s ctor directly invokes the virtual base class&#8217;s ctor.</p>
+
+<p>Because a virtual base class subobject occurs only once in an instance, there are special rules to make sure the virtual
+base class&#8217;s constructor and destructor get called exactly once per instance. The C++ rules say that virtual base
+classes are constructed before all non-virtual base classes. The thing you as a programmer need to know is this:
+constructors for virtual base classes <em>anywhere</em> in your class&#8217;s inheritance hierarchy are called by the &#8220;most derived&#8221;
+class&#8217;s constructor.</p>
+
+<p>Practically speaking, this means that when you create a concrete class that has a virtual base class, you must be
+prepared to pass whatever parameters are required to call the virtual base class&#8217;s constructor. And, of course, if there
+are several virtual base classes anywhere in your classes ancestry, you must be prepared to call all their constructors.
+This might mean that the most-derived class&#8217;s constructor needs more parameters than you might otherwise think.</p>
+
+<p>However, if the author of the virtual base class followed <a href="multiple-inheritance.html#virtual-inheritance-abcs" title="FAQ: What special considerations do I need to know about when I use virtual inheritance?">the guideline in the previous FAQ</a>,
+then the virtual base class&#8217;s constructor probably takes no parameters since it doesn&#8217;t have any data to initialize.
+This means (fortunately!) the authors of the concrete classes that inherit eventually from the virtual base class do not
+need to worry about taking extra parameters to pass to the virtual base class&#8217;s ctor.</p>
+
+<h3 id="virtual-inheritance-casts">What special considerations do I need to know about when I <em>use</em> a class that uses virtual inheritance?</h3>
+
+<p>No C-style downcasts; use <code>dynamic_cast</code> instead.</p>
+
+<p>(Rest to be written.)</p>
+
+<h3 id="mi-vi-ctor-order">One more time: what is the exact order of constructors in a multiple and/or virtual inheritance situation?</h3>
+
+<p>The very first constructors to be executed are the virtual base classes anywhere in the hierarchy. They are executed in
+the order they appear in a depth-first left-to-right traversal of the graph of base classes, where <em>left to right</em>
+refer to the order of appearance of base class names.</p>
+
+<p>After all virtual base class constructors are finished, the construction order is generally from base class to derived
+class. The details are easiest to understand if you imagine that the very first thing the compiler does in the derived
+class&#8217;s ctor is to make a hidden call to the ctors of its non-virtual base classes (hint: that&#8217;s the way many
+compilers actually do it). So if class D inherits multiply from B1 and B2, the constructor for B1 executes first, then
+the constructor for B2, then the constructor for D. This rule is applied recursively; for example, if B1 inherits from
+B1a and B1b, and B2 inherits from B2a and B2b, then the final order is B1a, B1b, B1, B2a, B2b, B2, D.</p>
+
+<p>Note that the order B1 and then B2 (or B1a then B1b) is determined by the order that the base classes appear in the
+declaration of the class, <em>not</em> in the order that the initializer appears in the derived class&#8217;s initialization list.</p>
+
+<h3 id="mi-vi-dtor-order">What is the exact order of destructors in a multiple and/or virtual inheritance situation?</h3>
+
+<p>Short answer: the exact opposite of <a href="multiple-inheritance.html#mi-vi-ctor-order" title="FAQ: One more time: what is the exact order of constructors in a multiple and/or virtual inheritance situation?">the constructor order</a>.</p>
+
+<p>Long answer: suppose the &#8220;most derived&#8221; class is D, meaning the actual object that was originally created was of class
+D, and that D inherits multiply (and non-virtually) from B1 and B2. The sub-object corresponding to most-derived
+class D runs first, followed by the dtors for its non-virtual base classes in reverse declaration-order. Thus the
+destructor order will be D, B2, B1. This rule is applied recursively; for example, if B1 inherits from B1a and B1b, and
+B2 inherits from B2a and B2b, the final order is D, B2, B2b, B2a, B1, B1b, B1a.</p>
+
+<p>After all this is finished, virtual base classes that appear anywhere in the hierarchy are handled. The destructors for
+these virtual base classes are executed in the reverse order they appear in a depth-first left-to-right traversal of
+the graph of base classes, where <em>left to right</em> refer to the order of appearance of base class names. For instance, if
+the virtual base classes in that traversal order are V1, V1, V1, V2, V1, V2, V2, V1, V3, V1, V2, the unique ones are V1,
+V2, V3, and the final-final order is D, B2, B2b, B2a, B1, B1b, B1a, V3, V2, V1.</p>
+
+<p>Reminder to <a href="virtual-functions.html#virtual-dtors" title="FAQ: When should my destructor be virtual?">make your base class&#8217;s destructor <code>virtual</code></a>, at least in the normal case. If you don&#8217;t
+<em>thoroughly</em> understand the rules for <em>why</em> you <a href="virtual-functions.html#virtual-dtors" title="FAQ: When should my destructor be virtual?">make your base class&#8217;s destructor virtual</a>, then either
+<a href="virtual-functions.html#virtual-dtors" title="FAQ: When should my destructor be virtual?">learn the rationale</a> or just trust me and make them <code>virtual</code>.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/multiple-inheritance",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/multiple-inheritance",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/multiple-inheritance by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

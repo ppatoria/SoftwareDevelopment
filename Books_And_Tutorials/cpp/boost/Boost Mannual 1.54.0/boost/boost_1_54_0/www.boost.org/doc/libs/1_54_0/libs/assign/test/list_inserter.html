@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/list_inserter.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:27 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/assign/test/list_inserter.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/assign/test/list_inserter.cpp</h3>
+<pre>
+// Boost.Assign library
+//
+//  Copyright Thorsten Ottosen 2003-2004. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+//
+// For more information, see <a href="http://www.boost.org/libs/assign/">http://www.boost.org/libs/assign/</a>
+//
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/detail/workaround.hpp">boost/detail/workaround.hpp</a>&gt;
+
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#  pragma warn -8091 // supress warning in Boost.Test
+#  pragma warn -8057 // unused argument argc/argv in Boost.Test
+#endif
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/assign/list_inserter.hpp">boost/assign/list_inserter.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/assign/list_of.hpp">boost/assign/list_of.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/test_tools.hpp">boost/test/test_tools.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/array.hpp">boost/array.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/function.hpp">boost/function.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/bind.hpp">boost/bind.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/functional.hpp">boost/functional.hpp</a>&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;utility&gt;
+#include &lt;stdexcept&gt;
+#include &lt;cstdlib&gt;
+
+
+namespace ba = boost::assign;
+
+void function_ptr( int )
+{
+    // do nothing
+}
+
+struct functor
+{
+    template&lt; class T &gt;
+    void operator()( T ) const
+    { 
+        // do nothing
+    }
+};
+
+
+
+void check_list_inserter()
+{
+    using namespace std;
+    using namespace boost;
+    using namespace boost::assign;
+    vector&lt;int&gt; v;
+    
+    //
+    // @note: cast only necessary on CodeWarrior
+    //
+    make_list_inserter( (void (*)(int))&amp;function_ptr )( 5 ),3;
+    make_list_inserter( functor() )( 4 ),2;
+    
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+// BCB would crash
+    typedef void (vector&lt;int&gt;::* push_back_t)(const int&amp;);
+    push_back_t push_back_func = &amp;vector&lt;int&gt;::push_back;
+    make_list_inserter( bind( push_back_func, &amp;v, _1 ) )( 6 ),4;
+#else
+    make_list_inserter( bind( &amp;vector&lt;int&gt;::push_back, &amp;v, _1 ) )( 6 ),4;
+#endif 
+
+    BOOST_CHECK_EQUAL( v.size(), 2u );
+    BOOST_CHECK_EQUAL( v[0], 6 );
+    BOOST_CHECK_EQUAL( v[1], 4 );
+    
+    push_back( v ) = 1,2,3,4,5;
+    BOOST_CHECK_EQUAL( v.size(), 7u );
+    BOOST_CHECK_EQUAL( v[6], 5 );
+    
+    push_back( v )(6).repeat( 10, 7 )(8);
+    BOOST_CHECK_EQUAL( v.size(), 19u );
+    BOOST_CHECK_EQUAL( v[18], 8 );
+    BOOST_CHECK_EQUAL( v[8], 7 ); 
+    BOOST_CHECK_EQUAL( v[16], 7 ); 
+
+#if !BOOST_WORKAROUND(BOOST_MSVC, &lt;= 1200)
+    push_back( v ) = repeat_fun( 10, &amp;rand );
+#else
+    push_back( v ).repeat_fun( 10, &amp;rand );
+#endif
+
+    BOOST_CHECK_EQUAL( v.size(), 29u );
+
+#if BOOST_WORKAROUND(BOOST_MSVC, &lt;= 1200) || BOOST_WORKAROUND(__SUNPRO_CC, &lt;= 0x580 )
+    push_back( v )(1).repeat( 10, 2 )(3);
+#else
+    push_back( v ) = 1,repeat( 10, 2 ),3;
+#endif
+    BOOST_CHECK_EQUAL( v.size(), 41u );
+
+#if BOOST_WORKAROUND(BOOST_MSVC, &lt;= 1200) || BOOST_WORKAROUND(__SUNPRO_CC, &lt;= 0x580 )
+    push_back( v )(1).repeat_fun( 10, &amp;rand )(2);  
+#else
+    push_back( v ) = 1,repeat_fun( 10, &amp;rand ),2;
+#endif
+
+    BOOST_CHECK_EQUAL( v.size(), 53u );
+    
+    typedef map&lt;string,int&gt; map_t;
+    typedef map_t::value_type V;
+    map_t m;
+
+    make_list_inserter( assign_detail::call_insert&lt; map_t &gt;( m ) )
+                      ( V(&quot;bar&quot;,3) )( V(&quot;foo&quot;, 2) );
+    BOOST_CHECK_EQUAL( m.size(), 2u );
+    BOOST_CHECK_EQUAL( m[&quot;foo&quot;], 2 );
+
+    
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) || BOOST_WORKAROUND(BOOST_MSVC, &lt;=1300)
+#else
+
+    typedef vector&lt;int&gt;                   score_type;
+    typedef map&lt;string,score_type&gt;        team_score_map;
+    typedef std::pair&lt;string,score_type&gt;  score_pair;
+    team_score_map team_score;
+    insert( team_score )( &quot;Team Foo&quot;,    list_of(1)(1)(0) )
+                        ( &quot;Team Bar&quot;,    list_of(0)(0)(0) )
+                        ( &quot;Team FooBar&quot;, list_of(0)(0)(1) ); 
+    BOOST_CHECK_EQUAL( team_score.size(), 3u );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Foo&quot; ][1], 1 );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Bar&quot; ][0], 0 );
+   
+    team_score = list_of&lt; score_pair &gt;
+                        ( &quot;Team Foo&quot;,    list_of(1)(1)(0) )
+                        ( &quot;Team Bar&quot;,    list_of(0)(0)(0) )
+                        ( &quot;Team FooBar&quot;, list_of(0)(0)(1) );
+    BOOST_CHECK_EQUAL( team_score.size(), 3u );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Foo&quot; ][1], 1 );
+    BOOST_CHECK_EQUAL( team_score[ &quot;Team Bar&quot; ][0], 0 );
+
+#endif
+                        
+}
+
+
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/test/unit_test.hpp">boost/test/unit_test.hpp</a>&gt;
+using boost::unit_test::test_suite;
+
+test_suite* init_unit_test_suite( int argc, char* argv[] )
+{
+    test_suite* test = BOOST_TEST_SUITE( &quot;List Test Suite&quot; );
+
+    test-&gt;add( BOOST_TEST_CASE( &amp;check_list_inserter ) );
+
+    return test;
+}
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/assign/test/list_inserter.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:27 GMT -->
+</html>

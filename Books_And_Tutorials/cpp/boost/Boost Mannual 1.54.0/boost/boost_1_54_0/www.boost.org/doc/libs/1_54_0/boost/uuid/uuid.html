@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/uuid/uuid.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:00 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/uuid/uuid.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/uuid/uuid.hpp</h3>
+<pre>
+// Boost uuid.hpp header file  ----------------------------------------------//
+
+// Copyright 2006 Andy Tompkins.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+// Revision History
+//  06 Feb 2006 - Initial Revision
+//  09 Nov 2006 - fixed variant and version bits for v4 guids
+//  13 Nov 2006 - added serialization
+//  17 Nov 2006 - added name-based guid creation
+//  20 Nov 2006 - add fixes for gcc (from Tim Blechmann)
+//  07 Mar 2007 - converted to header only
+//  10 May 2007 - removed need for Boost.Thread
+//              - added better seed - thanks Peter Dimov
+//              - removed null()
+//              - replaced byte_count() and output_bytes() with size() and begin() and end()
+//  11 May 2007 - fixed guid(ByteInputIterator first, ByteInputIterator last)
+//              - optimized operator&gt;&gt;
+//  14 May 2007 - converted from guid to uuid
+//  29 May 2007 - uses new implementation of sha1
+//  01 Jun 2007 - removed using namespace directives
+//  09 Nov 2007 - moved implementation to uuid.ipp file
+//  12 Nov 2007 - moved serialize code to uuid_serialize.hpp file
+//  25 Feb 2008 - moved to namespace boost::uuids
+//  19 Mar 2009 - changed to a POD, reorganized files
+//  28 Nov 2009 - disabled deprecated warnings for MSVC
+//  30 Nov 2009 - used BOOST_STATIC_CONSTANT
+//  02 Dec 2009 - removed BOOST_STATIC_CONSTANT - not all compilers like it
+
+#ifndef BOOST_UUID_HPP
+#define BOOST_UUID_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;stddef.h&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp">boost/cstdint.hpp</a>&gt;
+#include &lt;algorithm&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt; // for static assert
+#ifndef BOOST_UUID_NO_TYPE_TRAITS
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/is_pod.hpp">boost/type_traits/is_pod.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/type_traits/integral_constant.hpp">boost/type_traits/integral_constant.hpp</a>&gt;
+#endif
+
+#if defined(_MSC_VER)
+#pragma warning(push) // Save warning settings.
+#pragma warning(disable : 4996) // Disable deprecated std::swap_ranges, std::equal
+#endif
+
+#ifdef BOOST_NO_STDC_NAMESPACE
+namespace std {
+    using ::size_t;
+    using ::ptrdiff_t;
+} //namespace std
+#endif //BOOST_NO_STDC_NAMESPACE
+
+namespace boost {
+namespace uuids {
+
+struct uuid
+{
+public:
+    typedef uint8_t value_type;
+    typedef uint8_t&amp; reference;
+    typedef uint8_t const&amp; const_reference;
+    typedef uint8_t* iterator;
+    typedef uint8_t const* const_iterator;
+    typedef std::size_t size_type;
+    typedef std::ptrdiff_t difference_type;
+
+    // This does not work on some compilers
+    // They seem to want the variable definec in 
+    // a cpp file
+    //BOOST_STATIC_CONSTANT(size_type, static_size = 16);
+    static size_type static_size() { return 16; }
+
+public:
+    iterator begin() { return data; } /* throw() */
+    const_iterator begin() const { return data; } /* throw() */
+    iterator end() { return data+size(); } /* throw() */
+    const_iterator end() const { return data+size(); } /* throw() */
+
+    size_type size() const { return static_size(); } /* throw() */
+
+    bool is_nil() const /* throw() */
+    {
+        for(size_t i=0; i&lt;static_size(); i++) {
+            if (data[i] != 0U) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    enum variant_type
+    {
+        variant_ncs, // NCS backward compatibility
+        variant_rfc_4122, // defined in RFC 4122 document
+        variant_microsoft, // Microsoft Corporation backward compatibility
+        variant_future // future definition
+    };
+    variant_type variant() const /* throw() */
+    {
+        // variant is stored in octet 7
+        // which is index 8, since indexes count backwards
+        unsigned char octet7 = data[8]; // octet 7 is array index 8
+        if ( (octet7 &amp; 0x80) == 0x00 ) { // 0b0xxxxxxx
+            return variant_ncs;
+        } else if ( (octet7 &amp; 0xC0) == 0x80 ) { // 0b10xxxxxx
+            return variant_rfc_4122;
+        } else if ( (octet7 &amp; 0xE0) == 0xC0 ) { // 0b110xxxxx
+            return variant_microsoft;
+        } else {
+            //assert( (octet7 &amp; 0xE0) == 0xE0 ) // 0b111xxxx
+            return variant_future;
+        }
+    }
+    
+    enum version_type 
+    {
+        version_unknown = -1,
+        version_time_based = 1,
+        version_dce_security = 2,
+        version_name_based_md5 = 3,
+        version_random_number_based = 4,
+        version_name_based_sha1 = 5
+    };
+    version_type version() const /* throw() */
+    {
+        //version is stored in octet 9
+        // which is index 6, since indexes count backwards
+        unsigned char octet9 = data[6];
+        if ( (octet9 &amp; 0xF0) == 0x10 ) {
+            return version_time_based;
+        } else if ( (octet9 &amp; 0xF0) == 0x20 ) {
+            return version_dce_security;
+        } else if ( (octet9 &amp; 0xF0) == 0x30 ) {
+            return version_name_based_md5;
+        } else if ( (octet9 &amp; 0xF0) == 0x40 ) {
+            return version_random_number_based;
+        } else if ( (octet9 &amp; 0xF0) == 0x50 ) {
+            return version_name_based_sha1;
+        } else {
+            return version_unknown;
+        }
+    }
+
+    // note: linear complexity
+    void swap(uuid&amp; rhs) /* throw() */
+    {
+        std::swap_ranges(begin(), end(), rhs.begin());
+    }
+
+public:
+    // or should it be array&lt;uint8_t, 16&gt;
+    uint8_t data[16];
+};
+
+inline bool operator==(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return std::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+
+inline bool operator!=(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return !(lhs == rhs);
+}
+
+inline bool operator&lt;(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
+inline bool operator&gt;(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return rhs &lt; lhs;
+}
+inline bool operator&lt;=(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return !(rhs &lt; lhs);
+}
+
+inline bool operator&gt;=(uuid const&amp; lhs, uuid const&amp; rhs) /* throw() */
+{
+    return !(lhs &lt; rhs);
+}
+
+inline void swap(uuid&amp; lhs, uuid&amp; rhs) /* throw() */
+{
+    lhs.swap(rhs);
+}
+
+// This is equivalent to boost::hash_range(u.begin(), u.end());
+inline std::size_t hash_value(uuid const&amp; u) /* throw() */
+{
+    std::size_t seed = 0;
+    for(uuid::const_iterator i=u.begin(); i != u.end(); ++i)
+    {
+        seed ^= static_cast&lt;std::size_t&gt;(*i) + 0x9e3779b9 + (seed &lt;&lt; 6) + (seed &gt;&gt; 2);
+    }
+
+    return seed;
+}
+
+}} //namespace boost::uuids
+
+#ifndef BOOST_UUID_NO_TYPE_TRAITS
+// type traits specializations
+namespace boost {
+
+template &lt;&gt;
+struct is_pod&lt;uuids::uuid&gt; : true_type {};
+
+} // namespace boost
+#endif
+
+#if defined(_MSC_VER)
+#pragma warning(pop) // Restore warnings to previous state.
+#endif
+
+#endif // BOOST_UUID_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/uuid/uuid.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:00 GMT -->
+</html>

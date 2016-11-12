@@ -1,0 +1,44 @@
+@startuml
+title Async Insert Timeout
+
+
+(*) --> == B1 ==
+
+partition  client_thread
+
+--> "Generate QueryID"
+
+--> "Add entry into map" 
+note left
+entry consist of 
+client callback handler 
+and timer instance
+end note
+
+end partition
+
+--> (*)
+
+partition TIS_Listener_Thread
+
+== B1 == --> "Received TISResponse"
+
+--> "Remove entry from the map"
+
+--> "Callback client"  
+
+end partition
+
+--> (*)
+
+partition TIMER_Thread_On_Timeout
+
+== B1 == --> "remove the entry from the map"
+
+--> "callback client"
+
+end partition
+
+--> (*)
+@enduml
+

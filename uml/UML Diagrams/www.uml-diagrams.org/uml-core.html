@@ -1,0 +1,1024 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/uml-core.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:14:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Core (Kernel) Elements - UML element, namespace, classifier, relationship, association, dependency, comment.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Core (Kernel) Elements - element, named element, namespace, classifier, relationships, comment, etc." />
+<meta name="keywords" content="UML, UML 2, 2.4, core, kernel, element, named element, namespace, classifier, relationship, comment" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements" class="active-nav" >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Core Elements</h1>
+
+<p>
+UML specification has the <strong>Kernel</strong> package which provides the core modeling concepts of the UML,
+ including
+ <a href="uml-core.html#element" class="ref-link">element</a>,
+ <a href="uml-core.html#named-element" class="ref-link">named element</a>,
+ <a href="namespace.html" class="ref-link">namespace</a>,
+ <a href="uml-core.html#relationship" class="ref-link">relationship</a>,
+ <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>,
+ <a href="classifier.html" class="ref-link">classifier</a>,
+ <a href="uml-core.html#comment" class="ref-link">comment</a>,
+ etc.
+</p>
+
+<p>
+Most of these concepts are abstract, have no graphical notation, and thus not used directly on UML diagrams,
+ but they are important for understanding of how UML is organized. 
+</p>
+
+
+<!--
+*****************
+     Element
+*****************
+-->
+
+<h2 id="element">Element</h2>
+
+<p>
+<strong>Element</strong> is the abstract <strong>root</strong> UML metaclass, it has no superclass in the hierarchy of UML elements.
+It is the superclass for all metaclasses in the <strong>UML</strong> infrastructure library.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/core-uml-element-overview.png" width="680" height="368" usemap="#map_element"
+ alt="Element is the common superclass for all metaclasses in the UML infrastructure library." 
+ title="Element is the common superclass for all metaclasses in the UML infrastructure library." />
+<map name="map_element" style="border:none">
+<area shape="rect" coords="404,2,496,48" href="uml-core.html#element" alt="element" />
+<area shape="rect" coords="145,119,236,164" href="uml-core.html#relationship" alt="relationship" />
+<area shape="rect" coords="404,118,495,164" href="uml-core.html#named-element" alt="named element" />
+<area shape="rect" coords="587,118,679,163" href="uml-core.html#comment" alt="comment" />
+<area shape="rect" coords="75,218,166,266" href="uml-core.html#directed-relationship" alt="directed relationship" />
+<area shape="rect" coords="213,220,305,265" href="association.html" alt="association" />
+<area shape="rect" coords="3,319,103,364" href="generalization.html" alt="generalization" />
+<area shape="rect" coords="137,318,242,365" href="dependency.html" alt="dependency" />
+<area shape="rect" coords="344,219,435,265" href="namespace.html" alt="namespace" />
+<area shape="rect" coords="480,219,572,265" href="uml-core.html#redefinable-element" alt="redefinable element" />
+<area shape="rect" coords="403,317,494,364" href="classifier.html" alt="classifier" />
+<area shape="rect" coords="551,317,641,364" href="uml-core.html#feature" alt="feature" />
+</map>
+<p class="figure-text">
+Some subclasses of UML Element 
+</p>
+</div>
+
+<p>
+There is no general notation for an element. The specific subclasses of element define their own notation.
+</p>
+
+
+<!--
+***************
+   Ownership
+***************
+-->
+
+<h3 id="ownership">Ownership</h3>
+
+<p>
+UML 2.x specifications use words "<strong>owns</strong>", "<strong>ownership</strong>", 
+ "<strong>contains</strong>", "<strong>container</strong>" all over the text without providing
+ proper explanation what those terms mean.
+ Here's my guess about the mysterious <strong>ownership</strong> relationship.
+</p>
+
+<p>
+Each UML <a href="uml-core.html#element" class="ref-link">element</a>
+ has a <a href="association.html#composition" class="ref-link">composition</a> relationship
+ to itself to support the capability for elements to <strong>own</strong> other elements.
+</p>
+
+<div class="figure-left-240">
+<img src="uml-core/element-ownership.png" width="400" height="190"
+ alt="Each UML element has composition to itself - could own other elements." 
+ title="Each UML element has composition to itself - could own other elements." />
+<p class="figure-text">
+Each UML element has composition to itself<br />
+ - it could <strong>own</strong> other elements.
+</p>
+</div>
+
+<p>
+Thus, each UML element could be an <strong>owner</strong> of other elements as defined by 
+ <a href="association.html#composition" class="ref-link">composition</a> relationship - 
+ <strong>whole</strong>/<strong>part</strong> binary relationship which requires each part to be included in at most one composite (whole) at a time,
+ and if a composite (whole) is deleted, all of its composite parts are also deleted.
+ (UML also allows in some cases for the part be removed from a composite before the composite is deleted,
+ and thus not be deleted as part of the composite.)
+</p>
+
+<p>
+Note, that any UML element may not directly or indirectly own itself.
+</p>
+
+<p>
+When UML specification defines a
+ <a href="namespace.html" class="ref-link">namespace</a>, it says in one place
+ that the namespace "<span class="citation"><strong>contains</strong> a set of named elements</span>"
+ while in the other - that it "<span class="citation">can <strong>own</strong> other named elements</span>".
+ From that we can draw a conclusion that - at least for the namespaces - <strong>ownership</strong>
+ and <strong>containment</strong> are close to be synonyms
+ (but most likely element that is contained is not necessarily owned).
+</p>
+
+
+<!--
+*******************
+   Named Element
+*******************
+-->
+
+<h2 id="named-element">Named Element</h2>
+
+<p>
+<strong>Named element</strong> is an 
+ abstract  <a href="uml-core.html#element" class="ref-link">element</a>
+ that may have a <strong>name</strong>. The name is used for identification of the named element within the
+ <a href="namespace.html" class="ref-link">namespaces</a>
+ in which it is defined or accessible.
+</p>
+
+<p> 
+UML specification allows <strong>named element</strong> to be <strong>anonymous</strong>,
+ i.e. to have <strong>no name</strong>. Also, the absence of the name is considered to be different
+ from the element having <strong>empty name</strong>.
+</p>
+
+<p>
+A named element could also have a <strong>qualified name</strong> that allows it to be
+unambiguously identified within a hierarchy of
+ nested <a href="namespace.html" class="ref-link">namespaces</a>.
+<strong>Qualified name</strong> is constructed from the names of the containing namespaces
+ starting at the root of the hierarchy and ending with the name of the named element itself and
+ separated by "::".
+If element has no name or one of the containing namespaces has no name, then element has no qualified name. 
+</p>
+
+<p>
+Named element could have a
+ <a href="visibility.html" class="ref-link">visibility</a>.
+Visibility defines namespaces where the named element is visible or accessible.
+If a named element is not owned by any namespace, then it does not have a visibility.
+</p>
+
+<p>
+Some subclasses of the <strong>named element</strong> are:
+</p>
+<ul>
+<li><a href="namespace.html" class="ref-link">namespace</a></li>
+<li><a href="uml-core.html#redefinable-element" class="ref-link">redefinable element</a></li>
+<li><a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a></li>
+<li><a href="activity-diagrams-actions.html" class="ref-link">action</a></li>
+</ul>
+
+
+<!--
+********************
+ Redefinable Element
+*********************
+-->
+
+<h2 id="redefinable-element">Redefinable Element</h2>
+
+<p>
+A <strong>redefinable element</strong> is an abstract
+ <a href="uml-core.html#named-element" class="ref-link">named element</a> that,
+ when defined in the context of 
+ <a href="generalization.html" class="ref-link">generalization</a>
+ of a <a href="classifier.html" class="ref-link">classifier</a>,
+ can be redefined more specifically or differently in the context of another classifier
+ that specializes (directly or indirectly) the context classifier.
+</p>
+
+<p>
+The redefining element must be consistent or compatible with the element it redefines.
+A redefinable element may be redefined multiple times. Also, one redefining element may redefine multiple
+inherited redefinable elements.
+</p>
+
+<p>
+UML provides no notation for a redefinable element.
+Specific subclasses of the redefinable element define their own notation.
+</p>
+
+<p>
+Redefinable element has boolean attribute <strong>isLeaf</strong> which indicates
+ whether it is possible to redefine the element in subclasses.
+ If the value is <strong>true</strong>, then it is <strong>not possible</strong> to further redefine the element.
+ In Java language it corresponds to the <strong>final</strong> class, in C# - to the <strong>sealed</strong> class.
+</p>
+
+<p>
+In previous versions of UML, a <strong>leaf class</strong> was shown with the property "<strong>{leaf}</strong>"
+ below the class name.
+ (The presence of a keyword for a Boolean type without a value implies the value <strong>true</strong>.)
+</p>
+
+<p>
+In UML 2.3 the metaattribute isLeaf has been replaced by isLeaf property of redefinable element
+ but the specification provides no notation for the elements having this property as true.
+</p>
+
+<p>
+Some subclasses of <strong>redefinable element</strong> are:
+</p>
+<ul>
+<li><a href="classifier.html" class="ref-link">classifier</a></li>
+<li><a href="uml-core.html#feature" class="ref-link">feature</a></li>
+<li><a href="use-case-extend.html#extension-point" class="ref-link">extension point</a></li>
+</ul>
+
+
+<!--
+**********
+  Type
+**********
+-->
+
+<h2 id="type">Type</h2>
+
+<p>
+<strong>Type</strong> is an abstract UML metaclass which represents a set of values and
+ is used as a constraint on the range of values represented by associated <strong>typed element</strong>.
+ A typed element that has this type is constrained to represent values within the set of values. 
+ A typed element with no associated type may represent values of any type.
+</p>
+
+<div class="figure-left-120">
+<img src="uml-core/type.png" width="444" height="382" 
+ alt="Type is UML metaclass used as a constraint on the range of values represented by associated typed element." 
+ title="Type is UML metaclass used as a constraint on the range of values represented by associated typed element." />
+<p class="figure-text">
+Type is UML metaclass used as a constraint on the range of values<br />
+ represented by associated typed element.
+</p>
+</div>
+
+<p>
+Both type and typed element are abstract UML metaclasses and have no notation.
+</p>
+
+<!--
+*************
+   Feature
+*************
+-->
+ 
+<h2 id="feature">Feature</h2>
+
+<p>
+<strong>Feature</strong> represents a
+ <a href="uml-core.html#structural-feature" class="ref-link">structural</a>
+ or <a href="uml-core.html#behavioral-feature" class="ref-link">behavioral</a>
+ characteristic of a 
+ <a href="classifier.html" class="ref-link">classifier</a>
+ or of instances of classifiers.
+</p>
+
+<div class="figure-left-240">
+<img src="uml-core/class-feature-overview.png" width="400" height="278"
+ alt="UML classifier feature overview diagram." 
+ title="UML classifier feature overview diagram." />
+<p class="figure-text">
+Feature overview diagram
+</p>
+</div>
+
+<p>
+Feature could be either <strong>non static feature</strong> or <strong>static feature</strong>.
+ The same feature cannot be static in one context and non static in another.
+</p>
+
+<p>
+<strong>Features</strong> of a class are <strong>attributes</strong> (structural features)
+ and <strong>operations</strong> (behavioral features).
+</p>
+
+
+<p>
+Features have no general notation. Subclasses define their specific notation.
+</p>
+
+<p>
+An ellipsis (...) as the final element of a list of features indicates that additional features exist but
+ are <strong>not shown</strong> in that list.
+</p>
+
+
+<h3 id="non-static-feature">Non Static Feature</h3>
+
+<p>
+<strong>Non static feature</strong> characterizes individual instances of classifier.
+</p>
+
+<h3 id="static-feature">Static Feature</h3>
+
+<p>
+<strong>Static feature</strong> represents some characteristic of the classifier itself.
+</p>
+
+<p>
+Static feature could have one of two alternative semantics:
+</p>
+<ul type="circle">
+<li>different values for different featuring classifiers, or</li>
+<li>the same value for all featuring classifiers.</li>
+</ul>
+
+<p>
+Because of this, <strong>inheritance</strong> of values for static features is <strong>permitted</strong>
+ but <strong>not required</strong> by UML 2.
+</p>
+
+<p>
+Names of static features are <strong>underlined</strong>.
+</p>
+
+
+<!--
+*****************************
+     Structural Feature
+*****************************
+-->
+
+<h3 id="structural-feature">Structural Feature</h3>
+
+<p>
+A <strong>structural feature</strong> is a typed feature of a classifier that specifies the structure
+ of instances of the classifier, it specifies that instances of the featuring classifier have 
+ a <a href="property.html#slot" class="ref-link">slot</a>
+ whose value or values are of a specified type.
+</p>
+
+<p>
+ A <a href="property.html" class="ref-link">property</a>
+ is an example of <strong>structural feature</strong>.
+</p>
+
+<p>
+Structural feature supports
+ <a href="multiplicity.html" class="ref-link">multiplicity</a>
+ that specifies valid cardinalities for the collection of values associated with an instantiation
+ of the structural feature.
+</p>
+
+<p>
+Structural feature could be denoted as <strong>read only feature</strong>.
+A read only structural feature is shown using <strong>{readOnly}</strong> as part of the notation
+for the feature.
+</p>
+
+<p>
+Structural features are <strong>not</strong> read only by default, but at the same time UML specification
+ allows to suppress <strong>{readOnly}</strong> annotation on UML diagrams.
+ If <strong>{readOnly}</strong> was suppressed, it is not possible to determine 
+ whether static feature is read only or not from the diagram.
+</p>
+
+
+<!--
+**********************
+  Behavioral Feature
+**********************
+-->
+
+<h3 id="behavioral-feature">Behavioral Feature</h3>
+
+<p>
+A <strong>behavioral feature</strong> is a feature of a classifier that specifies an aspect of the
+ <a href="common-behaviors.html#behavior" class="ref-link">behavior</a>
+ of its instances.
+ A behavioral feature specifies that an instance of a classifier will respond to specific requests
+ by invoking behavior.
+</p>
+
+<p>
+An <a href="class-diagrams.html#operation" class="ref-link">operation</a>
+ is an example of <strong>behavioral feature</strong>. 
+</p>
+
+<p>
+The list of owned parameters describes the order, type, and direction of arguments that can be given when the
+behavioral feature is invoked or which are returned when the behavioral feature terminates.
+A behavioral feature may raise an exception during its invocation.
+</p>
+
+
+<!--
+************************
+ Instance Specification
+************************
+-->
+
+<h2 id="instance-specification-core">Instance and Instance Specification</h2>
+
+<p id="instance-core">
+<strong>Instance</strong> is some system entity, concrete manifestation (implementation) of an abstraction.
+Abstraction could be represented by one or more
+ <a href="classifier.html" class="ref-link">classifiers</a>
+ or no classifiers at all. We typically use/have instances of:
+</p>
+<ul>
+<li><a href="class-diagrams.html#class" class="ref-link">class</a> -&gt;
+<a href="class-diagrams.html#object-class" class="ref-link">objects</a></li>
+<li><a href="association.html" class="ref-link">association</a> -&gt;
+<a href="association.html#link" class="ref-link">links</a></li>
+<li><a href="component-diagrams.html#component" class="ref-link">component</a></li>
+<li><a href="deployment-diagrams.html#artifact" class="ref-link">artifact</a></li>
+<li><a href="deployment-diagrams.html#node" class="ref-link">node</a></li>
+<li><a href="use-case-actor.html" class="ref-link">actor</a></li>
+<li><a href="use-case.html" class="ref-link">use case</a></li>
+</ul>
+
+<p>
+When instance manifests some classifier, it is called instance of that classifier,
+ e.g. instance of the Customer class, Server node instance, instance of the Buy Ticket use case.
+In some cases, instances of classifiers have specific names.
+ For example, <a href="class-diagrams.html#object-class" class="ref-link">object</a>
+ is an instance of a
+ <a href="class-diagrams.html#class" class="ref-link">class</a> or
+ <a href="class-diagrams.html#interface" class="ref-link">interface</a>,
+ <a href="association.html#link" class="ref-link">link</a> is instance of an
+ <a href="association.html" class="ref-link">association</a>.
+</p>
+
+<p>
+Instance usually takes up some space or
+ memory  <a href="property.html#slot" class="ref-link">slots</a>
+ in the real or software world, and it could be in
+ some <a href="state-machine-diagrams.html#behavioral-state" class="ref-link">state</a>
+ as a result of applied <a href="class-diagrams.html#operation" class="ref-link">operation(s)</a>.
+</p>
+
+<p>
+An <strong>instance specification</strong> is UML
+ <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+ that represents some <a href="uml-core.html#instance-core" class="ref-link">instance</a>
+ in a modeled system.
+</p>
+
+<p>
+Instance specification is usually shown on <strong>instance level diagrams</strong> -
+ <strong>object diagrams</strong>,
+ <a href="composite-structure-diagrams.html" class="ref-link">composite structure diagrams</a>,
+ <a href="deployment-diagrams-overview.html#instance-level-deployment" class="ref-link">instance level deployment diagrams</a>,
+ on behavior diagrams - 
+ <a href="use-case-diagrams.html" class="ref-link">use case diagrams</a>,
+ <a href="uml-25-diagrams.html#interaction-diagram" class="ref-link">interaction diagrams</a>, and
+ <a href="activity-diagrams.html" class="ref-link">activity diagrams</a>.
+</p>
+
+<p>
+<strong>Instance specification</strong> describes instance with appropriate degree of details,
+ either partially or completely. The description may include:
+</p>
+<ul>
+<li>
+Type of the entity, specified by none, one or more classifiers of which the entity is an instance.
+</li>
+<li>
+Definition of values of
+ <a href="uml-core.html#structural-feature" class="ref-link">structural features</a>
+ of the entity.
+</li>
+<li>
+Specification of how to construct, derive, or compute the instance.
+</li>
+</ul>
+
+<p>
+Not all structural features of all classifiers of the instance
+ specification need be represented by
+ <a href="property.html#slot" class="ref-link">slots</a>,
+ in which case the instance specification is a partial description.
+</p>
+
+<p>
+Instance could have a <strong>name</strong> or be <strong>anonymous</strong> when name is not important.
+ Instance name allows to distinguish the instance from other instances within
+ the same naming <strong>context</strong> (scope).
+</p>
+
+<p>
+UML 2.4 provides neither syntax BNF rules nor even verbal rules for instance names.
+ There are as well just a few examples.
+ It is common for the name to be a short noun or noun phrase, a sequence of letters, digits,
+ and some punctuation marks (e.g. colon is usually excluded). 
+ I made up some BNF below, because there are some other things to keep in mind.
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">instance-specification-name</span>&nbsp;::=&nbsp;
+[<span class="nonterm">labels</span>]&nbsp;
+[<span class="nonterm">instance-name</span>]&nbsp;':'&nbsp;[<span class="nonterm">composite-type-names</span>]
+<br />
+<span class="nonterm">labels</span>&nbsp;::=&nbsp;
+'«'&nbsp;<span class="nonterm">label</span>&nbsp;[&nbsp;','&nbsp;<span class="nonterm">label</span>&nbsp;]*&nbsp;'»'
+<br />
+<span class="nonterm">label</span>&nbsp;::=&nbsp;
+<span class="nonterm">keyword</span>&nbsp;|&nbsp;<span class="nonterm">stereotype</span>
+<br />
+<span class="nonterm">instance-name</span>&nbsp;::=&nbsp;<span class="nonterm">identifier</span>
+<br />
+<span class="nonterm">composite-type-names</span>&nbsp;::=&nbsp;
+<span class="nonterm">composite-type-name</span>&nbsp;[&nbsp;','&nbsp;<span class="nonterm">composite-type-name</span>&nbsp;]*
+<br />
+<span class="nonterm">composite-type-name</span>&nbsp;::=&nbsp;
+<span class="nonterm">namespace</span>&nbsp;[&nbsp;'::'&nbsp;<span class="nonterm">namespace</span>&nbsp;]*  
+<br />
+<span class="nonterm">namespace</span>&nbsp;::=&nbsp;<span class="nonterm">identifier</span>
+</p>
+
+<p>
+An instance specification uses the same notation as classifier. Name is shown as
+an <u>underlined</u> concatenation of the instance name (if any), a colon (':') and classifier name(s).
+Note, that the BNF above makes ':' in instance specification name required, which is not necessarily true.
+In some cases, when it is obvious that diagram shows an instance, it is allowed not to use underlining.
+</p>
+
+<p>
+Names are optional both for instance specifications and for UML classifiers. 
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-anonymous.png" width="117" height="64" 
+ alt="Class instance (object) could have no name - anonymous." 
+ title="Class instance (object) could have no name - anonymous." />
+<p class="figure-text">
+Anonymous instance of the Customer class.
+</p>
+</div>
+
+<p>
+In some cases, classifier of the instance is unknown or not specified.
+ When instance name is also not provided, the notation for such an anonymous instance
+ of an unnamed classifier is simply underlined colon - <u>:</u>.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-named-orphan.png" width="117" height="64" 
+ alt="Class instance (object) could have no associated classifier." 
+ title="Class instance (object) could have no associated classifier." />
+<p class="figure-text">
+Instance newPatient of the unnamed or unknown class.
+</p>
+</div>
+
+<p>
+Instance could have stereotype, instance name, and classifier specified.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-named-interface.png" width="117" height="64" 
+ alt="Interface instance (object) could have both name and associated classifier." 
+ title="Interface instance (object) could have both name and associated classifier." />
+<p class="figure-text">
+Instance checkAcct of the Account interface.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="uml-core/device-instance-stereotype.png" width="165" height="113" 
+ alt="Instance could have stereotype, instance name, and classifier specified." 
+ title="Instance could have stereotype, instance name, and classifier specified." />
+<p class="figure-text">
+Instance app-srv-37 of the Sun Fire X4150 Server stereotyped as device.
+</p>
+</div>
+
+<p>
+Instance could have instance name, classifier and namespace (package) specified, all optional.
+ The convention for showing multiple classifiers is to separate their names by commas.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-named-namespace.png" width="145" height="70" 
+ alt="Class instance (object) could have a name, class and namespace (package) specified." 
+ title="Class instance (object) could have a name, class and namespace (package) specified." />
+<p class="figure-text">
+Instance front-facing-cam of the Camera class<br />from android.hardware package.
+</p>
+</div>
+
+<p>
+If an instance has some value, the value specification is shown either after an equal sign ('=')
+ following the instance name, or without the equal sign below the name.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-named-value.png" width="145" height="69"
+ alt="Instance value is shown either after an equal sign or below the instance name." 
+ title="Instance value is shown either after an equal sign or below the instance name." />
+<p class="figure-text">
+Instance orderPaid of the Date class<br />has value July 31, 2011 3:00 pm.
+</p>
+</div>
+
+<p>
+<a href="property.html#slot" class="ref-link">Slots</a>
+ are shown as
+ <a href="uml-core.html#structural-feature" class="ref-link">structural features</a>
+ with the feature name followed by an equal sign ('=') and a value specification.
+ Type (classifier) of the feature could be also shown.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/object-named-slots-value.png" width="180" height="106" 
+ alt="Slots are shown with the feature name followed by an equal sign and a value." 
+ title="Slots are shown with the feature name followed by an equal sign and a value." />
+<p class="figure-text">
+Instance newPatient of the Patient class<br />has slots with values specified.
+</p>
+</div>
+
+
+<!--
+**************
+ Relationship
+**************
+-->
+
+<h2 id="relationship">Relationship</h2>
+
+<p>
+<strong>Relationship</strong> is 
+ an abstract <a href="uml-core.html#element" class="ref-link">element</a>
+ which represents a concept of some kind of relationship between UML elements.
+</p>
+
+<p>
+A relationship references one or more related elements.
+</p>
+
+<p>
+There is no general notation for a <strong>relationship</strong>.
+ In most cases the notation is some kind of a line connecting related elements.
+ Specific subclasses of the relationship define their own notation.
+</p>
+
+<p>
+Subclasses of <strong>relationship</strong> are:
+</p>
+<ul>
+<li><a href="association.html" class="ref-link">association</a>,</li>
+<li><a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>.</li>
+</ul>
+
+
+<!--
+*************************
+  Semantic Relationship
+*************************
+-->
+
+<h3 id="semantic-relationship">Semantic Relationship?</h3>
+
+<p>
+Though UML specifications (UML 1.3 to UML 2.4) use term <strong>semantic relationship</strong> in few places,
+they provide neither definition nor explanation of the term. There is no glossary in UML specifications
+since UML 2.0, so we may only guess meaning of many fancy terms UML specifications use.
+</p>
+
+<p>
+<strong>UML 1.x</strong> categorized 
+ <a href="association.html" class="ref-link">association</a>,
+ <a href="constraint.html" class="ref-link">constraint</a>
+ and <a href="dependency.html" class="ref-link">dependency</a>
+ as a <strong>semantic relationship</strong>.
+ <strong>UML User Guide</strong> book at about the same time defined 
+ <a href="association.html" class="ref-link">association</a>
+ as a <strong>structural relationship</strong>.
+</p>
+
+<p>
+Since UML 2.0, only
+ <a href="association.html" class="ref-link">association</a>
+ is still categorized as <strong>semantic relationship</strong> by UML specification, while
+ <a href="constraint.html" class="ref-link">constraint</a>
+ became <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+ and <a href="dependency.html" class="ref-link">dependency</a> 
+ is now <strong>supplier/client</strong> relationship.
+ IBM/Rational website defines association as both <strong>structural</strong> and <strong>semantic</strong>
+ relationship where "semantic" means that there could be "connections among ... instances" and
+ "structural" - that "objects of one thing are connected to objects of another thing".
+ Try to find a difference, assuming objects and instances are synonyms!
+</p>
+
+<p>
+My gut feeling tells me that <strong>structural relationship</strong> is relationship between whole and a part
+or possibly beween parts of the same whole, as for example, engine is structurally related to the car.
+I don't think that connected instances are necessarily structurally related. My wireless mouse has a link
+ to my computer but it is not structural part of that computer.
+On the other hand, <strong>structural relationship</strong> could mean simply
+ a relationship used on the <a href="uml-25-diagrams.html#structure-diagram" class="ref-link">structure diagram</a>.
+</p>
+
+<p>
+I could guess that <strong>semantic relationship</strong> is a relationship where there is some
+nonmaterial association or link (in common sense) between objects, without having any physical links
+- as a car could be semantically related to car company producing it or a player to the team he plays for -
+but we'll need to wait on UML authors either to stop using decorative words irresponsibly or
+ to explain themselves properly.
+</p>
+
+
+<!--
+*************************
+  Directed Relationship
+*************************
+-->
+
+<h2 id="directed-relationship">Directed Relationship</h2>
+
+<p>
+A <strong>directed relationship</strong> is
+ an abstract <a href="uml-core.html#relationship" class="ref-link">relationship</a>
+ between a collection of <strong>source</strong> elements and a collection of <strong>target</strong> elements.
+</p>
+
+<p>
+There is no general notation for a directed relationship.
+In most cases the notation is some kind of line drawn from the source(s) to the target(s).
+Specific subclasses of the directed relationship define their own notation.
+</p>
+
+<p>
+Subclasses of the <strong>directed relationship</strong> are:
+</p>
+<ul>
+<li><a href="generalization.html" class="ref-link">generalization</a>,</li>
+<li><a href="dependency.html" class="ref-link">dependency</a>,</li>
+<li><a href="use-case-include.html" class="ref-link">include</a> (from use cases),</li>
+<li><a href="use-case-extend.html" class="ref-link">extend</a> (from use cases),</li>
+<li><a href="template.html#template-binding" class="ref-link">template binding</a>.</li>
+</ul>
+
+
+<!--
+***************
+    Comment
+***************
+-->
+
+<h2 id="comment">Comment</h2>
+
+<p>
+A <strong>comment</strong> (aka <strong>note</strong>) is
+ an <a href="uml-core.html#element" class="ref-link">element</a>
+ which represents a textual annotation (remark, comment) that can be attached to another element
+ or a set of elements.
+ A comment adds no semantics to the elements, but it may contain some information 
+ that is useful to a modeler or to a reader of UML diagram
+ and which usually can't be expressed with other UML elements.
+</p>
+
+<p>
+A comment can be <strong>owned</strong> by any element.
+</p>
+
+<p>
+A comment is shown as a rectangle with the upper right corner bent - "note symbol".
+ The rectangle contains the body of the comment.
+ Comment is connected to each annotated element by a dashed line.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/core-comment-note.png" width="320" height="135"
+ alt="Comment explaining clinical document and its relationship to patient." 
+ title="Comment explaining clinical document and its relationship to patient." />
+<p class="figure-text">
+Comment explaining clinical document and its relationship to patient
+</p>
+</div>
+
+<p>
+The dashed line connecting the comment to the annotated element(s) may be suppressed
+ if it is clear from the context, or not important in the diagram.
+</p>
+
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="uml-core.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/uml-core.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

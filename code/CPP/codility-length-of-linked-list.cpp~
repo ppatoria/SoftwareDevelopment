@@ -1,0 +1,40 @@
+#include <iostream>
+#include <memory>
+
+class MyLinkedList
+{
+public:
+  int data;
+  std::unique_ptr<MyLinkedList> next;
+};
+
+std::unique_ptr<MyLinkedList> CreateList( int length )
+{
+  auto head = std::unique_ptr<MyLinkedList>();
+  head->data = 0;
+  head->next = nullptr;
+  for( i=1; i< length ; i++ )
+    {
+      auto node = std::unique_ptr<MyLinkedList>();
+      node.data = i;
+      node.next = nullptr;
+      head->next = std::move(node);
+    }
+}
+
+int solution( const MyLinkedList& list )
+{
+  int counter = 0;
+  while( list.next )
+    {
+      counter = counter + 1;
+    }
+  return counter;
+}
+
+int main()
+{
+  auto list = CreateList( 4 );
+  std::cout << "Result: " << solution( list ) << std::endl;
+  return 0;
+}

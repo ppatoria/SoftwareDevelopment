@@ -1,0 +1,1046 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
+<HEAD>
+<link rel="stylesheet" 
+      href="styles/default.css">
+<script src="highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- <link rel="stylesheet"  -->
+<!--       href="http://yandex.st/highlightjs/7.3/styles/default.min.css"> -->
+<!-- <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script> -->
+
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<A name=1></a> <br><b>Chapter 13: Functors<br>_________________________________________________________________________________________________________</b><br>
+Consider a simple task.   Suppose you have a  vector&lt;string&gt;  and you'd like to count the number of <br>strings that have length less than five.  You stumble upon the STL count_if algorithm, which accepts a <br>range of iterators and a predicate function, then returns the number of elements in the range for which the <br>function returns true.   For example, you could use count_if as follows to count the number of even in-<br>
+tegers in a vector:<br>
+    bool IsEven(int val) {<br>
+        return val % 2 == 0;<br>    }<br>
+    vector&lt;int&gt; myVector = /* ... */<br>
+    int numEvens = count_if(myVector.begin(), myVector.end(), IsEven);<br>
+In our case, since we want to count the number of strings with length less than five, we could write a func-<br>tion like this one:<br>
+    bool LengthIsLessThanFive(const string&amp; str) {<br>
+        return str.length() &lt; 5;<br>    }<br>
+And then call count_if(myVector.begin(), myVector.end(), LengthIsLessThanFive) to get the <br>number of short strings in the vector.  Similarly, if we want to count the number of strings with length <br>
+less than ten, we could write a LengthIsLessThanTen function like this one:<br>
+    bool LengthIsLessThanTen(const string&amp; str) {<br>
+        return str.length() &lt; 10;<br>    }<br>
+and then call count_if(myVector.begin(), myVector.end(), LengthIsLessThanTen).  In general, <br>if we know in advance what length we want to compare the string lengths against, we can write a function <br>that returns whether a particular string's length is less than that value, then pass it into  count_if to get <br>
+our result.  This approach is legal C++, but is not particularly elegant.  Every time we want to compare the  <br>string length against a particular value, we have to write an entirely new function to perform the compar-<br>ison.  Good programming practice suggests that we should instead just write <i>one</i> function that looks like <br>this:<br>
+    bool LengthIsLessThan(const string&amp; str<b>,</b> size_t length) {<br>        return str.length() &lt; length;<br>
+    }<br>
+This more generic function takes in a string and a length, then returns whether the string's length is less <br>than the requested length.  This way, we can specify the maximum length as the second parameter rather <br>than writing multiple instances of similar functions.<br>
+While this new function is more generic than the previous version, unfortunately we can't use it in con-<br>junction with count_if.  count_if requires a <i>unary</i> function (a function taking only one argument) as its <br>
+final parameter, and the new LengthIsLessThan is a <i>binary</i> function.  Our new LengthIsLessThan func-<br>tion, while more generic than the original version, is actually <i>less useful</i> in this context.  There must be <br>some way to compromise between the two approaches.  We need a way to construct a function that takes <br>
+<hr>
+<A name=2></a>- 382 -<br>
+<i> Chapter 13: Functors</i><br>
+in only one parameter (the string to test), but which can be customized to accept an arbitrary maximum <br>length.  How can we do this? <br>
+This problem boils down to a question of data flow.  To construct this hybrid function, we need to some-<br>how communicate the upper bound into the function so that it can perform the comparison.  So how can <br>we give this data to the function?  Recall that a function has access the following information:<br>
+·<br>
+Its local variables.<br>
+·<br>
+Its parameters.<br>
+·<br>
+Global variables.<br>
+Is there some way that we can store the maximum length of the string in one of these locations?  We can't  <br>store it in a local variable, since local variables don't persist between function calls and aren't accessible to  <br>callers.  As mentioned above, we also can't store it in a parameter, since count_if is hardcoded to accept a <br>
+unary function.  That leaves global variables.  We <i>could</i> solve this problem using global variables: we would <br>store the maximum length in a global variable, then compare the string parameter length against the glob-<br>al.  For example:<br>
+    size_t gMaxLength<b>; </b>// Value to compare against<br>
+    bool LengthIsLessThan(const string&amp; str) {<br>        return str.length() &lt; gMaxLength;<br>
+    }<br>
+This approach works: if our vector&lt;string&gt; is called v, then we can count the number of elements less <br>
+than some value by writing<br>
+    gMaxLength = /* ... some value ... */<br>    int numShort = count_if(v.begin(), v.end(), LengthIsLessThan);<br>
+But just because this approach works does not mean that it is optimal.  This approach is deeply flawed for <br>several reasons, a handful of which are listed here:<br>
+·<br>
+<b>It is error-prone</b>.  Before we use LengthIsLessThan, we must take care to set gMaxLength<b> </b>to <br>the maximum desired length.  If we forget to do so, then LengthIsLessThan will use the wrong <br>
+value in the comparison and we will get the wrong answer.  Moreover, because there is no formal <br>relationship between the gMaxLength variable and the LengthIsLessThan function, the compiler <br>can't verify that we correctly set gMaxLength before calling LengthIsLessThan, putting an extra <br>
+burden on the programmer<br>
+·<br>
+<b>It is not scalable</b>.  If every time we encounter a problem like this one we create a new global vari -<br>able, programs we write will begin to fill up with global variables that are used only in the context <br>of a single function.  This leads to <i>namespace pollution</i>, where too many variables are in scope and <br>it is easy to accidentally use one when another is expected.<br>
+·<br>
+<b>It uses global variables</b>.   Any use of global variables should send a shiver running down your <br>spine.  Global variables should be avoided at all costs, and the fact that we're using them here sug-<br>gests that something is wrong with this setup.<br>
+None of the options we've considered are feasible or attractive.  There has to be a better way to solve this, <br>but how?<br>
+<hr>
+<A name=3></a><i>Chapter 13: Functors</i><br>
+- 383 -<br>
+<b>Functors to the Rescue</b><br>
+The fundamental issue at heart here is that a unary function does not have access to enough information <br>to answer the question we're asking.  Essentially, we want a unary function to act like a binary function <br>without taking an extra parameter.  Using only the tools we've seen so far, this simply isn't possible.  To <br>solve this problem, we'll turn to a more powerful C++ entity: a <i>functor</i>.  A functor (or <i>function object</i>) is an <br>C++ class that acts like a function.  Functors can be called using the familiar function call syntax, and can <br>yield values and accept parameters just like regular functions.  For example, suppose we create a functor <br>class called MyClass imitating a function accepting an int and returning a double.  Then we could "call" <br>
+an object of type MyClass as follows:<br>
+    MyClass myFunctor;<br>
+    cout &lt;&lt; myFunctor(137) &lt;&lt; endl; // &quot;Call&quot; myFunctor with parameter 137<br>
+Although myFunctor is an object, in the second line of code we treat it as though it were a function by in-<br>
+voking it with the parameter 137.<br>
+At this point, functors might seem utterly baffling: why would you ever want to create an object that be-<br>haves like a function?  Don't worry, we'll answer that question in a short while.  In the meantime, we'll dis -<br>cuss the syntax for functors and give a few motivating examples.<br>
+To create a functor, we create an object that overloads the function call operator, operator ().  The name <br>of this function is a bit misleading ­ it is a function called operator (), not a function called operator <br>
+that takes no parameters.  Despite the fact that the name looks like "operator parentheses," we're not rede-<br>fining what it means to parenthesize the object.  Instead, we're defining a function that gets called if we in-<br>voke the object like a function.  Thus in the above code,<br>
+    cout &lt;&lt; myFunctor(137) &lt;&lt; endl;<br>
+is equivalent to<br>
+    cout &lt;&lt; myFunctor.operator()(137) &lt;&lt; endl;<br>
+Unlike other operators we've seen so far, when overloading the function call operator, you're free to return <br>an object of any type (or even void) and can accept any number of parameters.  Remember that the point <br>of operator overloading is to allow objects to act like built-in types, and since a regular function can have <br>arbitrarily many parameters and any return type, functors are allowed the same freedom.  For example, <br>here's a sample functor that overloads the function call operator to print out a string:<br>
+    class MyFunctor {<br>
+    public:<br>        void operator() (const string&amp; str) const {<br>
+            cout &lt;&lt; str &lt;&lt; endl;<br>        }<br>
+    };<br>
+Note that in the function definition there are two sets of parentheses.  The first group is for the function <br>name ­ operator ()<b> </b>­  and the second for the parameters to operator ().  If we separated the imple-<br>mentation of operator () from the class definition, it would look like this:<br>
+<hr>
+<A name=4></a>- 384 -<br>
+<i> Chapter 13: Functors</i><br>
+    class MyFunctor {<br>
+    public:<br>        void operator() (const string&amp; str) const;<br>
+    };<br>
+    void MyFunctor::operator() (const string&amp; str) const {<br>        cout &lt;&lt; str &lt;&lt; endl;<br>
+    }<br>
+Now that we've written MyFunctor, we can use it as follows:<br>
+    MyFunctor functor;<br>    functor(&quot;Functor power!&quot;);<br>
+This code calls the functor and prints out "Functor power!"<br>
+At this point functors might seem like little more than a curiosity.  "Sure," you might say, "I can make an ob -<br>ject that can be called like a function.  But what does it buy me?"  A lot more than you might initially sus -<br>pect, it turns out.  The key difference between a function and a functor is that a functor's function call op-<br>erator is a <i>member function</i> whereas a raw C++ function is a <i>free function</i>.  This means that a functor can <br>access the following information when being called:<br>
+·<br>
+Its local variables.<br>
+·<br>
+Its parameters.<br>
+·<br>
+Global variables.<br>
+·<br>
+<b>Class data members</b>.<br>
+This last point is extremely important and is the key difference between a regular function and a functor. <br>If a functor's operator() member function requires access to data beyond what can be communicated by <br>its   parameters,   we   can   store   that   information   as   a   data   member   inside   the   functor   class.     Since <br>operator() is a member of the functor class, it can then access that data freely.  For example, consider the  <br>
+following functor class:<br>
+    class StringAppender {<br>    public:<br>
+        /* Constructor takes and stores a string. */<br>        explicit StringAppender(const string&amp; str) : toAppend(str) {}<br>
+        /* operator() prints out a string, plus the stored suffix. */<br>
+        void operator() (const string&amp; str) const {<br>            cout &lt;&lt; str &lt;&lt; ' ' &lt;&lt; toAppend &lt;&lt; endl;<br>
+        }<br>
+    private:<br>        const string toAppend;<br>
+    };<br>    <br>
+This functor's constructor takes in a string and stores it for later use.  Its operator ()  function accepts a <br>string, then prints that string suffixed with the string stored by the constructor.   We can then use the  <br>StringAppender functor like this:<br>
+    StringAppender myFunctor(&quot;is awesome&quot;);<br>    myFunctor(&quot;C++&quot;);<br>
+<hr>
+<A name=5></a><i>Chapter 13: Functors</i><br>
+- 385 -<br>
+This code will print out "C++ is awesome," since the constructor stored the string "is awesome" and we <br>passed "C++" as a parameter to the function.  If you'll notice, though, in the actual function call we only <br>passed in one piece of information ­ the string "C++."  This is precisely why functors are so useful.  Like <br>regular functions, functors are invoked with a fixed number of parameters.  Unlike raw functions, however, <br>functors can be constructed to store as much information is necessary to solve the task at hand.<br>
+Let's return to the above example with count_if.  Somehow we need to provide a unary function that can <br>
+return whether a string is less than an arbitrary length.  To solve this problem, instead of writing a unary <br>function, we'll create a unary <i>functor</i> whose constructor stores the maximum length and whose operat-<br>or () accepts a string and returns whether it's of the correct length.  Here's one possible implementation:<br>
+    class ShorterThan {<br>
+    public:<br>        /* Accept and store an int parameter */<br>
+        explicit ShorterThan(size_t maxLength) : length(maxLength) {}<br>
+        /* Return whether the string length is less than the stored int. */<br>        bool operator() (const string&amp; str) const {<br>
+            return str.length() &lt; length;<br>        }<br>
+    private:<br>
+        const size_t length;<br>    };<br>
+In this code, the constructor accepts a single size_t, then stores it as the length data member.  From that <br>point forward, whenever the functor is invoked on a particular string, the functor's operator() function <br>
+can compare the length of that string against length data member. This is exactly what we want ­ a unary <br>function that knows what value to compare the parameter's length against.   To tie everything together, <br>here's the code we'd use to count the number of strings in the vector that are shorter than the specified <br>
+value:<br>
+    ShorterThan st(length);<br>    count_if(myVector.begin(), myVector.end(), st);<br>
+Functors are incredible when combined with STL algorithms for this very reason ­ they look and act like <br>regular functions, but have access to extra information.  This is just our first taste of functors, as we contin-<br>ue our exploration of C++ you will recognize exactly how much they will influence your program design.<br>
+Look back to the above code with count_if.  If you'll notice, we created a new ShorterThan<b> </b>object, then <br>
+fed it to count_if.  After the call to count_if, odds are we'll never use that particular ShorterThan ob-<br>ject again.  This is an excellent spot to use temporary objects, since we need a new ShorterThan for the <br>
+function call but don't plan on using it afterwards.  Thus, we can convert this code:<br>
+    ShorterThan st(length)<br>    count_if(myVector.begin(), myVector.end(), st);<br>
+Into this code:<br>
+    count_if(myVector.begin(), myVector.end(), ShorterThan(length));<br>
+Here, ShorterThan(length) constructs a temporary ShorterThan functor with parameter length, then <br>
+passes it to the count_if algorithm.  Don't get tripped up by the syntax ­ ShorterThan(length) does <br><i>not</i> call the ShorterThan's operator () function.  Instead, it invokes the ShorterThan constructor with <br>
+the parameter length to create a temporary object.  Even if we had written the operator() function to <br>
+<hr>
+<A name=6></a>- 386 -<br>
+<i> Chapter 13: Functors</i><br>
+take in an int, C++ would realize that the parentheses here means "construct an object" instead of "invoke <br>operator()" from context.<br>
+<b>Writing Functor-Compatible Code</b><br>
+In previous chapters, you've seen how to write code that accepts a function pointer as a parameter.  For ex-<br>ample, the  following code accepts a function that takes and returns a double, then prints a table of some <br>
+values of that function:<br>
+    const double kLowerBound = 0.0;<br>    const double kUpperBound = 1.0;<br>
+    const int    kNumSteps   = 25;<br>    const double kStepSize   = (kUpperBound ­ kLowerBound) / kNumSteps;<br>
+    void TabulateFunctionValues(double function(double)) {<br>
+        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>
+    }<br>
+For any function accepting and returning a  double, we can call  TabulateFunctionValues  with that <br>
+function as an argument.  But what about functors?  Can we pass them to TabulateFunctionValues as <br>well?  As an example, consider the following implementation of a Reciprocal functor, whose operator() <br>
+takes in a double and returns the reciprocal of that double:<br>
+    class Reciprocal {<br>
+    public:<br>        double operator() (double val) const {<br>
+            return 1.0 / val;<br>        }<br>
+    };<br>
+Given this class implementation, is the following code legal?<br>
+    TabulateFunctionValues(Reciprocal());<br>
+(Recall that Reciprocal() constructs a temporary Reciprocal object for use as the parameter to Tabu-<br>lateFunctionValues.)<br>
+At a high level, this code seems perfectly fine.  After all, Reciprocal objects can be called as though they <br>were unary functions taking and returning doubles, so it seems perfectly reasonable to pass a Reciproc-<br>al  into  TabulateFunctionValues.   But despite the similarities,  Reciprocal  is  <i>not</i>  a function ­ it's a <br>funct<i>or</i> ­ and so the above code will not compile.  The problem is that C++'s static type system prevents <br>function pointers from pointing to functors, even if the functor has the same parameter and return type as <br>the function pointer.  This is not without reason ­ the machine code for calling a function is very different <br>from machine code for calling a functor, and if C++ were to conflate the two it would result either in slower <br>function calls or undefined runtime behavior.<br>
+Given that this code doesn't compile, how can we fix it?  Let's begin with some observations, then general-<br>ize to the optimal solution.  The above code does not compile because we're trying to provide a  Recip-<br>rocal object to a function expecting a function pointer.  This suggests one option ­ could we rewrite the <br>TabulateFunctionValues function such that it accepts a Reciprocal as a parameter instead of a func-<br>
+tion pointer?  For example, we could write the following:<br>
+<hr>
+<A name=7></a><i>Chapter 13: Functors</i><br>
+- 387 -<br>
+    void TabulateFunctionValues(<b>Reciprocal function</b>) {<br>
+        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>
+    }<br>
+Now, if we call the function as<br>
+    TabulateFunctionValues(Reciprocal());<br>
+The code is perfectly legal because the argument has type Reciprocal and the TabulateFunctionVal-<br>ues function is specifically written to take in objects of type  Reciprocal.  But what if we have another <br>functor we want to use in TabulateFunctionValues?  For example, we might write a functor called Arc-<br>cos that computes the inverse cosine of its parameter, as seen here:<br>
+    class Arccos {<br>
+    public:<br>        double operator() (double val) const {<br>
+            return acos(val); // Using the acos function from &lt;cmath&gt;<br>        }<br>
+    };<br>
+Unfortunately, if we try to call TabulateFunctionValues passing in an Arccos object, as shown here:<br>
+    TabulateFunctionValues(Arccos());<br>
+we'll get yet  <i>another  </i>compile-time error, this time because the  TabulateFunctionValues  function is <br>
+hardcoded to accept a Reciprocal, but we've tried to provide it an object of type Arccos.  Again, if we re-<br>write TabulateFunctionValues to only accept objects of type Arccos, we could alleviate this problem. <br>
+Of course, in doing so, we would break all code that accepted objects of type Reciprocal.  How can we re-<br>solve this problem?   Fortunately, the answer is yes, thanks to a particularly ingenious trick.   Below are <br>three versions of TabulateFunctionValues, each of which take in a parameter of a different type:<br>
+    void TabulateFunctionValues(double function(double)) {<br>        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>
+            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>    }<br>
+    void TabulateFunctionValues(Reciprocal function) {<br>        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>
+            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>    }<br>
+    void TabulateFunctionValues(Arccos function) {<br>        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>
+            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>    }<br>
+Notice that the only difference between the three implementations of TabulateFunctionValues is the <br>type of the parameter to the function.  The rest of the code is identical.  This suggests a rather elegant solu -<br>tion using templates.  Instead of providing multiple different versions of TabulateFunctionValues, each <br>
+specialized for a particular type of function or functors, we'll write a single <i>template</i> version of Tabulate-<br>FunctionValues parameterized over the type of the argument.  This is shown here:<br>
+<hr>
+<A name=8></a>- 388 -<br>
+<i> Chapter 13: Functors</i><br>
+    template &lt;typename UnaryFunction&gt;<br>
+        void TabulateFunctionValues(UnaryFunction function) {<br>        for(double i = kLowerBound; i &lt;= kUpperBound; i += kStepSize)<br>
+            cout &lt;&lt; &quot;f(&quot; &lt;&lt; i &lt;&lt; &quot;) = &quot; &lt;&lt; function(i) &lt;&lt; endl;<br>    }<br>
+Now, we can pass any type of object to TabulateFunctionValues that we want, provided that the argu-<br>ment can be called with a single double as a parameter to produce a value.  This means that we can pass <br>
+in raw functions, Reciprocal objects, Arccos objects, and any other functor classes that happen to mimic <br>functions from  doubles to  doubles.   This hearkens back to our discussion of concepts in the previous <br>
+chapter.  By writing TabulateFunctionValues as a template function parameterized over an arbitrary <br>type, we let clients provide objects of whatever type they see fit, as long as it can be called as a function <br>taking a double and returning a double.<br>
+When writing functions that require a user-specified callback, you may want to consider parameterizing <br>the function over the type of the callback instead of using function pointers.  The resulting code will be  <br>more flexible and future generations of programmers will be much the better for your extra effort.<br>
+<b>STL Algorithms Revisited</b><br>
+Now that you're armed with the full power of C++ functors, let's revisit some of the STL algorithms we've <br>covered and discuss how to maximize their firepower.<br>
+The very first algorithm we covered was accumulate, defined in the &lt;numeric&gt; header.  If you'll recall, <br>accumulate sums up the elements in a range and returns the result.  For example, given a vector&lt;int&gt;, <br>
+the following code returns the sum of all of the vector's elements:<br>
+    accumulate(myVector.begin(), myVector.end(), 0);<br>
+The first two parameters should be self-explanatory, and the third parameter (zero) represents the initial <br>value of the sum.<br>
+However, this view of accumulate is limited, and to treat accumulate<b> </b>as simply a way to sum container <br>elements would be an error.  Rather, <i>accumulate is a general-purpose function for transforming a collec-</i><br>
+<i>tion of elements into a single value.</i><br>
+There is a second version of the accumulate<b> </b>algorithm that takes a binary function as a fourth parameter. <br>This version of accumulate is implemented like this:<br>
+    template &lt;typename InputIterator, typename Type, typename BinaryFn&gt; <br>    inline Type accumulate(InputIterator start,<br>
+                           InputIterator stop,<br>                           Type accumulator,<br>
+                           BinaryFn fn) {<br>       while(start != stop) {<br>
+          accumulator = fn(accumulator, *start);<br>          ++start;<br>
+       }<br>       return initial;<br>
+    }<br>
+This accumulate iterates over the elements of a container, calling the binary function on the accumulator <br>
+and the current element of the container and storing the result back in the accumulator.  In other words, <br>accumulate<b> </b>continuously updates the value of the accumulator based on its initial value and the values <br>
+<hr>
+<A name=9></a><i>Chapter 13: Functors</i><br>
+- 389 -<br>
+contained in the input range.  Finally, accumulate returns the accumulator.  Note that the version of ac-<br>cumulate we encountered earlier is actually a special case of the above version where the provided call-<br>back function computes the sum of its parameters.<br>
+To see accumulate<b> </b>in action, let's consider an example.  Recall that the STL algorithm lower_bound re-<br>
+turns an iterator to the first element in a range that compares greater than or equal to some value.  How -<br>ever, lower_bound requires the elements in the iterator range to be in sorted order, so if you have an un-<br>sorted vector,<b> </b>you cannot use lower_bound.  Let's write a function UnsortedLowerBound that accepts a <br>
+range of iterators and a lower bound, then returns the <i>value</i> of the least element in the range greater than <br>or equal to the lower bound.  For simplicity, let's assume we're working with a vector&lt;int&gt; so that we <br>don't get bogged down in template syntax, though this approach can easily be generalized.<br>
+Although this function can be implemented using loops, we can leverage off of accumulate to come up <br>
+with a considerably more concise solution.  Thus, we'll define a functor class to pass to accumulate, then <br>write UnsortedLowerBound as a wrapper call to accumulate with the proper parameters.<br>
+Consider the following functor:<br>
+    class LowerBoundHelper {<br>    public:<br>
+        explicit LowerBoundHelper(int lower) : lowestValue(lower) {}<br>        int operator() (int bestSoFar, int current) {<br>
+            return current &gt;= lowestValue &amp;&amp; current &lt; bestSoFar?<br>                   current : bestSoFar;<br>
+        }<br>
+    private:<br>        const int lowestValue;<br>
+    };<br>
+This functor's constructor accepts the value that we want to lower-bound.  Its operator () function ac-<br>
+cepts two ints, the first representing the lowest known value greater than lowestValue and the second <br>the current value.  If the value of the current element is greater than or equal to the lower bound and also <br>less than the best value so far, operator () returns the value of the current element.  Otherwise, it simply <br>
+returns the best value we've found so far.  Thus if we call this functor on every element in the vector and <br>keep track of the return value, we should end up with the lowest value in the vector greater than or equal <br>
+to the lower bound.  We can now write the UnsortedLowerBound function like this:<br>
+    int UnsortedLowerBound(const vector&lt;int&gt;&amp; input, int lowerBound) {<br>
+        return accumulate(input.begin(), input.end(),<br>                          numeric_limits&lt;int&gt;::max(),<br>
+                          LowerBoundHelper(lowerBound));<br>    }<br>
+Our entire function is simply a wrapped call to accumulate, passing a specially-constructed LowerBound-<br>Helper object as a parameter.  Note that we've used the value numeric_limits&lt;int&gt;::max() as the ini-<br>tial value for the accumulator.  numeric_limits, defined in the &lt;limits&gt; header, is a traits class that ex-<br>ports useful information about the bounds and behavior of numeric types, and its max static member func-<br>
+tion returns the maximum possible value for an element of the specified type.  We use this value as the ini -<br>tial value for the accumulator since any integer is less than it, so if the range contains no elements greater <br>than the lower bound we will get numeric_limits&lt;int&gt;::max() back as a sentinel.<br>
+If you need to transform a range of values into a single result (of any type you wish), use  accumulate.  To <br>
+transform a range of values into another range of values, use transform.  We discussed transform briefly <br>in the chapter on STL algorithms in the context of ConvertToUpperCase and ConvertToLowerCase, but <br>
+<hr>
+<A name=10></a>- 390 -<br>
+<i> Chapter 13: Functors</i><br>
+such examples are just the tip of the iceberg.   transform  is nothing short of a miracle function, and it <br>
+arises a whole host of circumstances.*<br>
+<b>Higher-Order Programming</b><br>
+This discussion of functors was initially motivated by counting the number of short strings inside of an <br>
+STL vector.  We demonstrated that by using count_if with a custom functor as the final parameter, we <br>were able to write code that counted the number of elements in a vector&lt;string&gt; whose length was less <br>
+than a certain value.  But while this code solved the problem efficiently, we ended up writing so much code <br>that any potential benefits of the STL algorithms were dwarfed by the time spent writing the functor.  For  <br>reference, here was the code we used:<br>
+    class ShorterThan {<br>
+    public:<br>        explicit ShorterThan(size_t maxLength) : length(maxLength) {}<br>
+        bool operator() (const string&amp; str) const {<br>            return str.length() &lt; length;<br>
+        }<br>
+    private:<br>        size_t length;<br>
+    };<br>
+    const size_t myValue = GetInteger();<br>    count_if(myVector.begin(), myVector.end(), ShorterThan(myValue));<br>
+Consider the following code which also solves the problem, but by using a simple for loop:<br>
+    const int myValue = GetInteger();<br>
+    int total = 0;<br>    for(int i = 0; i &lt; myVector.size(); ++i)<br>
+        if(myVector[i].length() &lt; myValue) ++total;<br>
+This code is considerably more readable than the functor version and is approximately a third as long.  By  <br>almost any metric, this code is superior to the earlier version.<br>
+If you'll recall, we were motivated to write this  ShorterThan  functor because we were unable to use <br>count_if in conjunction with a traditional C++ function.  Because count_if accepts as a parameter a un-<br>ary function, we could not write a C++ function that could accept both the current container element and <br>the value to compare its length against.  However, we did note that were count_if to accept a binary func-<br>
+tion and extra client data, then we could have written a simple C++ function like this one:<br>
+    bool LengthIsLessThan(const string&amp; str, int threshold) {<br>        return str.length() &lt; threshold;<br>
+    }<br>
+And then passed it in, along with the cutoff length, to the count_if function.<br>
+The fundamental problem is that the STL count_if<b> </b>algorithm requires a single-parameter function, but <br>the function we want to use requires two pieces of data.  We want the STL algorithms to use our two-para-<br>meter function LengthIsLessThan, but with the second parameter always having the same value.  What if <br>
+* Those of you familiar with functional programming might recognize  accumulate  and  transform  as the classic <br>
+higher-order functions Map and Reduce.<br>
+<hr>
+<A name=11></a><i>Chapter 13: Functors</i><br>
+- 391 -<br>
+somehow we could modify  LengthIsLessThan  by "locking in" the second parameter?  In other words, <br>
+we'd like to take a function that looks like this:<br>
+<b>bool LengthIsLessThan</b><br>
+string str <br>
+<i><b>(parameter)</b></i><br>
+<b> </b><br>
+int length<br>
+<i><b>(parameter)</b></i><br>
+And transform it into another function that looks like this:<br>
+<b>Modified LengthIsLessThan</b><br>
+string str <br>
+<i><b>(parameter)</b></i><br>
+<b> </b><br>
+int length<br>
+<b>5</b><br>
+Now, if we call this special version of LengthIsLessThan with a single parameter (call it str),<b> </b>it would be <br>as though we had called the initial version of LengthIsLessThan, passing as parameters the value of str <br>
+and the stored value 5.  This then returns whether the length of the str<b> </b>string is less than 5.  Essentially, <br>by binding the second parameter of the two-parameter LengthIsLessThan function, we end up with a <br>
+one-parameter function that describes exactly the predicate function we want to provide to  count_if. <br>Thus, at a high level, the code we want to be able to write should look like this:<br>
+    count_if(v.begin(), v.end(),<br><i>    </i>     <i>    the function formed by locking 5 as the second parameter of LengthIsLessThan);</i><br>
+This sort of programming, where functions can be created and modified just like regular objects, is known <br>as <i>higher-order programming</i>.  While by default C++ does not support higher-order programming, using <br>functors and the STL functional programming libraries, in many cases it is possible to write higher-order <br>code in C++.  In the remainder of this chapter, we'll explore the STL functional programming libraries and <br>see how to use higher-order programming to supercharge STL algorithms.<br>
+<b>Adaptable Functions</b><br>
+To   provide   higher-order   programming   support,   standard   C++   provides   the  &lt;functional&gt;  library. <br>&lt;functional&gt;  exports several useful functions that can transform and modify functions on-the-fly to <br>
+yield new functions more suitable to the task at hand.  However, because of several language limitations, <br>the  &lt;functional&gt;  library can only modify specially constructed functions called "adaptable functions," <br>funct<i>ors</i> (not regular C++ functions) that export information about their parameter and return types.  For-<br>tunately, any one- or two-parameter function can easily be converted into an equivalent adaptable func-<br>tion.   For example, suppose you want to make an adaptable function called  MyFunction  that takes a <br>string by reference-to-const as a parameter and returns a bool, as shown below:<br>
+<hr>
+<A name=12></a>- 392 -<br>
+<i> Chapter 13: Functors</i><br>
+    class MyFunction {<br>
+    public:<br>        bool operator() (const string&amp; str) const {<br>
+            /* Function that manipulates a string */<br>        }<br>
+    };<br>
+Now, to make this function an adaptable function, we need to specify some additional information about <br>the parameter and return types of this functor's operator () function.  To assist in this process, the func-<br>
+tional library defines a helper template class called unary_function, which is prototyped below:<br>
+    template &lt;typename ParameterType, typename ReturnType&gt;<br>
+       class unary_function;<br>
+The first template argument represents the type of the parameter to the function; the second, the func-<br>tion's return type.<br>
+Unlike the other classes you have seen before, the unary_function class contains no data members and <br>no member functions.  Instead, it performs some behind-the-scenes magic with the typedef keyword to <br>
+export the information expressed in the template types to the rest of the functional programming library. <br>Since we want our above functor to also export this information, we'll inheritance to import all of the in-<br>formation from unary_function into our MyFunction functor.  Because MyFunction accepts as a para-<br>meter an object of type string and returns a variable of type bool, we will have MyFunction inherit from <br>
+the type unary_function&lt;string, bool&gt;.  The syntax to accomplish this is shown below:<br>
+    class MyFunction : public unary_function&lt;string, bool&gt; {<br>    public:<br>
+        bool operator() (const string&amp; str) const {<br>            /* Function that manipulates a string */<br>
+        }<br>    };<br>
+We'll explore inheritance in more detail later, but for now just think of it as a way for importing informa-<br>tion from class into another.  Note that although the function accepts as its parameter a const string&amp;, <br>
+we chose to use a unary_function specialized for the type string.  The reason is somewhat technical <br>and has to do with how unary_function interacts with other functional library components, so for now <br>
+just remember that you should not specify reference-to-const types inside the unary_function<b> </b>template <br>parametrization. <br>
+The syntax for converting a binary functor into an adaptable binary function works similarly to the above <br>code for unary functions.   Suppose that we'd like to make an adaptable binary function that accepts a <br>string and an int and returns a bool.  We begin by writing the basic functor code, as shown here:<br>
+    class MyOtherFunction {<br>    public:<br>
+        bool operator() (const string&amp; str, int val) const {<br>            /* Do something, return a bool. */<br>
+        }<br>    };<br>
+To convert this functor into an adaptable function, we'll have it inherit from binary_function.  Like un-<br>ary_function, binary_function is a template class that's defined as<br>
+<hr>
+<A name=13></a><i>Chapter 13: Functors</i><br>
+- 393 -<br>
+    template &lt;typename Param1Type, typename Param2Type, typename ResultType&gt;<br>
+        class binary_function;<br>
+Thus the adaptable version of MyOtherFunction would be<br>
+    class MyOtherFunction<b>:</b> public binary_function&lt;string, int, bool&gt; {<br>    public:<br>
+        bool operator() (const string&amp; str, int val) const {<br>            /* Do something, return a bool. */<br>
+        }<br>    };<br>
+While the above approach for generating adaptable functions is perfectly legal, it's a bit clunky and we still  <br>have a high ratio of boilerplate code to actual logic.  Fortunately, the STL functional library provides the <br>powerful but cryptically named ptr_fun* function that transforms a regular C++ function into an adapt-<br>able function.   ptr_fun can convert both unary and binary C++ functions into adaptable functions with <br>
+the correct parameter types, meaning that you can skip the hassle of the above code by simply writing nor-<br>mal functions and then using ptr_fun to transform them into adaptable functions.  For example, given the <br>following C++ function:<br>
+    bool LengthIsLessThan(string myStr, int threshold) {<br>
+        return myStr.length() &lt; threshold;<br>    }<br>
+If we need to get an adaptable version of that function, we can write ptr_fun(LengthIsLessThan) in the <br>spot where the adaptable function is needed.<br>
+ptr_fun<b>  </b>is a useful but imperfect tool.   Most notably, you cannot use  ptr_fun<b> </b>on functions that accept <br>
+parameters as reference-to-const.  ptr_fun returns a unary_function object, and as mentioned above, <br>you cannot specify reference-to-const as template arguments to unary_function.  Also, because of the <br>
+way that the C++ compiler generates code for functors, code that uses ptr_fun<b> </b>can be a bit slower than <br>code using functors.<br>
+For situations where you'd like to convert a member function into an adaptable function, you can use the <br>mem_fun or mem_fun_ref functions.  These functions convert member functions into unary functions that <br>
+accept as input a receiver object, then invoke that member function on the receiver.   The difference  <br>between mem_fun and mem_fun_ref is how they accept their parameters ­ mem_fun accepts a <i>pointer</i> to <br>the   receiver   object,   while  mem_fun_ref  accepts   a  <i>reference</i>  to   the   receiver.     For   example,   given   a <br>vector&lt;string&gt;, the following code will print out the lengths of all of the strings in the vector:<br>
+    transform(myVector.begin(), myVector.end(), ostream_iterator&lt;int&gt;(cout, &quot;\n&quot;),<br>              mem_fun_ref(&amp;string::length));<br>
+Let's dissect this call to transform, since there's a lot going on.  The first two parameters delineate the input <br>range, in this case the full contents of myVector.  The third parameter specifies where to put the output, and <br>since here it's an ostream_iterator the output will be printed directly to the console instead of stored in some <br>other location.  The final parameter is mem_fun_ref(&amp;string::length), a function that accepts as input a <br>string and then returns the value of the length member function called on that string.<br>
+mem_fun_ref can also be used to convert unary (one-parameter) member functions into adaptable binary <br>
+functions that take as a first parameter the object to apply the function to and as a second parameter the <br>
+* ptr_fun is short for "pointer function", not "fun with pointers."<br>
+<hr>
+<A name=14></a>- 394 -<br>
+<i> Chapter 13: Functors</i><br>
+parameter to the function.  When we cover binders in the next section, you should get a better feel for ex-<br>actly how useful this is.<br>
+<b>Binding Parameters</b><br>
+Now that we've covered how the STL functional library handles adaptable functions, let's consider how we <br>can use them in practice.<br>
+At the beginning of this chapter, we introduced the notion of <i>parameter binding</i>, converting a two-para-<br>meter function into a one-parameter function by locking in the value of one of its parameters.  To allow  <br>you  to bind  parameters to functions,  the STL functional  programming library exports two functions, <br><i>bind1st</i> and <i>bind2nd</i>, which accept as parameters an adaptable function and a value to bind and return <br>
+new functions that are equal to the old functions with the specified values bound in place.  For example, <br>given the following implementation of LengthIsLessThan:<br>
+    bool LengthIsLessThan(string str, int threshold) {<br>
+        return str.length() &lt; threshold;<br>    }<br>
+We could use the following syntax to construct a function that's LengthIsLessThan with the value five <br>bound to the second parameter:<br>
+    bind2nd(ptr_fun(LengthIsLessThan), 5)<br>
+The line bind2nd(ptr_fun(LengthIsLessThan), 5)<b> </b>first uses ptr_fun to generate an adaptable ver-<br>sion of the LengthIsLessThan function, then uses bind2nd to lock the parameter 5 in place.  The result is <br>
+a new unary function that accepts a string parameter and returns if that string's length is less than 5, the <br>value we bound to the second parameter.  Since bind2nd is a function that accepts a function as a para-<br>
+meter and returns a function as a result, bind2nd is a function that is sometimes referred to as a <i>higher-<br>order function</i>.<br>
+Because the result of the above call to bind2nd is a unary function that determines if a string has length <br>
+less than five, we can use the count_if algorithm to count the number of values less than five by using the <br>following code:<br>
+    count_if(container.begin(), container.end(),<br>
+             bind2nd(ptr_fun(LengthIsLessThan), 5));<br>
+Compare this code to the functor-based approach illustrated at the start of this chapter.  This version of the <br>code is much, <i>much</i> shorter than the previous version.  If you aren't beginning to appreciate exactly how <br>much power and flexibility the &lt;functional&gt; library provides, skip ahead and take a look at the practice <br>
+problems.<br>
+The bind1st function acts similarly to bind2nd, except that (as its name suggests) it binds the first para-<br>meter of a function.  Returning to the above example, given a vector&lt;int&gt;, we could count the number of <br>
+elements in that vector smaller than the length of string "C++!" by writing<br>
+    count_if(myVector.begin(), myVector.end(),<br>
+             bind1st(ptr_fun(LengthIsLessThan), &quot;C++!&quot;));<br>
+(Admittedly, this isn't the most practical use case for bind1st, but it does get the point across).<br>
+<hr>
+<A name=15></a><i>Chapter 13: Functors</i><br>
+- 395 -<br>
+In the STL functional programming library, parameter binding is restricted only to binary functions.  Thus <br>you cannot bind a parameter in a three-parameter function to yield a new binary function, nor can you  <br>bind the parameter of a unary function to yield a zero-parameter ("nullary") function.  For these opera -<br>tions, you'll need to create your own custom functors, as shown in the practice problems at the end of this <br>chapter.<br>
+<b>Negating Results</b><br>
+Suppose that given a function LengthIsLessThan, we want to find the number of strings in a container <br>
+that are  <i>not</i>  less than a certain length.   While we could simply write another function  LengthIsNot-<br>LessThan,   it  would  be  much   more   convenient  if  we   could  somehow  tell  C++  to   take   whatever  value <br>LengthIsLessThan returns and to use the opposite result.  That is, given a function that looks like this:<br>
+<b>YES</b><br>
+<b>Input</b><br>
+<b>LengthIsLessThan</b><br>
+<b> </b><br>
+<b>NO</b><br>
+We'd like to change it into a function that looks like this:<br>
+<b>NO</b><br>
+<b>Input</b><br>
+<b>LengthIsLessThan</b><br>
+<b> </b><br>
+inverter<br>
+<b>YES</b><br>
+This operation is <i>negation</i> ­ constructing a new function whose return value has the opposite value of the <br>input function.  There are two STL negator functions ­ not1 and not2 ­ that return the negated result of a <br>unary or binary predicate function, respectively.  Thus, the above function that's a negation of LengthIs-<br>LessThan could be written as not2(ptr_fun(LengthIsLessThan)).  Since  not2 returns an adaptable <br>function, we can then pass the result of this function to bind2nd to generate a unary function that returns <br>
+whether a string's length is at least a certain threshold value.  For example, here's code that returns the <br>number of strings in a container with length at least 5:<br>
+count_if(container.begin(), container.end(),<br>
+         bind2nd(not2(ptr_fun(LengthIsLessThan)), 5));<br>
+While this line is dense, it elegantly solves the problem at hand by combining and modifying existing code  <br>to create entirely different functions.  Such is the beauty and simplicity of higher-order programming ­ <br>why rewrite code from scratch when you already have all the pieces individually assembled?<br>
+<hr>
+<A name=16></a>- 396 -<br>
+<i> Chapter 13: Functors</i><br>
+<b>Operator Functions</b><br>
+Let's suppose that you have a container of ints and you'd like to add 137 to each of them.  Recall that you <br>
+can use the STL transform algorithm to apply a function to each element in a container and then store the <br>result.  Because we're adding 137 to each element, we might consider writing a function like this one:<br>
+    int Add137(int param) {<br>        return param + 137;<br>
+    }<br>
+And then writing<br>
+    transform(container.begin(), container.end(), container.begin(), Add137);<br>
+While this code works correctly, this approach is not particularly robust.  What if later on we needed to in -<br>crement all elements in a container by 42, or perhaps by an arbitrary value?  Thus, we might want to con-<br>sider replacing Add137 by a function like this one:<br>
+    int AddTwoInts(int one, int two) {<br>        return one + two;<br>
+    }<br>
+And then using binders to lock the second parameter in place.  For example, here's code that's equivalent <br>to what we've written above:<br>
+    transform(container.begin(), container.end(), container.begin(),<br>
+              bind2nd(ptr_fun(AddTwoInts), 137));<br>
+At this point, our code is correct, but it can get a bit annoying to have to write a function AddTwoInts that <br>
+simply adds two integers.  Moreover, if we then need code to increment all doubles in a container by 1.37, <br>we would need to write another function AddTwoDoubles<b> </b>to avoid problems from typecasts and trunca-<br>
+tions.  Fortunately, the designers of the STL functional library recognized how tedious it is to write out this <br>sort of code, and so the STL functional library provides a large number of template adaptable function <br>classes that simply apply the basic C++ operators to two values.  For example, in the above code, we can <br>use the adaptable function class <i>plus&lt;int&gt;</i> instead of our AddTwoInts function, resulting in code that <br>looks like this:<br>
+    transform(container.begin(), container.end(), container.begin(),<br>
+              bind2nd(plus&lt;int&gt;(), 137));<br>
+Note that we need to write plus&lt;int&gt;() instead of simply plus&lt;int&gt;, since we're using the temporary <br>
+object syntax to construct a plus&lt;int&gt; object for bind2nd.  Forgetting the parentheses can cause a major <br>compiler error headache that can take a while to track down.   Also notice that we don't need to use  <br>ptr_fun here, since plus&lt;int&gt; is already an adaptable function.<br>
+For reference, here's a list of the "operator functions" exported by &lt;functional&gt;:<br>
+plus<br>
+minus<br>
+multiplies<br>
+divides<br>
+modulus<br>
+negate<br>
+equal_to<br>
+not_equal_to greater<br>
+less<br>
+greater_equal less_equal<br>
+logical_and<br>
+logical_or<br>
+logical_not<br>
+To see an example that combines the techniques from the previous few sections, let's consider a function <br>that accepts a vector&lt;double&gt; and converts each element in the vector to its reciprocal (one divided by <br>
+<hr>
+<A name=17></a><i>Chapter 13: Functors</i><br>
+- 397 -<br>
+the value).  Because we want to convert each element with value <i>x</i> to the value 1/<i>x</i>, we can use a combina-<br>tion of binders and operator functions to solve this problem by binding the value 1.0 to the first parameter <br>of the divides&lt;double&gt; functor.  The result is a unary function that accepts a parameter of type double <br>
+and returns the element's reciprocal.  The resulting code looks like this:<br>
+    transform(v.begin(), v.end(), v.begin(), bind1st(divides&lt;double&gt;(), 1.0));<br>
+This code is concise and elegant, solving the problem in a small space and making explicit what operations <br>are being performed on the data.<br>
+<b>Unifying Functions and Functors</b><br>
+There are a huge number of ways to define a function or function-like object in C++, each of which has  <br>slightly different syntax and behavior.  For example, suppose that we want to write a function that accepts <br>as input a function that can accept an  int  and return a  double.   While of course we could accept a <br>double (*) (int) ­ a pointer to a function accepting an int and returning a double ­ this is overly re-<br>strictive.  For example, all of the following functions can be used as though they were functions taking in <br>an int and returning a double:<br>
+    double Fn1(const int&amp;);    /* Accept by reference-to-const, yield double. */<br>    int    Fn2(int);           /* Accept parameter as a int, return int. */<br>
+    int    Fn3(const int&amp;);    /* Accept reference-to-const int, return int. */<br>
+In addition, if we just accept a double (*) (int), we also can't accept functors as input, meaning that <br>
+neither of these objects below ­ both of which can accept an int and return a double ­ could be used:<br>
+    /* Functor accepting an int and returning a double. */<br>
+    class MyFunctor {<br>    public:<br>
+        double operator() (int);<br>    };<br>
+    /* Adaptable function accepting double and returning a double. */<br>
+    bind2nd(multiplies&lt;int&gt;(), 137);<br>
+Earlier in this chapter, we saw how we can write functions that accept any of the above functions using  <br>templates, as shown here:<br>
+    template &lt;typename UnaryFunction&gt; void DoSomething(UnaryFunction fn) {<br>
+        /* ... */<br>    }<br>
+If we want to write a <i>function</i> that accepts a function as input we can rely on templates, but what if we <br>want to write a <i>class</i> that needs to store a function of any arbitrary type?  To give a concrete example, sup-<br>pose that we're designing a class representing a graphical window and we want the client to be able to <br>control the window's size and position.  The window object, which we'll assume is of type Window, thus al-<br>lows the user to provide a function that will be invoked whenever the window is about to change size.  The <br>user's function then takes in an int representing the potential new width of the window and returns an <br>int representing what the user wants the new window size to be.  For example, if we want to create a win -<br>dow that can't be more than 100 pixels wide, we could pass in this function:<br>
+    int ClampTo100Pixels(int size) {<br>
+        return min(size, 100);<br>    }<br>
+<hr>
+<A name=18></a>- 398 -<br>
+<i> Chapter 13: Functors</i><br>
+Alternatively, if we want the window size to always be 100 pixels, we could pass in this function:<br>
+    int Always100Pixels(int) {<br>
+        return 100; // Ignore parameter<br>    }<br>
+Given that we need to store a function of an arbitrary type inside the Window class, how might we design <br>Window?  Using the approach outlined above, we could parameterize the Window class over the type of the <br>
+function it stores, as shown here:<br>
+    template &lt;typename WidthFunction&gt; class Window {<br>    public:<br>
+       Window(WidthFunction fn, /* ... */);<br>
+        /* ... */<br>
+    private:<br>        WidthFunction width;<br>
+        /* ... */<br>
+    };<br>
+Given this implementation of Window, we could then specify that a window should be no more than 100 <br>
+pixels wide by writing<br>
+    Window&lt;int (*)(int)&gt; myWindow(ClampTo100Pixels);<br>
+This Window class lets us use any reasonable function to determine the window size, but has several seri -<br>ous drawbacks.  First, it requires the Window client to explicitly parameterize Window over the type of call-<br>
+back being stored.  When working with function pointers this results in long and convoluted variable de-<br>clarations (look above for an example), and when working with library functors such as those in the STL <br>&lt;functional&gt; library (e.g. bind2nd (ptr_fun(MyFunction), 137))*, we could end up with a Window <br>of such a complicated type that it would be infeasible to use with without the aid of typedef.  But a more <br>
+serious problem is that this approach causes two Windows that don't use the same type of function to com-<br>pute width to have completely different types.  That is, a Window using a raw C++ function to compute its <br>
+size would have a different type from a Window that computed its size with a functor.  Consequently, we <br>couldn't make a vector&lt;Window&gt;, but instead would have to make a vector&lt;Window&lt;int (*)(int)&gt; &gt; <br>
+or a vector&lt;Window&lt;MyFunctorType&gt; &gt;.  Similarly, if we want to write a function that accepts a Window, <br>we can't just write the following:<br>
+    void DoSomething(const Window&amp; w) { // Error ­ Window is a template, not a type<br>
+        /* ... */<br>    }<br>
+We instead would have to write<br>
+    template &lt;typename WindowType&gt;<br>        void DoSomething(const WindowType&amp; w) { // Legal but awkward<br>
+        /* ... */<br>    }<br>
+* As an FYI, the type of bind2nd(ptr_fun(MyFunction), 137) is<br>
+    binder2nd&lt;pointer_to_binary_function&lt;Arg1, Arg2, Ret&gt; &gt;<br>
+where Arg1, Arg2, and Ret are the argument and return types of the MyFunction function.<br>
+<hr>
+<A name=19></a><i>Chapter 13: Functors</i><br>
+- 399 -<br>
+It should be clear that templatizing the Window<b> </b>class over the type of the callback function does not work <br>
+well.  How can we resolve this problem?  In the remainder of this chapter, see a beautiful solution to this  <br>problem that will unify our treatment of functors, inheritance, templates, operator overloading, copy func-<br>tions, and conversion constructors.  The result is amazingly elegant and hopefully will impress upon you <br>exactly how powerful functors are as a technique.<br>
+<b>Inheritance to the Rescue</b><br>
+Let's take a few minutes to think about the problem we're facing.  We have a collection of different objects <br>that each have similar functionality (they can be called as functions), but we don't know exactly which ob -<br>ject the user will provide.  This sounds exactly like the sort of problem we can solve using inheritance and <br>virtual functions.  But we have a problem ­ inheritance only applies to <i>objects</i>, but some of the values we <br>might want to store are simple function pointers, which are primitives.  Fortunately, we can apply a tech-<br>nique called the <i>Fundamental Theorem of Software Engineering</i> (or FTSE) to solve this problem:<br>
+<b>Theorem  <i>(</i>The Fundamental Theorem  of Software Engineering<i>)</b>:</i>  Any problem can be solved by <br>adding enough layers of indirection.<br>
+This is a very useful programming concept that will prove relevant time and time again ­ make sure you <br>remember it!<br>
+In this particular application, the FTSE says that we need to distance ourselves by one level from raw func-<br>tion pointers and functor classes.  This leads to the following observation: while we might not be able to <br>treat functors and function pointers polymorphically, we certainly can create a new class hierarchy and <br>then treat that class polymorphically.   The idea goes something like this ­ rather than having the user <br>provide us a functor or function pointer which could be of any type, instead we'll define an abstract class <br>exporting the callback function, then will have the user provide a subclass which implements the callback.<br>
+One possible base class in this hierarchy is shown below:<br>
+    class IntFunction {<br>    public:<br>
+        /* Polymorphic classes need virtual destructors. */<br>        virtual ~IntFunction() {}<br>
+        /* execute() actually calls the proper function and returns the value. */<br>
+        virtual int execute(int value) const = 0;<br>    };<br>
+IntFunction exports a single function called execute which accepts an int and returns an int.  This func-<br>tion is marked purely virtual since it's unclear exactly what this function should do.  After all, we're trying to  <br>store an arbitrary function, so there's no clearly-defined default behavior for execute.<br>
+We can now modify the implementation of Window to hold a pointer to an IntFunction instead of being tem-<br>platized over the type of the function, as shown here:<br>
+    class Window {<br>
+    public:<br>        Window(IntFunction* sizeFunction, /* ... */);<br>
+        /* ... */<br>
+    private:<br>        IntFunction* fn;<br>
+    };<br>
+<hr>
+<A name=20></a>- 400 -<br>
+<i> Chapter 13: Functors</i><br>
+Now, if we wanted to clamp the window to 100 pixels, we can do the following:<br>
+    class ClampTo100PixelsFunction: public IntFunction {<br>
+    public:<br>        virtual int execute(int size) const {<br>
+            return min(size, 100);<br>        }<br>
+    };<br>
+    Window myWindow(new ClampTo100PixelsFunction, /* ... */);<br>
+Similarly, if we want to have a window that's always 100 pixels wide, we could write<br>
+    class FixedSizeFunction: public IntFunction {<br>
+    public:<br>        virtual int execute(int size) const {<br>
+            return 100;<br>        }<br>
+    };<br>    <br>
+    Window myWindow(new FixedSizeFunction, /* ... */);<br>
+It seems as though we've solved the problem ­ we now have a Window class that allows us to fully custom-<br>
+ize its resizing behavior ­ what more could we possibly want?<br>
+The main problem with our solution is the sheer amount of boilerplate code clients of  Window  have to <br>write if they want to change the window's resizing behavior.  Our initial goal was to let class clients pass <br>raw C++ functions and functors to the Window class, but now clients have to subclass IntFunction to get <br>
+the job done.  Both of the above subclasses are lengthy even though they only export a single function.  Is  <br>there a simpler way to do this?<br>
+The answer, of course, is yes.  Suppose we have a pure C++ function that accepts an int by value and re-<br>turns an  int  that we want to use for our resizing function in the  Window  class; perhaps it's the  Clamp-<br>To100Pixels function we defined earlier, or perhaps it's Always100Pixels.  Rather than defining a new <br>
+subclass of IntFunction for every single one of these functions, instead we'll build a single class that's <br>designed to wrap up a function pointer in a package that's compatible with the IntFunction interface. <br>
+That is, we can define a subclass of IntFunction whose constructor accepts a function pointer and whose <br>execute  calls this function.   This is the Fundamental Theorem of Software Engineering in action ­ we <br>couldn't directly treat the raw C++ function polymorphically, but by abstracting by a level we can directly <br>apply inheritance.<br>
+Here's one possible implementation of the subclass:<br>
+    class ActualFunction: public IntFunction {<br>
+    public:<br>        explicit ActualFunction(int (*fn)(int)) : function(fn) {}<br>
+    <br>        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    <br>    private:<br>
+        int (*function)(int);<br>    };<br>
+Now, if we want to use ClampTo100Pixels inside of Window, we can write:<br>
+<hr>
+<A name=21></a><i>Chapter 13: Functors</i><br>
+- 401 -<br>
+    Window myWindow(new ActualFunction(ClampTo100Pixels), /* ... */);<br>
+There is a bit of extra code for creating the ActualFunction object, but this is a one-time cost.  We can <br>now use ActualFunction<b> </b>to wrap any raw C++ function accepting an int and returning an int and will <br>
+save a lot of time typing out new subclasses of IntFunction for every callback.<br>
+Now, suppose that we have a functor class, which we'll call  MyFunctor, that we want to use inside the <br>Window class.  Then we could define a subclass that looks like this:<br>
+    class MyFunctorFunction: public IntFunction {<br>
+    public:<br>        explicit MyFunctorFunction(MyFunctor fn) : function(fn) {}<br>
+        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    private:<br>
+        MyFunctor function;<br>    };<br>
+And could then use it like this:<br>
+    Window myWindow(new MyFunctorFunction(MyFunctor(137)), /* ... */);<br>
+Where we assume for simplicity that the MyFunctor class has a unary constructor.<br>
+We're getting much closer to an ideal solution.  Hang in there; the next step is pretty exciting.<br>
+<b>Templates to the Rescue</b><br>
+At this point we again could just call it quits ­ we've solved the problem we set out to solve and using the <br>above pattern our Window class can use any C++ function or functor we want.  However, we are close to an <br>observation that will greatly simplify the implementation of Window and will yield a much more general <br>
+solution.<br>
+Let's reprint the two subclasses of IntFunction we just defined above which wrap function pointers and <br>functors:<br>
+<hr>
+<A name=22></a>- 402 -<br>
+<i> Chapter 13: Functors</i><br>
+    class ActualFunction: public IntFunction {<br>
+    public:<br>        explicit ActualFunction(int (*fn)(int)) : function(fn) {}<br>
+        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    private:<br>
+        int (*const function)(int);<br>    };<br>
+    class MyFunctorFunction: public IntFunction {<br>
+    public:<br>        explicit MyFunctorFunction(MyFunctor fn) : function(fn) {}<br>
+    <br>        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    private:<br>
+        MyFunctor function;<br>    };<br>
+If you'll notice, besides the name of the classes, the only difference between these two classes is what type of ob-<br>ject is being stored.  This similarity is no coincidence ­ any callable function or functor would require a subclass <br>with exactly this structure.  Rather than requiring the client of Window to reimplement this subclass from scratch <br>each time, we can instead create a <i>template class</i> that's a subclass of IntFunction.  It's rare in practice to see <br>templates and inheritance mixed this way, but here it works out beautifully.  Here's one implementation:<br>
+    template &lt;typename UnaryFunction&gt; class SpecificFunction: public IntFunction {<br>
+    public:<br>        explicit SpecificFunction(UnaryFunction fn) : function(fn) {}<br>
+        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    private:<br>
+        UnaryFunction function;<br>    };<br>
+We now can use the Window class as follows:<br>
+    Window myWindow(new SpecificFunction&lt;int(*)(int)&gt;(ClampTo100Pixels), /*...*/);<br>
+    Window myWindow(new SpecificFunction&lt;MyFunctor&gt;(MyFunctor(137)), /*...*/);<br>
+The syntax here might be a bit tricky, but we've greatly reduced the complexity associated with the Window class <br>since clients no longer have to implement their own subclasses of IntFunction.<br>
+<hr>
+<A name=23></a><i>Chapter 13: Functors</i><br>
+- 403 -<br>
+<b>One More Abstraction</b><br>
+This design process has consisted primarily of adding more and more abstractions on top of the system  <br>we're designing, and it's time for one final leap.  Let's think about what we've constructed so far.  We've <br>built a class hierarchy with a single base class and a template for creating as many subclasses as we need. <br>However, everything we've written has been hardcoded with the assumption that the Window class is the <br>
+only class that might want this sort of functionality.  Having the ability to store and call a function of any <br>conceivable type is enormously useful, and if we can somehow encapsulate all of the necessary machinery <br>to get this working into a single class, we will be able to reuse what we've just built time and time again.  In <br>this next section, that's exactly what we'll begin doing.<br>
+We'll begin by moving the code from Window that manages the stored function into a dedicated class called <br>Function.  The basic interface for Function is shown below:<br>
+    class Function {<br>    public:<br>
+        /* Constructor and destructor.  We'll implement copying in a bit. */<br>        Function(IntFunction* fn);<br>
+        ~Function();<br>
+        /* Function is a functor that calls into the stored resource. */<br>        int operator() (int value) const;<br>
+    private:<br>
+        IntFunction* function;<br>    };<br>
+We'll leave the Function constructor left as an implicit conversion constructor, since that way we can im-<br>plicitly convert between a callable IntFunction pointer and a Function functor.  We can then implement <br>
+the above  functions as follows:<br>
+    /* Constructor accepts an IntFunction and stores it. */<br>    Function::Function(IntFunction* fn) : function(fn) {<br>
+        // Handled in initializer list<br>    }<br>
+    /* Destructor deallocates the stored function. */<br>
+    Function::~Function() {<br>        delete function;<br>
+    }<br>
+    /* Function call just calls through to the pointer and returns the result. */<br>    int Function::operator() (int value) const {<br>
+        return function-&gt;execute(value);<br>    }<br>
+Nothing here should be too out-of-the-ordinary ­ after all, this is pretty much the same code that we had <br>inside the Window class.<br>
+Given this version of Function, we can write code that looks like this:<br>
+<hr>
+<A name=24></a>- 404 -<br>
+<i> Chapter 13: Functors</i><br>
+    Function myFunction = new SpecificFunction&lt;int (*)(int)&gt;(ClampTo100Pixels);<br>
+    cout &lt;&lt; myFunction(137) &lt;&lt; endl; // Prints 100<br>    cout &lt;&lt; myFunction(42) &lt;&lt; endl; // Prints 42<br>
+If you're a bit worried that the syntax new SpecificFunction&lt;int (*)(int)&gt;(ClampTo100Pixels) <br>
+is unnecessarily bulky, that's absolutely correct.  Don't worry, in a bit we'll see how to eliminate it.  In the <br>meantime, however, let's implement the copy behavior for the Function class.  After all, there's no reason <br>that we shouldn't be able to copy Function objects, and defining copy behavior like this will lead to some <br>
+very impressive results in a bit.<br>
+We'll begin by defining the proper functions inside the Function class, as seen here:<br>
+    class Function {<br>    public:<br>
+        /* Constructor and destructor. */<br>        Function(IntFunction* fn);<br>
+        ~Function();<br>
+        /* Copy support. */<br>        Function(const Function&amp; other);<br>
+        Function&amp; operator= (const Function&amp; other);<br>
+        /* Function is a functor that calls into the stored resource. */<br>        int operator() (int value) const;<br>
+    private:<br>
+        IntFunction* function;<br>
+        void clear();<br>        void copyOther(const Function&amp; other);<br>
+    };<br>
+Now, since the Function class contains only a single data member (the IntFunction pointer), to make a <br>
+deep-copy of a Function we simply need to make a deep copy of its requisite IntFunction.  But here we <br>run into a problem.  IntFunction is an abstract class and we can't tell at compile-time what type of object <br>
+is actually being pointed at by the function pointer.  How, then, can we make a deep-copy of the IntFunc-<br>tion?  The answer is surprisingly straightforward ­ we'll just introduce a new virtual function to the Int-<br>Function class that returns a deep copy of the receiver object.  Since this function duplicates an existing  <br>object, we'll call it clone.  The interface for IntFunction now looks like this:<br>
+    class IntFunction {<br>    public:<br>
+        /* Polymorphic classes should have virtual destructors. */<br>        virtual ~IntFunction() { }<br>
+        /* execute() actually calls the proper function and returns the value. */<br>
+        virtual int execute(int value) const = 0;<br>
+        /* clone() returns a deep-copy of the receiver object. */<br>        virtual IntFunction* clone() const = 0;<br>
+    };<br>
+We can then update the template class SpecificFunction to implement clone as follows:<br>
+<hr>
+<A name=25></a><i>Chapter 13: Functors</i><br>
+- 405 -<br>
+    template &lt;typename UnaryFunction&gt; class SpecificFunction: public IntFunction {<br>
+    public:<br>        explicit SpecificFunction(UnaryFunction fn) : function(fn) {}<br>
+    <br>        virtual int execute(int value) const {<br>
+            return function(value);<br>        }<br>
+    <br>        virtual IntFunction* clone() const {<br>
+            return new SpecificFunction(*this);<br>        }<br>
+    private:<br>
+        UnaryFunction function;<br>    };<br>
+Here, the implementation of clone returns a new SpecificFunction initialized via the copy constructor <br>as a copy of the receiver object.  Note that we haven't explicitly defined a copy constructor for Specific-<br>Function and are relying here on C++'s automatically-generated copy function to do the trick for us.  This <br>assumes, of course, that the UnaryFunction type correctly supports deep-copying, but this isn't a prob-<br>
+lem since raw function pointers can trivially be deep-copied as can all primitive types and it's rare to find  <br>functor classes with no copy support.<br>
+We can then implement the copy constructor, assignment operator, destructor, and helper functions for <br>Function as follows:<br>
+    Function::~Function() {<br>        clear();<br>
+    }<br>
+    Function::Function(const Function&amp; other) {<br>        copyOther(other);<br>
+    }<br>
+    Function&amp; Function::operator= (const Function&amp; other) {<br>        if(this != &amp;other) {<br>
+            clear();<br>            copyOther(other);<br>
+        }<br>        return *this;<br>
+    }<br>
+    void Function::clear() {<br>        delete function;<br>
+    }<br>
+    void Function::copyOther(const Function&amp; other) {<br>        /* Have the stored function tell us how to copy itself. */<br>
+        function = other.function-&gt;clone();<br>    }<br>
+Our Function class is now starting to take shape!<br>
+<b>Hiding SpecificFunction</b><br>
+Right now our Function class has full deep-copy support and using SpecificFunction&lt;T&gt; can store any <br>type of callable function.  However, clients of Function have to explicitly wrap any function they want to <br>
+<hr>
+<A name=26></a>- 406 -<br>
+<i> Chapter 13: Functors</i><br>
+store inside Function in the SpecificFunction class.  This has several problems.  First and foremost, <br>
+this breaks encapsulation.   SpecificFunction is only used internally to the Function class, never ex-<br>ternally, so requiring clients of Function to have explicit knowledge of its existence violates encapsula-<br>
+tion.  Second, it requires the user to know the type of every function they want to store inside the Function <br>class.     In   the   case   of  ClampTo100Pixels  this   is   rather   simple,   but   suppose   we   want   to   store <br>bind2nd(multiplies&lt;int&gt;(), 137)  inside of  Function.   What is the type of the object returned by <br>bind2nd(multiplies&lt;int&gt;(), 137)?   For reference, it's  binder2nd&lt;multiplies&lt;int&gt; &gt;, so if we <br>wanted to store this in a Function we'd have to write<br>
+    Function myFunction = <br>        new SpecificFunction&lt;binder2nd&lt;multiplies&lt;int&gt; &gt; &gt;(bind2nd(multiplies&lt;int&gt;(),137));<br>
+This is a syntactic nightmare and makes the Function class terribly unattractive.<br>
+Fortunately, however, this problem has a quick fix ­ we can rewrite the Function constructor as a tem-<br>plate function parameterized over the type of argument passed into it, then construct the relevant Spe-<br>cificFunction for the Function client.  Since C++ automatically infers the parameter types of template <br>functions, this means that clients of Function never need to know the type of what they're storing ­ the <br>compiler will do the work for them.  Excellent!<br>
+If we do end up making the Function constructor a template, we should also move the IntFunction and <br>SpecificFunction classes so that they're inner classes of Function.  After all, they're specific to the im-<br>plementation of Function and the outside world has no business using them.<br>
+The updated interface for the Function class is shown here:<br>
+    class Function {<br>    public:<br>
+        /* Constructor and destructor. */<br>        template &lt;typename UnaryFunction&gt; Function(UnaryFunction fn);<br>
+        ~Function();<br>
+        /* Copy support. */<br>        Function(const Function&amp; other);<br>
+        Function&amp; operator= (const Function&amp; other);<br>
+        /* Function is a functor that calls into the stored resource. */<br>        int operator() (int value) const;<br>
+    private:<br>
+        class IntFunction { /* ... */ };<br>        template &lt;typename UnaryFunction&gt; class SpecificFunction { /* ... */ };<br>
+        IntFunction* function;<br>
+        void clear();<br>
+        void copyOther(const Function&amp; other);<br>    };<br>
+<hr>
+<A name=27></a><i>Chapter 13: Functors</i><br>
+- 407 -<br>
+We can then implement the constructor as follows:<br>
+    template &lt;typename UnaryFunction&gt; Function::Function(UnaryFunction fn) {<br>
+        function = new SpecificFunction&lt;UnaryFunction&gt;(fn);<br>    }<br>
+Since we've left the Function constructor not marked explicit, this template constructor is a conversion <br>constructor.  Coupled with the assignment operator, this means that we can use Function as follows:<br>
+    Function fn = ClampTo100Pixels;<br>    cout &lt;&lt; fn(137) &lt;&lt; endl; // Prints 100<br>
+    cout &lt;&lt; fn(42) &lt;&lt; endl; // Prints 42<br>
+    fn = bind2nd(multiplies&lt;int&gt;(), 2);<br>    cout &lt;&lt; fn(137) &lt;&lt; endl; // Prints 274<br>
+    cout &lt;&lt; fn(42) &lt;&lt; endl; // Prints 84<br>
+This is exactly what we're looking for ­ a class that can store any callable function that takes in an int and <br>
+returns an int.  If this doesn't strike you as a particularly elegant piece of code, take some time to look <br>over it again.<br>
+There's one final step we should take, and that's to relax the restriction that Function always acts as a <br>
+function from ints to ints.  There's nothing special about int, and by giving Function clients the ability <br>to specify their own parameter and return types we'll increase the scope of what Function is capable of <br>
+handling.  We'll thus templatize Function as Function&lt;ArgType, ReturnType&gt;.  We also need to make <br>some minor edits to IntFunction (which we'll rename to ArbitraryFunction since IntFunction is no <br>
+longer applicable), but in the interest of brevity we won't reprint them here.<br>
+The final interface for Function thus looks like this:<br>
+    template &lt;typename ArgType, typename ReturnType&gt; class Function {<br>
+    public:<br>        /* Constructor and destructor. */<br>
+        template &lt;typename UnaryFunction&gt; Function(UnaryFunction);<br>        ~Function();<br>
+        /* Copy support. */<br>
+        Function(const Function&amp; other);<br>        Function&amp; operator= (const Function&amp; other);<br>
+        /* Function is a functor that calls into the stored resource. */<br>
+        ReturnType operator() (ArgType value) const;<br>
+    private:<br>        class ArbitraryFunction { /* ... */ };<br>
+        template &lt;typename UnaryFunction&gt; class SpecificFunction { /* ... */ }<br>
+        ArbitraryFunction* function;<br>    <br>
+        void clear();<br>        void copyOther(const Function&amp; other);<br>
+    };<br>
+<hr>
+<A name=28></a>- 408 -<br>
+<i> Chapter 13: Functors</i><br>
+To conclude our discussion of Window, using the new Function type we could rewrite the Window class <br>
+using Function as follows:<br>
+    class Window {<br>
+    public:<br>        Window(const Function&lt;int, int&gt;&amp; widthFn, /* ... */<br>
+        /* ... other member functions ... */<br>
+    private:<br>        Function&lt;int, int&gt; widthFunction;<br>
+    };<br>
+Now, clients can pass any unary function (or functor) that maps from ints to ints as a parameter to Win-<br>dow and the code will compile correctly.<br>
+<b>External Polymorphism</b><br>
+The Function type we've just developed is subtle in its cleverness.  Because we can convert any callable <br>
+unary function into a Function, when writing code that needs to work with some sort of unary function, <br>we can have that code use Function instead of any specific function type.  This technique of abstracting <br>
+away from the particular types that provide a behavior into an object representing that behavior is some-<br>times known as <i>external polymorphism</i>.  As opposed to <i>internal polymorphism</i>, where we explicitly define a <br>set of classes containing virtual functions, external polymorphism "grafts" a set of virtual functions onto <br>any type that supports the requisite behavior.<br>
+Virtual functions can be slightly more expensive than regular functions because of the  virtual function <br>table lookup required.  External polymorphism is implemented using inheritance and thus also incurs an <br>overhead, but the overhead is slightly greater than regular inheritance.  Think for a minute how the Func-<br>tion class we just implemented is designed.  Calling Function::operator() requires the following:<br>
+1. Following the ArbitraryFunction pointer in the Function class to its virtual function table.<br>
+2. Calling the function indicated by the virtual function table, which corresponds to the particular <br>
+SpecificFunction<b> </b>being pointed at.<br>
+3. Calling the actual function object stored inside the SpecificFunction.<br>
+This is slightly more complex than a regular virtual function call, and illustrates the cost associated with <br>external polymorphism.  That said, in some cases (such as the Function case outlined here) the cost is over-<br>whelming offset by the flexibility afforded by external polymorphism.<br>
+<b>Implementing the &lt;functional&gt; Library</b><br>
+Now what we've seen how the &lt;functional&gt; library works from a client perspective, let's discuss how <br>the library is put together.  What's so special about adaptable functions?  How does ptr_fun<b> </b>convert a <br>
+regular function into an adaptable one?  How do functions like bind2nd and not1 work?  This discussion <br>will be highly technical and will push the limits of your knowledge of templates, but by the time you're  <br>done you should have an excellent grasp of how template libraries are put together.  Moreover, the tech-<br>niques used here are applicable beyond just the &lt;functional&gt; library and will almost certainly come in <br>
+handy later in your programming career.<br>
+<hr>
+<A name=29></a><i>Chapter 13: Functors</i><br>
+- 409 -<br>
+Let's begin by looking at exactly what an adaptable function is.  Recall that adaptable functions are func-<br>tors that inherit from either unary_function or binary_function.  Neither of these template classes <br>
+are particularly complicated; here's the complete definition of unary_function:*<br>
+    template &lt;typename ArgType, typename RetType&gt; class unary_function {<br>
+    public:<br>        typedef ArgType argument_type;<br>
+        typedef RetType result_type;<br>    };<br>
+This class contains no data members and no member functions.  Instead, it exports two typedefs ­ one <br>renaming ArgType to argument_type and one renaming RetType to result_type.  When you create an <br>
+adaptable function that inherits from unary_function, your class acquires these typedefs.  For example, <br>if we write the following adaptable function:<br>
+    class IsPositive: public unary_function&lt;double, bool&gt; {<br>
+    public:<br>        bool operator() (double value) const {<br>
+            return value &gt; 0.0;<br>        }<br>
+    };<br>
+The statement public unary_function&lt;double, double&gt; imports two typedefs into IsPositive: <br>argument_type and return_type, equal to double and bool, respectively.  Right now it might not be ap-<br>parent how these types are useful, but as we begin implementing the other pieces of the &lt;functional&gt; <br>
+library it will become more apparent.<br>
+<b>Implementing not1</b><br>
+To begin our behind-the-scenes tour of the &lt;functional&gt; library, let's see how to implement the not1 <br>
+function.  Recall that not1 accepts as a parameter a unary adaptable predicate function, then returns a <br>new adaptable function that yields opposite values as the original function.  For example, not1(IsPosit-<br>ive()) would return a function that returns whether a value is <i>not</i> positive.<br>
+Implementing not1<b> </b>requires two steps.  First, we'll create a template functor class parameterized over the <br>
+type of the adaptable function to negate.  This functor's constructor will take as a parameter an adaptable  <br>function of the proper type and store it for later use.  We'll then implement its operator() function such <br>that it calls the stored function and returns the negation of the result.  Graphically, this is shown here:<br>
+Negation Functor<br>
+Input    <br>
+ Output<br>
+Stored function<br>
+Inverter<br>
+Once we have designed this functor, we'll have not1 accept an adaptable function, wrap it in our negating <br>functor, then return the resulting object to the caller.  This means that the return value of  not1 is an adapt-<br>
+able unary predicate function that returns the opposite value of its parameter, which is exactly what we <br>want.<br>
+* Technically speaking unary_function and binary_function are structs, but this is irrelevant here.<br>
+<hr>
+<A name=30></a>- 410 -<br>
+<i> Chapter 13: Functors</i><br>
+Let's begin by writing the template functor class, which we'll call unary_negate (this is the name of the <br>
+functor class generated by the &lt;functional&gt; library's not1 function).  We know that this functor should <br>be parameterized over the type of the adaptable function it negates, so we can begin by writing the follow-<br>ing:<br>
+    template &lt;typename UnaryPredicate&gt; class unary_negate {<br>
+    public:<br>        explicit unary_negate(const UnaryPredicate&amp; pred) : p(pred) {}<br>
+<b>   </b>     /* ... */<br>
+    private:<br>        UnaryPredicate p;<br>
+    };<br>
+Here, the constructor accepts an object of type UnaryPredicate, then stores it in the data member p.<br>
+Now, let's implement the operator() function, which, as you'll recall, should take in a parameter, feed it <br>into the stored function p, then return the inverse result.  The code for this function looks like this:<br>
+    template &lt;typename UnaryPredicate&gt; class unary_negate {<br>    public:<br>
+        explicit unary_negate(const UnaryPredicate&amp; pred) : p(pred) {}<br>    <br>
+        bool operator() (const <b>/* what goes here? */</b>&amp; param) const {<br>    <b>      </b>  return !p(param);<b> </b>// Call function and return the opposite result.<br>
+        }<br>    private:<br>
+        UnaryPredicate p;<br>    };<br>
+We've almost finished writing our unary_negate class, but we have a slight problem ­ what is the type of <br>the parameter to operator()?  This is where adaptable functions come in.  Because UnaryPredicate is <br>
+adaptable, it must export a type called argument_type corresponding to the type of its argument.  We can <br>thus define our operator() function to accept a parameter of type typename UnaryPredicate::ar-<br>gume nt_type to guarantee that it has the same parameter type as the UnaryPredicate class.*  The up-<br>dated code for unary_negate looks like this:<br>
+    template &lt;typename UnaryPredicate&gt; class unary_negate {<br>    public:<br>
+        explicit unary_negate(const UnaryPredicate&amp; pred) : p(pred) {}<br>
+        bool <br>        operator() (const typename UnaryPredicate::argument_type&amp; param) const {<br>
+            return !p(param); // Call stored function and return opposite result.<br>        }<br>
+    private:<br>        UnaryPredicate p;<br>
+    };<br>
+That's quite a mouthful, but it's exactly the solution we're looking for.  If it weren't for the fact that Un-<br>aryPredicate is an adaptable function, we would not have been able to determine the parameter type for <br>the operator() member function, and code like this would not have been possible.<br>
+* Remember that the type is typename UnaryPredicate::argument_type, not UnaryPredicate::argument_type.  ar-<br>
+gument_type is nested inside UnaryPredicate, and since UnaryPredicate is a template argument we have to expli-<br>citly use typename to indicate that argument_type is a type.<br>
+<hr>
+<A name=31></a><i>Chapter 13: Functors</i><br>
+- 411 -<br>
+There's one step left to finalize this functor class, and that's to make the functor into an adaptable function <br>by having it inherit from the proper  unary_function.   Since the functor's argument type is typename <br>UnaryPredicate::argument_type  and   its   return   type   is  bool,   we'll   inherit   from  unary_function <br>&lt;typename UnaryPredicate:: argument_type, bool&gt;.   The final code for  unary_negate  is shown <br>
+ <br>
+here:<br>
+    template &lt;typename UnaryPredicate&gt;<br>    class unary_negate:<br>
+        public unary_function&lt;typename UnaryPredicate::argument_type, bool&gt;<br>    {<br>
+    public:<br>        explicit unary_negate(const UnaryPredicate&amp; pred) : p(pred) {}<br>
+        bool <br>
+        operator() (const typename UnaryPredicate::argument_type&amp; param) const {<br>            return !p(param); // Call stored function and return opposite result.<br>
+        }<br>    private:<br>
+        UnaryPredicate p;<br>    };<br>
+We've now finished writing our functor class to perform the negation, and all that's left to do is write  not1. <br>not1 is much simpler than unary_negate, since it simply has to take in a parameter and wrap it in a un-<br>ary_negate functor.  This is shown here:<br>
+    template &lt;typename UnaryPredicate&gt;<br>
+        unary_negate&lt;UnaryPredicate&gt; not1(const UnaryPredicate&amp; pred) {<br>        return unary_negate&lt;UnaryPredicate&gt;(pred);<br>
+    }<br>
+That's all there is to it ­ we've successfully implemented not1!<br>
+You might be wondering why there are two steps involved in writing not1.  After all, once we have the <br>functor that performs negation, why do we need to write an additional function to create it?  The answer is <br><i>simplicity</i>.  We don't need not1, but having it available reduces complexity.  For example, using the IsPos-<br>itive adaptable function from above, let's suppose that we want to write code to find the first nonposit-<br>ive element in a vector.  Using the find_if algorithm and not1, we'd write this as follows:<br>
+    vector&lt;double&gt;::iterator itr = <br>        find_if(v.begin(), v.end(), not1(IsPositive()));<br>
+If instead of using not1 we were to explicitly create a unary_negate object, the code would look like this:<br>
+    vector&lt;double&gt;::iterator itr = <br>
+        find_if(v.begin(), v.end(), unary_negate&lt;IsPositive&gt;(IsPositive()));<br>
+That's quite a mouthful.  When calling the template function not1, the compiler automatically infers the <br>
+type of the argument and constructs an appropriately parameterized unary_negate object.  If we directly <br>use  unary_negate, C++ will not perform  type inference  and we'll have to spell out the template argu-<br>
+ments ourselves.  The pattern illustrated here ­ having a template class and a template function to create it <br>­ is common in library code because it lets library clients use complex classes without ever having to know <br>how they're implemented behind-the-scenes.<br>
+<hr>
+<A name=32></a>- 412 -<br>
+<i> Chapter 13: Functors</i><br>
+<b>Implementing ptr_fun</b><br>
+Now that we've seen how not1 works, let's see if we can construct the ptr_fun function.  At a high level <br>ptr_fun and not1 work the same way ­ they each accept a parameter, construct a special functor class <br>
+based on the parameter, then return it to the caller.  The difference between not1 and ptr_fun, however, <br>is that there are two different versions of ptr_fun ­ one for unary functions and one for binary functions. <br>
+The two versions work almost identically and we'll see how to implement them both, but for simplicity <br>we'll begin with the unary case.<br>
+To convert a raw C++ unary function into an adaptable unary function, we need to wrap it in a functor that <br>inherits from the proper  unary_function  base class.   We'll make this functor's  operator()  function <br>simply call the stored function and return its value.  To be consistent with the naming convention of the  <br>&lt;functional&gt; library, we'll call the functor pointer_to_unary_function and will parameterize it over <br>
+the argument and return types of the function.  This is shown here:<br>
+    template &lt;typename ArgType, typename RetType&gt;<br>    class pointer_to_unary_function: public unary_function&lt;ArgType, RetType&gt;<br>
+    {<br>    public:<br>
+        explicit pointer_to_unary_function(ArgType fn(RetType)) : function(fn) {}<br>
+        RetType operator() (const ArgType&amp; param) const {<br>            return function(param);<br>
+        }<br>    private:<br>
+        ArgType (*function)(RetType);<br>    };<br>
+There isn't that much code here, but it's fairly dense.  Notice that we inherit from  unary_function&lt;Arg-<br>Type, RetType&gt; so that the resulting functor is adaptable.  Also note that the argument and return types  <br>
+of operator() are considerably easier to determine than in the unary_negate case because they're spe-<br>cified as template arguments.<br>
+Now, how can we implement ptr_fun to return a correctly-constructed pointer_to_unary_function? <br>
+Simple ­ we just write a template function parameterized over argument and return types, accept a func-<br>tion pointer of the appropriate type, then wrap it in a  pointer_to_unary_function  object.   This is <br>shown here:<br>
+    template &lt;typename ArgType, typename RetType&gt;<br>
+        pointer_to_unary_function&lt;ArgType, RetType&gt; <br>        ptr_fun(RetType function(ArgType)) {<br>
+            return pointer_to_unary_function&lt;ArgType, RetType&gt;(function);<br>        }<br>
+This code is fairly dense, but gets the job done.<br>
+The implementation of ptr_fun<b> </b>for binary functions is similar to the implementation for unary functions. <br>We'll create a template functor called pointer_to_binary_function parameterized over its argument <br>
+and return types, then provide an implementation of ptr_fun that constructs and returns an object of this <br>type.  This is shown here:<br>
+<hr>
+<A name=33></a><i>Chapter 13: Functors</i><br>
+- 413 -<br>
+    template &lt;typename Arg1, typename Arg2, typename Ret&gt;<br>
+    class pointer_to_binary_function: public binary_function&lt;Arg1, Arg2, Ret&gt; {<br>    public:<br>
+        explicit pointer_to_binary_function(Ret fn(Arg1, Arg2)) : function(fn) {}<br>
+        Ret operator() (const Arg1&amp; arg1, const Arg2&amp; arg2) const {<br>            return function(arg1, arg2);<br>
+        }<br>    private:<br>
+        Ret (*function)(Arg1, Arg2);<br>    };<br>
+    template &lt;typename Arg1, typename Arg2, typename Ret&gt;<br>    pointer_to_binary_function&lt;Arg1, Arg2, Ret&gt; ptr_fun(Ret function(Arg1, Arg2)) {<br>
+        return pointer_to_binary_function&lt;Arg1, Arg2, Ret&gt;(function);<br>    }<br>
+Note that we now have <i>two</i> versions of ptr_fun ­ one that takes in a unary function and one that takes in <br>a binary function.   Fortunately, C++ overloading rules allow for the two functions to coexist, since they <br>have different signatures.<br>
+<b>Implementing bind1st</b><br>
+To wrap up our tour of the &lt;functional&gt; library, let's see how to implement bind1st.  If you'll recall, <br>bind1st takes in a binary adaptable function and a value, then returns a new unary function equal to the  <br>
+input function with the first parameter locked in place.  We'll follow the pattern of not1 and ptr_fun by <br>writing a template functor class called  binder1st  that actually does the binding, then having  bind1st <br>
+construct and return an object of the proper type.<br>
+Before proceeding with our implementation of binder1st, we need to take a quick detour into the inner <br>workings of the binary_function class.  Like unary_function, binary_function exports typedefs <br>
+so that other parts of the &lt;functional&gt; library can recover the argument and return types of adaptable <br>functions.   However, since a binary function has two arguments, the names of the exported types are  <br>slightly different.  binary_function provides the following three typedefs:<br>
+·<br>
+<b>first_argument_type</b>, the type of the first argument,<br>
+·<br>
+<b>second_argument_type</b>, the type of the second argument, and<br>
+·<br>
+<b>result_type</b>, the function's return type.<br>
+We will need to reference each of these type names when writing bind1st.<br>
+Now, how do we implement the binder1st functor?  Here is one possible implementation.  The binder-<br>1st  constructor will accept and store an adaptable binary function and the value for its first argument. <br>binder1st then provides an implementation of operator() that takes a single parameter, then invokes <br>the stored function passing in the function parameter and the saved value.  This is shown here:<br>
+<hr>
+<A name=34></a>- 414 -<br>
+<i> Chapter 13: Functors</i><br>
+Binding Functor<br>
+Stored<br>
+Function<br>
+Stored                         Param 1<br>
+Output<br>
+Value                        <br>
+  <br>
+Input                                 <br>
+Param 2<br>
+Let's begin implementing binder1st.  The functor has to be a template, since we'll be storing an arbitrary <br>adaptable function and value.  However, we only need to parameterize the functor over the type of the bin-<br>ary adaptable function, since we can determine the type of the first argument from the adaptable func -<br>tion's first_argument_type.  We'll thus begin with the following implementation:<br>
+    template &lt;typename BinaryFunction&gt; class binder1st {<br>        /* ... */<br>
+    };<br>
+Now, let's implement the constructor.   It should take in two parameters ­ one representing the binary <br>function and the other the value to lock into place.  The first will have type BinaryFunction; the second, <br>typename BinaryFunction::first_argument_type.  This is shown here:<br>
+    template &lt;typename BinaryFunction&gt; class binder1st {<br>
+    public:<br>        binder1st(const BinaryFunction&amp; fn,<br>
+                  const typename BinaryFunction::first_argument_type&amp; arg) :<br>                      function(fn), first(arg) {}<br>
+        /* ... */<br>
+    private:<br>
+        BinaryFunction function;<br>        typename BinaryFunction::first_argument_type first;<br>
+    };<br>
+Phew!  That's quite a mouthful, but is the reality of much library template code.  Look at the declaration of <br>the first data member.  Though it may seem strange, this is the correct way to declare a data member whose <br>type is a type nested inside a template argument.<br>
+We now have the constructor written and all that's left to take care of is operator().  Conceptually, this <br>function isn't very difficult, and if we ignore the parameter and return types have the following imple -<br>mentation:<br>
+<hr>
+<A name=35></a><i>Chapter 13: Functors</i><br>
+- 415 -<br>
+    template &lt;typename BinaryFunction&gt; class binder1st {<br>
+    public:<br>        binder1st(const BinaryFunction&amp; fn,<br>
+                  const typename BinaryFunction::first_argument_type&amp; arg) :<br>                      function(fn), first(arg) {}<br>
+        /* ret */ operator() (const /* arg */&amp; param) const {<br>
+            return function(first, param);<br>        }<br>
+    private:<br>
+        BinaryFunction function;<br>        typename BinaryFunction::first_argument_type first;<br>    };<br>
+What are the argument and return types for this function?  Well, the function returns whatever object is <br>produced by the stored function, which has type typename BinaryFunction::result_type.  The func-<br>
+tion accepts a value for use as the second parameter to the stored function, so it must have type typename <br>BinaryFunction:: second_argument_type.  This results in the following code:<br>
+ <br>
+    template &lt;typename BinaryFunction&gt; class binder1st {<br>    public:<br>        binder1st(const BinaryFunction&amp; fn,<br>                  const typename BinaryFunction::first_argument_type&amp; arg) :<br>                       function(fn), first(arg) {}<br>
+        typename BinaryFunction::result_type<br>    <b>    </b>operator()  (const typename BinaryFunction::second_argument_type&amp; param) const {<br>            return function(first, param);<br>        }<br>    private:<br>        BinaryFunction function;<br>        typename BinaryFunction::first_argument_type first;<br>    };<br>
+We're almost finished, and all that's left for binder1st is to make it adaptable.  Using the logic from above, <br>we'll have it inherit from the proper instantiation of unary_function, as shown here:<br>
+    template &lt;typename BinaryFunction&gt; class binder1st :<br>       public unary_function&lt;typename BinaryFunction::second_argument_type,<br>                             typename BinaryFunction::result_type&gt; {<br>    public:<br>        binder1st(const BinaryFunction&amp; fn,<br>                  const typename BinaryFunction::first_argument_type&amp; arg) :<br>                       function(fn), first(arg) {}<br>
+        typename BinaryFunction::result_type<br>    <b>    </b>operator()  (const typename BinaryFunction::second_argument_type&amp; param) const {<br>            return function(first, param);<br>        }<br>    private:<br>        BinaryFunction function;<br>        typename BinaryFunction::first_argument_type first;<br>    };<br>
+That's it for the binder1st class.  As you can see, the code is dense and does a lot of magic with typename <br>and nested types.  Without adaptable functions, code like this would not be possible.<br>
+To finish up our discussion, let's implement bind1st.  This function isn't particularly tricky, though we do <br>
+need to do a bit of work to extract the type of the value to lock in place:<br>
+<hr>
+<A name=36></a>- 416 -<br>
+<i> Chapter 13: Functors</i><br>
+    template &lt;typename BinaryFunction&gt;<br>
+    binder1st&lt;BinaryFunction&gt;<br>    <b>   </b>bind1st(const BinaryFunction&amp; fn, <br>
+               const typename BinaryFunction::first_argument_type&amp; arg) {<br>        return binder1st&lt;BinaryFunction&gt;(fn, arg);<br>
+    }<br>
+We now have a complete working implementation of bind1st.  If you actually open up the &lt;functional&gt; <br>
+header and peek around inside, the code you'll find will probably bear a strong resemblance to what we've <br>written here.<br>
+<b>Limitations of the Functional Library</b><br>
+While the STL functional library is useful in a wide number of cases, the library is unfortunately quite lim -<br>ited.  &lt;functional&gt; only provides support for adaptable unary and binary functions, but commonly you'll <br>encounter situations where you will need to bind and negate functions with more than two parameters.  In <br>these cases, one of your only options is to construct functor classes that accept the extra parameters in  <br>their constructors.  Similarly, there is no support for function composition, so we could not create a func-<br>tion that computes 2<i>x</i> + 1 by calling the appropriate combination of the plus and multiplies functors.  How-<br>ever, the next version of  C++, nicknamed "C++0x," promises to have more support for functional program-<br>ming of this sort.  For example, it will provide a general function called bind that lets you bind as many <br>
+values as you'd like to a function of arbitrary arity.  Keep your eyes peeled for the next release of C++ ­ it <br>will be far more functional than the current version!<br>
+<b>Practice Problems</b><br>
+We've covered a lot of programming techniques in this chapter and there are no shortage of applications <br>for the material.  Here are some problems to get you thinking about how functors and adaptable functions <br>can influence your programming style:<br>
+1. What is a functor?<br>
+ <br>
+2. What restrictions, if any, exist on the parameter or return types of operator()? <br>
+ <br>
+3. Why are functors more powerful than regular functions?<br>
+ <br>
+4. How do you define a function that can accept both functions and functors as parameters?<br>
+ <br>
+5. What is an adaptable function?<br>
+ <br>
+6. How do you convert a regular C++ function into an adaptable function?<br>
+ <br>
+7. What does the bind1st function do?<br>
+ <br>
+8. What does the not2<b> </b>function do?<br>
+ <br>
+9. The STL algorithm for_each accepts as parameters a range of iterators and a unary function, then <br>
+calls the function on each argument.  Unusually, the return value of for_each is the unary function <br>
+passed in as a parameter.  Why might this be?<br>
+<hr>
+<A name=37></a><i>Chapter 13: Functors</i><br>
+- 417 -<br>
+10. Using the fact that for_each returns the unary function passed as a parameter, write a function <br>
+MyAccumulate  that accepts as parameters a range of  vector&lt;int&gt;::iterators and an initial <br>value, then returns the sum of all of the values in the range, starting at the specified value.  Do not <br>use any loops ­ instead, use for_each and a custom functor class that performs the addition.<br>
+11. Write  a function  AdvancedBiasedSort  that accepts as parameters a  vector&lt;string&gt;  and a <br>
+string "winner" value, then sorts the range, except that all strings equal to the winner are at the <br>
+front of the  vector.<i>   </i>Do not use any loops.  <i>(Hint: Use the STL  sort  algorithm and functor that  <br>stores the "winner" parameter.)</i><br>
+12. Modify the above implementation of  AdvancedBiasedSort  so that it works over an arbitrary <br>
+range of iterators over strings, not just a vector&lt;string&gt;.  Then modify it once more so that the <br>iterators can iterate over any type of value.<br>
+13. The STL  generate  algorithm is defined as  void generate(ForwardIterator start, For-<br>
+wardIterator end, NullaryFunction fn)  and iterates over the specified range storing the <br>return value of the zero-parameter function fn as it goes.  For example, calling generate(v.be-<br>gin(), v.end(), rand)  would fill the range [v.begin()  to  v.end()) with random values. <br>Write a function FillAscending that accepts an iterator range, then sets the first element in the <br>
+range to zero, the second to one, etc.  Do not use any loops.<br>
+14. Write a function ExpungeLetter that accepts four parameters ­ two iterators delineating an input <br>
+range of strings, one iterator delineating the start of an output range, and a character ­ then cop-<br>
+ies the strings in the input range that do not contain the specified character into the output range. <br>The function should then return an iterator one past the last location written.  Do not use loops. <br><i>(Hint: Use the remove_copy_if algorithm and a custom functor).</i><br>
+15. The <i>standard deviation</i> of a set of data is a measure of how much the data varies from its average <br>
+value.  Data with a small standard deviation tends to cluster around a point, while data with large <br>standard deviation will be more spread out.<br> <br>The formula for the standard deviation of a set of data {<i>x</i>1, <i>x</i>2, . ., <i>x</i>n} is<br> <br>
+1 <i>n</i><i>x</i><br>
+<i>n</i><br>
+<i>i</i>- <br>
+<i>x</i>2  <br>
+<i>i </i>=1<br>
+ <br>Here, <i>x</i> is the average of the data points.<br> <br>To give a feeling for this formula, given the data points 1, 2, 3, the average of the data points is 2, so  <br>the standard deviation is given by<br> <br>
+<i>n</i><br>
+3<br>
+  1<i>x</i><br>
+ <i>x</i><br>
+1-222-223-22=<br>
+101=<br>
+<i>n</i><br>
+<i>i</i>- <br>
+<i>x</i>2=13<br>
+<i>i </i>-22= 13<br>
+13<br>
+23<br>
+<i>i </i>=1<br>
+<i>i</i>=1<br>
+ <br>Write a function StandardDeviation that accepts an input range of iterators over doubles (or <br>
+values implicitly convertible to doubles) and returns its standard deviation.  Do not use any loops <br>­ instead use the accumulate function to compute the average, then use accumulate once more <br>
+to compute the sum. <i>(Hint: To get the number of elements in the range, you can use the distance <br>function)</i><br>
+<hr>
+<A name=38></a>- 418 -<br>
+<i> Chapter 13: Functors</i><br>
+16. Write a function ClearAllStrings that accepts as input a range of iterators over strings that <br>
+sets each string to be the empty string.  If you harness the &lt;functional&gt; library correctly here, <br>the function body will be only a single line of code.<br>
+17. The ROT128 cipher is a weak encryption cipher that works by adding 128 to the value of each <br>
+character in a string to produce a garbled string.  Since char can only hold 256 different values, <br>
+two successive applications of ROT128 will produce the original string.   Write a function  Ap-<br>plyROT128 that accepts a string and returns the string's ROT128 cipher equivalent.<br>
+ <br>
+18. Write a template function  CapAtValue  that accepts a range of iterators and a value by refer-<br>
+ence-to-const<b>  </b>and replaces all elements in the range that compare greater than the parameter <br>
+with a copy of the parameter. <i>(Hint: use the replace_if algorithm) <br> </i><br>
+19. One piece of functionality missing from the  &lt;functional&gt; library is the ability to bind the first <br>
+parameter of a unary function to form a nullary function.  In this practice problem, we'll implement <br>a function called BindOnly that transforms a unary adaptable function into a nullary function.<br>
+a. Write a template functor class BinderOnly parameterized whose constructor accepts an ad-<br>
+aptable function and a value to bind and whose operator() function calls the stored function <br>passing in the stored value as a parameter.  Your class should have this interface:<br> <br>    template &lt;typename UnaryFunction&gt; class BinderOnly {<br>
+    public:<br>        BinderOnly(const UnaryFunction&amp; fn,<br>
+                   const typename UnaryFunction::argument_type&amp; value);<br>        RetType operator() () const;<br>
+    };<br>
+b. Write a template function  BindOnly  that accepts the same parameters as the  BinderOnly <br>
+constructor and returns a  BinderOnly  of the proper type. The signature for this function <br>
+should be<br> <br>template &lt;typename UnaryFunction&gt;<br>    BinderOnly&lt;UnaryFunction&gt;<br>
+        BindOnly(const UnaryFunction &amp;fn,<br>                 const typename UnaryFunction::argument_type&amp; value);<br>
+ <br>
+20. Another operation not supported by the &lt;functional&gt; library is <i>function composition</i>.  For example, <br>
+given two functions <b>f</b> and <b>g</b>, the composition <b>g </b> <b>f </b>is a function such that  <b>g</b>  <b>f</b>(x) = <b>g</b>(<b>f</b>(x)). In this <br>example, we'll write a function Compose that lets us compose two unary functions of compatible <br>types.<br>
+a. Write a template functor  UnaryCompose  parameterized over two adaptable function types <br>
+whose constructor accepts and stores two unary adaptable functions and whose operator() <br>accepts a single parameter and returns the composition of the two functions applied to that ar-<br>gument.  Make sure that UnaryCompose is an adaptable unary function.<br>
+b. Write a wrapper function Compose that takes in the same parameters as UnaryCompose and <br>
+returns a properly-constructed UnaryCompose object.<br>
+c. Explain how to implement not1 using Compose and logical_not, a unary adaptable function <br>
+exported by &lt;functional&gt; that returns the logical inverse of its argument.<br>
+<hr>
+<A name="outline"></a><h1>Document Outline</h1>
+<ul><li><A href="functorss.html#1">þÿ</A>
+</ul><hr>
+</BODY>
+</HTML>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/hw_rounding.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:09 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/numeric/interval/hw_rounding.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/numeric/interval/hw_rounding.hpp</h3>
+<pre>
+/* Boost interval/hw_rounding.hpp template implementation file
+ *
+ * Copyright 2002 Herv&eacute; Br&ouml;nnimann, Guillaume Melquiond, Sylvain Pion
+ * Copyright 2005 Guillaume Melquiond
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or
+ * copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ */
+
+#ifndef BOOST_NUMERIC_INTERVAL_HW_ROUNDING_HPP
+#define BOOST_NUMERIC_INTERVAL_HW_ROUNDING_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/rounding.hpp">boost/numeric/interval/rounding.hpp</a>&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/rounded_arith.hpp">boost/numeric/interval/rounded_arith.hpp</a>&gt;
+
+#define BOOST_NUMERIC_INTERVAL_NO_HARDWARE
+
+// define appropriate specialization of rounding_control for built-in types
+#if defined(__x86_64__) &amp;&amp; (defined(__USE_ISOC99) || defined(__APPLE__))
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/c99_rounding_control.hpp">boost/numeric/interval/detail/c99_rounding_control.hpp</a>&gt;
+#elif defined(__i386__) || defined(_M_IX86) || defined(__BORLANDC__) || defined(_M_X64)
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/x86_rounding_control.hpp">boost/numeric/interval/detail/x86_rounding_control.hpp</a>&gt;
+#elif defined(powerpc) || defined(__powerpc__) || defined(__ppc__)
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/ppc_rounding_control.hpp">boost/numeric/interval/detail/ppc_rounding_control.hpp</a>&gt;
+#elif defined(sparc) || defined(__sparc__)
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/sparc_rounding_control.hpp">boost/numeric/interval/detail/sparc_rounding_control.hpp</a>&gt;
+#elif defined(alpha) || defined(__alpha__)
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/alpha_rounding_control.hpp">boost/numeric/interval/detail/alpha_rounding_control.hpp</a>&gt;
+#elif defined(ia64) || defined(__ia64) || defined(__ia64__)
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/ia64_rounding_control.hpp">boost/numeric/interval/detail/ia64_rounding_control.hpp</a>&gt;
+#endif
+
+#if defined(BOOST_NUMERIC_INTERVAL_NO_HARDWARE) &amp;&amp; (defined(__USE_ISOC99) || defined(__MSL__))
+#  include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/numeric/interval/detail/c99_rounding_control.hpp">boost/numeric/interval/detail/c99_rounding_control.hpp</a>&gt;
+#endif
+
+#if defined(BOOST_NUMERIC_INTERVAL_NO_HARDWARE)
+#  undef BOOST_NUMERIC_INTERVAL_NO_HARDWARE
+#  error Boost.Numeric.Interval: Please specify rounding control mechanism.
+#endif
+
+namespace boost {
+namespace numeric {
+namespace interval_lib {
+
+/*
+ * Three specializations of rounded_math&lt;T&gt;
+ */
+
+template&lt;&gt;
+struct rounded_math&lt;float&gt;
+  : save_state&lt;rounded_arith_opp&lt;float&gt; &gt;
+{};
+
+template&lt;&gt;
+struct rounded_math&lt;double&gt;
+  : save_state&lt;rounded_arith_opp&lt;double&gt; &gt;
+{};
+
+template&lt;&gt;
+struct rounded_math&lt;long double&gt;
+  : save_state&lt;rounded_arith_opp&lt;long double&gt; &gt;
+{};
+
+} // namespace interval_lib
+} // namespace numeric
+} // namespace boost
+
+#endif // BOOST_NUMERIC_INTERVAL_HW_ROUNDING_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/numeric/interval/hw_rounding.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:09 GMT -->
+</html>

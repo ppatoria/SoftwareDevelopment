@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:59 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/integer.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/integer.hpp</h3>
+<pre>
+//  boost integer.hpp header file  -------------------------------------------//
+
+//  Copyright Beman Dawes and Daryle Walker 1999.  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/integer">http://www.boost.org/libs/integer</a> for documentation.
+
+//  Revision History
+//   22 Sep 01  Added value-based integer templates. (Daryle Walker)
+//   01 Apr 01  Modified to use new &lt;boost/limits.hpp&gt; header. (John Maddock)
+//   30 Jul 00  Add typename syntax fix (Jens Maurer)
+//   28 Aug 99  Initial version
+
+#ifndef BOOST_INTEGER_HPP
+#define BOOST_INTEGER_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/integer_fwd.hpp">boost/integer_fwd.hpp</a>&gt;  // self include
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/integer_traits.hpp">boost/integer_traits.hpp</a>&gt;  // for boost::::boost::integer_traits
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;          // for ::std::numeric_limits
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/cstdint.hpp">boost/cstdint.hpp</a>&gt;         // for boost::int64_t and BOOST_NO_INTEGRAL_INT64_T
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/static_assert.hpp">boost/static_assert.hpp</a>&gt;
+
+//
+// We simply cannot include this header on gcc without getting copious warnings of the kind:
+//
+// boost/integer.hpp:77:30: warning: use of C99 long long integer constant
+//
+// And yet there is no other reasonable implementation, so we declare this a system header
+// to suppress these warnings.
+//
+#if defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 4)
+#pragma GCC system_header
+#endif
+
+namespace boost
+{
+
+  //  Helper templates  ------------------------------------------------------//
+
+  //  fast integers from least integers
+  //  int_fast_t&lt;&gt; works correctly for unsigned too, in spite of the name.
+  template&lt; typename LeastInt &gt;
+  struct int_fast_t 
+  { 
+     typedef LeastInt fast; 
+     typedef fast     type;
+  }; // imps may specialize
+
+  namespace detail{
+
+  //  convert category to type 
+  template&lt; int Category &gt; struct int_least_helper {}; // default is empty
+  template&lt; int Category &gt; struct uint_least_helper {}; // default is empty
+
+  //  specializatons: 1=long, 2=int, 3=short, 4=signed char,
+  //     6=unsigned long, 7=unsigned int, 8=unsigned short, 9=unsigned char
+  //  no specializations for 0 and 5: requests for a type &gt; long are in error
+#ifdef BOOST_HAS_LONG_LONG
+  template&lt;&gt; struct int_least_helper&lt;1&gt; { typedef boost::long_long_type least; };
+#elif defined(BOOST_HAS_MS_INT64)
+  template&lt;&gt; struct int_least_helper&lt;1&gt; { typedef __int64 least; };
+#endif
+  template&lt;&gt; struct int_least_helper&lt;2&gt; { typedef long least; };
+  template&lt;&gt; struct int_least_helper&lt;3&gt; { typedef int least; };
+  template&lt;&gt; struct int_least_helper&lt;4&gt; { typedef short least; };
+  template&lt;&gt; struct int_least_helper&lt;5&gt; { typedef signed char least; };
+#ifdef BOOST_HAS_LONG_LONG
+  template&lt;&gt; struct uint_least_helper&lt;1&gt; { typedef boost::ulong_long_type least; };
+#elif defined(BOOST_HAS_MS_INT64)
+  template&lt;&gt; struct uint_least_helper&lt;1&gt; { typedef unsigned __int64 least; };
+#endif
+  template&lt;&gt; struct uint_least_helper&lt;2&gt; { typedef unsigned long least; };
+  template&lt;&gt; struct uint_least_helper&lt;3&gt; { typedef unsigned int least; };
+  template&lt;&gt; struct uint_least_helper&lt;4&gt; { typedef unsigned short least; };
+  template&lt;&gt; struct uint_least_helper&lt;5&gt; { typedef unsigned char least; };
+
+  template &lt;int Bits&gt;
+  struct exact_signed_base_helper{};
+  template &lt;int Bits&gt;
+  struct exact_unsigned_base_helper{};
+
+  template &lt;&gt; struct exact_signed_base_helper&lt;sizeof(signed char)* CHAR_BIT&gt; { typedef signed char exact; };
+  template &lt;&gt; struct exact_unsigned_base_helper&lt;sizeof(unsigned char)* CHAR_BIT&gt; { typedef unsigned char exact; };
+#if USHRT_MAX != UCHAR_MAX
+  template &lt;&gt; struct exact_signed_base_helper&lt;sizeof(short)* CHAR_BIT&gt; { typedef short exact; };
+  template &lt;&gt; struct exact_unsigned_base_helper&lt;sizeof(unsigned short)* CHAR_BIT&gt; { typedef unsigned short exact; };
+#endif
+#if UINT_MAX != USHRT_MAX
+  template &lt;&gt; struct exact_signed_base_helper&lt;sizeof(int)* CHAR_BIT&gt; { typedef int exact; };
+  template &lt;&gt; struct exact_unsigned_base_helper&lt;sizeof(unsigned int)* CHAR_BIT&gt; { typedef unsigned int exact; };
+#endif
+#if ULONG_MAX != UINT_MAX
+  template &lt;&gt; struct exact_signed_base_helper&lt;sizeof(long)* CHAR_BIT&gt; { typedef long exact; };
+  template &lt;&gt; struct exact_unsigned_base_helper&lt;sizeof(unsigned long)* CHAR_BIT&gt; { typedef unsigned long exact; };
+#endif
+#if defined(BOOST_HAS_LONG_LONG) &amp;&amp;\
+   ((defined(ULLONG_MAX) &amp;&amp; (ULLONG_MAX != ULONG_MAX)) ||\
+    (defined(ULONG_LONG_MAX) &amp;&amp; (ULONG_LONG_MAX != ULONG_MAX)) ||\
+    (defined(ULONGLONG_MAX) &amp;&amp; (ULONGLONG_MAX != ULONG_MAX)) ||\
+    (defined(_ULLONG_MAX) &amp;&amp; (_ULLONG_MAX != ULONG_MAX)))
+  template &lt;&gt; struct exact_signed_base_helper&lt;sizeof(boost::long_long_type)* CHAR_BIT&gt; { typedef boost::long_long_type exact; };
+  template &lt;&gt; struct exact_unsigned_base_helper&lt;sizeof(boost::ulong_long_type)* CHAR_BIT&gt; { typedef boost::ulong_long_type exact; };
+#endif
+
+
+  } // namespace detail
+
+  //  integer templates specifying number of bits  ---------------------------//
+
+  //  signed
+  template&lt; int Bits &gt;   // bits (including sign) required
+  struct int_t : public detail::exact_signed_base_helper&lt;Bits&gt;
+  {
+      BOOST_STATIC_ASSERT_MSG(Bits &lt;= (int)(sizeof(boost::intmax_t) * CHAR_BIT),
+         &quot;No suitable signed integer type with the requested number of bits is available.&quot;);
+      typedef typename detail::int_least_helper
+        &lt;
+#ifdef BOOST_HAS_LONG_LONG
+          (Bits &lt;= (int)(sizeof(boost::long_long_type) * CHAR_BIT)) +
+#else
+           1 +
+#endif
+          (Bits-1 &lt;= ::std::numeric_limits&lt;long&gt;::digits) +
+          (Bits-1 &lt;= ::std::numeric_limits&lt;int&gt;::digits) +
+          (Bits-1 &lt;= ::std::numeric_limits&lt;short&gt;::digits) +
+          (Bits-1 &lt;= ::std::numeric_limits&lt;signed char&gt;::digits)
+        &gt;::least  least;
+      typedef typename int_fast_t&lt;least&gt;::type  fast;
+  };
+
+  //  unsigned
+  template&lt; int Bits &gt;   // bits required
+  struct uint_t : public detail::exact_unsigned_base_helper&lt;Bits&gt;
+  {
+     BOOST_STATIC_ASSERT_MSG(Bits &lt;= (int)(sizeof(boost::uintmax_t) * CHAR_BIT),
+         &quot;No suitable unsigned integer type with the requested number of bits is available.&quot;);
+#if (defined(__BORLANDC__) || defined(__CODEGEAR__)) &amp;&amp; defined(BOOST_NO_INTEGRAL_INT64_T)
+     // It's really not clear why this workaround should be needed... shrug I guess!  JM
+     BOOST_STATIC_CONSTANT(int, s = 
+           6 +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned long&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned int&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned short&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned char&gt;::digits));
+     typedef typename detail::int_least_helper&lt; ::boost::uint_t&lt;Bits&gt;::s&gt;::least least;
+#else
+      typedef typename detail::uint_least_helper
+        &lt; 
+#ifdef BOOST_HAS_LONG_LONG
+          (Bits &lt;= (int)(sizeof(boost::long_long_type) * CHAR_BIT)) +
+#else
+           1 +
+#endif
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned long&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned int&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned short&gt;::digits) +
+          (Bits &lt;= ::std::numeric_limits&lt;unsigned char&gt;::digits)
+        &gt;::least  least;
+#endif
+      typedef typename int_fast_t&lt;least&gt;::type  fast;
+      // int_fast_t&lt;&gt; works correctly for unsigned too, in spite of the name.
+  };
+
+  //  integer templates specifying extreme value  ----------------------------//
+
+  //  signed
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+  template&lt; boost::long_long_type MaxValue &gt;   // maximum value to require support
+#else
+  template&lt; long MaxValue &gt;   // maximum value to require support
+#endif
+  struct int_max_value_t 
+  {
+      typedef typename detail::int_least_helper
+        &lt;
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+          (MaxValue &lt;= ::boost::integer_traits&lt;boost::long_long_type&gt;::const_max) +
+#else
+           1 +
+#endif
+          (MaxValue &lt;= ::boost::integer_traits&lt;long&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;int&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;short&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;signed char&gt;::const_max)
+        &gt;::least  least;
+      typedef typename int_fast_t&lt;least&gt;::type  fast;
+  };
+
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+  template&lt; boost::long_long_type MinValue &gt;   // minimum value to require support
+#else
+  template&lt; long MinValue &gt;   // minimum value to require support
+#endif
+  struct int_min_value_t 
+  {
+      typedef typename detail::int_least_helper
+        &lt;
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+          (MinValue &gt;= ::boost::integer_traits&lt;boost::long_long_type&gt;::const_min) +
+#else
+           1 +
+#endif
+          (MinValue &gt;= ::boost::integer_traits&lt;long&gt;::const_min) +
+          (MinValue &gt;= ::boost::integer_traits&lt;int&gt;::const_min) +
+          (MinValue &gt;= ::boost::integer_traits&lt;short&gt;::const_min) +
+          (MinValue &gt;= ::boost::integer_traits&lt;signed char&gt;::const_min)
+        &gt;::least  least;
+      typedef typename int_fast_t&lt;least&gt;::type  fast;
+  };
+
+  //  unsigned
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+  template&lt; boost::ulong_long_type MaxValue &gt;   // minimum value to require support
+#else
+  template&lt; unsigned long MaxValue &gt;   // minimum value to require support
+#endif
+  struct uint_value_t 
+  {
+#if (defined(__BORLANDC__) || defined(__CODEGEAR__))
+     // It's really not clear why this workaround should be needed... shrug I guess!  JM
+#if defined(BOOST_NO_INTEGRAL_INT64_T)
+      BOOST_STATIC_CONSTANT(unsigned, which = 
+           1 +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned long&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned int&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned short&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned char&gt;::const_max));
+      typedef typename detail::int_least_helper&lt; ::boost::uint_value_t&lt;MaxValue&gt;::which&gt;::least least;
+#else // BOOST_NO_INTEGRAL_INT64_T
+      BOOST_STATIC_CONSTANT(unsigned, which = 
+           1 +
+          (MaxValue &lt;= ::boost::integer_traits&lt;boost::ulong_long_type&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned long&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned int&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned short&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned char&gt;::const_max));
+      typedef typename detail::uint_least_helper&lt; ::boost::uint_value_t&lt;MaxValue&gt;::which&gt;::least least;
+#endif // BOOST_NO_INTEGRAL_INT64_T
+#else
+      typedef typename detail::uint_least_helper
+        &lt; 
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) &amp;&amp; defined(BOOST_HAS_LONG_LONG)
+          (MaxValue &lt;= ::boost::integer_traits&lt;boost::ulong_long_type&gt;::const_max) +
+#else
+           1 +
+#endif
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned long&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned int&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned short&gt;::const_max) +
+          (MaxValue &lt;= ::boost::integer_traits&lt;unsigned char&gt;::const_max)
+        &gt;::least  least;
+#endif
+      typedef typename int_fast_t&lt;least&gt;::type  fast;
+  };
+
+
+} // namespace boost
+
+#endif  // BOOST_INTEGER_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:59 GMT -->
+</html>

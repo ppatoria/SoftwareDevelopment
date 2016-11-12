@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Scenarios for Deadlock in C# </title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 20:03:08 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Scenarios for Deadlock in C# </h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Mutual Exclusion </a></li>
+<li><a href="#sec-2">2 Reentrant </a></li>
+<li><a href="#sec-3">3 Locking  <i>this</i>. </a></li>
+<li><a href="#sec-4">4 Locking <i>typeof</i>. </a></li>
+<li><a href="#sec-5">5 Locking <i>String</i> </a></li>
+<li><a href="#sec-6">6 Circular Wait </a></li>
+<li><a href="#sec-7">7 When a thread terminated ungracefully after acquiring the monitor and without releasing  it. </a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Mutual Exclusion </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Example in case of UI, there is only one UI Thread if other non-ui threads
+wants to manipulate the UI controls they have to dispatch the task to
+the UI thread. If the task stucks/waits for something infinitely than
+deadlock can occur.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Reentrant </h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+<b>Example</b>
+</p>
+
+
+
+<pre class="example">ThreadOne()
+  lock(a){
+    lock(b){
+      ..
+    }
+  }
+}
+
+ThreadTwo()
+  lock(b){
+    lock(a){
+      ..
+    }
+  }
+}
+</pre>
+
+
+
+
+<p>
+If one thread enters into critical section acquiring  syncroot  a and try to
+enter another critical section by acquiring syncroot b while other thread has
+already entered his critical section by acquiring sychroot b and trying to
+enter another critical section by acquiring lock on sync root b 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Locking  <i>this</i>. </h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+If the class is publicly accessible deadlock can occur in scenario when
+it is locking using this in one function while other class is unaware
+and uses its instance as syncroot in other class for locking.
+</p>
+
+
+
+<pre class="example">class A
+{
+   func()
+   {
+     lock(this){
+       .....
+     }
+   }
+} 
+
+class B
+{
+  A _instanceOfA = new A();
+  func()
+  {
+    lock(_instanceOfA){
+      .....
+    }
+  }
+} 
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Locking <i>typeof</i>. </h2>
+<div class="outline-text-2" id="text-4">
+
+
+<p>
+If the class say A is publicly accessible deadlock can occur in scenario when
+it is locking using typeof its type  in one function while other class
+is unaware and used the  type of class A to lock  .
+</p>
+<p>
+There is only one reference for typeof
+</p>
+
+
+
+<pre class="example">class A
+{
+   static func()
+   {
+     lock(typeof(A)){
+       .....
+     }
+   }
+} 
+
+static class B
+{  
+  func()
+  {
+    lock(typeof(A)){
+      .....
+    }
+  }
+}
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Locking <i>String</i> </h2>
+<div class="outline-text-2" id="text-5">
+
+
+<p>
+String are interned, i.e. single literal value and all the string instance
+referring it (through out the process). 
+So if there is
+string a = "mystr" and  string b = "mystr".
+both a and b will refer to same literal mystr.
+</p>
+
+
+<pre class="example">string str1 = "mystr";
+string str2 = "mystr";
+Console.WriteLine(object.ReferenceEquals(str1, str2));
+</pre>
+
+
+
+<p>
+<span style="text-decoration:underline;">output</span>
+</p>
+<p>
+True
+</p>
+<p>
+If some one locks on say string instance strFromA with literal string
+"syncString" and other class or function unawarely locks on its
+local string instance say strFromB with the same literal i.e
+"syncString". At this stage deadlock can occur and both are locking on
+literal "syncString".
+</p>
+
+
+
+
+<pre class="example">class A
+{
+   func()
+   {
+     string strFromA = "syncString";
+     lock(this){strFromA)
+       .....
+     }
+   }
+} 
+
+class B
+{  
+  func()
+  {
+    string strFromB = "syncString";
+     lock(this){strFromB)
+       .....
+     }
+    }
+  }
+} 
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Circular Wait </h2>
+<div class="outline-text-2" id="text-6">
+
+
+
+<p>
+Thread X acquired lock locka and waiting to acquire lock lockb ,
+thread Y acquired lock lockb and waiting to acquire lock lockc, 
+thread Z acquired lock lockc and waiting to acquire lock locka.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> When a thread terminated ungracefully after acquiring the monitor and without releasing  it. </h2>
+<div class="outline-text-2" id="text-7">
+
+
+
+
+<hr/>
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 20:03:08 </p>
+</div>
+</div>
+</body>
+</html>

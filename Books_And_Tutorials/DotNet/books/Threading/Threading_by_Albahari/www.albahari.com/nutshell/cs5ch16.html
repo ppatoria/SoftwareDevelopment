@@ -1,0 +1,942 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs5ch16.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 5.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs5ch16.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWuEQ0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iY29kZS5hc3B4Ij5Db2RlIExpc3RpbmdzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGluayIgaHJlZj0iZXh0cmFzLmFzcHgiPkV4dHJhczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImNvbnRhY3QuYXNweCI+Q29udGFjdCBBdXRob3JzPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+ZGTZcNKWflA6lxgCh++Qf1iaScP/Fg==" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 16: Networking</h2>
+<p>IP Addresses:</p>
+<pre>IPAddress a1 = new IPAddress (new byte[] { 101, 102, 103, 104 });
+IPAddress a2 = IPAddress.Parse (&quot;101.102.103.104&quot;);
+Console.WriteLine (a1.Equals (a2));                     // True
+Console.WriteLine (a1.AddressFamily);                   // InterNetwork
+
+IPAddress a3 = IPAddress.Parse
+  (&quot;[3EA0:FFFF:198A:E4A3:4FF2:54fA:41BC:8D31]&quot;);
+Console.WriteLine (a3.AddressFamily);   // InterNetworkV6</pre>
+<pre>IPAddress a = IPAddress.Parse (&quot;101.102.103.104&quot;);
+IPEndPoint ep = new IPEndPoint (a, 222);           // Port 222
+Console.WriteLine (ep.ToString());                 // 101.102.103.104:222</pre>
+<p>URIs:</p>
+<pre>Uri info = new Uri (&quot;http://www.domain.com:80/info/&quot;);
+Uri page = new Uri (&quot;http://www.domain.com/info/page.html&quot;);
+
+Console.WriteLine (info.Host);     // www.domain.com
+Console.WriteLine (info.Port);     // 80
+Console.WriteLine (page.Port);     // 80  (Uri knows the default HTTP port)
+
+Console.WriteLine (info.IsBaseOf (page));         // True
+Uri relative = info.MakeRelativeUri (page);
+Console.WriteLine (relative.IsAbsoluteUri);       // False
+Console.WriteLine (relative.ToString());          // page.html</pre>
+<p>Simple use of WebClient:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+wc.DownloadFile ("http://www.albahari.com/nutshell/code.aspx", "code.htm");
+System.Diagnostics.Process.Start ("code.htm");
+</pre>
+
+<p>...asynchronously with progress reporting:</p>
+<pre>var wc = new WebClient();
+
+wc.DownloadProgressChanged += (sender, args) => 
+  Console.WriteLine (args.ProgressPercentage + "% complete");
+
+Task.Delay (5000).ContinueWith (ant => wc.CancelAsync());
+  
+await wc.DownloadFileTaskAsync ("http://oreilly.com", "webpage.htm");</pre>
+
+
+
+<p>Simple use of WebRequest / WebResponse:</p>
+<pre>WebRequest req = WebRequest.Create
+                ("http://www.albahari.com/nutshell/code.html");
+req.Proxy = null;
+using (WebResponse res = req.GetResponse())
+using (Stream rs = res.GetResponseStream())
+using (FileStream fs = File.Create ("code.html"))
+  rs.CopyTo (fs);</pre>
+
+<p>Asynchronous equivalent:</p>
+<pre>WebRequest req = WebRequest.Create
+                ("http://www.albahari.com/nutshell/code.html");
+req.Proxy = null;
+using (WebResponse res = await req.GetResponseAsync())
+using (Stream rs = res.GetResponseStream())
+using (FileStream fs = File.Create ("code.html"))
+  await rs.CopyToAsync (fs);</pre>
+
+<p>HttpClient</p>
+<pre>string html = await new HttpClient().GetStringAsync ("http://linqpad.net");</pre>
+
+<pre>var client = new HttpClient();
+var task1 = client.GetStringAsync ("http://www.linqpad.net");
+var task2 = client.GetStringAsync ("http://www.albahari.com");
+Console.WriteLine (await task1);
+Console.WriteLine (await task2);</pre>
+
+<p>GetAsync and response messages:</p>
+<pre>var client = new HttpClient();
+// The GetAsync method also accepts a CancellationToken.
+HttpResponseMessage response = await client.GetAsync ("http://...");
+response.EnsureSuccessStatusCode();
+string html = await response.Content.ReadAsStringAsync();</pre>
+
+<pre>using (var fileStream = File.Create ("linqpad.html"))
+  await response.Content.CopyToAsync (fileStream);</pre>
+
+<p>SendAsync and request messages</p>
+<pre>var client = new HttpClient();
+var request = new HttpRequestMessage (HttpMethod.Get, "http://...");
+HttpResponseMessage response = await client.SendAsync (request);
+response.EnsureSuccessStatusCode();</pre>
+
+<p>Uploading data and HttpContent</p>
+<pre>var client = new HttpClient (new HttpClientHandler { UseProxy = false });
+var request = new HttpRequestMessage (
+  HttpMethod.Post, "http://www.albahari.com/EchoPost.aspx");
+request.Content = new StringContent ("This is a test");
+HttpResponseMessage response = await client.SendAsync (request);
+response.EnsureSuccessStatusCode();
+Console.WriteLine (await response.Content.ReadAsStringAsync());</pre>
+
+<p>HttpMessageHandler</p>
+<pre>public abstract class HttpMessageHandler : IDisposable
+{
+  protected internal abstract Task&lt;HttpResponseMessage&gt; SendAsync
+    (HttpRequestMessage request, CancellationToken cancellationToken);
+
+  public void Dispose();
+  protected virtual void Dispose (bool disposing);
+}</pre>
+
+<p>Unit testing and mocking</p>
+<pre>class MockHandler : HttpMessageHandler
+{
+  Func &lt;HttpRequestMessage, HttpResponseMessage&gt; _responseGenerator;
+    
+  public MockHandler
+    (Func &lt;HttpRequestMessage, HttpResponseMessage&gt; responseGenerator)
+  {
+    _responseGenerator = responseGenerator;
+  }
+    
+  protected override Task &lt;HttpResponseMessage&gt; SendAsync
+    (HttpRequestMessage request, CancellationToken cancellationToken)
+  {
+    cancellationToken.ThrowIfCancellationRequested();
+    var response = _responseGenerator (request);
+    response.RequestMessage = request;
+    return Task.FromResult (response);
+  }
+}</pre>
+
+<pre>var mocker = new MockHandler (request => 
+  new HttpResponseMessage (HttpStatusCode.OK)
+  {
+    Content = new StringContent ("You asked for " + request.RequestUri)
+  });
+
+var client = new HttpClient (mocker);	
+var response = await client.GetAsync ("http://www.linqpad.net");
+string result = await response.Content.ReadAsStringAsync();
+Assert.AreEqual ("You asked for http://www.linqpad.net/", result);</pre>
+
+<p>Chaining handlers with DelegatingHandler</p>
+<pre>class LoggingHandler : DelegatingHandler 
+{
+  public LoggingHandler (HttpMessageHandler nextHandler)
+  {
+     InnerHandler = nextHandler;
+  }
+    
+  protected async override Task &lt;HttpResponseMessage&gt; SendAsync
+    (HttpRequestMessage request, CancellationToken cancellationToken)
+  {
+    Console.WriteLine ("Requesting: " + request.RequestUri);
+    var response = await base.SendAsync (request, cancellationToken);
+    Console.WriteLine ("Got response: " + response.StatusCode);
+    return response;
+  }
+}</pre>
+
+<p>Proxies:</p>
+<pre>// Create a WebProxy with the proxy's IP address and port. You can
+// optionally set Credentials if the proxy needs a username/password.
+
+WebProxy p = new WebProxy (&quot;192.178.10.49&quot;, 808);
+p.Credentials = new NetworkCredential (&quot;username&quot;, &quot;password&quot;);
+// or:
+p.Credentials = new NetworkCredential (&quot;username&quot;, &quot;password&quot;, &quot;domain&quot;);
+
+WebClient wc = new WebClient())
+wc.Proxy = p;
+  ...
+
+// Same procedure with a WebRequest object:
+WebRequest req = WebRequest.Create (&quot;...&quot;);
+req.Proxy = p;</pre>
+
+<p>With HttpClient:</p>
+<pre>WebProxy p = new WebProxy ("192.178.10.49", 808);
+p.Credentials = new NetworkCredential ("username", "password", "domain");
+
+var handler = new HttpClientHandler { Proxy = p };
+var client = new HttpClient (handler);</pre>
+
+<p>Authentication:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+wc.BaseAddress = "ftp://ftp.albahari.com";
+
+// Authenticate, then upload and download a file to the FTP server.
+// The same approach also works for HTTP and HTTPS.
+
+string username = "nutshell";
+string password = "oreilly";
+wc.Credentials = new NetworkCredential (username, password);
+
+wc.DownloadFile ("guestbook.txt", "guestbook.txt");
+
+string data = "Hello from " + Environment.UserName + "!\r\n";
+File.AppendAllText ("guestbook.txt", data);
+
+wc.UploadFile ("guestbook.txt", "guestbook.txt");
+</pre>
+
+<p>...with HttpClient:</p>
+<pre>var handler = new HttpClientHandler();
+handler.Credentials = new NetworkCredential (username, password);
+var client = new HttpClient (handler);</pre>
+
+<p>CredentialCache:</p>
+<pre>CredentialCache cache = new CredentialCache();
+Uri prefix = new Uri (&quot;http://exchange.mydomain.com&quot;);
+cache.Add (prefix, &quot;Digest&quot;,  new NetworkCredential (&quot;joe&quot;, &quot;passwd&quot;));
+cache.Add (prefix, &quot;Negotiate&quot;, new NetworkCredential (&quot;joe&quot;, &quot;passwd&quot;));
+
+WebClient wc = new WebClient();
+wc.Credentials = cache;
+...</pre>
+
+<p>Exception handling with HttpClient</p>
+<pre>var client = new HttpClient();
+var response = await client.GetAsync ("http://linqpad.net/foo");
+HttpStatusCode responseStatus = response.StatusCode;</pre>
+
+<p>Exception handling with WebClient/WebRequest/WebResponse:</p>
+<pre>WebClient wc = new WebClient();
+try
+{
+  wc.Proxy = null;
+  string s = wc.DownloadString ("http://www.albahari.com/notthere");
+}
+catch (WebException ex)
+{
+  if (ex.Status == WebExceptionStatus.NameResolutionFailure)
+    Console.WriteLine ("Bad domain name");
+  else if (ex.Status == WebExceptionStatus.ProtocolError)
+  {
+    HttpWebResponse response = (HttpWebResponse) ex.Response;
+    Console.WriteLine (response.StatusDescription);      // "Not Found"
+    if (response.StatusCode == HttpStatusCode.NotFound)
+      Console.WriteLine ("Not there!");                  // "Not there!"
+  }
+  else throw;
+}</pre>
+
+<p>HTTP headers:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+wc.Headers.Add ("CustomHeader", "JustPlaying/1.0");
+wc.DownloadString ("http://www.oreilly.com");
+
+foreach (string name in wc.ResponseHeaders.Keys)
+  Console.WriteLine (name + "=" + wc.ResponseHeaders [name]);
+</pre>
+
+<p>HTTP query strings:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+wc.QueryString.Add ("q", "WebClient");     // Search for "WebClient"
+wc.QueryString.Add ("hl", "fr");           // Display page in French
+wc.DownloadFile ("http://www.google.com/search", "results.html");
+System.Diagnostics.Process.Start ("results.html");</pre>
+
+<p>Uri.EscapeDataString</p>
+<pre>string search = Uri.EscapeDataString ("(WebClient OR HttpClient)");
+string language = Uri.EscapeDataString ("fr");
+string requestURI = "http://www.google.com/search?q=" + search +
+                    "&hl=" + language;</pre>
+
+
+
+<p>Uploading form data with WebClient:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+
+var data = new System.Collections.Specialized.NameValueCollection();
+data.Add ("Name", "Joe Albahari");
+data.Add ("Company", "O'Reilly");
+
+byte[] result = wc.UploadValues ("http://www.albahari.com/EchoPost.aspx",
+                                 "POST", data);
+
+Console.WriteLine (Encoding.UTF8.GetString (result));</pre>
+
+<p>Uploading form data with WebRequest:</p>
+<pre>var req = WebRequest.Create ("http://www.albahari.com/EchoPost.aspx");
+req.Proxy = null;
+req.Method = "POST";
+req.ContentType = "application/x-www-form-urlencoded";
+
+string reqString = "Name=Joe+Albahari&Company=O'Reilly";
+byte[] reqData = Encoding.UTF8.GetBytes (reqString);
+req.ContentLength = reqData.Length;
+
+using (Stream reqStream = req.GetRequestStream())
+  reqStream.Write (reqData, 0, reqData.Length);
+
+using (WebResponse res = req.GetResponse())
+using (Stream resSteam = res.GetResponseStream())
+using (StreamReader sr = new StreamReader (resSteam))
+  Console.WriteLine (sr.ReadToEnd());</pre>
+
+<p>Uploading Form Data with HttpClient</p>
+<pre>string uri = "http://www.albahari.com/EchoPost.aspx";
+var client = new HttpClient();
+var dict = new Dictionary&lt;string,string&gt; 
+{
+    { "Name", "Joe Albahari" },
+    { "Company", "O'Reilly" }
+};
+var values = new FormUrlEncodedContent (dict);
+var response = await client.PostAsync (uri, values);
+response.EnsureSuccessStatusCode();
+Console.WriteLine (await response.Content.ReadAsStringAsync());</pre>
+
+<p>Cookies:</p>
+<pre>CookieContainer cc = new CookieContainer();
+
+var request = (HttpWebRequest) WebRequest.Create (&quot;http://www.google.com&quot;);
+request.Proxy = null;
+request.CookieContainer = cc;
+using (var response = (HttpWebResponse) request.GetResponse())
+{
+  foreach (Cookie c in response.Cookies)
+  {
+    Console.WriteLine (&quot; Name:   &quot; + c.Name);
+    Console.WriteLine (&quot; Value:  &quot; + c.Value);
+    Console.WriteLine (&quot; Path:   &quot; + c.Path);
+    Console.WriteLine (&quot; Domain: &quot; + c.Domain);
+  }
+  // Read response stream...
+}</pre>
+
+<p>...with HttpClient</p>
+<pre>var cc = new CookieContainer();
+var handler = new HttpClientHandler();
+handler.CookieContainer = cc;
+var client = new HttpClient (handler);</pre>
+
+<p>Forms authentication:</p>
+<pre>string loginUri = "http://www.somesite.com/login";
+string username = "username";   // (Your username)
+string password = "password";   // (Your password)
+string reqString = "username=" + username + "&password=" + password;
+byte[] requestData = Encoding.UTF8.GetBytes (reqString);
+
+CookieContainer cc = new CookieContainer();
+var request = (HttpWebRequest)WebRequest.Create (loginUri);
+request.Proxy = null;
+request.CookieContainer = cc;
+request.Method = "POST";
+
+request.ContentType = "application/x-www-form-urlencoded";
+request.ContentLength = requestData.Length;
+
+using (Stream s = request.GetRequestStream())
+  s.Write (requestData, 0, requestData.Length);
+
+using (var response = (HttpWebResponse) request.GetResponse())
+  foreach (Cookie c in response.Cookies)
+    Console.WriteLine (c.Name + " = " + c.Value);
+
+// We're now logged in. As long as we assign cc to subsequent WebRequest
+// objects, we’ll be treated as an authenticated user.</pre>
+
+<p>Forms authentication with HttpClient</p>
+<pre>string loginUri = "http://www.somesite.com/login";
+string username = "username";
+string password = "password";
+
+CookieContainer cc = new CookieContainer();
+var handler = new HttpClientHandler { CookieContainer = cc };
+
+var request = new HttpRequestMessage (HttpMethod.Post, loginUri);
+request.Content = new FormUrlEncodedContent (new Dictionary&lt;string,string&gt;
+{
+  { "username", username },
+  { "password", password }
+});
+
+var client = new HttpClient (handler);
+var response = await client.SendAsync (request);
+response.EnsureSuccessStatusCode();</pre>
+
+<p>SSL:</p>
+<pre>using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+…
+static void ConfigureSSL()
+{
+  ServicePointManager.ServerCertificateValidationCallback = CertChecker;
+}
+
+static bool CertChecker (object sender, X509Certificate certificate,
+                         X509Chain chain, SslPolicyErrors errors)
+{
+  // Return true if you're happy with the certificate
+  …
+}</pre>
+
+<p>Writing a simple HTTP server:</p>
+<pre>static void Main()
+{
+  ListenAsync();                           // Start server
+  WebClient wc = new WebClient();          // Make a client request.
+  Console.WriteLine (wc.DownloadString
+    ("http://localhost:51111/MyApp/Request.txt"));
+}
+
+async static void ListenAsync()
+{
+  HttpListener listener = new HttpListener();
+  listener.Prefixes.Add ("http://localhost:51111/MyApp/");  // Listen on
+  listener.Start();                                         // port 51111.
+
+  // Await a client request:
+  HttpListenerContext context = await listener.GetContextAsync();
+
+  // Respond to the request:
+  string msg = "You asked for: " + context.Request.RawUrl;
+  context.Response.ContentLength64 = Encoding.UTF8.GetByteCount (msg);
+  context.Response.StatusCode = (int) HttpStatusCode.OK;
+
+  using (Stream s = context.Response.OutputStream)
+  using (StreamWriter writer = new StreamWriter (s))
+    await writer.WriteAsync (msg);
+
+  listener.Stop();
+}</pre>
+
+<p>Web Page Server</p>
+<pre>using System;
+using System.IO;
+using System.Net;
+using System.Threading.Tasks;
+
+class WebServer
+{
+  HttpListener _listener;
+  string _baseFolder;      // Your web page folder.
+
+  public WebServer (string uriPrefix, string baseFolder)
+  {
+    _listener = new HttpListener();
+    _listener.Prefixes.Add (uriPrefix);
+    _baseFolder = baseFolder;
+  }
+
+  public async void Start()
+  {
+    _listener.Start();
+    while (true)
+      try 
+      {
+        var context = await _listener.GetContextAsync();
+        Task.Run (() => ProcessRequestAsync (context));
+      }
+      catch (HttpListenerException)     { break; }   // Listener stopped.
+      catch (InvalidOperationException) { break; }   // Listener stopped.
+  }
+
+  public void Stop() { _listener.Stop(); }
+
+  async void ProcessRequestAsync (HttpListenerContext context)
+  {
+    try
+    {
+      string filename = Path.GetFileName (context.Request.RawUrl);
+      string path = Path.Combine (_baseFolder, filename);
+      byte[] msg;
+      if (!File.Exists (path))
+      {
+        Console.WriteLine ("Resource not found: " + path);
+        context.Response.StatusCode = (int) HttpStatusCode.NotFound;
+        msg = Encoding.UTF8.GetBytes ("Sorry, that page does not exist");
+      }
+      else
+      {
+        context.Response.StatusCode = (int) HttpStatusCode.OK;
+        msg = File.ReadAllBytes (path);
+      }
+      context.Response.ContentLength64 = msg.Length;
+      using (Stream s = context.Response.OutputStream)
+        await s.WriteAsync (msg, 0, msg.Length);
+    }
+    catch (Exception ex) { Console.WriteLine ("Request error: " + ex); }
+  }
+}</pre>
+
+<pre>static void Main()
+{
+  // Listen on port 51111, serving files in d:\webroot:
+  var server = new WebServer ("http://localhost:51111/", @"d:\webroot");
+  try
+  {
+    server.Start();
+    Console.WriteLine ("Server running... press Enter to stop");
+    Console.ReadLine();
+  }
+  finally { server.Stop(); }
+}</pre>
+
+
+<p>Using FTP:</p>
+<pre>WebClient wc = new WebClient();
+wc.Proxy = null;
+wc.Credentials = new NetworkCredential ("nutshell", "oreilly");
+wc.BaseAddress = "ftp://ftp.albahari.com";
+wc.UploadString ("tempfile.txt", "hello!");
+Console.WriteLine (wc.DownloadString ("tempfile.txt"));   // hello!</pre>
+
+<p>FTP ListDirectory:</p>
+<pre>var req = (FtpWebRequest) WebRequest.Create ("ftp://ftp.albahari.com");
+req.Proxy = null;
+req.Credentials = new NetworkCredential ("nutshell", "oreilly");
+req.Method = WebRequestMethods.Ftp.ListDirectory;
+
+using (WebResponse resp = req.GetResponse())
+using (StreamReader reader = new StreamReader (resp.GetResponseStream()))
+  Console.WriteLine (reader.ReadToEnd());</pre>
+
+<p>FTP GetFileSize:</p>
+<pre>var req = (FtpWebRequest) WebRequest.Create (
+                          "ftp://ftp.albahari.com/tempfile.txt");
+req.Proxy = null;
+req.Credentials = new NetworkCredential ("nutshell", "oreilly");
+
+req.Method = WebRequestMethods.Ftp.GetFileSize;
+
+using (WebResponse resp = req.GetResponse())
+  Console.WriteLine (resp.ContentLength);            // 6</pre>
+
+<p>FTP LastModified:</p>
+<pre>req.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+
+using (var resp = (FtpWebResponse) req.GetResponse() )
+  Console.WriteLine (resp.LastModified);</pre>
+
+<p>FTP Rename:</p>
+<pre>var req = (FtpWebRequest) WebRequest.Create (
+                          "ftp://ftp.albahari.com/tempfile.txt");
+req.Proxy = null;
+req.Credentials = new NetworkCredential ("nutshell", "oreilly");
+
+req.Method = WebRequestMethods.Ftp.Rename;
+req.RenameTo = "deleteme.txt";
+
+req.GetResponse().Close();        // Perform the rename</pre>
+
+<p>FTP DeleteFile:</p>
+<pre>var req = (FtpWebRequest) WebRequest.Create (
+                          "ftp://ftp.albahari.com/deleteme.txt");
+req.Proxy = null;
+req.Credentials = new NetworkCredential ("nutshell", "oreilly");
+
+req.Method = WebRequestMethods.Ftp.DeleteFile;
+
+req.GetResponse().Close();        // Perform the deletion</pre>
+
+<p>Using DNS</p>
+<pre>foreach (IPAddress a in Dns.GetHostAddresses ("albahari.com"))
+  Console.WriteLine (a.ToString());     // 205.210.42.167</pre>
+
+<pre>IPHostEntry entry = Dns.GetHostEntry ("205.210.42.167");
+Console.WriteLine (entry.HostName);                    // albahari.com</pre>
+
+<pre>IPAddress address = new IPAddress (new byte[] { 205, 210, 42, 167 });
+IPHostEntry entry = Dns.GetHostEntry (address);
+Console.WriteLine (entry.HostName);                    // albahari.com</pre>
+
+<p>Async:</p>
+<pre>foreach (IPAddress a in await Dns.GetHostAddressesAsync ("albahari.com"))
+  Console.WriteLine (a.ToString());</pre>
+
+<p>Sending Mail with SmtpClient:</p>
+<pre>SmtpClient client = new SmtpClient();
+client.Host = &quot;mail.myisp.net&quot;;
+client.Send (&quot;from@adomain.com&quot;, &quot;to@adomain.com&quot;, &quot;subject&quot;, &quot;body&quot;);</pre>
+<p>Mail attachments:</p>
+<pre>SmtpClient client = new SmtpClient();
+client.Host = &quot;mail.myisp.net&quot;;
+MailMessage mm = new MailMessage();
+
+mm.Sender = new MailAddress (&quot;kay@domain.com&quot;, &quot;Kay&quot;);
+mm.From   = new MailAddress (&quot;kay@domain.com&quot;, &quot;Kay&quot;);
+mm.To.Add  (new MailAddress (&quot;bob@domain.com&quot;, &quot;Bob&quot;));
+mm.CC.Add  (new MailAddress (&quot;dan@domain.com&quot;, &quot;Dan&quot;));
+mm.Subject = &quot;Hello!&quot;;
+mm.Body = &quot;Hi there. Here's the photo!&quot;;
+mm.IsBodyHtml = false;
+mm.Priority = MailPriority.High;
+
+Attachment a = new Attachment (&quot;photo.jpg&quot;,
+                               System.Net.Mime.MediaTypeNames.Image.Jpeg);
+mm.Attachments.Add (a);
+
+client.Send (mm);</pre>
+
+<p>TCP ping-pong:</p>
+<pre>using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+
+class TcpDemo
+{
+  static void Main()
+  {
+    new Thread (Server).Start();       // Run server method concurrently.
+    Thread.Sleep (500);                // Give server time to start.
+    Client();
+  }
+
+  static void Client()
+  {
+    using (TcpClient client = new TcpClient ("localhost", 51111))
+    using (NetworkStream n = client.GetStream())
+    {
+      BinaryWriter w = new BinaryWriter (n);
+      w.Write ("Hello");
+      w.Flush();
+      Console.WriteLine (new BinaryReader (n).ReadString());
+    }
+  }
+
+  static void Server()     // Handles a single client request, then exits.
+  {
+    TcpListener listener = new TcpListener (IPAddress.Any, 51111);
+    listener.Start();
+    using (TcpClient c = listener.AcceptTcpClient())
+    using (NetworkStream n = c.GetStream())
+    {
+      string msg = new BinaryReader (n).ReadString();
+      BinaryWriter w = new BinaryWriter (n);
+      w.Write (msg + " right back!");
+      w.Flush();                      // Must call Flush because we're not
+    }                                 // disposing the writer.
+    listener.Stop();
+  }
+}</pre>
+
+<p>Asynchronous TCP</p>
+<pre>async void RunServerAsync ()
+{
+  var listener = new TcpListener (IPAddress.Any, 51111);
+  listener.Start ();
+  try
+  {
+    while (true)
+      Accept (await listener.AcceptTcpClientAsync ());
+  }
+  finally { listener.Stop(); }
+}
+
+async Task Accept (TcpClient client)
+{
+  await Task.Yield ();
+  try
+  {
+    using (client)
+    using (NetworkStream n = client.GetStream ())
+    {
+      byte[] data = new byte [5000];
+      
+      int bytesRead = 0; int chunkSize = 1;
+      while (bytesRead < data.Length && chunkSize > 0)
+        bytesRead += chunkSize =
+          await n.ReadAsync (data, bytesRead, data.Length - bytesRead);
+      
+      Array.Reverse (data);   // Reverse the byte sequence
+      await n.WriteAsync (data, 0, data.Length);
+    }
+  }
+  catch (Exception ex) { Console.WriteLine (ex.Message); }
+}</pre>
+
+<p>Receiving POP3 mail:</p>
+<pre>static void Receive()
+{
+  using (TcpClient client = new TcpClient (&quot;mail.isp.com &quot;, 110))
+  using (NetworkStream n = client.GetStream())
+  {
+    ReadLine (n);                             // Read the welcome message.
+    SendCommand (n, &quot;USER username&quot;);
+    SendCommand (n, &quot;PASS password&quot;);
+    SendCommand (n, &quot;LIST&quot;);                  // Retrieve message IDs
+    List&lt;int&gt; messageIDs = new List&lt;int&gt;();
+    while (true)
+    {
+      string line = ReadLine (n);             // e.g.  &quot;1 1876&quot;
+      if (line == &quot;.&quot;) break;
+      messageIDs.Add (int.Parse (line.Split (' ')[0] ));   // Message ID
+    }
+
+    foreach (int id in messageIDs)         // Retrieve each message.
+    {
+      SendCommand (n, &quot;RETR &quot; + id);
+      string randomFile = Guid.NewGuid().ToString() + &quot;.eml&quot;;
+      using (StreamWriter writer = File.CreateText (randomFile))
+        while (true)
+        {
+          string line = ReadLine (n);      // Read next line of message.
+          if (line == &quot;.&quot;) break;          // Single dot = end of message.
+          if (line == &quot;..&quot;) line = &quot;.&quot;;    // &quot;Escape out&quot; double dot.
+          writer.WriteLine (line);         // Write to output file.
+        }
+      SendCommand (n, &quot;DELE &quot; + id);       // Delete message off server.
+    }
+    SendCommand (n, &quot;QUIT&quot;);
+  }
+}
+
+static string ReadLine (Stream s)
+{
+  List&lt;byte&gt; lineBuffer = new List&lt;byte&gt;();
+  while (true)
+  {
+    int b = s.ReadByte();
+    if (b == 10 || b &lt; 0) break;
+    if (b != 13) lineBuffer.Add ((byte)b);
+  }
+  return Encoding.UTF8.GetString (lineBuffer.ToArray());
+}
+
+static void SendCommand (Stream stream, string line)
+{
+  byte[] data = Encoding.UTF8.GetBytes (line + &quot;\r\n&quot;);
+  stream.Write (data, 0, data.Length);
+  string response = ReadLine (stream);
+  if (!response.StartsWith (&quot;+OK&quot;))
+    throw new Exception (&quot;POP Error: &quot; + response);
+}</pre>
+
+<p>TCP in Windows Runtime</p>
+<pre>async void Server()
+{
+  var listener = new StreamSocketListener();
+  listener.ConnectionReceived += async (sender, args) =>
+  {
+    using (StreamSocket socket = args.Socket)
+    {
+      var reader = new DataReader (socket.InputStream);
+      await reader.LoadAsync (4);
+      uint length = reader.ReadUInt32();
+      await reader.LoadAsync (length);
+      Debug.WriteLine (reader.ReadString (length));
+    }
+    listener.Dispose();   // Close listener after one message.
+  };
+  await listener.BindServiceNameAsync ("51111");
+}</pre>
+
+<pre>async void Client()
+{
+  using (var socket = new StreamSocket())
+  {
+    await socket.ConnectAsync (new HostName ("localhost"), "51111",
+                              SocketProtectionLevel.PlainSocket);
+    var writer = new DataWriter (socket.OutputStream);
+    string message = "Hello!";
+    uint length = (uint) Encoding.UTF8.GetByteCount (message);
+    writer.WriteUInt32 (length);
+    writer.WriteString (message);
+    await writer.StoreAsync();
+  }
+}</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs5ch16.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/abstraction.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:17:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML abstraction is dependency that relates two elements representing the same concept but at different levels of abstraction.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML abstraction is dependency that relates two elements representing the same concept but at different levels of abstraction - arity, aggregation type, association end ownership, navigability, etc." />
+<meta name="keywords" content="UML, UML 2, 2.4, relationship, abstraction, realization, interface realization." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency"  >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction" class="active-nav" >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Abstraction in UML</h1>
+
+<p>
+<strong>Abstraction</strong> is 
+ a <a href="dependency.html" class="ref-link">dependency relationship</a>
+ that relates two elements or sets of elements (called <strong>client</strong> and <strong>supplier</strong>)
+ representing the <strong>same concept</strong>
+ but at <strong>different levels</strong> of abstraction or from <strong>different viewpoints</strong>.
+</p>
+
+<p>
+For example, an analysis level class could serve as an abstraction for one or several design level
+ classes. Use case could be abstraction for collaboration.
+</p>
+
+<p>
+An abstraction relationship is shown as a dependency arrow from the client at the tail to the supplier
+ at the arrowhead, with the <strong>«abstraction»</strong> keyword 
+ or some other predefined stereotype name attached to.
+It could be catchy to decide which element is <strong>client</strong> and which one is <strong>supplier</strong>.
+In general, <strong>client</strong> depends on <strong>supplier</strong>, and it is a common convention
+ in the OOAD for the abstraction relationship to have the more abstract element as <strong>supplier</strong>.
+Nonetheless, UML modeler may decide that for some domain or task it is more appropriate to have
+ a more abstract element dependent on the more specific element.
+</p>
+
+<p>
+For example, an analysis level class Customer (<strong>supplier</strong>) might be implemented as 
+ design level class CustomerInfo (<strong>client</strong>).
+</p>
+
+<div class="figure-left-80">
+<img src="notation/abstraction.png" width="150" height="158"
+ alt="Usage dependency from a classifier to an interface." 
+ title="Usage dependency from a classifier to an interface." />
+<p class="figure-text">
+Customer from Domain is abstraction for CustomerInfo from DataTransfer.<br />
+(Common convention example - the more abstract element as supplier.)
+</p>
+</div>
+
+<p>
+If some UML modeler decides that it is better to show a more abstract element dependent
+ on the more specific element, the relationship will be reversed.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/abstraction-reversed.png" width="150" height="155"
+ alt="Usage dependency from a classifier to an interface." 
+ title="Usage dependency from a classifier to an interface." />
+<p class="figure-text">
+Customer from Domain is abstraction for CustomerInfo from DataTransfer.<br />
+(Reverse notation example - the less abstract element as supplier.)
+</p>
+</div>
+
+<p>
+Abstraction relationship between the supplier and the client in some cases,
+ such as <strong>derivation</strong>,
+ could be <strong>formal</strong> and <strong>unidirectional</strong>, while in some other cases,
+ such as <a href="abstraction.html#trace" class="ref-link">«trace»</a>,
+  could be <strong>informal</strong> and <strong>bidirectional</strong>.
+</p>
+
+<p>
+Abstraction has standard stereotypes such as
+<a href="deployment-diagrams.html#manifestation" class="ref-link">«manifest»</a>
+ (used in <a href="deployment-diagrams-overview.html" class="ref-link">deployment diagrams</a>),
+ <strong>«derive»</strong>, <strong>«refine»</strong>,
+ and <a href="abstraction.html#trace" class="ref-link">«trace»</a>.
+</p>
+
+
+<!--
+*****************
+   Realization
+*****************
+-->
+ 
+<h2 id="realization">Realization</h2>
+
+<p>
+<strong>Realization</strong> is a specialized
+ <a href="abstraction.html" class="ref-link">abstraction</a> 
+ relationship between two sets of model elements, one representing a <strong>specification</strong>
+(the <strong>supplier</strong>) and the other represents an <strong>implementation</strong> of the latter
+ (the <strong>client</strong>).
+</p>
+
+<p>
+The meaning of "implementation" is not strictly defined in UML Specification.
+ It implies a more refined or elaborate form in respect to a certain modeling context.
+</p>
+
+<p> 
+ Realization can be used to model stepwise refinement, optimizations, transformations, templates, model synthesis,
+  framework composition, etc.
+</p>
+
+<p>
+A Realization dependency is shown as a dashed line with a triangular arrowhead at the end that corresponds to the
+realized element (the <strong>supplier</strong>).
+</p>
+
+<p>
+Specializations of Realization relationship are
+ <a href="abstraction.html#interface-realization" class="ref-link">interface realization</a>
+ and <strong>substitution</strong>.
+</p>
+
+<!--
+**************************
+  Interface Realization
+**************************
+-->
+ 
+<h3 id="interface-realization">Interface Realization</h3>
+
+<p>
+<strong>Interface realization</strong> is a specialized
+ <a href="abstraction.html#realization" class="ref-link">realization</a>
+ relationship
+ between a <a href="classifier.html" class="ref-link">classifier</a>
+ and an 
+ <a href="class-diagrams.html#interface" class="ref-link">interface</a>.
+ This relationship signifies that the realizing classifier conforms to the <strong>contract</strong>
+ specified by the interface.
+</p>
+
+<p>
+A classifier that implements an interface specifies instances that are conforming to the interface and to any of its
+ancestors. A classifier may implement one or several interfaces.
+</p>
+
+<p id="provided-interface">
+ The set of interfaces <strong>implemented</strong> by the classifier are its
+<strong>provided interfaces</strong>.
+Provided interfaces describe the set of services the classifier offers to its clients.
+</p>
+
+<p>
+ A classifier implementing an interface
+supports the set of features owned by the interface. In addition to supporting the features, a classifier must comply with
+the constraints owned by the interface.
+</p>
+
+<p>
+An interface realization relationship between a classifier and an interface implies that the classifier supports the set of
+features owned by the interface, and any of its parent interfaces.
+</p>
+
+<p>
+ For behavioral features, the implementing classifier will
+have an operation or reception for every operation or reception, respectively, defined by the interface.
+</p>
+
+<p>
+ For properties, the
+realizing classifier will provide functionality that maintains the state represented by the property. While such may be done
+by direct mapping to a property of the realizing classifier, it may also be supported by the state machine of the classifier
+or by a pair of operations that support the retrieval of the state information and an operation that changes the state
+information.
+</p>
+
+<p>
+The <strong>interface realization</strong> dependency from a classifier to an interface is shown
+ by representing the interface by a circle or ball, labeled with the name of the interface and
+  attached by a solid line to the classifier that realizes this interface.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/class-interface-realization-ball.png" width="200" height="56"
+ alt="Interface realization dependency from a classifier to an interface." 
+ title="Interface realization dependency from a classifier to an interface." />
+<p class="figure-text">
+<strong>Interface</strong> SiteSearch is <strong>realized</strong> (implemented) by SearchService.
+</p>
+</div>
+
+<p>
+If interface is represented using the rectangle notation, <strong>interface realization</strong>
+ dependency is denoted with interface realization arrow. The classifier at the tail of the arrow
+implements the interface at the head of the arrow.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/class-interface-realization.png" width="270" height="56"
+ alt="Interface realization dependency from a classifier to an interface." 
+ title="Interface realization dependency from a classifier to an interface." />
+<p class="figure-text">
+<strong>Interface</strong> SiteSearch is <strong>realized</strong> (implemented) by SearchService.
+</p>
+</div>
+
+<!--
+**************
+     Trace
+**************
+-->
+
+<h2 id="trace">Trace</h2>
+
+<p>
+<strong>Trace</strong> is 
+ an <a href="abstraction.html" class="ref-link">abstraction</a> relationship
+ which is mainly used for tracking requirements and changes across models for the elements or sets of
+ elements that represent the same concept in different models.
+</p>
+
+<p>
+Since model changes can occur in both directions, the direction of the dependency can often be ignored.
+The mapping specifies the relationship between the two, but it is rarely computable and is usually
+ <strong>informal</strong>.
+The direction (i.e., the designation of the client and supplier) is at the discretion of the modeler.
+</p>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="abstraction.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/abstraction.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:17:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

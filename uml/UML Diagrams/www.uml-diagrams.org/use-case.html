@@ -1,0 +1,741 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/use-case.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Use case specifies complete and useful behavior of a subject (system under construction or consideration) that yields an observable result of some value to one or more actors.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Use case specifies complete and useful behavior of a subject (system under construction or consideration) that yields an observable result of some value to one or more actors." />
+<meta name="keywords" content="UML 2, 2.5, Use Case Diagrams, actor, use case, subject, relationship." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 140106 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="use-case-diagrams.html" title="UML Use Case diagrams overview of graphical notation"  >Use case diagrams</a>
+</div>
+<div>
+ <a href="use-case-subject.html" title="Subject of UML use case diagrams"  >Subject</a>
+</div>
+<div>
+ <a href="use-case-actor.html" title="Actor of UML use case diagrams" >Actor</a>
+</div>
+<div>
+ <a href="use-case.html" title="Use case of UML use case diagrams" class="active-nav" >Use case</a>
+</div>
+<div>
+ <a href="use-case-actor-association.html"
+  title="Association between actor and use case in UML use case diagrams"  >Association</a>
+</div>
+<div>
+ <a href="use-case-extend.html" title="Extend relationship of UML use case diagrams"  >Extend</a>
+</div>
+<div>
+ <a href="use-case-include.html" title="Include relationship of UML use case diagrams"  >Include</a>
+</div>
+<div>
+ <a href="use-case-diagrams-how-to.html" title="How to Draw UML Use Case Diagram."  >How to draw</a>
+</div>
+<div >
+ <a href="use-case-diagrams-examples.html" title="UML Use Case diagrams examples"  >Use case diagrams examples</a>
+</div>
+<div>
+ <a href="use-case-reference.html" title="UML Use Case diagrams graphical notation reference"  >Use case diagrams reference</a>
+</div>
+<div>
+ <a href="use-case-diagrams-questions-answers.html" title="UML Use Case diagrams FAQ"  >Use case diagrams FAQ</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1>UML Use Case</h1>
+
+<p>
+Use cases allow to capture requirements of systems under design or consideration,
+ describe functionality provided by those systems, and 
+ determine the requirements the systems pose on their environment.
+</p>
+
+<p>
+ UML Specifications, e.g.
+ <a href="references.html#ref-uml-25-b2" class="external-ref"
+  title="UML 2.5 Specification RTF Beta 2">[UML 2.5 RTF - Beta 2]</a>
+ provide several slightly different definitions of use case.
+ I compiled the definition below from those pieces.
+</p>
+
+
+<p class="definition">
+A <strong>use case</strong> is a kind of
+ <a href="common-behaviors.html#behaviored-classifier" class="ref-link">behaviored classifier</a>
+ that specifies a [complete] unit of
+ [useful] functionality performed
+ by [one or more] <a href="use-case-subject.html" class="ref-link">subjects</a>
+ to which the 
+ <a href="use-case-subject.html#apply-use-case" class="ref-link">use case applies</a>
+ in collaboration with one or more
+ <a href="use-case-actor.html" class="ref-link">actors</a>,
+ and which [for complete use cases]
+ yields an observable result that is of some value to those actors
+ [or other stakeholders] of each subject.
+</p>
+
+<p>
+UML specifications require that
+ "<span class="citation">this functionality must always be completed for the UseCase to complete.
+ It is deemed complete if, after its execution,
+ the subject will be in a state in which no further inputs or actions are expected and the UseCase can be initiated again,
+ or in an error state.</span>"
+</p>
+
+<p>
+The problem with this requirement is that it doesn't consider 
+ <a href="use-case-extend.html" class="ref-link">extending use cases</a>
+ and <a href="use-case-include.html" class="ref-link">included use cases</a>.
+ The extending use case may not necessarily be meaningful by itself.
+ Included use case is some common part extracted to a separate use case.
+ It is also seems inapplicable to require to yield an observable result.
+</p>
+
+<p>
+It is also doubtful that use case functionality is always <strong>useful</strong>:
+ "<span class="citation">Each UseCase specifies a unit of useful functionality
+ that the subject provides to its users.</span>"
+</p>
+
+<p>
+"<span class="citation">A UseCase may apply to any number of subjects.</span>"
+ It is reasonable to expect to have at least one subject for each use case,
+ otherwise the definition of use case will make no sense.
+ At the same time, UseCase class description in UML specification allows use case
+ to have no associated subjects.
+</p>
+
+<p>
+While
+"<span class="citation">the key concepts specified in this clause are Actors, UseCases, and subjects</span>"
+ one of the definitions of use case somehow also mentions
+ "<span class="citation">other stakeholders of the subject.</span>"
+ It should be enough to have actors, and if "stakeholders" have something else to add,
+ they should be included in the UML specification as a separate concept. 
+</p>
+
+<p>
+UML specifications until UML 2.5 required that
+ use case functionality is <strong>initiated by an actor</strong>.
+ In UML 2.5 this was removed, meaning that there could be some situations when
+ system functionality is started by system itself while still providing useful result to an actor.
+ For example, system could notify a customer that order was shipped,
+ schedule user information cleanup and archiving,
+ request some information from another system, etc.
+</p>
+
+<p>
+Also, all UML 2.x specifications until UML 2.5 stated that use cases 
+"<span class="citation">are defined according to the needs of actors.</span>"
+This sentence was removed from UML 2.5 as some actors might have neither needs
+ nor requirements by themselves.
+</p>
+
+
+<h4>Naming Use Cases</h4>
+
+<p>
+UML Specification provides no guidelines on use case names.
+ The only requirement is that each use case must have a name.
+ We should just follow use case definition to give some name to that
+ unit of functionality performed by a system
+ which provides some observable and useful result to an actor.
+ Examples of use case names:
+</p>
+<ul>
+<li>Make Purchase</li>
+<li>Place Order</li>
+<li>Update Subscription</li>
+<li>Transfer Funds</li>
+<li>Hire Employee</li>
+<li>Manage Account</li>
+</ul> 
+
+
+
+<h4>Notation</h4>
+
+<p>
+Use case is usually shown as an ellipse containing the name of the use case.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-default.png" width="140" height="68"
+ alt="Use case shown as an ellipse with the name inside." 
+ title="Use case shown as an ellipse with the name inside." />
+<p class="figure-text">
+User Registration <strong>use case</strong>
+</p>
+</div>
+
+<p>
+Name of the use case could also be placed below the ellipse.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-below.png" width="140" height="105"
+ alt="Use case shown as an ellipse with the name below." 
+ title="Use case shown as an ellipse with the name below." />
+<p class="figure-text">
+Transfer Funds <strong>use case</strong>
+</p>
+</div>
+
+<p>
+If a <a href="use-case-subject.html" class="ref-link">subject</a> 
+(or system boundary) is displayed, the use case ellipse is visually located inside
+ the system boundary rectangle. Note, that this does not necessarily mean that the subject classifier
+  owns the contained use cases, but merely that the use case <strong>applies</strong> to that classifier.
+</p>
+
+<p>
+Use cases have no standard keywords or stereotypes. Use case could be shown with a <strong>custom stereotype</strong>
+ above the name. As a classifier, use case has
+ <a href="property.html" class="ref-link">properties</a>.
+ A list of use case properties -
+ <a href="class-diagrams.html#operation" class="ref-link">operations</a>
+ and <a href="property.html#classifier-attribute" class="ref-link">attributes</a>
+ - could be shown in a compartment within the use case oval
+ below the use case name.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-stereotype.png" width="200" height="121"
+ alt="Use case with stereotype and properties." 
+ title="Use case with stereotype and properties." />
+<p class="figure-text">
+<strong>Use Case</strong> User Sign-In stereotyped as «authentication»
+</p>
+</div>
+
+<p>
+Use case with
+ <a href="use-case-extend.html#extension-point" class="ref-link">extension points</a>
+ may be listed in a compartment of the use case with the heading <strong>extension points</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-extension-points.png" width="180" height="125"
+ alt="Use case with extension points in a compartment." 
+ title="Use case with extension points in a compartment." />
+<p class="figure-text">
+Registration <strong>Use Case</strong> with <strong>extension points</strong> Registration Help and User Agreement
+</p>
+</div>
+
+<p>
+A use case can also be shown using the standard rectangle notation for classifiers with an
+ ellipse icon in the upper right-hand corner of the rectangle and with optional separate list 
+ compartments for its features.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-rectangle.png" width="160" height="132"
+ alt="Use case shown with standard rectangle notation for classifiers." 
+ title="Use case shown with standard rectangle notation for classifiers." />
+<p class="figure-text">
+Registration <strong>Use Case</strong> shown using the standard rectangle notation for classifiers
+</p>
+</div>
+
+
+
+<!--
+**********************
+   Abstract Use Case
+**********************
+-->
+ 
+<h2 id="abstract-use-case">Abstract Use Case</h2>
+
+<p>
+All UML 2.x specifications including <strong>UML 2.5</strong> do not mention, define or explain
+ <strong>abstract use cases</strong>.
+<strong>UML 1.x</strong> specification mentioned that "the name of an abstract use case may be shown in italics"
+but since <strong>UML 2.0</strong> this sentence was removed from UML specifications without any explanations.
+</p>
+
+<p>
+One reason that the sentence was removed could be that because use case is 
+a <a href="classifier.html" class="ref-link">classifier</a>,
+and any classifier could be abstract (with the name shown in italics), it is obvious that it
+should be applicable to the use cases as well.
+</p>
+
+<p>
+On the other hand, as the sentence was removed  and <strong>UML 2.5</strong> 
+ does not mention <strong>abstract use cases</strong> at all and does not provide even
+ a single example of abstract use cases, it could mean that they expect
+ all use cases to be <strong>concrete</strong>, not abstract.
+ In this case, it would be reasonable to have this situation explained explicitly in UML specification.
+</p>
+
+<p>
+Assuming use case could be abstract and applying appropriate definition for
+ the <a href="classifier.html" class="ref-link">classifier</a>,
+<strong>abstract use case</strong> is use case which does not have complete declaration
+ (is <strong>incomplete</strong>) and ("typically", as UML specification says) can not be instantiated.
+ An abstract use case is intended to be used by other use cases, e.g., as a target of 
+<a href="use-case.html#generalization" class="ref-link">generalization</a>
+relationship.
+I hope that "the name of an abstract use case may be shown in italics" is still applicable in UML 2.5,
+ as it was specified in UML 1.x.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-generalization.png" width="320" height="186"
+ alt="Generalization between use cases." 
+ title="Generalization between use cases." />
+<p class="figure-text">
+Web User Authentication use case is
+ <a href="use-case.html#abstract-use-case" class="ref-link">abstract use case</a><br />
+ specialized by Login, Remember Me and Single Sign-On use cases.
+</p>
+</div>
+
+<p>
+When UML 2.4 specification describes 
+ <a href="use-case-include.html" class="ref-link">include</a> relationship
+ between use cases, they explain that "what is left in a base use case is usually <strong>not complete</strong>",
+ but for some reason avoiding to call it <strong>abstract use case</strong>.
+Generally, it should mean that including use case is always abstract.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-include-atm.png" width="300" height="69"
+ alt="Use case include example." 
+ title="Use case include example." />
+<p class="figure-text">
+Bank ATM Transaction use case becomes 
+ <a href="use-case.html#abstract-use-case" class="ref-link">abstract use case</a><br />
+ as a result of including Customer Authentication use case.
+</p>
+</div>
+
+<p>
+ Though UML specification avoids doing it, it is quite common to find sources that define including use cases
+ as <strong>abstract use cases</strong> or <strong>essential</strong> use cases.
+ While we may assume that including use cases are always abstract, included use case could probably be 
+ either abstract or concrete.
+ Amazingly, there are some sources - that I can't agree with - providing exactly opposite explanation
+ that including (base) use cases are "usually concrete", while included ("addition") use cases
+ are "usually abstract".
+</p>
+
+<p>
+To add even more to the confusion, yet other sources define abstract use cases as use cases
+ described at the abstract level (business use cases, sometimes called essential use cases)
+ as opposed to the system use cases.
+</p>
+
+
+<!--
+*******************
+ Business Use Case
+*******************
+-->
+
+<h2 id="business-use-case">Business Use Case</h2>
+
+<p>
+Though support for <strong>business modeling</strong> is declared as a goal of UML,
+ UML specification provides no notion for <strong>business use cases</strong>.
+</p>
+
+<p>
+<strong>Business use cases</strong> were introduced in <strong>Rational Unified Process</strong> (RUP)
+ to support Business Modeling to represent business function, process, or activity
+ performed in the modeled <strong>business</strong>.
+ Business use case should produce a result of observable value to 
+ a <a href="use-case-actor.html#business-actor" class="ref-link">business actor</a>.
+</p>
+
+<p>
+A <strong>business use case</strong> defines what happens in the business when the use case is
+ requested by business actor, it describes complete workflow or business process
+ that produces results required or in need of business actor.
+</p>
+
+<p>
+<strong>Business use case</strong> is represented in RUP with use case oval and a line crossing it as shown below.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-business-case.png" width="150" height="78"
+ alt="Business use case as crossed use case oval." 
+ title="Business use case as crossed use case oval." />
+<p class="figure-text">
+<strong>Business use case</strong> Individual Check-In
+</p>
+</div>
+
+<p>
+There are two alternative approaches to name business use cases. Use case could be named from the point of 
+ view of 
+ <a href="use-case-actor.html#business-actor" class="ref-link">business actor</a>
+ - expressing goal or need of the actor - or from the point of view of business itself - 
+  by giving names to <strong>business processes</strong> or services provided to business actors.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-business-case-external.png" width="240" height="92"
+ alt="Business use case - Candidate Applies for Job." 
+ title="Business use case - Candidate Applies for Job." />
+<p class="figure-text">
+<strong>Business use case</strong> - Candidate Applies for Job
+</p>
+</div>
+
+<p>
+The <strong>Apply for Job</strong> business use case expresses the goal of the <strong>Candidate</strong> business actor.
+Alternative name from business view would be <strong>Hire Staff</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-business-case-internal.png" width="250" height="95"
+ alt="Business use case - Business Serves Meal to Customer." 
+ title="Business use case - Business Serves Meal to Customer." />
+<p class="figure-text">
+<strong>Business use case</strong> - Business Serves Meal to Customer
+</p>
+</div>
+
+<p>
+In this case, business use case is named according to the business process or service -
+business <strong>Serves Meal</strong> to <strong>Customer</strong>.
+Alternative name from actor view would be <strong>Have Meal</strong>.
+</p>
+
+<p>
+You can see other differences between these two approaches by comparing examples of
+ business use case diagrams for 
+ <a href="restaurant-uml-use-case-diagram-example.html" class="ref-link">Restaurant</a>.
+</p>
+
+
+<!--
+*******************
+ Use Case Behaviors
+*******************
+-->
+
+<h2>Describing Use Case Behaviors</h2>
+
+<p>
+Use case <a href="common-behaviors.html#behavior" class="ref-link">behaviors</a>
+ may be described in a natural language text (opaque behavior), which is current common practice,
+ or by using UML <a href="uml-25-diagrams.html#behavior-diagram" class="ref-link">behavior diagrams</a>
+ for specific behaviors such as
+</p>
+<ul>
+<li><a href="activity-diagrams.html#activity" class="ref-link">activity</a>,</li>
+<li><a href="state-machine-diagrams.html#behavioral-state-machine" class="ref-link">state machine</a>,</li>
+<li><a href="interaction.html" class="ref-link">interaction</a>.</li>
+</ul>
+
+<p>
+Behavior of a use case may also be described indirectly through
+ a <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaboration</a>
+ that uses the use case and its actors as the classifiers that type
+ its <a href="composite-structure-diagrams.html#part" class="ref-link">parts</a>.
+</p>
+
+<p>
+Which of these techniques to use depends on the nature of the use case behavior as well
+ as on the intended reader. These descriptions can be combined.
+</p>
+
+<p>
+UML tools should allow linking behaviors to the described use case.
+ Use case could be rendered in 
+ a <a href="frame.html" class="ref-link">frame</a>
+ labeled as <strong>use case</strong> or <strong>uc</strong> (abbreviated form).
+ Content area of the frame could be represented by different kinds of UML diagrams
+ describing behavior of the use case.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="use-case-diagrams/use-case-frame.png" width="300" height="334"
+ alt="Use case as a frame with associated activity diagram." 
+ title="Use case as a frame with associated activity diagram." itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+<strong>Use case</strong> Search Items rendered as frame with<br />
+ associated Search Items
+ <a href="activity-diagrams.html" class="ref-link">activity diagram</a>
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2010-08-05" />
+</div>
+
+<p>
+Another example of such binding of a use case to the behavior represented by activity is shown below
+ using UML 2.5 notation.
+</p>
+
+<div class="figure-left-120">
+<img src="use-case-diagrams/use-case-purchase-ticket-owned-behaviors.png" width="184" height="142" 
+ alt="Purchase Ticket use case owns behavior represented by Purchase Ticket activity." 
+ title="Purchase Ticket use case owns behavior represented by Purchase Ticket activity." />
+<p class="figure-text">
+Purchase Ticket use case owns behavior<br />
+ represented by Purchase Ticket activity.
+</p>
+</div>
+
+<p>
+Purchase Ticket activity diagram example below describes behavior of the Purchase Ticket use case.
+</p>
+
+<div class="figure-left-120">
+<img src="examples/activity-example-ticket-vending-machine.png" width="500" height="942"
+ alt="Example of Purchase Ticket use case behavior described using activity diagram." 
+ title="Example of Purchase Ticket use case behavior described using activity diagram." />
+<p class="figure-text">
+Example of Purchase Ticket use case behavior described using activity diagram.
+</p>
+</div>
+
+<p>
+An execution of a use case is an occurrence of emergent behavior. Every instance of a classifier realizing
+ a use case must behave in the manner described by the use case.
+</p>
+
+
+<!--
+***************************
+ Relationships Between UCs
+***************************
+-->
+
+<h2>Relationships Between Use Cases</h2>
+
+<p>
+Use cases could be organized using following relationships:
+</p>
+
+<ul>
+<li><a href="use-case.html#generalization" class="ref-link">generalization</a></li>
+<li><a href="use-case.html#association" class="ref-link">association</a></li>
+<li><a href="use-case-extend.html" class="ref-link">extend</a></li>
+<li><a href="use-case-include.html" class="ref-link">include</a></li>
+</ul>
+
+
+<h3 id="generalization">Generalization Between Use Cases</h3>
+
+<p>
+<a href="generalization.html" class="ref-link">Generalization</a>
+ between use cases is similar to generalization between classes – child use case
+ inherits properties and behavior of the parent use case and may override the behavior of the parent.
+</p>
+
+<p>
+Generalization is shown as a solid directed line with a large hollow triangle arrowhead, the same as
+ for  <a href="generalization.html" class="ref-link">generalization</a>
+ between classifiers, directed from the more specific use case to the general use case.
+</p>
+
+<div class="figure-left-80">
+<img src="use-case-diagrams/use-case-generalization.png" width="320" height="186"
+ alt="Generalization between use cases." 
+ title="Generalization between use cases." />
+<p class="figure-text">
+Web User Authentication use case is
+ <a href="use-case.html#abstract-use-case" class="ref-link">abstract use case</a><br />
+ specialized by Login, Remember Me and Single Sign-On use cases.
+</p>
+</div>
+
+
+<h3 id="association">Association Between Use Cases</h3>
+
+<p>
+Use cases can only be involved in
+<a href="association.html#binary-association" class="ref-link">binary associations</a>.
+</p>
+
+<p>
+Two use cases specifying the same
+ <a href="use-case-subject.html" class="ref-link">subject</a>
+ cannot be associated since each of them individually describes a complete usage of the system.
+</p>
+
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next" />&nbsp;
+ <a href="use-case-extend.html" title="UML use case extend">Use Case Extend</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+ <a href="use-case.html#disqus_thread">Comments</a><div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'use-case.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b2" class="external-ref" title="UML 2.5 Specification RTF Beta 2">[UML 2.5 RTF - Beta 2]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/use-case.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:13:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

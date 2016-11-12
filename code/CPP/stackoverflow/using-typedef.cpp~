@@ -1,0 +1,15 @@
+#include <iostream>
+
+struct cls {
+    using type = double;          //case 1
+    // typedef double type;         //case 2
+};
+
+template<typename T>
+void foo(typename T::type) {
+    std::cout<<"T::type\n";
+}
+
+int main() {
+    foo<cls>(22.2);
+}

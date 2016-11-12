@@ -1,0 +1,18 @@
+#include <map>
+#include <string>
+
+template<typename KeyType, typename ValueType>
+bool contains( std::map<KeyType, ValueType> my_map,
+	       KeyType key)
+{
+  return my_map.find( key ) ! = my_map.end();
+}
+
+int main()
+{
+  std::map<int,std::string> my_map;
+  my_map.insert( 1, "one");
+  my_map.insert( 2, "two");
+  
+  std::cout << my_map.contains( 2 ) << std::endl;
+}

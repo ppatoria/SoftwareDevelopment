@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/timer.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/timer.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/timer.hpp</h3>
+<pre>
+//  boost timer.hpp header file  ---------------------------------------------//
+
+//  Copyright Beman Dawes 1994-99.  Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/timer">http://www.boost.org/libs/timer</a> for documentation.
+
+//  Revision History
+//  01 Apr 01  Modified to use new &lt;boost/limits.hpp&gt; header. (JMaddock)
+//  12 Jan 01  Change to inline implementation to allow use without library
+//             builds. See docs for more rationale. (Beman Dawes) 
+//  25 Sep 99  elapsed_max() and elapsed_min() added (John Maddock)
+//  16 Jul 99  Second beta
+//   6 Jul 99  Initial boost version
+
+#ifndef BOOST_TIMER_HPP
+#define BOOST_TIMER_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;
+#include &lt;ctime&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;
+
+# ifdef BOOST_NO_STDC_NAMESPACE
+    namespace std { using ::clock_t; using ::clock; }
+# endif
+
+
+namespace boost {
+
+//  timer  -------------------------------------------------------------------//
+
+//  A timer object measures elapsed time.
+
+//  It is recommended that implementations measure wall clock rather than CPU
+//  time since the intended use is performance measurement on systems where
+//  total elapsed time is more important than just process or CPU time.
+
+//  Warnings: The maximum measurable elapsed time may well be only 596.5+ hours
+//  due to implementation limitations.  The accuracy of timings depends on the
+//  accuracy of timing information provided by the underlying platform, and
+//  this varies a great deal from platform to platform.
+
+class timer
+{
+ public:
+         timer() { _start_time = std::clock(); } // postcondition: elapsed()==0
+//         timer( const timer&amp; src );      // post: elapsed()==src.elapsed()
+//        ~timer(){}
+//  timer&amp; operator=( const timer&amp; src );  // post: elapsed()==src.elapsed()
+  void   restart() { _start_time = std::clock(); } // post: elapsed()==0
+  double elapsed() const                  // return elapsed time in seconds
+    { return  double(std::clock() - _start_time) / CLOCKS_PER_SEC; }
+
+  double elapsed_max() const   // return estimated maximum value for elapsed()
+  // Portability warning: elapsed_max() may return too high a value on systems
+  // where std::clock_t overflows or resets at surprising values.
+  {
+    return (double((std::numeric_limits&lt;std::clock_t&gt;::max)())
+       - double(_start_time)) / double(CLOCKS_PER_SEC); 
+  }
+
+  double elapsed_min() const            // return minimum value for elapsed()
+   { return double(1)/double(CLOCKS_PER_SEC); }
+
+ private:
+  std::clock_t _start_time;
+}; // timer
+
+} // namespace boost
+
+#endif  // BOOST_TIMER_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/timer.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:40 GMT -->
+</html>

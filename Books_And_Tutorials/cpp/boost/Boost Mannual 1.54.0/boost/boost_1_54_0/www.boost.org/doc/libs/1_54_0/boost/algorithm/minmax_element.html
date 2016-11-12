@@ -1,0 +1,659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/algorithm/minmax_element.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:39 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/algorithm/minmax_element.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/algorithm/minmax_element.hpp</h3>
+<pre>
+//  (C) Copyright Herve Bronnimann 2004.
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+/*
+ Revision history:
+   1 July 2004
+      Split the code into two headers to lessen dependence on
+      Boost.tuple. (Herve)
+   26 June 2004
+      Added the code for the boost minmax library. (Herve)
+*/
+
+#ifndef BOOST_ALGORITHM_MINMAX_ELEMENT_HPP
+#define BOOST_ALGORITHM_MINMAX_ELEMENT_HPP
+
+/* PROPOSED STANDARD EXTENSIONS:
+ *
+ * minmax_element(first, last)
+ * Effect: std::make_pair( std::min_element(first, last),
+ *                         std::max_element(first, last) );
+ *
+ * minmax_element(first, last, comp)
+ * Effect: std::make_pair( std::min_element(first, last, comp),
+ *                         std::max_element(first, last, comp) );
+ */
+
+#include &lt;utility&gt; // for std::pair and std::make_pair
+
+namespace boost {
+
+  namespace detail {  // for obtaining a uniform version of minmax_element
+    // that compiles with VC++ 6.0 -- avoid the iterator_traits by
+    // having comparison object over iterator, not over dereferenced value
+
+    template &lt;typename Iterator&gt;
+    struct less_over_iter {
+      bool operator()(Iterator const&amp; it1,
+                      Iterator const&amp; it2) const { return *it1 &lt; *it2; }
+    };
+
+    template &lt;typename Iterator, class BinaryPredicate&gt;
+    struct binary_pred_over_iter {
+      explicit binary_pred_over_iter(BinaryPredicate const&amp; p ) : m_p( p ) {}
+      bool operator()(Iterator const&amp; it1,
+                      Iterator const&amp; it2) const { return m_p(*it1, *it2); }
+    private:
+      BinaryPredicate m_p;
+    };
+
+    // common base for the two minmax_element overloads
+
+    template &lt;typename ForwardIter, class Compare &gt;
+    std::pair&lt;ForwardIter,ForwardIter&gt;
+    basic_minmax_element(ForwardIter first, ForwardIter last, Compare comp)
+    {
+      if (first == last)
+        return std::make_pair(last,last);
+
+      ForwardIter min_result = first;
+      ForwardIter max_result = first;
+
+      // if only one element
+      ForwardIter second = first; ++second;
+      if (second == last)
+        return std::make_pair(min_result, max_result);
+
+      // treat first pair separately (only one comparison for first two elements)
+      ForwardIter potential_min_result = last;
+      if (comp(first, second))
+        max_result = second;
+      else {
+        min_result = second;
+        potential_min_result = first;
+      }
+
+      // then each element by pairs, with at most 3 comparisons per pair
+      first = ++second; if (first != last) ++second;
+      while (second != last) {
+        if (comp(first, second)) {
+          if (comp(first, min_result)) {
+            min_result = first;
+            potential_min_result = last;
+          }
+          if (comp(max_result, second))
+            max_result = second;
+        } else {
+          if (comp(second, min_result)) {
+            min_result = second;
+            potential_min_result = first;
+          }
+          if (comp(max_result, first))
+            max_result = first;
+        }
+        first = ++second;
+        if (first != last) ++second;
+      }
+
+      // if odd number of elements, treat last element
+      if (first != last) { // odd number of elements
+        if (comp(first, min_result)) {
+          min_result = first;
+          potential_min_result = last;
+          }
+        else if (comp(max_result, first))
+          max_result = first;
+      }
+
+      // resolve min_result being incorrect with one extra comparison
+      // (in which case potential_min_result is necessarily the correct result)
+      if (potential_min_result != last
+        &amp;&amp; !comp(min_result, potential_min_result))
+        min_result = potential_min_result;
+
+      return std::make_pair(min_result,max_result);
+    }
+
+  } // namespace detail
+
+  template &lt;typename ForwardIter&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  minmax_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_minmax_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  minmax_element(ForwardIter first, ForwardIter last, BinaryPredicate comp)
+  {
+    return detail::basic_minmax_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+}
+
+/* PROPOSED BOOST EXTENSIONS
+ * In the description below, [rfirst,rlast) denotes the reversed range
+ * of [first,last). Even though the iterator type of first and last may
+ * be only a Forward Iterator, it is possible to explain the semantics
+ * by assuming that it is a Bidirectional Iterator. In the sequel,
+ * reverse(ForwardIterator&amp;) returns the reverse_iterator adaptor.
+ * This is not how the functions would be implemented!
+ *
+ * first_min_element(first, last)
+ * Effect: std::min_element(first, last);
+ *
+ * first_min_element(first, last, comp)
+ * Effect: std::min_element(first, last, comp);
+ *
+ * last_min_element(first, last)
+ * Effect: reverse( std::min_element(reverse(last), reverse(first)) );
+ *
+ * last_min_element(first, last, comp)
+ * Effect: reverse( std::min_element(reverse(last), reverse(first), comp) );
+ *
+ * first_max_element(first, last)
+ * Effect: std::max_element(first, last);
+ *
+ * first_max_element(first, last, comp)
+ * Effect: max_element(first, last);
+ *
+ * last_max_element(first, last)
+ * Effect: reverse( std::max_element(reverse(last), reverse(first)) );
+ *
+ * last_max_element(first, last, comp)
+ * Effect: reverse( std::max_element(reverse(last), reverse(first), comp) );
+ *
+ * first_min_first_max_element(first, last)
+ * Effect: std::make_pair( first_min_element(first, last),
+ *                         first_max_element(first, last) );
+ *
+ * first_min_first_max_element(first, last, comp)
+ * Effect: std::make_pair( first_min_element(first, last, comp),
+ *                         first_max_element(first, last, comp) );
+ *
+ * first_min_last_max_element(first, last)
+ * Effect: std::make_pair( first_min_element(first, last),
+ *                         last_max_element(first, last) );
+ *
+ * first_min_last_max_element(first, last, comp)
+ * Effect: std::make_pair( first_min_element(first, last, comp),
+ *                         last_max_element(first, last, comp) );
+ *
+ * last_min_first_max_element(first, last)
+ * Effect: std::make_pair( last_min_element(first, last),
+ *                         first_max_element(first, last) );
+ *
+ * last_min_first_max_element(first, last, comp)
+ * Effect: std::make_pair( last_min_element(first, last, comp),
+ *                         first_max_element(first, last, comp) );
+ *
+ * last_min_last_max_element(first, last)
+ * Effect: std::make_pair( last_min_element(first, last),
+ *                         last_max_element(first, last) );
+ *
+ * last_min_last_max_element(first, last, comp)
+ * Effect: std::make_pair( last_min_element(first, last, comp),
+ *                         last_max_element(first, last, comp) );
+ */
+
+namespace boost {
+
+  // Min_element and max_element variants
+
+  namespace detail {  // common base for the overloads
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  basic_first_min_element(ForwardIter first, ForwardIter last,
+                          BinaryPredicate comp)
+  {
+    if (first == last) return last;
+    ForwardIter min_result = first;
+    while (++first != last)
+      if (comp(first, min_result))
+        min_result = first;
+    return min_result;
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  basic_last_min_element(ForwardIter first, ForwardIter last,
+                         BinaryPredicate comp)
+  {
+    if (first == last) return last;
+    ForwardIter min_result = first;
+    while (++first != last)
+      if (!comp(min_result, first))
+        min_result = first;
+    return min_result;
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  basic_first_max_element(ForwardIter first, ForwardIter last,
+                          BinaryPredicate comp)
+  {
+    if (first == last) return last;
+    ForwardIter max_result = first;
+    while (++first != last)
+      if (comp(max_result, first))
+        max_result = first;
+    return max_result;
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  basic_last_max_element(ForwardIter first, ForwardIter last,
+                         BinaryPredicate comp)
+  {
+    if (first == last) return last;
+    ForwardIter max_result = first;
+    while (++first != last)
+      if (!comp(first, max_result))
+        max_result = first;
+    return max_result;
+  }
+
+  } // namespace detail
+
+  template &lt;typename ForwardIter&gt;
+  ForwardIter
+  first_min_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_first_min_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  first_min_element(ForwardIter first, ForwardIter last, BinaryPredicate comp)
+  {
+    return detail::basic_first_min_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+  template &lt;typename ForwardIter&gt;
+  ForwardIter
+  last_min_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_last_min_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  last_min_element(ForwardIter first, ForwardIter last, BinaryPredicate comp)
+  {
+    return detail::basic_last_min_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+  template &lt;typename ForwardIter&gt;
+  ForwardIter
+  first_max_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_first_max_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  first_max_element(ForwardIter first, ForwardIter last, BinaryPredicate comp)
+  {
+    return detail::basic_first_max_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+  template &lt;typename ForwardIter&gt;
+  ForwardIter
+  last_max_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_last_max_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  ForwardIter
+  last_max_element(ForwardIter first, ForwardIter last, BinaryPredicate comp)
+  {
+    return detail::basic_last_max_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+
+  // Minmax_element variants -- comments removed
+
+  namespace detail {
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  basic_first_min_last_max_element(ForwardIter first, ForwardIter last,
+                                   BinaryPredicate comp)
+  {
+    if (first == last)
+      return std::make_pair(last,last);
+
+    ForwardIter min_result = first;
+    ForwardIter max_result = first;
+
+    ForwardIter second = ++first;
+    if (second == last)
+      return std::make_pair(min_result, max_result);
+
+    if (comp(second, min_result))
+      min_result = second;
+    else
+      max_result = second;
+
+    first = ++second; if (first != last) ++second;
+    while (second != last) {
+      if (!comp(second, first)) {
+        if (comp(first, min_result))
+                 min_result = first;
+        if (!comp(second, max_result))
+          max_result = second;
+      } else {
+        if (comp(second, min_result))
+          min_result = second;
+        if (!comp(first, max_result))
+              max_result = first;
+      }
+      first = ++second; if (first != last) ++second;
+    }
+
+    if (first != last) {
+      if (comp(first, min_result))
+         min_result = first;
+      else if (!comp(first, max_result))
+               max_result = first;
+    }
+
+    return std::make_pair(min_result, max_result);
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  basic_last_min_first_max_element(ForwardIter first, ForwardIter last,
+                                   BinaryPredicate comp)
+  {
+    if (first == last) return std::make_pair(last,last);
+
+    ForwardIter min_result = first;
+    ForwardIter max_result = first;
+
+    ForwardIter second = ++first;
+    if (second == last)
+      return std::make_pair(min_result, max_result);
+
+    if (comp(max_result, second))
+      max_result = second;
+    else
+      min_result = second;
+
+    first = ++second; if (first != last) ++second;
+    while (second != last)  {
+      if (comp(first, second)) {
+        if (!comp(min_result, first))
+          min_result = first;
+        if (comp(max_result, second))
+          max_result = second;
+      } else {
+        if (!comp(min_result, second))
+          min_result = second;
+        if (comp(max_result, first))
+          max_result = first;
+      }
+      first = ++second; if (first != last) ++second;
+    }
+
+    if (first != last) {
+      if (!comp(min_result, first))
+        min_result = first;
+      else if (comp(max_result, first))
+        max_result = first;
+    }
+
+    return std::make_pair(min_result, max_result);
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  basic_last_min_last_max_element(ForwardIter first, ForwardIter last,
+                                  BinaryPredicate comp)
+  {
+    if (first == last) return std::make_pair(last,last);
+
+    ForwardIter min_result = first;
+    ForwardIter max_result = first;
+
+    ForwardIter second = first; ++second;
+    if (second == last)
+      return std::make_pair(min_result,max_result);
+
+    ForwardIter potential_max_result = last;
+    if (comp(first, second))
+      max_result = second;
+    else {
+      min_result = second;
+      potential_max_result = second;
+    }
+
+    first = ++second; if (first != last) ++second;
+    while (second != last) {
+      if (comp(first, second)) {
+        if (!comp(min_result, first))
+          min_result = first;
+        if (!comp(second, max_result)) {
+          max_result = second;
+          potential_max_result = last;
+        }
+      } else {
+        if (!comp(min_result, second))
+          min_result = second;
+        if (!comp(first, max_result)) {
+          max_result = first;
+          potential_max_result = second;
+        }
+      }
+      first = ++second;
+      if (first != last) ++second;
+    }
+
+    if (first != last) {
+      if (!comp(min_result, first))
+        min_result = first;
+      if (!comp(first, max_result)) {
+        max_result = first;
+               potential_max_result = last;
+      }
+    }
+
+    if (potential_max_result != last
+        &amp;&amp; !comp(potential_max_result, max_result))
+      max_result = potential_max_result;
+
+    return std::make_pair(min_result,max_result);
+  }
+
+  } // namespace detail
+
+  template &lt;typename ForwardIter&gt;
+  inline std::pair&lt;ForwardIter,ForwardIter&gt;
+  first_min_first_max_element(ForwardIter first, ForwardIter last)
+  {
+    return minmax_element(first, last);
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  inline std::pair&lt;ForwardIter,ForwardIter&gt;
+  first_min_first_max_element(ForwardIter first, ForwardIter last,
+                              BinaryPredicate comp)
+  {
+    return minmax_element(first, last, comp);
+  }
+
+  template &lt;typename ForwardIter&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  first_min_last_max_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_first_min_last_max_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  inline std::pair&lt;ForwardIter,ForwardIter&gt;
+  first_min_last_max_element(ForwardIter first, ForwardIter last,
+                              BinaryPredicate comp)
+  {
+    return detail::basic_first_min_last_max_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+  template &lt;typename ForwardIter&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  last_min_first_max_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_last_min_first_max_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  inline std::pair&lt;ForwardIter,ForwardIter&gt;
+  last_min_first_max_element(ForwardIter first, ForwardIter last,
+                              BinaryPredicate comp)
+  {
+    return detail::basic_last_min_first_max_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+  template &lt;typename ForwardIter&gt;
+  std::pair&lt;ForwardIter,ForwardIter&gt;
+  last_min_last_max_element(ForwardIter first, ForwardIter last)
+  {
+    return detail::basic_last_min_last_max_element(first, last,
+             detail::less_over_iter&lt;ForwardIter&gt;() );
+  }
+
+  template &lt;typename ForwardIter, class BinaryPredicate&gt;
+  inline std::pair&lt;ForwardIter,ForwardIter&gt;
+  last_min_last_max_element(ForwardIter first, ForwardIter last,
+                              BinaryPredicate comp)
+  {
+    return detail::basic_last_min_last_max_element(first, last,
+             detail::binary_pred_over_iter&lt;ForwardIter,BinaryPredicate&gt;(comp) );
+  }
+
+} // namespace boost
+
+#endif // BOOST_ALGORITHM_MINMAX_ELEMENT_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/algorithm/minmax_element.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:39 GMT -->
+</html>

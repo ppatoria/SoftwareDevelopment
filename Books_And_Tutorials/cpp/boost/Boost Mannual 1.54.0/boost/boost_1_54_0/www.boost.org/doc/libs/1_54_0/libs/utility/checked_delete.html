@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/checked_delete.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:46 GMT -->
+<head>
+		<title>Boost: checked_delete.hpp documentation - 1.54.0</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+	<body bgcolor="white" style="MARGIN-LEFT: 5%; MARGIN-RIGHT: 5%">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+		
+					<h1>checked_delete.hpp</h1>
+				
+		<p>
+			The header <STRONG>&lt;boost/checked_delete.hpp&gt;</STRONG> defines two 
+			function templates, <STRONG>checked_delete</STRONG> and <STRONG>checked_array_delete</STRONG>, 
+			and two class templates, <STRONG>checked_deleter</STRONG> and <STRONG>checked_array_deleter</STRONG>.
+		</p>
+		<P>The C++ Standard allows, in 5.3.5/5, pointers to incomplete class types to be 
+			deleted with a <EM>delete-expression</EM>. When the class has a non-trivial 
+			destructor, or a class-specific operator delete, the behavior is undefined. 
+			Some compilers issue a warning when an incomplete type is deleted, but 
+			unfortunately, not all do, and programmers sometimes ignore or disable 
+			warnings.</P>
+		<P>A particularly troublesome case is when a smart pointer's destructor, such as <STRONG>
+				boost::scoped_ptr&lt;T&gt;::~scoped_ptr</STRONG>, is instantiated with an 
+			incomplete type. This can often lead to silent, hard to track failures.</P>
+		<P>The supplied function and class templates can be used to prevent these problems, 
+			as they require a complete type, and cause a compilation error otherwise.</P>
+		<h3><a name="Synopsis">Synopsis</a></h3>
+		<pre>
+namespace boost
+{
+
+template&lt;class T&gt; void checked_delete(T * p);
+template&lt;class T&gt; void checked_array_delete(T * p);
+template&lt;class T&gt; struct checked_deleter;
+template&lt;class T&gt; struct checked_array_deleter;
+
+}
+</pre>
+		<h3>checked_delete</h3>
+		<h4><a name="checked_delete">template&lt;class T&gt; void checked_delete(T * p);</a></h4>
+		<blockquote>
+			<p>
+				<b>Requires:</b> <b>T</b> must be a complete type. The expression <tt>delete p</tt>
+				must be well-formed.
+			</p>
+			<p>
+				<b>Effects:</b> <tt>delete p;</tt>
+			</p>
+		</blockquote>
+		<h3>checked_array_delete</h3>
+		<h4><a name="checked_array_delete">template&lt;class T&gt; void checked_array_delete(T 
+				* p);</a></h4>
+		<blockquote>
+			<p>
+				<b>Requires:</b> <b>T</b> must be a complete type. The expression <tt>delete [] p</tt>
+				must be well-formed.
+			</p>
+			<p>
+				<b>Effects:</b> <tt>delete [] p;</tt>
+			</p>
+		</blockquote>
+		<h3>checked_deleter</h3>
+		<pre>
+template&lt;class T&gt; struct checked_deleter
+{
+    typedef void result_type;
+    typedef T * argument_type;
+    void operator()(T * p) const;
+};
+</pre>
+		<h4>void checked_deleter&lt;T&gt;::operator()(T * p) const;</h4>
+		<blockquote>
+			<p>
+				<b>Requires:</b> <b>T</b> must be a complete type. The expression <tt>delete p</tt>
+				must be well-formed.
+			</p>
+			<p>
+				<b>Effects:</b> <tt>delete p;</tt>
+			</p>
+		</blockquote>
+		<h3>checked_array_deleter</h3>
+		<pre>
+template&lt;class T&gt; struct checked_array_deleter
+{
+    typedef void result_type;
+    typedef T * argument_type;
+    void operator()(T * p) const;
+};
+</pre>
+		<h4>void checked_array_deleter&lt;T&gt;::operator()(T * p) const;</h4>
+		<blockquote>
+			<p>
+				<b>Requires:</b> <b>T</b> must be a complete type. The expression <tt>delete [] p</tt>
+				must be well-formed.
+			</p>
+			<p>
+				<b>Effects:</b> <tt>delete [] p;</tt>
+			</p>
+		</blockquote>
+		<h3><a name="Acknowledgements">Acknowledgements</a></h3>
+		<p>
+			The function templates <STRONG>checked_delete</STRONG> and <STRONG>checked_array_delete</STRONG>
+			were originally part of <STRONG>&lt;boost/utility.hpp&gt;</STRONG>, and the 
+			documentation acknowledged Beman Dawes, Dave Abrahams, Vladimir Prus, Rainer 
+			Deyke, John Maddock, and others as contributors.
+		</p>
+		<p>
+			<br>
+			<small>Copyright © 2002 by Peter Dimov. Distributed under the Boost Software License, Version 
+				1.0. See accompanying file <A href="http://www.boost.org/doc/libs/1_54_0/LICENSE_1_0.txt">LICENSE_1_0.txt</A> or 
+				copy at <A href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</A>.</small></p>
+	</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/utility/checked_delete.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:46 GMT -->
+</html>

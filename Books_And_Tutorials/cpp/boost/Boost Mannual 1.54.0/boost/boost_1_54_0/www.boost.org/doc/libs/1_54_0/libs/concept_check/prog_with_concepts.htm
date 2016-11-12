@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Copyright (c) Jeremy Siek and Andrew Lumsdaine 2000 -->
+<!-- Distributed under the Boost -->
+<!-- Software License, Version 1.0. (See accompanying -->
+<!-- file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) -->
+
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/concept_check/prog_with_concepts.htm by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:48 GMT -->
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>Programming With Concepts - 1.54.0</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+  <link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/rst.css" type="text/css" />
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+
+<body bgcolor="#FFFFFF" link="#0000EE" text="#000000" vlink="#551A8B" alink=
+"#FF0000">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+  
+
+  <h2><a name="programming-with-concepts" id=
+  "programming-with-concepts">Programming with Concepts</a></h2>
+
+  <p>The process of deciding how to group requirements into concepts and
+  deciding which concepts to use in each algorithm is perhaps the most
+  difficult (yet most important) part of building a generic library. A
+  guiding principle to use during this process is one we call the
+  <i>requirement minimization principle</i>.</p>
+
+  <p><b>Requirement Minimization Principle:</b> Minimize the requirements on
+  the input parameters of a component to increase its reusability.</p>
+
+  <p>There is natural tension in this statement. By definition, the input
+  parameters must be used by the component in order for the component to
+  accomplish its task (by ``component'' we mean a function or class
+  template). The challenge then is to implement the component in such a way
+  that makes the fewest assumptions (the minimum requirements) about the
+  inputs while still accomplishing the task.</p>
+
+  <p>The traditional notions of <i>abstraction</i> tie in directly to the
+  idea of minimal requirements. The more abstract the input, the fewer the
+  requirements. Thus, concepts are simply the embodiment of generic abstract
+  data types in C++ template programming.</p>
+
+  <p>When designing the concepts for some problem domain it is important to
+  keep in mind their purpose, namely to express the requirements for the
+  input to the components. With respect to the requirement minimization
+  principle, this means we want to minimize concepts. 
+  <!-- the following discussion does not match the Standard definition
+ of LessThanComparable and needs to be changed -Jeremy
+
+<p>
+It is important to note, however, that
+minimizing concepts does not mean simply 
+reducing the number of valid expressions
+in the concept.
+For example, the
+<tt>std::stable_sort()</tt> function requires that the value type of
+the iterator be <a
+href="http://www.sgi.com/tech/stl/LessThanComparable.html">
+LessThanComparable</a>, which not only
+includes <tt>operator&lt;()</tt>, but also <tt>operator&gt;()</tt>,
+<tt>operator&lt;=()</tt>, and <tt>operator&gt;=()</tt>.  
+It turns out that <tt>std::stable_sort()</tt> only uses
+<tt>operator&lt;()</tt>.  The question then arises: should 
+<tt>std::stable_sort()</tt> be specified in terms of the concept
+<a
+href="http://www.sgi.com/tech/stl/LessThanComparable.html">
+LessThanComparable</a> or in terms of a concept that only
+requires <tt>operator&lt;()</tt>?
+
+<p>
+We remark first that the use of <a
+href="http://www.sgi.com/tech/stl/LessThanComparable.html">
+LessThanComparable</a> does not really violate the requirement
+minimization principle because all of the other operators can be
+trivially implemented in terms of <tt>operator&lt;()</tt>. By
+``trivial'' we mean one line of code and a constant run-time cost.  
+More fundamentally, however, the use of <a
+href="http://www.sgi.com/tech/stl/LessThanComparable.html">
+LessThanComparable</a> does not violate the requirement minimization
+principle because all of the comparison operators (<tt>&lt;</tt>,
+<tt>></tt>, <tt><=</tt>, <tt>>=</tt>) are conceptually equivalent (in
+a mathematical sense).  Adding conceptually equivalent valid
+expressions is not a violation of the requirement minimization
+principle because no new semantics are being added === only new
+syntax. The added syntax increases re-usability.
+
+<p>
+For example,
+the
+maintainer of the <tt>std::stable_sort()</tt> may some day change the
+implementation in places to use <tt>operator>()</tt> instead of
+<tt>operator<()</tt>, since, after all, they are equivalent.  Since the
+requirements are part of the public interface, such a change could
+potentially break client code.  If instead
+<a
+href="http://www.sgi.com/tech/stl/LessThanComparable.html">
+LessThanComparable</a> is given as the requirement for
+<tt>std::stable_sort()</tt>, then the maintainer is given a reasonable
+amount of flexibility within which to work.
+
+--></p>
+
+  <p>Minimality in concepts is a property associated with the underlying
+  semantics of the problem domain being represented. In the problem domain of
+  basic containers, requiring traversal in a single direction is a smaller
+  requirement than requiring traversal in both directions (hence the
+  distinction between <a href=
+  "http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a> and
+  <a href=
+  "http://www.sgi.com/tech/stl/BidirectionalIterator.html">BidirectionalIterator</a>).
+  The semantic difference can be easily seen in the difference between the
+  set of concrete data structures that have forward iterators versus the set
+  that has bidirectional iterators. For example, singly-linked lists would
+  fall in the set of data structures having forward iterators, but not
+  bidirectional iterators. In addition, the set of algorithms that one can
+  implement using only forward iterators is quite different than the set that
+  can be implemented with bidirectional iterators. Because of this, it is
+  important to factor families of requirements into rather fine-grained
+  concepts. For example, the requirements for iterators are factored into the
+  six STL iterator concepts (trivial, output, input, forward, bidirectional,
+  and random access).</p>
+
+  <p><a href="http://www.boost.org/doc/libs/1_54_0/libs/concept_check/implementation.htm">Next: Implementation</a><br />
+  <a href="http://www.boost.org/doc/libs/1_54_0/libs/concept_check/concept_covering.htm">Prev: Concept Covering and
+  Archetypes</a><br /></p>
+  <hr />
+
+  <table>
+    <tr valign="top">
+      <td nowrap="nowrap">Copyright &copy; 2000</td>
+
+      <td><a href="http://www.boost.org/people/jeremy_siek.htm">Jeremy Siek</a>(<a href=
+      "mailto:jsiek@osl.iu.edu">jsiek@osl.iu.edu</a>) Andrew
+      Lumsdaine(<a href="mailto:lums@osl.iu.edu">lums@osl.iu.edu</a>),
+        2007 <a href="mailto:dave@boost-consulting.com">David Abrahams</a>.
+    </tr>
+  </table>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/concept_check/prog_with_concepts.htm by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:48 GMT -->
+</html>

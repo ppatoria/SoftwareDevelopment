@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch25.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 4.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch25.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRk+ErCHoFnx0leXU2cWHoqbAH2gkU=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 25: Native Interop</h2>
+
+<p>Calling MessageBox:</p>
+	<pre>using System;
+using System.Runtime.InteropServices;
+
+class MsgBoxTest
+{
+  [DllImport(&quot;user32.dll&quot;)]
+  static extern int MessageBox (IntPtr hWnd, string text, string caption,
+                                int type);
+  public static void Main()
+  {
+    MessageBox (IntPtr.Zero, &quot;Please do not press this again.&quot;, &quot;Attention&quot;, 0);
+  }
+}</pre>
+	<p>Overloading external methods:</p>
+	<pre>[DllImport (&quot;user32.dll&quot;)]
+static extern int SendMessage (IntPtr hWnd, uint msg,
+                               IntPtr wParam, IntPtr lParam);
+[DllImport (&quot;user32.dll&quot;)]
+static extern int SendMessage (IntPtr hWnd, uint msg,
+                               int wParam, int lParam);</pre>
+	<p>String marshalling with StringBuilder:</p>
+	<pre>using System;
+using System.Text;
+using System.Runtime.InteropServices;
+
+class Test
+{
+  [DllImport(&quot;kernel32.dll&quot;)]
+  static extern int GetWindowsDirectory (StringBuilder sb, int maxChars);
+
+  static void Main()
+  {
+    StringBuilder s = new StringBuilder (256);
+    GetWindowsDirectory (s, 256);
+    Console.WriteLine (s);
+  }
+}</pre>
+	<p>Marshalling structs:</p>
+	<pre>using System;
+using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Sequential)]
+class SystemTime
+{
+   public ushort Year;
+   public ushort Month;
+   public ushort DayOfWeek;
+   public ushort Day;
+   public ushort Hour;
+   public ushort Minute;
+   public ushort Second;
+   public ushort Milliseconds;
+}</pre>
+	<pre>[DllImport(&quot;kernel32.dll&quot;)]
+static extern void GetSystemTime (SystemTime t);
+
+static void Main()
+{
+  SystemTime t = new SystemTime();
+  GetSystemTime (t);
+  Console.WriteLine (t.Year);
+}</pre>
+	<p>Unmanaged callbacks:</p>
+	<pre>using System;
+using System.Runtime.InteropServices;
+
+class CallbackFun
+{
+  delegate bool EnumWindowsCallback (IntPtr hWnd, IntPtr lParam);
+
+  [DllImport(&quot;user32.dll&quot;)]
+  static extern int EnumWindows (EnumWindowsCallback hWnd, IntPtr lParam);
+
+  static bool PrintWindow (IntPtr hWnd, IntPtr lParam)
+  {
+    Console.WriteLine (hWnd.ToInt64());
+    return true;
+  }
+
+  static void Main()
+  {
+    EnumWindows (PrintWindow, IntPtr.Zero);
+  }
+}</pre>
+	<p>Simulating a C union:</p>
+	<pre>[StructLayout (LayoutKind.Explicit)]
+public struct NoteMessage
+{
+  [FieldOffset(0)] public int PackedMsg;    // 4 bytes long
+
+  [FieldOffset(0)] public byte Channel;     // FieldOffset also at 0
+  [FieldOffset(1)] public byte Note;
+  [FieldOffset(2)] public byte Velocity;
+}</pre>
+	<pre>NoteMessage n = new NoteMessage();
+Console.WriteLine (n.PackedMsg);    // 0
+
+n.Channel = 10;
+n.Note = 100;
+n.Velocity = 50;    
+Console.WriteLine (n.PackedMsg);    // 3302410
+
+n.PackedMsg = 3328010;
+Console.WriteLine (n.Note);         // 200</pre>
+	<p>Shared memory wrapper:</p>
+	<pre>using System;
+using System.Runtime.InteropServices;
+
+public class SharedMem : IDisposable
+{
+  // Here we're using enums because they're safer than constants
+
+  enum FileProtection : uint      // constants from winnt.h
+  {
+    ReadOnly = 2,
+    ReadWrite = 4
+  }
+
+  enum FileRights : uint          // constants from WinBASE.h
+  {
+    Read = 4,
+    Write = 2,
+    ReadWrite = Read + Write
+  }
+
+  static readonly IntPtr NoFileHandle = new IntPtr (-1);
+
+  [DllImport (&quot;kernel32.dll&quot;, SetLastError = true)]
+  static extern IntPtr CreateFileMapping (IntPtr hFile,
+                                          int lpAttributes,
+                                          FileProtection flProtect,
+                                          uint dwMaximumSizeHigh,
+                                          uint dwMaximumSizeLow,
+                                          string lpName);
+  
+  [DllImport (&quot;kernel32.dll&quot;, SetLastError=true)]
+  static extern IntPtr OpenFileMapping (FileRights dwDesiredAccess,
+                                        bool bInheritHandle,
+                                        string lpName);
+
+  [DllImport (&quot;kernel32.dll&quot;, SetLastError = true)]
+  static extern IntPtr MapViewOfFile (IntPtr hFileMappingObject,
+                                      FileRights dwDesiredAccess,
+                                      uint dwFileOffsetHigh,
+                                      uint dwFileOffsetLow,
+                                      uint dwNumberOfBytesToMap);
+  [DllImport (&quot;Kernel32.dll&quot;)]
+  static extern bool UnmapViewOfFile (IntPtr map);
+
+  [DllImport (&quot;kernel32.dll&quot;)]
+  static extern int CloseHandle (IntPtr hObject);
+
+  IntPtr fileHandle, fileMap;
+
+  public IntPtr Root { get { return fileMap; } }
+
+  public SharedMem (string name, bool existing, uint sizeInBytes)
+  {
+    if (existing)
+      fileHandle = OpenFileMapping (FileRights.ReadWrite, false, name);
+    else
+      fileHandle = CreateFileMapping (NoFileHandle, 0,
+                                      FileProtection.ReadWrite,
+                                      0, sizeInBytes, name);
+    if (fileHandle == IntPtr.Zero)
+      throw new Exception
+        (&quot;Open/create error: &quot; + Marshal.GetLastWin32Error());
+
+    // Obtain a read/write map for the entire file
+    fileMap = MapViewOfFile (fileHandle, FileRights.ReadWrite, 0, 0, 0);
+
+    if (fileMap == IntPtr.Zero)
+      throw new Exception
+        (&quot;MapViewOfFile error: &quot; + Marshal.GetLastWin32Error());
+  }
+
+  public void Dispose()
+  {
+    if (fileMap != IntPtr.Zero) UnmapViewOfFile (fileMap);
+    if (fileHandle != IntPtr.Zero) CloseHandle (fileHandle);
+    fileMap = fileHandle = IntPtr.Zero;
+  }
+}</pre>
+	<p>Mapping a struct to unmanaged memory:</p>
+	<pre>[StructLayout (LayoutKind.Sequential)]
+unsafe struct MySharedData
+{
+  public int Value;
+  public char Letter;
+  public fixed float NumberArray [50];
+}
+
+// Application 1:
+
+static unsafe void Main()
+{
+  using (SharedMem sm = new SharedMem (&quot;MyShare&quot;, false, 1000))
+  {
+    void* root = sm.Root.ToPointer();
+    MySharedData* data = (MySharedData*) root;
+
+    data-&gt;Value = 123;
+    data-&gt;Letter = 'X';
+    data-&gt;Number[10] = 1.45f;
+    Console.WriteLine (&quot;Written to shared memory&quot;);
+  
+    Console.ReadLine();
+
+    Console.WriteLine (&quot;Value is &quot; + data-&gt;Value);
+    Console.WriteLine (&quot;Letter is &quot; + data-&gt;Letter);
+    Console.WriteLine (&quot;11th Number is &quot; + data-&gt;Number[10]);
+    Console.ReadLine();
+  }
+}
+
+// Application 2:
+
+static unsafe void Main()
+{
+  using (SharedMem sm = new SharedMem (&quot;MyShare&quot;, true, 1000))
+  {
+    void* root = sm.Root.ToPointer();
+    MySharedData* data = (MySharedData*) root;
+
+    Console.WriteLine (&quot;Value is &quot; + data-&gt;Value);
+    Console.WriteLine (&quot;Letter is &quot; + data-&gt;Letter);
+    Console.WriteLine (&quot;11th Number is &quot; + data-&gt;Number[10]);
+
+    // Our turn to update values in shared memory!
+    data-&gt;Value++;
+    data-&gt;Letter = '!';
+    data-&gt;Number[10] = 987.5f;
+    Console.WriteLine (&quot;Updated shared memory&quot;);
+    Console.ReadLine();
+  }
+}</pre>
+	<p>fixed and fixed { ... }</p>
+	<pre>[StructLayout (LayoutKind.Sequential)]
+unsafe struct MySharedData
+{
+  ...
+
+  // Allocate space for 200 chars (i.e., 400 bytes).
+  fixed char message [200];
+
+  // One would most likely put this code into a helper class:
+  public string Message
+  {
+    get { fixed (char* cp = message) return new string (cp); }
+    set
+    {
+      fixed (char* cp = message)
+      {
+        int i = 0;
+        for (; i &lt; value.Length &amp;&amp; i &lt; 199; i++)
+          cp [i] = value [i];
+
+        // Add the null terminator
+        cp [i] = '\0';
+      }
+    }
+  }
+}</pre>
+
+
+</div>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch25.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

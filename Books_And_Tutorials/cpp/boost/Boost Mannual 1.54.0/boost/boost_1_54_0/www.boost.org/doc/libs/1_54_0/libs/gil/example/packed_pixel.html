@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/packed_pixel.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:37 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/gil/example/packed_pixel.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/gil/example/packed_pixel.cpp</h3>
+<pre>
+/*
+    Copyright 2005-2007 Adobe Systems Incorporated
+   
+    Use, modification and distribution are subject to the Boost Software License,
+    Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>).
+
+    See <a href="http://opensource.adobe.com/gil">http://opensource.adobe.com/gil</a> for most recent version including documentation.
+*/
+
+/*************************************************************************************************/
+
+/// \file
+/// \brief Example file to show how to deal with packed pixels
+/// \author Lubomir Bourdev and Hailin Jin
+/// \date February 27, 2007
+///
+/// This test file demonstrates how to use packed pixel formats in GIL. 
+/// A &quot;packed&quot; pixel is a pixel whose channels are bit ranges.
+/// Here we create an RGB image whose pixel has 16-bits, such as:
+/// bits [0..6] are the blue channel
+/// bits [7..13] are the green channel
+/// bits [14..15] are the red channel
+/// We read a regular 8-bit RGB image, convert it to packed BGR772, convert it back to 8-bit RGB and save it to a file.
+/// Since the red channel is only two bits the color loss should be observable in the result
+///
+/// This test file also demonstrates how to use bit-aligned images - these are images whose pixels themselves are not byte aligned.
+/// For example, an rgb222 image has a pixel whose size is 6 bits. Bit-aligned images are more complicated than packed images. They
+/// require a special proxy class to represent pixel reference and pixel iterator (packed images use C++ reference and C pointer respectively).
+/// The alignment parameter in the constructor of bit-aligned images is in bit units. For example, if you want your bit-aligned image to have 4-byte
+/// alignment of its rows use alignment of 32, not 4.
+///
+/// To demonstrate that image view transformations work on packed images, we save the result transposed.
+
+#include &lt;algorithm&gt;
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/gil/extension/io/jpeg_io.hpp">boost/gil/extension/io/jpeg_io.hpp</a>&gt;
+
+using namespace boost;
+using namespace boost::gil;
+
+int main() {
+    bgr8_image_t img;
+    jpeg_read_image(&quot;test.jpg&quot;,img);
+
+    ////////////////////////////////
+    // define a bgr772 image. It is a &quot;packed&quot; image - its channels are not byte-aligned, but its pixels are.
+    ////////////////////////////////
+
+    typedef packed_image3_type&lt;uint16_t, 7,7,2, bgr_layout_t&gt;::type bgr772_image_t;
+    bgr772_image_t bgr772_img(img.dimensions());
+    copy_and_convert_pixels(const_view(img),view(bgr772_img));
+
+    // Save the result. JPEG I/O does not support the packed pixel format, so convert it back to 8-bit RGB
+    jpeg_write_view(&quot;out-packed_pixel_bgr772.jpg&quot;,color_converted_view&lt;bgr8_pixel_t&gt;(transposed_view(const_view(bgr772_img))));
+
+    ////////////////////////////////
+    // define a gray1 image (one-bit per pixel). It is a &quot;bit-aligned&quot; image - its pixels are not byte aligned.
+    ////////////////////////////////
+
+    typedef bit_aligned_image1_type&lt;1, gray_layout_t&gt;::type gray1_image_t;
+    gray1_image_t gray1_img(img.dimensions());
+    copy_and_convert_pixels(const_view(img),view(gray1_img));
+
+    // Save the result. JPEG I/O does not support the packed pixel format, so convert it back to 8-bit RGB
+    jpeg_write_view(&quot;out-packed_pixel_gray1.jpg&quot;,color_converted_view&lt;gray8_pixel_t&gt;(transposed_view(const_view(gray1_img))));
+
+    return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/gil/example/packed_pixel.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:13:37 GMT -->
+</html>

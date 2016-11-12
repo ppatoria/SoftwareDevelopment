@@ -1,0 +1,62 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+#+END_HTML
+
+#+TITLE: Latency And Throughput
+
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 25-12-2013</p>
+</div>
+#+END_HTML
+
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* _Low Latency System_
+
+** Meaning: 
+  Latency is the time required to perform some action or to produce some result. 
+  Data latency may refer to the time between a query and the results arriving at the screen or the time between initiating a transaction that modifies one or more databases and its completion.
+  Latency is measured in units of time -- hours, minutes, seconds, nanoseconds or clock periods. 
+  
+** How to measure:
+   1) *Latency of HermesAPI:* Time taken to process/enrich/convert client request and send/write to socket for Agora.
+   2) *Latency of Agora:* Time taken to process client request and send/write acknowledgment/tisreply to socket.
+   3) *Latency of Hermes + Agora:* Time taken to process/enrich/convert client request and send/write to socket and acknowledgment/tisreply received from Agora.
+  
+** What is the latency  of your current system ?
+  Agora: 33 microseconds for 16 instances.
+
+
+* _High Throughput System_
+
+
+** Meaning: 
+  Throughput is the number of such actions executed or results produced per unit of time. 
+  This is measured in units of whatever is being produced (cars, motorcycles, I/O samples, memory words, iterations) per unit of time. 
+  The term "memory bandwidth" is sometimes used to specify the throughput of memory systems. 
+
+
+** How to measure: 
+   1) *Throughput of Hermes:* Number of messages Hermes process and send to agora per second.
+   2) *Throughout of Agora:*  Number of messages agora process and send the reply back to Hermes.
+   3) *Throughput clients perspective:* (a) + (b) 
+
+** What is the throughput of your current system ?
+  30,000~ messages when there are 16 instances.
+
+
+
+* _A simple generic example_
+
+  The following manufacturing example should clarify these two concepts: 
+  An assembly line is manufacturing cars. It takes eight hours to manufacture a car and that the factory produces one hundred and twenty cars per day. 
+  The latency is: 8 hours. 
+  The throughput is: 120 cars / day or 5 cars / hour.

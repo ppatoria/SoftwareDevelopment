@@ -1,0 +1,1092 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+
+<!-- Mirrored from www.albahari.com/valuevsreftypes.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:51:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="valueref_files/filelist.xml">
+<link rel=Edit-Time-Data
+href="valueref_files/editdata.mso">
+<title>Value vs Reference Types in C#</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin-top:4.0pt;
+	margin-right:0cm;
+	margin-bottom:4.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:15.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	color:red;
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+h2
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	color:purple;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{margin-top:4.0pt;
+	margin-right:0cm;
+	margin-bottom:4.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+p.MsoListBullet, li.MsoListBullet, div.MsoListBullet
+	{mso-style-update:auto;
+	margin-top:4.0pt;
+	margin-right:0cm;
+	margin-bottom:4.0pt;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;
+	mso-pagination:widow-orphan;
+	mso-list:l0 level1 lfo3;
+	tab-stops:list 18.0pt;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoMessageHeader, li.MsoMessageHeader, div.MsoMessageHeader
+	{margin-top:6.0pt;
+	margin-right:5.65pt;
+	margin-bottom:6.0pt;
+	margin-left:5.65pt;
+	mso-pagination:widow-orphan lines-together;
+	background:#FED4DC;
+	border:none;
+	mso-border-alt:solid red .75pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 3.0pt 1.0pt 3.0pt;
+	font-size:10.0pt;
+	font-family:Verdana;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.Code, li.Code, div.Code
+	{mso-style-name:Code;
+	margin-top:3.0pt;
+	margin-right:5.65pt;
+	margin-bottom:3.0pt;
+	margin-left:5.65pt;
+	mso-pagination:widow-orphan;
+	background:#FEFFE9;
+	border:none;
+	mso-border-alt:solid #FFCC99 .25pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 3.0pt 1.0pt 3.0pt;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+ /* Page Definitions */
+ @page
+	{}
+@page Section1
+	{size:595.45pt 841.7pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:-119;
+	mso-list-type:simple;
+	mso-list-template-ids:-955325966;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-style-link:"List Bullet";
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:341857235;
+	mso-list-type:simple;
+	mso-list-template-ids:134807553;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l2
+	{mso-list-id:1564561235;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1217333634 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3
+	{mso-list-id:1704357940;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1653963064 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+table.MsoTableGrid
+	{mso-style-name:"Table Grid";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin-top:4.0pt;
+	mso-para-margin-right:0cm;
+	mso-para-margin-bottom:4.0pt;
+	mso-para-margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=blue style='tab-interval:36.0pt' topmargin=0
+leftmargin=0 marginwidth=0 marginheight=0>
+
+<div class=Section1>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width="100%"
+ style='width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=162 style='width:97.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+  style='mso-bidi-font-size:12.0pt'><img width=162 height=66 id="_x0000_i1025"
+  src=images/title.gif alt="Joseph Albahari"><o:p></o:p></span></p>
+  </td>
+  <td valign=bottom style='background:#DDDBFB;padding:0cm 0cm 0cm 0cm'>
+  <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width="100%"
+   style='width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'>
+   <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+    <td style='padding:0cm 0cm 0cm 0cm'>
+    <p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+    style='mso-bidi-font-size:12.0pt'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style='mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td style='background:#70019E;padding:0cm 0cm 0cm 0cm'>
+    <p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+    style='mso-bidi-font-size:12.0pt'><a href="index.html"><span
+    style='text-decoration:none;text-underline:none'><img border=0 width=71
+    height=20 id="_x0000_i1026" src=images/home.gif alt=Home></span></a><a
+    href="contact.html"><span style='text-decoration:none;text-underline:none'><img
+    border=0 width=91 height=20 id="_x0000_i1027" src=images/contact.gif alt=Contact></span></a><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  <p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+  style='mso-bidi-font-size:12.0pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span lang=EN-GB
+style='mso-bidi-font-size:12.0pt;display:none;mso-hide:all;mso-ansi-language:
+EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<div align=center>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width="95%"
+ style='width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td style='padding:0cm 0cm 0cm 0cm'>
+  <h1>C# Concepts: Value vs Reference Types</h1>
+  <p class=MsoNormal>Joseph Albahari</p>
+  <h3>Introduction</h3>
+  <p class=MsoNormal>One area likely to cause confusion for those coming from a
+  Java or VB6 background is the distinction between value types and reference
+  types in C#.<span style='mso-spacerun:yes'>  </span>In particular, C#
+  provides two types—class and struct, which are almost the same except that
+  one is a reference type while the other is a value type.<span
+  style='mso-spacerun:yes'>  </span>This article explores their essential
+  differences, and the practical implications when programming in C#.</p>
+  <p class=MsoNormal>This article assumes you have a basic knowledge of C#, and
+  are able to define classes and properties.</p>
+  <h3>First, What Are Structs?</h3>
+  <p class=MsoNormal>Put simply, structs are cut-down classes.<span
+  style='mso-spacerun:yes'>  </span>Imagine classes that don’t support
+  inheritance or finalizers, and you have the cut-down version: the
+  struct.<span style='mso-spacerun:yes'>  </span>Structs are defined in the
+  same way as classes (except with the <i style='mso-bidi-font-style:normal'>struct</i>
+  keyword), and apart from the limitations just described, structs can have the
+  same rich members, including fields, methods, properties and operators.<span
+  style='mso-spacerun:yes'>  </span>Here’s a simple struct declaration:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='color:blue'>struct</span>
+  Point<br>
+  {<br>
+  <span style='mso-spacerun:yes'>   </span><span style='color:blue'>private</span>
+  <span style='color:blue'>int</span> x, y;<span
+  style='mso-spacerun:yes'>            </span><span
+  style='mso-spacerun:yes'> </span><span style='color:green'>// private fields<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='color:green'><o:p>&nbsp;</o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'>   </span><span
+  style='color:blue'>public</span> Point (<span style='color:blue'>int</span>
+  x, <span style='color:blue'>int</span> y) <span
+  style='mso-spacerun:yes'> </span><span style='mso-spacerun:yes'> </span><span
+  style='color:green'>// constructor<br>
+  <span style='mso-spacerun:yes'>   </span></span>{<span style='color:green'><br>
+  </span><span style='mso-spacerun:yes'>        </span><span
+  style='mso-spacerun:yes'> </span><span style='color:blue'>this</span>.x = x;<br>
+  <span style='mso-spacerun:yes'>         </span><span style='color:blue'>this</span>.y
+  = y;<br>
+  <span style='mso-spacerun:yes'>   </span>}<br style='mso-special-character:
+  line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'>   </span><span
+  style='color:blue'>public</span> <span style='color:blue'>int</span> X <span
+  style='mso-spacerun:yes'> </span><span
+  style='mso-spacerun:yes'>               </span><span
+  style='mso-spacerun:yes'> </span><span style='color:green'>// property<br>
+  <span style='mso-spacerun:yes'>   </span></span>{<span style='color:green'><br>
+  </span><span style='mso-spacerun:yes'>         </span><span style='color:
+  blue'>get</span> {<span style='color:blue'>return</span> x;}<br>
+  <span style='mso-spacerun:yes'>         </span><span style='color:blue'>set</span>
+  {x = <span style='color:blue'>value</span>;}<br>
+  <span style='mso-spacerun:yes'>   </span>}<br style='mso-special-character:
+  line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'>   </span><span
+  style='color:blue'>public</span> <span style='color:blue'>int</span> Y<br>
+  <span style='mso-spacerun:yes'>  </span><span
+  style='mso-spacerun:yes'> </span>{<br>
+  <span style='mso-spacerun:yes'>         </span><span style='color:blue'>get</span>
+  {<span style='color:blue'>return</span> y;}<br>
+  <span style='mso-spacerun:yes'>         </span><span style='color:blue'>set</span>
+  {y = <span style='color:blue'>value</span>;}<br>
+  <span style='mso-spacerun:yes'>   </span>}<br>
+  }<span style='mso-tab-count:1'>     </span></p>
+  </div>
+  <h3>Value and Reference Types</h3>
+  <p class=MsoNormal>There is another difference between structs and classes,
+  and this is also the most important to understand.<span
+  style='mso-spacerun:yes'>  </span>Structs are <b style='mso-bidi-font-weight:
+  normal'>value types</b>, while classes are <b style='mso-bidi-font-weight:
+  normal'>reference types</b>, and the runtime deals with the two in different
+  ways.<span style='mso-spacerun:yes'>  </span>When a value-type instance is
+  created, a single space in memory is allocated to store the value.<span
+  style='mso-spacerun:yes'>  </span>Primitive types such as <b
+  style='mso-bidi-font-weight:normal'>int</b>, <b style='mso-bidi-font-weight:
+  normal'>float</b>, <b style='mso-bidi-font-weight:normal'>bool</b> and <b
+  style='mso-bidi-font-weight:normal'>char</b> are also value types, and work
+  in the same way.<span style='mso-spacerun:yes'>  </span>When the runtime
+  deals with a value type, it's dealing directly with its underlying data and
+  this can be very efficient, particularly with primitive types.</p>
+  <div align=center>
+  <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+   style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+   mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+   .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+   <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+    <td valign=top style='border:solid windowtext 1.0pt;mso-border-alt:solid windowtext .5pt;
+    padding:0cm 5.4pt 0cm 5.4pt'>
+   
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=MsoNormal>With reference types, however, an object is created in
+  memory, and then handled through a separate reference—rather like a
+  pointer.<span style='mso-spacerun:yes'>  </span>Suppose <b style='mso-bidi-font-weight:
+  normal'>Point</b> is a struct, and <b style='mso-bidi-font-weight:normal'>Form</b>
+  is a class.<span style='mso-spacerun:yes'>  </span>We can instantiate each as
+  follows:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Point p1 = <span style='color:blue'>new</span>
+  Point();<span style='mso-tab-count:2'>         </span><span style='color:
+  green'>// Point is a *struct*<br>
+  </span>Form f1 = <span style='color:blue'>new</span> Form();<span
+  style='mso-tab-count:2'>           </span><span style='color:green'>// Form
+  is a *class*</span></p>
+  </div>
+  <p class=MsoNormal>In the first case, one space in memory is allocated for <b
+  style='mso-bidi-font-weight:normal'>p1</b>, wheras in the second case, two
+  spaces are allocated: one for a <b style='mso-bidi-font-weight:normal'>Form</b>
+  object and another for its reference (<b style='mso-bidi-font-weight:normal'>f1</b>).<span
+  style='mso-spacerun:yes'>  </span>It's clearer when we go about it the long
+  way:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Form f1;<span style='mso-tab-count:4'>                        </span><span
+  style='color:green'>// Allocate the reference</span><br>
+  f1 = <span style='color:blue'>new</span> Form();<span style='mso-tab-count:
+  3'>                </span><span style='color:green'>// Allocate the object</span></p>
+  </div>
+  <p class=MsoNormal>If we copy the objects to new variables:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Point p2 = p1;<br>
+  Form f2 = f1;</p>
+  </div>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'>p2</b>, being a
+  struct, becomes an independent <i style='mso-bidi-font-style:normal'>copy</i>
+  of <b style='mso-bidi-font-weight:normal'>p1</b>, with its own separate
+  fields.<span style='mso-spacerun:yes'>  </span>But in the case of <b
+  style='mso-bidi-font-weight:normal'>f2</b>, all we’ve copied is a <i
+  style='mso-bidi-font-style:normal'>reference</i>, with the result that both <b
+  style='mso-bidi-font-weight:normal'>f1</b> and <b style='mso-bidi-font-weight:
+  normal'>f2</b> point to the same object.</p>
+  <p class=MsoNormal>This is of particular interest when passing parameters to
+  methods.<span style='mso-spacerun:yes'>  </span>In C#, parameters are (by
+  default) passed by value, meaning that they are implicitly <i
+  style='mso-bidi-font-style:normal'>copied</i> when passed to the method.<span
+  style='mso-spacerun:yes'>  </span>For value-type parameters, this means
+  physically copying the instance (in the same way <b style='mso-bidi-font-weight:
+  normal'>p2</b> was copied), while for reference-types it means copying a <i
+  style='mso-bidi-font-style:normal'>reference</i> (in the same way <b
+  style='mso-bidi-font-weight:normal'>f2</b> was copied).<span
+  style='mso-spacerun:yes'>  </span>Here is an example:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Point myPoint = new Point (0, 0);<span
+  style='mso-tab-count:1'>      </span><span style='color:green'>// a new
+  value-type variable<br>
+  </span>Form myForm = new Form();<span style='mso-tab-count:3'>              </span><span
+  style='color:green'>// a new reference-type variable</span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Test (myPoint, myForm);<span
+  style='mso-tab-count:3'>                </span><span style='color:green'>//
+  Test is a method defined below<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><o:p>&nbsp;</o:p></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>void Test (Point p, Form f)</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>{<br>
+  <span style='mso-tab-count:1'>      </span>p.X = 100;<span style='mso-tab-count:
+  4'>                       </span><span style='color:green'>// No effect on
+  MyPoint since p is a copy<br>
+  </span><span style='mso-tab-count:1'>      </span>f.Text = &quot;Hello,
+  World!&quot;;<span style='mso-tab-count:2'>        </span><span
+  style='color:green'>// This will change myForm’s caption since</span><br>
+  <span style='mso-tab-count:6'>                                       </span><span
+  style='color:green'>// myForm and f point to the same object</span><br>
+  <span style='mso-tab-count:1'>      </span>f = null;<span style='mso-tab-count:
+  4'>                        </span><span style='color:green'>// No effect on
+  myForm</span><br>
+  }</p>
+  </div>
+  <p class=MsoNormal>Assigning null to <b style='mso-bidi-font-weight:normal'>f</b>
+  has no effect because <b style='mso-bidi-font-weight:normal'>f</b> is a copy
+  of a reference, and we’ve only erased the copy.</p>
+  <p class=MsoNormal>We can change the way parameters are <span
+  style='mso-bidi-font-style:italic'>marshalled</span> with the <i
+  style='mso-bidi-font-style:normal'>ref</i> modifier.<span
+  style='mso-spacerun:yes'>  </span>When passing by “reference”, the method
+  interacts directly with the caller’s arguments.<span
+  style='mso-spacerun:yes'>  </span>In the example below, you can think of the
+  parameters <b style='mso-bidi-font-weight:normal'>p</b> and <b
+  style='mso-bidi-font-weight:normal'>f</b> being replaced by <b
+  style='mso-bidi-font-weight:normal'>myPoint</b> and <b style='mso-bidi-font-weight:
+  normal'>myForm</b>:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Point myPoint = <span style='color:blue'>new</span>
+  Point (0, 0);<span style='mso-tab-count:1'>      </span><span
+  style='color:green'>// a new value-type variable<br>
+  </span>Form myForm = <span style='color:blue'>new</span> Form();<span
+  style='mso-tab-count:3'>              </span><span style='color:green'>// a
+  new reference-type variable<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Test (<span style='color:blue'>ref</span>
+  myPoint, <span style='color:blue'>ref</span> myForm);<span style='mso-tab-count:
+  2'>        </span><span style='color:green'>// pass myPoint and myForm by
+  reference<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><o:p>&nbsp;</o:p></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='color:blue'>void</span> Test
+  (<span style='color:blue'>ref</span> Point p, <span style='color:blue'>ref</span>
+  Form f)</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>{<br>
+  <span style='mso-tab-count:1'>      </span>p.X = 100;<span style='mso-tab-count:
+  4'>                       </span><span style='color:green'>// This will
+  change myPoint’s position</span><br>
+  <span style='mso-tab-count:1'>      </span>f.Text = “Hello, World!”;<span
+  style='mso-tab-count:2'>        </span><span style='color:green'>// This will
+  change MyForm’s caption</span><br>
+  <span style='mso-tab-count:1'>      </span>f = <span style='color:blue'>null</span>;<span
+  style='mso-tab-count:4'>                        </span><span
+  style='color:green'>// This will nuke the myForm variable!</span><br>
+  }</p>
+  </div>
+  <p class=MsoNormal>In this case, assigning null to <b style='mso-bidi-font-weight:
+  normal'>f</b> also makes <b style='mso-bidi-font-weight:normal'>myForm</b>
+  null, because this time we’re dealing with the original reference variable
+  and not a copy of it.</p>
+  <h3>Memory Allocation</h3>
+  <p class=MsoNormal>The Common Language Runtime allocates memory for objects
+  in two places: the <i style='mso-bidi-font-style:normal'>stack</i> and the <i
+  style='mso-bidi-font-style:normal'>heap</i>.<span style='mso-spacerun:yes'> 
+  </span>The stack is a simple first-in last-out memory structure, and is
+  highly efficient. <span style='mso-spacerun:yes'> </span>When a method is
+  invoked, the CLR bookmarks the top of the stack. <span
+  style='mso-spacerun:yes'> </span>The method then <i style='mso-bidi-font-style:
+  normal'>pushes</i> data onto the stack as it executes. <span
+  style='mso-spacerun:yes'> </span>When the method completes, the CLR just resets
+  the stack to its previous bookmark—“popping” all the method’s memory
+  allocations is one simple operation!</p>
+  <p class=MsoNormal>In contrast, the <i style='mso-bidi-font-style:normal'>heap</i>
+  can be pictured as a random jumble of objects. <span
+  style='mso-spacerun:yes'> </span>Its advantage is that it allows objects to
+  be allocated or deallocated in a random order. <span
+  style='mso-spacerun:yes'> </span>As we’ll see later, the heap requires the
+  overhead of a <i style='mso-bidi-font-style:normal'>memory manager</i> and <i
+  style='mso-bidi-font-style:normal'>garbage collector</i> to keep things in
+  order.</p>
+  <p class=MsoNormal>To illustrate how the stack and heap are used, consider
+  the following method:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='color:blue'>void </span>CreateNewTextBox()<br>
+  {<br>
+  <span style='mso-tab-count:1'>      </span>TextBox myTextBox = <span
+  style='color:blue'>new</span> TextBox();<span style='mso-tab-count:2'>             </span><span
+  style='color:green'>// TextBox is a class</span><br>
+  }</p>
+  </div>
+  <p class=MsoNormal>In this method, we create a local variable that <i
+  style='mso-bidi-font-style:normal'>references</i> an object.<span
+  style='mso-spacerun:yes'>  </span>The local variable is stored on the stack, while
+  the object itself is stored on the heap:</p>
+  <p class=MsoNormal><span style='mso-bidi-font-size:12.0pt'><img border=0
+  width=494 height=171 id="_x0000_i1028" src="valueref_files/image002.gif"></span></p>
+  <p class=MsoNormal>The stack is always used to store the following two things:</p>
+  <ul style='margin-top:0cm' type=disc>
+   <li class=MsoNormal style='mso-list:l3 level1 lfo6;tab-stops:list 36.0pt'>The
+       <i style='mso-bidi-font-style:normal'>reference</i> portion of reference-typed
+       local variables and parameters (such as the <b style='mso-bidi-font-weight:
+       normal'>myTextBox</b> <i style='mso-bidi-font-style:normal'>reference</i>)</li>
+   <li class=MsoNormal style='mso-list:l3 level1 lfo6;tab-stops:list 36.0pt'><i
+       style='mso-bidi-font-style:normal'>Value-typed</i> local variables and method
+       parameters (structs, as well as <b style='mso-bidi-font-weight:normal'>integer</b>s,
+       <b style='mso-bidi-font-weight:normal'>bool</b>s, <b style='mso-bidi-font-weight:
+       normal'>char</b>s, <b style='mso-bidi-font-weight:normal'>DateTime</b>s,
+       etc.)</li>
+  </ul>
+  <p class=MsoNormal>The following data is stored on the heap:</p>
+  <ul style='margin-top:0cm' type=disc>
+   <li class=MsoNormal style='mso-list:l2 level1 lfo7;tab-stops:list 36.0pt'>The
+       <i style='mso-bidi-font-style:normal'>content</i> of reference-type
+       objects.</li>
+   <li class=MsoNormal style='mso-list:l2 level1 lfo7;tab-stops:list 36.0pt'>Anything
+       structured <i style='mso-bidi-font-style:normal'>inside</i> a
+       reference-type object. </li>
+  </ul>
+  <h3>Memory Disposal</h3>
+  <p class=MsoNormal>Once <b style='mso-bidi-font-weight:normal'>CreateNewTextBox</b>
+  has finished running, its local stack-allocated variable, <b
+  style='mso-bidi-font-weight:normal'>myTextBox</b>, will disappear from scope
+  and be “popped” off the stack.<span style='mso-spacerun:yes'> 
+  </span>However, what will happen to the now-orphaned object on the heap to
+  which it was pointing?<span style='mso-spacerun:yes'>  </span>The answer is
+  that we can ignore it—the Common Language Runtime’s <i style='mso-bidi-font-style:
+  normal'>garbage collector</i> will catch up with it some time later and automatically
+  deallocate it from the heap. <span style='mso-spacerun:yes'> </span>The
+  garbage collector will know to delete it, because the object has no valid
+  referee (one whose chain of reference originates back to a stack-allocated
+  object).<a style='mso-footnote-id:ftn1' href="#_ftn1" name="_ftnref1" title=""><span
+  class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]><span
+  class=MsoFootnoteReference><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Times New Roman";mso-fareast-font-family:"Times New Roman";
+  mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'>[1]</span></span><![endif]></span></span></a><span
+  style='mso-spacerun:yes'>  </span>C++ programmers may be a bit uncomfortable
+  with this and may want to delete the object anyway (just to be sure!) but in
+  fact there is no way to delete the object explicitly.<span
+  style='mso-spacerun:yes'>  </span>We have to rely on the CLR for memory
+  disposal—and indeed, the whole .NET framework does just that!</p>
+  <p class=MsoNormal>However there is a caveat on automatic destruction.<span
+  style='mso-spacerun:yes'>  </span>Objects that have allocated resources other
+  than memory (in particular “handles”, such as Windows handles, file handles and
+  SQL handles) need to be told explicitly to release those resources when the
+  object is no longer required.<span style='mso-spacerun:yes'>  </span>This
+  includes all Windows controls, since they all own Windows handles!<span
+  style='mso-spacerun:yes'>  </span>You might ask, why not put the code to
+  release those resources in the object’s finalizer? <span
+  style='mso-spacerun:yes'> </span>(A finalizer is a method that the CLR runs
+  just prior to an object’s destruction).<span style='mso-spacerun:yes'> 
+  </span>The main reason is that the garbage collector is concerned with memory
+  issues and not resource issues.<span style='mso-spacerun:yes'>  </span>So on a
+  PC with a few gigabytes of free memory, the garbage collector may wait an
+  hour or two before even getting out of bed!</p>
+  <p class=MsoNormal>So how do we get our textbox to release that Windows
+  handle and disappear off the screen when we’re done with it?<span
+  style='mso-spacerun:yes'>  </span>Well, first, our example was pretty
+  artificial.<span style='mso-spacerun:yes'>  </span>In reality, we would have
+  put the textbox control on a form in order to make it visible it in the first
+  place.<span style='mso-spacerun:yes'>  </span>Assuming <i style='mso-bidi-font-style:
+  normal'>myForm</i> was created earlier on, and is still in scope, this is
+  what we’d typically do:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>myForm.Controls.Add (myTextBox);</p>
+  </div>
+  <p class=MsoNormal>As well as making the control visible, this would also
+  give it another <i style='mso-bidi-font-style:normal'>referee</i> (myForm.Controls).
+  This means that when the local reference variable <i style='mso-bidi-font-style:
+  normal'>myTextBox</i> drops out of scope, there’s no danger of the textbox
+  becoming eligible for garbage collection.<span style='mso-spacerun:yes'> 
+  </span>The other effect of adding it to the <b style='mso-bidi-font-weight:
+  normal'>Controls</b> collection is that the .NET framework will
+  deterministically call a method called <i style='mso-bidi-font-style:normal'>Dispose</i>
+  on all of its members the instant they’re no longer needed.<span
+  style='mso-spacerun:yes'>  </span>And in this <b style='mso-bidi-font-weight:
+  normal'>Dispose</b> method, the control can release its Windows handle, as
+  well as dropping the textbox off the screen.</p>
+  <div style='mso-element:para-border-div;border:solid red 1.0pt;mso-border-alt:
+  solid red .75pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;background:#FED4DC;
+  margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'>All classes that
+  implement <b style='mso-bidi-font-weight:normal'>IDisposable</b> (including
+  all Windows Forms controls) have a <b style='mso-bidi-font-weight:normal'>Dispose</b>
+  method.<span style='mso-spacerun:yes'>  </span>This method must be called
+  when an object is no longer needed in order to release resources other than
+  memory.<span style='mso-spacerun:yes'>  </span>There are two ways this
+  happens:<br>
+  <span style='mso-spacerun:yes'> </span>- manually (by calling <b
+  style='mso-bidi-font-weight:normal'>Dispose</b> explicitly)<br>
+  <span style='mso-spacerun:yes'> </span>- automatically: by adding the object
+  to a .NET container, such as a <b style='mso-bidi-font-weight:normal'>Form</b>,
+  <b style='mso-bidi-font-weight:normal'>Panel</b>, <b style='mso-bidi-font-weight:
+  normal'>TabPage</b> or <b style='mso-bidi-font-weight:normal'>UserControl</b>.<span
+  style='mso-spacerun:yes'>  </span>The container will ensure that when <i
+  style='mso-bidi-font-style:normal'>it’s</i> disposed, so are all of its
+  members.<span style='mso-spacerun:yes'>  </span>Of course, the container
+  itself must be disposed (or in turn, be part of another container).<br>
+  In the case of Windows Forms controls, we nearly always add them to a
+  container – and hence rely on automatic disposal.</p>
+  </div>
+  <p class=MsoNormal>The same thing applies to classes such as <b
+  style='mso-bidi-font-weight:normal'>FileStream</b>—these need to be disposed
+  too.<span style='mso-spacerun:yes'>  </span>Fortunately, C# provides a
+  shortcut for calling <b style='mso-bidi-font-weight:normal'>Dispose</b> on such
+  objects, in a robust fashion: the <b style='mso-bidi-font-weight:normal'>using</b>
+  statement:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>using (Stream s = File.Create (&quot;myfile.txt&quot;))</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>{</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'>  
+  </span>...</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>}<span style='color:green'><o:p></o:p></span></p>
+  </div>
+  <p class=MsoNormal>This translates to the following code:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Stream s = File.Create (&quot;myfile.txt&quot;);</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>try<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>{<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'>  
+  </span>...</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>}<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>finally<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>{<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'><span
+  style='mso-spacerun:yes'>   </span>if (s != null) s.Dispose();<o:p></o:p></b></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><b style='mso-bidi-font-weight:normal'>}<span
+  style='color:green'><o:p></o:p></span></b></p>
+  </div>
+  <p class=MsoNormal>The <b style='mso-bidi-font-weight:normal'>finally</b>
+  block ensurse that <b style='mso-bidi-font-weight:normal'>Dispose</b> still
+  gets executed should an exception be thrown within the main code block.</p>
+  <div style='mso-element:para-border-div;border:solid red 1.0pt;mso-border-alt:
+  solid red .75pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;background:#FED4DC;
+  margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'><b style='mso-bidi-font-weight:
+  normal'>What about in WPF?<o:p></o:p></b></p>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'>Most of the elements in
+  WPF don’t wrap unmanaged handles requiring explicit disposal. So you can mostly
+  ignore the disposal with WPF!</p>
+  </div>
+  <h3>A Windows Forms Example</h3>
+  <p class=MsoNormal>Let's look a couple more types you’ll come across often in
+  Windows Forms applications.<span style='mso-spacerun:yes'>  </span><b
+  style='mso-bidi-font-weight:normal'>Size</b> is a type used for representing
+  a 2-dimensional extent and <b style='mso-bidi-font-weight:normal'>Font</b>,
+  as you would expect, encapsulates a font and its properties.<span
+  style='mso-spacerun:yes'>  </span>You can find them in the .NET framework, in
+  the <b style='mso-bidi-font-weight:normal'>System.Drawing</b> namespace. The <b
+  style='mso-bidi-font-weight:normal'>Size</b> type is a struct—rather like <b
+  style='mso-bidi-font-weight:normal'>Point</b>, while the <b style='mso-bidi-font-weight:
+  normal'>Font</b> type is a class.<span style='mso-spacerun:yes'> 
+  </span>We'll create an object of each type:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Size s = <span style='color:blue'>new</span>
+  Size (100, 100);<span style='mso-tab-count:2'>          </span><span
+  style='color:green'>// struct = value type<br>
+  </span>Font f = <span style='color:blue'>new</span> Font (“Arial”,10);<span
+  style='mso-tab-count:2'>        </span><span style='color:green'>// class =
+  reference type<o:p></o:p></span></p>
+  </div>
+  <p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+  style='mso-bidi-font-size:12.0pt'><img border=0 width=494 height=215
+  id="_x0000_i1029" src="valueref_files/image004.gif"><o:p></o:p></span></p>
+  <p class=MsoNormal>and we’ll also create a form.<span
+  style='mso-spacerun:yes'>  </span><b style='mso-bidi-font-weight:normal'>Form</b>
+  is a class in <b style='mso-bidi-font-weight:normal'>System.Windows.Forms</b>
+  namespace, and is hence a reference type:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>Form myForm = <span style='color:blue'>new</span>
+  Form();</p>
+  </div>
+  <p class=MsoNormal>To set the form's size and font, we can assign the objects
+  <i style='mso-bidi-font-style:normal'>s</i> and <i style='mso-bidi-font-style:
+  normal'>f</i> to the form via its properties:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>myForm.Size = s;<br>
+  myForm.Font = f;</p>
+  </div>
+  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  <div style='mso-element:para-border-div;border:solid red 1.0pt;mso-border-alt:
+  solid red .75pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;background:#FED4DC;
+  margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'>Don't get confused by
+  the double usage of the identifiers <b style='mso-bidi-font-weight:normal'>Size</b>
+  and <b style='mso-bidi-font-weight:normal'>Font</b>: now they are referring
+  to members of <b style='mso-bidi-font-weight:normal'>myForm</b> and not the <b
+  style='mso-bidi-font-weight:normal'>Size</b> and <b style='mso-bidi-font-weight:
+  normal'>Font</b> classes.<span style='mso-spacerun:yes'>  </span>This double
+  usage is acceptable in C# and is applied extensively throughout the .NET
+  framework.</p>
+  </div>
+  <p class=MsoNormal>Here's what it now looks like in memory:</p>
+  <p class=MsoNormal><img border=0 width=535 height=300 id="_x0000_i1030"
+  src="valueref_files/image006.gif"></p>
+  <p class=MsoNormal>As you can see, with <i style='mso-bidi-font-style:normal'>s</i>,
+  we've copied over its <i style='mso-bidi-font-style:normal'>contents</i>,
+  while in the case of <i style='mso-bidi-font-style:normal'>f</i>, we've
+  copied over its <i style='mso-bidi-font-style:normal'>reference</i>
+  (resulting in two pointers in memory to the same <b style='mso-bidi-font-weight:
+  normal'>Font</b> object).<span style='mso-spacerun:yes'>  </span>This means
+  that changes made via <i style='mso-bidi-font-style:normal'>s</i> will not
+  affect the form, while changes made via <i style='mso-bidi-font-style:normal'>f</i>,
+  will<a style='mso-footnote-id:ftn2' href="#_ftn2" name="_ftnref2" title=""><span
+  class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]><span
+  class=MsoFootnoteReference><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Times New Roman";mso-fareast-font-family:"Times New Roman";
+  mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'>[2]</span></span><![endif]></span></span></a>.</p>
+  <div style='mso-element:para-border-div;border:solid red 1.0pt;mso-border-alt:
+  solid red .75pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;background:#FED4DC;
+  margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'><b style='mso-bidi-font-weight:
+  normal'>In-Line Allocation<o:p></o:p></b></p>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'>Previously we said
+  that for value-typed local variables, memory is allocated on the stack.<span
+  style='mso-spacerun:yes'>  </span>So does that mean the newly copied <b
+  style='mso-bidi-font-weight:normal'>Size</b> struct is also allocated on the
+  stack?<span style='mso-spacerun:yes'>  </span>The answer is <b
+  style='mso-bidi-font-weight:normal'>no</b>, because it’s not a local
+  variable! <span style='mso-spacerun:yes'> </span>Instead, it’s stored in a
+  field of another object (in this case a form) that’s allocated on the
+  heap.<span style='mso-spacerun:yes'>  </span>Therefore, it must, too, be
+  allocated on the heap.<span style='mso-spacerun:yes'>  </span>This mode of
+  storage is called &quot;in-line&quot;.<span style='mso-spacerun:yes'> 
+  </span></p>
+  </div>
+  <h3>Fun with Structs</h3>
+  <p class=MsoNormal>We've made a slightly simplifying assumption in the
+  diagrams in that <b style='mso-bidi-font-weight:normal'>Size</b> and <b
+  style='mso-bidi-font-weight:normal'>Font</b> are depicted as fields in the <b
+  style='mso-bidi-font-weight:normal'>Form</b> class.<span
+  style='mso-spacerun:yes'>  </span>More accurately, they are properties, which
+  are facades for internal representations we don’t get to see.<span
+  style='mso-spacerun:yes'>  </span>We can imagine their definitions look
+  something like this:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='color:blue'>class</span>
+  Form <br>
+  {<br>
+  <span style='mso-tab-count:1'>      </span><span style='color:green'>// Private
+  field members<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-tab-count:1'>      </span>Size
+  size;<br>
+  <span style='mso-tab-count:1'>      </span>Font font;<br style='mso-special-character:
+  line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-tab-count:1'>      </span><span
+  style='color:green'>// Public property definitions<o:p></o:p></span></p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-spacerun:yes'> </span><span
+  style='mso-tab-count:1'>     </span><span style='color:blue'>public</span>
+  Size Size <br>
+  <span style='mso-tab-count:1'>      </span>{<br>
+  <span style='mso-tab-count:2'>            </span><span style='color:blue'>get</span><span
+  style='mso-tab-count:1'>    </span>{ <span style='color:blue'>return</span>
+  size; }<br>
+  <span style='mso-tab-count:2'>            </span><span style='color:blue'>set</span><span
+  style='mso-tab-count:1'>    </span>{ size = <span style='color:blue'>value</span>;
+  <i style='mso-bidi-font-style:normal'>fire resizing events </i>}<br>
+  <span style='mso-tab-count:1'>      </span>}</p>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'><span style='mso-tab-count:1'>      </span><span
+  style='color:blue'>public</span> Font Font<br>
+  <span style='mso-tab-count:1'>      </span>{<br>
+  <span style='mso-tab-count:2'>            </span><span style='color:blue'>get</span><span
+  style='mso-tab-count:1'>    </span>{ <span style='color:blue'>return</span>
+  font;<span style='mso-spacerun:yes'>  </span>}<br>
+  <span style='mso-tab-count:2'>            </span><span style='color:blue'>set</span><span
+  style='mso-tab-count:1'>    </span>{ font = <span style='color:blue'>value</span>;
+  }<br>
+  <span style='mso-tab-count:1'>      </span>}<br>
+  }</p>
+  </div>
+  <p class=MsoNormal>By using properties, the class has an opportunity to fire
+  events when the form’s size or font changes.<span style='mso-spacerun:yes'> 
+  </span>It provides further flexibility in that other size-related properties,
+  such as <b style='mso-bidi-font-weight:normal'>ClientSize</b> (the size of a
+  control’s internal area without title bar, borders, or scroll bars) can work
+  in tandem with the same private fields.</p>
+  <p class=MsoNormal>But there is a snag.<span style='mso-spacerun:yes'> 
+  </span>Suppose we want to double the form’s height, through one of its
+  properties.<span style='mso-spacerun:yes'>  </span>It would seem reasonable
+  to do this :</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>myForm.ClientSize.Height =
+  myForm.ClientSize.Height * 2;</p>
+  </div>
+  <p class=MsoNormal>or more simply:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>myForm.ClientSize.Height *= 2;</p>
+  </div>
+  <p class=MsoNormal>However, this generates a compiler error:</p>
+  <p class=MsoNormal><span style='font-family:"Courier New";color:red'>Cannot
+  modify the return value of 'System.Windows.Forms.Form.ClientSize' because it
+  is not a variable<o:p></o:p></span></p>
+  <p class=MsoNormal>We get the same problem whether we use Size or ClientSize.<span
+  style='mso-spacerun:yes'>  </span>Let’s look at why.</p>
+  <p class=MsoNormal>Imagine <b style='mso-bidi-font-weight:normal'>ClientSize</b>
+  as a public field rather than a property.<span style='mso-spacerun:yes'> 
+  </span>The expression <b style='mso-bidi-font-weight:normal'>myForm.ClientSize.Height</b>
+  would then simply reach through the membership hierarchy in a single step and
+  access the <b style='mso-bidi-font-weight:normal'>Height</b> member as
+  expected.<span style='mso-spacerun:yes'>  </span>But since <b
+  style='mso-bidi-font-weight:normal'>ClientSize</b> is a property, <b
+  style='mso-bidi-font-weight:normal'>myForm.ClientSize</b> is first evaluated
+  (using the property’s <i style='mso-bidi-font-style:normal'>get</i> method),
+  returning an object of type <b style='mso-bidi-font-weight:normal'>Size</b>.<span
+  style='mso-spacerun:yes'>  </span>And because <b style='mso-bidi-font-weight:
+  normal'>Size</b> is a struct (and hence a value-type) what we get back is a <i
+  style='mso-bidi-font-style:normal'>copy</i> of the form’s size.<span
+  style='mso-spacerun:yes'>  </span>And it’s this copy whose size we
+  double!<span style='mso-spacerun:yes'>  </span>C# realizes our mistake, and
+  generates an error rather than compiling something that it knows won’t work. <span
+  style='mso-spacerun:yes'> </span>(Had <b style='mso-bidi-font-weight:normal'>Size</b>
+  been defined instead as a class, there would have been no problem, since <b
+  style='mso-bidi-font-weight:normal'>ClientSize</b>’s get accessor would have
+  returned a <i style='mso-bidi-font-style:normal'>reference, </i>giving us
+  access to the form’s real <b style='mso-bidi-font-weight:normal'>Size</b>
+  object.)</p>
+  <p class=MsoNormal>So how then do we change the form’s size?<span
+  style='mso-spacerun:yes'>  </span>You have to assign it a whole new object:</p>
+  <div style='mso-element:para-border-div;border:solid #FFCC99 1.0pt;
+  mso-border-alt:solid #FFCC99 .25pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;
+  background:#FEFFE9;margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=Code style='margin-top:3.0pt;margin-right:0cm;margin-bottom:3.0pt;
+  margin-left:0cm;background:#FEFFE9'>myForm.ClientSize = <span
+  style='color:blue'>new</span> Size<br>
+  <span style='mso-spacerun:yes'>  </span>(myForm.ClientSize.Width,
+  myForm.ClientSize.Height * 2);</p>
+  </div>
+  <p class=MsoNormal>There’s more good news in that with most controls we
+  usually size them via their external measurements (<b style='mso-bidi-font-weight:
+  normal'>Size</b> rather than <b style='mso-bidi-font-weight:normal'>ClientSize</b>)
+  and for these we also have ordinary integer <b style='mso-bidi-font-weight:
+  normal'>Width</b> and <b style='mso-bidi-font-weight:normal'>Height</b>
+  properties that we can get and set!</p>
+  <div style='mso-element:para-border-div;border:solid red 1.0pt;mso-border-alt:
+  solid red .75pt;padding:1.0pt 3.0pt 1.0pt 3.0pt;background:#FED4DC;
+  margin-left:5.65pt;margin-right:5.65pt'>
+  <p class=MsoMessageHeader style='margin-top:6.0pt;margin-right:0cm;
+  margin-bottom:6.0pt;margin-left:0cm;background:#FED4DC'>You might wonder if
+  they could they have saved all this bother by defining <b style='mso-bidi-font-weight:
+  normal'>Size</b> as a class rather than a struct.<span
+  style='mso-spacerun:yes'>  </span>But if <b style='mso-bidi-font-weight:normal'>Size</b>
+  was a class, its <b style='mso-bidi-font-weight:normal'>Height</b> and <b
+  style='mso-bidi-font-weight:normal'>Width</b> properties would probably have
+  been made read-only to avoid the complication of having to raise events whenever
+  their values changed (so that the control can know to resize itself).<span
+  style='mso-spacerun:yes'>  </span>And as read-only properties, you would be
+  forced to go about changing them by creating a new object—so we’d be back to
+  square one!</p>
+  </div>
+  <div>
+  <p><span style='mso-spacerun:yes'> </span></p>
+  </div>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=MsoNormal style='margin:0cm;margin-bottom:.0001pt'><span
+style='mso-bidi-font-size:12.0pt'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+<div style='mso-element:footnote-list'><![if !supportFootnotes]><br clear=all>
+
+<hr align=left size=1 width="33%">
+
+<![endif]>
+
+<div style='mso-element:footnote' id=ftn1>
+
+<div align=center>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width="95%"
+ style='width:95.0%;mso-cellspacing:0cm;display:none;mso-padding-alt:0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;display:none'>
+  <td style='padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoFootnoteText><a style='mso-footnote-id:ftn1' href="#_ftnref1"
+  name="_ftn1" title=""><span class=MsoFootnoteReference><span
+  style='mso-special-character:footnote'><![if !supportFootnotes]><span
+  class=MsoFootnoteReference><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Times New Roman";mso-fareast-font-family:"Times New Roman";
+  mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'>[1]</span></span><![endif]></span></span></a>
+  This differs from the COM approach of reference counting, and avoids the
+  problem of circular referencing</p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+</div>
+
+<div style='mso-element:footnote' id=ftn2>
+
+<div align=center>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width="95%"
+ style='width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td style='padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoFootnoteText><a style='mso-footnote-id:ftn2' href="#_ftnref2"
+  name="_ftn2" title=""><span class=MsoFootnoteReference><span
+  style='mso-special-character:footnote'><![if !supportFootnotes]><span
+  class=MsoFootnoteReference><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Times New Roman";mso-fareast-font-family:"Times New Roman";
+  mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'>[2]</span></span><![endif]></span></span></a>
+  If it wasn’t for the niggling fact that the Font class is immutable, and so
+  all its properties are restricted to being read-only!</p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/valuevsreftypes.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:51:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

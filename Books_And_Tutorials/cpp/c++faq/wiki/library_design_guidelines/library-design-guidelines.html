@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/library_design_guidelines/library-design-guidelines by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:56:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="077f753d05d3dda5af4c22dbf75634c10c962862" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../library_design_guidelines.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="../faq/editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/library_design_guidelines/Special:Search_results">
+              <input type="hidden" name="XID" value="65bb5e678db77200722d27c07957cbd714dd4cf2" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/library_design_guidelines/Special:Find_page">
+              <input type="hidden" name="XID" value="33bba75b843b8fe1d542b26e44995d64d3ea77c5" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../library_design_guidelines.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        library design guidelines
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="library-design-guidelines.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    library design guidelines
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=library%20design%20guidelines" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h1>Standard Library Guidelines</h1>
+
+<p>These guidelines from the ISO C++ Library Working Group recommend conventions for writing the text (i.e. standardese) that describes components of the C++ standard library. If you are proposing a library component for standardization, you should follow these guidelines for proposed wording unless there is a strong technical reason to do otherwise.</p>
+
+<p>For information on the overall proposal and how to submit it, see the <a href="http://cplusplus.github.com/LWG/call-for-library-proposals.html">Call for Library Proposals</a>.</p>
+
+<h2>Status of the guidelines</h2>
+
+<p>These guidelines began as a braindump by about 30 standards committee members at the committee&#8217;s October, 2012, meeting in Portland, Oregon, US. Organizing these random ideas into a coherent set of guidelines is an ongoing project.</p>
+
+<h2>Understanding the guidelines</h2>
+
+<p>Certain words have very specific applicability when used in guidelines:</p>
+
+<ul>
+<li><strong>Always</strong> &#8211; without exception, other than as noted by the guideline.</li>
+<li><strong>Prefer</strong> &#8211; deviate from the guideline only with good reason.</li>
+<li><strong>Consider</strong> &#8211; Your call; this is essential a neutral recommendation.</li>
+<li><strong>Avoid</strong> &#8211; deviate from the guideline only with good reason.</li>
+<li><strong>Never</strong> &#8211; without exception, other than as noted by the guideline.</li>
+</ul>
+
+<h2>Scope of library text</h2>
+
+<p>Some topics are appropriate subject matter for library text, while other topics are
+best left for front matter, implementers, educators, or others.</p>
+
+<ul>
+<li>The specification for a library component describes its observable behavior, and does not describe a particular implementation.  </li>
+<li>A specification defines the permissible range of implementation.</li>
+<li>Specification for a function shall tell you enough to implement it.</li>
+<li>Library text is not a tutorial and is not a style-guide (although it should follow a consistent style).</li>
+<li>Library components must always be implementable by hosted implementations, and must always be implementable by freestanding implementations if the containing header is identified as a header for freestanding implementations.</li>
+<li>The specification for a library component must always be precise, unambiguous, and clear, in roughly that order.</li>
+<li>Clause 17 of the C++ standard, Library introduction, always applies. In particular, the specification of your library component should always follow the conventions of 17.5, Method of description. </li>
+<li>Never specify the core language support required by a library component; support for the full core language is always assumed.</li>
+<li>Avoid dependencies on external libraries. If the whole purpose of a library component is to gain access to some external library, then a dependency on that library may be unavoidable.</li>
+<li>Avoid target assumptions. The committee will decide whether the C++ standard itself, a separate standard, a technical specification, or a technical report is the final target for your proposal. However, a proposal that involves changes to an existing library component always targets the document of the component being modified.</li>
+</ul>
+
+<h2>How We Say It</h2>
+
+<p>When we document a library for the standard, there are some conventions on how
+we document things, how the code is formatted in examples, and so forth.  While
+the library is not a style-guide, this section is effectively the style-guide
+on how code is written in the standard library clauses, among other documentation
+conventions.</p>
+
+<ul>
+<li>template parameter names in the specification indicate concepts</li>
+<li>template parameter names are camel-case</li>
+<li>template type parameters use <code>class</code> not <code>typename</code></li>
+<li>operators come in groups: (<code>==</code>, <code>!=</code>), (<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>), preincrement/postdecrement, etc.</li>
+<li>outputs in the algorithms library go to the right</li>
+<li>algorithms always specify complexity guarantees</li>
+<li>header have to be self-contained (i.e., no need to include header before including another header)</li>
+<li>headers should be topic specific (<code>&lt;utility&gt;</code> is a counter-example)</li>
+<li>use SFINAE to constrain templates: &#8220;This constructor shall not participate in overload resolution unless <code>&lt;some-condition&gt;</code> is true&#8221;</li>
+<li>where C++ 2003 syntax can be used, that is preferred over C++ 2011 features</li>
+<li>specify both <code>const</code> and <code>constexpr</code>, where appropriate.</li>
+<li>make it clear what the customization points are</li>
+<li>for templates, make it clear what the concepts are</li>
+<li>use clause <code>[structure.specifications]</code> to determine what specification clauses to use</li>
+<li>exception guarantees: blanket statement for basic, stronger statement should be explicitly specified</li>
+<li>if there is a virtual function you need to distinguish between its contract and its default implementation</li>
+<li>don&#8217;t use code to specify behavior</li>
+<li>when the specification uses code an implementation isn&#8217;t required to use the code</li>
+<li>generic components should be written to use minimal requirements while maintaining an efficient implementation</li>
+</ul>
+
+<h2>How We Design It</h2>
+
+<p>General design guidelines for successful library components.  As the standard
+library we document is a specification, and not an implementation, these
+guidelines will naturally focus on the public interface of components and how
+they fit together, along with some more nebulous ideas of &#8216;usability&#8217;.</p>
+
+<ul>
+<li>don&#8217;t be clever</li>
+<li>don&#8217;t be stupid</li>
+<li>naming matters</li>
+<li>generic components should be aware of move-only types</li>
+<li>we are thread-compatible <code>[res.on.data.races]</code></li>
+<li>exceptions are used for error conditions (there are some exceptions)</li>
+<li>do not gratuitously overload operators</li>
+<li>classes allocating memory get an allocator (inconsistently applied)</li>
+<li>containers get allocators unless they don&#8217;t allocate</li>
+<li>containers use allocator through allocator traits</li>
+<li>allocators are part of type unless there is already type-erasure for other reasons</li>
+<li><code>const</code>-correctness is observed and is used as a proxy for thread-safety in the standard library</li>
+<li>class signatures want to be near minimal (the obvious counter-example is std::basic_string)</li>
+<li>destructors shall not throw</li>
+<li>things should be <code>constexpr</code> where reasonable</li>
+<li>avoid inheritance and virtual functions where possible</li>
+<li>prefer function objects (i.e., deduced templates) to function pointers</li>
+<li>types should be allowed to be different rather than assuming they are same</li>
+<li>generic components should take advantage of parameters with stronger concepts</li>
+<li>when designing a class type, where possible it should be a &#8220;regular type&#8221; (to be defined), e.g., different objects are independent</li>
+<li>use <code>std::addressof()</code> to obtain addresses based on generic parameters</li>
+</ul>
+
+<h2>How We Code It</h2>
+
+<p>Some very specific guidelines on coding conventions and use of language features
+in library component interfaces.</p>
+
+<ul>
+<li>model-type for move-only type: <code>std::unique_ptr</code></li>
+<li>model-type for value type: <code>std::vector</code></li>
+<li>bad example: <code>std::vector&lt;bool&gt;</code></li>
+<li>names are all lower case separating words by underscores (except <code>Init</code>)</li>
+<li>avoid abbreviations except for common words: <code>_ptr</code>, <code>std</code>, etc. (apply common sense)</li>
+<li>everything is nested into <code>std</code></li>
+<li>official names don&#8217;t start with an underscore (only hidden names); exception: <code>_1</code>, <code>_2</code>, etc.</li>
+<li>no trailing underscores on names</li>
+<li><code>const</code> goes in the wrong place, i.e., to the left</li>
+<li>operators are overloaded where it is close to their original meaning</li>
+<li>do not overload unary address-of operator, nor the comma operator</li>
+<li>do not overload logical <code>and</code> operator, nor the logical <code>or</code> operator</li>
+<li>generic code should only assume <code>==</code> and <code>&lt;</code> out of their respective group</li>
+<li>operators are preferred as non-member functions where there is a choice; inconsistently applied</li>
+<li>single argument callable constructors are explicit unless there is a good reason</li>
+<li>non-fundamental types are passed by <code>const</code> reference</li>
+<li>types passed by value: iterators, function objects (including predicates), built-in types</li>
+<li>complex objects are returned by value</li>
+<li>where there are output parameters the parameters are passed by reference, not by pointer</li>
+<li>exception specification: we try to use <code>noexcept</code> for wide contracts (Madrid paper), not dynamic-exception-specifications otherwise</li>
+<li>the library will leave any rvalue argument in a valid but possibly unspecified state</li>
+<li>when defining a type stronger guarantees for moved from objects can be given</li>
+<li>standard library headers don&#8217;t use file suffixes</li>
+<li>provide a no-throw ADL <code>swap()</code> where possible</li>
+<li>have a member-<code>swap()</code></li>
+<li>containers can <code>emplace()</code> objects</li>
+<li>avoid macros as part of the interface (use, e.g., inline functions)</li>
+<li>predicate type-traits derive from <code>integral_constant</code></li>
+<li>identifiers come from the basic source character set</li>
+<li>don&#8217;t use virtual destructors in non-polymorphic classes</li>
+<li>virtual functions are normally non-public</li>
+<li>if there is a virtual function, the destructor is virtual</li>
+<li>exception types must inherit from <code>std::exception</code> or, preferably, from one of its existing derived types</li>
+<li>you shouldn&#8217;t have multiple inheritance for exception classes</li>
+<li>if arguments can be deduced, use perfect forwarding; if arguments are part of the enclosing type provide the right set of overloads (see <code>std::vector&lt;...&gt;::emplace_back()</code> vs. <code>push_back()</code>)</li>
+<li>when possible build on existing low-level library facilities rather than building new ones</li>
+</ul>
+
+<h2>How we develop it</h2>
+
+<p>The process of developing the standard library publications.</p>
+
+<ul>
+<li>papers in mailings</li>
+<li>issues lists</li>
+<li>prior art (e.g., Boost)</li>
+<li>face-to-face meetings</li>
+<li>consensus driven process</li>
+<li>study groups</li>
+</ul>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/library_design_guidelines/library-design-guidelines",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/library_design_guidelines/library-design-guidelines",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/library_design_guidelines/library-design-guidelines by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:56:24 GMT -->
+</html>

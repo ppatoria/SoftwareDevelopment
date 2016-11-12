@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/bank-atm-uml-use-case-diagram-example.html?context=uc-examples by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>An example of UML use case diagram for a bank ATM (Automated Teller Machine) - Customer actor uses bank ATM to check balances, deposit funds, withdraw cash and to transfer funds.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="An example of UML use case diagrams for a bank ATM - Customer actor uses bank ATM use cases to check balances of his/her bank accounts, deposit funds, withdraw cash and/or transfer funds." />
+<meta name="keywords" content="UML, UML 2, UML 2.5, example, bank, ATM, use case, diagram." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 140111 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="use-case-diagrams.html" title="UML Use Case diagrams overview of graphical notation"  >Use case diagrams</a>
+</div>
+<div >
+ <a href="use-case-diagrams-examples.html" title="UML Use Case diagrams examples"  >Examples</a>
+</div>
+<div>
+ <a href="airport-checkin-uml-use-case-diagram-example.html"
+ title="Airport check-in and security screening UML diagram example"  >Airport check-In</a>
+</div>
+<div>
+ <a href="restaurant-uml-use-case-diagram-example.html"
+ title="Restaurant business use cases UML diagram examples"  >Restaurant</a>
+</div>
+<div>
+ <a href="ticket-vending-machine-use-case-diagram-examplea915.html?context=uc-examples"
+ title="Ticket vending machine UML use case diagram example"  >Ticket vending machine</a>
+</div>
+<div>
+ <a href="bank-atm-uml-use-case-diagram-examplea915.html?context=uc-examples"
+ title="Bank ATM UML use case diagram example" class="active-nav" >Bank ATM</a>
+</div>
+<div>
+ <a href="examples/point-of-sales-uml-use-case-diagram-example.html"
+ title="Point of Sales Terminal UML use case diagram example"  >POS terminal</a>
+</div>
+<div>
+ <a href="online-library-uml-use-case-diagram-example.html"
+ title="e-Library OPAC UML use case diagram example" >E-Library</a>
+</div>
+<div>
+ <a href="examples/online-shopping-use-case-diagram-examplea915.html?context=uc-examples"
+  title="Retail website UML use case diagram example"  >Online shopping</a>
+</div>
+<div>
+  <a href="examples/online-shopping-credit-cards-use-cases-examplea915.html?context=uc-examples"
+   title="Credit Card Processing System UML use case diagram example"  >Credit card processing</a>
+</div>
+<div>
+ <a href="examples/website-admin-use-case-diagrams-examplea915.html?context=uc-examples"
+  title="Website management UML use case diagrams example"  >Website administration</a>
+</div>
+<div>
+ <a href="examples/hospital-management-use-case-diagram-examplea915.html?context=uc-examples"
+ title="Hospital Management UML use case diagrams example"  >Hospital management</a>
+</div>
+<div>
+ <a href="radiology-diagnostic-report-uml-use-case-diagram-examplea915.html?context=uc-examples"
+ title="Radiology diagnostic reporting UML use case diagrams example"  >Radiology reports</a>
+</div>
+<div>
+  <a href="examples/software-license-use-case-diagram-examplea915.html?context=uc-examples"
+   title="Software protection and licensing UML use case diagram example"  >Software licensing</a>
+</div>
+<div>
+  <a href="index-examples.html" title="Index of examples of UML diagrams.">All UML examples</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1 class="subtitle">Bank ATM</h1>
+<h2 class="subtitle">UML Use Case Diagram Examples</h2>
+
+<p>
+An automated teller machine (<strong>ATM</strong>) or the automatic banking machine (<strong>ABM</strong>)
+ is a banking subsystem (<a href="use-case-subject.html" class="ref-link">subject</a>)
+ that provides bank <strong>customers</strong> with access to financial transactions
+ in a public space without the need for a cashier, clerk or bank teller.
+</p> 
+ 
+<p>
+<strong>Customer</strong>
+ (<a href="use-case-actor.html" class="ref-link">actor</a>)
+ uses bank ATM to <strong>check balances</strong> of his/her bank accounts,
+ <strong>deposit funds</strong>, <strong>withdraw cash</strong> and/or <strong>transfer funds</strong>
+ (<a href="use-case.html" class="ref-link">use cases</a>).
+<strong>ATM Technician</strong> provides <strong>maintenance</strong> and <strong>repairs</strong>.
+All these use cases also involve <strong>Bank</strong> actor whether it is related to customer transactions
+or to the ATM servicing.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="examples/use-case-example-atm.png" width="600" height="514"
+ alt="Bank ATM Use Cases Example for Customer and ATM Technician." 
+ title="Bank ATM Use Cases Example for Customer and ATM Technician."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+An example of use case diagram for Bank ATM subsystem - top level use cases.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="dateModified" content="2013-06-02" />
+</div>
+
+<p>
+On most bank ATMs, the customer is authenticated by inserting a plastic ATM card and entering
+ a personal identification number (PIN).
+<strong>Customer Authentication</strong> use case is <strong>required</strong> for every ATM transaction so
+we show it as <a href="use-case-include.html" class="ref-link">include</a> relationship.
+Including this use case as well as transaction
+<a href="use-case.html#generalization" class="ref-link">generalizations</a>
+make the <strong>ATM Transaction</strong>
+an <a href="use-case.html#abstract-use-case" class="ref-link">abstract use case</a>.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="examples/use-case-example-atm-transactions.png" width="640" height="326"
+ alt="Bank ATM transactions and authentication use cases example." 
+ title="Bank ATM transactions and authentication use cases example."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Bank ATM Transactions and Customer Authentication Use Cases Example.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="representativeOfPage" content="true" />
+<meta itemprop="dateModified" content="2013-06-02" />
+</div>
+
+<p>
+If needed, customer may ask ATM for <strong>help</strong>.
+<strong>ATM Transaction</strong> use case
+ is <a href="use-case-extend.html" class="ref-link">extended</a>
+ via <strong>Menu</strong>
+ <a href="use-case-extend.html#extension-point" class="ref-link">extension point</a>
+ by the <strong>ATM Help</strong> use case whenever <strong>ATM Transaction</strong>
+ is at the location specified by the <strong>Menu</strong> 
+ and the bank customer requests help, e.g. by selecting Help menu item.
+</p>
+
+<div class="figure-left-80" itemscope itemtype="http://schema.org/ImageObject">
+<img src="examples/use-case-example-atm-servicing.png" width="500" height="283"
+ alt="Bank ATM Maintenance, Repair, Diagnostics Use Cases Example." 
+ title="Bank ATM Maintenance, Repair, Diagnostics Use Cases Example." 
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Bank ATM Maintenance, Repair, Diagnostics Use Cases Example.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="dateModified" content="2013-06-02" />
+</div>
+
+<p>
+<strong>ATM Technician</strong> maintains or repairs Bank ATM.
+<strong>Maintenance</strong> use case includes <strong>Replenishing</strong> ATM with cash, ink or printer paper,
+<strong>Upgrades</strong> of hardware, firmware or software, and remote or on-site <strong>Diagnostics</strong>.
+<strong>Diagnostics</strong> is also
+ <a href="use-case-include.html" class="ref-link">included</a> in
+ (shared with) <strong>Repair</strong> use case.
+</p>
+
+
+<br />
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+ var disqus_identifier = 'bank-atm-uml-use-case-diagram-example.html';
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<a href="https://twitter.com/uml_diagrams" class="twitter-follow-button" data-show-count="false">Follow @uml_diagrams</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.5</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.5</strong> specification 
+ <a href="references.html#ref-uml-25-b1" class="external-ref" title="UML 2.5 Specification FTF Beta 1">[UML 2.5 FTF - Beta 1]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+<a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/bank-atm-uml-use-case-diagram-example.html?context=uc-examples by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

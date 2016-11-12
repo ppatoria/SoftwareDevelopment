@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-language-classes by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="aaacb06e4ae2433870b8f21c459edcaacc78db4b" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="658fb4a60796b6dbdc8ae68a50a9b7b8abf2c307" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="ee1add92547320535e67bd6778a49e8b2829365a" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        cpp11-language-classes
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="cpp11-language-classes.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    cpp11-language-classes
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=cpp11-language-classes" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="cpp11-language-classes">C++11 Language Extensions &#8211; Classes</h2>
+
+<h3 id="default-delete"><code>=default</code> and <code>=delete</code></h3>
+
+<p>The common idiom of &#8220;prohibiting copying&#8221; can now be expressed directly:</p>
+
+<pre><code>    class X {
+        // ...
+
+        X&amp; operator=(const X&amp;) = delete;    // Disallow copying
+        X(const X&amp;) = delete;
+    };
+</code></pre>
+
+<p>Conversely, we can also say explicitly that we want to default copy behavior:</p>
+
+<pre><code>    class Y {
+        // ...
+        Y&amp; operator=(const Y&amp;) = default;   // default copy semantics
+        Y(const Y&amp;) = default;
+    };
+</code></pre>
+
+<p>Explicitly writing out the default by hand is at best redundant, and has two drawbacks: it sometimes generates less efficient code than the compiler-generated default would, and it prevents types from being considered PODs. However, comments about copy operations and (worse) a user explicitly defining copy operations meant to give the default behavior were not uncommon in pre-C++11 code. Leaving it to the compiler to implement the default behavior is simpler, less error-prone, and often leads to better object code.</p>
+
+<p>The <code>=default</code> mechanism can be used for any function that has a default. The <code>=delete</code> mechanism can be used for any function. For example, we can eliminate an undesired conversion like this:</p>
+
+<pre><code>    struct Z {
+        // ...
+
+        Z(long long);     // can initialize with a long long
+        Z(long) = delete; // but not anything smaller
+    };
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>[N2326==07-0186] Lawrence Crowl: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2326.html">Defaulted and Deleted Functions</a>. </li>
+<li>[N3174=100164] B. Stroustrup: <a href="http://www.stroustrup.com/move.pdf">To move or not to move. An analysis of problems related to generated copy and move operations.</a> Approved. </li>
+</ul>
+
+<p>For further historical background of alternatives, see</p>
+
+<ul>
+<li>[N1717==04-0157] Francis Glassborow and Lois Goldthwaite: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1717.pdf">explicit class and default definitions</a> (an early proposal). </li>
+<li>Bjarne Stroustrup: <a href="http://www.stroustrup.com/:/www.research.att.com/~bs/controlofdefaults.pdf">Control of class defaults</a> (a dead end). </li>
+</ul>
+
+<h3 id="default-move-copy">Control of default move and copy</h3>
+
+<p>By default, a class has five operations:</p>
+
+<ul>
+<li>copy assignment </li>
+<li>copy constructor </li>
+<li>move assignment </li>
+<li>move constructor </li>
+<li>destructor </li>
+</ul>
+
+<p>If you declare any of those you must consider all and explicitly define or <code>=default</code> the ones you want. Think of copying, moving, and destruction as closely related operations, rather than individual operations that you can freely mix and match &#8211; you can specify arbitrary combinations, but only a few combinations make sense semantically.</p>
+
+<p>If any move, copy, or destructor is explicitly specified (declared, defined, <code>=default</code>, or <code>=delete</code>) by the user, no move is generated by default. If any copy or destructor is explicitly specified (declared, defined, <code>=default</code>, or <code>=delete</code>) by the user, any undeclared copy operations are generated by default, but this is deprecated, so don&#8217;t rely on that. For example:</p>
+
+<pre><code>    class X1 {
+        X1&amp; operator=(const X1&amp;) = delete;  // Disallow copying
+    };
+</code></pre>
+
+<p>This implicitly also disallows moving of <code>X1</code>s. Copy initialization is allowed, but deprecated.</p>
+
+<pre><code>    class X2 {
+        X2&amp; operator=(const X2&amp;) = default;
+    };
+</code></pre>
+
+<p>This implicitly also disallows moving of <code>X2</code>s. Copy initialization is allowed, but deprecated.</p>
+
+<pre><code>    class X3 {
+        X3&amp; operator=(X3&amp;&amp;) = delete;   // Disallow moving
+    }
+</code></pre>
+
+<p>This implicitly also disallows copying of <code>X3</code>s.</p>
+
+<pre><code>    class X4 {
+        ~X4() = delete; // Disallow destruction
+    }
+</code></pre>
+
+<p>This implicitly also disallows moving of <code>X4</code>s. Copying is allowed, but deprecated.</p>
+
+<p>If you declare one of these five function, you should explicitly declare all. For example:</p>
+
+<pre><code>    template&lt;class T&gt;
+    class Handle {
+        T* p;
+    public:
+        Handle(T* pp) : p{pp} {}
+        ~Handle() { delete p; }     // user-defined destructor: no implicit copy or move 
+
+        Handle(Handle&amp;&amp; h) :p{h.p} { h.p=nullptr; }     // transfer ownership
+        Handle&amp; operator=(Handle&amp;&amp; h) { delete p; p=h.p; h.p=nullptr; return *this; }   // transfer ownership
+
+        Handle(const Handle&amp;) = delete;     // no copy
+        Handle&amp; operator=(const Handle&amp;) = delete;
+
+        // ...
+    };
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>[N2326==07-0186] Lawrence Crowl: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2326.html">Defaulted and Deleted Functions</a>. </li>
+<li>[N3174=100164] B. Stroustrup: <a href="http://www.stroustrup.com/move.pdf">To move or not to move. An analysis of problems related to generated copy and move operations.</a> Approved. </li>
+</ul>
+
+<h3 id="delegating-ctor">Delegating constructors</h3>
+
+<p>In C++98, if you want two constructors to do the same thing, repeat yourself or call &#8220;an <code>init()</code> function.&#8221; For example:</p>
+
+<pre><code>    class X {
+        int a;
+        void validate(int x) { if (0&lt;x &amp;&amp; x&lt;=max) a=x; else throw bad_X(x); }
+    public:
+        X(int x) { validate(x); }
+        X() { validate(42); }
+        X(string s) { int x = lexical_cast&lt;int&gt;(s); validate(x); }
+        // ...
+    };
+</code></pre>
+
+<p>Verbosity hinders readability and repetition is error-prone. Both get in the way of maintainability. So, in C++11, we can define one constructor in terms of another:</p>
+
+<pre><code>    class X {
+        int a;
+    public:
+        X(int x) { if (0&lt;x &amp;&amp; x&lt;=max) a=x; else throw bad_X(x); }
+        X() :X{42} { }
+        X(string s) :X{lexical_cast&lt;int&gt;(s)} { }
+        // ...
+    };
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>the C++ draft section 12.6.2 </li>
+<li>N1986==06-0056 Herb Sutter and Francis Glassborow: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1986">Delegating Constructors (revision 3)</a>. </li>
+<li>ECMA-372 for a description of this feature as originally designed in <a href="http://www.ecma-international.org/publications/standards/Ecma-372.htm">C++/CLI</a> before being proposed for ISO C++.</li>
+</ul>
+
+<h3 id="member-init">In-class member initializers</h3>
+
+<p>In C++98, only <code>static const</code> members of integral types could be initialized in-class, and the initializer has to be a constant expression. These restrictions ensured that the compiler can do the initialization at compile-time. For example:</p>
+
+<pre><code>    int var = 7;
+
+    class X {
+        static const int m1 = 7;        // ok
+        const int m2 = 7;                   // error: not static
+        static int m3 = 7;              // error: not const
+        static const int m4 = var;          // error: initializer not constant expression
+        static const string m5 = "odd"; // error: not integral type
+        // ...
+    };
+</code></pre>
+
+<p>The basic idea for C++11 was to allow a non-static data member to be initialized where it is declared (in its class). A constructor can then use the initializer when run-time initialization is needed. Consider:</p>
+
+<pre><code>    class A {
+    public:
+        int a = 7;
+    };
+</code></pre>
+
+<p>This is equivalent to:</p>
+
+<pre><code>    class A {
+    public:
+        int a;
+        A() : a(7) {}
+    };
+</code></pre>
+
+<p>This saves a bit of typing, but the real benefits come in classes with multiple constructors. Often, all constructors use a common initializer for a member:</p>
+
+<pre><code>    class A {
+    public:
+        A(): a(7), b(5), hash_algorithm("MD5"), s("Constructor run") {}
+        A(int a_val) : a(a_val), b(5), hash_algorithm("MD5"), s("Constructor run") {}
+        A(D d) : a(7), b(g(d)), hash_algorithm("MD5"), s("Constructor run") {}
+        int a, b;
+    private:
+        HashingFunction hash_algorithm;  // Cryptographic hash to be applied to all A instances
+        std::string s;                   // String indicating state in object lifecycle
+    };
+</code></pre>
+
+<p>The fact that <code>hash_algorithm</code> and <code>s</code> each have a single default is lost in the mess of code and could easily become a problem during maintenance. Instead, we can factor out the initialization of the data members:</p>
+
+<pre><code>    class A {
+    public:
+        A(): a(7), b(5) {}
+        A(int a_val) : a(a_val), b(5) {}
+        A(D d) : a(7), b(g(d)) {}
+        int a, b;
+    private:
+        HashingFunction hash_algorithm{"MD5"};  // Cryptographic hash to be applied to all A instances
+        std::string s{"Constructor run"};       // String indicating state in object lifecycle
+    };
+</code></pre>
+
+<p>If a member is initialized by both an in-class initializer and a constructor, only the constructor&#8217;s initialization is done (it &#8220;overrides&#8221; the default). So we can simplify further:</p>
+
+<pre><code>    class A {
+    public:
+        A() {}
+        A(int a_val) : a(a_val) {}
+        A(D d) : b(g(d)) {}
+        int a = 7;
+        int b = 5;  
+    private:
+        HashingFunction hash_algorithm{"MD5"};  // Cryptographic hash to be applied to all A instances
+        std::string s{"Constructor run"};       // String indicating state in object lifecycle
+    };
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>the C++ draft section &#8220;one or two words all over the place&#8221;; see proposal. </li>
+<li>[N2628=08-0138] Michael Spertus and Bill Seymour: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2628.html">Non-static data member initializers</a>. </li>
+</ul>
+
+<h3 id="inherited-ctors">Inherited constructors</h3>
+
+<p>People sometimes are confused about the fact that ordinary scope rules apply to class members. In particular, a member of a base class is not in the same scope as a member of a derived class:</p>
+
+<pre><code>    struct B {
+        void f(double);
+    };
+
+    struct D : B {
+        void f(int);
+    };
+
+    B b;   b.f(4.5);    // fine
+    D d;   d.f(4.5);    // surprise: calls f(int) with argument 4
+</code></pre>
+
+<p>In C++98, we can &#8220;lift&#8221; a set of overloaded functions from a base class into a derived class:</p>
+
+<pre><code>    struct B {
+        void f(double);
+    };
+
+    struct D : B {
+        using B::f;     // bring all f()s from B into scope
+        void f(int);    // add a new f()
+    };
+
+    B b;   b.f(4.5);    // fine
+    D d;   d.f(4.5);    // fine: calls D::f(double) which is B::f(double)
+</code></pre>
+
+<p>Stroustrup has said that &#8220;Little more than a historical accident prevents using this to work for a constructor as well as for an ordinary member function.&#8221; C++11 provides that facility:</p>
+
+<pre><code>    class Derived : public Base { 
+    public: 
+        using Base::f;    // lift Base's f into Derived's scope -- works in C++98
+        void f(char);     // provide a new f 
+        void f(int);      // prefer this f to Base::f(int) 
+
+        using Base::Base; // lift Base constructors Derived's scope -- new in C++11
+        Derived(char);    // provide a new constructor 
+        Derived(int);     // prefer this constructor to Base::Base(int) 
+        // ...
+    }; 
+</code></pre>
+
+<p>If you so choose, you can still shoot yourself in the foot by inheriting constructors in a derived class in which you define new member variables needing initialization:</p>
+
+<pre><code>    struct B1 {
+        B1(int) { }
+    };
+
+    struct D1 : B1 {
+        using B1::B1; // implicitly declares D1(int)
+        int x;
+    };
+
+    void test()
+    {
+        D1 d(6);    // Oops: d.x is not initialized
+        D1 e;       // error: D1 has no default constructor
+    }
+</code></pre>
+
+<p>You might remove the bullet from your foot by using a <a href="cpp11-language-classes.html#member-init" title="FAQ: In-class member initializers">member-initializer</a>:</p>
+
+<pre><code>        struct D1 : B1 {
+            using B1::B1;   // implicitly declares D1(int)
+            int x{0};   // note: x is initialized
+        };
+
+        void test()
+        {
+            D1 d(6);    // d.x is zero
+        }
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>the C++ draft section 12.9. </li>
+<li>[N1890=05-0150 ] Bjarne Stroustrup and Gabriel Dos Reis: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1890.pdf">Initialization and initializers</a> (an overview of initialization-related problems with suggested solutions). </li>
+<li>[N1898=05-0158 ] Michel Michaud and Michael Wong: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1898.pdf">Forwarding and inherited constructors</a>. </li>
+<li>[N2512=08-0022] Alisdair Meredith, Michael Wong, Jens Maurer: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2512.html">Inheriting Constructors</a> (revision 4). </li>
+</ul>
+
+<h3 id="override">Override controls: <code>override</code></h3>
+
+<p>No special keyword or annotation is needed for a function in a derived class to override a function in a base class. For example:</p>
+
+<pre><code>    struct B {
+        virtual void f();
+        virtual void g() const;
+        virtual void h(char);
+        void k();   // not virtual
+    };
+
+    struct D : B {
+        void f();   // overrides B::f()
+        void g();   // doesn't override B::g() (wrong type)
+        virtual void h(char);   // overrides B::h()
+        void k();   // doesn't override B::k() (B::k() is not virtual)
+    };
+</code></pre>
+
+<p>This can cause confusion (what did the programmer mean?), and problems if a compiler doesn&#8217;t warn against suspicious code. For example,</p>
+
+<ul>
+<li>Did the programmer mean to override <code>B::g()</code>? (almost certainly yes). </li>
+<li>Did the programming mean to override <code>B::h(char)</code>? (probably not because of the redundant explicit <code>virtual</code>). </li>
+<li>Did the programmer mean to override <code>B::k()</code>? (probably, but that&#8217;s not possible). </li>
+</ul>
+
+<p>To allow the programmer to be more explicit about overriding, we now have the &#8220;contextual keyword&#8221; <code>override</code>:</p>
+
+<pre><code>    struct D : B {
+        void f() override;  // OK: overrides B::f()
+        void g() override;  // error: wrong type
+        virtual void h(char);   // overrides B::h(); likely warning
+        void k() override;  // error: B::k() is not virtual
+    };
+</code></pre>
+
+<p>A declaration marked <code>override</code> is only valid if there is a function to override. The problem with <code>h()</code> is not guaranteed to be caught (because it is not an error according to the language definition) but it is easily diagnosed.</p>
+
+<p><code>override</code> is only a contextual keyword, so you can still use it as an identifier:</p>
+
+<pre><code>int override = 7;   // not recommended
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 10 Derived classes [class.derived] [9] </li>
+<li>Standard: 10.3 Virtual functions [class.virtual] </li>
+<li>[N3234==11-0004] Ville Voutilainen: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/">Remove explicit from class-head</a>. </li>
+<li>[N3151==10-0141] Ville Voutilainen: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3151.html">Keywords for override control</a>. Earlier, more elaborate design. </li>
+<li>[N3163==10-0153] Herb Sutter: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3163.pdf">Override Control Using Contextual Keywords</a>. Alternative earlier more elaborate design. </li>
+<li>ECMA-372 for a description of the more elaborate version of this feature as designed in <a href="http://www.ecma-international.org/publications/standards/Ecma-372.htm">C++/CLI</a> before being proposed for ISO C++.</li>
+<li>[N2852==09-0042] V. Voutilainen, A. Meredith, J. Maurer, and C. Uzdavinis: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2852.html">Explicit Virtual Overrides</a>. Earlier design based on <a href="cpp11-language-misc.html#attributes" title="FAQ: Attributes">attributes</a>. </li>
+<li>[N1827==05-0087] C. Uzdavinis and A. Meredith: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1827.htm">An Explicit Override Syntax for C++</a>. The original proposal. </li>
+</ul>
+
+<h3 id="final">Override controls: <code>final</code></h3>
+
+<p>Sometimes, a programmer wants to prevent a virtual function from being overridden. This can be achieved by adding the specifier <code>final</code>. For example:</p>
+
+<pre><code>    struct B {
+        virtual void f() const final;   // do not override
+        virtual void g();
+    };
+
+    struct D : B {
+        void f() const;     // error: D::f attempts to override final B::f
+        void g();       // OK
+    };
+</code></pre>
+
+<p>There are legitimate reasons for wanting to prevent overriding, but it should be noted that many examples used to motivate <code>final</code> have been based on mistaken assumptions on how expensive virtual functions are (usually based on experience with other languages). So, if you feel the urge to add a <code>final</code> specifier, please double check that the reason is logical: Would semantic errors be likely if someone defined a class that overrode that virtual function? Adding <code>final</code> closes the possibility that a future user of the class might provide a better implementation of the function for some class you haven&#8217;t thought of. If you don&#8217;t want to keep that option open, why did you define the function to be <code>virtual</code> in the first place? Most reasonable answers to that question encountered to date have been along the lines: This is a fundamental function in a framework that the framework builders needed to override but isn&#8217;t safe for general users to override. Be suspicious towards such claims and be sure <code>final</code> is really appropriate.</p>
+
+<p>If it is performance (inlining) you want or you simply never want to override, it is typically better not to define a function to be <code>virtual</code> in the first place. This is not Java.</p>
+
+<p><code>final</code> is only a contextual keyword, so you can still use it as an identifier:</p>
+
+<pre><code>int final = 7;  // not recommended
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 10 Derived classes [class.derived] [9] </li>
+<li>Standard: 10.3 Virtual functions [class.virtual] </li>
+</ul>
+
+<h3 id="explicit-conversion-operators">Explicit conversion operators</h3>
+
+<p>C++98 provides implicit and <code>explicit</code> constructors; that is, the conversion defined by a constructor declared <code>explicit</code> can be used only for explicit conversions whereas other constructors can be used for implicit conversions also. For example:</p>
+
+<pre><code>    struct S { S(int); };   // "ordinary constructor" defines implicit conversion
+    S s1(1);        // ok
+    S s2 = 1;   // ok
+    void f(S);
+    f(1);       // ok (but that's often a bad surprise -- what if S was vector?)
+
+    struct E { explicit E(int); };  // explicit constructor
+    E e1(1);        // ok
+    E e2 = 1;   // error (but that's often a surprise)
+    void f(E);
+    f(1);       // error (protects against surprises -- e.g. std::vector's constructor from int is explicit)
+</code></pre>
+
+<p>However, a constructor is not the only mechanism for defining a conversion. If we can&#8217;t modify a class, we can define a conversion operator from a different class. For example:</p>
+
+<pre><code>    struct S { S(int) { } /* ... */ };
+
+    struct SS {
+        int m;
+        SS(int x) :m(x) { }
+        operator S() { return S(m); }  // because S don't have S(SS); non-intrusive
+    };
+
+    SS ss(1);
+    S s1 = ss;  // ok; like an implicit constructor
+    S s2(ss);   // ok ; like an implicit constructor
+    void f(S);
+    f(ss);      // ok; like an implicit constructor
+</code></pre>
+
+<p>Unfortunately, C++98 had no <code>explicit</code> conversion operators, largely because there are far fewer problematic examples. C++11 deals with that oversight by allowing conversion operators to be <code>explicit</code>. For example:</p>
+
+<pre><code>    struct S { S(int) { } };
+
+    struct SS {
+        int m;
+        SS(int x) :m(x) { }
+        explicit operator S() { return S(m); }  // because S don't have S(SS)
+    };
+
+    SS ss(1);
+    S s1 = ss;  // error; like an explicit constructor
+    S s2(ss);   // ok ; like an explicit constructor
+    void f(S); 
+    f(ss);      // error; like an explicit constructor
+</code></pre>
+
+<p>See also:</p>
+
+<ul>
+<li>Standard: 12.3 Conversions </li>
+<li>[N2333=07-0193] Lois Goldthwaite, Michael Wong, and Jens Maurer: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2333.html">Explicit Conversion Operator (Revision 1)</a>. </li>
+</ul>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-language-classes",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/cpp11-language-classes",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/cpp11-language-classes by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

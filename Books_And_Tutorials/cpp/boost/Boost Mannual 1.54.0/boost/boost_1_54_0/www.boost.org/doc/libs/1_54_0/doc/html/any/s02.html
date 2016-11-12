@@ -1,0 +1,180 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/any/s02.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:18 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Examples - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html" title="The Boost C++ Libraries BoostBook Documentation Subset">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html" title="Chapter&#160;2.&#160;Boost.Any">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html" title="Chapter&#160;2.&#160;Boost.Any">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any/reference.html" title="Reference">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"/><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"/></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp22823584"></a>Examples</h2></div></div></div>
+<p>The following code demonstrates the syntax for using
+    implicit conversions to and copying of any objects:</p>
+<pre class="programlisting">
+#include &lt;list&gt;
+#include &lt;boost/any.hpp&gt;
+
+using <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any_cast_idp18463424.html" title="Function any_cast">boost::any_cast</a></code>;
+typedef std::list&lt;<code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code>&gt; many;
+
+void append_int(many &amp; values, int value)
+{
+    <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> to_append = value;
+    values.push_back(to_append);
+}
+
+void append_string(many &amp; values, const std::string &amp; value)
+{
+    values.push_back(value);
+}
+
+void append_char_ptr(many &amp; values, const char * value)
+{
+    values.push_back(value);
+}
+
+void append_any(many &amp; values, const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp; value)
+{
+    values.push_back(value);
+}
+
+void append_nothing(many &amp; values)
+{
+    values.push_back(<code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code>());
+}
+</pre>
+<p>The following predicates follow on from the previous
+    definitions and demonstrate the use of queries on any
+    objects:</p>
+<pre class="programlisting">
+bool is_empty(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp; operand)
+{
+    return operand.<code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html#idp18457216-bb">empty</a></code>();
+}
+
+bool is_int(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp; operand)
+{
+    return operand.<code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html#idp18458704-bb">type</a></code>() == typeid(int);
+}
+
+bool is_char_ptr(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp; operand)
+{
+    try
+    {
+        <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any_cast_idp18463424.html" title="Function any_cast">any_cast</a></code>&lt;const char *&gt;(operand);
+        return true;
+    }
+    catch(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/bad_any_cast.html" title="Class bad_any_cast">boost::bad_any_cast</a></code> &amp;)
+    {
+        return false;
+    }
+}
+
+bool is_string(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp; operand)
+{
+    return <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any_cast_idp18463424.html" title="Function any_cast">any_cast</a></code>&lt;std::string&gt;(&amp;operand);
+}
+
+void count_all(many &amp; values, std::ostream &amp; out)
+{
+    out &lt;&lt; "#empty == "
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_empty) &lt;&lt; std::endl;
+    out &lt;&lt; "#int == "
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_int) &lt;&lt; std::endl;
+    out &lt;&lt; "#const char * == "
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_char_ptr) &lt;&lt; std::endl;
+    out &lt;&lt; "#string == "
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_string) &lt;&lt; std::endl;
+}
+</pre>
+<p>The following type, patterned after the OMG's Property Service, defines name-value pairs for arbitrary value types:</p>
+<pre class="programlisting">
+struct property
+{
+    property();
+    property(const std::string &amp;, const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> &amp;);
+
+    std::string name;
+    <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">boost::any</a></code> value;
+};
+
+typedef std::list&lt;property&gt; properties;
+</pre>
+<p>The following base class demonstrates one approach to
+    runtime polymorphism based callbacks that also require arbitrary
+    argument types. The absence of virtual member templates requires
+    that different solutions have different trade-offs in terms of
+    efficiency, safety, and generality. Using a checked variant type
+    offers one approach:</p>
+<pre class="programlisting">
+class consumer
+{
+public:
+    virtual void notify(const <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/doc/html/boost/any.html" title="Class any">any</a></code> &amp;) = 0;
+    ...
+};
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2001 Kevlin Henney<p>Distributed under the Boost Software License, Version 1.0.
+      (See accompanying file <code class="filename">LICENSE_1_0.txt</code> or copy at 
+      <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/doc/html/any/reference.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/doc/html/any/s02.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:11:18 GMT -->
+</html>

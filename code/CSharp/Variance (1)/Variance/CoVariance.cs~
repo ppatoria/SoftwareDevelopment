@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+namespace Variance
+{
+    class Auto 
+    { 
+	public override string ToString() {
+	    return "Auto.ToString()";
+	}
+    }
+	
+    class Sedan: Auto 
+    {	
+	public override string ToString() {
+	    return "Sedan.ToString()";
+	}
+    }
+	
+    interface IFirstItem <out T>	
+    {
+	T GetFirstItem();
+    }	
+	
+    class MyList <T> : List <T>, IFirstItem <T>	
+    {	
+	public T GetFirstItem() {
+	    return this[0];
+	}
+    }
+
+    class TestCovariance
+    {
+	public TestCovariance(){
+	    MyList <Sedan> sedans = new MyList <Sedan> ();
+	    sedans.Add (new Sedan());
+	    PerformService (sedans);
+            // Process (sedans);
+	}
+
+	void PerformService<T> (IFirstItem <T> autos) {
+	    Debug.WriteLine("generic");
+	    Console.WriteLine (autos.GetFirstItem().ToString());
+	}
+		
+	void PerformService (IFirstItem <Auto> autos) {    	
+	    Debug.WriteLine("specialized");
+	    Console.WriteLine (autos.GetFirstItem().ToString());
+	}
+		
+        // void Process (IList<Auto> autos)
+        // {
+        //	foreach (var auto in autos)
+        //	Console.WriteLine (autos);
+        //}
+    }
+
+    class Program
+    {
+	public static void Main(string[] args) {
+	    TestCovariance covariance = new TestCovariance();			
+	}
+    }
+}

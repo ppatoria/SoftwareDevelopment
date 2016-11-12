@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+template <typename T>
+int fun()
+{
+  cout <<" Inside fun () "<<endl;
+}
+
+int main( int argc, char ** argv)
+{
+  std::vector<int> a;
+  // This is the same as calling fun<std::vector<int> >();
+  fun<decltype(a)>();
+  return 0;
+}

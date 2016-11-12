@@ -1,0 +1,19 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+void func( vector<string>& strings){
+    strings.push_back("first");
+    strings.push_back("second");
+}
+
+int main (){
+    vector<string> strings;
+    func(strings);
+    for_each(strings.begin(), strings.end(), [](string str){
+	    cout << str << endl;
+	});
+    return 1;
+}

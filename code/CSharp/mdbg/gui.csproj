@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProductVersion>8.0.40607</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{29258C9D-D15D-441F-9E24-EF4830B1DE7F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>gui</RootNamespace>
+    <AssemblyName>gui</AssemblyName>
+    <WarningLevel>4</WarningLevel>
+    <StartupObject>
+    </StartupObject>
+    <AssemblyOriginatorKeyFile>..\..\mdbg.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
+    <SignAssembly>true</SignAssembly>
+    <TargetFrameworkProfile />
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AttachProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AttachProcess.Designer.cs">
+      <DependentUpon>AttachProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoWatchWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoWatchWindow.Designer.cs">
+      <DependentUpon>AutoWatchWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callstack.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callstack.Designer.cs">
+      <DependentUpon>Callstack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui.cs" />
+    <Compile Include="GUIMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LaunchProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LaunchProcess.Designer.cs">
+      <DependentUpon>LaunchProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModuleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModuleWindow.Designer.cs">
+      <DependentUpon>ModuleWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickViewWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuickViewWindow.Designer.cs">
+      <DependentUpon>QuickViewWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SourceViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThreadWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThreadWindow.Designer.cs">
+      <DependentUpon>ThreadWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VersionInfoGui.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\corapi\corapi.csproj">
+      <Project>{04EF9865-E1B1-403D-802B-E4FAEA50A634}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>corapi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\corapi2\corapi2.csproj">
+      <Project>{1CBEE7A5-F41B-4E2B-9470-6245C72060AA}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>corapi2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\mdbgeng\mdbgeng.csproj">
+      <Project>{634B90A2-0344-44C5-83F0-06180B2FDA05}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>mdbgeng</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\mdbgext\mdbgext.csproj">
+      <Project>{1511F9E6-6AC4-4F3F-863D-3430469A7335}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>mdbgext</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\mdbg.snk" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CurrentLineArrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Breakpoint.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NotCurrentLineArrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UnboundBreakpoint.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+</Project>

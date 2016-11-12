@@ -1,0 +1,759 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch13.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 13: Streams and I/O</h2>
+<p>Basic use of a stream:</p>
+<pre>using System;
+using System.IO;
+
+class Program
+{
+  static void Main()
+  {
+    // Create a file called test.txt in the current directory:
+    using (Stream s = new FileStream (&quot;test.txt&quot;, FileMode.Create))
+    {
+      Console.WriteLine (s.CanRead);       // true
+      Console.WriteLine (s.CanWrite);      // true
+      Console.WriteLine (s.CanSeek);       // true
+
+      s.WriteByte (101);
+      s.WriteByte (102);
+      byte[] block = { 1, 2, 3, 4, 5 }; 
+      s.Write (block, 0, block.Length);     // Write block of 5 bytes
+
+      Console.WriteLine (s.Length);         // 7
+      Console.WriteLine (s.Position);       // 7
+      s.Position = 0;                       // Move back to the start
+
+      Console.WriteLine (s.ReadByte());     // 101
+      Console.WriteLine (s.ReadByte());     // 102
+
+      // Read from the stream back into the block array:
+      Console.WriteLine (s.Read (block, 0, block.Length));   // 5
+
+      // Assuming the last Read returned 5, we'll be at
+      // the end of the file, so Read will now return 0:
+      Console.WriteLine (s.Read (block, 0, block.Length));   // 0
+    }
+  }
+}</pre>
+<p>Reading a 1000 bytes from a stream:</p>
+<pre>byte[] data = new byte [1000];
+
+// bytesRead will always end up at 1000, unless the stream is
+// itself smaller in length:
+
+int bytesRead = 0;
+int chunkSize = 1;
+while (bytesRead &lt; data.Length &amp;&amp; chunkSize &gt; 0)
+  bytesRead +=
+    chunkSize = s.Read (data, bytesRead, data.Length - bytesRead);</pre>
+<p>An easier way:</p>
+<pre>byte[] data = new BinaryReader (s).ReadBytes (1000);</pre>
+<p>Reading into a MemoryStream:</p>
+<pre>static MemoryStream ToMemoryStream (Stream input, bool closeInput)
+{
+  try
+  {                                         // Read and write in
+    byte[] block = new byte [0x1000];       // blocks of 4K.
+    MemoryStream ms = new MemoryStream();
+    while (true)
+    {
+      int bytesRead = input.Read (block, 0, block.Length);
+      if (bytesRead == 0) return ms;
+      ms.Write (block, 0, bytesRead);
+    }
+  }
+  finally { if (closeInput) input.Close(); }
+}</pre>
+<p>Named pipes:</p>
+<pre>// Server:
+using (var s = new NamedPipeServerStream (&quot;pipedream&quot;)
+{
+  s.WaitForConnection();
+  s.WriteByte (100);
+  Console.WriteLine (s.ReadByte());
+}</pre>
+<pre>
+// Client:
+using (var s = new NamedPipeClientStream (&quot;pipedream&quot;))
+{
+  s.Connect();
+  Console.WriteLine (s.ReadByte());
+  s.WriteByte (200);                 // Send the value 200 back.
+}</pre>
+<p>Message transmission mode:</p>
+<pre>static byte[] ReadMessage (PipeStream s)
+{
+  MemoryStream ms = new MemoryStream();
+  byte[] buffer = new byte [0x1000];      // Read in 4KB blocks
+
+  do    { ms.Write (buffer, 0, s.Read (buffer, 0, buffer.Length)); }
+  while (!s.IsMessageComplete);
+
+  return ms.ToArray();
+}</pre>
+<pre>// Server:
+using (var s = new NamedPipeServerStream (&quot;pipedream&quot;, PipeDirection.InOut,
+                                          1, PipeTransmissionMode.Message))
+{
+  s.WaitForConnection();
+  
+  byte[] msg = Encoding.UTF8.GetBytes (&quot;Hello&quot;);
+  s.Write (msg, 0, msg.Length);
+  
+  Console.WriteLine (Encoding.UTF8.GetString (ReadMessage (s)));
+}</pre>
+<pre>
+// Client:
+using (var s = new NamedPipeClientStream (&quot;pipedream&quot;))
+{
+  s.Connect();
+  s.ReadMode = PipeTransmissionMode.Message;
+
+  Console.WriteLine (Encoding.UTF8.GetString (ReadMessage (s)));
+
+  byte[] msg = Encoding.UTF8.GetBytes (&quot;Hello right back!&quot;);
+  s.Write (msg, 0, msg.Length);
+}</pre>
+<p>Anonymous pipes server:</p>
+<pre>string clientExe = &quot;d:\PipeDemo\ClientDemo.exe&quot;;
+
+HandleInheritability inherit = HandleInheritability.Inheritable;
+
+using (var tx = new AnonymousPipeServerStream (PipeDirection.Out, inherit))
+using (var rx = new AnonymousPipeServerStream (PipeDirection.In, inherit))
+{
+  string txID = tx.GetClientHandleAsString();
+  string rxID = rx.GetClientHandleAsString();
+
+  var startInfo = new ProcessStartInfo (clientExe, txID + &quot; &quot; + rxID);
+  startInfo.UseShellExecute = false;    // Required for child process
+  Process p = Process.Start (startInfo);
+
+  tx.DisposeLocalCopyOfClientHandle();    // Release unmanaged
+  rx.DisposeLocalCopyOfClientHandle();    // handle resources.
+
+  tx.WriteByte (100);
+  Console.WriteLine (&quot;Server received: &quot; + rx.ReadByte());
+
+  p.WaitForExit();
+}</pre>
+<p>Anonymous pipes client:</p>
+<pre>static void Main (string[] args)
+{
+  string rxID = args[0];    // Note we’re reversing the
+  string txID = args[1];    // receive and transmit roles.
+
+  using (var rx = new AnonymousPipeClientStream (PipeDirection.In, rxID))
+  using (var tx = new AnonymousPipeClientStream (PipeDirection.Out, txID))
+  {
+    Console.WriteLine (&quot;Client received: &quot; + rx.ReadByte());
+    tx.WriteByte (200);
+  }
+}</pre>
+<p>BufferedStream:</p>
+<pre>// Write 100K to a file:
+File.WriteAllBytes (&quot;myFile.bin&quot;, new byte [100000]);
+
+using (FileStream fs = File.OpenRead (&quot;myFile.bin&quot;))
+using (BufferedStream bs = new BufferedStream (fs, 20000))  //20K buffer
+{
+  bs.ReadByte();
+  Console.WriteLine (fs.Position);         // 20000
+}</pre>
+<p>StreamReader and StreamWriter:</p>
+<pre>using (FileStream fs = File.Create (&quot;test.txt&quot;))
+using (TextWriter writer = new StreamWriter (fs))
+{
+  writer.WriteLine (&quot;Line1&quot;);
+  writer.WriteLine (&quot;Line2&quot;);
+}
+
+using (FileStream fs = File.OpenRead (&quot;test.txt&quot;))
+using (TextReader reader = new StreamReader (fs))
+{
+  Console.WriteLine (reader.ReadLine());       // Line1
+  Console.WriteLine (reader.ReadLine());       // Line2
+}</pre>
+<pre>using (TextWriter writer = File.CreateText (&quot;test.txt&quot;))
+{
+  writer.WriteLine (&quot;Line1&quot;);
+  writer.WriteLine (&quot;Line2&quot;);
+}
+using (TextWriter writer = File.AppendText (&quot;test.txt&quot;))
+  writer.WriteLine (&quot;Line3&quot;);
+
+using (TextReader reader = File.OpenText (&quot;test.txt&quot;))
+  while (reader.Peek() &gt; -1)
+    Console.WriteLine (reader.ReadLine());     // Line1
+                                               // Line2
+                                               // Line3</pre>
+<pre>using (TextWriter w = File.CreateText (&quot;data.txt&quot;))
+{
+  w.WriteLine (123);          // Writes &quot;123&quot;
+  w.WriteLine (true);         // Writes the word &quot;true&quot;
+}
+using (TextReader r = File.OpenText (&quot;data.txt&quot;))
+{
+  int myInt = int.Parse (r.ReadLine());     // myInt == 123
+  bool yes = bool.Parse (r.ReadLine());     // yes == true
+}</pre>
+<p>Character encodings:</p>
+<pre>using (TextWriter w = File.CreateText (&quot;but.txt&quot;))    // Use default UTF-8
+  w.WriteLine (&quot;but—&quot;);                               // encoding.
+
+using (Stream s = File.OpenRead (&quot;but.txt&quot;))
+  for (int b; (b = s.ReadByte()) &gt; -1;)
+    Console.WriteLine (b);</pre>
+<pre>using (Stream s = File.Create (&quot;but.txt&quot;))
+using (TextWriter w = new StreamWriter (s, Encoding.Unicode))
+  w.WriteLine (&quot;but—&quot;);
+
+foreach (byte b in File.ReadAllBytes (&quot;but.txt&quot;))
+  Console.WriteLine (b);</pre>
+<p>Binary adapaters:</p>
+<pre>public class Person
+{
+  public string Name;
+  public int    Age;
+  public double Height;
+
+  public void SaveData (Stream s)
+  {
+    BinaryWriter w = new BinaryWriter (s);
+    w.Write (Name);
+    w.Write (Age);
+    w.Write (Height);
+    w.Flush();         // Ensure the BinaryWriter buffer is cleared.
+                       // We won't dispose/close it, so more data
+  }                    // can to be written to the stream.
+
+  public void LoadData (Stream s)
+  {
+    BinaryReader r = new BinaryReader (s);
+    Name   = r.ReadString();
+    Age    = r.ReadInt32();
+    Height = r.ReadDouble();
+  }
+}</pre>
+<p>Compressing a directory:</p>
+<pre>static uint CompressFolder (string folder, bool recursive)
+{
+  string path = &quot;Win32_Directory.Name='&quot; + folder + &quot;'&quot;;
+  using (ManagementObject dir = new ManagementObject (path))
+  using (ManagementBaseObject p = dir.GetMethodParameters (&quot;CompressEx&quot;))
+  {
+    p [&quot;Recursive&quot;] = recursive;
+    using (ManagementBaseObject result = dir.InvokeMethod (&quot;CompressEx&quot;,
+                                                             p, null))
+      return (uint) result.Properties [&quot;ReturnValue&quot;].Value;
+  }
+}</pre>
+<p>Determining if a volume supports compression &amp; encryption:</p>
+<pre>using System;
+using System.IO;
+using System.Text;
+using System.Runtime.InteropServices;
+
+class SupportsCompressionEncryption
+{
+  const int SupportsCompression = 0x10;
+  const int SupportsEncryption = 0x20000;
+
+  [DllImport (&quot;Kernel32.dll&quot;, SetLastError = true)]
+  extern static bool GetVolumeInformation (string vol, StringBuilder name,
+    int nameSize, out uint serialNum, out uint maxNameLen, out uint flags,
+    StringBuilder fileSysName, int fileSysNameSize);
+
+  static void Main()
+  {
+    uint serialNum, maxNameLen, flags;
+    bool ok = GetVolumeInformation (@&quot;C:\&quot;, null, 0, out serialNum,
+                                    out maxNameLen, out flags, null, 0);
+    if (!ok)
+      throw new Exception
+        (&quot;Error: Win32 code=&quot; + Marshal.GetLastWin32Error());
+
+    bool canCompress = (flags &amp; SupportsCompression) &gt; 0;
+    bool canEncrypt = (flags &amp; SupportsEncryption) &gt; 0;
+  }
+}</pre>
+<p>File security:</p>
+<pre>using System;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
+
+public static void Main()
+{
+  FileSecurity sec = File.GetAccessControl (@&quot;c:\temp\test.txt&quot;);
+  AuthorizationRuleCollection rules = sec.GetAccessRules (true, true,
+                                                       typeof (NTAccount));
+  foreach (FileSystemAccessRule rule in rules)
+  {
+    Console.WriteLine (rule.AccessControlType);         // Allow or Deny
+    Console.WriteLine (rule.FileSystemRights);          // e.g. FullControl
+    Console.WriteLine (rule.IdentityReference.Value);   // e.g. MyDomain/Joe
+  }
+
+  FileSystemAccessRule newRule = new FileSystemAccessRule
+    (&quot;Users&quot;, FileSystemRights.ExecuteFile, AccessControlType.Allow);
+  sec.AddAccessRule (newRule);
+  File.SetAccessControl (@&quot;c:\temp\test.txt&quot;, sec);
+}</pre>
+<p>FileInfo and DirectoryInfo:</p>
+<pre>FileInfo fi = new FileInfo (@&quot;c:\temp\FileInfo.txt&quot;);
+Console.WriteLine (fi.Exists);         // false
+
+using (TextWriter w = fi.CreateText())
+  w.Write (&quot;Some text&quot;);
+
+Console.WriteLine (fi.Exists);         // false (still)
+fi.Refresh();
+Console.WriteLine (fi.Exists);         // true
+
+Console.WriteLine (fi.Name);           // FileInfo.txt
+Console.WriteLine (fi.FullName);       // c:\temp\FileInfo.txt
+Console.WriteLine (fi.DirectoryName);  // c:\temp
+Console.WriteLine (fi.Directory.Name); // temp
+Console.WriteLine (fi.Extension);      // .txt
+Console.WriteLine (fi.Length);         // 9
+
+fi.Encrypt();
+fi.Attributes ^= FileAttributes.Hidden;   // (Toggle hidden flag)
+fi.IsReadOnly = true;
+
+Console.WriteLine (fi.Attributes);    // ReadOnly,Archive,Hidden,Encrypted
+Console.WriteLine (fi.CreationTime);
+
+fi.MoveTo (@&quot;c:\temp\FileInfoX.txt&quot;);
+
+DirectoryInfo di = fi.Directory;
+Console.WriteLine (di.Name);             // temp
+Console.WriteLine (di.FullName);         // c:\temp
+Console.WriteLine (di.Parent.FullName);  // c:\
+di.CreateSubdirectory (&quot;SubFolder&quot;);</pre>
+<p>Enumerating files and subdirectories:</p>
+<pre>DirectoryInfo di = new DirectoryInfo (@&quot;e:\photos&quot;);
+
+foreach (FileInfo fi in di.GetFiles (&quot;*.jpg&quot;))
+  Console.WriteLine (fi.Name);
+
+foreach (DirectoryInfo subDir in di.GetDirectories())
+  Console.WriteLine (subDir.FullName);</pre>
+<p>Querying volume information:</p>
+<pre>DriveInfo c = new DriveInfo (&quot;C&quot;);       // Query the C: drive.
+
+long totalSize = c.TotalSize;            // Size in bytes.
+long freeBytes = c.TotalFreeSpace;       // Ignores disk quotas.
+long freeToMe  = c.AvailableFreeSpace;   // Takes quotas into account.
+
+foreach (DriveInfo d in DriveInfo.GetDrives())    // All defined drives.
+{
+  Console.WriteLine (d.Name);             // C:\
+  Console.WriteLine (d.DriveType);        // Fixed
+  Console.WriteLine (d.RootDirectory);    // C:\
+
+  if (d.IsReady)   // If the drive is not ready, the following two
+                   // properties will throw exceptions:
+  {
+    Console.WriteLine (d.VolumeLabel);    // The Sea Drive
+    Console.WriteLine (d.DriveFormat);    // NTFS
+  }
+}</pre>
+<p>Catching filesystem events:</p>
+<pre>static void Main() { Watch (@&quot;c:\temp&quot;, &quot;*.txt&quot;, true); }
+
+static void Watch (string path, string filter, bool includeSubDirs)
+{
+  using (FileSystemWatcher watcher = new FileSystemWatcher (path, filter))
+  {
+    watcher.Created += FileCreatedChangedDeleted;
+    watcher.Changed += FileCreatedChangedDeleted;
+    watcher.Deleted += FileCreatedChangedDeleted;
+    watcher.Renamed += FileRenamed;
+    watcher.Error   += FileError;
+
+    watcher.IncludeSubdirectories = includeSubDirs;
+    watcher.EnableRaisingEvents = true;
+
+    Console.WriteLine (&quot;Listening for events - press &lt;enter&gt; to end&quot;);
+    Console.ReadLine();
+  }
+  // Disposing the FileSystemWatcher stops further events from firing.
+}
+
+static void FileCreatedChangedDeleted (object o, FileSystemEventArgs e)
+{
+  Console.WriteLine (&quot;File {0} has been {1}&quot;, e.FullPath, e.ChangeType);
+}
+
+static void FileRenamed (object o, RenamedEventArgs e)
+{
+  Console.WriteLine (&quot;Renamed: {0}-&gt;{1}&quot;, e.OldFullPath, e.FullPath);
+}
+
+static void FileError (object o, ErrorEventArgs e)
+{
+  Console.WriteLine (&quot;Error: &quot; + e.GetException().Message);
+}</pre>
+<p>Compression:</p>
+<pre>using (Stream s = File.Create (&quot;compressed.bin&quot;))
+using (Stream ds = new DeflateStream (s, CompressionMode.Compress))
+  for (byte i = 0; i &lt; 100; i++)
+    ds.WriteByte (i);
+
+using (Stream s = File.OpenRead (&quot;compressed.bin&quot;))
+using (Stream ds = new DeflateStream (s, CompressionMode.Decompress))
+  for (byte i = 0; i &lt; 100; i++)
+    Console.WriteLine (ds.ReadByte());     // Writes 0 to 99 </pre>
+<pre>string[] words = &quot;The quick brown fox jumps over the lazy dog&quot;.Split();
+Random rand = new Random();
+
+using (Stream s = File.Create (&quot;compressed.bin&quot;))
+using (Stream ds = new DeflateStream (s, CompressionMode.Compress))
+using (TextWriter w = new StreamWriter (ds))
+  for (int i = 0; i &lt; 1000; i++)
+    w.Write (words [rand.Next (words.Length)] + &quot; &quot;);
+
+Console.WriteLine (new FileInfo (&quot;compressed.bin&quot;).Length);      // 1073
+
+using (Stream s = File.OpenRead (&quot;compressed.bin&quot;))
+using (Stream ds = new DeflateStream (s, CompressionMode.Decompress))
+using (TextReader r = new StreamReader (ds))
+  Console.Write (r.ReadToEnd());                 // Output below:</pre>
+<p>Compressing in memory, option 1:</p>
+<pre>byte[] data = new byte[1000];          // We can expect a good compression
+                                       // ratio from an empty array!
+MemoryStream ms = new MemoryStream();
+using (Stream ds = new DeflateStream (ms, CompressionMode.Compress))
+  ds.Write (data, 0, data.Length);
+
+byte[] compressed = ms.ToArray();
+Console.WriteLine (compressed.Length);       // 113
+
+// Decompress back to the data array:
+ms = new MemoryStream (compressed);
+using (Stream ds = new DeflateStream (ms, CompressionMode.Decompress))
+  for (int i = 0; i &lt; 1000; i += ds.Read (data, i, 1000 - i));</pre>
+<p>Compressing in memory, option 2:</p>
+<pre>byte[] data = new byte[1000];
+
+MemoryStream ms = new MemoryStream();
+using (Stream ds = new DeflateStream (ms, CompressionMode.Compress, true))
+  ds.Write (data, 0, data.Length);
+
+Console.WriteLine (ms.Length);             // 113
+ms.Position = 0;
+using (Stream ds = new DeflateStream (ms, CompressionMode.Decompress))
+  for (int i = 0; i &lt; 1000; i += ds.Read (data, i, 1000 - i));</pre>
+<p>Reading and writing isolated storage:</p>
+<pre>// IsolatedStorage classes live in System.IO.IsolatedStorage
+
+using (IsolatedStorageFile f =
+       IsolatedStorageFile.GetMachineStoreForDomain())
+using (var s = new IsolatedStorageFileStream (&quot;hi.txt&quot;,FileMode.Create,f))
+using (var writer = new StreamWriter (s))
+  writer.WriteLine (&quot;Hello, World&quot;);
+
+// Read it back:
+
+using (IsolatedStorageFile f =
+       IsolatedStorageFile.GetMachineStoreForDomain())
+using (var s = new IsolatedStorageFileStream (&quot;hi.txt&quot;, FileMode.Open, f))
+using (var reader = new StreamReader (s))
+  Console.WriteLine (reader.ReadToEnd());        // Hello, world</pre>
+<p>Roaming user isolation:</p>
+<pre>var flags = IsolatedStorageScope.Assembly
+          | IsolatedStorageScope.User
+          | IsolatedStorageScope.Roaming;
+
+using (IsolatedStorageFile f = IsolatedStorageFile.GetStore (flags,
+                                                             null, null))
+using (var s = new IsolatedStorageFileStream (&quot;a.txt&quot;, FileMode.Create, f))
+using (var writer = new StreamWriter (s))
+  writer.WriteLine (&quot;Hello, World&quot;);</pre>
+<p>Enumerating isolated storage:</p>
+<pre>using (IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForDomain())
+{
+  using (var s = new IsolatedStorageFileStream (&quot;f1.x&quot;,FileMode.Create,f))
+    s.WriteByte (123);
+
+  using (var s = new IsolatedStorageFileStream (&quot;f2.x&quot;,FileMode.Create,f))
+    s.WriteByte (123);
+
+  foreach (string s in f.GetFileNames (&quot;*.*&quot;))
+    Console.Write (s + &quot; &quot;);                   // f1.x f2.x
+}</pre>
+<p>Creating and removing subdirectories:</p>
+<pre>using (IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForDomain())
+{
+  f.CreateDirectory (&quot;subfolder&quot;);
+
+  foreach (string s in f.GetDirectoryNames (&quot;*.*&quot;))
+    Console.WriteLine (s);                             // subfolder
+
+  using (var s = new IsolatedStorageFileStream (@&quot;subfolder\sub1.txt&quot;,
+                                                 FileMode.Create, f))
+    s.WriteByte (100);
+
+  f.DeleteFile (@&quot;subfolder\sub1.txt&quot;);
+  f.DeleteDirectory (&quot;subfolder&quot;);
+}</pre>
+<p>Enumerating over other applications' stores:</p>
+<pre>System.Collections.IEnumerator rator =
+  IsolatedStorageFile.GetEnumerator (IsolatedStorageScope.User);
+
+while (rator.MoveNext())
+{
+  var isf = (IsolatedStorageFile) rator.Current;
+
+  Console.WriteLine (isf.AssemblyIdentity);      // Strong name or URI
+  Console.WriteLine (isf.CurrentSize);
+  Console.WriteLine (isf.Scope);                 // User + ...
+}</pre>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+	
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch13.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

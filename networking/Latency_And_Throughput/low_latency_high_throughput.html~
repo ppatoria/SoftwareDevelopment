@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>low_latency_high_throughput</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 16:44:46 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">low<sub>latency</sub><sub>high</sub><sub>throughput</sub></h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 <span style="text-decoration:underline;">Low Latency System</span> </a></li>
+<li><a href="#sec-2">2 <span style="text-decoration:underline;">High Throughput System</span> </a></li>
+<li><a href="#sec-3">3 <span style="text-decoration:underline;">A simple generic example</span> </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> <span style="text-decoration:underline;">Low Latency System</span> </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+(*) <span style="text-decoration:underline;">Meaning:</span> 
+Latency is the time required to perform some action or to produce some result. 
+Data latency may refer to the time between a query and the results arriving at the screen or the time between initiating a transaction that modifies one or more databases and its completion.
+Latency is measured in units of time &ndash; hours, minutes, seconds, nanoseconds or clock periods. 
+</p>
+<p>
+(*) <span style="text-decoration:underline;">How to measure:</span>
+(a) Latency of HermesAPI: Time taken to process/enrich/convert client request and send/write to socket for Agora.
+(b) Latency of Agora: Time taken to process client request and send/write acknowledgment/tisreply to socket.
+(c) Latency of Hermes + Agora: Time taken to process/enrich/convert client request and send/write to socket and acknowledgment/tisreply received from Agora.
+</p>
+<p>
+(*) <span style="text-decoration:underline;">What is the latency  of your current system ?</span> 
+Agora: 33 microseconds for 16 instances.
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <span style="text-decoration:underline;">High Throughput System</span> </h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+<p>
+(*) <span style="text-decoration:underline;">Meaning:</span> 
+Throughput is the number of such actions executed or results produced per unit of time. 
+This is measured in units of whatever is being produced (cars, motorcycles, I/O samples, memory words, iterations) per unit of time. 
+The term "memory bandwidth" is sometimes used to specify the throughput of memory systems. 
+</p>
+
+<p>
+(*) <span style="text-decoration:underline;">How to measure:</span> 
+(a) Throughput of Hermes: Number of messages Hermes process and send to agora per second.
+(b) Throughout of Agora:  Number of messages agora process and send the reply back to Hermes.
+(c) Throughput clients perspective: (a) + (b) 
+</p>
+<p>
+(*) <span style="text-decoration:underline;">What is the throughput of your current system ?</span> 
+30,000~ messages when there are 16 instances.
+</p>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <span style="text-decoration:underline;">A simple generic example</span> </h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+The following manufacturing example should clarify these two concepts: 
+An assembly line is manufacturing cars. It takes eight hours to manufacture a car and that the factory produces one hundred and twenty cars per day. 
+The latency is: 8 hours. 
+The throughput is: 120 cars / day or 5 cars / hour.
+</p></div>
+</div>
+<div id="postamble">
+<p class="author"> Author: 
+</p>
+<p class="date"> Date: 2013-12-25 16:44:46 </p>
+<p class="creator">HTML generated by org-mode 7.01 in emacs 24</p>
+</div>
+</div>
+</body>
+</html>

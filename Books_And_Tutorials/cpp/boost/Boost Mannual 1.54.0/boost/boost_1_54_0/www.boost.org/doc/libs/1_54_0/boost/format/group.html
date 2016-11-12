@@ -1,0 +1,790 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/group.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:44 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/format/group.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/format/group.hpp</h3>
+<pre>
+
+// ----------------------------------------------------------------------------
+// group.hpp :  encapsulates a group of manipulators along with an argument
+// ----------------------------------------------------------------------------
+
+//  Copyright Samuel Krempp 2003. Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/format">http://www.boost.org/libs/format</a> for library home page
+
+// ----------------------------------------------------------------------------
+
+                      
+// group_head : cut the last element of a group out.
+// (is overloaded below on each type of group)
+
+// group_last : returns the last element of a group
+// (is overloaded below on each type of group)
+// ----------------------------------------------------------------------------
+
+
+#ifndef BOOST_FORMAT_GROUP_HPP
+#define BOOST_FORMAT_GROUP_HPP
+
+#include &lt;<a href="../config.html">boost/config.hpp</a>&gt;
+
+
+namespace boost {
+namespace io {
+
+
+namespace detail {
+
+
+// empty group, but useful even though.
+struct group0 
+{
+    group0()      {}
+};
+
+template &lt;class Ch, class Tr&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; ( BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group0&amp; )
+{ 
+   return os; 
+}
+
+template &lt;class T1&gt;
+struct group1
+{
+    T1 a1_;
+    group1(T1 a1)
+      : a1_(a1)
+      {}
+private:
+   group1&amp; operator=(const group1&amp;);
+};
+
+template &lt;class Ch, class Tr, class T1&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group1&lt;T1&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_;  
+   return os; 
+}
+
+
+
+
+template &lt;class T1,class T2&gt;
+struct group2
+{
+    T1 a1_;
+    T2 a2_;
+    group2(T1 a1,T2 a2)
+      : a1_(a1),a2_(a2)
+      {}
+private:
+   group2&amp; operator=(const group2&amp;);
+};
+
+template &lt;class Ch, class Tr, class T1,class T2&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group2&lt;T1,T2&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3&gt;
+struct group3
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    group3(T1 a1,T2 a2,T3 a3)
+      : a1_(a1),a2_(a2),a3_(a3)
+      {}
+private:
+   group3&amp; operator=(const group3&amp;);
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group3&lt;T1,T2,T3&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4&gt;
+struct group4
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    group4(T1 a1,T2 a2,T3 a3,T4 a4)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4)
+      {}
+private:
+   group4&amp; operator=(const group4&amp;);
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group4&lt;T1,T2,T3,T4&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5&gt;
+struct group5
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    group5(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group5&lt;T1,T2,T3,T4,T5&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6&gt;
+struct group6
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    T6 a6_;
+    group6(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5),a6_(a6)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5,class T6&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group6&lt;T1,T2,T3,T4,T5,T6&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_&lt;&lt; x.a6_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7&gt;
+struct group7
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    T6 a6_;
+    T7 a7_;
+    group7(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5),a6_(a6),a7_(a7)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5,class T6,class T7&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group7&lt;T1,T2,T3,T4,T5,T6,T7&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_&lt;&lt; x.a6_&lt;&lt; x.a7_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8&gt;
+struct group8
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    T6 a6_;
+    T7 a7_;
+    T8 a8_;
+    group8(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5),a6_(a6),a7_(a7),a8_(a8)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group8&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_&lt;&lt; x.a6_&lt;&lt; x.a7_&lt;&lt; x.a8_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9&gt;
+struct group9
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    T6 a6_;
+    T7 a7_;
+    T8 a8_;
+    T9 a9_;
+    group9(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8,T9 a9)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5),a6_(a6),a7_(a7),a8_(a8),a9_(a9)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group9&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_&lt;&lt; x.a6_&lt;&lt; x.a7_&lt;&lt; x.a8_&lt;&lt; x.a9_;  
+   return os; 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9,class T10&gt;
+struct group10
+{
+    T1 a1_;
+    T2 a2_;
+    T3 a3_;
+    T4 a4_;
+    T5 a5_;
+    T6 a6_;
+    T7 a7_;
+    T8 a8_;
+    T9 a9_;
+    T10 a10_;
+    group10(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8,T9 a9,T10 a10)
+      : a1_(a1),a2_(a2),a3_(a3),a4_(a4),a5_(a5),a6_(a6),a7_(a7),a8_(a8),a9_(a9),a10_(a10)
+      {}
+};
+
+template &lt;class Ch, class Tr, class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9,class T10&gt;
+inline
+BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp;
+operator &lt;&lt; (BOOST_IO_STD basic_ostream&lt;Ch, Tr&gt;&amp; os,
+             const group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9,T10&gt;&amp; x)
+{ 
+   os &lt;&lt; x.a1_&lt;&lt; x.a2_&lt;&lt; x.a3_&lt;&lt; x.a4_&lt;&lt; x.a5_&lt;&lt; x.a6_&lt;&lt; x.a7_&lt;&lt; x.a8_&lt;&lt; x.a9_&lt;&lt; x.a10_;  
+   return os; 
+}
+
+
+
+
+template &lt;class T1,class T2&gt;
+inline
+group1&lt;T1&gt; 
+group_head( group2&lt;T1,T2&gt; const&amp; x)
+{
+   return group1&lt;T1&gt; (x.a1_); 
+}
+
+template &lt;class T1,class T2&gt;
+inline
+group1&lt;T2&gt; 
+group_last( group2&lt;T1,T2&gt; const&amp; x)
+{
+   return group1&lt;T2&gt; (x.a2_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3&gt;
+inline
+group2&lt;T1,T2&gt; 
+group_head( group3&lt;T1,T2,T3&gt; const&amp; x)
+{
+   return group2&lt;T1,T2&gt; (x.a1_,x.a2_); 
+}
+
+template &lt;class T1,class T2,class T3&gt;
+inline
+group1&lt;T3&gt; 
+group_last( group3&lt;T1,T2,T3&gt; const&amp; x)
+{
+   return group1&lt;T3&gt; (x.a3_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4&gt;
+inline
+group3&lt;T1,T2,T3&gt; 
+group_head( group4&lt;T1,T2,T3,T4&gt; const&amp; x)
+{
+   return group3&lt;T1,T2,T3&gt; (x.a1_,x.a2_,x.a3_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4&gt;
+inline
+group1&lt;T4&gt; 
+group_last( group4&lt;T1,T2,T3,T4&gt; const&amp; x)
+{
+   return group1&lt;T4&gt; (x.a4_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5&gt;
+inline
+group4&lt;T1,T2,T3,T4&gt; 
+group_head( group5&lt;T1,T2,T3,T4,T5&gt; const&amp; x)
+{
+   return group4&lt;T1,T2,T3,T4&gt; (x.a1_,x.a2_,x.a3_,x.a4_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5&gt;
+inline
+group1&lt;T5&gt; 
+group_last( group5&lt;T1,T2,T3,T4,T5&gt; const&amp; x)
+{
+   return group1&lt;T5&gt; (x.a5_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6&gt;
+inline
+group5&lt;T1,T2,T3,T4,T5&gt; 
+group_head( group6&lt;T1,T2,T3,T4,T5,T6&gt; const&amp; x)
+{
+   return group5&lt;T1,T2,T3,T4,T5&gt; (x.a1_,x.a2_,x.a3_,x.a4_,x.a5_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6&gt;
+inline
+group1&lt;T6&gt; 
+group_last( group6&lt;T1,T2,T3,T4,T5,T6&gt; const&amp; x)
+{
+   return group1&lt;T6&gt; (x.a6_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7&gt;
+inline
+group6&lt;T1,T2,T3,T4,T5,T6&gt; 
+group_head( group7&lt;T1,T2,T3,T4,T5,T6,T7&gt; const&amp; x)
+{
+   return group6&lt;T1,T2,T3,T4,T5,T6&gt; (x.a1_,x.a2_,x.a3_,x.a4_,x.a5_,x.a6_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7&gt;
+inline
+group1&lt;T7&gt; 
+group_last( group7&lt;T1,T2,T3,T4,T5,T6,T7&gt; const&amp; x)
+{
+   return group1&lt;T7&gt; (x.a7_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8&gt;
+inline
+group7&lt;T1,T2,T3,T4,T5,T6,T7&gt; 
+group_head( group8&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt; const&amp; x)
+{
+   return group7&lt;T1,T2,T3,T4,T5,T6,T7&gt; (x.a1_,x.a2_,x.a3_,x.a4_,x.a5_,x.a6_,x.a7_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8&gt;
+inline
+group1&lt;T8&gt; 
+group_last( group8&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt; const&amp; x)
+{
+   return group1&lt;T8&gt; (x.a8_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9&gt;
+inline
+group8&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt; 
+group_head( group9&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt; const&amp; x)
+{
+   return group8&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt; (x.a1_,x.a2_,x.a3_,x.a4_,x.a5_,x.a6_,x.a7_,x.a8_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9&gt;
+inline
+group1&lt;T9&gt; 
+group_last( group9&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt; const&amp; x)
+{
+   return group1&lt;T9&gt; (x.a9_); 
+}
+
+
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9,class T10&gt;
+inline
+group9&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt; 
+group_head( group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9,T10&gt; const&amp; x)
+{
+   return group9&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt; (x.a1_,x.a2_,x.a3_,x.a4_,x.a5_,x.a6_,x.a7_,x.a8_,x.a9_); 
+}
+
+template &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9,class T10&gt;
+inline
+group1&lt;T10&gt; 
+group_last( group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9,T10&gt; const&amp; x)
+{
+   return group1&lt;T10&gt; (x.a10_); 
+}
+
+
+
+
+
+} // namespace detail
+
+
+
+// helper functions
+
+
+inline detail::group1&lt; detail::group0 &gt;  
+group() { return detail::group1&lt; detail::group0 &gt; ( detail::group0() ); }
+
+template  &lt;class T1, class Var&gt; 
+inline
+detail::group1&lt; detail::group2&lt;T1, Var const&amp;&gt; &gt;
+  group(T1 a1, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group2&lt;T1, Var const&amp;&gt; &gt;
+                   ( detail::group2&lt;T1, Var const&amp;&gt; 
+                        (a1, var) 
+                  );
+}
+
+template  &lt;class T1,class T2, class Var&gt; 
+inline
+detail::group1&lt; detail::group3&lt;T1,T2, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group3&lt;T1,T2, Var const&amp;&gt; &gt;
+                   ( detail::group3&lt;T1,T2, Var const&amp;&gt; 
+                        (a1,a2, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3, class Var&gt; 
+inline
+detail::group1&lt; detail::group4&lt;T1,T2,T3, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group4&lt;T1,T2,T3, Var const&amp;&gt; &gt;
+                   ( detail::group4&lt;T1,T2,T3, Var const&amp;&gt; 
+                        (a1,a2,a3, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4, class Var&gt; 
+inline
+detail::group1&lt; detail::group5&lt;T1,T2,T3,T4, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group5&lt;T1,T2,T3,T4, Var const&amp;&gt; &gt;
+                   ( detail::group5&lt;T1,T2,T3,T4, Var const&amp;&gt; 
+                        (a1,a2,a3,a4, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5, class Var&gt; 
+inline
+detail::group1&lt; detail::group6&lt;T1,T2,T3,T4,T5, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group6&lt;T1,T2,T3,T4,T5, Var const&amp;&gt; &gt;
+                   ( detail::group6&lt;T1,T2,T3,T4,T5, Var const&amp;&gt; 
+                        (a1,a2,a3,a4,a5, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6, class Var&gt; 
+inline
+detail::group1&lt; detail::group7&lt;T1,T2,T3,T4,T5,T6, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group7&lt;T1,T2,T3,T4,T5,T6, Var const&amp;&gt; &gt;
+                   ( detail::group7&lt;T1,T2,T3,T4,T5,T6, Var const&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7, class Var&gt; 
+inline
+detail::group1&lt; detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var const&amp;&gt; &gt;
+                   ( detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var const&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8, class Var&gt; 
+inline
+detail::group1&lt; detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var const&amp;&gt; &gt;
+                   ( detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var const&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7,a8, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9, class Var&gt; 
+inline
+detail::group1&lt; detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var const&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8,T9 a9, Var const&amp; var)
+{ 
+   return detail::group1&lt; detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var const&amp;&gt; &gt;
+                   ( detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var const&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7,a8,a9, var) 
+                  );
+}
+
+
+#ifndef BOOST_NO_OVERLOAD_FOR_NON_CONST
+
+template  &lt;class T1, class Var&gt; 
+inline
+detail::group1&lt; detail::group2&lt;T1, Var&amp;&gt; &gt;
+  group(T1 a1, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group2&lt;T1, Var&amp;&gt; &gt;
+                   ( detail::group2&lt;T1, Var&amp;&gt; 
+                        (a1, var) 
+                  );
+}
+
+template  &lt;class T1,class T2, class Var&gt; 
+inline
+detail::group1&lt; detail::group3&lt;T1,T2, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group3&lt;T1,T2, Var&amp;&gt; &gt;
+                   ( detail::group3&lt;T1,T2, Var&amp;&gt; 
+                        (a1,a2, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3, class Var&gt; 
+inline
+detail::group1&lt; detail::group4&lt;T1,T2,T3, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group4&lt;T1,T2,T3, Var&amp;&gt; &gt;
+                   ( detail::group4&lt;T1,T2,T3, Var&amp;&gt; 
+                        (a1,a2,a3, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4, class Var&gt; 
+inline
+detail::group1&lt; detail::group5&lt;T1,T2,T3,T4, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group5&lt;T1,T2,T3,T4, Var&amp;&gt; &gt;
+                   ( detail::group5&lt;T1,T2,T3,T4, Var&amp;&gt; 
+                        (a1,a2,a3,a4, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5, class Var&gt; 
+inline
+detail::group1&lt; detail::group6&lt;T1,T2,T3,T4,T5, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group6&lt;T1,T2,T3,T4,T5, Var&amp;&gt; &gt;
+                   ( detail::group6&lt;T1,T2,T3,T4,T5, Var&amp;&gt; 
+                        (a1,a2,a3,a4,a5, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6, class Var&gt; 
+inline
+detail::group1&lt; detail::group7&lt;T1,T2,T3,T4,T5,T6, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group7&lt;T1,T2,T3,T4,T5,T6, Var&amp;&gt; &gt;
+                   ( detail::group7&lt;T1,T2,T3,T4,T5,T6, Var&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7, class Var&gt; 
+inline
+detail::group1&lt; detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var&amp;&gt; &gt;
+                   ( detail::group8&lt;T1,T2,T3,T4,T5,T6,T7, Var&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8, class Var&gt; 
+inline
+detail::group1&lt; detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var&amp;&gt; &gt;
+                   ( detail::group9&lt;T1,T2,T3,T4,T5,T6,T7,T8, Var&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7,a8, var) 
+                  );
+}
+
+template  &lt;class T1,class T2,class T3,class T4,class T5,class T6,class T7,class T8,class T9, class Var&gt; 
+inline
+detail::group1&lt; detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var&amp;&gt; &gt;
+  group(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5,T6 a6,T7 a7,T8 a8,T9 a9, Var&amp; var)
+{ 
+   return detail::group1&lt; detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var&amp;&gt; &gt;
+                   ( detail::group10&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9, Var&amp;&gt; 
+                        (a1,a2,a3,a4,a5,a6,a7,a8,a9, var) 
+                  );
+}
+
+
+#endif  // - BOOST_NO_OVERLOAD_FOR_NON_CONST
+
+
+} // namespace io
+
+} // namespace boost
+
+
+#endif   // BOOST_FORMAT_GROUP_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/group.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:44 GMT -->
+</html>

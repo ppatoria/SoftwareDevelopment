@@ -1,0 +1,128 @@
+F# meets LINQ, and great things happen (Part I)
+
+RATE THIS
+ dsyme 26 Jan 2006 5:25 PM 7
+ 
+
+[ Note: a later, more up-to-date post decribes F# Power Pack LINQ support ]
+
+In case you haven't heard, LINQ (Language Integrated Queries) is Microsoft's project codename for adding a range of features to C# and Visual Basic to allow programmers to write "language-integrated query, set, and transform operations".  The idea is to use a combination of generics, functional programming, expression reification, and related extensions to the OO programming model ("extension methods" among other nice things) combined in a tasteful way to tackle several aspects of data manipulation and transformation simultaneously, in particular for in-memory streamed data (IEnumerables - basic LINQ), XML (XLinq) and database access (DLinq).
+
+The latest release of F# (v. 1.1.8.1, detailed release notes here) contains everything you need to do some LINQ programming in conjunction with the C# LINQ "Tech Preview" release for VS 2005, including a translation of some of the 101 Samples (you can also use the command line compiler to get the samples working, though it may take a little work on your part). In this blog entry I'll give you an initial taste for how beautifully F# combines with LINQ, and indeed for how much overlap there is between the two paradigms.  Furthermore, you don't actually have to use LINQ as such (which is only in preview) - F# is already a great alternative environment for exploring the concepts that underpin the LINQ paradigm.  But before we begin you maight like to download F#, spin up Visual Studio and F# Interactive (fsi.exe) and work your way through the F# Quick Tour.  You might also like to read up a bit on LINQ first, or you might like to see if you can get what's going on through the F# samples alone. 
+
+The first thing is so simple it's almost easy to miss, but it's important, and it's this - we'll be making heavy use of the "|>" operator .  This is the single most important operator you'll need to learn how to use to be an efficient F# programmer when working with data-manipulation libraries (see also Robert Pickering's post on the subject - thanks Robert!).  Here's the definition of the operator from the F# library (pervasives.fs in the distribution):
+
+      let (|>) x f = f x
+
+and it's used like this:
+
+      let res = [1;2;3] |> List.map (fun x -> x + 1);;
+
+where those using F# Interactive will see the result:
+
+   C:\fsharp\src\tests\fsharp>fsi
+
+   MSR F# Interactive, (c) Microsoft Corporation, All Rights Reserved
+   F# Version 1.1.8.1, compiling for .NET Framework Version v2.0.50727
+
+   > [1;2;3] |> List.map (fun x -> x + 1);;
+
+   val it : int list
+
+   val it = [2; 3; 4]
+   >
+
+When used in conjunction with well-designed libraries, the "|>" alone allows us to perform the vast majority of the data manipulations in LINQ style programming (we'll get on to DLinq later).  Let's start by taking some of the Sequence processing functionality of the C# LINQ System.Query.Sequence library and make them available to F# (you can find this code in the prototype F# Linq binding in samples\fsharp\flinq\linq.fs in the F# distribution)
+
+
+module Microsoft.FSharp.Bindings.Linq.SequenceOps
+
+open System
+open System.Query
+open System.Collections.Generic
+
+let select  f coll =  System.Query.Sequence.Select(coll,new Func<_,_>(f))
+let orderBy f coll = System.Query.Sequence.OrderBy(coll,new Func<_,_>(f))
+let where   f coll =   System.Query.Sequence.Where(coll,new Func<_,_>(f))
+
+Before we look at the types of these functions in F#, let's look at how easy these are to use, and, most importantly, to compose.  Here's one of the F# versions of the "LINQ 101" samples (see samples\fsharp\flinq\linqsamples.fs in the F# distribution):
+
+  let expensiveInStockProducts =
+    products
+    |> where  (fun p -> p.UnitsInStock > 0 && p.UnitPrice > Convert.ToDecimal(3.00)) 
+    |> select (fun p -> p.ProductName);;
+
+
+  printf "In-stock products that cost more than 3.00: %a"  output_any expensiveInStockProducts
+
+(Aside: You can read up more on printf in the F# manual) As you can see above, the basic technique used is to translate the vast majority of LINQ queries into compositions of functions built using the primitives in either the F# library or the LINQ library, or very often using user-defined comprehension functions. Let's take a look at the types of the primitives we've defined and used above:
+
+  val orderBy : ('a -> 'b)   -> #IEnumerable<'a> -> OrderedSequence<'a> 
+  val select  : ('a -> 'b)   -> #IEnumerable<'a> -> IEnumerable<'b> 
+  val where   : ('a -> bool) -> #IEnumerable<'a> -> IEnumerable<'a>
+
+These are of course strikingly similar to many of the functions already available in the F# library for manipulating data, for example, the Microsoft.FSharp.MLLib libraries Set, IEnumerable and Array contain:
+
+  val Set.filter      : ('a -> bool) -> Set<'a> -> Set<'a>
+  val Array.map       : ('a -> 'b)   -> 'a[]    -> 'b[]
+  val IEnumerable.map : ('a -> 'b)   -> #IEnumerable<'a> -> IEnumerable<'b>
+
+(Here "select" is "map", and "where" is "filter" and "#" means "any type that is a subtype of IEnumerable").  And here's the same query as above, using the F# library:
+
+  let expensiveInStockProducts =
+    products
+    |> IEnumerable.filter (fun p -> p.UnitsInStock > 0 && p.UnitPrice > Convert.ToDecimal(3.00)) 
+    |> IEnumerable.map    (fun p -> p.ProductName);;
+
+One of the important things about this approach is that it scales to very large sequences of data-manipulation over multiple different types. For example, let's take an IEnumerable stream, and convert it to a set, union it with another set (unions on concrete data structures such as sets can be more efficient than unions on linear structures like IEnumerables), and then convert the result to an array:
+
+  let res = 
+    productList 
+    |> Set.of_IEnumerable
+    |> Set.filter (fun x -> x.ProductName.Contains("Ravioli"))
+    |> Set.union tortelliniList
+    |> Set.to_array
+
+As you can see, basic F# data-manipulation is already very LINQ-like, and many of the issues of extensionality and scalability of the set of query operators (which lead to C#'s extension methods) are not really a problem for F#.  Doing this kind of data manipulation with F# Interactive and Visual Studio is indeed one of the best ways to learn the basics of F# programming. Furthermore this exact approach can already be used with many elements of the .NET library.  Here's an example of doing "loosely-typed" ADO .NET processing adapted from one recently posted by Stephen Bolding on the F# mailing list:
+
+  open System
+  open System.Collections.Generic
+  open System.Data
+  open System.Data.Common
+  open System.Data.OleDb
+  open System.Console
+
+  let connstr = "..."
+  let dbconn = new OleDbConnection(connstr);; 
+  do dbconn.Open();; 
+  let sql_command= new OleDbCommand("select perf from perfs where id = 1",dbconn);;
+  do 
+    sql_command.ExecuteReader(CommandBehavior.CloseConnection) 
+    |> IEnumerable.untyped_to_typed
+    |> IEnumerable.map (fun (x:DbDataRecord) -> x.GetDouble 0 )
+    |> IEnumerable.to_array
+    |> print_any;;
+
+However, if that was all there was to LINQ then things would be too easy.  Firstly, it is important to realise that uniformity is an important part of the LINQ story: you will see the same query operators (select, where etc.) in every LINQ library, and C# even has some special syntax to make a handful of queries (but by no means all) a bit more succinct.  On the whole the F# library names are different, but the F# library also has a wonderful uniformity: you will see map, filter, fold and many more operators exactly where you expect to find them, as shown above.  In the long term I would expect to see a "binding" to the LINQ libraries alongside the regular F# library, the former in a namespace such as Microsoft.FSharp.Bindings.Linq, much as shown above.  You will have the choice to use one, both or neither of these libraries in your F# programming.
+
+The example of using a data binding library brings us closer to the heart of what LINQ is really all about - language-integrated query processing for databases, and indeed a far broader vision of "out-of-memory" data processing.  This is covered by "DLinq", and it's here that we hit the meta-programming aspects of the LINQ story.  I'm going to save the full discussion of F# and DLinq for my next posts, but the F# DLinq samples are in the F# distribution if you want to play.  To give you a taster, the basic mechanism is that F# now supports "expression quotation", where fragments of the language can be reified as abstract syntax trees for later processing.  This produces trees in the Microsoft.FSharp.Quotation library, which can then be translated into System.Expression trees for processsing by a LINQ library (see, for example, samples\fsharp\flinq\dlinq.fs in the F# distribution for an example of this kind of processing) .  In the end you get queries like the following:
+
+  let q =
+    db.Customers
+    |> where  <@ fun c -> c.City = "London" @> 
+    |> select <@ fun c -> c.ContactName @>
+
+Note the close similarity with the previous "in-memory" queries.  Through the combined wonders of F# quotations, F# type checking and the DLinq library these queries are run as honest-to-goodness SQL on the database, e.g.
+
+  SELECT [t0].[ContactName]
+  FROM [Customers] AS [t0]
+  WHERE @p0 = [t0].[City]
+
+  ["Thomas Hardy"; "Victoria Ashworth"; "Elizabeth Brown"; "Ann Devon";
+   "Simon Crowther"; "Hari Kumar"]
+
+To me, that is amazing - like many others I have been waiting years to see the convergence of functional programming, data processing, type systems and meta-programming on a platform that has the backing of many of the major players in the computing industry.  But more on F#, DLinq and related topics like Nullables and nested queries next time!
+
+ 
+
+F# Announcements, F# Design Notes, F# Snippets

@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/template.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:14:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML Template - parameterization with template parameters, bound classifiers, etc.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Template - class, collaboration, package templates, bound classifiers, etc." />
+<meta name="keywords" content="UML, UML 2, 2.4, template, parameterize, template parameters, bound classifier." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 111030 -->
+<div id="globalNav">
+  <div>
+    <a href="index.html" title="UML Diagrams - overview, reference, and examples" >Home</a>
+  </div>
+  <div>
+    <a href="uml-core.html" title="UML Core Elements">UML Core Elements</a>
+  </div>
+  <div>
+    <a href="template.html" title="UML Template">Template</a>
+  </div>
+  <div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+<!-- content -->
+<div id="mainContent">
+<h1>UML Template</h1>
+
+<p>
+UML <strong>templates</strong> allow
+ <a href="classifier.html" class="ref-link">classifiers</a>,
+ <a href="collaboration-diagrams/collaboration.html" class="ref-link">collaborations</a>,
+ <a href="package-diagrams.html#package" class="ref-link">packages</a>,
+ <a href="class-diagrams.html#operation" class="ref-link">operations</a>
+ to be parameterized with
+ <a href="template.html#template-parameter" class="ref-link">template parameters</a>.
+ See, for example:
+</p>
+<ul>
+<li><a href="class-diagrams.html#class-template" class="ref-link">class template</a>,</li>
+<li><a href="collaboration-diagrams/collaboration-template.html" class="ref-link">collaboration template</a>,</li>
+<li><a href="package-diagrams.html#package-template" class="ref-link">package template</a>.</li>
+</ul>
+
+<p>
+An example of a template - <a href="transfer-object-pattern-uml-package-template-example.html" class="ref-link">Value Object Package Template</a>.
+</p>
+
+
+<!--
+************************
+  Templateable Element
+************************
+-->
+
+<h2 id="templateable-element">Templateable Element</h2>
+
+<p>
+A <strong>templateable element</strong> is
+ an <a href="uml-core.html#element" class="ref-link">element</a>
+ that can optionally be defined as
+ a <a href="template.html#template" class="ref-link">template</a>
+ or <a href="template.html#bound-element" class="ref-link">bound</a>
+ to other templates.
+</p>
+
+<div class="figure-left-80">
+<img src="template/class-template-bound.png" width="248" height="226"
+ alt="Template class Array and bound class Customers." 
+ title="Template class Array and bound class Customers." />
+<p class="figure-text">
+Template class Array and bound class Customers.
+</p>
+</div>
+
+
+<!--
+**********************
+      Template
+**********************
+-->
+
+<h3 id="template">Template</h3>
+
+<p>
+<strong>Template</strong> is
+ a <a href="template.html#templateable-element" class="ref-link">templateable element</a>
+ that contains
+ a <a href="template.html#template-signature" class="ref-link">template signature</a>.
+</p>
+
+
+<div class="figure-left-120" itemscope itemtype="http://schema.org/ImageObject">
+<img src="collaboration-diagrams/collaboration-template-elements.png" width="420" height="276"
+ alt="Collaboration template shown as a dashed ellipse and two unconstrained class formal parameters."
+ title="Collaboration template shown as a dashed ellipse and two unconstrained class formal parameters."
+ itemprop="contentURL" />
+<p class="figure-text" itemprop="description">
+Collaboration template Visit with two unconstrained class formal parameters.
+</p>
+<meta itemprop="author" content="Kirill Fakhroutdinov" />
+<meta itemprop="copyrightHolder" content="uml-diagrams.org" />
+<meta itemprop="datePublished" content="2011-11-13" />
+<meta itemprop="dateModified" content="2013-04-29" />
+</div>
+
+
+<!--
+*****************
+  Bound Element
+*****************
+-->
+
+<h3 id="bound-element">Bound Element</h3>
+
+<p>
+<strong>Bound element</strong> is
+ a <a href="template.html#templateable-element" class="ref-link">templateable element</a>
+ that contains
+ <a href="template.html#template-binding" class="ref-link">bindings to templates</a>
+ that describe how the templateable element is constructed by
+ replacing the <strong>formal template parameters</strong> with <strong>actual parameters</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="template/package-template-overview.png" width="425" height="414" 
+ alt="Package template Service Provider and bound package Scheduler Service." 
+ title="Package template Service Provider and bound package Scheduler Service." />
+<p class="figure-text">
+Package template Service Provider and bound package Scheduler Service.
+</p>
+</div>
+
+<!--
+************************
+  Template Signature
+************************
+-->
+
+<h2 id="template-signature">Template Signature</h2>
+
+<p>
+A <strong>template signature</strong> is
+ an <a href="uml-core.html#element" class="ref-link">element</a>
+ which specifies the ordered set of
+ <a href="template.html#template-parameter" class="ref-link">formal template parameters</a>
+ for a <a href="template.html#template" class="ref-link">template</a>.
+</p>
+
+<p>
+<a href="template.html#template-parameter" class="ref-link">Formal template parameters</a>
+ are shown in a dashed rectangle superimposed on the symbol for the
+ <a href="template.html#template" class="ref-link">template</a>,
+ typically on the upper right-hand corner.
+ The list of the formal template parameters should not be empty, having at least one formal parameter.
+</p>
+
+<p>
+The formal template parameter list may be shown as a comma-separated list,
+ or it may be one formal template parameter per line.
+</p>
+
+<p>
+Note, that UML specification allows to suppress the template signature on the diagram.
+</p>
+
+
+<!--
+************************
+  Template Parameter
+************************
+-->
+
+<h2 id="template-parameter">Template Parameter</h2>
+
+<p>
+A <strong>template parameter</strong> is 
+ an <a href="uml-core.html#element" class="ref-link">element</a>
+ which exposes a <strong>parameterable element</strong>
+ as a <strong>formal template parameter</strong> of
+ a <a href="template.html#template" class="ref-link">template</a>.
+ It is owned by
+ a <a href="template.html#template-signature" class="ref-link">template signature</a>.
+</p>
+
+<p>
+The formal template parameter constrains the elements that may be substituted as
+ <strong>actual parameters</strong>
+ in a <a href="template.html#template-binding" class="ref-link">template binding</a>.
+The formal template parameter could be only used within the template and its specializations, if any.
+ It may not be used in other parts of the model.
+</p>
+
+<p>
+Formal template parameter is displayed within
+ the <strong>template parameter list</strong> using the following syntax:
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">template-parameter</span> ::=
+ <span class="nonterm">template-param-name</span>&nbsp;[&nbsp;':'&nbsp;
+ <span class="nonterm">parameter-kind</span>&nbsp;]&nbsp;[&nbsp;'='&nbsp;
+ <span class="nonterm">default</span>&nbsp;]
+</p>
+
+
+<!--
+***********************
+  Template Binding 
+***********************
+-->
+
+<h2 id="template-binding">Template Binding</h2>
+
+<p>
+<strong>Template binding</strong> is
+ a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ from a <a href="template.html#bound-element" class="ref-link">bound element</a>
+ to the <a href="template.html#template-signature" class="ref-link">template signature</a>
+ of the target <a href="template.html#template" class="ref-link">template</a>.
+</p>
+
+<p>
+Template binding specifies and owns a set of <strong>template parameter substitutions</strong>
+ of actual parameters for the formal parameters of the template.
+</p>
+
+<p>
+Template binding is shown as a dashed arrow decorated with the keyword «bind» and
+<strong>binding information</strong>, with the hollow triangle arrowhead,
+and directed from the bound element at the tail to the template.
+</p>
+
+<div class="figure-left-80">
+<img src="template/class-template-bound.png" width="248" height="226"
+ alt="Binding substitutes class T with class Customer and boundary n with integer value 24." 
+ title="Binding substitutes class T with class Customer and boundary n with integer value 24." />
+<p class="figure-text">
+Binding substitutes class T with class Customer<br />
+ and boundary n with integer value 24.
+</p>
+</div>
+
+<p>
+The <strong>binding information</strong> is generally displayed as a comma-separated list
+ of <span class="nonterm">template-param-substitition</span>s
+ enclosed in angle brackets '&lt;' and '&gt;':
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">template-param-substitition</span> ::=
+ <span class="nonterm">template-param-name</span>&nbsp;'-&gt;'
+ <span class="nonterm">actual-template-parameter</span>
+</p>
+
+<p>
+The syntax of <span class="nonterm">template-param-name</span> 
+ is defined by the kind of <strong>parametered element</strong>
+ for this template parameter substitution,
+ while <span class="nonterm">actual-template-parameter</span> depends upon the kind of the element.
+</p>
+
+<br />
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="template.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/template.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:14:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

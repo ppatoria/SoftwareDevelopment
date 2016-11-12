@@ -1,0 +1,1057 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/profile-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:11:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML profile diagram is a structure diagram which describes UML extension mechanism by defining custom stereotypes, tagged values and constraints.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML profile diagrams are structure diagrams which describe UML extension mechanism by defining custom stereotypes, tagged values, constraints, profiles, metaclasses, etc." />
+<meta name="keywords" content="UML 2, 2.4, diagrams, profile, relationships, metaclass, stereotype, extension, profile application, tagged value" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130708 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="profile-diagrams.html"
+  title="UML profile diagrams overview of graphical notation" class="active-nav" >Profile diagrams</a>
+</div>
+<div>
+ <a href="profile-diagrams-reference.html" 
+ title="UML profile diagrams reference"  >Reference</a>
+</div>
+<div>
+ <a href="profile-diagrams-examples.html"
+ title="UML profile diagrams examples"  >Profile diagrams examples</a>
+</div>
+<div>
+ <a href="uml-meta-models.html"
+  title="UML meta models and profiles"  >UML meta modeling</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML Profile Diagrams</h1>
+
+<p>
+<strong>Profile diagram</strong> is 
+ <a href="uml-25-diagrams.html#structure-diagram" class="ref-link">structure diagram</a>
+ which describes <strong>lightweight extension mechanism</strong> to the UML by defining
+ custom <a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>,
+ <a href="profile-diagrams.html#tagged-value" class="ref-link">tagged values</a>,
+ and constraints.
+ Profiles allow adaptation of the UML metamodel for different:
+</p>
+<ul>
+<li><strong>platforms</strong> (such as J2EE or .NET), or</li>
+<li><strong>domains</strong> (such as real-time or business process modeling).</li>
+</ul>
+
+<p>
+For example, semantics of standard UML metamodel elements could be specialized in a profile.
+In a model with the profile "Java model," generalization of classes should be able to
+ be restricted to single inheritance without having to explicitly assign a stereotype
+ «Java class» to each and every class instance.
+</p>
+
+<p>
+The profiles mechanism is not a first-class extension mechanism.
+It does not allow to modify existing metamodels or to create a new metamodel as MOF does.
+Profile only allows adaptation or customization of an existing metamodel
+with constructs that are specific to a particular domain, platform, or method.
+It is not possible to take away any of the constraints that apply to a metamodel,
+ but it is possible to <strong>add new constraints</strong> that are specific to the profile.
+</p>
+
+<p>
+ Metamodel customizations are defined in a profile, which is then applied to a package.
+ <a href="profile-diagrams.html#stereotype" class="ref-link">Stereotypes</a>
+ are specific metaclasses,
+ <a href="profile-diagrams.html#tagged-value" class="ref-link">tagged values</a>
+ are standard metaattributes,
+ and <strong>profiles</strong> are specific kinds of packages.
+</p>
+
+<p>
+Profiles can be dynamically applied to or retracted from a model.
+ They can also be dynamically combined so that several profiles will be applied
+ at the same time on the same model.
+</p>
+
+<p>
+Profiles were present in UML 1.x. Profile diagrams were introduced in <strong>UML 2.0</strong>
+but first appeared on "official" taxonomy of UML diagrams in <strong>UML 2.2</strong>
+(<a href="references.html#ref-uml-22-super" class="external-ref" title="UML 2.2 - Superstructure">[UML 2.2 - Superstructure]</a>, Figure A.5).
+</p>
+
+<p>Graphical nodes and edges drawn on profile diagrams are:
+<a href="profile-diagrams.html#profile" class="ref-link">profile</a>,
+<a href="profile-diagrams.html#metaclass" class="ref-link">metaclass</a>,  
+<a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>,
+<a href="profile-diagrams.html#extension" class="ref-link">extension</a>,
+<a href="profile-diagrams.html#reference" class="ref-link">reference</a>,
+<a href="profile-diagrams.html#profile-application" class="ref-link">profile application</a>.
+</p>
+
+<p>
+You can find some 
+ <a href="profile-diagrams-examples.html" class="ref-link">profile diagram examples</a>
+ here:
+</p>
+<ul>
+<li><a href="profile-diagrams-examples.html#soaml-profile" class="ref-link">SoaML UML Profile</a></li>
+<li><a href="java-ejb-uml-profile-diagram-example3f2b.html?context=prf-examples" class="ref-link">Java EJB 3.0 UML Profile</a></li>
+<li><a href="dicom-uml-profile-diagram-example3f2b.html?context=prf-examples" class="ref-link">DICOM UML Profile</a></li>
+</ul>
+
+
+<!--
+************
+   Profile
+************
+-->
+
+<h2 id="profile">Profile</h2>
+
+<p>
+<strong>Profile</strong> is a 
+ profile <a href="package-diagrams.html#package" class="ref-link">package</a>
+ that extends a reference metamodel (such as <strong>UML</strong>) by allowing to adapt or customize
+ the metamodel with constructs that are specific to a particular domain, platform,
+ or a software development method. In other words,
+ profile is a lightweight extension mechanism to the UML standard.
+</p>
+
+<p>
+A profile introduces several constraints, or restrictions, on ordinary metamodeling through the use of 
+ the <a href="profile-diagrams.html#metaclass" class="ref-link">metaclasses</a>
+ defined in this package. The primary extension construct is
+ <a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>,
+ which is defined as part of profile and extends some metaclass.
+</p>
+
+<p>
+A profile is a restricted form of a reference metamodel that must always be related to
+ some reference metamodel that is created from MOF such as UML or CWM. 
+ It is not possible to define a standalone profile, without its reference metamodel.
+</p>
+
+<p>
+<strong>Profile</strong> uses the same notation as 
+ a <a href="package-diagrams.html#package" class="ref-link">package</a>,
+ with the addition that the keyword <strong>«profile»</strong> is shown before or above the name
+ of the package.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-profile.png" width="124" height="80"
+ alt="Profile uses the same notation as package but with the keyword profile."
+ title="Profile uses the same notation as package but with the keyword profile." />
+<p class="figure-text">
+Profile EJB
+</p>
+</div>
+
+<p>
+A profile can define classes,
+<a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>,
+<a href="class-diagrams.html#data-type" class="ref-link">data types</a>,
+<a href="class-diagrams.html#primitive-type" class="ref-link">primitive types</a>,
+<a href="class-diagrams.html#enumeration" class="ref-link">enumerations</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-profile-servers.png" width="270" height="266"
+ alt="Profile can define classes, stereotypes, data types, primitive types and enumerations."
+ title="Profile can define classes, stereotypes, data types, primitive types and enumerations." />
+<p class="figure-text">
+Profile Servers
+</p>
+</div>
+
+<p>
+One profile might reuse some or all parts of another profile, to extend already existing profiles.
+Multiple profiles could be applied to the same model.
+</p>
+
+<p>
+The <a href="constraint.html" class="ref-link">constraints</a>
+ that are part of the profile are evaluated when the profile has been
+ <a href="profile-diagrams.html#profile-application" class="ref-link">applied</a>
+ to a package. These constraints need to be satisfied in order for the model to be well-formed.
+</p>
+
+<p>
+<a href="package-diagrams.html#package" class="ref-link">Package</a>
+since UML 2.4 has optional
+ <a href="package-diagrams.html#uri-package" class="ref-link">URI attribute</a>
+  which serves as <strong>unique identifier</strong> of the package. 
+Profile is a package, and the URI attribute was introduced  mostly to support exchange of
+ <a href="profile-diagrams.html#profile" class="ref-link">profiles</a>
+ using XMI.
+</p>
+
+<p>
+The URI attribute of a profile may be rendered in the form {uri=<span class="nonterm">uri</span>}
+ after the profile name. OMG normative profiles follow OMG normative naming scheme for URIs.
+For non-standard, custom profiles convention recommended by OMG looks like:
+</p>
+
+<p class="syntax-rule">
+<span class="nonterm">uri</span> ::=
+http://<span class="nonterm">qualified-profile-parent</span>
+/<span class="nonterm">profile-version</span>
+/<span class="nonterm">profile-name</span>.xmi
+</p>
+
+<ul>
+<li>
+<span class="nonterm">qualified-profile-parent</span> is the qualified name of the package containing the profile (if any),
+ with "::" replaced by "/" (forward slash), and
+ <span class="citation">all other illegal XML QName characters removed</span>.
+For example: <strong>www.uml-diagrams.org/profiles</strong>.
+</li>
+<li>
+<span class="nonterm">profile-version</span> is a profile version id.
+OMG normative profiles use for this purpose date in the format YYYYMMDD,
+ for example: <strong>20110331</strong>.
+</li>
+<li>
+<span class="nonterm">profile-name</span> is the name of the profile, should contain only valid XML QName characters.
+For example: <strong>ejb-30</strong>.
+</li>
+</ul>
+
+<p>
+Note, that UML specification here mingled two different specifications.
+The whole URI value should follow obsolete URI specification <strong>RFC 2396</strong>
+(see: <a href="package-diagrams.html#uri-package" class="ref-link">URI package attribute</a>),
+while <span class="nonterm">qualified-profile-parent</span> part should also be (or will be made)
+ valid XML <strong>QName</strong>. XML QName usually has namespace prefix followed by ':',
+e.g. 'taxes:dependent', which contradicts to the URI requirement.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-uri-attribute.png" width="330" height="163"
+ alt="URI attribute of a package rendered after the package name." 
+ title="URI attribute of a package rendered after the package name." />
+<p class="figure-text">
+EJB Profile shown as a package with URI attribute.
+</p>
+</div>
+
+
+<!--
+****************
+    Metaclass
+****************
+-->
+ 
+<h2 id="metaclass">Metaclass</h2>
+
+<p>
+<strong>Metaclass</strong> is a <strong>profile class</strong> and
+a <a href="package-diagrams.html#packageable-element" class="ref-link">packageable element</a>
+which may be <a href="profile-diagrams.html#extension" class="ref-link">extended</a>
+ through one or more
+<a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>.
+</p>
+
+<p>
+A metaclass may be shown with the optional stereotype «Metaclass» shown above or before its name
+(all lower-case «metaclass» was used in UML versions prior to 2.4).
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-metaclass.png" width="124" height="66"
+ alt="A metaclass with optional stereotype Metaclass shown above its name" 
+ title="A metaclass with optional stereotype Metaclass shown above its name" />
+<p class="figure-text">
+Metaclass Component
+</p>
+</div>
+
+<p>
+<strong>Metaclass</strong> may be extended by one or more
+ <a href="profile-diagrams.html#stereotype" class="ref-link">stereotypes</a>
+ using special kind of <a href="association.html" class="ref-link">association</a> -
+ <a href="profile-diagrams.html#extension" class="ref-link">extension</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-tag-definitions.png" width="300" height="109"
+ alt="Stereotype Computer extends metaclass Device."
+ title="Stereotype Computer extends metaclass Device." />
+<p class="figure-text">
+Stereotype Computer extends metaclass Device
+</p>
+</div>
+
+
+<!--
+******************
+   Stereotype
+******************
+-->
+ 
+<h2 id="stereotype">Stereotype</h2>
+
+<p>
+<strong>Stereotype</strong> is a <strong>profile class</strong> which defines how 
+ an existing <a href="profile-diagrams.html#metaclass" class="ref-link">metaclass</a>
+ may be <a href="profile-diagrams.html#extension" class="ref-link">extended</a>
+ as part of a profile. It enables the use of a platform or domain specific terminology or notation in place of,
+ or in addition to, the ones used for the extended metaclass.
+</p>
+
+<p>
+A stereotype cannot be used by itself, but must always be used with one of the metaclasses it
+<a href="profile-diagrams.html#extension" class="ref-link">extends</a>.
+Stereotype cannot be extended by another stereotype.
+</p>
+
+<p>
+A stereotype uses the same notation as a class, with the keyword <strong>«stereotype»</strong>
+  shown before or above the name of the stereotype. 
+Stereotype names should not clash with keyword names for the extended model element.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype.png" width="122" height="151"
+ alt="A stereotype uses the same notation as a class with the keyword stereotype." 
+ title="A stereotype uses the same notation as a class, with the keyword stereotype." />
+<p class="figure-text">
+Servlet Stereotype extends Component.
+</p>
+</div>
+
+<p>
+Stereotype can change the graphical appearance of the extended model element by using attached icons
+represented by the <strong>Image</strong> profile class.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-extend.png" width="260" height="54"
+ alt="Stereotype can change the graphical appearance of the extended model element by using attached icons"
+ title="Stereotype can change the graphical appearance of the extended model element by using attached icons" />
+<p class="figure-text">
+Stereotype Servlet with attached custom icon.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-actor.png" width="246" height="176"
+ alt="Stereotype can change the graphical appearance of the extended model element by using attached icons."
+ title="Stereotype can change the graphical appearance of the extended model element by using attached icons." />
+<p class="figure-text">
+Actor is extended by stereotype Web Client with attached custom icon.
+</p>
+</div>
+
+<p>
+Because stereotype is a class, it may have
+ <a href="property.html" class="ref-link">properties</a>.
+ Properties of a stereotype are referred to as
+ <a href="profile-diagrams.html#tag-definition" class="ref-link">tag definitions</a>.
+ When a stereotype is applied to a model element, the values of the properties are referred to as
+ <a href="profile-diagrams.html#tagged-value" class="ref-link">tagged values</a>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-server.png" width="260" height="204"
+ alt="Device extended by Server stereotype with custom icon."
+ title="Device extended by Server stereotype with custom icon." />
+<p class="figure-text">
+Device extended by Server stereotype with tag definitions and custom icon.
+</p>
+</div>
+
+<!--
+*************************
+ Stereotype Application
+*************************
+-->
+
+<h3 id="stereotype-applied-profile">Stereotype Application</h3>
+
+<p>
+Profile diagram is used to show <strong>definition</strong> of stereotype.
+ Stereotype is
+ <a href="profile-diagrams.html#profile-application" class="ref-link">applied</a>
+ when it is used on use case diagrams, class diagrams, deployment diagrams, etc.
+</p>
+
+<p>
+When a stereotype is <strong>applied</strong> to a model element, an instance of the stereotype
+ is linked to an instance of the metaclass.
+ The name of the applied stereotype is shown within a pair of guillemets above or before the name
+ of the model element. 
+</p>
+
+<p>
+UML versions before 2.4 required the first letter of the name of the applied stereotype to be
+ in <strong>lower case</strong> (e.g. «servlet»).
+Starting from UML 2.4, the first letter should normally be in <strong>upper case</strong>.
+Naming stereotype applications with lower-case letters where the stereotypes themselves are defined
+ using upper-case first letter is still valid but is considered obsolete.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-applied.png" width="124" height="64"
+ alt="Stereotype Servlet applied to a model element."
+ title="Stereotype Servlet applied to a model element." />
+<p class="figure-text">
+Stereotype «Servlet» applied to<br /> the model element SearchServlet
+</p>
+</div>
+
+<p>
+If multiple stereotypes are applied to the same element, the names of the applied stereotypes are shown
+ as a comma-separated list within a pair of guillemets.
+</p>
+
+<p>
+ When the extended model element has a keyword, then the stereotype name could be displayed close to the
+keyword, within separate guillemets (example: «device» «server»).
+</p>
+
+<p>
+When a stereotype includes the definition of an icon, this icon can be graphically attached
+ to the model elements extended by the stereotype.
+ Every model element that has a graphical presentation can have an attached icon.
+When a model element is extended by one single stereotype the icon can be presented in a reduced shape,
+ inside and on top of the box representing the model element.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-applied-class-icon.png" width="124" height="64"
+ alt="Stereotype applied to a model element as class with icon." 
+ title="Stereotype applied to a model element as class with icon." />
+<p class="figure-text">
+Servlet stereotype applied to the class SearchServlet.
+</p>
+</div>
+
+<p>
+When stereotype is applied, the whole classifier box can be replaced by enlarged icon of the stereotype.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-applied-icon.png" width="100" height="68"
+ alt="Stereotype applied to a model element as icon." 
+ title="Stereotype applied to a model element as icon." />
+<p class="figure-text">
+Servlet stereotype applied to the class SearchServlet.
+</p>
+</div>
+
+<p>
+Some model elements are already using an icon for their default presentation.
+ A typical example of this is 
+ the  <a href="use-case-actor.html" class="ref-link">actor</a> model element,
+ which uses the "stickman" icon.
+ In that case, when a model element is extended by a stereotype with an icon,
+ the stereotype’s icon <strong>replaces the default presentation icon</strong> within diagrams.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-actor-applied.png" width="250" height="125"
+ alt="Stereotype applied to a model element as icon." 
+ title="Stereotype applied to a model element as icon." />
+<p class="figure-text">
+«Web Client» stereotype applied to the Geek
+ <a href="use-case-actor.html" class="ref-link">actor</a>.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-computer-applied.png" width="180" height="197" 
+ alt="Computer stereotype with tags applied to Device class." 
+ title="Computer stereotype with tags applied to Device class." />
+<p class="figure-text">
+Computer stereotype with tags applied to
+ <a href="deployment-diagrams.html#device" class="ref-link">Device</a> class.
+</p>
+</div>
+
+
+<!--
+*********************************
+   Stereotype Relationships
+*********************************
+-->
+
+<h3>Stereotype Relationships</h3>
+
+<p>
+A stereotype must always be used in conjunction with one of 
+ the <a href="profile-diagrams.html#metaclass" class="ref-link">metaclasses</a> it
+ <a href="profile-diagrams.html#extension" class="ref-link">extends</a>.
+ A metaclass may be <a href="profile-diagrams.html#extension" class="ref-link">extended</a>
+ by one or more stereotypes. Each stereotype may extend one or more metaclasses.
+</p>
+
+<p>
+Stereotypes can participate in
+<a href="association.html#binary-association" class="ref-link">binary association</a>.
+The opposite class can be another stereotype, a non-stereotype class owned by
+a <a href="profile-diagrams.html#profile" class="ref-link">profile</a>
+or a <a href="profile-diagrams.html#metaclass" class="ref-link">metaclass</a>.
+The stereotype must own property at the association end to be able to navigate to the opposite class.
+If the opposite end is not a stereotype, the opposite property must be owned by the association itself.
+</p>
+
+<p>
+A stereotype may
+ <a href="generalization.html" class="ref-link">generalize</a>
+ or specialize only another stereotype.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-generalization.png" width="260" height="176"
+ alt="Abstract stereotype Session EJB is specialized by Stateless EJB and Stateful EJB."
+ title="Abstract stereotype Session EJB is specialized by Stateless EJB and Stateful EJB." />
+<p class="figure-text">
+Abstract stereotype Session EJB is specialized by<br />
+stereotypes Stateless EJB and Stateful EJB.
+</p>
+</div>
+
+
+<!--
+********************
+   Tag Definition
+********************
+-->
+
+<h2 id="tag-definition">Tag Definition</h2>
+
+<p>
+<a href="property.html" class="ref-link">Properties</a>
+ of a <a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>
+ are referred to as <strong>tag definitions</strong> (or <strong>metaproperties</strong>).
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-tag-definitions.png" width="300" height="109"
+ alt="Stereotype Computer with tag definitions for vendor, CPu, and memory."
+ title="Stereotype Computer with tag definitions for vendor, CPu, and memory." />
+<p class="figure-text">
+Stereotype Computer with tag definitions for vendor, CPU, and memory
+</p>
+</div>
+
+
+<!--
+*****************
+   Tagged Value
+*****************
+-->
+
+<h3 id="tagged-value">Tagged Value</h3>
+
+<p>
+Stereotype is 
+  <a href="profile-diagrams.html#profile-application" class="ref-link">applied</a>
+ when it is used on use case diagrams, class diagrams, deployment diagrams, etc.
+</p>
+
+<p>
+When a stereotype is applied to a model element, the values of its properties may be referred to as
+ <a href="profile-diagrams.html#tagged-value" class="ref-link">tagged values</a>.
+</p>
+
+<p>
+<strong>UML 1.x</strong> defined <strong>tagged value</strong> as one of UML extensibility mechanisms
+permitting arbitrary information (which could not be expressed by UML) to be attached to models.
+Tagged value is a keyword-value pair that may be attached to any kind of model
+ <a href="uml-core.html#element" class="ref-link">element</a>.
+</p>
+  
+<p>
+The keyword is called a <strong>tag</strong>.
+ Each tag represents a particular kind of property applicable to one or many kinds of model elements.
+ Both the tag and the value are usually encoded as strings though UML tool allow to use other data types
+ for values.
+</p>
+
+<p>
+<strong>Tagged value</strong> specification in <strong>UML 1.x</strong> has the form<br />
+&nbsp;&nbsp;name = value<br />
+where name is the name of a tag or metamodel attribute and value
+is an arbitrary string that denotes its value. For example,<br />
+&nbsp;&nbsp;{author="Joe Smith", deadline=31-March-1997, status=analysis}
+</p>
+
+<p>
+Boolean tags frequently have the form <strong>isQuality</strong>, where quality is some
+condition that may be <strong>true</strong> or <strong>false</strong>.
+ In these cases, the form "quality" may usually appear by itself, without a value
+ and defaulting to <strong>true</strong>. 
+For example, <strong>{abstract}</strong> is the same as <strong>{isAbstract=true}</strong>.
+ To specify a value of <strong>false</strong>, omit the name completely.
+Tags of other types require explicit values.
+</p>
+
+<p>
+Tagged value (as well as metamodel attribute) is displayed as a comma delimited
+sequence of properties inside a pair of curly braces "{" and "}".
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-tag-value-traditional.png" width="200" height="103"
+ alt="Stereotype Computer applied using traditional tag values."
+ title="Stereotype Computer applied using traditional tag values." />
+<p class="figure-text">
+Stereotype Computer applied<br />
+using "traditional" tag values notation.
+</p>
+</div>
+
+<p>
+In <strong>UML 1.3</strong> tagged values could extend a model element without requiring the presence
+ of a <a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>.
+ In <strong>UML 1.4</strong>, this capability, although still supported, was <strong>deprecated</strong>,
+ to be used only for backward compatibility reasons.
+</p>
+
+<p>
+Since <strong>UML 2.0</strong>, a tagged value can only be represented as 
+ an <a href="property.html#classifier-attribute" class="ref-link">attribute</a>
+ defined on a <a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>.
+ Therefore, a model element must be extended by a stereotype in order to be extended by tagged values.
+ To support compatibility with the UML 1.3 some UML tools can automatically define a stereotype to which
+ "unattached" attributes (tagged values) will be attached.
+</p>
+
+<p>
+Tag values could be shown in class <strong>compartment</strong> under stereotype name.
+ An additional compartment is required for each applied stereotype whose values are to be displayed.
+ Each such compartment is headed by the name of the applied stereotype in guillemets.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-tag-value-compartment.png" width="180" height="134"
+ alt="Stereotype Computer applied with tag values in compartment."
+ title="Stereotype Computer applied with tag values in compartment." />
+<p class="figure-text">
+Stereotype Computer applied with tag values in compartment
+</p>
+</div>
+
+<p>
+Tag values could be shown in attached
+ <a href="uml-core.html#comment" class="ref-link">comment</a> under stereotype name.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-stereotype-tag-value-note.png" width="340" height="87"
+ alt="Stereotype Computer applied with tag values in comment."
+ title="Stereotype Computer applied with tag values in comment." />
+<p class="figure-text">
+Stereotype Computer applied with tag values in comment note
+</p>
+</div>
+
+<p>
+When displayed in compartments or in a comment symbol, each name-value pair should appear on a separate line.
+</p>
+
+
+<!--
+*************
+  Extension
+*************
+-->
+
+<h2 id="extension">Extension</h2>
+
+<p>
+An <strong>extension</strong> is
+ <a href="association.html" class="ref-link">association</a> relationship
+ used to indicate that the properties of
+ a <a href="profile-diagrams.html#metaclass" class="ref-link">metaclass</a>
+ are extended through 
+ a <a href="profile-diagrams.html#stereotype" class="ref-link">stereotype</a>,
+ and gives the ability to flexibly add stereotypes to classes and remove later, if necessary.
+</p>
+
+<p>
+One end of the extension association is an <strong>ordinary property</strong> and the other end is an
+<strong>extension end</strong>. The property ties the extension to a metaclass,
+ while the <strong>extension end</strong> ties the extension to the stereotype extending the metaclass.
+</p> 
+ 
+<p>
+Extension end is a <strong>navigable</strong> end, owned by extension.
+ This allows a stereotype instance to be attached to an instance of the extended classifier without
+ adding a property to the classifier.
+ Note, that until UML 2.3 <strong>extension end</strong> was "<strong>never navigable</strong>".
+</p>
+
+<p>
+The notation for an <strong>extension</strong> is an arrow with the filled triangle arrowhead 
+ pointing from a stereotype to the extended metaclass.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-extension.png" width="330" height="67"
+ alt="Extension is an association indicating that the properties of a metaclass are extended through a stereotype"
+ title="Extension is an association indicating that the properties of a metaclass are extended through a stereotype" />
+<p class="figure-text">
+Metaclass Class is extended by stereotype Customer.
+</p>
+</div>
+
+<p>
+Because extension is subclass of 
+  <a href="association.html" class="ref-link">association</a>,
+ it may have usual association adornments,
+ but <a href="association.html#navigability" class="ref-link">navigability</a> arrows
+ should not be shown. Adornments of an extension are typically suppressed.
+</p>
+
+<p>
+A <strong>non-required extension</strong> means that an instance of a stereotype can be linked to an instance of
+ an extended metaclass at will, and also later deleted at will.
+ However, there is no requirement that each instance of a metaclass be extended.
+ An instance of a stereotype is deleted when either the instance of the extended metaclass is deleted,
+ or when the profile defining the stereotype is removed from the applied profiles of the package.
+</p>
+
+<p>
+By default, extension is <strong>non-required</strong>.
+ When extension has no adornments, it could either mean the default value or that the {required} adornment
+ was suppressed.
+ <a href="multiplicity.html" class="ref-link">Multiplicity</a>
+ <strong>0..1</strong> on the extension end could be used as an alternative to <strong>non-required extension</strong>.
+</p>
+
+<p>
+A <strong>required extension</strong> means that an instance of a stereotype must always be linked to an instance of the extended
+metaclass. The instance of the stereotype is typically deleted only when either the instance of the extended metaclass is
+deleted, or when the profile defining the stereotype is removed from the applied profiles of the package.
+</p>
+
+<p>
+<strong>Required extension</strong> is shown using the <strong>{required}</strong> property
+ near the extension end.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-extension-required.png" width="330" height="63"
+ alt="If extension is required, the property {required} is shown near the extension end."
+ title="If extension is required, the property {required} is shown near the extension end." />
+<p class="figure-text">
+<strong>Required extension</strong> of metaclass Component by stereotype WebService.
+</p>
+</div>
+
+<p>
+It is also allowed to use
+ <a href="multiplicity.html" class="ref-link">multiplicity</a>
+ <strong>1</strong> on the extension end as an alternative to the {required}.
+</p>
+
+<p>
+ A metaclass may be <a href="profile-diagrams.html#extension" class="ref-link">extended</a>
+ by one or more stereotypes. This is obvious and expected.
+</p>
+
+<p>
+Each stereotype may extend one or more metaclasses.
+ This might cause some confusion. For example, UML 2.3 specification explains
+ its Figure 18.16 as "the same stereotype Clock can extend either the metaclass Component or the metaclass Class."
+ <strong>Either</strong> is confusing as it suggests that extension is kind of <strong>or</strong> relationship
+ but not <strong>and</strong> as we'd assume.
+</p>
+
+<p>
+The same "<strong>either</strong>" approach is applied in
+ <a href="references.html#ref-soaml-10b2" class="external-ref" title="SoaML 1.0 Beta 2">[SoaML 1.0 Beta 2]</a>
+ - stereotype Provider extends either (or both?) Interface or Class metaclasses.
+ The SoaML explains that Interface is used in the case of a non composite service contract while
+ Class - in the case of a composite service contract.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-extension-multiple.png" width="280" height="176"
+ alt="Stereotype Provider extends either (or both?) Interface or Class metaclasses."
+ title="Stereotype Provider extends either (or both?) Interface or Class metaclasses." />
+<p class="figure-text">
+Stereotype Provider extends <strong>either</strong> (or both?) Interface or Class metaclasses.
+</p>
+</div>
+
+
+<!--
+*************************
+       Reference
+*************************
+-->
+
+<h2 id="reference">Reference</h2>
+
+<p>
+<strong>Reference</strong> is import relationship represented by "metaclassReference"
+<a href="package-diagrams.html#element-import" class="ref-link">element import</a>
+ and "metamodelReference"
+<a href="package-diagrams.html#package-import" class="ref-link">package import</a>.
+</p>
+
+<p>
+The "metaclassReference" element imports
+ and "metamodelReference" package imports serve two purposes:
+ (1) they identify the reference metamodel elements that are imported by the profile and 
+(2) they specify the profile’s filtering rules.
+</p>
+
+<p>
+ The filtering rules determine
+which elements of the metamodel are <strong>visible</strong> when the profile is applied
+ and which ones are <strong>hidden</strong>.
+</p>
+
+<p>
+Note that applying a profile does not change the underlying model in any way; it merely defines a view of the underlying model.
+In general, only model elements that are instances of imported reference metaclasses will be visible when the profile is
+applied. All other metaclasses will be hidden. By default, model elements whose metaclasses are public and owned by the
+reference metamodel are visible.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-reference.png" width="340" height="130"
+ alt="Reference is import relationship represented as element import or package import." 
+ title="Reference is import relationship represented as element import or package import." />
+<p class="figure-text">
+Metaclass Component is referenced (imported) by profile Servlets
+</p>
+</div>
+
+
+<!--
+**************************
+    Profile Application
+**************************
+-->
+
+<h2 id="profile-application">Profile Application</h2>
+
+<p>
+<strong>Profile application</strong> is 
+ a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ used to show which
+ <a href="profile-diagrams.html#profile" class="ref-link">profiles</a>
+ have been applied to a package.
+</p>
+
+<p>
+One or more profiles may be applied to a package that is created from the same metamodel
+ that is extended by the profile. Applying a profile means that it is allowed, but not necessarily required,
+ to apply the stereotypes that are defined as part of the profile.
+</p>
+
+<p>
+ It is possible to apply <strong>multiple profiles</strong> to a package as long as they
+  do not have conflicting constraints. If a profile that is being applied depends on other profiles,
+ then those profiles must be applied first.
+</p>
+
+<p>
+When a profile is applied, instances of the appropriate stereotypes should be created for those 
+elements that are instances of metaclasses with required extensions.
+ The model is not well formed without these instances.
+</p>
+
+<p>
+Once a profile has been applied to a package, it is allowed to remove the applied profile at will.
+ Removing a profile implies that all elements that are instances of elements defined in a profile are deleted.
+ A profile that has been applied cannot be removed unless other applied profiles that depend
+ on it are first removed.
+</p>
+
+<p>
+Applied profile is shown using a dashed arrow with an open arrowhead from the package to the applied profile.
+The keyword <strong>«apply»</strong> is shown <strong>near the arrow</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="notation/profile-apply.png" width="300" height="155"
+ alt="Applied profile is shown using a dashed arrow with an open arrowhead from the package to the applied profile."
+ title="Applied profile is shown using a dashed arrow with an open arrowhead from the package to the applied profile." />
+<p class="figure-text">
+Profiles Java and Servlets <strong>applied</strong> to package WebApplication.
+</p>
+</div>
+
+<p>
+If multiple applied profiles have stereotypes with the same name, it may be necessary 
+ to qualify the name of the stereotype with a profile name.
+</p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="profile-diagrams.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/profile-diagrams.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:12:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

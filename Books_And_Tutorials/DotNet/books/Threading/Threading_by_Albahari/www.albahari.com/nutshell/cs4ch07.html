@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch07.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# 4.0 in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch07.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkXL/l7cDjISyEJieXQ+aWASBNf9s=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 7: Collections</h2>
+<p>Implementing IEnumerable&lt;T&gt; with an iterator:</p>
+<pre>public class MyGenCollection : IEnumerable&lt;int&gt;
+{
+  int[] data = {1, 2, 3};
+
+  public IEnumerator&lt;int&gt; GetEnumerator()
+  {
+    foreach (int i in data)
+      yield return i;
+  }
+
+  IEnumerator IEnumerable.GetEnumerator()     // Explicit implementation
+  {                                           // keeps it hidden.
+    return GetEnumerator();
+  }
+}</pre>
+	<p>Implementing IEnumerable&lt;T&gt; directly:</p>
+	<pre>class MyIntList : IEnumerable&lt;int&gt;
+{
+  int[] data = { 1, 2, 3 };
+
+  // The generic enumerator is compatible with both IEnumerable and
+  // IEnumerable&lt;T&gt;. We implement the nongeneric GetEnumerator method
+  // explicitly to avoid a naming conflict.
+
+  public IEnumerator&lt;int&gt; GetEnumerator() { return new Enumerator(this); }
+  IEnumerator IEnumerable.GetEnumerator() { return new Enumerator(this); }
+
+  class Enumerator : IEnumerator&lt;int&gt;
+  {
+    int currentIndex = -1;
+    MyIntList collection;   
+
+    internal Enumerator (MyIntList collection)
+    {
+      this.collection = collection;
+    }
+
+    public int Current { get { return collection.data [currentIndex]; } }
+    object IEnumerator.Current { get { return Current; } }
+
+    public bool MoveNext()
+    {
+      return ++currentIndex &lt; collection.data.Length;
+    }
+
+    public void Reset() { currentIndex = -1; }
+
+    // Given we don’t need a Dispose method, it’s good practice to
+    // implement it explicitly, so it’s hidden from the public interface.
+
+    void IDisposable.Dispose() {}
+  }
+}</pre>
+	<p>Using List&lt;T&gt;:</p>
+	<pre>List&lt;string&gt; words = new List&lt;string&gt;();    // New string-typed list
+
+words.Add (&quot;melon&quot;);
+words.Add (&quot;avocado&quot;);
+words.AddRange (new string[] { &quot;banana&quot;, &quot;plum&quot; } );
+words.Insert (0, &quot;lemon&quot;);                                  // insert at
+words.InsertRange (0, new string[] { &quot;peach&quot;, &quot;nashi&quot; });   // start
+
+words.Remove (&quot;melon&quot;);
+words.RemoveAt (3);                         // Remove the 4th element
+words.RemoveRange (0, 2);                   // Remove first 2 elements
+
+// Remove all strings starting in 'n':
+words.RemoveAll (delegate (string s) { return s.StartsWith (&quot;n&quot;); });
+
+Console.WriteLine (words [0]);                          // first word
+Console.WriteLine (words [words.Count - 1]);            // last word
+foreach (string s in words) Console.WriteLine (s);      // all words
+List&lt;string&gt; subset = words.GetRange (1, 2);            // 2nd-&gt;3rd words
+
+string[] wordsArray = words.ToArray();    // Creates a new typed array
+  
+// Copy first two elements to the end of an existing array:
+string[] existing = new string [1000];
+words.CopyTo (0, existing, 998, 2);
+
+List&lt;string&gt; bigWords = words.ConvertAll &lt;string&gt;        // Converts to
+ (delegate (string s) { return s.ToUpper(); } );        // uppercase
+
+List&lt;int&gt; lengths = words.ConvertAll &lt;int&gt;
+ (delegate (string s) { return s.Length; } );</pre>
+	<p>Using LinkedList&lt;T&gt;:</p>
+	<pre>LinkedList&lt;string&gt; tune = new LinkedList&lt;string&gt;();
+tune.AddFirst (&quot;do&quot;);                           // do
+tune.AddLast (&quot;so&quot;);                            // do - so
+
+tune.AddAfter (tune.First, &quot;re&quot;);               // do - re - so
+tune.AddAfter (tune.First.Next, &quot;mi&quot;);          // do - re - mi - so
+tune.AddBefore (tune.Last, &quot;fa&quot;);               // do - re - mi - fa - so
+
+tune.RemoveFirst();                             // re - mi - fa - so
+tune.RemoveLast();                              // re - mi - fa
+
+LinkedListNode&lt;string&gt; miNode = tune.Find (&quot;mi&quot;);
+tune.Remove (miNode);                           // re - fa
+tune.AddFirst (miNode);                         // mi - re - fa
+
+foreach (string s in tune) Console.WriteLine (s);</pre>
+	<p>Using Queue&lt;T&gt;:</p>
+	<pre>Queue&lt;int&gt; q = new Queue&lt;int&gt;();
+q.Enqueue (10);
+q.Enqueue (20);
+int[] data = q.ToArray();        // Exports to an array
+Console.WriteLine (q.Count);      // &quot;2&quot;
+Console.WriteLine (q.Peek());     // &quot;10&quot;
+Console.WriteLine (q.Dequeue());  // &quot;10&quot;
+Console.WriteLine (q.Dequeue());  // &quot;20&quot;
+Console.WriteLine (q.Dequeue());  // throws an exception (queue empty)</pre>
+	<p>Using Stack&lt;T&gt;:</p>
+	<pre>Stack&lt;int&gt; s = new Stack&lt;int&gt;();
+s.Push (1);                      //            Stack = 1
+s.Push (2);                      //            Stack = 1,2
+s.Push (3);                      //            Stack = 1,2,3
+Console.WriteLine (s.Count);     // Prints 3
+Console.WriteLine (s.Peek());    // Prints 3,  Stack = 1,2,3
+Console.WriteLine (s.Pop());     // Prints 3,  Stack = 1,2
+Console.WriteLine (s.Pop());     // Prints 2,  Stack = 1
+Console.WriteLine (s.Pop());     // Prints 1,  Stack = &lt;empty&gt;
+Console.WriteLine (s.Pop());     // throws exception</pre>
+	<p>Using HashSet&lt;T&gt;:</p>
+	<pre>HashSet&lt;char&gt; letters = new HashSet&lt;char&gt; (&quot;the quick brown fox&quot;);
+
+Console.WriteLine (letters.Contains ('t'));      // true
+Console.WriteLine (letters.Contains ('j'));      // false
+
+foreach (char c in letters) Console.Write (c);   // the quickbrownfx</pre>
+	<pre>HashSet&lt;char&gt; letters = new HashSet&lt;char&gt; (&quot;the quick brown fox&quot;);
+letters.IntersectWith (&quot;aeiou&quot;);
+foreach (char c in letters) Console.Write (c);     // euio</pre>
+	<pre>
+HashSet&lt;char&gt; letters = new HashSet&lt;char&gt; (&quot;the quick brown fox&quot;);
+letters.ExceptWith (&quot;aeiou&quot;);
+foreach (char c in letters) Console.Write (c);     // th qckbrwnfx</pre>
+	<pre>
+HashSet&lt;char&gt; letters = new HashSet&lt;char&gt; (&quot;the quick brown fox&quot;);
+letters.SymmetricExceptWith (&quot;the lazy brown fox&quot;);
+foreach (char c in letters) Console.Write (c);     // quicklazy</pre>
+	<p>Using Dictionary&lt;TKey,TValue&gt;:</p>
+	<pre>var d = new Dictionary&lt;string, int&gt;();
+
+d.Add(&quot;One&quot;, 1);
+d[&quot;Two&quot;] = 2;     // adds to dictionary because &quot;two&quot; not already present
+d[&quot;Two&quot;] = 22;    // updates dictionary because &quot;two&quot; is now present
+d[&quot;Three&quot;] = 3;
+
+Console.WriteLine (d[&quot;Two&quot;]);                // Prints &quot;22&quot;
+Console.WriteLine (d.ContainsKey (&quot;One&quot;));   // true (fast operation)
+Console.WriteLine (d.ContainsValue (3));     // true (slow operation)
+int val = 0;
+if (!d.TryGetValue (&quot;onE&quot;, out val))
+  Console.WriteLine (&quot;No val&quot;);              // &quot;No val&quot; (case sensitive)
+
+// Three different ways to enumerate the dictionary:
+
+foreach (KeyValuePair&lt;string, int&gt; kv in d)          //  One ; 1
+  Console.WriteLine (kv.Key + &quot;; &quot; + kv.Value);      //  Two ; 22
+                                                     //  Three ; 3
+
+foreach (string s in d.Keys) Console.Write (s);      // OneTwoThree
+Console.WriteLine();
+foreach (int i in d.Values) Console.Write (i);       // 1223</pre>
+	<p>Using SortedDictionary&lt;TKey,TValue&gt;:</p>
+	<pre>// MethodInfo is in the System.Reflection namespace
+
+var sorted = new SortedList &lt;string, MethodInfo&gt;();
+
+foreach (MethodInfo m in typeof (object).GetMethods())
+  sorted [m.Name] = m;
+
+foreach (string name in sorted.Keys)
+  Console.WriteLine (name);
+
+foreach (MethodInfo m in sorted.Values) 
+  Console.WriteLine (m.Name + &quot; returns a &quot; + m.ReturnType);
+
+Console.WriteLine (sorted [&quot;GetHashCode&quot;]);      // Int32 GetHashCode()
+
+Console.WriteLine (sorted.Keys  [sorted.Count - 1]);            // ToString
+Console.WriteLine (sorted.Values[sorted.Count - 1].IsVirtual);  // True</pre>
+	<p>Extending Collection&lt;T&gt;:</p>
+	<pre>public class Animal
+{
+  public string Name;
+  public int Popularity;
+  public Zoo Zoo { get; internal set; }
+
+  public Animal(string name, int popularity)
+  {
+    Name = name; Popularity = popularity;
+  }
+}
+
+public class AnimalCollection : Collection &lt;Animal&gt;
+{
+  Zoo zoo;
+  public AnimalCollection (Zoo zoo) { this.zoo = zoo; }
+
+  protected override void InsertItem (int index, Animal item)
+  {
+    base.InsertItem (index, item);
+    item.Zoo = zoo;
+  }
+  protected override void SetItem (int index, Animal item)
+  {
+    base.SetItem (index, item);
+    item.Zoo = zoo;
+  }
+  protected override void RemoveItem (int index)
+  {
+    this [index].Zoo = null;
+    base.RemoveItem (index);
+  }
+  protected override void ClearItems()
+  {
+    foreach (Animal a in this) a.Zoo = null;
+    base.ClearItems();
+  }
+}
+
+public class Zoo
+{
+  public readonly AnimalCollection Animals;
+  public Zoo() { Animals = new AnimalCollection (this); }
+}</pre>
+	<p>Extending KeyedCollection&lt;,&gt;:</p>
+	<pre>public class Animal
+{
+  string name;
+  public string Name
+  {
+    get { return name; }
+    set {
+      if (Zoo != null) Zoo.NotifyNameChange (this, value);
+      name = value;
+    }
+  }
+  public int Popularity;
+  public Zoo Zoo { get; internal set; }
+
+  public Animal (string name, int popularity)
+  {
+    Name = name; Popularity = popularity;
+  }
+}
+
+public class AnimalCollection : KeyedCollection &lt;string, Animal&gt;
+{
+  Zoo zoo;
+  public AnimalCollection (Zoo zoo) { this.zoo = zoo; }
+
+  internal void NotifyNameChange (Animal a, string newName)
+  {
+    this.ChangeItemKey (a, newName);
+  }
+
+  protected override string GetKeyForItem (Animal item)
+  {
+    return item.Name;
+  }
+
+  // The following methods would be implemented as in the previous example
+  protected override void InsertItem (int index, Animal item)...
+  protected override void SetItem (int index, Animal item)...
+  protected override void RemoveItem (int index)...
+  protected override void ClearItems()...
+}
+
+public class Zoo
+{
+  public readonly AnimalCollection Animals;
+  public Zoo() { Animals = new AnimalCollection (this); }
+}
+
+class Program
+{
+  static void Main()
+  {
+    Zoo zoo = new Zoo();
+    zoo.Animals.Add (new Animal (&quot;Kangaroo&quot;, 10));
+    zoo.Animals.Add (new Animal (&quot;Mr Sea Lion&quot;, 20));
+    Console.WriteLine (zoo.Animals [0].Popularity);               // 10
+    Console.WriteLine (zoo.Animals [&quot;Mr Sea Lion&quot;].Popularity);   // 20
+    zoo.Animals [&quot;Kangaroo&quot;].Name = &quot;Mr Roo&quot;;
+    Console.WriteLine (zoo.Animals [&quot;Mr Roo&quot;].Popularity);        // 10
+  }
+}</pre>
+	<p>Using EqualityComparer:</p>
+	<pre>public class Customer
+{
+  public string LastName;
+  public string FirstName;
+
+  public Customer (string last, string first)
+  {
+    LastName = last;
+    FirstName = first;
+  }
+}
+
+public class LastFirstEqComparer : EqualityComparer &lt;Customer&gt;
+{
+  public override bool Equals (Customer x, Customer y)
+  {
+    return x.LastName == y.LastName &amp;&amp; x.FirstName == y.FirstName;
+  }
+
+  public override int GetHashCode (Customer obj)
+  {
+    return (obj.LastName + &quot;;&quot; + obj.FirstName).GetHashCode();
+  }
+}
+
+static void Main()
+{
+  Customer c1 = new Customer (&quot;Bloggs&quot;, &quot;Joe&quot;);
+  Customer c2 = new Customer (&quot;Bloggs&quot;, &quot;Joe&quot;);
+
+  // Because we’ve not overridden object.Equals, normal reference
+  // type equality semantics apply:
+
+  Console.WriteLine (c1 == c2);               // false
+  Console.WriteLine (c1.Equals (c2));         // false
+
+  Dictionary&lt;Customer, string&gt; d = new Dictionary&lt;Customer, string&gt;();
+  d [c1] = &quot;Joe&quot;;
+  Console.WriteLine (d.ContainsKey (c2));         // false
+
+  // Now with the custom equality comparer:
+  
+  LastFirstEqComparer eq = new LastFirstEqComparer();
+  d = new Dictionary&lt;Customer, string&gt; (eq);
+  d [c1] = &quot;Joe&quot;;
+  Console.WriteLine (d.ContainsKey (c2));         // true
+}</pre>
+	<p>Using the IComparer interfaces:</p>
+	<pre>class Wish
+{
+  public string Name;
+  public int Priority;
+
+  public Wish (string name, int priority)
+  {
+    Name = name;
+    Priority = priority;
+  }
+}
+
+class PriorityComparer : Comparer &lt;Wish&gt;
+{
+  public override int Compare (Wish x, Wish y)
+  {
+    if (object.Equals (x, y)) return 0;          // Fail-safe check
+    return x.Priority.CompareTo (y.Priority);
+  }
+}</pre>
+	<pre>static void Main()
+{
+  List&lt;Wish&gt; wishList = new List&lt;Wish&gt;();
+  wishList.Add (new Wish (&quot;Peace&quot;, 2));
+  wishList.Add (new Wish (&quot;Wealth&quot;, 3));
+  wishList.Add (new Wish (&quot;Love&quot;, 2));
+  wishList.Add (new Wish (&quot;3 more wishes&quot;, 1));
+
+  wishList.Sort (new PriorityComparer());
+  foreach (Wish w in wishList) Console.Write (w.Name + &quot; | &quot;);
+}</pre>
+	<p>SurnameComparer:</p>
+	<pre>class SurnameComparer : Comparer &lt;string&gt;
+{
+  StringComparer strCmp;
+  
+  public SurnameComparer (CultureInfo ci)
+  {
+    // Create a case-sensitive, culture-sensitive string comparer
+    strCmp = StringComparer.Create (ci, false);
+  }
+
+  string Normalize (string s)
+  {
+    s = s.Trim();
+    if (s.ToUpper().StartsWith (&quot;MC&quot;)) s = &quot;MAC&quot; + s.Substring (2);
+    return s;
+  }
+
+  public override int Compare (string x, string y)
+  {
+    // Directly call Compare on our culture-aware StringComparer
+    return strCmp.Compare (Normalize (x), Normalize (y));
+  }
+}</pre>
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch07.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

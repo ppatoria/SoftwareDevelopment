@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/uml-meta-models.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML, Meta Meta Models and Profiles - Metamodeling, MOF, UML, profiles, etc.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML, Meta Meta Models and Profiles - Metamodeling, MOF, UML, profiles, etc." />
+<meta name="keywords" content="UML 2, 2.3, meta, metamodel, profiles, metamodeling, MOF" />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 130708 -->
+<div id="globalNav">
+<div>
+  <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="profile-diagrams.html"
+  title="UML profile diagrams overview of graphical notation"  >Profile diagrams</a>
+</div>
+<div>
+ <a href="profile-diagrams-reference.html" 
+ title="UML profile diagrams reference"  >Reference</a>
+</div>
+<div>
+ <a href="profile-diagrams-examples.html"
+ title="UML profile diagrams examples"  >Profile diagrams examples</a>
+</div>
+<div>
+ <a href="uml-meta-models.html"
+  title="UML meta models and profiles" class="active-nav" >UML meta modeling</a>
+</div>
+<div>
+ <a href="index-references.html" title="Index of UML Elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>UML, Meta Meta Models and Profiles</h1>
+
+<p>
+If someone ever wants to get brainsick and/or feel defeated, the easiest way is to try to comprehend
+the UML metamodeling approach which is used by OMG to describe UML.
+</p>
+
+<p>
+The metamodeling approach means that
+ <span class="citation">"a metamodel is used to specify the model that comprises UML"</span>.
+This approach supposedly <span class="citation">"offers the advantages of being more intuitive
+ and pragmatic for most implementors and practitioners."</span>
+ Let's take a look at some details of the approach.
+</p>
+
+<p>
+<strong>UML specification</strong> is organized into two volumes <strong>"UML 2: Infrastructure"</strong>
+ and <strong>"UML 2: Superstructure"</strong>.
+</p>
+
+<p>
+The <strong>UML Infrastructure</strong> is represented by two packages:
+ <strong>Infrastructure Library</strong> and <strong>Primitive Types</strong>.
+ The Infrastructure Library consists of the packages <strong>Core</strong> and <strong>Profiles</strong>.
+</p>
+
+<p>
+The <strong>Core</strong> package of the <strong>UML Infrastructure</strong> was designed
+ <span class="citation">for high reusability, where other metamodels at the same metalevel
+ ... either import or specialize its specified metaclasses.</span>
+MOF, UML, and CWM each depends on the common Core.
+<span class="citation">The Infrastructure Library defines the actual metaclasses that are used
+ to instantiate the elements of UML, MOF, CWM, and indeed the elements of the Infrastructure Library itself.
+In this respect, the Infrastructure Library is said to be self-describing, or reflective.</span>
+One obvious problem here is that <strong>UML</strong> Infrastructure is used to define MOF
+which in turn is used to define UML Superstructure.
+If Infrastructure is so reusable and generic, it should be defined separately from UML.
+</p>
+
+<p>
+OMG states that <span class="citation">it is possible for a model to be used as a metamodel</span>,
+so that for example, the Infrastructure Library is in one capacity used as a <strong>meta-metamodel</strong>
+(<strong>M3</strong>) and in the other aspect as a <strong>metamodel</strong> (<strong>M2</strong>),
+ and is thus reused in both the M2 and M3 metalevels.
+</p>
+
+<div class="figure-left-20">
+<img src="notation/uml-meta-models.png" width="860" height="593"
+ alt="Meta Meta Models, UML and Profiles."
+ title="Meta Meta Models, UML and Profiles." />
+<p class="figure-text">
+Meta Meta Models, UML and Profiles
+</p>
+</div>
+
+<p>OMG says that:</p>
+<p class="citation">
+The meta-metamodeling layer forms the foundation of the metamodeling hierarchy.
+ The primary responsibility of this layer is to define the language for specifying a metamodel.
+ The layer is often referred to as <strong>M3</strong>, and <strong>MOF</strong> is an example of a meta-metamodel.
+</p>
+
+<p>
+Keep reading: 
+<span class="citation">In the four-layer metamodel hierarchy, MOF is commonly referred to as a meta-metamodel,
+ even though strictly speaking it is a metamodel.</span>
+Simple, isn't it? Infrastructure Library is sometimes <strong>meta-metamodel</strong> and
+sometimes a <strong>metamodel</strong>, at the same time MOF is commonly <strong>meta-metamodel</strong>
+while in fact it is <strong>metamodel</strong>!
+</p>
+
+<p>
+MOF is used as the <strong>meta-metamodel</strong> not only for <strong>UML</strong>,
+ but also for other languages, such as Common Warehouse Metamodel (<strong>CWM</strong>).
+The <strong>UML Superstructure</strong> metamodel is specified by the <strong>UML</strong> package
+ on the diagram above.
+  UML is defined as a <strong>model</strong> that is based on MOF.
+Every model element of UML is an <strong>instance</strong> of exactly one model element in MOF.
+A model is an instance of a metamodel.
+ UML is a language specification (<strong>metamodel</strong>) from which users
+ can define their own <strong>models</strong>.
+</p>
+
+<p>
+The <strong>Profiles</strong> package of the Infrastructure Library contains mechanisms that allow metaclasses
+from existing metamodels to be extended to adapt them for different purposes, e.g. 
+to adapt the UML metamodel for different platforms (such as J2EE or .NET) or domains.
+As such, it could be considered at the same meta-metalevel as MOF - one level higher than the UML metamodel.
+</p>
+
+<p>
+The <strong>Profiles</strong> package of the <strong>UML</strong> Superstructure (from Auxiliary Constructs)
+ merges <strong>Profiles</strong> package of the Infrastructure Library.
+A profile is a restricted form of a <strong>metamodel</strong> that must always extend some 
+reference metamodel that was created from MOF, such as UML or CWM.
+</p>
+
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="uml-meta-models.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/uml-meta-models.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:18:40 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

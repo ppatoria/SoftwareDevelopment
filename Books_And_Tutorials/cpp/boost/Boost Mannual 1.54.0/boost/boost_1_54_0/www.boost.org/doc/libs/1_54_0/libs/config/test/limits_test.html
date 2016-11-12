@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/config/test/limits_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:03 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/config/test/limits_test.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/config/test/limits_test.cpp</h3>
+<pre>
+/* boost limits_test.cpp   test your &lt;limits&gt; file for important
+ *
+ * Copyright Jens Maurer 2000
+ * Distributed under the Boost Software License, Version 1.0. (See
+ * accompanying file LICENSE_1_0.txt or copy at
+ * <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+ *
+ * $Id: limits_test.cpp 79537 2012-07-15 15:59:05Z marshall $
+ */
+
+#include &lt;<a href="../../../boost/limits.html">boost/limits.hpp</a>&gt;
+#define BOOST_INCLUDE_MAIN
+#include &lt;<a href="../../../boost/test/test_tools.html">boost/test/test_tools.hpp</a>&gt;
+#include &lt;iostream&gt;
+
+/*
+ * General portability note:
+ * MSVC mis-compiles explicit function template instantiations.
+ * For example, f&lt;A&gt;() and f&lt;B&gt;() are both compiled to call f&lt;A&gt;().
+ * BCC is unable to implicitly convert a &quot;const char *&quot; to a std::string
+ * when using explicit function template instantiations.
+ *
+ * Therefore, avoid explicit function template instantiations.
+ */
+#if defined(BOOST_MSVC) &amp;&amp; (BOOST_MSVC &lt;= 1300)
+template&lt;typename T&gt; inline T make_char_numeric_for_streaming(T x) { return x; }
+namespace fix{
+inline int make_char_numeric_for_streaming(char c) { return c; }
+inline int make_char_numeric_for_streaming(signed char c) { return c; }
+inline int make_char_numeric_for_streaming(unsigned char c) { return c; }
+}
+using namespace fix;
+#  if defined(_YVALS) &amp;&amp; !defined(_CPPLIB_VER) &amp;&amp; !defined(__SGI_STL_PORT) &amp;&amp; !defined(_STLPORT_VERSION)
+// fix for missing operator&lt;&lt; in original Dinkumware lib:
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, __int64 i )
+{
+    char buf[80];
+    sprintf(buf,&quot;%I64d&quot;, i );
+    os &lt;&lt; buf;
+    return os;
+}
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, unsigned __int64 i )
+{
+    char buf[80];
+    sprintf(buf,&quot;%I64u&quot;, i );
+    os &lt;&lt; buf;
+    return os;
+}
+#  endif
+#else
+template&lt;typename T&gt; inline T make_char_numeric_for_streaming(T x) { return x; }
+inline int make_char_numeric_for_streaming(char c) { return c; }
+inline int make_char_numeric_for_streaming(signed char c) { return c; }
+inline int make_char_numeric_for_streaming(unsigned char c) { return c; }
+#endif
+
+#if (defined(_GLIBCPP_VERSION) || defined(_GLIBCXX_VERSION)) \
+   &amp;&amp; defined(BOOST_HAS_LONG_LONG) \
+   &amp;&amp; !defined(_GLIBCPP_USE_LONG_LONG) \
+   &amp;&amp; !defined(_GLIBCXX_USE_LONG_LONG)
+//
+// Some libstdc++ versions have numeric_limits&lt;long long&gt; but no
+// iostream support for long long.  TODO, find a better fix!!
+//
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, long long i )
+{
+    return os &lt;&lt; static_cast&lt;long double&gt;(i);
+}
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, unsigned long long i )
+{
+    return os &lt;&lt; static_cast&lt;long double&gt;(i);
+}
+#endif
+
+template&lt;class T&gt;
+void test_integral_limits(const T &amp;, const char * msg)
+{
+  typedef std::numeric_limits&lt;T&gt; lim;
+  std::cout &lt;&lt; &quot;Testing &quot; &lt;&lt; msg
+            &lt;&lt; &quot; (size &quot; &lt;&lt; sizeof(T) &lt;&lt; &quot;)&quot;
+            &lt;&lt; &quot; min: &quot; &lt;&lt; make_char_numeric_for_streaming((lim::min)())
+            &lt;&lt; &quot;, max: &quot; &lt;&lt; make_char_numeric_for_streaming((lim::max)())
+            &lt;&lt; std::endl;
+
+  BOOST_CHECK(static_cast&lt;bool&gt;(lim::is_specialized));
+  BOOST_CHECK(static_cast&lt;bool&gt;(lim::is_integer));
+  // BOOST_CHECK(lim::is_modulo);
+  BOOST_CHECK(static_cast&lt;bool&gt;((lim::min)() &lt; (lim::max)()));
+}
+
+template &lt;class T&gt;
+void print_hex_val(T t, const char* name)
+{
+  const unsigned char* p = (const unsigned char*)&amp;t;
+  std::cout &lt;&lt; &quot;hex value of &quot; &lt;&lt; name &lt;&lt; &quot; is: &quot;;
+  for (unsigned int i = 0; i &lt; sizeof(T); ++i) {
+    if(p[i] &lt;= 0xF)
+      std::cout &lt;&lt; &quot;0&quot;;
+    std::cout &lt;&lt; std::hex &lt;&lt; (int)p[i];
+  }
+  std::cout &lt;&lt; std::dec &lt;&lt; std::endl;
+}
+
+template&lt;class T&gt;
+void test_float_limits(const T &amp;, const char * msg)
+{
+  std::cout &lt;&lt; &quot;\nTesting &quot; &lt;&lt; msg &lt;&lt; std::endl;
+  typedef std::numeric_limits&lt;T&gt; lim;
+
+  BOOST_CHECK(static_cast&lt;bool&gt;(lim::is_specialized));
+  BOOST_CHECK(static_cast&lt;bool&gt;(!lim::is_modulo));
+  BOOST_CHECK(static_cast&lt;bool&gt;(!lim::is_integer));
+  BOOST_CHECK(static_cast&lt;bool&gt;(lim::is_signed));
+
+  const T infinity = lim::infinity();
+  const T qnan = lim::quiet_NaN();
+  const T snan = lim::signaling_NaN();
+
+  std::cout &lt;&lt; &quot;IEEE-compatible: &quot; &lt;&lt; lim::is_iec559
+       &lt;&lt; &quot;, traps: &quot; &lt;&lt; lim::traps
+       &lt;&lt; &quot;, bounded: &quot; &lt;&lt; lim::is_bounded
+       &lt;&lt; &quot;, exact: &quot; &lt;&lt; lim::is_exact &lt;&lt; '\n'
+       &lt;&lt; &quot;min: &quot; &lt;&lt; (lim::min)() &lt;&lt; &quot;, max: &quot; &lt;&lt; (lim::max)() &lt;&lt; '\n'
+       &lt;&lt; &quot;infinity: &quot; &lt;&lt; infinity &lt;&lt; &quot;, QNaN: &quot; &lt;&lt; qnan &lt;&lt; '\n';
+  print_hex_val((lim::max)(), &quot;max&quot;);
+  print_hex_val(infinity, &quot;infinity&quot;);
+  print_hex_val(qnan, &quot;qnan&quot;);
+  print_hex_val(snan, &quot;snan&quot;);
+
+  BOOST_CHECK((lim::max)() &gt; 1000);
+  BOOST_CHECK((lim::min)() &gt; 0);
+  BOOST_CHECK((lim::min)() &lt; 0.001);
+  BOOST_CHECK(lim::epsilon() &gt; 0);
+
+  if(lim::is_iec559) {
+    BOOST_CHECK(static_cast&lt;bool&gt;(lim::has_infinity));
+    BOOST_CHECK(static_cast&lt;bool&gt;(lim::has_quiet_NaN));
+    BOOST_CHECK(static_cast&lt;bool&gt;(lim::has_signaling_NaN));
+  } else {
+    std::cout &lt;&lt; &quot;Does not claim IEEE conformance&quot; &lt;&lt; std::endl;
+  }
+
+  if(lim::has_infinity) {
+    // Make sure those values are not 0 or similar nonsense.
+    // Infinity must compare as if larger than the maximum representable value.
+    BOOST_CHECK(infinity &gt; (lim::max)());
+    BOOST_CHECK(-infinity &lt; -(lim::max)());
+  } else {
+    std::cout &lt;&lt; &quot;Does not have infinity&quot; &lt;&lt; std::endl;
+  }
+
+  if(lim::has_quiet_NaN) {
+    // NaNs shall always compare &quot;false&quot; when compared for equality
+    // If one of these fail, your compiler may be optimizing incorrectly,
+    // or the standard library is incorrectly configured.
+    BOOST_CHECK(! (qnan == 42));
+    BOOST_CHECK(qnan != 42);
+    if(lim::is_iec559)
+    {
+      BOOST_CHECK(! (qnan == qnan));
+      BOOST_CHECK(qnan != qnan);
+    }
+
+    // The following tests may cause arithmetic traps.
+    // BOOST_CHECK(! (qnan &lt; 42));
+    // BOOST_CHECK(! (qnan &gt; 42));
+    // BOOST_CHECK(! (qnan &lt;= 42));
+    // BOOST_CHECK(! (qnan &gt;= 42));
+  } else {
+    std::cout &lt;&lt; &quot;Does not have QNaN&quot; &lt;&lt; std::endl;
+  }
+}
+
+
+int test_main(int, char*[])
+{
+  test_integral_limits(bool(), &quot;bool&quot;);
+  test_integral_limits(char(), &quot;char&quot;);
+  typedef signed char signed_char;
+  test_integral_limits(signed_char(), &quot;signed char&quot;);
+  typedef unsigned char unsigned_char;
+  test_integral_limits(unsigned_char(), &quot;unsigned char&quot;);
+  test_integral_limits(wchar_t(), &quot;wchar_t&quot;);
+  test_integral_limits(short(), &quot;short&quot;);
+  typedef unsigned short unsigned_short;
+  test_integral_limits(unsigned_short(), &quot;unsigned short&quot;);
+  test_integral_limits(int(), &quot;int&quot;);
+  typedef unsigned int unsigned_int;
+  test_integral_limits(unsigned_int(), &quot;unsigned int&quot;);
+  test_integral_limits(long(), &quot;long&quot;);
+  typedef unsigned long unsigned_long;
+  test_integral_limits(unsigned_long(), &quot;unsigned long&quot;);
+#if defined(BOOST_HAS_LONG_LONG)
+  test_integral_limits(::boost::long_long_type(), &quot;long long&quot;);
+  test_integral_limits(::boost::ulong_long_type(), &quot;unsigned long long&quot;);
+#endif
+#ifdef BOOST_HAS_MS_INT64
+  typedef __int64 long_long2;
+  test_integral_limits(long_long2(), &quot;__int64&quot;);
+  typedef unsigned __int64 unsigned_long_long2;
+  test_integral_limits(unsigned_long_long2(), &quot;unsigned __int64&quot;);
+#endif
+
+  test_float_limits(float(), &quot;float&quot;);
+  test_float_limits(double(), &quot;double&quot;);
+  typedef long double long_double;
+  test_float_limits(long_double(), &quot;long double&quot;);
+  // Some compilers don't pay attention to std:3.6.1/5 and issue a
+  // warning here if &quot;return 0;&quot; is omitted.
+  return 0;
+}
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/config/test/limits_test.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:51:04 GMT -->
+</html>

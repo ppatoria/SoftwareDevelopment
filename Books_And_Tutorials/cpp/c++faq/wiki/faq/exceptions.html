@@ -1,0 +1,1646 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/exceptions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="3a2b923deeb1e5dc9b99e21a3a3bec4b16914d02" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="4c3466fd1f770b06f0415be377c8f991d6b8cd82" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="b133f3f410288f638737ec4a52856d4ab451db52" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        exceptions
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="exceptions.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    exceptions
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=exceptions" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="exceptions">Exceptions and Error Handling</h2>
+
+<h3 id="why-exceptions">Why use exceptions?</h3>
+
+<p>What good can using exceptions do for me? The basic answer is: Using exceptions for error handling makes your code simpler, cleaner, and less likely to miss errors. But what&#8217;s wrong with &#8220;good old <code>errno</code> and <code>if</code>-statements&#8221;? The basic answer is: Using those, your error handling and your normal code are closely intertwined. That way, your code gets messy and it becomes hard to ensure that you have dealt with all errors (think &#8220;spaghetti code&#8221; or a &#8220;rat&#8217;s nest of tests&#8221;).</p>
+
+<p>First of all there are things that just can&#8217;t be done right without exceptions. Consider an error detected in a constructor; how do you report the error? You throw an exception. That&#8217;s the basis of <a href="exceptions.html#finally" title="FAQ: Why doesn't C++ provide a finally construct?">RAII</a> (Resource Acquisition Is Initialization), which is the basis of some of the most effective modern C++ design techniques: A constructor&#8217;s job is to establish the invariants for the class (create the environment in which the member functions are to run) and that often requires the acquisition of resources, such as memory, locks, files, sockets, etc.</p>
+
+<p>Imagine that we did not have exceptions, how would you deal with an error detected in a constructor? Remember that constructors are often invoked to initialize/construct objects in variables:</p>
+
+<pre><code>    vector&lt;double&gt; v(100000);   // needs to allocate memory
+    ofstream os("myfile");      // needs to open a file
+</code></pre>
+
+<p>The <code>vector</code> or <code>ofstream</code> (output file stream) constructor could either set the variable into a &#8220;bad&#8221; state (as <code>ifstream</code> does by default) so that every subsequent operation fails. That&#8217;s not ideal. For example, in the case of <code>ofstream</code>, your output simply disappears if you forget to check that the open operation succeeded. For most classes that results are worse. At least, we would have to write:</p>
+
+<pre><code>    vector&lt;double&gt; v(100000);   // needs to allocate memory
+    if (v.bad()) { /* handle error */ } // vector doesn't actually have a bad(); it relies on exceptions
+    ofstream os("myfile");      // needs to open a file
+    if (os.bad())  { /* handle error */ }
+</code></pre>
+
+<p>That&#8217;s an extra test per object (to write, to remember or forget). This gets really messy for classes composed of several objects, especially if those sub-objects depend on each other. For more information see <a href="http://stroustrup.com/3rd.html">The C++ Programming Language</a> section 8.3, Chapter 14, and <a href="http://stroustrup.com/3rd_safe0.html">Appendix E</a> or the (more academic) paper <a href="http://stroustrup.com/except.pdf">Exception safety: Concepts and techniques</a>.</p>
+
+<p>So writing constructors can be tricky without exceptions, but what about plain old functions? We can either return an error code or set a non-local variable (e.g., <code>errno</code>). Setting a global variable doesn&#8217;t work too well unless you test it immediately (or some other function might have re-set it). Don&#8217;t even think of that technique if you might have multiple threads accessing the global variable. The trouble with return values are that choosing the error return value can require cleverness and can be impossible:</p>
+
+<pre><code>    double d = my_sqrt(-1);     // return -1 in case of error
+    if (d == -1) { /* handle error */ }
+    int x = my_negate(INT_MIN); // Duh?
+</code></pre>
+
+<p>There is no possible value for <code>my_negate()</code> to return: Every possible <code>int</code> is the correct answer for some <code>int</code> and there is no correct answer for the most negative number in the twos-complement representation. In such cases, we would need to return pairs of values (and as usual remember to test) See Stroustrup&#8217;s <a href="http://stroustrup.com/programming.html">Beginning programming book</a> for more examples and explanations.</p>
+
+<p>Common objections to the use of exceptions:</p>
+
+<ul>
+<li><em>&#8220;But exceptions are expensive!&#8221;</em> Not really. Modern C++ implementations reduce the overhead of using exceptions to a few percent (say, 3%) and that&#8217;s compared to <em>no error handling</em>. Writing code with error-return codes and tests is not free either. As a rule of thumb, exception handling is extremely cheap when you don&#8217;t throw an exception. It costs nothing on some implementations. All the cost is incurred when you throw an exception: that is, &#8220;normal code&#8221; is faster than code using error-return codes and tests. You incur cost only when you have an error.</li>
+<li><em>&#8220;But in JSF++ Stroustrup himself bans exceptions outright!&#8221;</em> JSF++ is for hard-real time and safety-critical applications (flight control software). If a computation takes too long someone may die. For that reason, we have to guarantee response times, and we can&#8217;t &#8211; with the current level of tool support &#8211; do that for exceptions. In that context, even free store allocation is banned! Actually, the JSF++ recommendations for error handling simulate the use of exceptions in anticipation of the day where we have the tools to do things right, i.e. using exceptions.</li>
+<li><em>&#8220;But throwing an exception from a constructor invoked by <code>new</code> causes a memory leak!&#8221;</em> Nonsense! That&#8217;s an old-wives&#8217; tale caused by a bug in one compiler &#8211; and that bug was immediately fixed over a decade ago.</li>
+</ul>
+
+<h3 id="how-exceptions">How do I use exceptions?</h3>
+
+<p>See <a href="http://stroustrup.com/3rd.html">The C++ Programming Language</a> section 8.3, Chapter 14, and <a href="http://stroustrup.com/3rd_safe0.html">Appendix E</a>. The appendix focuses on techniques for writing exception-safe code in demanding applications, and is not written for novices.</p>
+
+<p>In C++, exceptions are used to signal errors that cannot be handled locally, such as the failure to acquire a resource in a constructor. For example:</p>
+
+<pre><code>    class VectorInSpecialMemory {
+        int sz;
+        int* elem;
+    public:
+        VectorInSpecialMemory(int s) 
+            : sz(s) 
+            , elem(AllocateInSpecialMemory(s))
+        { 
+            if (elem == nullptr)
+                throw std::bad_alloc();
+        }
+        ...
+    };
+</code></pre>
+
+<p>Do not use exceptions as simply another way to return a value from a function. Most users assume &#8211; as the language definition encourages them to &#8211; that ** <em>exception-handling code is error-handling code</em> **, and implementations are optimized to reflect that assumption.</p>
+
+<p>A key technique is <a href="exceptions.html#finally" title="FAQ: Why doesn't C++ provide a finally construct?">resource acquisition is initialization</a> (sometimes abbreviated to RAII), which uses classes with destructors to impose order on resource management. For example:</p>
+
+<pre><code>    void fct(string s)
+    {
+        File_handle f(s,"r");   // File_handle's constructor opens the file called "s"
+        // use f
+    } // here File_handle's destructor closes the file  
+</code></pre>
+
+<p>If the &#8220;use f&#8221; part of fct() throws an exception, the destructor is still invoked and the file is properly closed. This contrasts to the common unsafe usage:</p>
+
+<pre><code>    void old_fct(const char* s)
+    {
+        FILE* f = fopen(s,"r"); // open the file named "s"
+        // use f
+        fclose(f);  // close the file
+    }
+</code></pre>
+
+<p>If the &#8220;use <code>f</code>&#8221; part of <code>old_fct</code> throws an exception &#8211; or simply does a return &#8211; the file isn&#8217;t closed. In C programs, <code>longjmp()</code> is an additional hazard.</p>
+
+<h3 id="why-not-exceptions">What shouldn&#8217;t I use exceptions for?</h3>
+
+<p>C++ exceptions are designed to support <strong>error handling</strong>.</p>
+
+<ul>
+<li>Use <code>throw</code> only to signal an error (which means specifically that the function couldn&#8217;t do what it advertised, and establish its postconditions).</li>
+<li>Use <code>catch</code> only to specify error handling actions when you know you can handle an error (possibly by translating it to another type and rethrowing an exception of that type, such as catching a <code>bad_alloc</code> and rethrowing a <code>no_space_for_file_buffers</code>).</li>
+<li><strong>Do not</strong> use <code>throw</code> to indicate a coding error in usage of a function. Use assert or other mechanism to either send the process into a debugger or to crash the process and collect the crash dump for the developer to debug.</li>
+<li><strong>Do not</strong> use <code>throw</code> if you discover unexpected violation of an invariant of your component, use assert or other mechanism to terminate the program. Throwing an exception will not cure memory corruption and may lead to further corruption of important user data.</li>
+</ul>
+
+<p>There are other uses of exceptions &#8211; popular in other languages &#8211; but not idiomatic in C++ and deliberately not supported well by C++ implementations (those implementations are optimized based on the assumption that exceptions are used for error handling).</p>
+
+<p>In particular, do not use exceptions for control flow. <code>throw</code> is not simply an alternative way of returning a value from a function (similar to <code>return</code>). Doing so will be slow and will confuse most C++ programmers who are rightly used to seeing exceptions used only for error handling. Similarly, <code>throw</code> is not a good way of getting out of a loop.</p>
+
+<h3 id="exceptions-eliminate-ifs">What are some ways <code>try</code> / <code>catch</code> / <code>throw</code> can improve software quality?</h3>
+
+<p>By eliminating one of the reasons for <code>if</code> statements.</p>
+
+<p>The commonly used alternative to <code>try</code> / <code>catch</code> / <code>throw</code> is to return a <em>return code</em> (sometimes called an <em>error
+code</em>) that the caller explicitly tests via some conditional statement such as <code>if</code>. For example, <code>printf()</code>, <code>scanf()</code>
+and <code>malloc()</code> work this way: the caller is supposed to test the return value to see if the function succeeded.</p>
+
+<p>Although the return code technique is sometimes the most appropriate error handling technique, there are some nasty side
+effects to adding unnecessary <code>if</code> statements:</p>
+
+<ul>
+<li><strong>Degrade quality:</strong> It is well known that conditional statements are approximately ten times more likely to contain
+errors than any other kind of statement. So all other things being equal, if you can eliminate conditionals /
+conditional statements from your code, you will likely have more robust code.</li>
+<li><strong>Slow down time-to-market:</strong> Since conditional statements are branch points which are related to the number of
+test cases that are needed for white-box testing, unnecessary conditional statements increase the amount of time
+that needs to be devoted to testing. Basically if you don&#8217;t exercise every branch point, there will be instructions
+in your code that will <em>never</em> have been executed under test conditions until they are seen by your users/customers.
+That&#8217;s bad.</li>
+<li><strong>Increase development cost:</strong> Bug finding, bug fixing, and testing are all increased by unnecessary control flow
+complexity.</li>
+</ul>
+
+<p>So compared to error reporting via return-codes and <code>if</code>, using <code>try</code> / <code>catch</code> / <code>throw</code> is likely to result in code
+that has fewer bugs, is less expensive to develop, and has faster time-to-market. Of course if your organization
+doesn&#8217;t have any experiential knowledge of <code>try</code> / <code>catch</code> / <code>throw</code>, you might want to use it on a toy project first
+just to make sure you know what you&#8217;re doing &#8212; you should always get used to a weapon on the firing range before you
+bring it to the front lines of a shooting war.</p>
+
+<h3 id="exceptions-avoid-spreading-out-error-logic">I&#8217;m still not convinced: a 4-line code snippet shows that return-codes aren&#8217;t any worse than exceptions; why should I therefore use exceptions on an application that is orders of magnitude larger?</h3>
+
+<p>Because exceptions scale better than return-codes.</p>
+
+<p>The problem with a 4-line example is that it has only 4 lines. Give it 4,000 lines and you&#8217;ll see the difference.</p>
+
+<p>Here&#8217;s a classic 4-line example, first with exceptions:</p>
+
+<pre><code>try {
+  f();
+  // ...
+} catch (std::exception&amp; e) {
+  // ...code that handles the error...
+}
+</code></pre>
+
+<p>Here&#8217;s the same example, this time using return-codes (<code>rc</code> stands for &#8220;return code&#8221;):</p>
+
+<pre><code>int rc = f();
+if (rc == 0) {
+  // ...
+} else {
+  // ...code that handles the error...
+}
+</code></pre>
+
+<p>People point to those &#8220;toy&#8221; examples and say, &#8220;Exceptions don&#8217;t improve coding or testing or maintenance cost in that;
+why should I therefore use them in a &#8216;real&#8217; project?&#8221;</p>
+
+<p>Reason: exceptions help you with real-world applications. You won&#8217;t likely see much if any benefit on a toy example.</p>
+
+<p>In the real world, the code that <em>detects</em> a problem must typically propagate error information back to a different
+function that will <em>handle</em> the problem. This &#8220;error propagation&#8221; often needs to go through dozens of functions &#8212;
+<code>f1()</code> calls <code>f2()</code> calls <code>f3()</code>, etc., and a problem is discovered way down in <code>f10()</code> (or <code>f100()</code>). The information
+about the problem needs to get propagated all the way back to <code>f1()</code>, because only <code>f1()</code> has enough context to actually
+know what should be done about the problem. In an interactive app, <code>f1()</code> is typically up near the main event loop, but
+no matter what, the code that detects the problem often isn&#8217;t the same as the code that handles the problem, and the
+error information needs to get propagated through all the stack frames in between.</p>
+
+<p>Exceptions make it easy to do this &#8220;error propagation&#8221;:</p>
+
+<pre><code>void f1()
+{
+  try {
+    // ...
+    f2();
+    // ...
+  } catch (some_exception&amp; e) {
+    // ...code that handles the error...
+  }
+}
+
+void f2() { ...; f3(); ...; }
+void f3() { ...; f4(); ...; }
+void f4() { ...; f5(); ...; }
+void f5() { ...; f6(); ...; }
+void f6() { ...; f7(); ...; }
+void f7() { ...; f8(); ...; }
+void f8() { ...; f9(); ...; }
+void f9() { ...; f10(); ...; }
+
+void f10()
+{
+  // ...
+  if ( /*...some error condition...*/ )
+    throw some_exception();
+  // ...
+}
+</code></pre>
+
+<p>Only the code that detects the error, <code>f10()</code>, and the code that handles the error, <code>f1()</code>, have any clutter.</p>
+
+<p>However using return-codes forces &#8220;error propagation clutter&#8221; into all the functions in between those two. Here is the
+equivalent code that uses return codes:</p>
+
+<pre><code>int f1()
+{
+  // ...
+  int rc = f2();
+  if (rc == 0) {
+    // ...
+  } else {
+    // ...code that handles the error...
+  }
+}
+
+int f2()
+{
+  // ...
+  int rc = f3();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f3()
+{
+  // ...
+  int rc = f4();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f4()
+{
+  // ...
+  int rc = f5();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f5()
+{
+  // ...
+  int rc = f6();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f6()
+{
+  // ...
+  int rc = f7();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f7()
+{
+  // ...
+  int rc = f8();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f8()
+{
+  // ...
+  int rc = f9();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f9()
+{
+  // ...
+  int rc = f10();
+  if (rc != 0)
+    return rc;
+  // ...
+  return 0;
+}
+
+int f10()
+{
+  // ...
+  if (...some error condition...)
+    return some_nonzero_error_code;
+  // ...
+  return 0;
+}
+</code></pre>
+
+<p>The return-code solution &#8220;spreads out&#8221; the error logic. Functions <code>f2()</code> through <code>f9()</code> have explicit, hand-written
+code related to propagating the error condition back up to <code>f1()</code>. That is badness:</p>
+
+<ul>
+<li>It clutters functions <code>f2()</code> through <code>f9()</code> with extra decision logic &#8212; the most common cause of bugs.</li>
+<li>It increases the bulk of the code.</li>
+<li>It clouds the simplicity of the programming logic in functions <code>f2()</code> through <code>f9()</code>.</li>
+<li>It requires the return value to perform two distinct duties &#8212; functions <code>f2()</code> through <code>f10()</code> will need to handle
+both <em>&#8220;my function succeeded and the result is <code>xxx</code>&#8221;</em> and <em>&#8220;my function failed and the error information is <code>yyy</code>&#8221;</em>.
+When the types of <code>xxx</code> and <code>yyy</code> differ, <a href="exceptions.html#exceptions-avoid-two-return-types" title="FAQ: How do exceptions simplify my function return type and parameter types?">you sometimes need extra by-reference parameters to propagate both the
+&#8220;successful&#8221; and &#8220;unsuccessful&#8221; cases to the caller</a>.</li>
+</ul>
+
+<p>If you look very narrowly at <code>f1()</code> and <code>f10()</code> in the above examples, exceptions won&#8217;t give you much of an improvement.
+But if you instead open your eyes to the big picture, you will see a substantial difference in all the functions in
+between.</p>
+
+<p>Conclusion: one of the benefits of exception handling is a cleaner, simpler way to propagate error information back to
+the caller that can handle the error. Another benefit is your function doesn&#8217;t need <a href="exceptions.html#exceptions-avoid-two-return-types" title="FAQ: How do exceptions simplify my function return type and parameter types?">extra machinery to propagate both
+the &#8220;successful&#8221; and &#8220;unsuccessful&#8221; cases back to the caller</a>. Toy examples often
+don&#8217;t emphasize either error propagation or handling of <a href="exceptions.html#exceptions-avoid-two-return-types" title="FAQ: How do exceptions simplify my function return type and parameter types?">the two-return-types
+problem</a>, therefore they don&#8217;t represent Real World code.</p>
+
+<h3 id="exceptions-avoid-two-return-types">How do exceptions simplify my function return type and parameter types?</h3>
+
+<p>When you use return codes, you often need two or more distinct return values: one to indicate that the function
+succeeded and to give the computed result, and another to propagate the error information back to the caller. If there
+are, say, 5 ways the function could fail, you could need as many as 6 different return values: the &#8220;successful
+computation&#8221; return value, and a possibly different package of bits for each of the 5 error cases.</p>
+
+<p>Let&#8217;s simplify it down to two cases:</p>
+
+<ul>
+<li>&#8220;I succeeded and the result is <code>xxx</code>.&#8221;</li>
+<li>&#8220;I failed and the error information is <code>yyy</code>.&#8221;</li>
+</ul>
+
+<p>Let&#8217;s work a simple example: we would like to create a <code>Number</code> class that supports the four arithmetic operations:
+add, subtract, multiply and divide. This is an obvious place for overloaded operators, so let&#8217;s define them:</p>
+
+<pre><code>class Number {
+public:
+  friend Number operator+ (const Number&amp; x, const Number&amp; y);
+  friend Number operator- (const Number&amp; x, const Number&amp; y);
+  friend Number operator* (const Number&amp; x, const Number&amp; y);
+  friend Number operator/ (const Number&amp; x, const Number&amp; y);
+  // ...
+};
+</code></pre>
+
+<p>It&#8217;s very easy to use:</p>
+
+<pre><code>void f(Number x, Number y)
+{
+  // ...
+  Number sum  = x + y;
+  Number diff = x - y;
+  Number prod = x * y;
+  Number quot = x / y;
+  // ...
+}
+</code></pre>
+
+<p>But then we have a problem: handling errors. Adding numbers could cause overflow, dividing could cause divide-by-zero
+or underflow, etc. Whoops. How can we report both the &#8220;I succeeded and the result is <code>xxx</code>&#8221; as well as &#8220;I failed and the
+error information is <code>yyy</code>&#8221;?</p>
+
+<p>If we use exceptions, it&#8217;s easy. Think of exceptions as a separate return type that gets used only when needed. So we
+just define all the exceptions and throw them when needed:</p>
+
+<pre><code>void f(Number x, Number y)
+{
+  try {
+    // ...
+    Number sum  = x + y;
+    Number diff = x - y;
+    Number prod = x * y;
+    Number quot = x / y;
+    // ...
+  }
+  catch (Number::Overflow&amp; exception) {
+    // ...code that handles overflow...
+  }
+  catch (Number::Underflow&amp; exception) {
+    // ...code that handles underflow...
+  }
+  catch (Number::DivideByZero&amp; exception) {
+    // ...code that handles divide-by-zero...
+  }
+}
+</code></pre>
+
+<p>But if we use return codes instead of exceptions, life gets hard and messy. When you can&#8217;t shove both the &#8220;good&#8221; number
+<em>and</em> the error information (including details about what went wrong) inside the <code>Number</code> object, you will probably end
+up using extra by-reference parameters to handle one of the two cases: either &#8220;I succeeded&#8221; or &#8220;I failed&#8221; or both.
+Without loss of generality, I will handle the computed result via a normal return value and the &#8220;I failed&#8221; case via a
+by-reference parameter, but you can just as easily do the opposite. Here&#8217;s the result:</p>
+
+<pre><code>class Number {
+public:
+  enum ReturnCode {
+    Success,
+    Overflow,
+    Underflow,
+    DivideByZero
+  };
+
+  Number add(const Number&amp; y, ReturnCode&amp; rc) const;
+  Number sub(const Number&amp; y, ReturnCode&amp; rc) const;
+  Number mul(const Number&amp; y, ReturnCode&amp; rc) const;
+  Number div(const Number&amp; y, ReturnCode&amp; rc) const;
+  // ...
+};
+</code></pre>
+
+<p>Now here&#8217;s how to use it &#8212; this code is equivalent to the above:</p>
+
+<pre><code>int f(Number x, Number y)
+{
+  // ...
+
+  Number::ReturnCode rc;
+  Number sum = x.add(y, rc);
+  if (rc == Number::Overflow) {
+    // ...code that handles overflow...
+    return -1;
+  } else if (rc == Number::Underflow) {
+    // ...code that handles underflow...
+    return -1;
+  } else if (rc == Number::DivideByZero) {
+    // ...code that handles divide-by-zero...
+    return -1;
+  }
+
+  Number diff = x.sub(y, rc);
+  if (rc == Number::Overflow) {
+    // ...code that handles overflow...
+    return -1;
+  } else if (rc == Number::Underflow) {
+    // ...code that handles underflow...
+    return -1;
+  } else if (rc == Number::DivideByZero) {
+    // ...code that handles divide-by-zero...
+    return -1;
+  }
+
+  Number prod = x.mul(y, rc);
+  if (rc == Number::Overflow) {
+    // ...code that handles overflow...
+    return -1;
+  } else if (rc == Number::Underflow) {
+    // ...code that handles underflow...
+    return -1;
+  } else if (rc == Number::DivideByZero) {
+    // ...code that handles divide-by-zero...
+    return -1;
+  }
+
+  Number quot = x.div(y, rc);
+  if (rc == Number::Overflow) {
+    // ...code that handles overflow...
+    return -1;
+  } else if (rc == Number::Underflow) {
+    // ...code that handles underflow...
+    return -1;
+  } else if (rc == Number::DivideByZero) {
+    // ...code that handles divide-by-zero...
+    return -1;
+  }
+
+  // ...
+}
+</code></pre>
+
+<p>The point of this is that you normally have to muck up the interface of functions that use return codes, particularly if
+there is more error information to propagate back to the caller. For example, if there are 5 error conditions and the
+&#8220;error information&#8221; requires different data structures, you might end up with a fairly messy function interface.</p>
+
+<p>None of this clutter happens with exceptions. Exceptions can be thought of as a separate return value, as if the
+function automatically &#8220;grows&#8221; new return types and return values based on what the function can throw.</p>
+
+<p><em>Note:</em> Please don&#8217;t write me saying that you propose using return codes and storing the error information in a
+namespace-scope, global or static variable, such as <code>Number::lastError()</code>. That isn&#8217;t thread-safe. Even if you don&#8217;t
+have multiple threads today, you rarely want to permanently prevent anyone in the future from using your class with
+multiple threads. Certainly if you do, you should write lots and lots of BIG UGLY COMMENTS warning future programmers
+that your code is not thread-safe, and that it probably can&#8217;t be made thread-safe without a substantial rewrite.</p>
+
+<h3 id="exceptions-separate-good-and-bad-path">What does it mean that exceptions separate the &#8220;good path&#8221; (or &#8220;happy path&#8221;) from the &#8220;bad path&#8221;?</h3>
+
+<p>It&#8217;s another benefit of exceptions over return-codes.</p>
+
+<p>The &#8220;good path&#8221; (sometimes called the &#8220;happy path&#8221;) is the control-flow path that happens when everything goes well &#8212;
+when there are no problems.</p>
+
+<p>The &#8220;bad path&#8221; (or &#8220;error path&#8221;) is the path that control-flow takes when something goes wrong &#8212; when there is a
+problem.</p>
+
+<p>Exceptions, when done right, separate the happy path from the error path.</p>
+
+<p>Here is a simple example: function <code>f()</code> is suppoesd to call functions <code>g()</code>, <code>h()</code>, <code>i()</code> and <code>j()</code>, in sequence, as
+shown below. If any of those fail with a &#8220;foo&#8221; or &#8220;bar&#8221; error, <code>f()</code> is to handle the error immediately then return
+successfully. If any other error occurs, <code>f()</code> is to propagate the error information back to the caller.</p>
+
+<p>Here is the code if exceptions are used:</p>
+
+<pre><code>void f()  // Using exceptions
+{
+  try {
+    GResult gg = g();
+    HResult hh = h();
+    IResult ii = i();
+    JResult jj = j();
+    // ...
+  }
+  catch (FooError&amp; e) {
+    // ...code that handles "foo" errors...
+  }
+  catch (BarError&amp; e) {
+    // ...code that handles "bar" errors...
+  }
+}
+</code></pre>
+
+<p>The &#8220;good&#8221; path and the &#8220;bad&#8221; path are cleanly separated. The &#8220;good&#8221; (or &#8220;happy&#8221;) path is the body of the <code>try</code> block
+&#8212; you can read that linearly, and if there are no errors, control flows in a simplistic path through those lines. The
+&#8220;bad&#8221; path is the body of the <code>catch</code> block and the body of any matching <code>catch</code> blocks in any caller.</p>
+
+<p>Using return codes instead of exception clutters this to the point where it is difficult to see the relatively simple
+algorithm. The &#8220;good&#8221; (&#8220;happy&#8221;) and &#8220;bad&#8221; paths are hopelessly intermixed:</p>
+
+<pre><code>int f()  // Using return-codes
+{
+  int rc;  // "rc" stands for "return code"
+
+  GResult gg = g(rc);
+  if (rc == FooError) {
+    // ...code that handles "foo" errors...
+  } else if (rc == BarError) {
+    // ...code that handles "bar" errors...
+  } else if (rc != Success) {
+    return rc;
+  }
+
+  HResult hh = h(rc);
+  if (rc == FooError) {
+    // ...code that handles "foo" errors...
+  } else if (rc == BarError) {
+    // ...code that handles "bar" errors...
+  } else if (rc != Success) {
+    return rc;
+  }
+
+  IResult ii = i(rc);
+  if (rc == FooError) {
+    // ...code that handles "foo" errors...
+  } else if (rc == BarError) {
+    // ...code that handles "bar" errors...
+  } else if (rc != Success) {
+    return rc;
+  }
+
+  JResult jj = j(rc);
+  if (rc == FooError) {
+    // ...code that handles "foo" errors...
+  } else if (rc == BarError) {
+    // ...code that handles "bar" errors...
+  } else if (rc != Success) {
+    return rc;
+  }
+
+  // ...
+
+  return Success;
+}
+</code></pre>
+
+<p>By intermixing the good/happy path with the bad/error path, it&#8217;s harder to see what the code is supposed to do. Contrast
+that with the version that used exceptions, which is almost self-documenting &#8212; the basic functionality is very
+obvious.</p>
+
+<h3 id="exceptions-require-discipline">I&#8217;m interpreting the previous FAQs as saying exception handling is easy and simple; did I get it right?</h3>
+
+<p>No! Wrong! Stop! Go back! Do not collect $200.</p>
+
+<p>The message isn&#8217;t that exception handling is easy and simple. The message is that exception handling is worth it. The
+benefits outweigh the costs.</p>
+
+<p>Here are some of the costs:</p>
+
+<ul>
+<li><strong>Exception handling is not a free lunch</strong>. It requires discipline and rigor. To understand those disciplines, you
+really should read the rest of the FAQ and/or one of the excellent books on the subject.</li>
+<li><strong>Exception handling is not a panacea</strong>. If you work with a team that is sloppy and undisciplined, your team will
+likely have problems no matter whether they use exceptions or return codes. Incompetent carpenters do bad work even
+if they use a good hammer.</li>
+<li><strong>Exception handling is not one-size-fits-all</strong>. Even when you have decided to use exceptions rather than return
+codes, that doesn&#8217;t mean you use them for everything. This is part of the discipline: you need to know when a
+condition should be reported via return-code and when it should be reported via an exception.</li>
+<li><strong>Exception handling is a convenient whipping boy</strong>. If you work with people who blame their tools, beware of
+suggesting exceptions (or anything else that is new, for that matter). People whose ego is so fragile that they need
+to blame someone or something else for their screw-ups will invariably blame whatever &#8220;new&#8221; technology was used. Of
+course, ideally you will work with people who are emotionally capable of learning and growing: with them, you can
+make all sorts of suggestions, because those sorts of people will find a way to make it work, and you&#8217;ll have fun in
+the process.</li>
+</ul>
+
+<p>Fortunately there is plenty of wisdom and insight on the proper use of exceptions. Exception handling is not new. The
+industry as a whole has seen many millions of lines of code and many person-centuries of effort using exceptions. The
+jury has returned its verdict: exceptions <em>can</em> be used properly, and when they <em>are</em> used properly, they improve code.</p>
+
+<p>Learn how.</p>
+
+<h3 id="mindset-for-proper-use-of-eh">Exception handling seems to make my life more difficult; that <em>must</em> mean exception handling itself is bad; clearly <em>I&#8217;m</em> not the problem, right??</h3>
+
+<p>You <em>absolutely</em> might be the problem!</p>
+
+<p>The C++ exception handling mechanism can be powerful and useful, but if you have the wrong mindset, the result can be
+a mess. It&#8217;s a tool; use it properly and it will help you; but don&#8217;t blame the tool if you use it improperly.</p>
+
+<p>If you&#8217;re getting bad results, for instance, if your code seems unnecessarily convoluted or overly cluttered with <code>try</code>
+blocks, you might be suffering from a wrong mindset. This FAQ gives you a list of some of those wrong mindsets.</p>
+
+<p>Warning: do <em>not</em> be simplistic about these &#8220;wrong mindsets.&#8221; They are guidelines and ways of thinking, not hard and
+fast rules. Sometimes you will do the exact opposite of what they recommend &#8212; do <em>not</em> write me about some situation
+that is an exception (no pun intended) to one or more of them &#8212; I <em>guarantee</em> that there are exceptions. That&#8217;s not
+the point.</p>
+
+<p>Here are some &#8220;wrong exception-handling mindsets&#8221; in no apparent order:</p>
+
+<ul>
+<li><strong>The return-codes mindset:</strong> This causes programmers to clutter their code with gobs of <code>try</code> blocks. Basically
+they think of a <code>throw</code> as a glorified return code, and a <code>try</code>/<code>catch</code> as a glorified &#8220;if the return code indicates
+an error&#8221; test, and they put one of these <code>try</code> blocks around just about every function that can <code>throw</code>.</li>
+<li><strong>The Java mindset:</strong> In Java, non-memory resources are reclaimed via explicit <code>try</code>/<code>finally</code> blocks. When this
+mindset is used in C++, it results in a large number of unnecessary <code>try</code> blocks, which, compared with RAII,
+clutters the code and makes the logic harder to follow. Essentially the code swaps back and forth between the &#8220;good
+path&#8221; and the &#8220;bad path&#8221; (the latter meaning the path taken during an exception). With RAII, the code is mostly
+optimistic &#8212; it&#8217;s all the &#8220;good path,&#8221; and the cleanup code is buried in destructors of the resource-owning
+objects. This also helps reduce the cost of code reviews and unit-testing, since these &#8220;resource-owning objects&#8221;
+can be validated in isolation (with explicit <code>try</code>/<code>catch</code> blocks, each copy must be unit-tested and inspected
+individually; they cannot be handled as a group).</li>
+<li><strong>Organizing the exception classes around the physical thrower rather than the logical reason for the throw:</strong> For
+example, in a banking app, suppose any of five subsystems might throw an exception when the customer has insufficient
+funds. The right approach is to throw an exception representing the <em>reason</em> for the throw, e.g., an &#8220;insufficient
+funds exception&#8221;; the wrong mindset is for each subsystem to throw a subsystem-specific exception. For example, the
+<code>Foo</code> subsystem might throw objects of class <code>FooException</code>, the <code>Bar</code> subsystem might throw objects of class
+<code>BarException</code>, etc. This often leads to extra <code>try</code>/<code>catch</code> blocks, e.g., to catch a <code>FooException</code>, repackage it
+into a <code>BarException</code>, then throw the latter. In general, exception classes should represent the problem, not the
+chunk of code that noticed the problem.</li>
+<li><strong>Using the bits / data within an exception object to differentiate different categories of errors:</strong> Suppose the
+<code>Foo</code> subsystem in our banking app throws exceptions for bad account numbers, for attempting to liquidate an illiquid
+asset, and for insufficient funds. When these three logically distinct kinds of errors are represented by the same
+exception class, the catchers need to say <code>if</code> to figure out what the problem really was. If your code wants to
+handle only bad account numbers, you need to <code>catch</code> the master exception class, then use <code>if</code> to determine whether
+it is one you really want to handle, and if not, to rethrow it. In general, the preferred approach is for the error
+condition&#8217;s logical category to get encoded into the <em>type</em> of the exception object, not into the <em>data</em> of the
+exception object.</li>
+<li><strong>Designing exception classes on a subsystem by subsystem basis:</strong> In the bad old days, the specific meaning of any
+given return-code was local to a given function or API. Just because one function uses the return-code of 3 to mean
+&#8220;success,&#8221; it was still perfectly acceptable for another function to use 3 to mean something entirely different,
+e.g., &#8220;failed due to out of memory.&#8221; Consistency has always been <em>preferred</em>, but often that didn&#8217;t happen because it
+didn&#8217;t <em>need</em> to happen. People coming with that mentality often treat C++ exception-handling the same way: they
+assume exception classes can be localized to a subsystem. That causes no end of grief, e.g., lots of extra <code>try</code>
+blocks to <code>catch</code> then <code>throw</code> a repackaged variant of the same exception. In large systems, exception hierarchies
+<em>must</em> be designed with a system-wide mindset. Exception classes cross subsystem boundaries &#8212; they are part of the
+intellectual glue that holds the architecture together.</li>
+<li><strong>Use of raw (as opposed to smart) pointers:</strong> This is actually just a special case of non-RAII coding, but I&#8217;m
+calling it out because it is so common. The result of using raw pointers is, as above, lots of extra <code>try</code>/<code>catch</code>
+blocks whose only purpose in life is to <code>delete</code> an object then re-<code>throw</code> the exception.</li>
+<li><strong>Confusing logical errors with runtime situations:</strong> For example, suppose you have a function <code>f(Foo* p)</code> that must never be called with nullptr. However you discover that somebody somewhere is sometimes passing nullptr anyway. There are two possibilities: either they are passing nullptr because they got bad data from an external user (for example, the user forgot to fill in a field and that ultimately resulted in a nullptr) or they just plain made a mistake in their own code. In the former case, you should throw an exception since it is a runtime situation (i.e., something you can&#8217;t detect by a careful code-review; it is not a bug). In the latter case, you should definitely fix the bug in the caller&#8217;s code. You can still add some code to write a message in the log-file if it ever happens again, and you can even throw an exception if it ever happens again, but you must not merely change the code within <code>f(Foo* p)</code>; you must, <em>must</em>, <em>MUST</em> fix the code in the caller(s) of <code>f(Foo* p)</code>.</li>
+</ul>
+
+<p>There are other &#8220;wrong exception-handling mindsets,&#8221; but hopefully those will help you out. And remember: don&#8217;t take those as hard and fast rules. They are guidelines, and there are exceptions to each.</p>
+
+<h3 id="too-many-trycatch-blocks">I have too many try blocks; what can I do about it?</h3>
+
+<p>You might have the <em>mindset</em> of return codes even though you are using the <em>syntax</em> of <code>try</code>/<code>catch</code>/<code>throw</code>. For
+instance, you might put a try block around just about every call:</p>
+
+<pre><code>void myCode()
+{
+  try {
+    foo();
+  }
+  catch (FooException&amp; e) {
+    // ...
+  }
+
+  try {
+    bar();
+  }
+  catch (BarException&amp; e) {
+    // ...
+  }
+
+  try {
+    baz();
+  }
+  catch (BazException&amp; e) {
+    // ...
+  }
+}
+</code></pre>
+
+<p>Although this uses the <code>try</code>/<code>catch</code>/<code>throw</code> syntax, the overall structure is very similar to the way things are done
+with return codes, and the consequent software development/test/maintenance costs are basically the same as they were
+for return codes. In other words, this approach doesn&#8217;t buy you much over using return codes. In general, it is bad
+form.</p>
+
+<p>One way out is to ask yourself this question for each try block: &#8220;Why am I using a try block here?&#8221; There are several
+possible answers:</p>
+
+<ul>
+<li>Your answer might be, &#8220;So I can actually handle the exception. My catch clause deals with the error and continues
+execution without throwing any additional exceptions. My caller never knows that the exception occurred. My catch
+clause does not throw any exceptions and it does not return any error-codes.&#8221; In that case, you leave the try block
+as-is &#8212; it is probably good.</li>
+<li>Your answer might be, &#8220;So I can have a catch clause that does <em>blah blah blah</em>, after which I will rethrow the
+exception.&#8221; In this case, consider changing the try block into an object whose destructor does <em>blah blah blah</em>. For
+instance, if you have a try block whose catch clause closes a file then rethrows the exception, consider replacing
+the whole thing with a <code>File</code> object whose destructor closes the file. This is commonly called RAII.</li>
+<li>Your answer might be, &#8220;So I can repackage the exception: I catch a <code>XyzException</code>, extract the details, then throw a
+<code>PqrException</code>.&#8221; When that happens, consider a better hierarchy of exception objects that doesn&#8217;t require this
+catch/repackage/rethrow idea. This often involves broadening the meaning of <code>XyzException</code>, though obviously you
+shouldn&#8217;t go too far.</li>
+<li>There are other answers as well, but the above are some common ones that I&#8217;ve seen.</li>
+</ul>
+
+<p>Main point is to ask &#8220;Why?&#8221;. If you discover the <em>reason</em> you&#8217;re doing it, you might find that there are better ways to
+achieve your goal.</p>
+
+<p>Having said all this, there are, unfortunately, some people who have the return-code-mindset burned so deeply into
+their psyche that they just can&#8217;t seem to see any alternatives. If that is you, there is still hope: <a href="how-to-learn-cpp.html#mentoring" title="FAQ: What is mentoring?">get a
+mentor</a>. If you <em>see</em> it done right, you&#8217;ll probably get it. Style is sometimes caught, not just taught.</p>
+
+<h3 id="ctor-exceptions">Can I throw an exception from a constructor? From a destructor?</h3>
+
+<ul>
+<li>For constructors, yes: You should throw an exception from a constructor whenever you cannot properly initialize (construct) an object. There is no really satisfactory alternative to exiting a constructor by a <code>throw</code>. For more details, see <a href="exceptions.html#ctors-can-throw" title="FAQ: How can I handle a constructor that fails?">here</a>.</li>
+<li>For destructors, not really: You can throw an exception in a destructor, but that exception must not leave the destructor; if a destructor exits by emitting an exception, all kinds of bad things are likely to happen because the basic rules of the standard library and the language itself will be violated. Don&#8217;t do it. For more details, see <a href="exceptions.html#dtors-shouldnt-throw" title="FAQ: How can I handle a destructor that fails?">here</a>.</li>
+</ul>
+
+<p>For examples and detailed explanations, see <a href="http://stroustrup.com/3rd_safe0.html">Appendix E of TC++PL3e</a>.</p>
+
+<p>There is a caveat: Exceptions can&#8217;t be used for some hard-real time projects. For example, see the JSF <a href="http://stroustrup.com/JSF-AV-rules.pdf">air vehicle C++ coding standards</a>.</p>
+
+<h3 id="ctors-can-throw">How can I handle a constructor that fails?</h3>
+
+<p>Throw an exception.</p>
+
+<p>Constructors don&#8217;t have a return type, so it&#8217;s not possible to use return codes. The best way to signal constructor
+failure is therefore to throw an exception. If you don&#8217;t have the option of using exceptions, the <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">&#8220;least
+bad&#8221;</a> work-around is to put the object into a &#8220;zombie&#8221; state by setting an internal status
+bit so the object acts sort of like it&#8217;s dead even though it is technically still alive.</p>
+
+<p>The idea of a &#8220;zombie&#8221; object has a lot of down-side. You need to add a query (&#8220;inspector&#8221;) member function to check
+this &#8220;zombie&#8221; bit so users of your class can find out if their object is truly alive, or if it&#8217;s a zombie (i.e., a
+&#8220;living dead&#8221; object), and just about every place you construct one of your objects (including within a larger object or
+an array of objects) you need to check that status flag via an <code>if</code> statement. You&#8217;ll also want to add an <code>if</code> to your
+other member functions: if the object is a zombie, do a no-op or perhaps something more obnoxious.</p>
+
+<p>In practice the &#8220;zombie&#8221; thing gets pretty ugly. Certainly you should prefer exceptions over zombie objects, but if you
+do not have the option of using exceptions, zombie objects might be the <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">&#8220;least bad&#8221;</a>
+alternative.</p>
+
+<p>Note: if a constructor finishes by throwing an exception, the memory associated with the object itself is cleaned up
+&#8212; there is no memory leak. For example:</p>
+
+<pre><code>void f()
+{
+  X x;             // If X::X() throws, the memory for x itself will not leak
+  Y* p = new Y();  // If Y::Y() throws, the memory for *p itself will not leak
+}
+</code></pre>
+
+<p>There is some fine print on this topic, so you need to keep reading. Specifically you need to know <a href="exceptions.html#selfcleaning-members" title="FAQ: How should I handle resources if my constructors may throw exceptions?">how to prevent
+memory leaks if the constructor itself allocates memory</a>, and you also need to be aware of what
+happens if you use <a href="dtors.html#placement-new" title="FAQ: What is 'placement new' and why would I use it?">&#8220;placement&#8221; <code>new</code></a> rather than the ordinary <code>new</code> used in the sample code above.</p>
+
+<h3 id="dtors-shouldnt-throw">How can I handle a destructor that fails?</h3>
+
+<p>Write a message to a log-file. Terminate the process. Or call Aunt Tilda. But do <em>not</em> throw an exception!</p>
+
+<p>Here&#8217;s why (buckle your seat-belts):</p>
+
+<p>The C++ rule is that you must never throw an exception from a destructor that is being called during the &#8220;stack
+unwinding&#8221; process of another exception. For example, if someone says <code>throw Foo()</code>, the stack will be unwound so all
+the stack frames between the <code>throw Foo()</code> and the <code>} catch (Foo e) {</code> will get popped. This is called <em>stack
+unwinding</em>.</p>
+
+<p>During stack unwinding, all the local objects in all those stack frames are destructed. If one of <em>those</em> destructors
+throws an exception (say it throws a <code>Bar</code> object), the C++ runtime system is in a no-win situation: should it
+ignore the <code>Bar</code> and end up in the <code>} catch (Foo e) {</code> where it was originally headed? Should it ignore the <code>Foo</code> and
+look for a <code>} catch (Bar e) {</code> handler? There is no good answer &#8212; either choice loses information.</p>
+
+<p>So the C++ language guarantees that it will call <code>terminate()</code> at this point, and <code>terminate()</code> kills the process.
+Bang you&#8217;re dead.</p>
+
+<p>The easy way to prevent this is <em>never throw an exception from a destructor</em>. But if you really want to be clever, you
+can say <em>never throw an exception from a destructor while processing another exception</em>. But in this second case, you&#8217;re
+in a difficult situation: the destructor itself needs code to handle both throwing an exception and doing &#8220;something
+else&#8221;, and the caller has no guarantees as to what might happen when the destructor detects an error (it might throw an
+exception, it might do &#8220;something else&#8221;). So the whole solution is harder to write. So the easy thing to do is <em>always</em>
+do &#8220;something else&#8221;. That is, <em>never throw an exception from a destructor</em>.</p>
+
+<p>Of course the word <em>never</em> should be &#8220;in quotes&#8221; since there is always some situation somewhere where the rule won&#8217;t
+hold. But certainly at least 99% of the time this is a good rule of thumb.</p>
+
+<h3 id="selfcleaning-members">How should I handle resources if my constructors may throw exceptions?</h3>
+
+<p>Every data member inside your object should clean up its own mess.</p>
+
+<p>If a constructor throws an exception, the object&#8217;s destructor is <em>not</em> run. If your object has already done something that needs to be undone (such as allocating some memory, opening a file, or locking a semaphore), this &#8220;stuff that needs to be undone&#8221; <em>must</em> be remembered by a data member inside the object.</p>
+
+<p>For example, rather than allocating memory into a raw <code>Fred*</code> data member, put the allocated memory into a &#8220;smart pointer&#8221; member object, and the destructor of this smart pointer will <code>delete</code> the <code>Fred</code> object when the smart pointer dies. The template <code>std::unique_ptr</code> is an example of such as &#8220;smart pointer.&#8221; You can also <a href="freestore-mgmt.html#ref-count-simple" title="FAQ: How do I do simple reference counting?">write your own reference counting smart pointer</a>. You can also <a href="operator-overloading.html#op-ov-examples" title="FAQ: What are some examples of operator overloading?">use smart pointers to &#8220;point&#8221; to disk records or objects on other machines</a>.</p>
+
+<p>By the way, if you think your <code>Fred</code> class is going to be allocated into a smart pointer, be nice to your users and create a <code>typedef</code> within your <code>Fred</code> class:</p>
+
+<pre><code>#include &lt;memory&gt;
+
+class Fred {
+public:
+  typedef std::unique_ptr&lt;Fred&gt; Ptr;
+  // ...
+};
+</code></pre>
+
+<p>That <code>typedef</code> simplifies the syntax of all the code that uses your objects: your users can say <code>Fred::Ptr</code> instead of <code>std::unique_ptr&lt;Fred&gt;</code>:</p>
+
+<pre><code>#include "Fred.h"
+
+void f(std::unique_ptr&lt;Fred&gt; p);  // explicit but verbose
+void f(Fred::Ptr             p);  // simpler
+
+void g()
+{
+  std::unique_ptr&lt;Fred&gt; p1( new Fred() );  // explicit but verbose
+  Fred::Ptr             p2( new Fred() );  // simpler
+  // ...
+}
+</code></pre>
+
+<h3 id="use-string-not-char-ptr">How do I change the string-length of an array of <code>char</code> to prevent memory leaks even if/when someone throws an exception?</h3>
+
+<p>If what you really want to do is work with strings, don&#8217;t use an array of <code>char</code> in the first place, since <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">arrays are
+evil</a>. Instead use an object of some <code>string</code>-like class.</p>
+
+<p>For example, suppose you want to get a copy of a string, fiddle with the copy, then append another string to the end of
+the fiddled copy. The array-of-<code>char</code> approach would look something like this:</p>
+
+<pre><code>void userCode(const char* s1, const char* s2)
+{
+  char* copy = new char[strlen(s1) + 1];    // make a copy
+  strcpy(copy, s1);                         //   of s1...
+
+  // use a try block to prevent memory leaks if we get an exception
+  // note: we need the try block because we used a "dumb" char* above
+  try {
+
+    // ...code that fiddles with copy...
+
+    char* copy2 = new char[strlen(copy) + strlen(s2) + 1];  // append s2
+    strcpy(copy2, copy);                                    //   onto the
+    strcpy(copy2 + strlen(copy), s2);                       //     end of
+    delete[] copy;                                          //       copy...
+    copy = copy2;
+
+    // ...code that fiddles with copy again...
+
+  }
+  catch (...) {
+    delete[] copy;   // we got an exception; prevent a memory leak
+    throw;           // re-throw the current exception
+  }
+
+  delete[] copy;     // we did not get an exception; prevent a memory leak
+}
+</code></pre>
+
+<p>Using <code>char*</code>s like this is tedious and error prone. Why not just use an object of some <code>string</code> class? Your compiler
+probably supplies a <code>string</code>-like class, and it&#8217;s probably just as fast and certainly it&#8217;s a lot simpler and safer than
+the <code>char*</code> code that you would have to write yourself. For example, if you&#8217;re using the <code>std::string</code> class from the
+<a href="big-picture.html#copy-of-standard" title="FAQ: Where can I get a copy of the ANSI/ISO C++ standard?">standardization committee</a>, your code might look something like this:</p>
+
+<pre><code>#include &lt;string&gt;           // Let the compiler see std::string
+
+void userCode(const std::string&amp; s1, const std::string&amp; s2)
+{
+  std::string copy = s1;    // make a copy of s1
+  // ...code that fiddles with copy...
+  copy += s2;               // append s2 onto the end of copy
+  // ...code that fiddles with copy again...
+}
+</code></pre>
+
+<p>The <code>char*</code> version requires you to write around three times more code than you would have to write with the
+<code>std::string</code> version. Most of the savings came from <code>std::string</code>&#8217;s automatic memory management: in the <code>std::string</code>
+version, we didn&#8217;t need to write any code&#8230;</p>
+
+<ul>
+<li>to reallocate memory when we grow the string.</li>
+<li>to <code>delete[]</code> anything at the end of the function.</li>
+<li>to <code>catch</code> and re-<code>throw</code> any exceptions.</li>
+</ul>
+
+<h3 id="what-to-throw">What should I throw?</h3>
+
+<p>C++, unlike just about every other language with exceptions, is very accomodating when it comes to what you can throw.
+In fact, you can throw anything you like. That begs the question then, what should you throw?</p>
+
+<p>Generally, it&#8217;s best to throw objects, not built-ins. If possible, you should throw instances of classes that derive
+(ultimately) from the <code>std::exception</code> class. By making your exception class inherit (ultimately) from the standard
+exception base-class, you are making life easier for your users (they have the option of catching most things via
+<code>std::exception</code>), plus you are probably providing them with more information (such as the fact that your particular
+exception might be a refinement of <code>std::runtime_error</code> or whatever).</p>
+
+<p>The most common practice is to throw a temporary:</p>
+
+<pre><code>#include &lt;stdexcept&gt;
+
+class MyException : public std::runtime_error {
+public:
+  MyException() : std::runtime_error("MyException") { }
+};
+
+void f()
+{
+   // ...
+   throw MyException();
+}
+</code></pre>
+
+<p>Here, a temporary of type <code>MyException</code> is created and thrown. Class <code>MyException</code> inherits from class
+<code>std::runtime_error</code> which (ultimately) inherits from class <code>std::exception</code>.</p>
+
+<h3 id="what-to-catch">What should I catch?</h3>
+
+<p>In keeping with the C++ tradition of &#8220;there&#8217;s more than one way to do that&#8221; (translation: &#8220;give programmers options
+and tradeoffs so <em>they</em> can decide what&#8217;s best for <em>them</em> in <em>their</em> situation&#8221;), C++ allows you a variety of options
+for catching.</p>
+
+<ul>
+<li>You can catch by value.</li>
+<li>You can catch by reference.</li>
+<li>You can catch by pointer.</li>
+</ul>
+
+<p>In fact, you have all the flexibility that you have in declaring function parameters, and the rules for whether a
+particular exception matches (i.e., will be caught by) a particular catch clause are almost exactly the same as the
+rules for parameter compatibility when calling a function.</p>
+
+<p>Given all this flexibility, how do you decide what to catch? Simple: unless there&#8217;s a good reason not to, catch by
+reference. Avoid catching by value, since that causes a copy to be made and <a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">the copy can have different
+behavior</a> from what was thrown. Only under very special circumstances should you catch by pointer.</p>
+
+<h3 id="catch-by-ptr-in-mfc">But MFC seems to encourage the use of catch-by-pointer; should I do the same?</h3>
+
+<p>Depends. If you&#8217;re using MFC and catching one of their exceptions, by all means, do it their way. Same goes for any
+framework: when in Rome, do as the Romans. Don&#8217;t try to force a framework into your way of thinking, even if &#8220;your&#8221; way
+of thinking is &#8220;better.&#8221; If you decide to use a framework, embrace <em>its</em> way of thinking &#8212; use the idioms that its
+authors expected you to use.</p>
+
+<p>But if you&#8217;re creating your own framework and/or a piece of the system that does not directly depend on MFC, then don&#8217;t
+catch by pointer just because MFC does it that way. When you&#8217;re <em>not</em> in Rome, you don&#8217;t <em>necessarily</em> do as the Romans.
+In this case, you should <em>not</em>. Libraries like MFC predated the standardization of exception handling in the C++
+language, and some of these libraries use a backwards-compatible form of exception handling that requires (or at least
+encourages) you to catch by pointer.</p>
+
+<p>The problem with catching by pointer is that it&#8217;s not clear who (if anyone) is responsible for deleting the pointed-to
+object. For example, consider the following:</p>
+
+<pre><code>MyException x;
+
+void f()
+{
+  MyException y;
+
+  try {
+    switch ((rand() &gt;&gt; 8) % 3) {  // the "&gt;&gt; 8" (typically) improves the period of the lowest 2 bits
+      case 0: throw new MyException;
+      case 1: throw &amp;x;
+      case 2: throw &amp;y;
+    }
+  }
+  catch (MyException* p) {
+    // should we delete p here or not???!?
+  }
+}
+</code></pre>
+
+<p>There are three basic problems here:</p>
+
+<ol>
+<li>It might be tough to decide whether to <code>delete p</code> within the <code>catch</code> clause. For example, if object <code>x</code> is
+inaccessible to the scope of the <code>catch</code> clause, such as when it&#8217;s buried in the private part of some class or is
+<code>static</code> within some other compilation unit, it might be tough to figure out what to do.</li>
+<li>If you solve the first problem by consistently using <code>new</code> in the <code>throw</code> (and therefore consistently using <code>delete</code>
+in the <code>catch</code>), then exceptions always use the heap which can cause problems when the exception was thrown because
+the system was running low on memory.</li>
+<li>If you solve the first problem by consistently <em>not</em> using <code>new</code> in the <code>throw</code> (and therefore consistently <em>not</em>
+using <code>delete</code> in the <code>catch</code>), then you probably won&#8217;t be able to allocate your exception objects as locals (since
+then they might get destructed too early), in which case you&#8217;ll have to worry about thread-safety, locks,
+semaphores, etc. (<code>static</code> objects are not intrinsically thread-safe).</li>
+</ol>
+
+<p>This isn&#8217;t to say it&#8217;s not possible to work through these issues. The point is simply this: if you catch by reference
+rather than by pointer, life is easier. Why make life hard when you don&#8217;t have to?</p>
+
+<p>The moral: avoid throwing pointer expressions, and avoid catching by pointer, <em>unless</em> you&#8217;re using an existing library
+that &#8220;wants&#8221; you to do so.</p>
+
+<h3 id="throw-without-an-object">What does <code>throw;</code> (without an exception object after the <code>throw</code> keyword) mean? Where would I use it?</h3>
+
+<p>You might see code that looks something like this:</p>
+
+<pre><code>class MyException {
+public:
+  // ...
+  void addInfo(const std::string&amp; info);
+  // ...
+};
+
+void f()
+{
+  try {
+    // ...
+  }
+  catch (MyException&amp; e) {
+    e.addInfo("f() failed");
+    throw;
+  }
+}
+</code></pre>
+
+<p>In this example, the statement <code>throw;</code> means &#8220;re-throw the current exception.&#8221; Here, a function caught an exception
+(by non-const reference), modified the exception (by adding information to it), and then re-threw the exception. This
+idiom can be used to implement a simple form of stack-trace, by adding appropriate catch clauses in the important
+functions of your program.</p>
+
+<p>Another re-throwing idiom is the &#8220;exception dispatcher&#8221;:</p>
+
+<pre><code>void handleException()
+{
+  try {
+    throw;
+  }
+  catch (MyException&amp; e) {
+    // ...code to handle MyException...
+  }
+  catch (YourException&amp; e) {
+    // ...code to handle YourException...
+  }
+}
+
+void f()
+{
+  try {
+    // ...something that might throw...
+  }
+  catch (...) {
+    handleException();
+  }
+}
+</code></pre>
+
+<p>This idiom allows a single function (<code>handleException()</code>) to be re-used to handle exceptions in a number of other
+functions.</p>
+
+<h3 id="throwing-polymorphically">How do I throw polymorphically?</h3>
+
+<p>Sometimes people write code like:</p>
+
+<pre><code>class MyExceptionBase { };
+
+class MyExceptionDerived : public MyExceptionBase { };
+
+void f(MyExceptionBase&amp; e)
+{
+  // ...
+  throw e;
+}
+
+void g()
+{
+  MyExceptionDerived e;
+  try {
+    f(e);
+  }
+  catch (MyExceptionDerived&amp; e) {
+    // ...code to handle MyExceptionDerived...
+  }
+  catch (...) {
+    // ...code to handle other exceptions...
+  }
+}
+</code></pre>
+
+<p>If you try this, you might be surprised at run-time when your <code>catch (...)</code> clause is entered, and not your
+<code>catch (MyExceptionDerived&amp;)</code> clause. This happens because you didn&#8217;t throw polymorphically. In function <code>f()</code>, the
+statement <code>throw e;</code> throws an object with the same type as the <em>static</em> type of the expression <code>e</code>. In other words, it
+throws an instance of <code>MyExceptionBase</code>. The <code>throw</code> statement behaves as-if the thrown object is copied, as opposed to
+<a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">making a &#8220;virtual copy&#8221;</a>.</p>
+
+<p>Fortunately it&#8217;s relatively easy to correct:</p>
+
+<pre><code>class MyExceptionBase {
+public:
+  virtual void raise();
+};
+
+void MyExceptionBase::raise()
+{ throw *this; }
+
+class MyExceptionDerived : public MyExceptionBase {
+public:
+  virtual void raise();
+};
+
+void MyExceptionDerived::raise()
+{ throw *this; }
+
+void f(MyExceptionBase&amp; e)
+{
+  // ...
+  e.raise();
+}
+
+void g()
+{
+  MyExceptionDerived e;
+  try {
+    f(e);
+  }
+  catch (MyExceptionDerived&amp; e) {
+    // ...code to handle MyExceptionDerived...
+  }
+  catch (...) {
+    // ...code to handle other exceptions...
+  }
+}
+</code></pre>
+
+<p>Note that the <code>throw</code> statement has been moved into a virtual function. The statement <code>e.raise()</code> will exhibit
+polymorphic behavior, since <code>raise()</code> is declared <code>virtual</code> and <code>e</code> was passed by reference. As before, the thrown
+object will be of the <em>static</em> type of the argument in the <code>throw</code> statement, but within <code>MyExceptionDerived::raise()</code>,
+that static type is <code>MyExceptionDerived</code>, not <code>MyExceptionBase</code>.</p>
+
+<h3 id="num-copies-of-exception">When I throw this object, how many times will it be copied?</h3>
+
+<p>Depends. Might be &#8220;zero.&#8221;</p>
+
+<p>Objects that are thrown must have a publicly accessible copy-constructor. The compiler is allowed to generate code that
+copies the thrown object any number of times, including zero. However even if the compiler never actually copies the
+thrown object, it must make sure the exception class&#8217;s copy constructor exists and is accessible.</p>
+
+<h3 id="finally">Why doesn&#8217;t C++ provide a &#8220;finally&#8221; construct?</h3>
+
+<p>Because C++ supports an alternative that is almost always better: The &#8220;resource acquisition is initialization&#8221; technique. The basic idea is to represent a resource by a local object, so that the local object&#8217;s destructor will release the resource. That way, the programmer cannot forget to release the resource. For example:</p>
+
+<pre><code>    // wrap a raw C file handle and put the resource acquisition and release
+    // in the C++ type's constructor and destructor, respectively
+    class File_handle {
+        FILE* p;
+    public:
+        File_handle(const char* n, const char* a)
+            { p = fopen(n,a); if (p==0) throw Open_error(errno); }
+        File_handle(FILE* pp)
+            { p = pp; if (p==0) throw Open_error(errno); }
+
+        ~File_handle() { fclose(p); }
+
+        operator FILE*() { return p; }   // if desired
+
+        // ...
+    };
+
+    // use File_handle: uses vastly outnumber the above code
+    void f(const char* fn)
+    {
+        File_handle f(fn,"rw"); // open fn for reading and writing
+        // use file through f
+    } // automatically destroy f here, calls fclose automatically with no extra effort
+      // (even if there's an exception, so this is exception-safe by construction)
+</code></pre>
+
+<p>In a system, in the worst case we need a &#8220;resource handle&#8221; class for each resource. However, we don&#8217;t have to have a &#8220;finally&#8221; clause for each acquisition of a resource. In realistic systems, there are far more resource acquisitions than kinds of resources, so the &#8220;resource acquisition is initialization&#8221; technique leads to less code than use of a &#8220;finally&#8221; construct.</p>
+
+<p>Also, have a look at the examples of resource management in <a href="http://stroustrup.com/3rd_safe0.html">Appendix E of TC++PL3e</a>.</p>
+
+<h3 id="resume-exception">Why can&#8217;t I resume after catching an exception?</h3>
+
+<p>In other words, why doesn&#8217;t C++ provide a primitive for returning to the point from which an exception was thrown and continuing execution from there?</p>
+
+<p>Basically, someone resuming from an exception handler can never be sure that the code after the point of throw was written to deal with the execution just continuing as if nothing had happened. An exception handler cannot know how much context to &#8220;get right&#8221; before resuming. To get such code right, the writer of the throw and the writer of the catch need intimate knowledge of each others code and context. This creates a complicated mutual dependency that wherever it has been allowed has led to serious maintenance problems.</p>
+
+<p>Stroustrup seriously considered the possibility of allowing resumption when he designed the C++ exception handling mechanism and this issue was discussed in quite some detail during standardization. See the exception handling chapter of <a href="http://stroustrup.com/dne.html">The Design and Evolution of C++</a>.</p>
+
+<p>If you want to check to see if you can fix a problem before throwing an exception, call a function that checks and then throws only if the problem cannot be dealt with locally. A <code>new_handler</code> is an example of this.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/exceptions",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/exceptions",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/exceptions by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

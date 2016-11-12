@@ -1,0 +1,120 @@
+#title   
+
+* Identifiers
+
+Functional programming means that programs are executed by evaluating expressions. This contrasts with imperative programming where programs are composed of statements which change global state when executed. Functional programming, on the other hand, avoids using state and mutable data.
+
+Functional programming requires that functions are first-class, which
+means that they are treated like any other values and can be passed as
+arguments to other functions or be returned as a result of a
+function[1]. 
+
+**let IdentifierName = Expression**
+
+Identifier can either refer to value or function.
+
+Identifier refered to value ::
+<example>
+> let n = 11;;
+
+val n : int = 11
+</example>
+ - The value assigned to n will never change it is immutable.
+
+Identifier refered to function ::
+<example>
+> let square x = x*x;;
+
+val square : int -> int
+
+> square 2;;
+val it : int = 4
+>
+</example>
+
+
+
+* Recursion
+
+Factorial ::
+
+<example>
+>  let rec factorial n = 
+    if n > 1 then n* factorial(n - 1) else 1;; 
+
+val factorial : int -> int
+
+> factorial 5;;
+val it : int = 120
+> 
+</example>
+
+<example>
+factorial 5
+= 5 * factorial 4
+= 5 * (4 * factorial 3)
+= 5 * (4 * (3 * factorial 2))
+= 5 * (4 * (3 * (2 * factorial 1 )))
+= 5 * (4 * (3 * (2 * 1)))
+= 5 * (4 * (3 * 2))
+= 5 * (4 * 6)
+= 5 * 24
+= 120
+</example>
+
+
+**Looping using recursion instead of for/while loop.**
+<example>
+let rec loop n =
+    if n > 0 then
+        printfn "n = %i" n
+        loop (n - 1)
+</example>
+<example>
+> loop 5;;
+n = 5
+n = 4
+n = 3
+n = 2
+n = 1
+n = 0
+</example>
+
+* List
+
+
+F# List	Arrays	Generic List
+Modify Elements	No	Yes	Yes
+Add New Elements	No	No	Yes
+Element Lookup	O(n) slow	O(1) fast	O(1) fast [2].
+
+
+**Fold**
+
+let add x y = x + y
+
+> let sumList = List.fold add 0 [1 .. 10];;
+
+val sumList : int = 55
+
+> let sumList = List.fold add 1 [1 .. 10];;
+
+val sumList : int = 56
+
+> let mul x y = x * y;;
+
+> let sumList = List.fold mul 1 [1 .. 5];;
+
+val sumList : int = 120
+
+> let sumList = List.fold mul 0 [1 .. 5];;
+
+val sumList : int = 0
+
+>
+
+
+
+Footnotes:
+ [1] [[http://www.haskell.org/haskellwiki/Functional_programming][Haskel.org]]
+ [2] [[http://blogs.msdn.com/b/chrsmith/archive/2008/07/10/mastering-f-lists.aspx][Chris Smith]]

@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/format/example/sample_advanced.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:45 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>libs/format/example/sample_advanced.cpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>libs/format/example/sample_advanced.cpp</h3>
+<pre>
+// ----------------------------------------------------------------------------
+// sample_advanced.cc :  examples of adanced usage of format 
+// ----------------------------------------------------------------------------
+
+//  Copyright Samuel Krempp 2003. Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/format">http://www.boost.org/libs/format</a> for library home page
+
+// ----------------------------------------------------------------------------
+
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+#include &quot;<a href="../../../boost/format.html">boost/format.hpp</a>&quot;
+
+
+namespace MyNS_ForOutput {
+  using std::cout; using std::cerr;
+  using std::string;
+  using std::endl; using std::flush;
+
+  using boost::format;
+  using boost::io::group;
+}
+
+namespace MyNS_Manips {
+  using std::setfill;
+  using std::setw;
+  using std::hex ;
+  using std::dec ;
+  using std::showbase ;
+  using std::left ;
+  using std::right ;
+  using std::internal ;
+}
+
+int main(){
+    using namespace MyNS_ForOutput;
+    using namespace MyNS_Manips;
+
+    std::string s;
+
+    //------------------------------------------------------------------------
+    // storing the parsed format-string in a 'formatter' : 
+    // format objects are regular objects that can be copied, assigned, 
+    // fed arguments, dumped to a stream, re-fed arguments, etc... 
+    // So users can use them the way they like.
+
+    format fmter(&quot;%1% %2% %3% %1% \n&quot;);
+    fmter % 10 % 20 % 30; 
+    cout  &lt;&lt; fmter;
+    //          prints  &quot;10 20 30 10 \n&quot;
+    
+    // note that once the fmter got all its arguments, 
+    // the formatted string stays available  (until next call to '%')
+    //    The result is  available via function str() or stream's &lt;&lt; :
+    cout &lt;&lt; fmter; 
+    //          prints the same string again.
+
+
+    // once you call operator% again, arguments are cleared inside the object
+    // and it is an error to ask for the conversion string before feeding all arguments :
+    fmter % 1001;
+    try  { cout &lt;&lt; fmter;   }
+    catch (boost::io::too_few_args&amp; exc) { 
+      cout &lt;&lt;  exc.what() &lt;&lt; &quot;***Dont worry, that was planned\n&quot;;
+    }
+
+    // we just need to feed the last two arguments, and it will be ready for output again :
+    cout &lt;&lt; fmter % 1002 % 1003;
+    //          prints  &quot;1001 1002 1003 1001 \n&quot;
+
+    cout  &lt;&lt; fmter % 10 % 1 % 2;
+    //          prints  &quot;10 1 2 10 \n&quot;
+
+
+
+    //---------------------------------------------------------------
+    // using format objects 
+
+    // modify the formatting options for a given directive :
+    fmter = format(&quot;%1% %2% %3% %2% %1% \n&quot;);
+    fmter.modify_item(4, group(setfill('_'), hex, showbase, setw(5)) );
+    cout &lt;&lt; fmter % 1 % 2 % 3;
+    //          prints  &quot;1 2 3 __0x2 1 \n&quot;
+    
+    // bind one of the argumets :
+    fmter.bind_arg(1, 18);
+    cout &lt;&lt; fmter % group(hex, showbase, 20) % 30;  // %2 is 20, and 20 == 0x14
+    //          prints  &quot;18 0x14 30  _0x14 18 \n&quot;
+    
+    
+    fmter.modify_item(4, setw(0)); // cancels previous width-5
+    fmter.bind_arg(1, 77); // replace 18 with 77 for first argument.
+    cout &lt;&lt; fmter % 10 % 20;
+    //          prints  &quot;77 10 20 0xa 77 \n&quot;
+
+    try  
+    { 
+      cout &lt;&lt; fmter % 6 % 7 % 8;   // Aye ! too many args, because arg1 is bound already
+    }
+    catch (boost::io::too_many_args&amp; exc) 
+    { 
+      cout &lt;&lt;  exc.what() &lt;&lt; &quot;***Dont worry, that was planned\n&quot;;
+    }
+
+    // clear regular arguments, but not bound arguments :
+    fmter.clear();
+    cout &lt;&lt; fmter % 2 % 3;
+    //          prints &quot;77 2 3 0x2 77 \n&quot;
+
+    // clear_binds() clears both regular AND bound arguments :
+    fmter.clear_binds(); 
+    cout &lt;&lt; fmter % 1 % 2 % 3;
+    //          prints  &quot;1 2 3 0x2 1 \n&quot;
+    
+ 
+    // setting desired exceptions :
+    fmter.exceptions( boost::io::all_error_bits ^( boost::io::too_many_args_bit ) );
+    cout &lt;&lt; fmter % 1 % 2 % 3 % 4 % 5 % 6 ;
+
+
+   // -----------------------------------------------------------
+    // misc:
+
+    // unsupported printf directives %n and asterisk-fields are purely ignored.
+    // do *NOT* provide an argument for them, it is an error.
+    cout &lt;&lt; format(&quot;|%5d| %n&quot;) % 7 &lt;&lt; endl;
+    //          prints  &quot;|    7| &quot;
+    cout &lt;&lt; format(&quot;|%*.*d|&quot;)  % 7 &lt;&lt; endl;
+    //          prints &quot;|7|&quot;
+
+
+    // truncations of strings :
+    cout &lt;&lt; format(&quot;%|.2s| %|8c|.\n&quot;) % &quot;root&quot; % &quot;user&quot;;
+    //          prints  &quot;ro        u.\n&quot;
+
+
+    // manipulators conflicting with format-string : manipulators win.
+    cout &lt;&lt; format(&quot;%2s&quot;)  % group(setfill('0'), setw(6), 1) &lt;&lt; endl;
+    //          prints  &quot;000001&quot;
+    cout &lt;&lt; format(&quot;%2$5s %1% %2$3s\n&quot;)  % 1    % group(setfill('X'), setw(4), 2) ;
+    //          prints  &quot;XXX2 1 XXX2\n&quot;  
+    //          width is 4, as set by manip, not the format-string.
+    
+    // nesting :
+    cout &lt;&lt; format(&quot;%2$014x [%1%] %2$05s\n&quot;) % (format(&quot;%05s / %s&quot;) % -18 % 7)
+                                             % group(showbase, -100);
+    //          prints   &quot;0x0000ffffff9c [-0018 / 7] -0100\n&quot;
+
+
+    cout &lt;&lt; &quot;\n\nEverything went OK, exiting. \n&quot;;
+    return 0;
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/format/example/sample_advanced.cpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:45 GMT -->
+</html>

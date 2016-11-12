@@ -1,0 +1,123 @@
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/fill.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:06 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>An Optimised Version of std::fill - 1.54.0</title>
+<link rel="stylesheet" href="http://www.boost.org/doc/libs/1_54_0/doc/src/boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html" title="Chapter&#160;1.&#160;Boost.TypeTraits">
+<link rel="up" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples.html" title="Examples">
+<link rel="prev" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/copy.html" title="An Optimized Version of std::copy">
+<link rel="next" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/destruct.html" title="An Example that Omits Destructor Calls For Types with Trivial Destructors">
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/copy.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/destruct.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="boost_typetraits.examples.fill"></a><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/fill.html" title="An Optimised Version of std::fill">An Optimised Version
+      of std::fill</a>
+</h3></div></div></div>
+<p>
+        Demonstrates a version of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">fill</span></code>
+        that uses <code class="computeroutput"><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/has_trivial_assign.html" title="has_trivial_assign">has_trivial_assign</a></code>
+        to determine whether to use <code class="computeroutput"><span class="identifier">memset</span></code>
+        to optimise the fill operation (see <a href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/examples/fill_example.cpp" target="_top">fill_example.cpp</a>):
+      </p>
+<pre class="programlisting"><span class="comment">//</span>
+<span class="comment">// fill</span>
+<span class="comment">// same as std::fill, but uses memset where appropriate</span>
+<span class="comment">//</span>
+<span class="keyword">namespace</span> <span class="identifier">detail</span><span class="special">{</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">I</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">T</span><span class="special">,</span> <span class="keyword">bool</span> <span class="identifier">b</span><span class="special">&gt;</span>
+<span class="keyword">void</span> <span class="identifier">do_fill</span><span class="special">(</span><span class="identifier">I</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">I</span> <span class="identifier">last</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">T</span><span class="special">&amp;</span> <span class="identifier">val</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">boost</span><span class="special">::</span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">integral_constant</a><span class="special">&lt;</span><span class="keyword">bool</span><span class="special">,</span> <span class="identifier">b</span><span class="special">&gt;&amp;)</span>
+<span class="special">{</span>
+   <span class="keyword">while</span><span class="special">(</span><span class="identifier">first</span> <span class="special">!=</span> <span class="identifier">last</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="special">*</span><span class="identifier">first</span> <span class="special">=</span> <span class="identifier">val</span><span class="special">;</span>
+      <span class="special">++</span><span class="identifier">first</span><span class="special">;</span>
+   <span class="special">}</span>
+<span class="special">}</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">T</span><span class="special">&gt;</span>
+<span class="keyword">void</span> <span class="identifier">do_fill</span><span class="special">(</span><span class="identifier">T</span><span class="special">*</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">T</span><span class="special">*</span> <span class="identifier">last</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">T</span><span class="special">&amp;</span> <span class="identifier">val</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">boost</span><span class="special">::</span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">true_type</a><span class="special">&amp;)</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">memset</span><span class="special">(</span><span class="identifier">first</span><span class="special">,</span> <span class="identifier">val</span><span class="special">,</span> <span class="identifier">last</span><span class="special">-</span><span class="identifier">first</span><span class="special">);</span>
+<span class="special">}</span>
+
+<span class="special">}</span>
+
+<span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">I</span><span class="special">,</span> <span class="keyword">class</span> <span class="identifier">T</span><span class="special">&gt;</span>
+<span class="keyword">inline</span> <span class="keyword">void</span> <span class="identifier">fill</span><span class="special">(</span><span class="identifier">I</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">I</span> <span class="identifier">last</span><span class="special">,</span> <span class="keyword">const</span> <span class="identifier">T</span><span class="special">&amp;</span> <span class="identifier">val</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="comment">//</span>
+   <span class="comment">// We can do an optimised fill if T has a trivial assignment </span>
+   <span class="comment">// operator and if it's size is one:</span>
+   <span class="comment">//</span>
+   <span class="keyword">typedef</span> <span class="identifier">boost</span><span class="special">::</span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/integral_constant.html" title="integral_constant">integral_constant</a><span class="special">&lt;</span><span class="keyword">bool</span><span class="special">,</span>
+      <span class="special">::</span><span class="identifier">boost</span><span class="special">::</span><a class="link" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/reference/has_trivial_assign.html" title="has_trivial_assign">has_trivial_assign</a><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">value</span> <span class="special">&amp;&amp;</span> <span class="special">(</span><span class="keyword">sizeof</span><span class="special">(</span><span class="identifier">T</span><span class="special">)</span> <span class="special">==</span> <span class="number">1</span><span class="special">)&gt;</span> <span class="identifier">truth_type</span><span class="special">;</span>
+   <span class="identifier">detail</span><span class="special">::</span><span class="identifier">do_fill</span><span class="special">(</span><span class="identifier">first</span><span class="special">,</span> <span class="identifier">last</span><span class="special">,</span> <span class="identifier">val</span><span class="special">,</span> <span class="identifier">truth_type</span><span class="special">());</span>
+<span class="special">}</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2000, 2011 Adobe Systems Inc, David Abrahams,
+      Frederic Bron, Steve Cleary, Beman Dawes, Aleksey Gurtovoy, Howard Hinnant,
+      Jesse Jones, Mat Marcus, Itay Maman, John Maddock, Alexander Nasonov, Thorsten
+      Ottosen, Roman Perepelitsa, Robert Ramey, Jeremy Siek, Robert Stewart and Steven
+      Watanabe<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/copy.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/index.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="http://www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/destruct.html"><img src="http://www.boost.org/doc/libs/1_54_0/doc/src/images/next.png" alt="Next"></a>
+</div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/type_traits/doc/html/boost_typetraits/examples/fill.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:12:06 GMT -->
+</html>

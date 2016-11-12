@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/format_implementation.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:40 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/format/format_implementation.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="../../../../../style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="../../../../../gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/format/format_implementation.hpp</h3>
+<pre>
+// ----------------------------------------------------------------------------
+// format_implementation.hpp  Implementation of the basic_format class
+// ----------------------------------------------------------------------------
+
+//  Copyright Samuel Krempp 2003. Use, modification, and distribution are
+//  subject to the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See <a href="http://www.boost.org/libs/format">http://www.boost.org/libs/format</a> for library home page
+
+
+// ----------------------------------------------------------------------------
+
+#ifndef BOOST_FORMAT_IMPLEMENTATION_HPP
+#define BOOST_FORMAT_IMPLEMENTATION_HPP
+
+#include &lt;<a href="../config.html">boost/config.hpp</a>&gt;
+#include &lt;<a href="../throw_exception.html">boost/throw_exception.hpp</a>&gt;
+#include &lt;<a href="../assert.html">boost/assert.hpp</a>&gt;
+#include &lt;<a href="format_class.html">boost/format/format_class.hpp</a>&gt;
+#include &lt;algorithm&gt; // std::swap
+
+namespace boost {
+
+// ---  basic_format implementation -----------------------------------------//
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch, Tr, Alloc&gt;:: basic_format(const Ch* s)
+        : style_(0), cur_arg_(0), num_args_(0), dumped_(false),
+          exceptions_(io::all_error_bits)
+    {
+        if( s)
+            parse( s );
+    }
+
+#if !defined(BOOST_NO_STD_LOCALE)
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch, Tr, Alloc&gt;:: basic_format(const Ch* s, const std::locale &amp; loc)
+        : style_(0), cur_arg_(0), num_args_(0), dumped_(false),
+          exceptions_(io::all_error_bits), loc_(loc)
+    {
+        if(s) parse( s );
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch, Tr, Alloc&gt;:: basic_format(const string_type&amp; s, const std::locale &amp; loc)
+        : style_(0), cur_arg_(0), num_args_(0), dumped_(false),
+          exceptions_(io::all_error_bits), loc_(loc)
+    {
+        parse(s);  
+    }
+#endif // ! BOOST_NO_STD_LOCALE
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    io::detail::locale_t basic_format&lt;Ch, Tr, Alloc&gt;:: 
+    getloc() const {
+        return loc_ ? loc_.get() : io::detail::locale_t(); 
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch, Tr, Alloc&gt;:: basic_format(const string_type&amp; s)
+        : style_(0), cur_arg_(0), num_args_(0), dumped_(false),
+          exceptions_(io::all_error_bits)
+    {
+        parse(s);  
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt; // just don't copy the buf_ member
+    basic_format&lt;Ch, Tr, Alloc&gt;:: basic_format(const basic_format&amp; x)
+        : items_(x.items_), bound_(x.bound_), style_(x.style_),
+          cur_arg_(x.cur_arg_), num_args_(x.num_args_), dumped_(x.dumped_),
+          prefix_(x.prefix_), exceptions_(x.exceptions_), loc_(x.loc_)
+    {
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;  // just don't copy the buf_ member
+    basic_format&lt;Ch, Tr, Alloc&gt;&amp; basic_format&lt;Ch, Tr, Alloc&gt;:: 
+    operator= (const basic_format&amp; x) {
+        if(this == &amp;x)
+            return *this;
+        (basic_format&lt;Ch, Tr, Alloc&gt;(x)).swap(*this);
+        return *this;
+    }
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    void  basic_format&lt;Ch, Tr, Alloc&gt;:: 
+    swap (basic_format &amp; x) {
+        std::swap(exceptions_, x.exceptions_);
+        std::swap(style_, x.style_); 
+        std::swap(cur_arg_, x.cur_arg_); 
+        std::swap(num_args_, x.num_args_);
+        std::swap(dumped_, x.dumped_);
+
+        items_.swap(x.items_);
+        prefix_.swap(x.prefix_);
+        bound_.swap(x.bound_);
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    unsigned char basic_format&lt;Ch,Tr, Alloc&gt;:: exceptions() const {
+        return exceptions_; 
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    unsigned char basic_format&lt;Ch,Tr, Alloc&gt;:: exceptions(unsigned char newexcept) { 
+        unsigned char swp = exceptions_; 
+        exceptions_ = newexcept; 
+        return swp; 
+    }
+
+    template&lt;class Ch, class Tr, class Alloc&gt;
+    void basic_format&lt;Ch, Tr, Alloc&gt;:: 
+    make_or_reuse_data (std::size_t nbitems) {
+#if !defined(BOOST_NO_STD_LOCALE)
+        Ch fill = ( BOOST_USE_FACET(std::ctype&lt;Ch&gt;, getloc()) ). widen(' ');
+#else
+        Ch fill = ' ';
+#endif
+        if(items_.size() == 0)
+            items_.assign( nbitems, format_item_t(fill) );
+        else {
+            if(nbitems&gt;items_.size())
+                items_.resize(nbitems, format_item_t(fill));
+            bound_.resize(0);
+            for(std::size_t i=0; i &lt; nbitems; ++i)
+                items_[i].reset(fill); //  strings are resized, instead of reallocated
+        }
+        prefix_.resize(0);
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch,Tr, Alloc&gt;&amp; basic_format&lt;Ch,Tr, Alloc&gt;:: 
+    clear () {
+        // empty the string buffers (except bound arguments)
+        // and make the format object ready for formatting a new set of arguments
+
+        BOOST_ASSERT( bound_.size()==0 || num_args_ == static_cast&lt;int&gt;(bound_.size()) );
+
+        for(unsigned long i=0; i&lt;items_.size(); ++i) {
+            // clear converted strings only if the corresponding argument is not  bound :
+            if( bound_.size()==0 || items_[i].argN_&lt;0 || !bound_[ items_[i].argN_ ] )
+                items_[i].res_.resize(0);
+        }
+        cur_arg_=0; dumped_=false;
+        // maybe first arg is bound:
+        if(bound_.size() != 0) {
+            for(; cur_arg_ &lt; num_args_ &amp;&amp; bound_[cur_arg_]; ++cur_arg_)
+                {}
+        }
+        return *this;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch,Tr, Alloc&gt;&amp; basic_format&lt;Ch,Tr, Alloc&gt;:: 
+    clear_binds () {
+        // remove all binds, then clear()
+        bound_.resize(0);
+        clear();
+        return *this;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    basic_format&lt;Ch,Tr, Alloc&gt;&amp; basic_format&lt;Ch,Tr, Alloc&gt;:: 
+    clear_bind (int argN) {
+        // remove the bind of ONE argument then clear()
+        if(argN&lt;1 || argN &gt; num_args_ || bound_.size()==0 || !bound_[argN-1] ) {
+            if( exceptions() &amp; io::out_of_range_bit)
+                boost::throw_exception(io::out_of_range(argN, 1, num_args_+1 ) ); 
+            else return *this;
+        }
+        bound_[argN-1]=false;
+        clear();
+        return *this;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    int basic_format&lt;Ch,Tr, Alloc&gt;::
+    bound_args() const {
+        if(bound_.size()==0)
+            return 0;
+        int n=0;
+        for(int i=0; i&lt;num_args_ ; ++i)
+            if(bound_[i])
+                ++n;
+        return n;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    int basic_format&lt;Ch,Tr, Alloc&gt;::
+    fed_args() const {
+        if(bound_.size()==0)
+            return cur_arg_;
+        int n=0;
+        for(int i=0; i&lt;cur_arg_ ; ++i)
+            if(!bound_[i])
+                ++n;
+        return n;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    int basic_format&lt;Ch,Tr, Alloc&gt;::
+    cur_arg() const {
+      return cur_arg_+1; }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    int basic_format&lt;Ch,Tr, Alloc&gt;::
+    remaining_args() const {
+        if(bound_.size()==0)
+            return num_args_-cur_arg_;
+        int n=0;
+        for(int i=cur_arg_; i&lt;num_args_ ; ++i)
+            if(!bound_[i])
+                ++n;
+        return n;
+    }
+
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    typename basic_format&lt;Ch, Tr, Alloc&gt;::string_type 
+    basic_format&lt;Ch,Tr, Alloc&gt;:: 
+    str () const {
+        if(items_.size()==0)
+            return prefix_;
+        if( cur_arg_ &lt; num_args_)
+            if( exceptions() &amp; io::too_few_args_bit )
+                // not enough variables supplied
+                boost::throw_exception(io::too_few_args(cur_arg_, num_args_)); 
+
+        unsigned long i;
+        string_type res;
+        res.reserve(size());
+        res += prefix_;
+        for(i=0; i &lt; items_.size(); ++i) {
+            const format_item_t&amp; item = items_[i];
+            res += item.res_;
+            if( item.argN_ == format_item_t::argN_tabulation) { 
+                BOOST_ASSERT( item.pad_scheme_ &amp; format_item_t::tabulation);
+                if( static_cast&lt;size_type&gt;(item.fmtstate_.width_) &gt; res.size() )
+                    res.append( static_cast&lt;size_type&gt;(item.fmtstate_.width_) - res.size(),
+                                        item.fmtstate_.fill_ );
+            }
+            res += item.appendix_;
+        }
+        dumped_=true;
+        return res;
+    }
+    template&lt; class Ch, class Tr, class Alloc&gt;
+    typename std::basic_string&lt;Ch, Tr, Alloc&gt;::size_type  basic_format&lt;Ch,Tr, Alloc&gt;:: 
+    size () const {
+#ifdef BOOST_MSVC
+       // If std::min&lt;unsigned&gt; or std::max&lt;unsigned&gt; are already instantiated
+       // at this point then we get a blizzard of warning messages when we call
+       // those templates with std::size_t as arguments.  Weird and very annoyning...
+#pragma warning(push)
+#pragma warning(disable:4267)
+#endif
+        BOOST_USING_STD_MAX();
+        size_type sz = prefix_.size();
+        unsigned long i;
+        for(i=0; i &lt; items_.size(); ++i) {
+            const format_item_t&amp; item = items_[i];
+            sz += item.res_.size();
+            if( item.argN_ == format_item_t::argN_tabulation)
+                sz = max BOOST_PREVENT_MACRO_SUBSTITUTION (sz,
+                                        static_cast&lt;size_type&gt;(item.fmtstate_.width_) );
+            sz += item.appendix_.size();
+        }
+        return sz;
+#ifdef BOOST_MSVC
+#pragma warning(pop)
+#endif
+    }
+
+namespace io {
+namespace detail {
+
+    template&lt;class Ch, class Tr, class Alloc, class T&gt; 
+    basic_format&lt;Ch, Tr, Alloc&gt;&amp;  
+    bind_arg_body (basic_format&lt;Ch, Tr, Alloc&gt;&amp; self, int argN, const T&amp; val) {
+        // bind one argument to a fixed value
+        // this is persistent over clear() calls, thus also over str() and &lt;&lt;
+        if(self.dumped_) 
+            self.clear(); // needed because we will modify cur_arg_
+        if(argN&lt;1 || argN &gt; self.num_args_) {
+            if( self.exceptions() &amp; io::out_of_range_bit )
+                boost::throw_exception(io::out_of_range(argN, 1, self.num_args_+1 ) );
+            else return self;
+        }
+        if(self.bound_.size()==0) 
+            self.bound_.assign(self.num_args_,false);
+        else 
+            BOOST_ASSERT( self.num_args_ == static_cast&lt;signed int&gt;(self.bound_.size()) );
+        int o_cur_arg = self.cur_arg_;
+        self.cur_arg_ = argN-1; // arrays begin at 0
+
+        self.bound_[self.cur_arg_]=false; // if already set, we unset and re-sets..
+        self.operator%(val); // put val at the right place, because cur_arg is set
+    
+
+        // Now re-position cur_arg before leaving :
+        self.cur_arg_ = o_cur_arg; 
+        self.bound_[argN-1]=true;
+        if(self.cur_arg_ == argN-1 ) {
+            // hum, now this arg is bound, so move to next free arg
+            while(self.cur_arg_ &lt; self.num_args_ &amp;&amp; self.bound_[self.cur_arg_])   
+                ++self.cur_arg_;
+        }
+        // In any case, we either have all args, or are on an unbound arg :
+        BOOST_ASSERT( self.cur_arg_ &gt;= self.num_args_ || ! self.bound_[self.cur_arg_]);
+        return self;
+    }
+
+    template&lt;class Ch, class Tr, class Alloc, class T&gt; basic_format&lt;Ch, Tr, Alloc&gt;&amp;
+    modify_item_body (basic_format&lt;Ch, Tr, Alloc&gt;&amp; self, int itemN, T manipulator) {
+        // applies a manipulator to the format_item describing a given directive.
+        // this is a permanent change, clear or reset won't cancel that.
+        if(itemN&lt;1 || itemN &gt; static_cast&lt;signed int&gt;(self.items_.size() )) {
+            if( self.exceptions() &amp; io::out_of_range_bit ) 
+                boost::throw_exception(io::out_of_range(itemN, 1, static_cast&lt;int&gt;(self.items_.size()) ));
+            else return self;
+        }
+        self.items_[itemN-1].fmtstate_. template apply_manip&lt;T&gt; ( manipulator );
+        return self;
+    }
+
+} // namespace detail
+} // namespace io
+} // namespace boost
+
+
+
+#endif  // BOOST_FORMAT_IMPLEMENTATION_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/format/format_implementation.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 17:56:42 GMT -->
+</html>

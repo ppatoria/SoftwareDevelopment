@@ -1,0 +1,102 @@
+* Design Document for ECClient (Exchange Connectivity Client) library.
+
+* ECClient Modules
+  - GSClient : For Mercury Connectivity through GS
+  - LoadBalancer  
+  - FaultTolerance
+  - Recovery 
+  
+* Configuration      
+  _Status_
+    - NotifyOn {All, ....}  
+  _Connection_
+    - Heartbeat {Yes/No} Client can also disable HB 
+     - GSHBTimeout
+     - PermissibleHBMiss 
+    - ConnectionTimeout  
+    - ConnectPolicy
+      - ConnectAll
+      - ConnectMin
+      - ConnectAnyOne
+        - NumberOfServers  
+  _ReconnectPolicy_
+    - ReconnectTimeout
+    - NumberOfReconnects
+    - ReconnectDelay
+     
+  _LoadBalancing_
+    - DistributionPolicy --> enum { RoundRobin, FirstDiscovered, All }
+  _Interest and Capabilities_ 
+    - Interest
+    - Capabilities        
+  _Recovery_ { Yes/No }
+    - RecoveryPolicy enum {Auto, Manual}
+      * Auto: EXClient will persist the last recovery points and recover when application comes up after a crash.
+      * Manual: Client will persist and provide the recovery points. (Scenario : Some (slow) clients do not process the message immediately they buffer it. 
+	                                                                          In this case if application goes down and ECClient will recover from the last recovery point then 
+	                                                                          client will miss the messages which are not processed(only buffered). 
+ 
+* ECClient Interface
+  - Connect (clinetid, service capabilities, interests, Status)      
+  - UpdateInterest
+  - UpdateStatus(Status) /* Status will also contain SLAStatus*/  
+  - Close   () 
+  - Callbacks
+    - OnConnectedStatusChanged (Status, array of ServicesInfo) --> [Status: {Connected, Disconnected, Reconnected...}   [Status ServiceInfo will contain address topic and other service specific information] 
+    - OnDisconnected (array of Services)
+    - OnMessage (IMessage) --> Need to discuss on the Generic IMessage
+    - OnRecoveryStatus (RecoveryState, reference of RecoveryPoints ) enum {Begin, Running, End) // On Init client can set the recovery points      
+    - OnStausChanged (Status)
+  - Send  
+
+* LoadBalancer Interface
+  - SendRoundRobin (IMessage)
+  - SendAll (IMessage)
+  - Send (IMessage)
+
+
+  
+* Test Cases
+** Test cases for Product Line and ECClient library Interaction.
+
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+| Case# | Title                                                  | Summary                                                                                | Steps                                                                      | Test Data | Expected Result | Post-condition | Actual Result | Status | Notes |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     1 | Connect to the nearest GS                              |                                                                                        | (1) Check if GS is running locally. Connect to Local GS                    |           |                 |                |               |        |       |
+|       |                                                        |                                                                                        | (2) Call Resolve. If multiple GS are returned,  connect to the nearest GS. |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     2 | GS goes down and ownership is transfered to another GS |                                                                                        | (1) Notify reconnect status to client                                      |           |                 |                |               |        |       |
+|       |                                                        |                                                                                        | (2) On reconnection/ownership transfer. Perform recovery.                  |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     3 | GS goes down (HB missed)                               | n number of HB from GS are missed. where n is provided by client and its configurable. | Refer Test Case 2.                                                         |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     4 | GS does down and reconnect timeout occurs              | At this time Disconnection is already notified to client.                              | (1) Notify Reconnection to client.                                         |           |                 |                |               |        |       |
+|       |                                                        |                                                                                        | (1) Call resolve and register again.                                       |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     5 | GS Registration failed                                 |                                                                                        |                                                                            |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+|     6 | Client updates the interests                           |                                                                                        |                                                                            |           |                 |                |               |        |       |
+|-------+--------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------+-----------+-----------------+----------------+---------------+--------+-------|
+
+** Test cases for MCClient and Guardian Service Interaction.
+|------------+------------+--------------+------------+-----------+-----------------+----------------+---------------+--------+-------|
+| Test Case# | Test Title | Test Summary | Test Steps | Test Data | Expected Result | Post-condition | Actual Result | Status | Notes |
+|------------+------------+--------------+------------+-----------+-----------------+----------------+---------------+--------+-------|
+|          1 |            |              |            |           |                 |                |               |        |       |
+
+
+* Questions to Mercury team.
+** Do we receive HB from mercury ?
+** How can we do recovery via GS ?
+*** In case if ownership is transfered do we have to do recovery ?
+** What are command requests ? Does it include recovery ?
+** There are two status SLAStatus and Status . What is the difference between them. 
+** What is Read/Reapply/Update statuses ? What are the differences ?
+** What is the difference between command and status ? Both seems to be same ?
+** When is DiscoverService Called ? When we already connected to cloud what the purpose?
+** At what step I will be connected to orderhandler or any other service ?
+
+* Discussion
+** Client also need to update status specific to business functionality. Like few functionality is disables/not available etc.
+
+

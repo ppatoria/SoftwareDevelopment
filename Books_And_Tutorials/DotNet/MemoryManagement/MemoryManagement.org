@@ -1,0 +1,148 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Memory Management in C#
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil	
+
+[TABLE-OF-CONTENTS]
+
+* What Causes Finalize Methods to Be Called?
+
+Finalize methods are called at the completion of a garbage collection, which is started by
+one of the following five events:
+
+** Generation 0 is full. 
+When generation 0 is full, a garbage collection starts. This event is
+by far the most common way for Finalize methods to be called because
+it occurs naturally as the application code runs, allocating new objects.
+
+** Code explicitly calls System.GC’s static Collect method. 
+Code can explicitly request that the CLR perform a
+collection. Although Microsoft strongly discourages such requests, at
+times it might make sense for an application to force a collection.
+
+** Windows is reporting low memory conditions. 
+The CLR internally uses the Win32 CreateMemoryResourceNotification and
+QueryMemoryResourceNotification functions to monitor system memory
+overall. If Windows reports low memory, the CLR will force a garbage
+collection in an effort to free up dead objects to reduce the size of a process’s working set.
+
+** The CLR is unloading an AppDomain. 
+When an AppDomain unloads, the CLR considers nothing in the AppDomain
+to be a root, and a garbage collection consisting of all generations
+is performed. I’ll discuss AppDomains in Chapter 22, “CLR
+Hosting and AppDomains.”
+
+** The CLR is shutting down. 
+The CLR shuts down when a process terminates normally (as opposed to
+an external shutdown via Task Manager, for example). During this
+shutdown, the CLR considers nothing in the process to be a root and
+calls the Finalize method for all objects in the managed heap. Note
+that the CLR does not attempt to compact or free memory here because
+the whole process is terminating, and Windows will reclaim all of the
+processes’ memory.
+
+
+
+* Garbage Collection.
+
+[[gc1.jpg]]
+
+*Figure 1 Managed Heap*
+
+*Figure 1* shows a managed heap consisting of three objects: A, B, and C. The next object to be allocated will be placed where NextObjPtr points (immediately after object C).
+When a process is initialized, the runtime reserves a contiguous region of address space that initially has no storage allocated for it. This address space region is the managed heap. The heap also maintains a pointer, which I'll call the NextObjPtr. This pointer indicates where the next object is to be allocated within the heap. Initially, the NextObjPtr is set to the base address of the reserved address space region.
+An application creates an object using the new operator. This operator first makes sure that the bytes required by the new object fit in the reserved region (committing storage if necessary). If the object fits, then NextObjPtr points to the object in the heap, this object's constructor is called, and the new operator returns the address of the object. 
+
+At this point, NextObjPtr is incremented past the object so that it points to where the next object will be placed in the heap. Figure 1 shows a managed heap consisting of three objects: A, B, and C. The next object to be allocated will be placed where NextObjPtr points (immediately after object C).
+
+[[gc2.jpg]]
+
+*Figure 2 Allocated Objects in Heap*
+
+*Figure 2* shows a heap with several allocated objects where the application's roots refer directly to objects A, C, D, and F. All of these objects become part of the graph. When adding object D, the collector notices that this object refers to object H, and object H is also added to the graph. The collector continues to walk through all reachable objects recursively. 
+
+*Roots* \\
+Every application has a set of roots. Roots identify storage locations, which refer to objects on the managed heap or to objects that are set to null. 
+For example, all the global and static object pointers in an application are considered part of the application's roots. 
+In addition, any local variable/parameter object pointers on a thread's stack are considered part of the application's roots. 
+Finally, any CPU registers containing pointers to objects in the managed heap are also considered part of the application's roots. 
+The list of active roots is maintained by the just-in-time (JIT) compiler and common language runtime, and is made accessible to the garbage collector's algorithm.
+
+[[gc3.jpg]]
+
+*Figure 3 Managed Heap after Collection*
+
+After all the garbage has been identified, all the non-garbage has been compacted, and all the non-garbage pointers have been fixed-up, the NextObjPtr is positioned just after the last non-garbage object. At this point, the new operation is tried again and the resource requested by the application is successfully created.
+
+
+** Finalization
+[[gc4.jpg]]
+
+*Figure 4 A Heap with Many Objects* 
+
+*Figure 4* shows a heap containing several objects. Some of these objects are reachable from the application's roots, and some are not. When objects C, E, F, I, and J were created, the system detected that these objects had Finalize methods and pointers to these objects were added to the finalization queue. 
+
+
+[[gc5.jpg]]
+
+*Figure 5 Managed Heap after Garbage Collection*
+
+After the collection, the managed heap looks like **Figure 5**. Here, you see that the memory occupied by objects B, G, and H has been reclaimed because these objects did not have a Finalize method that needed to be called. However, the memory occupied by objects E, I, and J could not be reclaimed because their Finalize method has not been called yet. 
+
+[[gc6.jpg]]
+
+*Figure 6 Managed Heap after Second Garbage Collection*
+
+**Figure 6** shows what the managed heap looks like after the second GC. 
+
+
+** Generations
+
+A generational garbage collector (also known as an ephemeral garbage collector) makes the following assumptions:
+ - The newer an object is, the shorter its lifetime will be.
+ - The older an object is, the longer its lifetime will be.
+ - Newer objects tend to have strong relationships to each other and are frequently accessed around the same time.
+ - Compacting a portion of the heap is faster than compacting the whole heap.
+
+When initialized, the managed heap contains no objects. Objects added to the heap are said to be in generation 0, as you can see in **Figure 2**. Stated simply, objects in generation 0 are young objects that have never been examined by the garbage collector.
+
+[[gc7.jpg]]
+
+*Figure 2 Generation 0*
+
+Now, if more objects are added to the heap, the heap fills and a garbage collection must occur. When the garbage collector analyzes the heap, it builds the graph of garbage (shown here in purple) and non-garbage objects. Any objects that survive the collection are compacted into the left-most portion of the heap. These objects have survived a collection, are older, and are now considered to be in generation 1 (see **Figure 3**).
+
+[[gc8.jpg]]
+
+*Figure 3 Generations 0 and 1*
+
+      As even more objects are added to the heap, these new, young objects are placed in generation 0. If generation 0 fills again, a GC is performed. This time, all objects in generation 1 that survive are compacted and considered to be in generation 2 (see **Figure 4**). All survivors in generation 0 are now compacted and considered to be in generation 1. Generation 0 currently contains no objects, but all new objects will go into generation 0.
+
+
+[[gc9.jpg]]
+
+*Figure 4 Generations 0, 1, and 2*
+
+Currently, generation 2 is the highest generation supported by the runtime's garbage collector. When future collections occur, any surviving objects currently in generation 2 simply stay in generation 2. 
+

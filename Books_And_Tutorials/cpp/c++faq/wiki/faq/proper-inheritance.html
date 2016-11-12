@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/proper-inheritance by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="c30d893a8f18308c43991b5b7082414fabd64abb" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="d7327216c5aeeb2fee531625a6d0b0840f35066c" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="4318da2a2e0d93964ae37c5de2e2edc7b9441d8a" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        proper inheritance
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="proper-inheritance.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    proper inheritance
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=proper%20inheritance" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="proper-inheritance">Inheritance &#8212; Proper Inheritance and Substitutability</h2>
+
+<h3 id="hiding-inherited-public">Should I hide member functions that were public in my base class?</h3>
+
+<p>Never, never, never do this. Never. <em>Never!</em></p>
+
+<p>Attempting to hide (eliminate, revoke, privatize) inherited <code>public</code> member functions is an all-too-common design
+error. It usually stems from muddy thinking.</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<h3 id="derivedptrptr-to-baseptrptr">Converting <code>Derived*</code> → <code>Base*</code> works okay; why doesn&#8217;t <code>Derived**</code> → <code>Base**</code> work?</h3>
+
+<p>Because converting <code>Derived**</code> → <code>Base**</code> would be invalid and dangerous.</p>
+
+<p>C++ allows the conversion <code>Derived*</code> → <code>Base*</code>, since a <code>Derived</code> object is a kind of a <code>Base</code> object. However trying
+to convert <code>Derived**</code> → <code>Base**</code> is flagged as an error. Although this error may not be obvious, it is nonetheless a
+good thing. For example, if you could convert <code>Car**</code> → <code>Vehicle**</code>, and if you could similarly convert
+<code>NuclearSubmarine**</code> → <code>Vehicle**</code>, you could assign those two pointers and end up making a <code>Car*</code> point at a
+<code>NuclearSubmarine</code>:</p>
+
+<pre><code>class Vehicle {
+public:
+  virtual ~Vehicle() { }
+  virtual void startEngine() = 0;
+};
+
+class Car : public Vehicle {
+public:
+  virtual void startEngine();
+  virtual void openGasCap();
+};
+
+class NuclearSubmarine : public Vehicle {
+public:
+  virtual void startEngine();
+  virtual void fireNuclearMissle();
+};
+
+int main()
+{
+  Car   car;
+  Car*  carPtr = &amp;car;
+  Car** carPtrPtr = &amp;carPtr;
+  Vehicle** vehiclePtrPtr = carPtrPtr;  // This is an error in C++
+  NuclearSubmarine  sub;
+  NuclearSubmarine* subPtr = &amp;sub;
+  *vehiclePtrPtr = subPtr;
+  // This last line would have caused carPtr to point to sub !
+  carPtr-&gt;openGasCap();  // This might call fireNuclearMissle()!
+  // ...
+}
+</code></pre>
+
+<p>In other words, if it were legal to convert <code>Derived**</code> → <code>Base**</code>, the <code>Base**</code> could be dereferenced (yielding a
+<code>Base*</code>), and the <code>Base*</code> could be made to point to an object of a <em>different</em> derived class, which could cause serious
+problems for national security (who knows what would happen if you invoked the <code>openGasCap()</code> member function on what
+you thought was a <code>Car</code>, but in reality it was a <code>NuclearSubmarine</code>!!). Try the above code out and see what it does &#8212;
+on most compilers it will call <code>NuclearSubmarine::fireNuclearMissle()</code>!</p>
+
+<p>(BTW you&#8217;ll need to use a pointer cast to get it to compile. Suggestion: try to compile it without a pointer cast to
+see what the compiler does. If you&#8217;re really quiet when the error message appears on the screen, you should be able to
+hear the muffled voice of your compiler pleading with you, &#8220;Please don&#8217;t use a pointer cast! Pointer casts prevent me
+from telling you about errors in your code, but they don&#8217;t make your errors go away! Pointer casts are
+<a href="coding-standards.html#pointer-casts" title="FAQ: Why do people worry so much about pointer casts and/or reference casts?">evil</a>!&#8221; At least that&#8217;s what my compiler says.)</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<p>(Note: there is a conceptual similarity between this and <a href="const-correctness.html#constptrptr-conversion" title="FAQ: Why am I getting an error converting a Foo** → const Foo**?">the prohibition against converting <code>Foo**</code> to
+<code>const Foo**</code></a>.)</p>
+
+<h3 id="parkinglot-of-car-vs-vehicle">Is a parking-lot-of-<code>Car</code> a kind-of parking-lot-of-<code>Vehicle</code>?</h3>
+
+<p>Nope.</p>
+
+<p>I know it sounds strange, but it&#8217;s true. You can think of this as a direct consequence of <a href="proper-inheritance.html#derivedptrptr-to-baseptrptr" title="FAQ: Converting Derived* → Base* works okay; why doesn't Derived** → Base** work?">the previous
+FAQ</a>, or you can reason it this way: if the kind-of relationship were valid, then someone
+could point a parking-lot-of-<code>Vehicle</code> pointer at a parking-lot-of-<code>Car</code>, which would allow someone to add <em>any</em>
+kind of <code>Vehicle</code> to a parking-lot-of-<code>Car</code> (assuming parking-lot-of-<code>Vehicle</code> has a member function like
+<code>add(Vehicle&amp;)</code>). In other words, you could park a <code>Bicycle</code>, <code>SpaceShuttle</code>, or even a <code>NuclearSubmarine</code> in a
+parking-lot-of-<code>Car</code>. Certainly it would be surprising if someone accessed what they thought was a <code>Car</code> from the
+parking-lot-of-<code>Car</code>, only to find that it is actually a <code>NuclearSubmarine</code>. Gee, I wonder what the <code>openGasCap()</code>
+method would do??</p>
+
+<p>Perhaps this will help: a container of <code>Thing</code> is <em>not</em> a kind-of container of <code>Anything</code> even if a <code>Thing</code> is a
+kind-of an <code>Anything</code>. Swallow hard; it&#8217;s true.</p>
+
+<p>You don&#8217;t have to like it. But you do have to accept it.</p>
+
+<p>One last example which we use in our OO/C++ training courses: &#8220;A <code>Bag</code>-of-<code>Apple</code> is <em>not</em> a kind-of
+<code>Bag</code>-of-<code>Fruit</code>.&#8221; If a <code>Bag</code>-of-<code>Apple</code> <em>could</em> be passed as a <code>Bag</code>-of-<code>Fruit</code>, someone could put a <code>Banana</code>
+into the <code>Bag</code>, even though it is supposed to only contain <code>Apple</code>s!</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<h3 id="array-derived-vs-base">Is an array of <code>Derived</code> a kind-of array of <code>Base</code>?</h3>
+
+<p>Nope.</p>
+
+<p>This is a corollary of the previous FAQ. Unfortunately this one can get you into a <em>lot</em> of hot water. Consider this:</p>
+
+<pre><code>class Base {
+public:
+  virtual void f();             // 1
+};
+
+class Derived : public Base {
+public:
+  // ...
+private:
+  int i_;                       // 2
+};
+
+void userCode(Base* arrayOfBase)
+{
+  arrayOfBase[1].f();           // 3
+}
+
+int main()
+{
+  Derived arrayOfDerived[10];   // 4
+  userCode(arrayOfDerived);     // 5
+  // ...
+}
+</code></pre>
+
+<p>The compiler thinks this is perfectly type-safe. Line 5 converts a <code>Derived*</code> to a <code>Base*</code>. But in reality it is
+horrendously evil: since <code>Derived</code> is larger than <code>Base</code>, the pointer arithmetic done on line 3 is incorrect: the
+compiler uses <code>sizeof(Base)</code> when computing the address for <code>arrayOfBase[1]</code>, yet the array is an array of <code>Derived</code>,
+which means the address computed on line 3 (and the subsequent invocation of member function <code>f()</code>) isn&#8217;t even at the
+beginning of any object! It&#8217;s smack in the middle of a <code>Derived</code> object. Assuming your compiler uses the usual approach
+to <a href="virtual-functions.html" title="Section: Inheritance — virtual functions"><code>virtual</code></a> functions, this will reinterpret the <code>int i_</code> of the first <code>Derived</code> as if it pointed
+to a virtual table, it will follow that &#8220;pointer&#8221; (which at this point means we&#8217;re digging stuff out of a random memory
+location), and grab one of the first few words of memory at that location and interpret them as if they were the address
+of a C++ member function, then load that (random memory location) into the instruction pointer and begin grabbing
+machine instructions from that memory location. The chances of this crashing are very high.</p>
+
+<p>The root problem is that C++ can&#8217;t distinguish between a pointer-to-a-thing and a
+pointer-to-an-array-of-things. Naturally C++ &#8220;inherited&#8221; this feature from C.</p>
+
+<p>NOTE: If we had used an array class (e.g., <code>std::array&lt;Derived, 10&gt;</code> from <a href="class-libraries.html#stl" title="FAQ: What is the 'STL'?">the standard library</a>) instead of using a raw array, this problem would have been properly trapped as an error at compile time rather than a run-time disaster.</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are different.)</p>
+
+<h3 id="arrays-are-covariant">Does array-of-<code>Derived</code> is-<em>not</em>-a-kind-of array-of-<code>Base</code> mean arrays are bad?</h3>
+
+<p>Yes, <a href="containers.html#arrays-are-evil" title="FAQ: Why should I use container classes rather than simple arrays?">arrays are evil</a>. (only half kidding).</p>
+
+<p>Seriously, arrays are very closely related to pointers, and pointers are notoriously difficult to deal with. But if you have a complete grasp of why the above few FAQs were a problem from a design perspective (e.g., if you really know why a container of <code>Thing</code> is not a kind-of container of <code>Anything</code>), and if you think everyone else who will be maintaining your code also has a full grasp on these OO design truths, then you should feel free to use arrays. But if you&#8217;re like most people, you should use a template container class such as <code>std::array&lt;T, N&gt;</code> from <a href="class-libraries.html#stl" title="FAQ: What is the 'STL'?">the standard library</a> rather than fixed size raw arrays.</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are different.)</p>
+
+<h3 id="circle-ellipse">Is a <code>Circle</code> a kind-of an <code>Ellipse</code>?</h3>
+
+<p>Depends. But not if <code>Ellipse</code> guarantees it can change its size asymmetrically.</p>
+
+<p>For example, if <code>Ellipse</code> has a <code>setSize(x,y)</code> member function that promises the object&#8217;s <code>width()</code> will be <code>x</code> and its <code>height()</code> will be <code>y</code>, <code>Circle</code> can&#8217;t be a kind-of <code>Ellipse</code>. Simply put, if <code>Ellipse</code> can do something <code>Circle</code> can&#8217;t, then <code>Circle</code> can&#8217;t be a kind of <code>Ellipse</code>.</p>
+
+<p>This leaves two valid relationships between <code>Circle</code> and <code>Ellipse</code>:</p>
+
+<ul>
+<li>Make <code>Circle</code> and <code>Ellipse</code> completely unrelated classes</li>
+<li>Derive <code>Circle</code> and <code>Ellipse</code> from a base class representing &#8220;Ellipses that can&#8217;t <em>necessarily</em> perform an unequal-<code>setSize()</code> operation&#8221;</li>
+</ul>
+
+<p>In the first case, Ellipse could be derived from <code>class</code> <code>AsymmetricShape</code>, and <code>setSize(x,y)</code> could be introduced in <code>AsymmetricShape</code>. However <code>Circle</code> could be derived from <code>SymmetricShape</code> which has a <code>setSize(size)</code> member function.</p>
+
+<p>In the second case, <code>class</code> <code>Oval</code> could only have <code>setSize(size)</code> which sets both the <code>width()</code> and the <code>height()</code> to <code>size</code>. <code>Ellipse</code> and <code>Circle</code> could both inherit from <code>Oval</code>. <code>Ellipse</code> &#8212;but not <code>Circle</code>&#8212; could add the <code>setSize(x,y)</code> operation (but beware of the <a href="strange-inheritance.html#hiding-rule" title="FAQ: What's the meaning of, Warning: Derived::f(char) hides Base::f(double)?">hiding rule</a> if the same member function name <code>setSize()</code> is used for both operations).</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are different.)</p>
+
+<p>(Note: <code>setSize(x,y)</code> isn&#8217;t sacred. Depending on your goals, it may be okay to prevent users from changing the dimensions of an <code>Ellipse</code>, in which case it would be a valid design choice to not have a <code>setSize(x,y)</code> method in <code>Ellipse</code>. However this series of FAQs discusses what to do when you want to create a derived class of a <em>pre-existing</em> base class that has an &#8220;unacceptable&#8221; method in it. Of course the ideal situation is to discover this problem when the
+base class doesn&#8217;t yet exist. But life isn&#8217;t always ideal&#8230;)</p>
+
+<h3 id="circle-ellipse-options">Are there other options to the &#8220;<code>Circle</code> is/isnot kind-of <code>Ellipse</code>&#8221; dilemma?</h3>
+
+<p>If you claim that all <code>Ellipse</code>s can be squashed asymmetrically, and you claim that <code>Circle</code> is a kind-of <code>Ellipse</code>,
+and you claim that <code>Circle</code> can&#8217;t be squashed asymmetrically, clearly you&#8217;ve got to revoke one of your claims. You can
+get rid of <code>Ellipse::setSize(x,y)</code>, get rid of the inheritance relationship between <code>Circle</code> and <code>Ellipse</code>, or admit
+that your <code>Circle</code>s aren&#8217;t necessarily circular. You can also get rid of <code>Circle</code> completely, where circleness is just a
+temporary state of an <code>Ellipse</code> object rather than a permanent quality of the object.</p>
+
+<p>Here are the two most common traps new OO/C++ programmers regularly fall into. They attempt to use coding hacks to
+cover up a broken design, e.g., they might redefine <code>Circle::setSize(x,y)</code> to throw an exception, call <code>abort()</code>, choose
+the average of the two parameters, or to be a no-op. Unfortunately all these hacks will surprise users, since users are
+expecting <code>width() == x</code> and <code>height() == y</code>. The one thing you must not do is surprise your users.</p>
+
+<p>If it is important to you to retain the &#8220;<code>Circle</code> is a kind-of <code>Ellipse</code>&#8221; inheritance relationship, you can weaken the
+promise made by <code>Ellipse</code>&#8217;s <code>setSize(x,y)</code>. E.g., you could change the promise to, &#8220;This member function <em>might</em> set
+<code>width()</code> to <code>x</code> and/or it <em>might</em> set <code>height()</code> to <code>y</code>, or it might do <em>nothing</em>&#8221;. Unfortunately this dilutes the
+contract into dribble, since the user can&#8217;t rely on any meaningful behavior. The whole hierarchy therefore begins to be
+worthless (it&#8217;s hard to convince someone to use an object if you have to shrug your shoulders when asked what the object
+does for them).</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<p>(Note: <code>setSize(x,y)</code> isn&#8217;t sacred. Depending on your goals, it may be okay to prevent users from changing the
+dimensions of an <code>Ellipse</code>, in which case it would be a valid design choice to not have a <code>setSize(x,y)</code> method in
+<code>Ellipse</code>. However this series of FAQs discusses what to do when you want to create a derived class of a <em>pre-existing</em>
+base class that has an &#8220;unacceptable&#8221; method in it. Of course the ideal situation is to discover this problem when the
+base class doesn&#8217;t yet exist. But life isn&#8217;t always ideal&#8230;)</p>
+
+<h3 id="circle-ellipse-nonintuitive">But I have a Ph.D. in Mathematics, and I&#8217;m <em>sure</em> a Circle is a kind of an Ellipse! Does this mean Marshall Cline is stupid? Or that C++ is stupid? Or that OO is stupid?</h3>
+
+<p>Actually, it doesn&#8217;t mean any of these things. But I&#8217;ll tell you what it does mean &#8212; you may not like what I&#8217;m about
+to say: it means your intuitive notion of &#8220;kind of&#8221; is leading you to make bad inheritance decisions. Your tummy is
+lying to you about what good inheritance really means &#8212; stop believing those lies.</p>
+
+<p>Look, I have received and answered dozens of passionate e-mail messages about this subject. I have taught it hundreds
+of times to thousands of software professionals all over the place. I know it goes against your intuition. But trust me;
+your intuition is wrong, where &#8220;wrong&#8221; means &#8220;will cause you to make bad inheritance decisions in OO
+design/programming.&#8221;</p>
+
+<p>Here&#8217;s how to make good inheritance decisions in OO design/programming: recognize that the derived class objects must
+be <em>substitutable</em> for the base class objects. That means objects of the derived class must <em>behave</em> in a manner
+consistent with the promises made in the base class&#8217; contract. Once you believe this, and I fully recognize that you
+might not yet but you will if you work at it with an open mind, you&#8217;ll see that <code>setSize(x,y)</code> violates this
+substitutability.</p>
+
+<p>There are three ways to fix this problem:</p>
+
+<ol>
+<li>Soften the promises made by <code>setSize(x,y)</code> in base class <code>Ellipse</code>, or perhaps remove that method completely, at the
+risk of breaking existing code that calls <code>setSize(x,y)</code>.</li>
+<li>Strengthen the promises made by <code>setSize(x,y)</code> in the derived class <code>Circle</code>, which really means allowing a <code>Circle</code>
+to have a different height than width &#8212; an asymmetrical circle; hmmm.</li>
+<li>Drop the inheritance relationship, possibly getting rid of class <code>Circle</code> completely (in which case circleness would
+simply be a temporary state of an <code>Ellipse</code> rather than a permanent constraint on the object).</li>
+</ol>
+
+<p>Sorry, but there simply are no other choices.</p>
+
+<p>You must make the base class weaker (weaken <code>Ellipse</code> to the point that it no longer guarantees you can set its width
+and height to different values), make the derived class stronger (empower a <code>Circle</code> with the ability to be both
+symmetric and, ahem, asymmetric), or admit that a <code>Circle</code> is not substitutable for <code>Ellipse</code>.</p>
+
+<p>Important: there really are no other choices than the above three. In particular:</p>
+
+<ol>
+<li><em>PLEASE</em> don&#8217;t write me and tell me that a fourth option is to derive both <code>Circle</code> and <code>Ellipse</code> from a third
+common base class. That&#8217;s <em>not</em> a fourth solution. That&#8217;s just a repackaging of solution #3: it works precisely
+because it removes the inheritance relationship between <code>Circle</code> and <code>Ellipse</code>.</li>
+<li><em>PLEASE</em> don&#8217;t write me and tell me that a fourth option is to prevent users from changing the dimensions of an
+&#8220;Ellipse.&#8221; That is <em>not</em> a fourth solution. That&#8217;s just a repackaging of solution #1: it works precisely because it
+removes that guarantee that <code>setSize(x,y)</code> actually sets the width and height.</li>
+<li><em>PLEASE</em> don&#8217;t write me and tell me that you&#8217;ve decided one of these three is &#8220;the best&#8221; solution. Doing that would
+show you had missed the whole point of this FAQ, specifically that bad inheritance is subtle but fortunately you
+have three (not one; not two; but three) possible ways to dig yourself out. So when you run into bad inheritance,
+please try all three of these techniques and select the best, perhaps <a href="big-picture.html#use-evil-things-sometimes" title="FAQ: Will I sometimes use any so-called 'evil' constructs?">&#8220;least bad,&#8221;</a> of
+the three. Don&#8217;t throw out two of these tools ahead of time: try them all.</li>
+</ol>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<p>(Note: some people correctly point out that a <em>constant</em> <code>Circle</code> is substitutable for a <em>constant</em> <code>Ellipse</code>. That&#8217;s
+true, but it&#8217;s really not a fourth option: it&#8217;s really just a special case of option #1, since it works precisely
+because a constant <code>Ellipse</code> doesn&#8217;t have a <code>setSize(x,y)</code> method.)</p>
+
+<h3 id="circle-ellipse-inversion">Perhaps Ellipse should inherit from Circle then?</h3>
+
+<p>If <code>Circle</code> is the base class and <code>Ellipse</code> is the derived class, then you run into a whole new set of problems. For
+example, suppose <code>Circle</code> has a <code>radius()</code> method. Then <code>Ellipse</code> will also need to have a <code>radius()</code> method, but that
+doesn&#8217;t make much sense: what does it even mean for a possibly assymetric ellipse to have a radius?</p>
+
+<p>If you get over that hurdle, such as by having <code>Ellipse::radius()</code> return the average of the major and minor axes or
+whatever, then there is a problem with the relationship between <code>radius()</code> and <code>area()</code>. Suppose <code>Circle</code> has an
+<code>area()</code> method that promises to return <em>pi</em> times the square of whatever <code>radius()</code> returns. Then either
+<code>Ellipse::area()</code> will not return the true area of the ellipse, or you&#8217;ll have to stand on your head to get <code>radius()</code>
+to return something that matches the above formula.</p>
+
+<p>Even if you get past that one, such as by having <code>Ellipse::radius()</code> return the square root of the ellipse&#8217;s area
+divided by pi, you&#8217;ll get stuck by the <code>circumference()</code> method. Suppose <code>Circle</code> has a <code>circumference()</code> method that
+promises to return two times pi times whatever is returned by <code>radius()</code>. Now you&#8217;re stuck: there&#8217;s no way to make all
+those constraints work out for <code>Ellipse</code>: the <code>Ellipse</code> class will have to lie about its area, its circumference, or
+both.</p>
+
+<p>Bottom line: you can make anything inherit from anything <em>provided</em> the methods in the derived class abide by the
+promises made in the base class. But you ought not to use inheritance just because you feel like it, or just because you
+want to get code reuse. You should use inheritance (a) only if the derived class&#8217;s methods can abide by all the promises
+made in the base class, and (b) only if you don&#8217;t think you&#8217;ll confuse your users, and (c) only if there&#8217;s something to
+be gained by using the inheritance &#8212; some real, measurable improvement in time, money or risk.</p>
+
+<h3 id="circle-ellipse-generalization">But my problem doesn&#8217;t have anything to do with circles and ellipses, so what good is that silly example to me?</h3>
+
+<p>Ahhh, there&#8217;s the rub. You <em>think</em> the <code>Circle</code>/<code>Ellipse</code> example is just a silly example. But in reality, <em>your</em>
+problem is an isomorphism to that example.</p>
+
+<p>I don&#8217;t care what your inheritance problem is, but all &#8212;yes <em>all</em>&#8212; bad inheritances boil down to the
+<code>Circle</code>-is-not-a-kind-of-<code>Ellipse</code> example.</p>
+
+<p>Here&#8217;s why: Bad inheritances always have a base class with an extra capability (often an extra member function or two;
+sometimes an extra promise made by one or a combination of member functions) that a derived class can&#8217;t satisfy. You&#8217;ve
+either got to make the base class weaker, make the derived class stronger, or eliminate the proposed inheritance
+relationship. I&#8217;ve seen lots and lots and lots of these bad inheritance proposals, and believe me, they all boil down to
+the <code>Circle</code>/<code>Ellipse</code> example.</p>
+
+<p>Therefore, if you truly understand the <code>Circle</code>/<code>Ellipse</code> example, you&#8217;ll be able to recognize bad inheritance
+everywhere. If you don&#8217;t understand what&#8217;s going on with the <code>Circle</code>/<code>Ellipse</code> problem, the chances are high that
+you&#8217;ll make some very serious and very expensive inheritance mistakes.</p>
+
+<p>Sad but true.</p>
+
+<p>(Note: this FAQ has to do with <code>public</code> inheritance; <a href="private-inheritance.html" title="Section: Inheritance — private and protected inheritance"><code>private</code> and <code>protected</code> inheritance</a> are
+different.)</p>
+
+<h3 id="circle-ellipse-behavior">How could &#8220;it depend&#8221;??!? Aren&#8217;t terms like &#8220;Circle&#8221; and &#8220;Ellipse&#8221; defined mathematically?</h3>
+
+<p>It&#8217;s irrelevant that those terms are defined mathematically. That irrelevance is why &#8220;it depends.&#8221;</p>
+
+<p>The first step in any rational discussion is to define terms. In this case, the first step is to define the terms
+<code>Circle</code> and <code>Ellipse</code>. Believe it or not, most heated disagreements over whether class <code>Circle</code> should/shouldn&#8217;t
+inherit from class <code>Ellipse</code> are caused by incompatible definitions of those terms.</p>
+
+<p>The key insight is to forget mathematics and &#8220;the real world,&#8221; and instead accept as final the only definitions that are
+relevant for answering the question: the classes themselves. Take <code>Ellipse</code>. You created a class with that name, so the
+one and only final arbiter of what you meant by that term is your class. People who try to mix &#8220;the real world&#8221; into the
+discussion get hopelessly confused, and often get into heated (and, sadly, meaningless) arguments.</p>
+
+<p>Since so many people just don&#8217;t get it, here&#8217;s an example. Suppose your program says <code>class Foo : public Bar { ... }</code>.
+This <em>defines</em> what you mean by the term <code>Foo</code>: the one, final, unambiguous, precise definition of <code>Foo</code> is given by
+unioning the public parts of <code>Foo</code> with the public parts of its base class, <code>Bar</code>. Now suppose you decide to rename
+<code>Bar</code> to <code>Ellipse</code> and <code>Foo</code> to <code>Circle</code>. This means that you (yes you; not &#8220;mathematics&#8221;; not &#8220;history&#8221;; not
+&#8220;precedence&#8221; nor Euclid nor Euler nor any other famous mathematician; little old you) have <em>defined</em> the meaning of the
+term <code>Circle</code> within your program. If you defined it in a way that didn&#8217;t correspond to people&#8217;s intuitive notion of
+circles, then you probably should have chosen a better label for your class, but nonetheless your definition is the one,
+final, unambiguous, precise definition of the term <code>Circle</code> in your program. If somebody else outside your program
+defines the same term differently, that other definition is irrelevant to questions about your program, even if the
+&#8220;somebody else&#8221; is Euclid. <em>Within your program,</em> you define the terms, and the term <code>Circle</code> is defined by your class
+named <code>Circle</code>.</p>
+
+<p>Simply put, when we are asking questions about words defined in <em>your</em> program, we must use <em>your</em> definitions of those
+terms, not Euclid&#8217;s. That is why the ultimate answer to the question is &#8220;it depends.&#8221; It depends because the answer to
+whether the thing your program calls <code>Circle</code> is properly substitutable for the thing your program calls <code>Ellipse</code>
+depends on exactly how <em>your</em> <em>program</em> defines those terms. It&#8217;s ridiculous and misleading to use Euclid&#8217;s definition
+when trying to answer questions about your classes in your program; we <em>must</em> use your definitions.</p>
+
+<p>When someone gets heated about this, I always suggest changing the labels to terms that have no predetermined
+connotations, such as <code>Foo</code> and <code>Bar</code>. Since those terms do not evoke any mathematical relationships, people naturally
+go to the class definition to find out exactly what the programmer had in mind. But as soon as we rename the class from
+<code>Foo</code> to <code>Circle</code>, some people suddenly think <em>they</em> can control the meaning of the term; they&#8217;re wrong and silly. The
+definition of the term is still spelled out exclusively by the class itself, not by any outside entity.</p>
+
+<p>Next insight: inheritance means &#8220;is substitutable for.&#8221; It does <em>not</em> mean &#8220;is a&#8221; (since that is ill defined) and it
+does <em>not</em> mean &#8220;is a kind of&#8221; (also ill defined). Substitutability is well defined: to be substitutable, the derived
+class is allowed (not required) to add (not remove) public methods, and for each public method inherited from the base
+class, the derived class is allowed (not required) to weaken preconditions and/or strengthen postconditions (not the
+other way around). Further the derived class is allowed to have completely different constructors, static methods, and
+non-public methods.</p>
+
+<p>Back to <code>Ellipse</code> and <code>Circle</code>: <em>if</em> you define the term <code>Ellipse</code> to mean something that can be resized asymmetrically
+(e.g., its methods let you change the width and height independently <em>and</em> guarantee that the width and height will
+actually change to the specified values), then that is the final, precise definition of the term <code>Ellipse</code>. <em>If</em> you
+define the thing called <code>Circle</code> as something that cannot be resized asymmetrically, then that is also your prerogative,
+and it is the final, precise definition of the term <code>Circle</code>. <em>If</em> you defined those terms in that way, then obviously
+the thing you called <code>Circle</code> is not substitutable for the thing you called <code>Ellipse</code>, therefore the inheritance would
+be improper. QED.</p>
+
+<p>So the answer is <em>always</em> &#8220;it depends.&#8221; In particular, it depends on the <em>behaviors</em> of the base and derived classes. It
+does not depend on the <em>name</em> of the base and derived classes, since those are arbitrary labels. (I&#8217;m not advocating
+sloppy names; I am, however, saying that you must not use your intuitive connotation of a name to assume you know what a
+class does. A class does what it does, not what you think it ought to do based on its name.)</p>
+
+<p>It bothers (some) people that the thing you called <code>Circle</code> might not be substitutable for the thing you called
+<code>Ellipse</code>, and to those people I have only two things to say: (a) get over it, and (b) change the labels of the classes
+if that makes you feel more comfortable. For example, rename <code>Ellipse</code> to <code>ThingThatCanBeResizedAssymetrically</code> and
+<code>Circle</code> to <code>ThingThatCannotBeResizedAssymetrically</code>.</p>
+
+<p>Unfortunately I honestly believe that people who feel better after renaming the things are missing the point. The point
+is this: in OO, a thing is defined by how it <em>behaves</em>, not by the label used to name it. Obviously it&#8217;s important to
+choose good names, but even so, the name chosen does not define the thing. The definition of the thing is specified by
+the public methods, including the contracts (preconditions and postconditions) of those methods. Inheritance is proper
+or improper based on the classes&#8217; behaviors, not their names.</p>
+
+<h3 id="sortedlist-kindof-list">If <code>SortedList</code> has <em>exactly</em> the same public interface as <code>List</code>, is <code>SortedList</code> a kind-of <code>List</code>?</h3>
+
+<p>Probably not.</p>
+
+<p>The most important insight is that the answer depends on the details of the base class&#8217;s contract. It is not enough to
+know that the public interfaces / method signatures are compatible; one also needs to know if the contracts / behaviors
+are compatible.</p>
+
+<p>The important part of the previous sentence are the words &#8220;contracts / behaviors.&#8221; That phrase goes well beyond the
+public interface = method signatures = method names and parameter types and <code>const</code>ness. A method&#8217;s contract means its
+advertised behavior = advertised requirements and promises = advertised preconditions and postconditions. So if the base
+class has a method <code>void insert(const Foo&amp; x)</code>, the contract of that method includes the signature (meaning the name
+<code>insert</code> and the parameter <code>const Foo&amp;</code>), but goes well beyond that to include the method&#8217;s advertised preconditions and
+postconditions.</p>
+
+<p>The other important word is <em>advertised</em>. The intention here is to differentiate between the code inside the method
+(assuming the base class&#8217;s method <em>has</em> code; i.e., assuming it&#8217;s not an unimplemented pure virtual function) and the
+promises made outside the method. This is where things get tricky. Suppose <code>List::insert(const Foo&amp; x)</code> inserts a copy
+of <code>x</code> at the end of <code>this</code> <code>List</code>, and the override of that method in <code>SortedList</code> inserts <code>x</code> in the proper
+sort-order. Even though the override behaves in a way that is incompatible with the base class&#8217;s code, the inheritance
+might still be proper <em>if</em> the base class makes a &#8220;weak&#8221; or &#8220;adaptable&#8221; promise. For example, if the advertised promise
+of <code>List::insert(const Foo&amp; x)</code> is something vague like, &#8220;Promises a copy of <code>x</code> will be inserted somewhere within
+<code>this</code> <code>List</code>,&#8221; then the inheritance is probably okay since the override abides by the advertised behavior even though
+it is incompatible with the implemented behavior.</p>
+
+<blockquote>
+  <p>The derived class must do what the base class <em>promises</em>, not what it actually does.</p>
+</blockquote>
+
+<p>The key is that we&#8217;ve separated the advertised behavior (&#8220;specification&#8221;) from implemented behavior (&#8220;implementation&#8221;),
+and we rely on the specification rather than the implementation. This is very important because in a large percentage of
+the cases the base class&#8217;s method is an unimplemented pure virtual &#8212; the only thing that can be relied on is the
+specification &#8212; there simply is no implementation on which to rely.</p>
+
+<p>Back to <code>SortedList</code> and <code>List</code>: it seems likely that <code>List</code> has one or more methods that have contracts which
+guarantee order, and therefore <code>SortedList</code> is probably not a kind-of <code>List</code>. For example, if <code>List</code> has a method that
+lets you reorder things, prepend things, append things, or change the <code>i</code>th element, and if those methods make the
+typical advertised promise, then <code>SortedList</code> would need to violate that advertised behavior and the inheritance would
+be improper. But it all depends on what the base class advertises &#8212; on the base class&#8217;s contract.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/proper-inheritance",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/proper-inheritance",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/proper-inheritance by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

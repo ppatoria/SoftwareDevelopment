@@ -1,0 +1,71 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="../../CSS/org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Deadlock scenarious in HermesAPI C++ Version.
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 01-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* Scenario: Close called on OnConnectionChanged.
+  Precondition: Both Open and Close Method aquire same lock so that one method can be called at a time.
+|------------------------------------------------+----------------------------------------------------------------------------|
+| Main Thread                                    | Cache Thread                                                               |
+|------------------------------------------------+----------------------------------------------------------------------------|
+| Open                                           | .                                                                          |
+| Spawn Cache Thread ..........                  | Connect to Cache.                                                          |
+| .                                              | OnConnectionChanged invoked.                                               |
+| .                                              | .                                                                          |
+| Query received                                 | .                                                                          |
+| enqueue query and handler                      | .                                                                          |
+| .                                              | dequeue query                                                              |
+| .                                              | execute against cache                                                      |
+| .                                              | invoke client callback                                                     |
+| .                                              | .                                                                          |
+| .                                              | .                                                                          |
+| .                                              | [X] Unhandled Exception from client on Cache Thread on OnConnectionChanged |
+| [X] Open is still in process and hold the lock | [X] Close will be called from Cache thread.                                |
+|                                                | [X] Close will try aquire lock that open is holding                        |
+|------------------------------------------------+----------------------------------------------------------------------------|
+
+Solution:
+
+
+* Scenario: Synchronous Send is called on a callback of Asynchonous Send.                                                                         
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+| Main Thread                         | TIS Socket Listener Thread                                                              |
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+| Asynchronous Send                   | .                                                                                       |
+| QueryID mapped with Client callback | .                                                                                       |
+| Query send to agora                 | .                                                                                       |
+| .                                   | TISReply received                                                                       |
+| .                                   | Get client callback by queryID from the map                                             |
+| .                                   | Invoke cleint callback                                                                  |
+| .                                   | Client call Synchronous Send                                                            |
+| .                                   | [X] Query will be sent to Agora and this thread will wait for the TISReply (for itself) |
+| .                                   | [X] This Thread itself listen to TISReply so it will be hung result in deadlock         |
+|-------------------------------------+-----------------------------------------------------------------------------------------|
+
+                                               (X)             
+
+
+

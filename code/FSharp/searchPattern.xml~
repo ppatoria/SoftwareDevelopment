@@ -1,0 +1,20 @@
+<Search>
+  <Log4Net>
+    <Columns>
+      <Column Name="DateTime" 
+	      Type="DateTime" 
+	      Format="dd/MM/yy hh:mm:ss:tt"/>
+    </Columns>
+    <SearchPattern Name="TransactionByOrderID" >
+      <Pattern CaseSensitive="y"                          
+	       Search = "received\s+message.*[:SearchInput:]"/>      
+      <Pattern Above="0"	        
+	       Below="4"  	  
+	       Search="request"/>          
+      <Pattern BelowPattern="response"                    
+	       Search="response"/>
+    </SearchPattern>
+  </Log4Net>
+</Search>
+
+

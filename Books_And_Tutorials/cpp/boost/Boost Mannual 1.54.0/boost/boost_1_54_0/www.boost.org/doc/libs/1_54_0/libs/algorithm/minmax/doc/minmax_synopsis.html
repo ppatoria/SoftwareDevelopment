@@ -1,0 +1,169 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/algorithm/minmax/doc/minmax_synopsis.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:39 GMT -->
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en] (X11; U; Linux 2.2.19 i686) [Netscape]">
+   <meta name="Author" content="Herve Bronnimann">
+   <meta name="Description" content="Small library to propose minmax_element algorithm.">
+   <title>Boost minmax library synopsis - 1.54.0</title>
+<link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico"><link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-basic.css"></head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">  <div id="boost-common-heading-doc">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </div>
+
+  <div id="boost-common-heading-doc-spacer"></div>
+
+
+<center>
+<h1>
+Minmax_element complete synopsis</h1></center>
+
+<h3>
+Synopsis of <tt>&lt;boost/algorithm/minmax.hpp></tt></h3>
+
+<pre>#include &lt;boost/tuple/tuple.hpp>
+
+namespace boost {
+
+  template &lt;class T>
+  tuple&lt;T const&amp;, T const&amp;> >
+  minmax(const T&amp; a, const T&amp; b);
+
+  template &lt;class T, class <a href="http://www.sgi.com/tech/stl/%20%20BinaryPredicate.html">BinaryPredicate</a>>
+  tuple&lt;T const&amp;, T const&amp;> >
+  minmax(const T&amp; a, const T&amp; b, BinaryPredicate comp);
+
+}
+</pre>
+
+<h3>
+Synopsis of <tt>&lt;boost/algorithm/minmax_element.hpp></tt></h3>
+
+<pre>#include &lt;utility> //for std::pair
+
+namespace boost {
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  minmax_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  minmax_element(ForwardIterator first, ForwardIterator last,
+                 BinaryPredicate comp);
+
+  // Variants
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  ForwardIterator first_min_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  ForwardIterator first_min_element(ForwardIterator first, ForwardIterator last,
+                                    BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  ForwardIterator last_min_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  ForwardIterator last_min_element(ForwardIterator first, ForwardIterator last,
+                                   BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  ForwardIterator first_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  ForwardIterator first_max_element(ForwardIterator first, ForwardIterator last,
+                                    BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  ForwardIterator last_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  ForwardIterator last_max_element(ForwardIterator first, ForwardIterator last,
+                                   BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  first_min_first_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  first_min_first_max_element(ForwardIterator first, ForwardIterator last,
+                             BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  first_min_last_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  first_min_last_max_element(ForwardIterator first, ForwardIterator last,
+                             BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  last_min_first_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  last_min_first_max_element(ForwardIterator first, ForwardIterator last,
+                             BinaryPredicate comp);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  last_min_last_max_element(ForwardIterator first, ForwardIterator last);
+
+  template &lt;class <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">ForwardIterator</a>, class <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>>
+  std::pair&lt;ForwardIterator,ForwardIterator>
+  last_min_last_max_element(ForwardIterator first, ForwardIterator last,
+                            BinaryPredicate comp);
+
+}</pre>
+
+<hr SIZE="6">
+<br>Last modified 2002-07-01
+<p><font face="Arial,Helvetica"><font size=-1>&copy; Copyright Herv&eacute;
+Br&ouml;nnimann, Polytechnic University, 2002--2004. 
+Use, modification, and distribution is subject to the Boost Software
+License, Version 1.0. (See accompanying file <a href="http://www.boost.org/doc/libs/1_54_0/LICENSE_1_0.txt">License_1_0.txt</a> or copy at
+<a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+</font></font>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/libs/algorithm/minmax/doc/minmax_synopsis.html by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:10:39 GMT -->
+</html>

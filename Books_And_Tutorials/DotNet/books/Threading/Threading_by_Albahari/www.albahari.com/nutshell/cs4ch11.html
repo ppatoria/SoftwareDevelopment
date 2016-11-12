@@ -1,0 +1,612 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch11.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="styles.css" /><link rel="stylesheet" type="text/css" media="print" href="print.css" />
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript" src="sh_csharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="sh_style.css" />
+    <!--[if IE 6]>
+    <link href="ie.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link href="ie7.css" rel="stylesheet" type="text/css" media="screen" />
+    <![endif]-->
+<title>
+	C# in a Nutshell - Code Listings
+</title></head>
+<body onload="sh_highlightDocument();">
+    <form name="aspnetForm" method="post" action="http://www.albahari.com/nutshell/cs4ch11.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjgPZBYCZg9kFgICAw9kFgICCw8WAh4EVGV4dAWdFA0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImFib3V0LmFzcHgiPkFib3V0IHRoZSBCb29rPC9hPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICA8L3RyPg0KICAgICAgICA8L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgJm5ic3A7DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAgPHRhYmxlIHdpZHRoPSI5MCUiIGNlbGxwYWRkaW5nPSIwIiBjZWxsc3BhY2luZz0iMCIgY2xhc3M9InNpZGVsaW5rIj4NCiAgICAgICAgICAgIDx0cj4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249ImxlZnQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGltZyBzcmM9ImFuaW1hbHNtYWxsLnBuZyIgYWx0PSIiIC8+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgICAgICA8dGQgYWxpZ249InJpZ2h0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJzaWRlbGlua2EiIGhyZWY9ImNvZGUuYXNweCI+Q29kZSBMaXN0aW5nczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzdWJjb250ZW50Ij48dHI+PHRkIGFsaWduPSJyaWdodCI+PGEgaHJlZj0iY29kZS5hc3B4IiBjbGFzcz0ic3VibGluayI+QyMgNS4wIGluIGEgTnV0c2hlbGw8L2E+PC90ZD48L3RyPg0KICAgICAgIDx0cj48dGQgYWxpZ249InJpZ2h0Ij48YSBocmVmPSJjb2RlLmFzcHgiIGNsYXNzPSJzdWJsaW5rIj5DIyA0LjAgaW4gYSBOdXRzaGVsbDwvYT48L3RkPjwvdHI+DQogICAgICAgPHRyPjx0ZCBhbGlnbj0icmlnaHQiPjxhIGhyZWY9ImNvZGUuYXNweCIgY2xhc3M9InN1YmxpbmsiPkMjIDMuMCBpbiBhIE51dHNoZWxsPC9hPjwvdGQ+PC90cj48L3RhYmxlPg0KICAgIDwvdGQ+DQo8L3RyPg0KPHRyPg0KICAgIDx0ZCBhbGlnbj0iY2VudGVyIiB2YWxpZ249InRvcCI+DQogICAgICAgIDx0YWJsZSB3aWR0aD0iOTAlIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIGNsYXNzPSJzaWRlbGluayI+DQogICAgICAgICAgICA8dHI+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249ImJvdHRvbSI+DQogICAgICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJhbmltYWxzbWFsbC5wbmciIGFsdD0iIiAvPg0KICAgICAgICAgICAgICAgIDwvdGQ+DQogICAgICAgICAgICAgICAgPHRkIGFsaWduPSJyaWdodCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ic2lkZWxpbmsiIGhyZWY9ImV4dHJhcy5hc3B4Ij5FeHRyYXM8L2E+DQogICAgICAgICAgICAgICAgPC90ZD4NCiAgICAgICAgICAgIDwvdHI+DQogICAgICAgIDwvdGFibGU+DQogICAgPC90ZD4NCjwvdHI+DQo8dHI+DQogICAgPHRkIGFsaWduPSJjZW50ZXIiIHZhbGlnbj0idG9wIj4NCiAgICAgICAmbmJzcDsNCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICA8dGFibGUgd2lkdGg9IjkwJSIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiBjbGFzcz0ic2lkZWxpbmsiPg0KICAgICAgICAgICAgPHRyPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0ibGVmdCIgdmFsaWduPSJib3R0b20iPg0KICAgICAgICAgICAgICAgICAgICA8aW1nIHNyYz0iYW5pbWFsc21hbGwucG5nIiBhbHQ9IiIgLz4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgICAgIDx0ZCBhbGlnbj0icmlnaHQiIHZhbGlnbj0iYm90dG9tIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9InNpZGVsaW5rIiBocmVmPSJjb250YWN0LmFzcHgiPkNvbnRhY3QgQXV0aG9yczwvYT4NCiAgICAgICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPC90cj4NCiAgICAgICAgPC90YWJsZT4NCiAgICA8L3RkPg0KPC90cj4NCjx0cj4NCiAgICA8dGQgYWxpZ249ImNlbnRlciIgdmFsaWduPSJ0b3AiPg0KICAgICAgICZuYnNwOw0KICAgIDwvdGQ+DQo8L3RyPmRkq4JShYszvF5FK1LjvWjmTYGt0dY=" />
+</div>
+
+    
+
+<div id="maincode">
+
+<h1>Code Listings</h1>
+<h2>Chapter 11: Other XML Technologies</h2>
+<p>Enumerating nodes with XmlReader:</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;customer id=&quot;123&quot; status=&quot;archived&quot;&gt;
+  &lt;firstname&gt;Jim&lt;/firstname&gt;
+  &lt;lastname&gt;Bo&lt;/lastname&gt;
+&lt;/customer&gt;</pre>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.IgnoreWhitespace = true;
+
+using (XmlReader reader = XmlReader.Create (&quot;customer.xml&quot;, settings))
+  while (reader.Read())
+  {
+    Console.Write (new string (' ',reader.Depth*2));  // Write indentation
+    Console.WriteLine (reader.NodeType);
+  }</pre>
+<p>Processing XNodeType:</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;!DOCTYPE customer [ &lt;!ENTITY tc &quot;Top Customer&quot;&gt; ]&gt;
+&lt;customer id=&quot;123&quot; status=&quot;archived&quot;&gt;
+  &lt;firstname&gt;Jim&lt;/firstname&gt;
+  &lt;lastname&gt;Bo&lt;/lastname&gt;
+  &lt;quote&gt;&lt;![CDATA[C#'s operators include: &lt; &gt; &amp;]]&gt;&lt;/quote&gt;
+  &lt;notes&gt;Jim Bo is a &amp;tc;&lt;/notes&gt;
+  &lt;!--  That wasn't so bad! --&gt;
+&lt;/customer&gt;</pre>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.IgnoreWhitespace = true;
+settings.ProhibitDtd = false;      // Must set this to read DTDs
+
+using (XmlReader r = XmlReader.Create (&quot;customer.xml&quot;, settings))
+  while (r.Read())
+  {
+    Console.Write (r.NodeType.ToString().PadRight (17, '-'));
+    Console.Write (&quot;&gt; &quot;.PadRight (r.Depth * 3));
+
+    switch (r.NodeType)
+    {
+      case XmlNodeType.Element:
+      case XmlNodeType.EndElement:
+        Console.WriteLine (r.Name); break;
+
+      case XmlNodeType.Text:
+      case XmlNodeType.CDATA:
+      case XmlNodeType.Comment:
+      case XmlNodeType.XmlDeclaration:
+        Console.WriteLine (r.Value); break;
+
+      case XmlNodeType.DocumentType:
+        Console.WriteLine (r.Name + &quot; - &quot; + r.Value); break;
+
+      default: break;
+    }
+  }</pre>
+<p>Using ReadElementContentAs:</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;customer id=&quot;123&quot; status=&quot;archived&quot;&gt;
+  &lt;firstname&gt;Jim&lt;/firstname&gt;
+  &lt;lastname&gt;Bo&lt;/lastname&gt;
+  &lt;creditlimit&gt;500.00&lt;/creditlimit&gt;    &lt;!-- OK, we sneaked this in! --&gt;
+&lt;/customer&gt;</pre>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.IgnoreWhitespace = true;
+
+using (XmlReader r = XmlReader.Create (&quot;customer.xml&quot;, settings))
+{
+  r.MoveToContent();                // Skip over the XML declaration
+  r.ReadStartElement (&quot;customer&quot;);
+  string firstName    = r.ReadElementContentAsString (&quot;firstname&quot;, &quot;&quot;);
+  string lastName     = r.ReadElementContentAsString (&quot;lastname&quot;, &quot;&quot;);
+  decimal creditLimit = r.ReadElementContentAsDecimal (&quot;creditlimit&quot;, &quot;&quot;);
+
+  r.MoveToContent();      // Skip over that pesky comment
+  r.ReadEndElement();     // Read the closing customer tag
+}</pre>
+<p>Optional elements:</p>
+<pre>r.ReadStartElement (&quot;customer&quot;);
+string firstName    = r. ReadElementContentAsString (&quot;firstname&quot;, &quot;&quot;);
+string lastName     = r.Name == &quot;lastname&quot;
+                      ? r.ReadElementContentAsString() : null;
+decimal creditLimit = r.ReadElementContentAsDecimal (&quot;creditlimit&quot;, &quot;&quot;);</pre>
+<p>Checking for an empty element:</p>
+<pre>bool isEmpty = reader.IsEmptyElement;
+reader.ReadStartElement (&quot;customerList&quot;);
+if (!isEmpty) reader.ReadEndElement();</pre>
+<p>Reading attributes:</p>
+<pre>&lt;customer id=&quot;123&quot; status=&quot;archived&quot;/&gt;</pre>
+<pre>Console.WriteLine (reader [&quot;id&quot;]);              // 123
+Console.WriteLine (reader [&quot;status&quot;]);          // archived
+Console.WriteLine (reader [&quot;bogus&quot;] == null);   // True
+
+Console.WriteLine (reader [0]);            // 123
+Console.WriteLine (reader [1]);            // archived
+
+reader.MoveToAttribute (&quot;status&quot;);
+string status = ReadContentAsString();
+
+reader.MoveToAttribute (&quot;id&quot;);
+int id = ReadContentAsInt();</pre>
+<pre>if (reader.MoveToFirstAttribute())
+  do
+  {
+    Console.WriteLine (reader.Name + &quot;=&quot; + reader.Value);
+  }
+  while (reader.MoveToNextAttribute());
+
+// OUTPUT:
+id=123
+status=archived</pre>
+<p>XmlWriter:</p>
+<pre>XmlWriterSettings settings = new XmlWriterSettings();
+settings.Indent = true;
+
+using (XmlWriter writer = XmlWriter.Create (&quot;..\\..\\foo.xml&quot;, settings))
+{
+  writer.WriteStartElement (&quot;customer&quot;);
+  writer.WriteElementString (&quot;firstname&quot;, &quot;Jim&quot;);
+  writer.WriteElementString (&quot;lastname&quot;,&quot; Bo&quot;);
+  writer.WriteEndElement();
+}</pre>
+<p>Writing attributes:</p>
+<pre>writer.WriteStartElement (&quot;customer&quot;);
+writer.WriteAttributeString (&quot;id&quot;, &quot;1&quot;);
+writer.WriteAttributeString (&quot;status&quot;, &quot;archived&quot;);</pre>
+<p>Namespaces and prefixes:</p>
+<pre>writer.WriteStartElement (&quot;o&quot;, &quot;customer&quot;, &quot;http://oreilly.com&quot;);
+writer.WriteElementString (&quot;o&quot;, &quot;firstname&quot;, &quot;http://oreilly.com&quot;, &quot;Jim&quot;);
+writer.WriteElementString (&quot;o&quot;, &quot;firstname&quot;, &quot;http://oreilly.com&quot;, &quot;Bo&quot;);
+writer.WriteEndElement();</pre>
+<p>Working with hierarchical data:</p>
+<pre>public class Customer 
+{
+  public const string XmlName = &quot;customer&quot;;
+  public int? ID;
+  public string FirstName, LastName;
+
+  public Customer() { }
+  public Customer (XmlReader r) { ReadXml (r); }
+
+  public void ReadXml (XmlReader r)
+  {
+    if (r.MoveToAttribute (&quot;id&quot;)) ID = r.ReadContentAsInt();
+    r.ReadStartElement();
+    FirstName = r.ReadElementContentAsString (&quot;firstname&quot;, &quot;&quot;);
+    LastName = r.ReadElementContentAsString (&quot;lastname&quot;, &quot;&quot;);
+    r.ReadEndElement();
+  }
+
+  public void WriteXml (XmlWriter w)
+  {
+    if (ID.HasValue) w.WriteAttributeString (&quot;id&quot;, &quot;&quot;, ID.ToString());
+    w.WriteElementString (&quot;firstname&quot;, FirstName);
+    w.WriteElementString (&quot;lastname&quot;, LastName);
+  }
+}
+
+public class Supplier 
+{
+  public const string XmlName = &quot;supplier&quot;;
+  public string Name;
+
+  public Supplier() { }
+  public Supplier (XmlReader r) { ReadXml (r); }
+
+  public void ReadXml (XmlReader r)
+  {
+    r.ReadStartElement();
+    Name = r.ReadElementContentAsString (&quot;name&quot;, &quot;&quot;);
+    r.ReadEndElement();
+  }
+
+  public void WriteXml (XmlWriter w)
+  {
+    w.WriteElementString (&quot;name&quot;, Name);
+  }
+}
+
+public class Contacts
+{
+  public IList&lt;Customer&gt; Customers = new List&lt;Customer&gt;();
+  public IList&lt;Supplier&gt; Suppliers = new List&lt;Supplier&gt;();
+
+  public void ReadXml (XmlReader r)
+  {
+    bool isEmpty = r.IsEmptyElement;           // This ensures we don't get
+    r.ReadStartElement();                      // snookered by an empty
+    if (isEmpty) return;                       // &lt;contacts/&gt; element!
+    while (r.NodeType == XmlNodeType.Element)
+    {
+      if (r.Name == Customer.XmlName)      Customers.Add (new Customer (r));
+      else if (r.Name == Supplier.XmlName) Suppliers.Add (new Supplier (r));
+      else
+        throw new XmlException (&quot;Unexpected node: &quot; + r.Name);
+    }
+    r.ReadEndElement();
+  }
+
+  public void WriteXml (XmlWriter w)
+  {
+    foreach (Customer c in Customers)
+    {
+      w.WriteStartElement (Customer.XmlName);
+      c.WriteXml (w);
+      w.WriteEndElement();
+    }
+    foreach (Supplier s in Suppliers)
+    {
+      w.WriteStartElement (Supplier.XmlName);
+      s.WriteXml (w);
+      w.WriteEndElement();
+    }
+  }
+}</pre>
+<p>Using XmlReader with XElement:</p>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.IgnoreWhitespace = true;
+
+using (XmlReader r = XmlReader.Create (&quot;logfile.xml&quot;, settings))
+{
+  r.ReadStartElement (&quot;log&quot;);
+  while (r.Name == &quot;logentry&quot;)
+  {
+    XElement logEntry = (XElement) XNode.ReadFrom (r);
+    int id = (int) logEntry.Attribute (&quot;id&quot;);
+    DateTime date = (DateTime) logEntry.Element (&quot;date&quot;);
+    string source = (string) logEntry.Element (&quot;source&quot;);
+    ...
+  }
+  r.ReadEndElement();
+}</pre>
+<p>Using XmlWriter with XElement:</p>
+<pre>using (XmlWriter w = XmlWriter.Create (&quot;log.xml&quot;))
+{
+  w.WriteStartElement (&quot;log&quot;);
+  for (int i = 0; i &lt; 1000000; i++)
+  {
+    XElement e = new XElement (&quot;logentry&quot;,
+                   new XAttribute (&quot;id&quot;, i),
+                   new XElement (&quot;date&quot;, DateTime.Today.AddDays (-1)),
+                   new XElement (&quot;source&quot;, &quot;test&quot;));
+    e.WriteTo (w);
+  }
+  w.WriteEndElement();
+}</pre>
+<p>Creating an XmlDocument:</p>
+<pre>XmlDocument doc = new XmlDocument();
+doc.AppendChild (doc.CreateXmlDeclaration (&quot;1.0&quot;, null, &quot;yes&quot;));
+
+XmlAttribute id     = doc.CreateAttribute (&quot;id&quot;);
+XmlAttribute status = doc.CreateAttribute (&quot;status&quot;);
+id.Value     = &quot;123&quot;;
+status.Value = &quot;archived&quot;;
+
+XmlElement firstname = doc.CreateElement (&quot;firstname&quot;);
+XmlElement lastname  = doc.CreateElement (&quot;lastname&quot;);
+firstname.AppendChild (doc.CreateTextNode (&quot;Jim&quot;));
+lastname.AppendChild  (doc.CreateTextNode (&quot;Bo&quot;));
+
+XmlElement customer = doc.CreateElement (&quot;customer&quot;);
+customer.Attributes.Append (id);
+customer.Attributes.Append (status);
+customer.AppendChild (lastname);
+customer.AppendChild (firstname);
+
+doc.AppendChild (customer);</pre>
+<p>XPath:</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;customers&gt;
+  &lt;customer id=&quot;123&quot; status=&quot;archived&quot;&gt;
+    &lt;firstname&gt;Jim&lt;/firstname&gt;
+    &lt;lastname&gt;Bo&lt;/lastname&gt;
+  &lt;/customer&gt;
+  &lt;customer&gt;
+    &lt;firstname&gt;Thomas&lt;/firstname&gt;
+    &lt;lastname&gt;Jefferson&lt;/lastname&gt;
+  &lt;/customer&gt;
+&lt;/customers&gt;</pre>
+<pre>XmlDocument doc = new XmlDocument();
+doc.Load (&quot;customers.xml&quot;);
+XmlNode n = doc.SelectSingleNode (&quot;customers/customer[firstname='Jim']&quot;);
+Console.WriteLine (n.InnerText);  // JimBo</pre>
+<pre>XDocument doc = XDocument.Load (@&quot;Customers.xml&quot;);
+XElement e = e.XPathSelectElement (&quot;customers/customer[firstname='Jim']&quot;);
+Console.WriteLine (e.Value);  // JimBo</pre>
+<pre>XmlNode node1 = doc.SelectSingleNode (&quot;customers&quot;);
+XmlNode node2 = doc.SelectSingleNode (&quot;customers/customer&quot;);
+XmlNodeList nodes3 = doc.SelectNodes (&quot;//lastname&quot;);
+XmlNodeList nodes4 = doc.SelectNodes (&quot;customers/customer..customers&quot;);
+XmlNodeList nodes5 = doc.SelectNodes (&quot;customers/customer/*&quot;);
+XmlNode node6 = doc.SelectSingleNode (&quot;customers/customer/@id&quot;);
+XmlNode node7 = doc.SelectSingleNode (&quot;customers/customer[firstname='Jim']&quot;);
+XmlNode node8 = doc.SelectSingleNode (&quot;x:customers&quot;);</pre>
+<p>XPathNavigator:</p>
+<pre>XPathNavigator nav = doc.CreateNavigator();
+XPathNavigator jim = nav.SelectSingleNode
+  (
+    &quot;customers/customer[firstname='Jim']&quot;
+  );
+
+Console.WriteLine (jim.Value);                    // JimBo</pre>
+<p>Using Select:</p>
+<pre>XPathNavigator nav = doc.CreateNavigator();
+string xPath = &quot;customers/customer/firstname/text()&quot;;
+foreach (XPathNavigator navC in nav.Select (xPath))
+  Console.WriteLine (navC.Value);</pre>
+<p>Compiling an XPath query:</p>
+<pre>XPathNavigator nav = doc.CreateNavigator();
+XPathExpression expr = nav.Compile (&quot;customers/customer/firstname&quot;);
+foreach (XPathNavigator a in nav.Select (expr))
+  Console.WriteLine (a.Value);</pre>
+<p>Querying with namespaces:</p>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+
+&lt;o:customers xmlns:o='http://oreilly.com'&gt;
+  &lt;o:customer id=&quot;123&quot; status=&quot;archived&quot;&gt;
+    &lt;firstname&gt;Jim&lt;/firstname&gt;
+    &lt;lastname&gt;Bo&lt;/lastname&gt;
+  &lt;/o:customer&gt;
+  &lt;o:customer&gt;
+    &lt;firstname&gt;Thomas&lt;/firstname&gt;
+    &lt;lastname&gt;Jefferson&lt;/lastname&gt;
+  &lt;/o:customer&gt;
+&lt;/o:customers&gt;</pre>
+<pre>XmlDocument doc = new XmlDocument();
+doc.Load (&quot;customers.xml&quot;);
+
+XmlNamespaceManager xnm = new XmlNamespaceManager (doc.NameTable);
+xnm.AddNamespace (&quot;o&quot;, &quot;http://oreilly.com&quot;);
+
+XmlNode n = doc.SelectSingleNode (&quot;o:customers/o:customer&quot;, xnm);</pre>
+<p>XPathDocument:</p>
+<pre>XPathDocument doc = new XPathDocument (&quot;customers.xml&quot;);
+XPathNavigator nav = doc.CreateNavigator();
+foreach (XPathNavigator a in nav.Select (&quot;customers/customer/firstname&quot;))
+  Console.WriteLine (a.Value);</pre>
+<p>XSD and schema validation:</p>
+<pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;customers&gt;
+  &lt;customer id=&quot;1&quot; status=&quot;active&quot;&gt;
+    &lt;firstname&gt;Jim&lt;/firstname&gt;
+    &lt;lastname&gt;Bo&lt;/lastname&gt;
+  &lt;/customer&gt;
+  &lt;customer id=&quot;1&quot; status=&quot;archived&quot;&gt;
+    &lt;firstname&gt;Thomas&lt;/firstname&gt;
+    &lt;lastname&gt;Jefferson&lt;/lastname&gt;
+  &lt;/customer&gt;
+&lt;/customers&gt;</pre>
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;xs:schema attributeFormDefault=&quot;unqualified&quot;
+           elementFormDefault=&quot;qualified&quot;
+           xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+  &lt;xs:element name=&quot;customers&quot;&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;customer&quot;&gt;
+          &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+              &lt;xs:element name=&quot;firstname&quot; type=&quot;xs:string&quot; /&gt;
+              &lt;xs:element name=&quot;lastname&quot; type=&quot;xs:string&quot; /&gt;
+            &lt;/xs:sequence&gt;
+            &lt;xs:attribute name=&quot;id&quot; type=&quot;xs:int&quot; use=&quot;required&quot; /&gt;
+            &lt;xs:attribute name=&quot;status&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+          &lt;/xs:complexType&gt;
+        &lt;/xs:element&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;
+&lt;/xs:schema&gt;</pre>
+<p>Validating with an XmlReader:</p>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.ValidationType = ValidationType.Schema;
+settings.Schemas.Add (null, &quot;customers.xsd&quot;);
+
+using (XmlReader r = XmlReader.Create (&quot;customers.xml&quot;, settings))
+  try { while (r.Read()) ; }
+  catch (XmlSchemaValidationException ex)
+  {
+    ...
+  }</pre>
+<p>Using ValidationEventHandler:</p>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.ValidationType = ValidationType.Schema;
+settings.Schemas.Add (null, &quot;customers.xsd&quot;);
+settings.ValidationEventHandler += ValidationHandler;
+
+using (XmlReader r = XmlReader.Create (&quot;customers.xml&quot;, settings))
+  while (r.Read()) ;</pre>
+<pre>static void ValidationHandler (object sender, ValidationEventArgs e)
+{
+  Console.WriteLine (&quot;Error: &quot; + e.Exception.Message);
+}</pre>
+<p>Validating an X-DOM or XmlDocument:</p>
+<pre>XmlReaderSettings settings = new XmlReaderSettings();
+settings.ValidationType = ValidationType.Schema;
+settings.Schemas.Add (null, &quot;customers.xsd&quot;);
+
+XDocument doc;
+using (XmlReader r = XmlReader.Create (&quot;customers.xml&quot;, settings))
+  try { doc = XDocument.Load (r); }
+  catch (XmlSchemaValidationException ex) { ... }
+
+XmlDocument xmlDoc = new XmlDocument();
+using (XmlReader r = XmlReader.Create (&quot;customers.xml&quot;, settings))
+  try { xmlDoc.Load (r); }
+  catch (XmlSchemaValidationException ex) { ... }</pre>
+<pre>XDocument doc = XDocument.Load (@&quot;customers.xml&quot;);
+XmlSchemaSet set = new XmlSchemaSet();
+set.Add (null, @&quot;customers.xsd&quot;);
+StringBuilder errors = new StringBuilder();
+doc.Validate (set, (sender, args) =&gt; { errors.AppendLine
+                                       (args.Exception.Message); }
+             );
+Console.WriteLine (errors.ToString());</pre>
+<p>XSLT:</p>
+<pre>&lt;customer&gt;
+  &lt;firstname&gt;Jim&lt;/firstname&gt;
+  &lt;lastname&gt;Bo&lt;/lastname&gt;
+&lt;/customer&gt;</pre>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+  &lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; version=&quot;1.0&quot;&gt;
+  &lt;xsl:template match=&quot;/&quot;&gt;
+    &lt;html&gt;
+      &lt;p&gt;&lt;xsl:value-of select=&quot;//firstname&quot;/&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;xsl:value-of select=&quot;//lastname&quot;/&gt;&lt;/p&gt;
+    &lt;/html&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;
+</pre>
+<pre>XslCompiledTransform transform = new XslCompiledTransform();
+transform.Load (&quot;test.xslt&quot;);
+transform.Transform (&quot;input.xml&quot;, &quot;output.xml&quot;);</pre>
+
+</div>
+
+
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-size: 80%">© 2007-2012, Joe Albahari, Ben Albahari and O'Reilly Media,
+            Inc. All rights reserved</span></p>
+    <div id="side">
+        
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <a href="index.html">
+                            <img src="animal.png" alt="C# 5.0 in a Nutshell" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="shadow">
+                <div class="shadowinner">
+                    <table width="100%" cellpadding="0" cellspacing="0"
+                        border="0" class="sidetable">
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="cs50.png" alt="C# 5.0" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle" style="background: #BF2C19">
+                                <a href="index.html">
+                                    <img src="inanutshell.png" alt="in a Nutshell" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="middle">
+                                <a href="index.html">
+                                    <img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari" />
+                                </a>
+                            </td>
+                        </tr>
+                       
+                        
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="about.html">About the Book</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelinka" href="code.html">Code Listings</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       <table width="90%" cellpadding="0" cellspacing="0" class="subcontent"><tr><td align="right"><a href="code.html" class="sublink">C# 5.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 4.0 in a Nutshell</a></td></tr>
+       <tr><td align="right"><a href="code.html" class="sublink">C# 3.0 in a Nutshell</a></td></tr></table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="extras.html">Extras</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+            <tr>
+                <td align="left" valign="bottom">
+                    <img src="animalsmall.png" alt="" />
+                </td>
+                <td align="right" valign="bottom">
+                    <a class="sidelink" href="contact.html">Contact Authors</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+       &nbsp;
+    </td>
+</tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 0.5em">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="http://www.amazon.com/gp/product/1449320104?ie=UTF8&amp;tag=cinanu-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449320104">
+                                <img src="amazon.gif" alt="Buy from amazon.com" />
+                            </a>
+                        </td>
+                        <td>
+                            Available now
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    </form>
+</body>
+
+<!-- Mirrored from www.albahari.com/nutshell/cs4ch11.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer/integer_mask.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:05 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>boost/integer/integer_mask.hpp - 1.54.0</title>  <link rel="icon" href="http://www.boost.org/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" type="text/css" href="http://www.boost.org/style-v2/section-doc.css" />
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+
+</head>
+
+<body>
+  <div id="heading">
+    <div class="heading-inner">
+  <div class="heading-placard"></div>
+
+  <h1 class="heading-title">
+  <a href="http://www.boost.org/">
+  <img src="http://www.boost.org/gfx/space.png" alt= "Boost C++ Libraries" class="heading-logo" />
+  <span class="heading-boost">Boost</span>
+  <span class="heading-cpplibraries">C++ Libraries</span>
+  </a></h1>
+
+  <p class="heading-quote">
+  <q>...one of the most highly
+  regarded and expertly designed C++ library projects in the
+  world.</q> <span class="heading-attribution">&mdash; <a href=
+  "http://www.gotw.ca/" class="external">Herb Sutter</a> and <a href=
+  "http://en.wikipedia.org/wiki/Andrei_Alexandrescu" class="external">Andrei
+  Alexandrescu</a>, <a href=
+  "http://safari.awprofessional.com/?XmlId=0321113586" class="external">C++
+  Coding Standards</a></span></p>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33761719-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </div>
+
+  <div id="body">
+    <div id="body-inner">
+      <div id="content">
+        <div class="section" id="docs">
+          <div class="section-0">
+            <div class="section-body">
+              <h3>boost/integer/integer_mask.hpp</h3>
+<pre>
+//  Boost integer/integer_mask.hpp header file  ------------------------------//
+
+//  (C) Copyright Daryle Walker 2001.
+//  Distributed under the Boost Software License, Version 1.0. (See
+//  accompanying file LICENSE_1_0.txt or copy at
+//  <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>)
+
+//  See http://www.boost.org for updates, documentation, and revision history. 
+
+#ifndef BOOST_INTEGER_INTEGER_MASK_HPP
+#define BOOST_INTEGER_INTEGER_MASK_HPP
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/integer_fwd.hpp">boost/integer_fwd.hpp</a>&gt;  // self include
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/config.hpp">boost/config.hpp</a>&gt;   // for BOOST_STATIC_CONSTANT
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/integer.hpp">boost/integer.hpp</a>&gt;  // for boost::uint_t
+
+#include &lt;climits&gt;  // for UCHAR_MAX, etc.
+#include &lt;cstddef&gt;  // for std::size_t
+
+#include &lt;<a href="http://www.boost.org/doc/libs/1_54_0/boost/limits.hpp">boost/limits.hpp</a>&gt;  // for std::numeric_limits
+
+//
+// We simply cannot include this header on gcc without getting copious warnings of the kind:
+//
+// boost/integer/integer_mask.hpp:93:35: warning: use of C99 long long integer constant
+//
+// And yet there is no other reasonable implementation, so we declare this a system header
+// to suppress these warnings.
+//
+#if defined(__GNUC__) &amp;&amp; (__GNUC__ &gt;= 4)
+#pragma GCC system_header
+#endif
+
+namespace boost
+{
+
+
+//  Specified single-bit mask class declaration  -----------------------------//
+//  (Lowest bit starts counting at 0.)
+
+template &lt; std::size_t Bit &gt;
+struct high_bit_mask_t
+{
+    typedef typename uint_t&lt;(Bit + 1)&gt;::least  least;
+    typedef typename uint_t&lt;(Bit + 1)&gt;::fast   fast;
+
+    BOOST_STATIC_CONSTANT( least, high_bit = (least( 1u ) &lt;&lt; Bit) );
+    BOOST_STATIC_CONSTANT( fast, high_bit_fast = (fast( 1u ) &lt;&lt; Bit) );
+
+    BOOST_STATIC_CONSTANT( std::size_t, bit_position = Bit );
+
+};  // boost::high_bit_mask_t
+
+
+//  Specified bit-block mask class declaration  ------------------------------//
+//  Makes masks for the lowest N bits
+//  (Specializations are needed when N fills up a type.)
+
+template &lt; std::size_t Bits &gt;
+struct low_bits_mask_t
+{
+    typedef typename uint_t&lt;Bits&gt;::least  least;
+    typedef typename uint_t&lt;Bits&gt;::fast   fast;
+
+    BOOST_STATIC_CONSTANT( least, sig_bits = (~( ~(least( 0u )) &lt;&lt; Bits )) );
+    BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );
+
+    BOOST_STATIC_CONSTANT( std::size_t, bit_count = Bits );
+
+};  // boost::low_bits_mask_t
+
+
+#define BOOST_LOW_BITS_MASK_SPECIALIZE( Type )                                  \
+  template &lt;  &gt;  struct low_bits_mask_t&lt; std::numeric_limits&lt;Type&gt;::digits &gt;  { \
+      typedef std::numeric_limits&lt;Type&gt;           limits_type;                  \
+      typedef uint_t&lt;limits_type::digits&gt;::least  least;                        \
+      typedef uint_t&lt;limits_type::digits&gt;::fast   fast;                         \
+      BOOST_STATIC_CONSTANT( least, sig_bits = (~( least(0u) )) );              \
+      BOOST_STATIC_CONSTANT( fast, sig_bits_fast = fast(sig_bits) );            \
+      BOOST_STATIC_CONSTANT( std::size_t, bit_count = limits_type::digits );    \
+  }
+
+#ifdef BOOST_MSVC
+#pragma warning(push)
+#pragma warning(disable:4245)  // 'initializing' : conversion from 'int' to 'const boost::low_bits_mask_t&lt;8&gt;::least', signed/unsigned mismatch
+#endif
+
+BOOST_LOW_BITS_MASK_SPECIALIZE( unsigned char );
+
+#if USHRT_MAX &gt; UCHAR_MAX
+BOOST_LOW_BITS_MASK_SPECIALIZE( unsigned short );
+#endif
+
+#if UINT_MAX &gt; USHRT_MAX
+BOOST_LOW_BITS_MASK_SPECIALIZE( unsigned int );
+#endif
+
+#if ULONG_MAX &gt; UINT_MAX
+BOOST_LOW_BITS_MASK_SPECIALIZE( unsigned long );
+#endif
+
+#if defined(BOOST_HAS_LONG_LONG)
+    #if ((defined(ULLONG_MAX) &amp;&amp; (ULLONG_MAX &gt; ULONG_MAX)) ||\
+        (defined(ULONG_LONG_MAX) &amp;&amp; (ULONG_LONG_MAX &gt; ULONG_MAX)) ||\
+        (defined(ULONGLONG_MAX) &amp;&amp; (ULONGLONG_MAX &gt; ULONG_MAX)) ||\
+        (defined(_ULLONG_MAX) &amp;&amp; (_ULLONG_MAX &gt; ULONG_MAX)))
+    BOOST_LOW_BITS_MASK_SPECIALIZE( boost::ulong_long_type );
+    #endif
+#elif defined(BOOST_HAS_MS_INT64)
+    #if 18446744073709551615ui64 &gt; ULONG_MAX
+    BOOST_LOW_BITS_MASK_SPECIALIZE( unsigned __int64 );
+    #endif
+#endif
+
+#ifdef BOOST_MSVC
+#pragma warning(pop)
+#endif
+
+#undef BOOST_LOW_BITS_MASK_SPECIALIZE
+
+
+}  // namespace boost
+
+
+#endif  // BOOST_INTEGER_INTEGER_MASK_HPP
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="footer-left">
+      <div id="revised">
+        <p>Revised $Date: 2010-09-26 09:11:52 -0400 (Sun, 26 Sep 2010) $</p>
+      </div>
+
+      <div id="copyright">
+        <p>Copyright Beman Dawes, David Abrahams, 1998-2005.</p>
+
+        <p>Copyright Rene Rivera 2004-2008.</p>
+      </div>  <div id="license">
+    <p>Distributed under the <a href="http://www.boost.org/LICENSE_1_0.txt" class=
+    "internal">Boost Software License, Version 1.0</a>.</p>
+  </div>
+    </div>
+
+    <div id="footer-right">
+        <div id="banners">
+    <p id="banner-xhtml"><a href="http://validator.w3.org/check?uri=referer"
+    class="external">XHTML 1.0</a></p>
+
+    <p id="banner-css"><a href=
+    "http://jigsaw.w3.org/css-validator/check/referer" class=
+    "external">CSS</a></p>
+
+    <p id="banner-osi"><a href=
+    "http://www.opensource.org/docs/definition.php" class="external">OSI
+    Certified</a></p>
+  </div>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+</body>
+
+<!-- Mirrored from www.boost.org/doc/libs/1_54_0/boost/integer/integer_mask.hpp by HTTrack Website Copier/3.x [XR&CO'2008], Sun, 15 Sep 2013 18:14:05 GMT -->
+</html>

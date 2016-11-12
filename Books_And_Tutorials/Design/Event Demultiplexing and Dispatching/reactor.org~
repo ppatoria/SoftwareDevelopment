@@ -1,0 +1,673 @@
+
+
+
+
+
+Reactor
+
+
+The Reactor architectural pattern allows event-driven applications to demultiplex and dispatch service requests that are delivered to an application from one or more clients.
+
+Also known as
+
+Dispatcher, Notifier
+
+Example
+
+Consider an event-driven server for a distributed logging service. Remote client applications use this logging service to record information about their status within a distributed system. This status information commonly includes error notifications, debugging traces, and performance diagnostics. Logging records are sent to a central logging server, which can write the records to various output devices, such as a console, a printer, a file, or a network management database.
+
+ 
+
+Clients communicate with the logging server using a connection-oriented protocol, such as TCP [Ste98]. Clients and the logging service are thus bound to transport endpoints designated by full associations consisting of the IP addresses and TCP port numbers that uniquely identify clients and the logging service.
+
+The logging service can be accessed simultaneously by multiple clients, each of which maintains its own connection with the logging server. A new client connection request is indicated to the server by a CONNECT event. A request to process logging records within the logging service is indicated by a READ event, which instructs the logging service to read new input from one of its client connections. The logging records and connection requests issued by clients can arrive concurrently at the logging server.
+
+One way to implement a logging server is to use some type of multi-threading model. For example, the server could use a ‘thread-per-connection’ model that allocates a dedicated thread of control for each connection and processes logging records as they arrive from clients. Using multi-threading can incur the following liabilities, however:
+•Threading may be inefficient and non-scalable due to context switching, synchronization, and data movement among CPUs.
+•Threading may require the use of complex concurrency control schemes throughout server code.
+•Threading is not available on all operating systems, nor do all operating systems provide portable threading semantics.
+•A concurrent server may be better optimized by aligning its threading strategy to available resources, such as the number of CPUs, rather than to the number of clients is services concurrently.
+
+These drawbacks can make multi-threading an inefficient and overly-complex solution for developing a logging server. To ensure adequate quality of service for all connected clients, however, a logging server must handle requests efficiently and fairly. In particular, it should not service just one client and starve the others.
+
+Context
+
+An event-driven application that receives multiple service requests simultaneously, but processes them synchronously and serially.
+
+Problem
+
+Event-driven applications in a distributed system, particularly servers,1 must be prepared to handle multiple service requests simultaneously, even if those requests are ultimately processed serially within the application. The arrival of each request is identified by a specific indication event, such as the CONNECT and READ events in our logging example. Before executing specific services serially, therefore, an event-driven application must demultiplex and dispatch the concurrently-arriving indication events to the corresponding service implementations.
+
+Resolving this problem effectively requires the resolution of four forces:
+•To improve scalability and latency, an application should not block on any single source of indication events and exclude other event sources, because blocking on one event source can degrade the server’s responsiveness to clients.
+•To maximize throughput, any unnecessary context switching, synchronization, and data movement among CPUs should be avoided, as outlined in the Example section.
+•Integrating new or improved services with existing indication event demultiplexing and dispatching mechanisms should require minimal effort.
+•Application code should largely be shielded from the complexity of multi-threading and synchronization mechanisms.
+
+Solution
+
+Synchronously wait for the arrival of indication events on one or more event sources, such as connected socket handles. Integrate the mechanisms that demultiplex and dispatch the events to services that process them. Decouple these event demultiplexing and dispatching mechanisms from the application-specific processing of indication events within the services.
+
+In detail: for each service an application offers, introduce a separate event handler that processes certain types of events from certain event sources. Event handlers register with a reactor, which uses a synchronous event demultiplexer to wait for indication events to occur on one or more event sources. When indication events occur, the synchronous event demultiplexer notifies the reactor, which then synchronously dispatches the event handler associated with the event so that it can perform the requested service.
+
+Structure
+
+There are five key participants in the Reactor pattern:
+
+Handles are provided by operating systems to identify event sources, such as network connections or open files, that can generate and queue indication events. Indication events can originate from external sources, such as CONNECT events or READ events sent to a service from clients, or internal sources, such as time-outs. When an indication event occurs on an event source, the event is queued on its associated handle and the handle is marked as ‘ready’. At this point, an operation, such as an accept() or read(), can be performed on the handle without blocking the calling thread.
+
+ Socket handles are used in the logging server to identify transport endpoints that receive CONNECT and READ indication events. A passive-mode transport endpoint and its associated socket handle listen for CONNECT indications events. The logging server then maintains a separate connection, and thus a separate socket handle, for each connected client.
+
+A synchronous event demultiplexer is a function called to wait for one or more indication events to occur on a set of handles—a handle set. This call blocks until indication events on its handle set inform the synchronous event demultiplexer that one or more handles in the set have become ‘ready’, meaning that an operation can be initiated on them without blocking.
+
+ select() is a common synchronous event demultiplexer function for I/O events [Ste98] supported by many operating systems, including UNIX and Win32 platforms. The select() call indicates which handles in its handle set have indication events pending. Operations can be invoked on these handles synchronously without blocking the calling thread.
+
+ 
+
+An event handler specifies an interface consisting of one or more hook methods [Pree95] [GoF95]. These methods represent the set of operations available to process application-specific indication events that occur on handle(s) associated with an event handler.
+
+Concrete event handlers specialize the event handler and implement a specific service that the application offers. Each concrete event handler is associated with a handle that identifies this service within the application. In particular, concrete event handlers implement the hook method(s) responsible for processing indication events received through their associated handle. Any results of the service can be returned to its caller by writing output to the handle.
+
+ The logging server contains two types of concrete event handlers: logging acceptor and logging handler. The logging acceptor uses the Acceptor-Connector pattern (285) to create and connect logging handlers. Each logging handler is responsible for receiving and processing logging records sent from its connected client.
+
+ 
+
+A reactor defines an interface that allows applications to register or remove event handlers and their associated handles, and run the application’s event loop. A reactor uses its synchronous event demultiplexer to wait for indication events to occur on its handle set. When this occurs, the reactor first demultiplexes each indication event from the handle on which it occurs to its associated event handler, then it dispatches the appropriate hook method on the handler to process the event.
+
+ 
+
+Note how the structure introduced by the Reactor pattern ‘inverts’ the flow of control within an application. It is the responsibility of a reactor, not an application, to wait for indication events, demultiplex these events to their concrete event handlers, and dispatch the appropriate hook method on the concrete event handler. In particular, a reactor is not called by a concrete event handler, but instead a reactor dispatches concrete event handlers, which react to the occurrence of a specific event. This ‘inversion of control’ is known as the Hollywood principle [Vlis98a].
+
+Application developers are thus only responsible for implementing the concrete event handlers and registering them with the reactor. Applications can simply reuse the reactor’s demultiplexing and dispatching mechanisms.
+
+The structure of the participants in the Reactor pattern is illustrated in the following class diagram:
+
+ 
+
+Dynamics
+
+The collaborations in the Reactor pattern illustrate how the flow of control oscillates between the reactor and event handler components:
+•An application registers a concrete event handler with the reactor. At this point, the application also indicates the type of indication event(s) the event handler wants the reactor to notify it about, when such event(s) occur on the associated handle.
+•The reactor instructs each event handler to provide its internal handle, in our example by invoking their get_handle() method. This handle identifies the source of indication events to the synchronous event demultiplexer and the operating system.
+•After all event handlers are registered, the application starts the reactor’s event loop, which we call handle_events(). At this point the reactor combines the handles from each registered event handler into a handle set. It then calls the synchronous event demultiplexer to wait for indication events to occur on the handle set.
+•The synchronous event demultiplexer function returns to the reactor when one or more handles corresponding to event sources becomes ‘ready’, for example when a Socket becomes ‘ready to read’.
+•The reactor then uses the ready handles as ‘keys’ to locate the appropriate event handler(s) and dispatch the corresponding hook method(s). The type of indication event that occurred can be passed as a parameter to the hook method. This method can use this type information to perform any additional application-specific demultiplexing and dispatching operations.2
+•After the appropriate hook method within the event handler is dispatched, it processes the invoked service. This service can write the results of its processing, if any, to the handle associated with the event handler so that they can be returned to the client that originally requested the service.
+
+ 
+
+Implementation
+
+The participants in the Reactor pattern decompose into two layers:
+•Demultiplexing/dispatching infrastructure layer components. This layer performs generic, application-independent strategies for demultiplexing indication events to event handlers and then dispatching the associated event handler hook methods.
+•Application layer components. This layer defines concrete event handlers that perform application-specific processing in their hook methods.
+
+The implementation activities in this section start with the generic demultiplexing/dispatching infrastructure components and then cover the application components. We focus on a reactor implementation that is designed to demultiplex handle sets and dispatch hook methods on event handlers within a single thread of control. The Variants section describes the activities associated with developing concurrent reactor implementations.
+
+
+1 Define the event handler interface. Event handlers specify an interface consisting of one or more hook methods [Pree95]. These hook methods represent the set of services that are available to process indication events received and dispatched by the reactor. As described in implementation activity 5 (196), concrete event handlers are created by application developers to perform specific services in response to particular indication events. Defining an event handler interface consists two sub-activities: 
+
+1.1 Determine the type of the dispatching target. Two types of event handlers can be associated with a handle to serve as the target of a reactor’s dispatching strategy: 
+•Event handler objects. In object-oriented applications a common way to associate an event handler with a handle is to create an event handler object. For example, the Reactor pattern implementation shown in the Structure section dispatches concrete event handler objects. Using an object as the dispatching target makes it convenient to subclass event handlers to reuse and extend existing components. Similarly, objects make it easy to integrate the state and methods of a service into a single component.
+•Event handler functions. Another strategy for associating an event handler with a handle is to register a pointer to a function with a reactor rather than an object. Using a pointer to a function as the dispatching target makes it convenient to register callbacks without having to define a new subclass that inherits from an event handler base class.
+
+The Adapter pattern [GoF95] can be employed to support both objects and pointers to functions simultaneously. For example, an adapter could be defined using an event handler object that holds a pointer to an event handler function. When the hook method was invoked on the event handler adapter object it could automatically forward the call to the event handler function that it encapsulates.
+
+
+1.2 Determine the event handling dispatch interface strategy. We must next define the type of interface supported by the event handlers for processing events. Assuming that we use event handler objects rather than pointers to functions, there are two general strategies: 
+•Single-method dispatch interface strategy. The class diagram in the Structure section illustrates an implementation of the Event_Handler base class interface that contains a single event handling method, which is used by a reactor to dispatch events. In this case, the type of the event that has occurred is passed as a parameter to the method.
+
+ We specify a C++ abstract base class that illustrates the single-method interface. We start by defining a useful type definition and enumeration literals that can be used by both the single-method and multi-method dispatch interface strategies:
+typedef unsigned int Event_Type;
+enum {
+   // Types of indication events.
+   READ_EVENT = 01, // ACCEPT_EVENT aliases READ_EVENT
+   ACCEPT_EVENT = 01, // due to <select> semantics.
+   WRITE_EVENT = 02, TIMEOUT_EVENT = 04,
+   SIGNAL_EVENT = 010, CLOSE_EVENT = 020
+   // These values are powers of two so
+   // their bits can be “or’d” together efficiently.
+};
+
+
+Next, we implement the Event_Handler class:
+class Event_Handler { // Single-method interface.
+public:
+   // Hook method dispatched by <Reactor> to handle
+   // events of a particular type.
+   virtual void handle_event (HANDLE handle, Event_Type et) = 0;
+   // Hook method that returns the I/O <HANDLE>.
+   virtual HANDLE get_handle () const = 0;
+protected:
+   // Virtual destructor is protected to ensure
+   // dynamic allocation.
+   virtual ~Event_Handler ();
+};
+
+
+The single-method dispatch interface strategy makes it possible to support new types of indication events without changing the class interface. However, this strategy encourages the use of C++ switch and if statements in the concrete event handler’s handle_event() method implementation to handle a specific event, which degrades its extensibility.
+•Multi-method dispatch interface strategy. A different strategy for defining the Event_Handler dispatch interface is to create separate hook methods for handling each type of event, such as input events, output events, or time-out events. This strategy can be more extensible than the single-method dispatch interface because the demultiplexing is performed by a reactor implementation, rather than by a concrete event handler’s handle_event() method implementation.
+
+ The following C++ abstract base class illustrates the multi-method interface:
+class Event_Handler {
+public:
+   // Hook methods dispatched by a <Reactor> to handle
+   // particular types of events.
+   virtual void handle_input (HANDLE handle) = 0;
+   virtual void handle_output (HANDLE handle) = 0;
+   virtual void handle_timeout (const Time_Value &) = 0;
+   virtual void handle_close (HANDLE handle,
+                              Event_Type et) = 0;
+   // Hook method that returns the I/O <HANDLE>.
+   virtual HANDLE get_handle () const = 0;
+};
+
+
+The multi-method dispatch interface strategy makes it easy to override methods in the base class selectively, which avoids additional demultiplexing via switch or if statements in the hook method implementation. However, this strategy requires pattern implementors to anticipate the event handler methods in advance. The various handle_*() methods in the Event_Handler dispatch interface above are tailored for I/O and time-out indication events supported by the select() function. This function does not encompass all the types of indication events, such as synchronization events that can be handled via the Win32 WaitForMultipleObjects() function [SchSt95]. 
+
+Both the single-method and multi-method dispatch interface strategies are implementations of the Hook Method [Pree95] and Template Method [GoF95] patterns. Their intent is to provide well-defined hooks that can be specialized by applications and called back by lower-level dispatching code. This allows application programmers to define concrete event handlers using inheritance and polymorphism.
+
+
+2 Define the reactor interface. The reactor’s interface is used by applications to register or remove event handlers and their associated handles, as well as to invoke the application’s event loop. The reactor interface is often accessed via a Singleton [GoF95] because a single reactor is often sufficient for each application process. 
+
+To shield applications from complex and non-portable demultiplexing and dispatching operating system platform mechanisms, the Reactor pattern can use the Bridge pattern [GoF95]. The reactor interface corresponds to the abstraction participant in the Bridge pattern, whereas a platform-specific reactor instance is accessed internally via a pointer, in accordance with the implementation hierarchy in the Bridge pattern.
+
+ The reactor interface in our logging server defines an abstraction for registering and removing event handlers, and running the application’s event loop reactively:
+class Reactor {
+public:
+   // Methods that register and remove <Event_Handler>s
+   // of particular <Event_Type>s on a <HANDLE>.
+   virtual void register_handler
+      (Event_Handler *eh, Event_Type et) = 0;
+   virtual void register_handler
+      (HANDLE h, Event_Handler *eh, Event_Type et) = 0;
+   virtual void remove_handler
+      (Event_Handler *eh, Event_Type et) = 0;
+   virtual void remove_handler
+      (HANDLE h, Event_Type et) = 0;
+ 
+   // Entry point into the reactive event loop. The
+   // <timeout> can bound time waiting for events.
+   void handle_events (Time_Value *timeout = 0);
+   // Define a singleton access point.
+   static Reactor *instance ();
+private:
+   // Use the Bridge pattern to hold a pointer to
+   // the <Reactor_Implementation>.
+   Reactor_Implementation *reactor_impl_;
+};
+
+
+A typical reactor interface also defines a pair of overloaded methods, which we call register_handler(), that allow applications to register handles and event handlers at run-time with the reactor’s internal demultiplexing table described in implementation activity 3.3 (193). In general, the method for registering event handlers can be defined using either or both of the following signatures:
+•Two parameters. In this design, one parameter identifies the event handler and another that indicates the type of indication event(s) the event handler has registered to process. The method’s implementation uses ‘double-dispatching’ [GoF95] to obtain a handle by calling back to an event handler method get_handle(). The advantage of this design is that the ‘wrong’ handle cannot be associated with an event handler accidentally.
+
+ The following code fragment illustrates how double-dispatching is used in the register_handler() implementation:
+void Select_Reactor_Implementation::register_handler
+      (Event_Handler *event_handler,
+      Event_Type event_type) {
+   // Double-dispatch to obtain the <HANDLE>.
+   HANDLE handle = event_handler->get_handle ();
+   // …
+}
+
+•Three parameters. In this design a third parameter is used to pass the handle explicitly. Although this design can be more error-prone than the two-parameter signature, it allows an application to register the same event handler for multiple handles, which may help to conserve memory.
+
+Both types of registration methods store their parameters into the appropriate demultiplexing table, as indicated by the handle.
+
+The reactor interface also defines two other overloaded methods, which we call remove_handler(), that can be used to remove an event handler from a reactor. For example, an application may no longer want to process one or more types of indication events on a particular handle. These methods remove the event handler from a reactor’s internal demultiplexing table so that it is no longer registered for any types of indication events. The signatures of the methods that remove an event handler can be passed either a handle or an event handler in the same way as the event handler registration methods.
+
+The reactor interface also defines its main entry point method, which we call handle_events(), that applications can use to run their reactive event loop. This method calls the synchronous event demultiplexer to wait for indication events to occur on its handle set. An application can use the timeout parameter to bound the time it spends waiting for indication events, so that the application will not block indefinitely if events never arrive.
+
+When one or more indication events occur on the handle set, the synchronous event demultiplexer function returns. At this point the handle_events() method ‘reacts’ by demultiplexing to the event handler associated with each handle that is now ready. It then dispatches the handler’s hook method to process the event.
+
+
+3 Implement the reactor interface. Four sub-activities help implement the reactor interface defined in implementation activity 2 (189): 
+
+3.1 Develop a reactor implementation hierarchy. The reactor interface abstraction illustrated in implementation activity 2 (189) delegates all its demultiplexing and dispatching processing to a reactor implementation, which plays the role of the implementation hierarchy in the Bridge pattern [GoF95]. This design makes it possible to implement and configure multiple types of reactors transparently. For example, a concrete reactor implementation can be created using different types of synchronous event demultiplexers, such as select() [Ste98], poll() [Rago93], or WaitForMultipleObjects() [Sol98], each of which provides the features and limitations described in implementation activity 3.2 (192). 
+
+ In our example the base class of the reactor implementation hierarchy is defined by the class Reactor_Implementation. We omit its declaration here because this class has essentially the same interface as the Reactor interface in implementation activity 2 (189). The primary difference is that its methods are pure virtual, because it forms the base of a hierarchy of concrete reactor implementations.
+
+
+3.2 Choose a synchronous event demultiplexer mechanism. The reactor implementation calls a synchronous event demultiplexer to wait for one or more indication events to occur on the reactor’s handle set. This call returns when any handle(s) in the set are ‘ready’, meaning that operations can be invoked on the handles without blocking the application process. The synchronous event demultiplexer, as well as the handles and handle sets, are often existing operating system mechanisms, so they need not be developed by reactor implementors. 
+
+ For our logging server, we choose the select() function, which is a synchronous event demultiplexer that allows event-driven reactive applications to wait for an application-specified amount of time for various types of I/O events to occur on multiple I/O handles:
+int select (u_int max_handle_plus_1,
+   fd_set *read_fds, fd_set *write_fds,
+   fd_set *except_fds,timeval *timeout);
+
+
+The select() function examines the three ‘file descriptor set’ (fd_set) parameters whose addresses are passed in read_fds, write_fds, and except_fds to see if any of their handles are ‘ready for reading’, ‘reading for writing’, or have an ‘exceptional condition’, respectively. Collectively, the handle values in these three file descriptor set parameters constitute the handle set participant in the Reactor pattern.
+
+The select() function can return multiple ‘ready’ handles to its caller in a single invocation. It cannot be called concurrently on the same handle set by multiple threads of control, however, because the operating system will erroneously notify more than one thread calling select() when I/O events are pending on the same subset of handles [Ste98]. In addition, select() does not scale up well when used with a large set of handles [BaMo98].
+
+Two other synchronous event demultiplexers that are available on some operating systems are the poll() and WaitForMultipleObjects() functions. These two functions have similar scalability problems as select(). They are also less portable, because they are only available on platforms compatible with Win32 and System V Release 4 UNIX, respectively. The Variants section describes a unique feature of WaitForMultipleObjects() that allows it to be called concurrently on the same handle set by multiple threads of control.
+
+
+3.3 Implement a demultiplexing table. In addition to calling the synchronous event demultiplexer to wait for indication events to occur on its handle set, a reactor implementation maintains a demultiplexing table. This table is a manager [Som97] that contain a set of <handle, event handler, indication event types> tuples. Each handle serves as a ‘key’ that the reactor implementation uses to associate handles with event handlers in its demultiplexing table. This table also stores the type of indication event(s), such as CONNECT and READ, that each event handler has registered on its handle. 
+
+The demultiplexing table can be implemented using various search strategies, such as direct indexing, linear search, or dynamic hashing. If handles are represented as a continuous range of integers, as they are on UNIX platforms, direct indexing is most efficient, because demultiplexing table tuple entries can be located in constant O(1) time.
+
+On platforms like Win32 where handles are non-contiguous pointers, direct indexing is infeasible. Some type of linear search or hashing must therefore be used to implement a demultiplexing table.
+
+ I/O handles in UNIX are contiguous integer values, which allows our demultiplexing table to be implemented as a fixed-size array of structs. In this design, the handle values themselves index directly into the demultiplexing table’s array to locate event handlers or event registration types in constant time. The following class illustrates such an implementation that maps HANDLEs to Event_Handlers and Event_Types:
+class Demux_Table {
+public:
+   // Convert <Tuple> array to <fd_set>s.
+   void convert_to_fd_sets (fd_set &read_fds,
+                  fd_set &write_fds,
+                  fd_set &except_fds);
+ 
+   struct Tuple {
+      // Pointer to <Event_Handler> that processes
+      // the indication events arriving on the handle.
+      Event_Handler *event_handler_;
+ 
+      // Bit-mask that tracks which types of indication
+      // events <Event_Handler> is registered for.
+      Event_Type event_type_;
+};
+   // Table of <Tuple>s indexed by Handle values. The
+   // macro FD_SETSIZE is typically defined in the
+   // <sys/socket.h> system header file.
+   Tuple table_[FD_SETSIZE];
+};
+
+
+In this simple implementation, the Demux_Table’s table_ array is indexed by UNIX I/O handle values, which are unsigned integers ranging from 0 to FD_SETSIZE-1. Naturally, a more portable solution should encapsulate the UNIX-specific implementation details with a wrapper facade (47).
+
+
+3.4 Define the concrete reactor implementation. As shown in implementation activity 2 (189), the reactor interface holds a pointer to a concrete reactor implementation and forwards all method calls to it. 
+
+ Our concrete reactor implementation uses select() as its synchronous event demultiplexer and the Demux_Table class as its demultiplexing table. It inherits from the Reactor_Implementation class and overrides its pure virtual methods:
+class Select_Reactor_Implementation :
+   public Reactor_Implementation {
+public:
+
+
+The handle_events() method defines the entry point into the reactive event loop of our Select_Reactor_Implementation:
+   void Select_Reactor_Implementation::handle_events
+      (Time_Value *timeout = 0) {
+
+
+This method first converts the Demux_Table tuples into fd_set handle sets that can be passed to select():
+      fd_set read_fds, write_fds, except_fds;
+ 
+      demuxtable.convert_to_fd_sets
+         (read_fds,write_fds,except_fds);
+
+
+Next, select() is called to wait for up to timeout amount of time for indication events to occur on the handle sets:
+      HANDLE max_handle = // Max value in <fd_set>s.
+      int result = select
+         (max_handle + 1,
+         &read_fds, &write_fds, &except_fds,
+         timeout);
+ 
+      if (result <= 0)
+         throw /* handle error or timeout cases */;
+
+
+Finally, we iterate over the handle sets and dispatch the hook method(s) on event handlers whose handles have become ‘ready’ due to the occurrence of indication events:
+      for (HANDLE h = 0; h <= max_handle; ++h) {
+         // This check covers READ_ + ACCEPT_EVENTs
+         // because they have the same enum value.
+         if (FD_ISSET (&read_fds, h))
+            demux_table.table_[h].event_handler_->
+               handle_event (h, READ_EVENT);
+ 
+         // … perform the same dispatching logic for
+         // WRITE_EVENTs and EXCEPT_EVENTs …
+}
+
+
+For brevity, we omit implementations of other methods in our reactor, for example those for registering and unregistering event handlers.
+
+The private portion of our reactor class maintains the event handler demultiplexing table:
+private:
+   // Demultiplexing table that maps <HANDLE>s to
+   // <Event_Handler>s and <Event_Type>s.
+   Demux_Table demux_table_;
+};
+
+
+Note that this implementation only works on operating system platforms where I/O handles are implemented as contiguous unsigned integers, such as UNIX. Implementing this pattern on platforms where handles are non-contiguous pointers, such as Win32, therefore requires an additional data structure to keep track of which handles are in use.
+
+
+4 Determine the number of reactors needed in an application. Many applications can be structured using a single instance of the Reactor pattern. In this case the reactor can be implemented using the Singleton pattern [GoF95], as shown in implementation activity 2 (189). This pattern is useful for centralizing event demultiplexing and dispatching in one reactor instance within an application. 
+
+However, some operating systems limit the number of handles that it is possible to wait for within a single thread of control. Win32, for example, allows WaitForMultipleObjects() to wait for a maximum of 64 handles in a single thread. To develop a scalable application in this case, it may be necessary to create multiple threads, each of which runs its own instance of the Reactor pattern.
+
+Allocating a separate reactor to each of the multiple threads can also be useful for certain types of real-time applications [SMFG00]. For example, different reactors can be associated with threads running at different priorities. This design provides different quality of service levels to process indication events for different types of synchronous operations.
+
+Note that event handlers are only serialized within an instance of the Reactor pattern. Multiple event handlers in multiple threads can therefore run in parallel. This configuration may necessitate the use of additional synchronization mechanisms if event handlers in different threads access shared state concurrently. The Variants section describes techniques for adding concurrency control to reactor and event handler implementations.
+
+
+5 Implement the concrete event handlers. Concrete event handlers derive from the event handler interface described in implementation activity 1 (186) to define application-specific functionality. Three sub-activities must be addressed when implementing concrete event handlers. 
+
+5.1 Determine policies for maintaining state in concrete event handlers. An event handler may need to maintain state information associated with a particular request. In our example, this could occur when an operating system notifies the logging server that only part of a logging record was read from a Socket, due to the occurrence of transport-level flow control. As a result, a concrete event handler may need to buffer the logging record fragment and return to the reactor’s event loop to await notification that the remainder of the record has arrived. The concrete event handler must therefore keep track of the number of bytes read so that it can append subsequent data correctly. 
+
+5.2 Implement a strategy to configure each concrete event handler with a handle. A concrete event handler performs operations on a handle. The two general strategies for configuring handles with event handlers are: 
+•Hard-coded. This strategy hard-codes handles, or wrapper facades (47) for handles, into the concrete event handler. This strategy is straightforward to implement, but is less reusable if different types of handles or IPC mechanisms must be configured into an event handler for different use cases. 
+ The Example Resolved section illustrates the SOCK_Acceptor and SOCK_Stream classes, which are hard-coded into the logging server components. These two classes are wrapper facades that are defined in the Implementation section of the Wrapper Facade pattern (47). They encapsulate the stream Socket semantics of socket handles within a portable and type-secure object-oriented interface. In the Internet domain, stream Sockets are implemented using TCP.
+
+•Generic. A more generic strategy is to instantiate wrapper facades (47) via parameterized types in a templatized event handler class. This strategy creates more flexible and reusable event handlers, although it may be unnecessarily general if a single type of handle or IPC mechanism is always used. 
+ The Acceptor, Connector, and Service_Handler classes shown in the Implementation section of the Acceptor-Connector pattern (285) are templates instantiated with wrapper facades.
+
+
+
+5.3 Implement concrete event handler functionality. Application developers must decide the processing actions to be performed to implement a service when its corresponding hook method is invoked by a reactor implementation. To separate connection-establishment functionality from subsequent service processing, concrete event handlers can be divided into several categories in accordance with the Acceptor-Connector pattern (285). In particular, service handlers implement application-specific services, whereas the reusable acceptors and connectors establish connections on behalf of these service handlers passively and actively, respectively. 
+
+Example Resolved
+
+Our logging server uses a singleton reactor implemented via the select() synchronous event demultiplexer along with two concrete event handlers—logging acceptor and logging handler—that accept connections and handle logging requests from clients, respectively. Before we discuss the implementation of the two concrete event handlers, which are based on the single-method dispatch interface strategy, we first illustrate the general behavior of the logging server using two scenarios.
+
+The first scenario depicts the sequence of steps performed when a client connects to the logging server:
+
+ 
+•The logging server first registers the logging acceptor with the reactor (1) to handle indication events corresponding to client connection requests. The logging server next invokes the event loop method of the reactor singleton (2).
+•The reactor singleton invokes the synchronous event demultiplexing select() operation to wait for connection indication events or logging data indication events to arrive (3). At this point, all further processing on the server is driven by the reactive demultiplexing and dispatching of event handlers.
+•A client sends a connection request to the logging server (4), which causes the reactor singleton to dispatch the logging acceptor’s handle_event() hook method (5) to notify it that a new connection indication event has arrived.
+•The logging acceptor accepts the new connection (6) and creates a logging handler to service the new client (7).
+•The logging handler registers its socket handle with the reactor singleton (8) and instructs the reactor to notify it when the reactor receives an indication event signaling that the Socket is now ‘ready for reading’.
+
+After the client is connected, it can send logging records to the server using the socket handle that was connected in step 6.
+
+The second scenario therefore depicts the sequence of steps performed by the reactive logging server to service a logging record:
+
+ 
+•A client sends a logging record request (1), which causes the server’s operating system to notify the reactor singleton that an indication event is pending on a handle it is select()’ing on.
+•The reactor singleton dispatches the handle_event() method of the logging handler associated with this handle (2), to notify it that the new indication event is intended for it.
+•The logging handler reads the record from the Socket in a non-blocking manner (3). Steps 2 and 3 are repeated until the logging record has been completely received from the socket handle.
+•The logging handler processes the logging record and writes it to the standard output of the logging server (4), from which it can be redirected to the appropriate output device.
+•The logging handler returns control back to the reactor’s event loop (5), which continues to wait for subsequent indication events.
+
+The following code implements the concrete event handlers for our logging server example. A Logging_Acceptor class provides passive connection establishment and a Logging_Handler class provides application-specific data reception and processing.
+
+The Logging_Acceptor class is an example of the acceptor component in the Acceptor-Connector pattern (285). It decouples the task of connection establishment and service initialization from the tasks performed after a connection is established and a service is initialized. The pattern enables the application-specific portion of a service, such as the Logging_Handler, to vary independently of the mechanism used to establish the connection and initialize the handler.
+
+A Logging_Acceptor object accepts connection requests from client applications passively and creates client-specific Logging_Handler objects, which receive and process logging records from clients. Note that Logging_Handler objects maintain sessions with their connected clients. A new connection is therefore not established for every logging record.
+
+The Logging_Acceptor class inherits from the ‘single-method’ dispatch interface variant of the Event_Handler base class that was defined in implementation activity 1.2 (187). The Logging_Acceptor constructor registers itself with a reactor for ACCEPT events:
+class Logging_Acceptor : public Event_Handler {
+public:
+   Logging_Acceptor (const INET_Addr &addr, Reactor *reactor):
+         acceptor_ (addr), reactor_ (reactor) {
+         reactor_->register_handler (this, ACCEPT_EVENT);
+}
+
+
+Note that the register_handler() method ‘double dispatches’ to the Logging_Acceptor’s get_handle() method to obtain its passive-mode socket handle. From this point, whenever a connection indication arrives the reactor dispatches the Logging_Acceptor’s handle_event() method, which is a factory method [GoF95]:
+   virtual void handle_event
+      (HANDLE, Event_Type event_type) {
+      // Can only be called for an ACCEPT event.
+      if (event_type == ACCEPT_EVENT) {
+         SOCK_Stream client_connection;
+ 
+         // Accept the connection.
+         acceptor_.accept (client_connection);
+ 
+         // Create a new <Logging_Handler>.
+         Logging_Handler *handler = new
+               Logging_Handler (client_connection, reactor_);
+      }
+   }
+
+
+The handle_event() hook method invokes the accept() method of the SOCK_Acceptor, which initializes a SOCK_Stream. After the SOCK_Stream is connected with the new client passively, a Logging_Handler object is allocated dynamically in the logging server to process the logging requests.
+
+The final method in this class returns the I/O handle of the underlying passive-mode socket:
+virtual HANDLE get_handle () const {
+   return acceptor_.get_handle ();
+}
+
+
+This method is called by the reactor singleton when the Logging_Acceptor is registered. The private portion of the Logging_Acceptor class is hard-coded to contain a SOCK_Acceptor wrapper facade (47):
+private:
+   // Socket factory that accepts client connections.
+   SOCK_Acceptor acceptor_;
+ 
+   // Cached <Reactor>.
+   Reactor *reactor_;
+};
+
+
+The SOCK_Acceptor handle factory enables a Logging_Acceptor object to accept connection indications on a passive-mode socket handle that is listening on a transport endpoint. When a connection arrives from a client, the SOCK_Acceptor accepts the connection passively and produces an initialized SOCK_Stream. The SOCK_Stream is then uses TCP to transfer data reliably between the client and the logging server.
+
+The Logging_Handler class receives and processes logging records sent by a client application. As with the Logging_Acceptor class shown above, the Logging_Handler inherits from Event_Handler so that its constructor can register itself with a reactor to be dispatched when READ events occur:
+class Logging_Handler : public Event_Handler {
+public:
+   Logging_Handler (const SOCK_Stream &stream,
+                     Reactor *reactor):
+         peer_stream_ (stream) {
+         reactor->register_handler (this, READ_EVENT);
+}
+
+
+Subsequently, when a logging record arrives at a connected Socket and the operating system generates a corresponding READ indication event, the reactor dispatches the handle_event() method of the associated Logging_Handler automatically:
+   virtual void handle_event (HANDLE, Event_Type event_type) {
+      if (event_type == READ_EVENT) {
+         Log_Record log_record;
+ 
+         // Code to handle “short-reads” omitted.
+         peer_stream_.recv (&log_record, sizeof log_record);
+ 
+         // Write logging record to standard output.
+         log_record.write (STDOUT);
+      }
+      else if (event_type == CLOSE_EVENT) {
+         peer_stream_.close ();
+ 
+         // Deallocate ourselves.
+         delete this;
+      }
+   }
+
+
+The handle_event() method receives, processes, and writes the logging record3 to the standard output (STDOUT). Similarly, when the client closes down the connection, the reactor passes the CLOSE event flag, which informs the Logging_Handler to shut down its SOCK_Stream and delete itself. The final method in this class returns the handle of the underlying data-mode stream socket:
+   virtual HANDLE get_handle () const {
+      return peer_stream_.get_handle ();
+   }
+
+
+This method is called by the reactor when the Logging_Handler is registered. The private portion of the Logging_Handler class is hard-coded to contain a SOCK_Stream wrapper facade (47):
+private:
+   // Receives logging records from a connected client.
+   SOCK_Stream peer_stream_;
+};
+
+
+The logging server contains a single main() function that implements a single-threaded logging server that waits in the reactor singleton’s handle_events() event loop:
+// Logging server port number.
+const u_short PORT = 10000;
+ 
+int main () {
+   // Logging server address.
+   INET_Addr addr (PORT);
+ 
+   // Initialize logging server endpoint and register
+   // with reactor singleton.
+   Logging_Acceptor la (addr, Reactor::instance ());
+ 
+   // Event loop that processes client connection
+   // requests and log records reactively.
+   for (;;)
+      Reactor::instance ()->handle_events ();
+   /* NOTREACHED */
+}
+
+
+As requests arrive from clients and are converted into indication events by the operating system, the reactor singleton invokes the hook methods on the Logging_Acceptor and Logging_Handler concrete event handlers to accept connections, and receive and process logging records, respectively.
+
+The sequence diagram below illustrates the behavior in the logging server:
+
+ 
+
+Variants
+
+The Implementation section described the activities involved in implementing a reactor that demultiplexes indication events from a set of I/O handles within a single thread of control. The following are variations of the Reactor pattern that are needed to support concurrency, re-entrancy, or timer-based events.
+
+Thread-safe Reactor. A reactor that drives the main event loop of a single-threaded application requires no locks, because it serializes the dispatching of event handler handle_event() hook methods implicitly within its application process.
+
+However, a reactor also can serve as a single-threaded demultiplexer/dispatcher in multi-threaded applications. In this case, although only one thread runs the reactor’s handle_events() event loop method, multiple application threads may register and remove event handlers from the reactor. In addition, an event handler called by the reactor may share state with other threads and work on that state concurrently with them. Three issues must be addressed when designing a thread-safe reactor:
+•Preventing race conditions. Critical sections within a reactor must be serialized to prevent race conditions from occurring when multiple application threads modify the reactor’s internal shared state. A common technique for preventing race conditions is to use mutual exclusion mechanisms, such as semaphores or mutexes, to protect internal state shared by multiple threads. 
+For example, a mutex can be added to the reactor’s demultiplexing table, and the Scoped Locking idiom (325) can be used in the reactor’s methods for registering and removing event handlers to acquire and release this lock automatically. This enhancement helps ensure that multiple threads cannot corrupt the reactor’s demultiplexing table by registering or removing handles and event handlers simultaneously.
+
+To ensure the reactor implementation is not penalized when used in single-threaded applications, the Strategized Locking pattern (333) can be applied to parameterize the locking mechanism.
+
+•Preventing self-deadlock. In multi-threaded reactors, the reactor implementation described in implementation activity 3.4 (194) must be serialized, to prevent race conditions when registering, removing, and demultiplexing event handlers. However, if this serialization is not added carefully, self-deadlock can occur when the reactor’s handle_events() method calls back on application-specific concrete event handlers that then subsequently re-enter the reactor via its event handler registration and removal methods. 
+To prevent self-deadlock, mutual exclusion mechanisms can use recursive locks [Sch95], which can be re-acquired by the thread that owns the lock without incurring self-deadlock on the thread. In the Reactor pattern, recursive locks help prevent deadlock when locks are held by the same thread across event handler hook methods dispatched by a reactor.
+
+•Explicitly notify a waiting reactor event loop thread. The thread running a reactor’s event loop often spends much of its time waiting on its synchronous event demultiplexer for indication events to occur on its handle set. The reactor event loop thread may therefore need to be notified explicitly when other threads change the contents of its demultiplexing table by calling its methods for registering and removing event handlers. It may not otherwise find out about these changes until much later, which may impede its responsiveness to important events. 
+An efficient way for an application thread to notify the reactor thread is to pre-establish a pair of ‘writer/reader’ IPC handles when a reactor is initialized, such as a UNIX pipe or a ‘loopback’ TCP Socket connection. The reader handle is registered with the reactor along with a special ‘notification event handler’, whose purpose is simply to wake up the reactor whenever a byte is sent to it via its connected writer handle.
+
+When any application thread calls the reactor’s methods for registering and removing event handlers, they update the demultiplexing table and then send a byte to the writer handle. This wakes up the reactor’s event loop thread and allows it to reconstruct its updated handle set before waiting on its synchronous event demultiplexer again.
+
+
+Concurrent Event Handlers. The Implementation section described a single-threaded reactive dispatching design in which event handlers borrow the thread of control of a reactor. Event handlers can also run in their own thread of control. This allows a reactor to demultiplex and dispatch new indication events concurrently with the processing of hook methods dispatched previously to its event handlers. The Active Object (369), Leader/Followers (447), and Half-Sync/Half-Async (423) patterns can be used to implement concurrent concrete event handlers.
+
+Concurrent Synchronous Event Demultiplexer. The synchronous event demultiplexer described in the Implementation section is called serially by a reactor in a single thread of control. However, other types of synchronous event demultiplexers, such as the WaitForMultipleObjects() function, can be called concurrently on the same handle set by multiple threads.
+
+When it is possible to initiate an operation on one handle without the operation blocking, the concurrent synchronous event demultiplexer returns a handle to one of its calling threads. This can then dispatch the appropriate hook method on the associated event handler.
+
+Calling the synchronous event demultiplexer concurrently can improve application throughput, by allowing multiple threads to simultaneously demultiplex and dispatch events to their event handlers. However, the reactor implementation can become much more complex and much less portable.
+
+For example, it may be necessary to perform a reference count of the dispatching of event handler hook methods. It may also be necessary to queue calls to the reactor’s methods for registering and removing event handlers, by using the Command pattern [GoF95] to defer changes until no threads are dispatching hook methods on an event handler. Applications may also become more complex if concrete event handlers must be made thread-safe.
+
+Re-entrant Reactors. In general, concrete event handlers just react when called by a reactor and do not invoke the reactor’s event loop themselves. However, certain situations may require concrete event handlers to retrieve specific events by invoking a reactor’s handle_events() method to run its event loop. For example, the CORBA asynchronous method invocation (AMI) feature [ARSK00] requires an ORB Core to support nested work_pending()/perform_work() ORB event loops. If the ORB Core uses the Reactor pattern [SC99], therefore, its reactor implementation must be re-entrant.
+
+A common strategy for making a reactor re-entrant is to copy the handle set state information residing in its demultiplexing table to the run-time stack before calling the synchronous event demultiplexer. This strategy ensures that any changes to the handle set will be local to that particular nesting level of the reactor.
+
+Integrated Demultiplexing of Timer and I/O Events. The reactor described in the Implementation section focuses primarily on demultiplexing and dispatching features necessary to support our logging server example. It therefore only demultiplexes indication events on handle sets. A more general reactor implementation can integrate the demultiplexing of timer events and I/O events.
+
+A reactor’s timer mechanism should allow applications to register time-based concrete event handlers. This mechanism then invokes the handle_timeout() methods of the event handlers at an application-specified future time. The timer mechanism in a reactor can be implemented using various strategies, including heaps [BaLee98], delta-lists [CoSte91], or timing wheels [VaLa97]:
+•A heap is a ‘partially-ordered, almost-complete binary tree’ that ensures the average- and worst-case time complexity for inserting or deleting a concrete event handler is O(log n).
+•Delta-lists store time in ‘relative’ units represented as offsets or ‘deltas’ from the earliest timer value at the front of the list.
+•Timing wheels use a circular buffer that makes it possible to start, stop, and maintain timers within the range of the wheel in constant O(1) time.
+
+ Several changes are required to the Reactor interface defined in implementation activity 2 (189) to enable applications to schedule, cancel, and invoke timer-based event handlers:
+class Reactor {
+public:
+   // … same as in implementation activity 2 …
+ 
+   // Schedule a <handler> to be dispatched at
+   // the <future_time>. Returns a timer id that can
+   // be used to cancel the timer.
+   timer_id schedule (Event_Handler *handler,
+                  const void *act,
+                  const Time_Value &future_time);
+   // Cancel the <Event_Handler> matching the <timer_id>
+   // value returned from <schedule>.
+   void cancel (timer_id id, const void **act = 0);
+ 
+   // Expire all timers <= <expire_time>. This
+   // method must be called manually since it
+   // is not invoked asynchronously.
+   void expire (const Time_Value &expire_time);
+private:
+   // …
+};
+
+
+An application uses the schedule() method to schedule a concrete event handler to expire after future_time. An asynchronous completion token (ACT) (261) can be passed to schedule(). If the timer expires the ACT is passed as the value to the event handler’s handle_timeout() hook method. The schedule() method returns a timer id value that identifies each event handler’s registration in the reactor’s timer queue uniquely. This timer id can be passed to the cancel() method to remove an event handler before it expires. If a non-NULL act parameter is passed to cancel(), it will be assigned the ACT passed by the application when the timer was scheduled originally, which makes it possible to delete dynamically-allocated ACTs to avoid memory leaks.
+
+To complete the integration of timer and I/O event demultiplexing, the reactor implementation must be enhanced to allow for both the timer queue’s scheduled event handler deadlines and the timeout parameter passed to the handle_events() method. This method is typically generalized to wait for the closest deadline, which is either the timeout parameter or the earliest deadline in the timer queue.
+
+Known uses
+
+InterViews [LC87]. The Reactor pattern is implemented by the InterViews windowing system, where it is known as the Dispatcher. The InterViews Dispatcher is used to define an application’s main event loop and to manage connections to one or more physical GUI displays. InterViews therefore illustrates how the Reactor pattern can be used to implement reactive event handling for graphical user interface systems that play the role of both client and server.
+
+The Xt toolkit from the X Windows distribution uses the Reactor pattern to implement its main event loop. Unlike the Reactor pattern implementation described in the Implementation section, callbacks in the Xt toolkit use C function pointers rather than event handler objects. The Xt toolkit is another example of how the Reactor pattern can be used to implement reactive event handling for graphical user interface systems that play the role of both client and server.
+
+ACE Reactor Framework [Sch97]. The ACE framework uses an object-oriented framework implementation of the Reactor pattern as its core event demultiplexer and dispatcher. ACE provides a class, called ACE_Reactor, that defines a common interface to a variety of reactor implementations, such as the ACE_Select_Reactor and the ACE_WFMO_Reactor. These two reactor implementations can be created using different synchronous event demultiplexers, such as WaitForMultipleObjects() and select(), respectively.
+
+The ORB Core component in many implementations of CORBA [OMG98a], such as TAO [SC99] and ORBacus, use the Reactor pattern to demultiplex and dispatch client requests to servants that process the requests.
+
+Call Center Management System. The Reactor pattern has been used to manage events routed by Event Servers [SchSu94] between PBXs and supervisors in a Call Center Management system.
+
+Project Spectrum. The high-speed I/O transfer subsystem of Project Spectrum [PHS96] uses the Reactor pattern to demultiplex and dispatch events in an electronic medical imaging system.
+
+Receiving phone calls. The Reactor pattern occurs frequently in everyday life, for example in telephony. Consider yourself as an event handler that registers with a reactor—a telecommunication network—to ‘handle’ calls received on a particular phone number—the handle. When somebody calls your phone number, the network notifies you that a ‘call request’ event is pending by ringing your phone. After you pick up the phone, you react to this request and ‘process’ it by carrying out a conversation with the connected party.
+
+Consequences
+
+The Reactor pattern offers the following benefits:
+
+Separation of concerns. The Reactor pattern decouples application-independent demultiplexing and dispatching mechanisms from application-specific hook method functionality. The application-independent mechanisms can be designed as reusable components that know how to demultiplex indication events and dispatch the appropriate hook methods defined by event handlers. Conversely, the application-specific functionality in a hook method knows how to perform a particular type of service.
+
+Modularity, reusability, and configurability. The pattern decouples event-driven application functionality into several components. For example, connection-oriented services can be decomposed into two components: one for establishing connections and another for receiving and processing data.
+
+This decoupling enables the development and configuration of generic event handler components, such as acceptors, connectors, and service handlers, that are loosely integrated together through a reactor. This modularity helps promote greater software component reuse, because modifying or extending the functionality of the service handlers need not affect the implementation of the acceptor and connector components.
+
+ In our logging server, the Logging_Acceptor class can easily be generalized to create the acceptor component described in the Acceptor-Connector pattern (285). This generic acceptor can be reused for many different connection-oriented services, such as file transfer, remote log-in, and video-on-demand. It is thus straightforward to add new functionality to the Logging_Handler class without affecting the reusable acceptor component.
+
+Portability. UNIX platforms offer two synchronous event demultiplexing functions, select() [Ste98] and poll() [Rago93], whereas on Win32 platforms the WaitForMultipleObjects() [Sol98] or select() functions can be used to demultiplex events synchronously. Although these demultiplexing calls all detect and report the occurrence of one or more indication events that may occur simultaneously on multiple event sources, their APIs are subtly different. By decoupling the reactor’s interface from the lower-level operating system synchronous event demultiplexing functions used in its implementation, the Reactor pattern therefore enables applications to be ported more readily across platforms.
+
+Coarse-grained concurrency control. Reactor pattern implementations serialize the invocation of event handlers at the level of event demultiplexing and dispatching within an application process or thread. This coarse-grained concurrency control can eliminate the need for more complicated synchronization within an application process.
+
+The Reactor pattern can also incur the following liabilities:
+
+Restricted applicability. The Reactor pattern can be applied most efficiently if the operating system supports synchronous event demultiplexing on handle sets. If the operating system does not provide this support, however, it is possible to emulate the semantics of the Reactor pattern using multiple threads within the reactor implementation. This is possible, for example, by associating one thread to process each handle.
+
+Whenever events are available on a handle, its associated thread reads the event and places it on a queue that is processed sequentially by the reactor implementation. This design can be inefficient, however, because it serializes all the event handler threads. Thus, synchronization and context switching overhead increases without enhancing application-level parallelism.
+
+Non-pre-emptive. In a single-threaded application, concrete event handlers that borrow the thread of their reactor can run to completion and prevent the reactor from dispatching other event handlers. In general, therefore, an event handler should not perform long duration operations, such as blocking I/O on an individual handle, because this can block the entire process and impede the reactor’s responsiveness to clients connected to other handles.
+
+To handle long-duration operations, such as transferring multi-megabyte images [PHS96], it may be more effective to process event handlers in separate threads. This design can be achieved via an Active Object (369) or Half-Sync/Half-Async (423) pattern variant that performs services concurrently to the reactor’s main event loop.
+
+Complexity of debugging and testing. It can be hard to debug applications structured using the Reactor pattern due to its inverted flow of control. In this pattern control oscillates between the framework infrastructure and the method call-backs on application-specific event handlers. The Reactor’s inversion of control increases the difficulty of ‘single-stepping’ through the run-time behavior of a reactive framework within a debugger, because application developers may not understand or have access to the framework code.
+
+These challenges are similar to the problems encountered trying to debug a compiler’s lexical analyzer and parser written with lex and yacc. In such applications, debugging is straightforward when the thread of control is within user-defined semantic action routines. After the thread of control returns to the generated Deterministic Finite Automata (DFA) skeleton, however, it is hard to follow the program’s logic.
+
+See Also
+
+The Reactor pattern is related to the Observer [GoF95] and Publisher-Subscriber [POSA1] patterns, where all dependents are informed when a single subject changes. In the Reactor pattern, however, a single handler is informed when an event of interest to the handler occurs on a source of events. In general, the Reactor pattern is used to demultiplex indication events from multiple event sources to their associated event handlers. In contrast, an observer or subscriber is often associated with only a single source of events.
+
+The Reactor pattern is related to the Chain of Responsibility pattern [GoF95], where a request is delegated to the responsible service handler. The Reactor pattern differs from the Chain of Responsibility because the Reactor associates a specific event handler with a particular source of events. In contrast, the Chain of Responsibility pattern searches the chain to locate the first matching event handler.
+
+The Reactor pattern can be considered a synchronous variant of the asynchronous Proactor pattern (215). The Proactor supports the demultiplexing and dispatching of multiple event handlers that are triggered by the completion of asynchronous operations. In contrast, the Reactor pattern is responsible for demultiplexing and dispatching multiple event handlers that are triggered when indication events signal that it is possible to initiate an operation synchronously without blocking.
+
+The Active Object pattern (369) decouples method execution from method invocation to simplify synchronized access to shared state by methods invoked in different threads. The Reactor pattern is often used in lieu of the Active Object pattern when threads are unavailable or the overhead and complexity of threading is undesirable.
+
+The Reactor pattern can be used as the underlying synchronous event demultiplexer for the Leader/Followers (447) and Half-Sync/Half-Async (423) pattern implementations. Moreover, if the events processed by a reactor’s event handlers are all short-lived, it may be possible to use the Reactor pattern in lieu of these other two patterns. This simplification can reduce application programming effort significantly and potentially improve performance, as well.
+
+Java does not offer a synchronous demultiplexer for network events. In particular, it does not encapsulate select() due to the challenges of supporting synchronous demultiplexing in a portable way. It is therefore hard to implement the Reactor pattern directly in Java. However, Java’s event handling in AWT, particularly the listener or delegation-based model, resembles the Reactor pattern in the following way:
+•Typically, application developers reuse prefabricated graphical components, such as different kinds of buttons. Developers typically write event handlers that encode the application-specific logic to process certain events, such as a mouse-click on a button. Before receiving button-related events on a button, an event handler must register itself with this button for all events of this type, which are called ActionEvents.
+•When the underlying native code is called by the Java virtual machine (JVM), it notifies the button’s peer, which is the first Java layer on top of the native code. The button peer is platform-specific and posts a new ActionEvent to be executed in the event handler thread, which is a specific-purpose thread created by the JVM.
+•Events are then entered into a queue and an EventDispatchThread object runs a loop to ‘pump’ events further up the AWT widget hierarchy, which ultimately dispatches the event to all registered listeners stored in a recursive data structure called AWTEventMulticaster.
+
+All pumping, dispatching, and subsequent event processing runs synchronously in the same thread, which resembles the synchronous processing of events by a reactor.
+
+Credits
+
+John Vlissides, the shepherd of the [PLoPD1] version of Reactor, Ralph Johnson, Doug Lea, Roger Whitney, and Uwe Zdun provided many useful suggestions for documenting the original Reactor concept in pattern form.
+
+
+
+Safari Books Online
+
+Create Bookmark (Key: b)
+
+
+Create Note or Tag (Key: t)
+
+
+Email This Page (Key: e)
+
+
+Print
+
+
+
+Zoom Out (Key: -)
+
+
+Zoom In (Key: +)
+
+
+Toggle to Full Screen (Key: f)
+
+
+Previous (Key: p)
+
+
+Next (Key: 

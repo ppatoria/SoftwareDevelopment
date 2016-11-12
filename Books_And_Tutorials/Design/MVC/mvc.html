@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>MVC</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 00:19:14 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">MVC</h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Model-View-Controller (MVC) </a>
+<ul>
+<li><a href="#sec-1_1">1.1 Forces </a></li>
+<li><a href="#sec-1_2">1.2 Pattern </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Model-View-Controller (MVC) </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> Forces </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<p>The following forces act on a system within this context and must be reconciled as you consider a solution to the problem:
+</p>
+<ul>
+<li>
+User interface logic tends to change more frequently than business logic. In some cases, the application displays the same data in different ways. 
+</li>
+<li>
+Designing visually appealing and efficient HTML pages generally requires a different skill set than does developing complex business logic. 
+</li>
+<li>
+User interface activity generally consists of two parts: presentation and update. The presentation part retrieves data from a data source and formats the data for display. When the user performs an action based on the data, the update part passes control back to the business logic to update the data. In Web applications, a single page request combines the processing of the action associated with the link that the user selected with the rendering of the target page. In many cases, the target page may not be directly related to the action. For example, imagine a simple Web application that shows a list of items. The user returns to the main list page after either adding an item to the list or deleting an item from the list. Therefore, the application must render the same page (the list) after executing two quite different commands (adding or deleting)-all within the same HTTP request.
+</li>
+<li>
+User interface code tends to be more device-dependent than business logic
+</li>
+<li>
+Creating automated tests for user interfaces is generally more difficult and time-consuming than for business logic.** Therefore, reducing the amount of code that is directly tied to the user interface enhances the testability of the application. 
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> Pattern </h3>
+<div class="outline-text-3" id="text-1_2">
+
+<p>The Model-View-Controller (MVC) pattern separates the modeling of the domain, the presentation, and the actions based on user input into three separate classes [Burbeck92]: 
+</p>
+<ul>
+<li>
+Model: The model manages the behavior and data of the application domain, responds to requests for information about its state (usually from the view), and responds to instructions to change state (usually from the controller).
+
+</li>
+<li>
+View: The view manages the display of information. 
+
+</li>
+<li>
+Controller: The controller interprets the mouse and keyboard inputs from the user, informing the model and/or the view to change as appropriate. 
+
+</li>
+</ul>
+
+<p>Figure  depicts the structural relationship between the three objects.
+</p>
+<p>
+<a href="#sec-1_2"><img src="mvc.gif"/></a>
+</p>
+
+<p>
+It is important to note that both the view and the controller depend on the model. However, the model depends on neither the view nor the controller. This is one the key benefits of the separation. This separation allows the model to be built and tested independent of the visual presentation. The separation between view and controller is secondary in many rich-client applications, and, in fact, many user interface frameworks implement the roles as one object.
+</p>
+<p>
+Figure  shows the structure of the active MVC using Observer and how the observer isolates the model from referencing views directly. 
+</p>
+<p>
+<a href="#sec-1_2"><img src="MVC-Extented.gif"/></a>
+</p>
+<p>
+Figure More diagrams
+</p>
+
+<p>
+<a href="#sec-1_2"><img src="MVC-Extented1.gif"/></a>
+</p>
+<p>
+<a href="#sec-1_2"><img src="mvc1.gif"/></a>
+</p>
+
+<p>
+<a href="#sec-1_2"><img src="mvc2.gif"/></a>
+</p>
+<p>
+<a href="#sec-1_2"><img src="mvc3.gif"/></a>
+</p>
+
+<p>
+<a href="#sec-1_2"><img src="mvc4.gif"/></a>
+</p>
+
+<p>
+<a href="#sec-1_2"><img src="mvc5.jpg"/></a>
+</p>
+
+<p>
+<a href="#sec-1_2"><img src="mvc6.jpg"/></a>
+</p></div>
+</div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 00:19:14 </p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+Templates
+----------
+
+(*) Specialized : When the processing logic for specific type differs from the  generic logic applied for other rypws we specialize the class or function.
+    Scenario: (1) (*) We have multiple transactions.
+                  (*) All transactions are derived from Transaction class.
+                  (*) We have generic logic to process the incomming transactions say template finction 'process(T transaction)' other than for few line NewOrderTrans.
+                  (*) We will specialize the the function process for NewOrderTrans as 'process (NewOrderTrans transaction)'
+              
+              (2) (*) We have a template function which accepts one int pointer as parameter. 
+                  (*) user can also pass pointer to the array .
+                  (*) in this scenario processing array will be different (spcially iterating it and deallocaton it delete[])
+                  (*) in this scenario we will specialize this method for int array.
+
+    NOTE: Speciallization cannot be done of member functions can only applied on global functions or class templates.
+
+
+
+(*) Partially Specialized.
+    Scenario: (1) (*) We can have multiple transactions.
+                  (*) We also have multiple loggers. For logging transations and queries. 
+                  (*) Requiremt is that transaction processing and handling should go to only transaction logger.
+                  (*) We have a template function 'process (T transaciton)' to handle all the incomming transaction. 
+                  (*) We will partially speciallize the function to pass logger as parameter as 'process (T transaction, TransactionLogger& logger)
+              
+              (2) (*) We have template function which takes pointer to array as parameter. 'process (T* ptr)'
+                  (*) The array passed will have constant size.
+                  (*) We can pass size as 'process (T* ptr, size_t size)'

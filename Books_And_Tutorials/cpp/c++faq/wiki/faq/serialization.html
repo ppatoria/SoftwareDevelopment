@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from isocpp.org/wiki/faq/serialization by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+            Standard C++
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../favicon.ico" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon-57.html" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72.html" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114.html" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.html" />
+    
+    <link href="../../indexe9db.html?css=stylesheets/prettify" rel="stylesheet" media="all" type="text/css" />
+    <script type="text/javascript" src="../../../cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+    
+    <link href="../../index6bd3.html?css=stylesheets/screen" rel="stylesheet" media="all" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script src="../../mint/index3298.html?js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="../../../use.typekit.com/kml7swa.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  
+  <body class="hide-sidebar">
+    <div id="root">
+    
+      <div id="crown">
+        <a id="sidebar-toggle" href="#sidebar">Show sidebar &raquo;</a>
+        <ul class="user">
+                          <li><a href="../../member/login.html">Sign In</a></li>
+          <li><a href="../../member/register.html">Register</a></li>
+                </ul>
+      </div>
+
+      <header id="top" role="banner">
+        <div class="container">
+          <h1>
+            <a href="../../index.html"><img src="../../images/uploads/logo-sun.jpg" alt="Standard C++" /></a>
+          </h1>
+          <nav role="navigation">
+            <ul id="nav-sub">
+<li class="first"><a href="../../get-started.html">Get Started!</a></li>
+<li><a href="../../tour.html">Tour</a></li>
+<li><a href="../../faq.html">C++ Super-FAQ</a></li>
+<li><a href="../../blog.html">Blog</a></li>
+<li><a href="../../forums.html">Forums</a></li>
+<li><a href="../../std.html">Standardization</a></li>
+<li class="last"><a href="../../about.html">About</a></li>
+</ul>
+          </nav>
+          <form action="https://isocpp.org/search/google">
+            <input type="text" name="q" id="q" maxlength="100" value="" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          <!--
+          <form method="post" action="https://isocpp.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="XID" value="4a515a6c5278cdde7348f51c2949dcc3705bb578" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="zYMKgX58Zs8+1aclN9tC7heLzqeMS/BIDf2KWaqfUPy9IuEVYHdFD1dlGh34VWoTLfYfqx2VVNOeAsrIgIvvoFDyH5RKx1rRrjSIJmrlV4WTNhwE+/Onu3ISLsbzAk2awqSU6A+hVvt+f/zJn30d7+qnYdsX9iFLWu40TELdyhIN7OvZg7LuJknFB0gZ7nQTklJ/9coWuk9SURbQpuERR2hTSI2C5xLtlwfiI61PqkKwyrlOKG6XDMBSEtvAIHOCp+adyiqHkYhNSPC8wgrdUEXu/O1ACVY3yqa/hYv3qY5COcgp3UflhKiNqQvGfAikDLrb28Jq5FJxzSTO4kcq1kRWnkMAIa+DJDX1Ri9lxnSoesPEDjJwSIcqjcXXIxh1l0qg2xNSdmuOrE+KB+C8x3zG6M/Rmrrfc9CHMGWIs3c=" />
+<input type="hidden" name="site_id" value="1" />
+</div>
+
+
+            <input type="text" name="keywords" id="keywords" maxlength="100" value="M50o93H7pQ09L8X1t49cHY01Z5j4TT91fGfr" class="textbox" />
+            <input type="submit" value="Search" class="button" />
+          </form>
+          -->
+        </div>
+      </header>
+
+      <div id="content" class="hide-sidebar" role="main">
+        <div class="container">
+    
+      <div id="sidebar">
+              <section>
+              <header>Features</header>
+            <div class="sidebar-section-content prettify">
+        <p style="text-align: center;">
+	&nbsp;</p>
+<p>
+	<a href="https://github.com/cplusplus/draft"><img alt="" src="../../images/uploads/github.png" style="width: 90px; height: 48px; margin-right: 5px; margin-left: 5px; float: right;" /></a><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4527.pdf"><strong>Working Draft</strong> of the next&nbsp;standard</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/status.html">Current ISO C++ status</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="../../std/meetings-and-participation/upcoming-meetings.html">Upcoming ISO C++ meetings</a></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://en.cppreference.com/w/cpp/compiler_support">Compiler conformance status</a></p>
+      </div>
+    </section>
+  
+  
+  
+        <nav>
+          <section>
+            <header>
+              Navigation
+            </header>
+            <ul>
+              <li><a href="../faq.html">FAQ Home</a></li>
+              <li><a href="../../themes/wiki_themes/isocpp/rss/faq-revisions-rss.php" class="icon rss">FAQ RSS Feed</a></li>
+              <li><a href="editinfo.html">FAQ Help</a></li>
+                          </ul>
+          </section>
+        
+        
+          <section>
+            <header>
+              Search this Wiki
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Search_results">
+              <input type="hidden" name="XID" value="325d1c075b993bdbe975918c46d4c9f3021cfab4" />
+              <input type="text" class="input" name="keywords" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+          
+          <section>
+            <header>
+              Go to Page
+            </header>
+            <form method="post" action="https://isocpp.org/wiki/faq/Special:Find_page">
+              <input type="hidden" name="XID" value="0f778374854acbb439fa0c8d28b2099321423b29" />
+              <input type="text" class="input" name="title" size="20" value="" maxlength="80" /><input type="submit" class="submit" value="Go" />
+            </form>
+          </section>
+        </nav>
+          
+      <section>
+              <header>Upcoming Events</header>
+            <div class="sidebar-section-content prettify">
+        <p>
+	<a href="http://cppcon.org/" style="line-height: 1;"><strong>CppCon 2015</strong></a></p>
+<p>
+	<span style="line-height: 1;">Sep 19-20 (boot camp)</span></p>
+<p>
+	<span style="line-height: 1;">Sep 20-25 (conference)</span></p>
+<p>
+	<span style="line-height: 1;">Bellevue, WA, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<span style="line-height: 1;"><a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4544.htm"><strong>ISO C++ Fall Meeting</strong></a> <a href="../../files/papers/n4545.html">(agenda)</a></span></p>
+<p>
+	Oct 19-24,&nbsp;<span style="line-height: 1;">Kona, HI, USA</span></p>
+<p>
+	&nbsp;</p>
+<p>
+	<a href="http://meetingcpp.com/index.php/meetingcpp-2015.html"><strong>Meeting C++ 2015</strong></a></p>
+<p>
+	Dec 4-5, Berlin, Germany</p>
+<p>
+	&nbsp;</p>
+      </div>
+    </section>
+  
+      <section>
+            <div class="sidebar-section-content prettify">
+        <div class="twitter-container">
+	<a class="twitter-timeline" data-dnt="true" data-widget-id="344512921423998976" href="https://twitter.com/isocpp">Tweets by @isocpp</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+      </div>
+    </section>
+  
+      </div>
+
+      <div id="mainbar">
+        <header>
+          <div class="breadcrumbs">
+
+            <a href="../faq.html">Wiki Home</a>
+            <span class="breadcrumbspacer">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+
+                        serialization
+            
+          </div>
+          
+          <div class="wiki-page-actions">
+                    <a href="serialization.html">View</a>
+                              </div>
+          
+          <h2>
+                    
+          
+                    
+                    serialization
+                    </h2>
+
+          <div class="save-to-reader wiki">
+            <div class="title">Save to:</div>
+            <a href="http://www.instapaper.com/hello2?url={url}&amp;title=serialization" class="icon instapaper">Instapaper</a>
+            <a href="http://getpocket.com/create?url={url}&amp;action=save&amp;k=3aNp2F20Aao4bvW884g224eUfud1nfI0" class="icon pocket">Pocket</a>
+            <a href="#" class="icon readability">Readability</a>
+            <div class="rdbWrapper" data-show-read="1" data-show-send-to-kindle="1" data-show-print="1" data-show-email="1" data-orientation="0" data-version="1" data-bg-color="#ffffff"></div><script type="text/javascript">(function() {var s = document.getElementsByTagName("script")[0],rdb = document.createElement("script"); rdb.type = "text/javascript"; rdb.async = true; rdb.src = document.location.protocol + "//www.readability.com/embed.js"; s.parentNode.insertBefore(rdb, s); })();</script>
+          </div>
+          
+        </header>
+
+        <article>
+
+          <!-- Begin Main Content of Page -->
+
+          
+          
+
+          <div id="wiki-content">
+
+          
+
+          <div class="prettify">
+
+
+<h2 id="serialization">Serialization and Unserialization</h2>
+
+<h3 id="serialize-overview">What&#8217;s this &#8220;serialization&#8221; thing all about?</h3>
+
+<p>It lets you take an object or group of objects, put them on a disk or send them through a wire or wireless transport
+mechanism, then later, perhaps on another computer, reverse the process: resurrect the original object(s). The basic
+mechanisms are to flatten object(s) into a one-dimensional stream of bits, and to turn that stream of bits back into
+the original object(s).</p>
+
+<p>Like the Transporter on Star Trek, it&#8217;s all about taking something complicated and turning it into a flat sequence of 1s
+and 0s, then taking that sequence of 1s and 0s (possibly at another place, possibly at another time) and reconstructing
+the original complicated &#8220;something.&#8221;</p>
+
+<h3 id="serialize-selection">How do I select the best serialization technique?</h3>
+
+<p>There are lots and lots (and lots) of if&#8217;s, and&#8217;s and but&#8217;s, and in reality there are a whole continuum of techniques
+with lots of dimensions. Because I have a finite amount of time (translation: I don&#8217;t get paid for any of this), I&#8217;ve
+simplified it to a <a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">decision between using human-readable (&#8220;text&#8221;) or non-human-readable (&#8220;binary&#8221;)
+format</a>, followed by a list of five techniques arranged more-or-less in increasing
+order of sophistication.</p>
+
+<p>You are, of course, not limited to those five techniques. You will probably end up mixing ideas from several techniques.
+And certainly you can always use a more sophisticated (higher numbered) technique than is actually needed. In fact it
+might be wise to use a more sophisticated technique than is minimally needed if you believe future changes will require
+the greater sophistication. So think of this list merely as a good starting point.</p>
+
+<p>There&#8217;s a lot here, so get ready!</p>
+
+<ol>
+<li><a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">Decide between human-readable (&#8220;text&#8221;) and non-human-readable (&#8220;binary&#8221;)
+formats</a>. The tradeoffs are non-trivial. Later FAQs show <a href="serialization.html#serialize-text-format" title="FAQ: How exactly do I read/write simple types in human-readable ('text') format?">how to write simple
+types in text format</a> and <a href="serialization.html#serialize-binary-format" title="FAQ: How exactly do I read/write simple types in non-human-readable ('binary') format?">how to write simple types in binary
+format</a>.</li>
+<li><a href="serialization.html#serialize-no-inherit-no-ptrs" title="FAQ: How do I serialize objects that aren't part of an inheritance hierarchy and that don't contain pointers to other objects?">Use the least sophisticated solution</a> when the objects to be serialized aren&#8217;t part
+of an inheritance hierarchy (that is, when they&#8217;re all of the same class) and when they don&#8217;t contain pointers to
+other objects.</li>
+<li><a href="serialization.html#serialize-inherit-no-ptrs" title="FAQ: How do I serialize objects that are part of an inheritance hierarchy and that don't contain pointers to other objects?">Use the second level of sophistication</a> when the objects to be serialized are part of an
+inheritance hierarchy, but when they don&#8217;t contain pointers to other objects.</li>
+<li><a href="serialization.html#serialize-no-cycles-no-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and no joins?">Use the third level of sophistication</a> when the objects to be serialized contain
+pointers to other objects, but when those pointers form a <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">tree</a> with no
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a> and no <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins</a>.</li>
+<li><a href="serialization.html#serialize-no-cycles-trivial-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and only 'trivial' joins?">Use the fourth level of sophistication</a> when the objects to be serialized
+contain pointers to other objects, and when those pointers form a <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> with no
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a>, and with <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins at the leaves only</a>.</li>
+<li><a href="serialization.html#serialize-with-cycles" title="FAQ: How do I serialize objects that contain pointers to other objects, and those pointers form a graph that might have cycles or non-trivial joins?">Use the most sophisticated solution</a> when the objects to be serialized contain pointers to
+other objects, and when those pointers form a <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> that might have
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a> or <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins</a>.</li>
+</ol>
+
+<p>Here&#8217;s that same information arranged like an algorithm:</p>
+
+<ol>
+<li>The first step is to <a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">make an eyes-open decision between text- and
+binary-formats</a>.</li>
+<li>If your objects aren&#8217;t part of an inheritance hierarchy and don&#8217;t contain pointers, <a href="serialization.html#serialize-no-inherit-no-ptrs" title="FAQ: How do I serialize objects that aren't part of an inheritance hierarchy and that don't contain pointers to other objects?">use solution
+#1</a>.</li>
+<li>Else if your objects don&#8217;t contain pointers to other objects, <a href="serialization.html#serialize-inherit-no-ptrs" title="FAQ: How do I serialize objects that are part of an inheritance hierarchy and that don't contain pointers to other objects?">use solution #2</a>.</li>
+<li>Else if the <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> of pointers within your objects contain neither
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a> nor <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins</a>, <a href="serialization.html#serialize-no-cycles-no-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and no joins?">use solution #3</a>.</li>
+<li>Else if the <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> of pointers within your objects don&#8217;t contain
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a> and if the only <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins are to terminal (leaf) nodes</a>, <a href="serialization.html#serialize-no-cycles-trivial-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and only 'trivial' joins?">use
+solution #4</a>.</li>
+<li>Else <a href="serialization.html#serialize-with-cycles" title="FAQ: How do I serialize objects that contain pointers to other objects, and those pointers form a graph that might have cycles or non-trivial joins?">use solution #5</a>.</li>
+</ol>
+
+<p>Remember: feel free to mix and match, to add to the above list, and, <em>if</em> you can justify the added expense, to use a
+more sophisticated technique than is minimally required.</p>
+
+<p>One more thing: the issues of inheritance and of pointers within the objects are logically unrelated, so there&#8217;s no
+theoretical reason for #2 to be any less sophisticated than #3-5. However in practice it often (not always) works out
+that way. So please do not think of these categories as somehow sacred &#8212; they&#8217;re somewhat arbitrary, and you are
+expected to mix and match the solutions to fit your situation. This whole area of serialization has <em>far</em> more variants
+and shades of gray than can be covered in a few questions/answers.</p>
+
+<h3 id="serialize-decide-text-vs-binary">How do I decide whether to serialize to human-readable (&#8220;text&#8221;) or non-human-readable (&#8220;binary&#8221;) format?</h3>
+
+<p>Carefully.</p>
+
+<p>There is no &#8220;right&#8221; answer to this question; it really depends on your goals. Here are a few of the pros/cons of
+human-readable (&#8220;text&#8221;) format vs. non-human-readable (&#8220;binary&#8221;) format:</p>
+
+<ul>
+<li><strong>Text format</strong> is easier to &#8220;desk check.&#8221; That means you won&#8217;t have to write extra tools to debug the input and
+output; you can open the serialized output with a text editor to see if it looks right.</li>
+<li><strong>Binary format</strong> typically uses fewer CPU cycles. However that is relevant only if your application is CPU bound and
+you intend to do serialization and/or unserialization on an inner loop/bottleneck. Remember: 90% of the CPU time is
+spent in 10% of the code, which means there won&#8217;t be any practical performance benefit unless your &#8220;CPU meter&#8221; is
+pegged at 100%, and your serialization and/or unserialization code is consuming a healthy portion of that 100%.</li>
+<li><strong>Text format</strong> lets you ignore programming issues like <code>sizeof</code> and little-endian vs. big-endian.</li>
+<li><strong>Binary format</strong> lets you ignore separations between adjacent values, since many values have fixed lengths.</li>
+<li><strong>Text format</strong> can produce smaller results when most numbers are small and when you need to textually encode binary
+results, e.g., uuencode or Base64.</li>
+<li><strong>Binary format</strong> can produce smaller results when most numbers are large or when you don&#8217;t need to textually encode
+binary results.</li>
+</ul>
+
+<p>You might think of others to add as well&#8230; The important thing to remember is that one size does not fit all &#8212; make a
+careful decision here.</p>
+
+<p>One more thing: no matter which you choose, you might want to start each file / stream with a &#8220;magic&#8221; tag and a version
+number. The version number would indicate the format rules. That way if you decide to make a radical change in the
+format, you hopefully will still be able to read the output produced by the old software.</p>
+
+<h3 id="serialize-simple-types">How do I serialize/unserialize simple types like numbers, characters, strings, etc.?</h3>
+
+<p>The answer depends on <a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">your decision regarding human-readable (&#8220;text&#8221;) format vs. non-human-readable (&#8220;binary&#8221;)
+format</a>:</p>
+
+<ul>
+<li>Here is <a href="serialization.html#serialize-text-format" title="FAQ: How exactly do I read/write simple types in human-readable ('text') format?">how to serialize/unserialize simple types in human-readable (&#8220;text&#8221;) format</a>.</li>
+<li>Here is <a href="serialization.html#serialize-binary-format" title="FAQ: How exactly do I read/write simple types in non-human-readable ('binary') format?">how to serialize/unserialize simple types in non-human-readable (&#8220;binary&#8221;)
+format</a>.</li>
+</ul>
+
+<p>The primitives discussed in those FAQs will be needed for most of the other FAQs in this section.</p>
+
+<h3 id="serialize-text-format">How exactly do I read/write simple types in human-readable (&#8220;text&#8221;) format?</h3>
+
+<p>Before you read this, make sure to <a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">evaluate all the tradeoffs between human-readable and non-human-readable
+formats</a>. The tradeoffs are non-trivial, so you should resist a knee-jerk reaction to
+do it the way you did it on the last project &#8212; one size does not fit all.</p>
+
+<p>After you have made an eyes-open decision to use human-readable (&#8220;text&#8221;) format, you should remember these keys:</p>
+
+<ul>
+<li>You probably want to use iostream&#8217;s <code>&gt;&gt;</code> and <code>&lt;&lt;</code> operators rather than its <code>read()</code> and <code>write()</code> methods. The <code>&gt;&gt;</code>
+and <code>&lt;&lt;</code> operators are better for text mode, whereas <code>read()</code> and <code>write()</code> are better for binary mode.</li>
+<li>When storing numbers, you&#8217;ll probably want to add a separator to prevent items from running together. One simple
+approach is to always add a space (<code>' '</code>) before each number, that way the number <code>1</code> followed by the number <code>2</code>
+won&#8217;t run together and look like a <code>12</code>. Since the leading space will automatically get soaked up by the <code>&gt;&gt;</code>
+operator, you won&#8217;t have to do anything explicit to extract the leading space in the code that reads things back in.</li>
+<li>String data is tricky because you have to unambiguously know when the string&#8217;s body stops. You can&#8217;t unambiguously
+terminate all strings with a <code>'\n'</code> or <code>'"'</code> or even <code>'\0'</code> if some string might contain those characters. You might
+want to use C++ source-code escape-sequences, e.g., writing <code>'\'</code> followed by <code>'n'</code> when you see a newline, etc.
+After this transformation, you can either make strings go until end-of-line (meaning they are deliminated by
+<code>'\n'</code>) or you can delimit them with <code>'"'</code>.</li>
+<li>If you use C++-like escape-sequences for your string data, be sure to always use the same number of hex digits
+after <code>'\x'</code> and <code>'\u'</code>. I typically use 2 and 4 digits respectively. Reason: if you write a smaller number of hex
+digits, e.g., if you simply use <code>stream</code> <code>&lt;&lt;</code> <code>"\\x"</code> <code>&lt;&lt;</code> <code>hex</code> <code>&lt;&lt;</code> <code>unsigned(theChar)</code>, you&#8217;ll get errors when the
+next character in the string happens to be a hex digit. E.g., if the string contains <code>'\xF'</code> followed by <code>'A'</code>, you
+should write <code>"\x0FA"</code>, not <code>"\xFA"</code>.</li>
+<li>If you don&#8217;t use some sort of escape sequence for characters like <code>'\n'</code>, be careful that the operating system
+doesn&#8217;t mess up your string data. In particular, if you open a <code>std::fstream</code> without <code>std::ios::binary</code>, some
+operating systems translate end-of-line characters.</li>
+<li>Another approach for string data is to prefix the string&#8217;s data with an integer length, e.g., to write
+<code>"now is the time"</code> as <code>15:now is the time</code>. Note that this can make it hard for people to read/write the file, since
+the value just after that might not have a visible separator, but you still might find it useful.</li>
+</ul>
+
+<p>Please remember that these are primitives that you will need to use in the other FAQs in this section.</p>
+
+<h3 id="serialize-binary-format">How exactly do I read/write simple types in non-human-readable (&#8220;binary&#8221;) format?</h3>
+
+<p>Before you read this, make sure to <a href="serialization.html#serialize-decide-text-vs-binary" title="FAQ: How do I decide whether to serialize to human-readable ('text') or non-human-readable ('binary') format?">evaluate all the tradeoffs between human-readable and non-human-readable
+formats</a>. The tradeoffs are non-trivial, so you should resist a knee-jerk reaction to
+do it the way you did it on the last project &#8212; one size does not fit all.</p>
+
+<p>After you have made an eyes-open decision to use non-human-readable (&#8220;binary&#8221;) format, you should remember these
+keys:</p>
+
+<ul>
+<li>Make sure you open the input and output streams using <code>std::ios::binary</code>. Do this even if you are on a Unix system
+since it&#8217;s easy to do, it documents your intent, and it&#8217;s one less non-portability to locate and change down the
+road.</li>
+<li>You probably want to use iostream&#8217;s <code>read()</code> and <code>write()</code> methods instead of its <code>&gt;&gt;</code> and <code>&lt;&lt;</code> operators. <code>read()</code>
+and <code>write()</code> are better for binary mode; <code>&gt;&gt;</code> and <code>&lt;&lt;</code> are better for text mode.</li>
+<li>If the binary data might get read by a different computer than the one that wrote it, be very careful about endian
+issues (little-endian vs. big-endian) and <code>sizeof</code> issues. The easiest way to handle this is to anoint one of those
+two formats as the official &#8220;network&#8221; format, and to create a header file that contains machine dependencies (I
+usually call it <code>machine.h</code>). That header should define <code>inline</code> functions like <code>readNetworkInt(std::istream&amp; istr)</code>
+to read a &#8220;network <code>int</code>,&#8221; and so forth for reading and writing all the primitive types. You can define the format
+for these pretty much anyway you want. E.g., you might define a &#8220;network <code>int</code>&#8221; as exactly 32 bits in little endian
+format. In any case, the functions in <code>machine.h</code> will do any necessary endian conversions, <code>sizeof</code> conversions,
+etc. You&#8217;ll either end up with a different <code>machine.h</code> on each machine architecture, or you&#8217;ll end up with a lot of
+<code>#ifdef</code>s in your <code>machine.h</code>, but either way, all this ugliness will be buried in a single header, and all the rest
+of your code will be clean(er). Note: the floating point differences are the most subtle and tricky to handle. It
+can be done, but you&#8217;ll have to be careful with things like <a href="newbie.html#nan" title="FAQ: What is this NaN thing?">NaN</a>, over- and under-flow, #bits in the mantissa
+or exponent, etc.</li>
+<li>When space-cost is an issue, such as when you are storing the serialized form in a small memory device or sending it
+over a slow link, you can compress the stream and/or you can do some manual tricks. The simplest is to store small
+numbers in a smaller number of bytes. For example, to store an unsigned integer in a stream that has 8-bit bytes,
+you can hijack the 8th bit of each byte to indicate whether or not there is another byte. That means you get 7
+meaningful bits/byte, so 0&#8230;127 fit in 1 byte, 128&#8230;16384 fit in 2 bytes, etc. If the average number is smaller
+than around half a billion, this will use less space than storing every four-byte unsigned number in four 8-bit
+bytes. There are lots of other variations on this theme, e.g., a sorted array of numbers can store the difference
+between each number, storing extremely small values in unary format, etc.</li>
+<li>String data is tricky because you have to unambiguously know when the string&#8217;s body stops. You can&#8217;t unambiguously
+terminate all strings with a <code>'\0'</code> if some string might contain that character; recall that <code>std::string</code> can store
+<code>'\0'</code>. The easiest solution is to write the integer length just before the string data. Make sure the integer length
+is written in &#8220;network format&#8221; to avoid <code>sizeof</code> and endian problems (see the solutions in earlier bullets).</li>
+</ul>
+
+<p>Please remember that these are primitives that you will need to use in the other FAQs in this section.</p>
+
+<h3 id="serialize-no-inherit-no-ptrs">How do I serialize objects that aren&#8217;t part of an inheritance hierarchy and that don&#8217;t contain pointers to other objects?</h3>
+
+<p>This is the least sophisticated problem, and not surprisingly, it is also the least sophisticated solution:</p>
+
+<ul>
+<li>Every class should handle its own serialization and unserialization. You will typically create a member function that
+serializes the object to some sink (such as a <code>std::ostream</code>), and another that allocates a <code>new</code> object, or perhaps
+changes an existing object, setting the member data based on what it reads from some source (such as a
+<code>std::istream</code>).</li>
+<li>If your object physically contains another object, e.g., a <code>Car</code> object might have a member variable of type
+<code>Engine</code>, the outer object&#8217;s <code>serialize()</code> member function should simply call the appropriate function associated
+with the member object.</li>
+<li>Use the primitives described earlier to read/write the simple types in <a href="serialization.html#serialize-text-format" title="FAQ: How exactly do I read/write simple types in human-readable ('text') format?">text</a> or
+<a href="serialization.html#serialize-binary-format" title="FAQ: How exactly do I read/write simple types in non-human-readable ('binary') format?">binary</a> format.</li>
+<li>If a class&#8217;s data structure might change someday, the class should write out a version number at the beginning of the object&#8217;s serialized output. Unless you are absolutely sure that there is no possible chance of the data structure changing at any point in the future, do yourself a favor and include the version number now.  It is <em>much</em> easier to put in a version number from the very beginning than to add one later when you have an unanticipated data structure change.  The version number simply represents the <em>serialized format</em>; it should <em>not</em> get incremented simply when the class&#8217;s behavior changes. This means the version numbers don&#8217;t need to be fancy &#8212; they usually don&#8217;t need a major and minor number.</li>
+</ul>
+
+<h3 id="serialize-inherit-no-ptrs">How do I serialize objects that are part of an inheritance hierarchy and that don&#8217;t contain pointers to other objects?</h3>
+
+<p>Suppose you want to serialize a &#8220;shape&#8221; object, where <code>Shape</code> is an abstract class with derived classes <code>Rectangle</code>,
+<code>Ellipse</code>, <code>Line</code>, <code>Text</code>, etc. You would declare a <a href="abcs.html#pure-virtual-fns" title="FAQ: What is a 'pure virtual' member function?">pure virtual</a> function
+<code>serialize(std::ostream&amp;) const</code> within class <code>Shape</code>, and make sure the first thing done by each override is to write
+out the <em>class&#8217;s</em> identity. For example, <code>Ellipse::serialize(std::ostream&amp;) const</code> would write out the identifier
+<code>Ellipse</code> (perhaps <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">as a simple string</a>, but there are several alternatives discussed below).</p>
+
+<p>Things get a little trickier when unserializing the object. You typically start with a <code>static</code> member function in the
+base class such as <code>Shape::unserialize(std::istream&amp; istr)</code>. This is declared to return a <code>Shape*</code> or perhaps a <a href="freestore-mgmt.html#ref-count-simple" title="FAQ: How do I do simple reference counting?">smart
+pointer such as <code>Shape::Ptr</code></a>. It <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">reads the class-name identifier</a>, then
+uses some sort of creational pattern to create the object. For example, you might have a table that maps from the class
+name to an object of the class, then use the <a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">Virtual Constructor Idiom</a> to create the object.</p>
+
+<p>Here&#8217;s a concrete example: Add a <a href="abcs.html#pure-virtual-fns" title="FAQ: What is a 'pure virtual' member function?">pure virtual</a> method <code>create(std::istream&amp;) const</code> within base
+class <code>Shape</code>, and define each override to a one-liner that uses <code>new</code> to allocate an object of the appropriate derived
+class. E.g., <code>Ellipse::create(std::istream&amp; istr) const</code> would be <code>{ return new Ellipse(istr); }</code>. Add a <code>static</code>
+<code>std::map&lt;std::string,Shape*&gt;</code> object that maps from the class name to a representative (AKA <em>prototype</em>) object of the
+appropriate class; e.g., <code>"Ellipse"</code> would map to a <code>new Ellipse()</code>. Function <code>Shape::unserialize(std::istream&amp; istr)</code>
+would <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">read the class-name</a>, throw an exception if it&#8217;s not in the map
+(<code>if (theMap.count(className) == 0)</code> <code>throw</code> <em>&#8230;something&#8230;</em>), then look up the associated <code>Shape*</code> and call its
+<code>create()</code> method: <code>return theMap[className]-&gt;create(istr)</code>.</p>
+
+<p>The map is typically populated during static initialization. For example, if file <code>Ellipse.cpp</code> contains the code for
+derived class <code>Ellipse</code>, it would also contain a <code>static</code> object whose ctor adds that class to the map:
+<code>theMap["Ellipse"] = new Ellipse()</code>.</p>
+
+<p>Notes and caveats:</p>
+
+<ul>
+<li>It adds a little flexibility if <code>Shape::unserialize()</code> passes the class name to the <code>create()</code> method. In particular,
+that would let a derived class be used with two or more names, each with its own &#8220;network format.&#8221; For example,
+derived class <code>Ellipse</code> could be used for both <code>"Ellipse"</code> and <code>"Circle"</code>, which might be useful to save space in the
+output stream or perhaps other reasons.</li>
+<li>It&#8217;s usually easiest to handle errors during unserialization by throwing an exception. You can return <code>NULL</code> if you
+want, but you will need to move the code that reads the input stream out of the derived class&#8217; ctors into the
+corresponding <code>create()</code> methods, and ultimately the result is often that your code is more complicated.</li>
+<li>You must be careful to <a href="ctors.html#static-init-order" title="FAQ: What's the 'static initialization order fiasco'?">avoid the static initialization order fiasco</a> with the map used by
+<code>Shape::unserialize()</code>. This normally means using the <a href="ctors.html#static-init-order-on-first-use" title="FAQ: How do I prevent the 'static initialization order fiasco'?"><em>Construct On First Use
+Idiom</em></a> for the map itself.</li>
+<li>For the map used by <code>Shape::unserialize()</code>, I personally prefer the <a href="ctors.html#named-ctor-idiom" title="FAQ: What is the 'Named Constructor Idiom'?">Named Constructor Idiom</a> over
+the <a href="virtual-functions.html#virtual-ctors" title="FAQ: What is a 'virtual constructor'?">Virtual Constructor Idiom</a> &#8212; it simplifies a few steps. Details: I usually define a <code>typedef</code>
+within <code>Shape</code> such as <code>typedef Shape* (*Factory)(std::istream&amp;)</code>. This means <code>Shape::Factory</code> is a &#8220;pointer to a
+function that takes a <code>std::istream&amp;</code> and returns a <code>Shape*</code>.&#8221; I then define the map as
+<code>std::map&lt;std::string,Factory&gt;</code>. Finally I populate that map using lines like <code>theMap["Ellipse"] = Ellipse::create</code>
+(where <code>Ellipse::create(std::istream&amp;)</code> is now a <a href="pointers-to-members.html#fnptr-vs-memfnptr-types" title="FAQ: Is the type of 'pointer-to-member-function' different from 'pointer-to-function'?"><code>static</code> member function</a> of class
+<code>Ellipse</code>, that is, the <a href="ctors.html#named-ctor-idiom" title="FAQ: What is the 'Named Constructor Idiom'?">Named Constructor Idiom</a>). You&#8217;d change the <code>return</code> value in function
+<code>Shape::unserialize(std::istream&amp; istr)</code> from <code>theMap[className]-&gt;create(istr)</code> to <code>theMap[className](istr)</code>.</li>
+<li>If you might need to serialize a <code>NULL</code> pointer, it&#8217;s usually easy since you already write out a class identifier so
+you can just as easily write out a <em>pseudo</em> class identifier like <code>"NULL"</code>. You might need an extra <code>if</code> statement in
+<code>Shape::unserialize()</code>, but if you chose my preference from the previous bullet, you can eliminate that special case
+(and generally keep your code clean) by defining <code>static</code> member function <code>Shape* Shape::nullFactory(istream&amp;)</code>
+<code>{ return NULL; }</code>. You add that function to the map as any other: <code>theMap["NULL"] = Shape::nullFactory;</code>.</li>
+<li>You can make the serialized form smaller and a little faster if you tokenize the class name identifiers. For example,
+write a class name only the first time it is seen, and for subsequent uses write only a corresponding integer index.
+A mapping such as <code>std::map&lt;std::string,unsigned&gt; unique</code> makes this easy: if a class name is already in the map,
+write <code>unique[className]</code>; otherwise set a variable <code>unsigned n = unique.size()</code>, write <code>n</code>, write the class name,
+and set <code>unique[className] = n</code>. (Note: be <em>sure</em> to copy it into a separate variable. Do <em>not</em> say
+<code>unique[className] = unique.size()</code>! You have been warned! Reason: the compiler might evaluate <code>unique[className]</code>
+before <code>unique.size()</code>, and if so, <code>unique[className]</code> will pre-increment the size.) When unserializing, use
+<code>std::vector&lt;std::string&gt; unique</code>, read the number <code>n</code>, and if <code>n</code> <code>==</code> <code>unique.size()</code>, read a name and <code>add</code> it to
+the <code>vector</code>. Either way the name will be <code>unique[n]</code>. You can also pre-populate the first <em>N</em> slots in these tables
+with the <em>N</em> most common names, that way streams won&#8217;t need to contain any of those strings.</li>
+</ul>
+
+<h3 id="serialize-no-cycles-no-joins">How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and no joins?</h3>
+
+<p>Before we even start, you must understand that the word &#8220;tree&#8221; does <em>not</em> mean that the objects are stored in some sort
+of tree-like data structure like <code>std::set</code>. It simply means that your objects point to each other, and the &#8220;with no
+cycles&#8221; part means if you keep following pointers from one object to the next, you never return to an earlier object.
+Your objects aren&#8217;t &#8220;inside&#8221; a tree; they <em>are</em> a tree. If you don&#8217;t understand that, you <em>really</em> should read <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">the
+lingo FAQ</a> before continuing with this one.</p>
+
+<p>Second, don&#8217;t use this technique if the <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> might someday contain
+<a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a> or <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins</a>.</p>
+
+<p>Graphs with neither cycles nor joins are very common, even with &#8220;recursive composition&#8221; <a href="how-to-learn-cpp.html#design-books" title="FAQ: Are there other OO books that are relevant to OO/C++?">design patterns like Composite
+or Decorator</a>. For example, the objects representing an XML document or an HTML document can be
+represented as a graph without joins or cycles.</p>
+
+<p>The key to serializing these graphs is to ignore a node&#8217;s <em>identity</em> and instead to focus only on its <em>contents</em>. A
+(typically recursive) algorithm dives through the tree and writes the contents as it goes. For example, if the current
+node happens to have an integer <code>a</code>, a pointer <code>b</code>, a float <code>c</code>, and another pointer <code>d</code>, then you first <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">write the
+integer</a> <code>a</code>, then recursively dive into the child pointed to by <code>b</code>, then <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">write the
+float</a> <code>c</code>, and finally recursively dive into the child pointed to by <code>d</code>. (You don&#8217;t have to
+write/read them in the declaration order; the only essential rule is that the reader&#8217;s order is consistent with the
+writer&#8217;s order.)</p>
+
+<p>When unserializing, you need a constructor that takes a <code>std::istream&amp;</code>. The constructor for the above object would
+<a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">read an integer</a> and store the result in <code>a</code>, then would allocate an object to be stored in
+pointer <code>b</code> (and will pass the <code>std::istream</code> to the constructor so it too can read the stream&#8217;s contents), <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">read a
+<code>float</code></a> into <code>c</code>, and finally will allocate an object to be stored in pointer <code>d</code>. Be sure to
+use <a href="exceptions.html#selfcleaning-members" title="FAQ: How should I handle resources if my constructors may throw exceptions?">smart pointers</a> within your objects, <a href="exceptions.html#selfcleaning-members" title="FAQ: How should I handle resources if my constructors may throw exceptions?">otherwise you will get a leak</a> if
+an exception is thrown while reading anything but the first pointed-to object.</p>
+
+<p>It is often convenient to use the <a href="ctors.html#named-ctor-idiom" title="FAQ: What is the 'Named Constructor Idiom'?">Named Constructor Idiom</a> when allocating these objects. This has
+the advantage that you can <a href="freestore-mgmt.html#ref-count-simple" title="FAQ: How do I do simple reference counting?">enforce the use of smart pointers</a>. To do this in a class <code>Foo</code>, write a
+<code>static</code> method such as <code>FooPtr Foo::create(std::istream&amp; istr)</code> <code>{ return new Foo(istr); }</code> (where <code>FooPtr</code> is a smart
+pointer to a <code>Foo</code>). The alert reader will note how consistent this is with the technique discussed in <a href="serialization.html#serialize-inherit-no-ptrs" title="FAQ: How do I serialize objects that are part of an inheritance hierarchy and that don't contain pointers to other objects?">the previous
+FAQ</a> &#8212; the two techniques are completely compatible.</p>
+
+<p>If an object can contain a variable number of children, e.g., a <code>std::vector</code> of pointers, then the usual approach is to
+<a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">write the number of children</a> just before recursively diving into the first child. When
+unserializing, just <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">read the number of children</a>, then use a loop to allocate the appropriate
+number of child objects.</p>
+
+<p>If a child-pointer might be <code>NULL</code>, be sure to handle that in both the writing and reading. This shouldn&#8217;t be a problem
+<a href="serialization.html#serialize-inherit-no-ptrs" title="FAQ: How do I serialize objects that are part of an inheritance hierarchy and that don't contain pointers to other objects?">if your objects use inheritance</a>; see that solution for details. Otherwise, if the first
+serialized character in an object has a known range, use something outside that range. E.g., if the first character of a
+serialized object is always a digit, use a non-digit like <code>'N'</code> to mean a <code>NULL</code> pointer. Unseralization can use
+<code>std::istream::peek()</code> to check for the <code>'N'</code> tag. If the first character doesn&#8217;t have a known range, force one; e.g.,
+write <code>'x'</code> before each object, then use something else like <code>'y'</code> to mean <code>NULL</code>.</p>
+
+<p>If an object physically contains another object inside itself, as opposed to containing a pointer to the other object,
+then nothing changes: you still recursively dive into the child-node as if it were via a pointer.</p>
+
+<h3 id="serialize-no-cycles-trivial-joins">How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and only &#8220;trivial&#8221; joins?</h3>
+
+<p>As before, the word &#8220;tree&#8221; does <em>not</em> mean that the objects are stored in some sort of tree-like data structure like
+<code>std::set</code>. It simply means your objects have pointers to each other, and the &#8220;no cycles&#8221; part means you can follow the
+pointers from one object to the next and never return to an earlier object. The objects are not &#8220;inside&#8221; a tree; they
+<em>are</em> a tree. If that doesn&#8217;t make sense, you <em>really</em> should read <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">the lingo FAQ</a> before
+continuing with this one.</p>
+
+<p>Use this solution if the <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> contains <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins at the leaf nodes</a>, but
+those joins can be easily reconstructed via a simple look-up table. For example, the parse-tree of an arithmetic
+expression like <code>(3*(a+b) - 1/a)</code> <em>might</em> have joins since a variable-name (like <code>a</code>) can show up more than once. If
+you want the graph to use the same exact node-object to represent both occurrences of that variable, then you could use
+this solution.</p>
+
+<p>Although the above constraints don&#8217;t fit with those of <a href="serialization.html#serialize-no-cycles-no-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and no joins?">the solution without any joins</a>,
+it&#8217;s so close that you can squeeze things into that solution. Here are the differences:</p>
+
+<ul>
+<li>During serialization, ignore the join completely.</li>
+<li>During unserializing, create a look-up table, like <code>std::map&lt;std::string,Node*&gt;</code>, that maps from the variable name
+to the associated node.</li>
+</ul>
+
+<p>Caveat: this assumes that <em>all</em> occurrences of variable <code>a</code> should map to the same node object; if it&#8217;s more
+complicated than this, that is, if some occurrences of <code>a</code> should map to one object and some to another, you might need
+to use <a href="serialization.html#serialize-with-cycles" title="FAQ: How do I serialize objects that contain pointers to other objects, and those pointers form a graph that might have cycles or non-trivial joins?">a more sophisticated solution</a>.</p>
+
+<p>Caveat: you need to take special care if your objects contain pointers which point to a member of some object, rather
+than to the object itself. For example, if pointer &#8216;p&#8217; points to &#8216;x.y&#8217; and pointer &#8216;q&#8217; points to &#8216;x.z&#8217;, that is, they
+point to data members within object &#8216;x&#8217; rather than to object &#8216;x&#8217; itself, when you serialize the pointers, you need to
+recognize both point to the same identical object. You will need to serialize object &#8216;x&#8217;, not just &#8216;x.y&#8217; and &#8216;x.z&#8217;, and
+you need to make sure upon unserialization &#8216;p&#8217; and &#8216;q&#8217; point again to the same identical object. The serialization
+process will probably require a two-pass approach, and serialized pointer will probably need to store an offset within
+the target object as well as the target object&#8217;s ID.</p>
+
+<h3 id="serialize-with-cycles">How do I serialize objects that contain pointers to other objects, and those pointers form a graph that might have cycles or non-trivial joins?</h3>
+
+<p>Caveat: the word &#8220;graph&#8221; does <em>not</em> mean that the objects are stored in some sort of data structure. Your objects form
+a graph because they point to each other. They&#8217;re not &#8220;inside&#8221; a graph; they <em>are</em> a graph. If that doesn&#8217;t make sense,
+you <em>really</em> should read <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">the lingo FAQ</a> before continuing with this one.</p>
+
+<p>Use this solution if the <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">graph</a> can contain <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">cycles</a>, or if it can
+contain more complicated kinds of <a href="serialization.html#serialize-graph-lingo" title="FAQ: What's all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?">joins</a> than are allowed by <a href="serialization.html#serialize-no-cycles-trivial-joins" title="FAQ: How do I serialize objects that contain pointers to other objects, but those pointers form a tree with no cycles and only 'trivial' joins?">the solution for trivial
+joins</a>. This solution handles two core issues: it avoids infinite recursion and it
+writes/reads each node&#8217;s <em>identity</em> in addition to its <em>contents</em>.</p>
+
+<p>A node&#8217;s identity doesn&#8217;t normally have to be consistent between different output streams. For example, if a particular
+file uses the number 3 to represent node <code>x</code>, a different file can use the number 3 to represent a different node, <code>y</code>.</p>
+
+<p>There are some clever ways to serialize the graph, but the simplest to describe is a two-pass algorithm that uses an
+<em>object-ID map</em>, e.g., <code>std::map&lt;Node*,unsigned&gt; oidMap</code>. The first pass populates our <code>oidMap</code>, that is, it builds a
+mapping from object pointer to the integer that represents the object&#8217;s identity. It does this by recursively diving
+through the graph, at each node checking if the node is already in <code>oidMap</code>, and if not, adding the node and a unique
+integer to <code>oidMap</code> and recursively diving into the new node&#8217;s children. The unique integer is often just the initial
+<code>oidMap.size()</code>, e.g., <code>unsigned n = oidMap.size(); oidMap[nodePtr] = n</code>. (Yes, we did that in two statements. You must
+also. Do <em>not</em> shorten it to a single statement. You have been warned.)</p>
+
+<p>The second pass iterates through the nodes of <code>oidMap</code>, and at each, writes the node&#8217;s identity (the associated integer)
+followed by its contents. When writing the contents of a node that contains pointers to other nodes, instead of diving
+into those &#8220;child&#8221; objects, it simply writes the identity (the associated integer) of the pointer to those nodes. For
+example, when your node contains <code>Node* child</code>, simply <a href="serialization.html#serialize-simple-types" title="FAQ: How do I serialize/unserialize simple types like numbers, characters, strings, etc.?">write the integer</a> <code>oidMap[child]</code>.
+After the second pass, the <code>oidMap</code> can be discarded. In other words, the mapping from <code>Node*</code> to <code>unsigned</code> should
+<em>not</em> normally survive beyond the end of the serialization of any given graph.</p>
+
+<p>There are also some clever ways to unserialize the graph, but here again the simplest to describe is a two-pass
+algorithm. The first pass populates a <code>std::vector&lt;Node*&gt; v</code> with objects of the right class, but any child pointers
+within those objects are all <code>NULL</code>. This means <code>v[3]</code> will point to the object whose oid is 3, but any child pointers
+inside that object will be <code>NULL</code>. The second pass populates the child pointers inside the objects, e.g., if <code>v[3]</code> has
+a child pointer called <code>child</code> that is supposed to point to the object whose oid is <code>5</code>, the second pass changes changes
+<code>v[3].child</code> from <code>NULL</code> to <code>v[5]</code> (obviously encapsulation might prevent it from directly accessing <code>v[3].child</code>, but
+ultimately <code>v[3].child</code> gets changed to <code>v[5]</code>). After unserializing a given stream, the <code>vector</code> <code>v</code> can normally be
+discarded. In other words, the oids (<code>3</code>, <code>5</code>, etc.) mean <em>nothing</em> when serializing or unserializing a different stream
+&#8212; those numbers are only meaningful within a given stream.</p>
+
+<p>Note: if your objects contain <em>polymorphic pointers</em>, that is, base class pointers that might point at derived class
+objects, then <a href="serialization.html#serialize-inherit-no-ptrs" title="FAQ: How do I serialize objects that are part of an inheritance hierarchy and that don't contain pointers to other objects?">use the technique described earlier</a>. You&#8217;ll also want to read some of the
+earlier techniques for handling <code>NULL</code>, writing version numbers, etc.</p>
+
+<p>Note: you should seriously consider the <a href="how-to-learn-cpp.html#design-books" title="FAQ: Are there other OO books that are relevant to OO/C++?">Visitor pattern</a> when recursively diving through the graph,
+since serialization is probably just one of many different reasons to make that recursive dive, and they&#8217;ll all need to
+avoid infinite recursion.</p>
+
+<h3 id="serialize-conclusions">Are there any caveats when serializing / unserializing objects?</h3>
+
+<p>One of the things you <em>don&#8217;t</em> want to do, except in unusual circumstances, is to make any changes to the node&#8217;s data
+during the traversal. For example, some people feel they can map from <code>Node*</code> to integer by simply adding an integer as
+a data member in the <code>Node</code> class. They also sometimes add a <code>bool haveVisited</code> flag as another data member within
+<code>Node</code> objects.</p>
+
+<p><em>But</em> this causes lots of multi-threading and/or performance problems. Your <code>serialize()</code> method can no longer be
+<code>const</code>, so even though it is logically just a reader of the node data, and even though it logically makes sense to have
+multiple threads reading the nodes at the same time, the actual algorithm writes into the nodes. If you fully understand
+threading and reader/writer conflicts, the best you can hope for is to make your code more complicated and slower
+(you&#8217;ll have to block all reader threads whenever <em>any</em> thread is doing <em>anything</em> with the graph). If you (or those who
+will maintain the code after you!) don&#8217;t fully understand reader/writer conflicts, this technique can create very
+serious and very subtle errors. Reader/writer and writer/writer conflicts are so subtle they often slip through test
+into the field. Bad news. Trust me. If you don&#8217;t trust me, talk to someone you do trust. But don&#8217;t cut corners.</p>
+
+<p>There&#8217;s lots more I could say, such as several simplifications and special cases, but I&#8217;ve already spent too much time
+on this. If you want more info, spend some money.</p>
+
+<h3 id="serialize-graph-lingo">What&#8217;s all this about graphs, trees, nodes, cycles, joins, and joins at the leaves vs. internal nodes?</h3>
+
+<p>When your objects contain pointers to other objects, you end up with something computer scientists call a <em>graph</em>. Not
+that your objects are stored inside a tree-like data structure; they <em>are</em> a tree-like structure.</p>
+
+<p>Your objects correspond to the graph&#8217;s <em>nodes</em> AKA <em>vertices</em>, and the pointers within your objects correspond to the
+graph&#8217;s <em>edges</em>. The graph is of a special variety called a <em>rooted</em>, <em>directed</em> graph. The root object to be serialized
+corresponds to the graph&#8217;s <em>root node</em>, and the pointers correspond to <em>directed edges</em>.</p>
+
+<p>If object <code>x</code> has a pointer to object <code>y</code>, we say that <code>x</code> is a <em>parent</em> of <code>y</code> and/or that <code>y</code> is a <em>child</em> of <code>x</code>.</p>
+
+<p>A <em>path</em> through a graph corresponds to starting with an object, following a pointer to another object, etc., etc. to an
+arbitrary depth. If there is a path from <code>x</code> to <code>z</code> we say that <code>x</code> is an <em>ancestor</em> of <code>z</code> and/or that <code>z</code> is a
+<em>descendent</em> of <code>x</code>.</p>
+
+<p>A <em>join</em> in a graph means there are two or more distinct paths to the same object. For example, if <code>z</code> is a child of
+both <code>x</code> and <code>y</code>, then the graph has a join, and <code>z</code> is a <em>join node</em>.</p>
+
+<p>A <em>cycle</em> in a graph means there is a path from an object back to itself: if <code>x</code> has a pointer to itself, or to <code>y</code>
+which points to <code>x</code>, or to <code>y</code> which points to <code>z</code> which points to <code>x</code>, etc. A graph is <em>cyclic</em> if it has one or more
+cycles; otherwise it is <em>acyclic</em>.</p>
+
+<p>An <em>internal node</em> is a node with children. A <em>leaf node</em> is a node without children.</p>
+
+<p>As used in this section, the word <em>tree</em> means a rooted, directed, acyclic graph. Note that each node within a tree is
+also a tree.</p>
+
+<!--
+File: id-defns
+
+Defines IDs for each FAQ and section.
+
+Rule:
+  FAQ editors should always use these IDs for every internal cross-reference within the FAQ.
+  Always use indirect links ('[description][id-of-target]')  when linking to the FAQ from within the FAQ.
+  Never  use  direct  links ('[description](url-of-target)') when linking to the FAQ from within the FAQ.
+
+Reason:
+  The FAQ is a living document -- we will split/join sections and move FAQs between sections.
+  Those changes result in changes to the URL of the moved FAQs, which breaks all direct links -- many changes.
+  However using indirect links means we need only change one thing in one place: this id-defns file.
+
+Caveat:
+  This rule applies only to internal cross-reference links, not to links to resources outside the FAQ.
+  E.g., if you are making a link from FAQ 'x' to FAQ 'y', then you should always use FAQ 'y's link-ID.
+  However if you are making a link from FAQ 'x' to some resource outside the FAQ, you have two choices:
+  You can use a direct link to the external resource's URL ('[description](url-of-external-resource)'),
+  or you can add the external resource to this file then link indirectly ('[description][id-of-external-resource]').
+  Typically you would do the latter only when the FAQ contains more than one link to that external resource.
+-->
+
+<p><!-- special resources -->
+<!-- /wiki/faq/index = 'C++ FAQ' -->
+<!-- /wiki/faq/big-picture = 'Big Picture Issues' -->
+<!-- /wiki/faq/classes-and-objects = 'Classes and Objects' -->
+<!-- /wiki/faq/references = 'References' -->
+<!-- /wiki/faq/inline-functions = 'Inline Functions' -->
+<!-- /wiki/faq/ctors = 'Constructors' -->
+<!-- /wiki/faq/dtors = 'Destructors' -->
+<!-- /wiki/faq/assignment-operators = 'Assignment Operators' -->
+<!-- /wiki/faq/operator-overloading = 'Operator Overloading' -->
+<!-- /wiki/faq/friends = 'Friends' -->
+<!-- /wiki/faq/input-output = 'Input/output via <iostream> and <cstdio>' -->
+<!-- /wiki/faq/freestore-mgmt = 'Memory Management' -->
+<!-- /wiki/faq/exceptions = 'Exceptions and Error Handling' -->
+<!-- /wiki/faq/const-correctness = 'Const Correctness' -->
+<!-- /wiki/faq/big3 = 'The Big Three' -->
+<!-- /wiki/faq/basics-of-inheritance = 'Inheritance — Basics' -->
+<!-- /wiki/faq/virtual-functions = 'Inheritance — virtual functions' -->
+<!-- /wiki/faq/proper-inheritance = 'Inheritance — Proper Inheritance and Substitutability' -->
+<!-- /wiki/faq/abcs = 'Inheritance — Abstract Base Classes (ABCs)' -->
+<!-- /wiki/faq/strange-inheritance = 'Inheritance — What your mother never told you' -->
+<!-- /wiki/faq/private-inheritance = 'Inheritance — private and protected inheritance' -->
+<!-- /wiki/faq/multiple-inheritance = 'Inheritance — Multiple and Virtual Inheritance' -->
+<!-- /wiki/faq/intrinsic-types = 'Built-in / Intrinsic / Primitive Data Types' -->
+<!-- /wiki/faq/coding-standards = 'Coding Standards' -->
+<!-- /wiki/faq/how-to-learn-cpp = 'Learning C++' -->
+<!-- /wiki/faq/newbie = 'Newbie Questions & Answers' -->
+<!-- /wiki/faq/objective-c = 'Learning C++ if you already know Objective-C' -->
+<!-- /wiki/faq/c = 'Learning C++ if you already know C' -->
+<!-- /wiki/faq/csharp-java = 'Learning C++ if you already know C# or Java' -->
+<!-- /wiki/faq/myths = 'Myths and Urban Legends About C++' -->
+<!-- /wiki/faq/value-vs-ref-semantics = 'Reference and Value Semantics' -->
+<!-- /wiki/faq/mixing-c-and-cpp = 'How to mix C and C++' -->
+<!-- /wiki/faq/pointers-to-members = 'Pointers to Member Functions' -->
+<!-- /wiki/faq/containers = 'Container Classes' -->
+<!-- /wiki/faq/templates = 'Templates' -->
+<!-- /wiki/faq/serialization = 'Serialization and Unserialization' -->
+<!-- /wiki/faq/class-libraries = 'Class Libraries' -->
+<!-- /wiki/faq/compiler-dependencies = 'Compiler Dependencies' -->
+<!-- /wiki/faq/misc-technical-issues = 'Miscellaneous Technical Issues' -->
+<!-- /wiki/faq/misc-environmental-issues = 'Miscellaneous Environmental Issues' -->
+<!-- /wiki/faq/style-and-techniques = 'Miscellaneous Style Issues' -->
+<!-- /wiki/faq/user-groups-worldwide = 'User Groups Worldwide' -->
+<!-- /wiki/faq/cpp11 = 'C++11 Overview' -->
+<!-- /wiki/faq/cpp11-language = 'C++11 Language Extensions --- General Features' -->
+<!-- /wiki/faq/cpp11-language-classes = 'C++11 Language Extensions -- Classes' -->
+<!-- /wiki/faq/cpp11-language-concurrency = 'C++11 Language Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-language-misc = 'C++11 Language Extensions --- Miscellaneous Language Features' -->
+<!-- /wiki/faq/cpp11-language-templates = 'C++11 Language Extensions -- Templates' -->
+<!-- /wiki/faq/cpp11-language-types = 'C++11 Language Extensions --- Other Types' -->
+<!-- /wiki/faq/cpp11-library = 'C++11 Library Extensions --- General Libraries' -->
+<!-- /wiki/faq/cpp11-library-concurrency = 'C++11 Standard Library Extensions --- Concurrency' -->
+<!-- /wiki/faq/cpp11-library-stl = 'C++11 Standard Library Extensions --- Containers and Algorithms' -->
+<!-- /wiki/faq/cpp0x-concepts-history = 'C++0x Concepts --- Historical FAQs' -->
+<!-- /wiki/faq/cpp14 = 'C++14 Overview' -->
+<!-- /wiki/faq/cpp14-language = 'C++14 Language Extensions' -->
+<!-- /wiki/faq/cpp14-library = 'C++14 Library Extensions' -->
+<!-- /wiki/faq/wg21 = 'WG21 Members' -->
+<!-- /wiki/faq/subject-index = 'Subject Index' --></p>
+
+<!-- BEGIN 'Category' Namespace Stuff -->
+
+
+<!-- END 'Category' Namespace Stuff -->
+
+
+<!-- BEGIN Categories for Page -->
+
+
+<!-- END Categories for Page -->
+
+
+</div>
+
+
+          </div>
+
+        </article>
+
+      </div>
+      
+<div id="popup-suggest" class="wiki-popup">
+  <p>Please <a href="../../member/login.html">Login</a> to submit a recommendation.</p>
+  <p>If you don&rsquo;t have an account, you can <a href="../../member/register.html">register for free.</a></p>
+</div>
+
+        </div>
+        
+        <div id="root-footer"></div>
+      </div>
+    </div>
+
+    <footer id="bottom" role="contentinfo">
+      <div class="container">
+        &copy; <a href="../../home/terms-of-use.html">Copyright</a> 2015 Standard C++ Foundation. 
+        All rights reserved. 
+        <ul id="nav-sub">
+<li class="first"><a href="../../home/terms-of-use.html">Terms of Use</a></li>
+<li class="last"><a href="../../home/privacy-policy.html">Privacy Policy</a></li>
+</ul>
+      </div>
+    </footer>
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../javascript/jquery.html"><\/script>')</script>
+    <script src="../../../ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+    <script>window.jQuery.ui || document.write('<script src="../../javascript/jquery-ui.html"><\/script>')</script>
+    
+    <script type="text/javascript" charset="utf-8" src="../../index97fd.html?ACT=comment_editor"></script>
+    <script type="text/javascript">
+	        					$(document).ready(function() {
+									$("*[id^=likee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/serialization",
+	   										data: "likee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#dislikee_"+c+id).replaceWith("<span>"+$("#dislikee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())+1);
+	 									$("#likeeCount_"+c+id).html(parseInt($("#likeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+									
+									$("*[id^=dislikee_]").click(function(){
+										var ids = $(this).attr("id").split("_");
+										if (ids[1]=="c"){
+											id=ids[2];
+											c="c_";
+											isCom="true";
+										} else {
+											id=ids[1];
+											c="";
+											isCom="false";
+										}
+										$.ajax({
+	   										type: "POST",
+	   										url: "/wiki/faq/serialization",
+	   										data: "dislikee=true&entry_id="+id+"&isCom="+isCom,
+	   										success: function(msg){
+	     										//alert( "Data Saved: " + msg );
+	   										}
+	 									});
+	 									
+	 									$(this).replaceWith("<strong>"+$(this).html()+"</strong>");
+	 									$("#likee_"+c+id).replaceWith("<span>"+$("#likee_"+c+id).html()+"</span>");
+	 									$("#scoreeCount_"+c+id).html(parseInt($("#scoreeCount_"+c+id).html())-1);
+	 									$("#dislikeeCount_"+c+id).html(parseInt($("#dislikeeCount_"+c+id).html())+1);
+	 									$("#likeeReplace_"+c+id).replaceWith("");
+	 									$("#likeeShow_"+c+id).replaceWith($("#likeeShow_"+c+id).html());
+									});
+								
+								});	
+	        			  </script>
+    
+    <script type="text/javascript" src="../../js/isocpp.min.js"></script>
+    
+    <script type="text/javascript" src="../../js/magnific.min.js"></script>
+    <script type="text/javascript" src="../../js/qtip.min.js"></script>
+    <script type="text/javascript" src="../../themes/wiki_themes/isocpp/javascript/wiki57ff.js?v=20140115"></script>
+    
+    <script type="text/javascript">
+      $("#top nav a").each(function() {
+        var aSeg1 = $(this).attr("href").replace("http://", "").replace("https:///", "").split("../../index.html")[1];
+        if (aSeg1 == "wiki") {$(this).parent().addClass("here");}
+      });
+    </script>
+
+  </body>
+
+<!-- Mirrored from isocpp.org/wiki/faq/serialization by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Aug 2015 12:41:42 GMT -->
+</html>

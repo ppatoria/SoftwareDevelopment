@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html id="ie8" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CMake Tutorial - Chapter&nbsp;5: Functionally Improved Testing - JohnLamp.netJohnLamp.net</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="pingback" href="https://www.johnlamp.net/xmlrpc.php" />
+  <!--[if lt IE 9]>
+  <script src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  
+<!-- This site is optimized with the Yoast SEO plugin v3.0.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CMake Tutorial - Chapter&nbsp;5: Functionally Improved Testing - JohnLamp.net" />
+<meta property="og:description" content="Last time we added a nice unit test and then set up CMake to build it, of
+    course, and add it to the list of tests that CTest will run. This is great,
+    now we can run cmake then use make and make
+    test to test our project. Now it&#039;s time to build on our &hellip;Continue reading &quot;CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing&quot;" />
+<meta property="og:url" content="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" />
+<meta property="og:site_name" content="JohnLamp.net" />
+<meta property="article:tag" content="CMake" />
+<meta property="article:tag" content="long" />
+<meta property="article:tag" content="tutorial" />
+<meta property="article:section" content="CMake Tutorial" />
+<meta property="article:published_time" content="2013-07-14T21:32:36+00:00" />
+<meta property="article:modified_time" content="2014-12-28T10:52:49+00:00" />
+<meta property="og:updated_time" content="2014-12-28T10:52:49+00:00" />
+<meta property="og:image" content="https://www.johnlamp.net/images/zip.png" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Feed" href="https://www.johnlamp.net/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; Comments Feed" href="https://www.johnlamp.net/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="JohnLamp.net &raquo; CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing Comments Feed" href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.johnlamp.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='style-css'  href='https://www.johnlamp.net/wp-content/themes/tutorial-theme/style.css?ver=4.3.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel='shortlink' href='https://www.johnlamp.net/?p=29' />
+<style type="text/css">.site-title a,.site-description{color: #f57900 !important;\n}</style></head>
+<body class="single single-post postid-29 single-format-standard">
+<div id="page" class="hfeed site">
+  <header id="masthead" class="site-header" role="banner">
+    <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home"><img src="https://www.johnlamp.net/wp-content/uploads/2014/09/JL-Symbol.png" width="87" height="90" style="width: 87px; height: 90px;" alt="" /></a>    <div class="hgroup">
+      <h1 class="site-title">
+        <a href="https://www.johnlamp.net/" title="JohnLamp.net" rel="home">JohnLamp.net</a>
+      </h1>
+      <h2 class="site-description">
+              </h2>
+    </div>
+
+    <div id="search">
+      <form method="get" id="searchform" action="https://www.johnlamp.net/" role="search"><label for="searchInput" class="assistive-text">Search</label><input type="text" class="field" name="searchInput" value="" id="searchInput" placeholder="Search &hellip;" /><input type="submit" id="searchsubmit" class="submit" value="Search" /></form>    </div>
+
+    <nav id="site-navigation" role="navigation" class="main-navigation">
+      <h1 class="assistive-text">
+        Menu      </h1>
+      <div class="assistive-text skip-link">
+        <a href="#content" title="Skip to content">Skip to content</a>
+      </div>
+      <div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-4" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4"><a href="https://www.johnlamp.net/">Home</a></li>
+<li id="menu-item-10" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-10"><a href="https://www.johnlamp.net/cmake-tutorial.html">CMake Tutorial</a></li>
+</ul></div>    </nav>
+    <div class="cleared"></div>
+  </header>
+  <div id="main" class="site-main">
+
+<div id="primary" class="content-area">
+  <div id="content" class="site-content" role="main">
+
+    <nav role="navigation" id="nav-above" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost <span class="meta-nav">&rarr;</span></a></div></nav>
+
+<article id="post-29" class="post-29 post type-post status-publish format-standard hentry category-cmake-tutorial tag-cmake tag-long tag-tutorial">
+  <header class="entry-header">
+    <h1 class="entry-title">
+      CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing    </h1>
+
+    <div class="entry-meta">
+      Posted on <a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" title="21:32:36" rel="bookmark"><time class="entry-date" datetime="2013-07-14T21:32:36+00:00">2013-07-14</time></a> <span class="byline">by <span class="author vcard"><a class="url fn n" href="https://www.johnlamp.net/author/john" title="View all posts by John Lamp" rel="author">John Lamp</a></span></span>    </div>
+  </header>
+
+  <div class="entry-content">
+    <nav class="contents"><h1>Contents</h1><ol><li><a href="#section-Introduction">Introduction</a></li><li><a href="#section-ASimpleFunction">A Simple Function</a></li><li><ol><li><a href="#section-CommandsAndFunctionsAndMacros!OhMy!">Commands and Functions and Macros! Oh my!</a></li><li><a href="#section-Scope">Scope</a></li><li><ol><li><a href="#section-LocalScope">Local Scope</a></li><li><a href="#section-ParentScope">Parent Scope</a></li><li><a href="#section-DirectoryScope">Directory Scope</a></li><li><a href="#section-GlobalScope">Global Scope</a></li><li><a href="#section-CacheScope">Cache Scope</a></li></ol></li></ol></li><li><a href="#section-Let'SIncludeSomeOrganization">Let&#8217;s Include Some Organization</a></li><li><a href="#section-Lists!">Lists!</a></li><li><a href="#section-AutoPlay">Auto Play</a></li></ol></nav>
+<section>
+  <h1 id="section-Introduction">Introduction</h1>
+  <p>
+    Last time we added a nice unit test and then set up CMake to build it, of
+    course, and add it to the list of tests that CTest will run. This is great,
+    now we can run <code>cmake</code> then use <kbd>make</kbd> and <kbd>make
+    test</kbd> to test our project. Now it&#8217;s time to build on our success
+    because we certainly aren&#8217;t done yet.
+  </p>
+  <p>
+    The main problem we need to tackle is that there are currently 3 steps to
+    creating a test program:
+  </p>
+  <ol>
+    <li>
+      add the executable target
+    </li>
+    <li>
+      link the executable against the &#8220;gmock_main&#8221; library
+    </li>
+    <li>
+      add the test to CTest&#8217;s list of tests
+    </li>
+  </ol>
+  <p>
+    That&#8217;s 3 steps too many. If you are thinking that 3 steps aren&#8217;t too many
+    remember that any project of a useful size will have a rather large number
+    of unit tests, each of which will require these same 3 steps &ndash; that&#8217;s
+    a lot of repetition. As programmers we should not repeat ourselves, and we
+    shouldn&#8217;t slack off just because we are <span class="strike">merely</span>
+    setting up our build system. What we want is the ability to add a new test
+    in a single step. Writing the test is hard enough, building and running it
+    should be easy.
+  </p>
+  <p>
+    Lucky for us CMake offers the ability to write functions. So we will start
+    by writing a function that combines these 3 steps so that only one step will
+    be needed. Once we have the function we will improve it further taking
+    advantage of the fact that we will only have to write said improvements
+    once.
+  </p>
+</section>
+
+<section>
+  <h1 id="section-ASimpleFunction">A Simple Function</h1>
+
+  <p>
+    We have 3 simple steps to encapsulate in a function, that should be simple,
+    right?
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/unit_test/CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="ToDoCore/unit_test/CMakeLists.txt-1" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">GMOCK_DIR</span> <span class="s2">&quot;../../../../../gmock/gmock-1.6.0&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-2" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-2"></a>    <span class="s">CACHE</span> <span class="s">PATH</span> <span class="s2">&quot;The path to the GoogleMock test framework.&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-3" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-3"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-4" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-4"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-5" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-5"></a>    <span class="c"># force this option to ON so that Google Test will use /MD instead of /MT</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-6" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-6"></a>    <span class="c"># /MD is now the default for Visual Studio, so it should be our default, too</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-7" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-7"></a>    <span class="nb">option</span><span class="p">(</span><span class="s">gtest_force_shared_crt</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-8" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-8"></a>           <span class="s2">&quot;Use shared (DLL) run-time lib even when Google Test is built as static lib.&quot;</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-9" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-9"></a>           <span class="s">ON</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-10" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-10"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-11" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-11"></a>    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DGTEST_USE_OWN_TR1_TUPLE=1</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-12" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-12"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-13" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-13"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/gmock</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-14" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-14"></a><span class="nb">set_property</span><span class="p">(</span><span class="s">TARGET</span> <span class="s">gtest</span> <span class="s">APPEND_STRING</span> <span class="s">PROPERTY</span> <span class="s">COMPILE_FLAGS</span> <span class="s2">&quot; -w&quot;</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-15" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-15"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-16" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-16"></a><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/gtest/include</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-17" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-17"></a>                           <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/include</span><span class="p">)</span>
+<a id="ToDoCore/unit_test/CMakeLists.txt-18" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-18"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-19" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-19"></a>
+<a id="ToDoCore/unit_test/CMakeLists.txt-20" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-20"></a><span class="hll"><span class="c">#</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-21" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-21"></a><span class="hll"><span class="c"># add_gmock_test(&lt;target&gt; &lt;sources&gt;...)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-22" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-22"></a><span class="hll"><span class="c">#</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-23" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-23"></a><span class="hll"><span class="c">#  Adds a Google Mock based test executable, &lt;target&gt;, built from &lt;sources&gt; and</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-24" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-24"></a><span class="hll"><span class="c">#  adds the test so that CTest will run it. Both the executable and the test</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-25" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-25"></a><span class="hll"><span class="c">#  will be named &lt;target&gt;.</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-26" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-26"></a><span class="hll"><span class="c">#</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-27" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-27"></a><span class="hll"><span class="nb">function</span><span class="p">(</span><span class="s">add_gmock_test</span> <span class="s">target</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-28" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-28"></a><span class="hll">    <span class="nb">add_executable</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">ARGN</span><span class="o">}</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-29" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-29"></a><span class="hll">    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="s">gmock_main</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-30" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-30"></a><span class="hll">
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-31" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-31"></a><span class="hll">    <span class="nb">add_test</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-32" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-32"></a><span class="hll"><span class="nb">endfunction</span><span class="p">()</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-33" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-33"></a><span class="hll">
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-34" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-34"></a><span class="hll">
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-35" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-35"></a><span class="hll"><span class="nb">add_gmock_test</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest.cc</span><span class="p">)</span>
+</span><a id="ToDoCore/unit_test/CMakeLists.txt-36" class="line-number" href="#ToDoCore/unit_test/CMakeLists.txt-36"></a><span class="hll"><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">toDoCore</span><span class="p">)</span>
+</span></pre></div>
+</section>  <a class="sources" href="https://www.johnlamp.net/sources/chapter5-1.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>
+  <dl>
+    <dd>
+      I like to put comments before my functions that show how they should be
+      called and explain what they do.
+    </dd>
+
+    <dt class="code">
+      function(add_gmock_test target)
+    </dt>
+    <dd>
+      Start the definition of the function <code>add_gmock_test</code> with one
+      required parameter <code>target</code>.
+    </dd>
+    <dd>
+      Inside the function its first argument is available as the variable
+      <code>target</code> and the rest of the arguments are available in a list
+      stored in the variable <code>ARGN</code>. CMake will allow you to pass
+      more arguments to a function than the number of parameters it defined. It
+      is up to the writer of the function to handle all of them, validate them
+      and produce an error if they aren&#8217;t correct, or merely ignore them. In
+      this case we are just passing them all on to the command
+      <code>add_executable()</code>.
+    </dd>
+    <dd>
+      Also available is the variable <code>ARGC</code> which holds the count of
+      all arguments passed to the function, both ones matching parameters and
+      any extras. Additionally each argument can be accessed via the variables
+      <code>ARGV0</code>, <code>ARGV1</code>, &#8230;
+
+      <code>ARGV<span class="arg">N</span></code>. As if that weren&#8217;t enough
+      ways to access function arguments all arguments are also available as a
+      list stored in the variable <code>ARGV</code>. This affords a lot of
+      flexibility but can make argument validation and handling difficult.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:function"><code>function()</code> documentation</a>      <time class="access" datetime="2013-06-01">(2013-06-01)</time>    </dd>
+
+    <dt class="code">
+      endfunction()
+    </dt>
+    <dd>
+      Ends the definition of a function. As I&#8217;ve said before CMake&#8217;s syntax is a
+      bit strange. You can pass the name of the function as an argument to this
+      command, but it is not required. If you do it should match otherwise CMake
+      will print a warning when configuring. I think it&#8217;s easier to read if no
+      arguments are passed to <code>endfunction()</code> and functions shouldn&#8217;t
+      be long enough that a reminder of what function is being ended is needed.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:endfunction"><code>endfunction()</code> documentation</a>      <time class="access" datetime="2013-06-01">(2013-06-01)</time>    </dd>
+
+    <dt class="code">
+      add_gmock_test(ToDoTest ToDoTest.cc)
+    </dt>
+    <dd>
+      Now we use the function we just wrote to add our Google Mock based
+      test. With the function written it is now much simpler as we don&#8217;t need to
+      write out the three separate commands every time.
+    </dd>
+
+    <dt class="code">
+      target_link_libraries(ToDoTest toDoCore)
+    </dt>
+    <dd>
+      We still have to link our test with the &#8220;toDoCore&#8221; library. Since this is
+      specific to this test and not all tests it wouldn&#8217;t make sense to include
+      this in our function.
+    </dd>
+  </dl>
+
+  <h2 id="section-CommandsAndFunctionsAndMacros!OhMy!">Commands and Functions and Macros! Oh my!</h2>
+  <p>
+    So far we have seen several CMake commands and now even written a function!
+    You may wonder what the difference is between a command and a
+    function. Simply put commands are built into CMake and functions are written
+    using CMake&#8217;s language. While some commands behave quite similarly to
+    functions, e.g. <code>add_executable</code>, some others behave in ways that
+    cannot be mimicked using functions or macros, e.g. <code>if()</code> and
+    <code>function()</code>.
+  </p>
+  <p>
+    Macros, on the other hand, are similar to functions in that they are written
+    the same and offer all of the same ways for accessing arguments. However,
+    macros don&#8217;t have their own scope and rather than dereferencing arguments
+    when run arguments are replaced instead. The first difference is what makes
+    macros both useful and dangerous, the second is more subtle and can make
+    working with lists difficult. <span class="subtle">(Yes, I know. I haven&#8217;t
+    talked about lists yet.)</span>
+  </p>
+  <p>
+    You can&#8217;t add commands, but you can create functions and macros. As a rule
+    of thumb do not use a macro unless absolutely necessary, then you will avoid
+    many problems.
+  </p>
+
+  <h2 id="section-Scope">Scope</h2>
+  <p>
+    Scope is interesting in CMake and can occasionally be confusing. There&#8217;s
+    local scope, directory scope, global scope, and cache scope. As with most
+    languages things are inherited from enclosing scopes. For example if you
+    were to set <code>someVariable</code> to &#8220;some value&#8221; and then call
+    <code>someFunction()</code> inside the function dereferencing
+    <code>someVariable</code> would yield &#8220;some value&#8221;.
+  </p>
+
+  <h3 id="section-LocalScope">Local Scope</h3>
+  <p>
+    This refers to the most narrow scope at a given location. So the current
+    function or directory if not inside a function. Note that conditionals,
+    loops, and macros do not create a new scope, which is important to remember.
+    When you set a variable this is the scope that is affected.
+  </p>
+
+  <h3 id="section-ParentScope">Parent Scope</h3>
+  <p>
+    The scope enclosing the current local scope. For example the scope that
+    called the current function or the directory that executed the most recent
+    <code>add_subdirectory()</code> command. This is important because the
+    <code>set()</code> command can be used to set variables in the parent
+    scope. In fact this is the only way to return values from a function.
+  </p>
+  <p class="code">
+    set(<span class="arg">variable</span>
+          <span class="arg">values&hellip;</span>
+          PARENT_SCOPE)
+  </p>
+  <p>
+    <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:set"><code>set()</code> documentation</a>      <time class="access" datetime="2013-06-01">(2013-06-01)</time>  </p>
+
+  <h3 id="section-DirectoryScope">Directory Scope</h3>
+  <p>
+    This is the scope of the current directory being processed by CMake which is
+    used by directory properties and macros. The confusing thing is that some
+    commands affect directory properties, such as
+    <code><a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_definitions">add_definitions()</a></code>    and
+    <code><a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:remove_definitions">remove_definitions()</a></code>.    Many of these properties affect the targets created within this directory
+    scope but only take effect when generating. So if you create a target and
+    then use the <code>add_definitions()</code> command those definitions will
+    apply to the target created previously. It is less confusing if things that
+    affect directory scope are done before creating any targets in that
+    directory. Also do not mix setting directory properties and creating targets
+    inside a function, either use separate functions or set the corresponding
+    target property.
+  </p>
+
+  <h3 id="section-GlobalScope">Global Scope</h3>
+  <p>
+    As expected anything defined with global scope is accessible from within any
+    local scope. Targets, functions, and global properties all have global
+    scope. For this reason all targets must have unique names.
+    <span class="subtle">(Strictly speaking this
+    <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#prop_global:ALLOW_DUPLICATE_CUSTOM_TARGETS">isn&#8217;t true</a>,    however not all generators can handle multiple targets with the same
+    name. For maximum compatibility it is best to ensure all targets have unique
+    names.)</span> Functions, on the other hand, can be redefined at will, but
+    that is generally not a good idea.
+  </p>
+
+  <h3 id="section-CacheScope">Cache Scope</h3>
+  <p>
+    This is similar to global scope, however only variables can be stored in the
+    cache. In addition the cache persists between CMake configure runs. As we
+    have already <a href="https://www.johnlamp.net/cmake-tutorial-3-gui-tool.html#section-CmakeCache">seen</a>    some cached variables can also be edited using the CMake GUI or the
+    <code>ccmake</code> tool.
+  </p>
+</section>
+
+<section>
+  <h1 id="section-Let'SIncludeSomeOrganization">Let&#8217;s Include Some Organization</h1>
+  <p>
+    There&#8217;s two issues with what we have now. First we&#8217;ve combined settings and
+    functions for unit testing as well as an actual target. Second burying the
+    inclusion of Google Mock this deep in our project makes it difficult to use
+    a relative path. If you were to set the path to Google Mock on the command
+    line using <kbd>cmake -DGMOCK_DIR=<span class="arg">somePath</span></kbd>
+    you would expect the path to be relative to the top project directory rather
+    than two directories deeper. We can fix both of these problems at the same
+    time.
+  </p>
+  <p>
+    We will refactor the code related to Google Mock into a separate file. Which
+    will resolve problem one. Then we will include our new file from the top
+    <code>CMakeLists.txt</code> file, which will address problem two. The
+    question is where to put this new file and what to call it? In CMake files
+    like these are called modules. Cmake comes with many which are stored in a
+    directory called &#8220;Modules&#8221;. Many software projects, on the other hand, store
+    CMake related code in a directory called &#8220;cmake&#8221;, a logical name, sometimes
+    this is done out of necessity <span class="subtle">(e.g. if using
+    ClearCase)</span>. I think we shall put the file in
+    <code>cmake/Modules</code>. As for the name since we consistently used
+    <code>gmock</code> or <code>GMOCK</code> let&#8217;s go with
+    <code>gmock.cmake</code>.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>cmake/Modules/gmock.cmake</h1>
+</header><div class="highlight"><pre><a id="part2-cmake/Modules/gmock.cmake-1" class="line-number" href="#part2-cmake/Modules/gmock.cmake-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">GMOCK_DIR</span> <span class="s2">&quot;../../../gmock/gmock-1.6.0&quot;</span>
+<a id="part2-cmake/Modules/gmock.cmake-2" class="line-number" href="#part2-cmake/Modules/gmock.cmake-2"></a>    <span class="s">CACHE</span> <span class="s">PATH</span> <span class="s2">&quot;The path to the GoogleMock test framework.&quot;</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-3" class="line-number" href="#part2-cmake/Modules/gmock.cmake-3"></a>
+<a id="part2-cmake/Modules/gmock.cmake-4" class="line-number" href="#part2-cmake/Modules/gmock.cmake-4"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-5" class="line-number" href="#part2-cmake/Modules/gmock.cmake-5"></a>    <span class="c"># force this option to ON so that Google Test will use /MD instead of /MT</span>
+<a id="part2-cmake/Modules/gmock.cmake-6" class="line-number" href="#part2-cmake/Modules/gmock.cmake-6"></a>    <span class="c"># /MD is now the default for Visual Studio, so it should be our default, too</span>
+<a id="part2-cmake/Modules/gmock.cmake-7" class="line-number" href="#part2-cmake/Modules/gmock.cmake-7"></a>    <span class="nb">option</span><span class="p">(</span><span class="s">gtest_force_shared_crt</span>
+<a id="part2-cmake/Modules/gmock.cmake-8" class="line-number" href="#part2-cmake/Modules/gmock.cmake-8"></a>           <span class="s2">&quot;Use shared (DLL) run-time lib even when Google Test is built as static lib.&quot;</span>
+<a id="part2-cmake/Modules/gmock.cmake-9" class="line-number" href="#part2-cmake/Modules/gmock.cmake-9"></a>           <span class="s">ON</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-10" class="line-number" href="#part2-cmake/Modules/gmock.cmake-10"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-11" class="line-number" href="#part2-cmake/Modules/gmock.cmake-11"></a>    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DGTEST_USE_OWN_TR1_TUPLE=1</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-12" class="line-number" href="#part2-cmake/Modules/gmock.cmake-12"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="part2-cmake/Modules/gmock.cmake-13" class="line-number" href="#part2-cmake/Modules/gmock.cmake-13"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/gmock</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-14" class="line-number" href="#part2-cmake/Modules/gmock.cmake-14"></a><span class="nb">set_property</span><span class="p">(</span><span class="s">TARGET</span> <span class="s">gtest</span> <span class="s">APPEND_STRING</span> <span class="s">PROPERTY</span> <span class="s">COMPILE_FLAGS</span> <span class="s2">&quot; -w&quot;</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-15" class="line-number" href="#part2-cmake/Modules/gmock.cmake-15"></a>
+<a id="part2-cmake/Modules/gmock.cmake-16" class="line-number" href="#part2-cmake/Modules/gmock.cmake-16"></a><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/gtest/include</span>
+<a id="part2-cmake/Modules/gmock.cmake-17" class="line-number" href="#part2-cmake/Modules/gmock.cmake-17"></a>                           <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/include</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-18" class="line-number" href="#part2-cmake/Modules/gmock.cmake-18"></a>
+<a id="part2-cmake/Modules/gmock.cmake-19" class="line-number" href="#part2-cmake/Modules/gmock.cmake-19"></a>
+<a id="part2-cmake/Modules/gmock.cmake-20" class="line-number" href="#part2-cmake/Modules/gmock.cmake-20"></a><span class="c">#</span>
+<a id="part2-cmake/Modules/gmock.cmake-21" class="line-number" href="#part2-cmake/Modules/gmock.cmake-21"></a><span class="c"># add_gmock_test(&lt;target&gt; &lt;sources&gt;...)</span>
+<a id="part2-cmake/Modules/gmock.cmake-22" class="line-number" href="#part2-cmake/Modules/gmock.cmake-22"></a><span class="c">#</span>
+<a id="part2-cmake/Modules/gmock.cmake-23" class="line-number" href="#part2-cmake/Modules/gmock.cmake-23"></a><span class="c">#  Adds a Google Mock based test executable, &lt;target&gt;, built from &lt;sources&gt; and</span>
+<a id="part2-cmake/Modules/gmock.cmake-24" class="line-number" href="#part2-cmake/Modules/gmock.cmake-24"></a><span class="c">#  adds the test so that CTest will run it. Both the executable and the test</span>
+<a id="part2-cmake/Modules/gmock.cmake-25" class="line-number" href="#part2-cmake/Modules/gmock.cmake-25"></a><span class="c">#  will be named &lt;target&gt;.</span>
+<a id="part2-cmake/Modules/gmock.cmake-26" class="line-number" href="#part2-cmake/Modules/gmock.cmake-26"></a><span class="c">#</span>
+<a id="part2-cmake/Modules/gmock.cmake-27" class="line-number" href="#part2-cmake/Modules/gmock.cmake-27"></a><span class="nb">function</span><span class="p">(</span><span class="s">add_gmock_test</span> <span class="s">target</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-28" class="line-number" href="#part2-cmake/Modules/gmock.cmake-28"></a>    <span class="nb">add_executable</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">ARGN</span><span class="o">}</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-29" class="line-number" href="#part2-cmake/Modules/gmock.cmake-29"></a>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="s">gmock_main</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-30" class="line-number" href="#part2-cmake/Modules/gmock.cmake-30"></a>
+<a id="part2-cmake/Modules/gmock.cmake-31" class="line-number" href="#part2-cmake/Modules/gmock.cmake-31"></a>    <span class="nb">add_test</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span><span class="p">)</span>
+<a id="part2-cmake/Modules/gmock.cmake-32" class="line-number" href="#part2-cmake/Modules/gmock.cmake-32"></a>
+<a id="part2-cmake/Modules/gmock.cmake-33" class="line-number" href="#part2-cmake/Modules/gmock.cmake-33"></a><span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</section>  <p>
+    If you look closely the only change to this code you&#8217;ll notice is that the
+    default value for <code>GMOCK_DIR</code> has two fewer parent directories in
+    it. It is now relative to the top of our project as one would expect.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>CMakeLists.txt</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="part2-CMakeLists.txt-1" class="line-number" href="#part2-CMakeLists.txt-1"></a><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-2" class="line-number" href="#part2-CMakeLists.txt-2"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_LEGACY_CYGWIN_WIN32</span> <span class="s">0</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-3" class="line-number" href="#part2-CMakeLists.txt-3"></a>
+<a id="part2-CMakeLists.txt-4" class="line-number" href="#part2-CMakeLists.txt-4"></a><span class="nb">project</span><span class="p">(</span><span class="s2">&quot;To Do List&quot;</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-5" class="line-number" href="#part2-CMakeLists.txt-5"></a><span class="hll">
+</span><a id="part2-CMakeLists.txt-6" class="line-number" href="#part2-CMakeLists.txt-6"></a><span class="hll"><span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span> <span class="s">CMAKE_MODULE_PATH</span> <span class="o">${</span><span class="nv">CMAKE_SOURCE_DIR</span><span class="o">}</span><span class="s">/cmake/Modules</span><span class="p">)</span>
+</span><a id="part2-CMakeLists.txt-7" class="line-number" href="#part2-CMakeLists.txt-7"></a>
+<a id="part2-CMakeLists.txt-8" class="line-number" href="#part2-CMakeLists.txt-8"></a><span class="nb">enable_testing</span><span class="p">()</span>
+<a id="part2-CMakeLists.txt-9" class="line-number" href="#part2-CMakeLists.txt-9"></a><span class="hll"><span class="nb">include</span><span class="p">(</span><span class="s">gmock</span><span class="p">)</span>
+</span><a id="part2-CMakeLists.txt-10" class="line-number" href="#part2-CMakeLists.txt-10"></a>
+<a id="part2-CMakeLists.txt-11" class="line-number" href="#part2-CMakeLists.txt-11"></a>
+<a id="part2-CMakeLists.txt-12" class="line-number" href="#part2-CMakeLists.txt-12"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;GNU&quot;</span> <span class="s">OR</span>
+<a id="part2-CMakeLists.txt-13" class="line-number" href="#part2-CMakeLists.txt-13"></a>    <span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-14" class="line-number" href="#part2-CMakeLists.txt-14"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;-Wall -Wextra -Werror&quot;</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-15" class="line-number" href="#part2-CMakeLists.txt-15"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-16" class="line-number" href="#part2-CMakeLists.txt-16"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">warnings</span> <span class="s2">&quot;/W4 /WX /EHsc&quot;</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-17" class="line-number" href="#part2-CMakeLists.txt-17"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="part2-CMakeLists.txt-18" class="line-number" href="#part2-CMakeLists.txt-18"></a><span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">CONFIGURED_ONCE</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-19" class="line-number" href="#part2-CMakeLists.txt-19"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${warnings}&quot;</span>
+<a id="part2-CMakeLists.txt-20" class="line-number" href="#part2-CMakeLists.txt-20"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-21" class="line-number" href="#part2-CMakeLists.txt-21"></a>    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_FLAGS</span>   <span class="s2">&quot;${warnings}&quot;</span>
+<a id="part2-CMakeLists.txt-22" class="line-number" href="#part2-CMakeLists.txt-22"></a>        <span class="s">CACHE</span> <span class="s">STRING</span> <span class="s2">&quot;Flags used by the compiler during all build types.&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-23" class="line-number" href="#part2-CMakeLists.txt-23"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="part2-CMakeLists.txt-24" class="line-number" href="#part2-CMakeLists.txt-24"></a>
+<a id="part2-CMakeLists.txt-25" class="line-number" href="#part2-CMakeLists.txt-25"></a>
+<a id="part2-CMakeLists.txt-26" class="line-number" href="#part2-CMakeLists.txt-26"></a><span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-27" class="line-number" href="#part2-CMakeLists.txt-27"></a>
+<a id="part2-CMakeLists.txt-28" class="line-number" href="#part2-CMakeLists.txt-28"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">ToDoCore</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-29" class="line-number" href="#part2-CMakeLists.txt-29"></a>
+<a id="part2-CMakeLists.txt-30" class="line-number" href="#part2-CMakeLists.txt-30"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">toDo</span> <span class="s">main.cc</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-31" class="line-number" href="#part2-CMakeLists.txt-31"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">toDo</span> <span class="s">toDoCore</span><span class="p">)</span>
+<a id="part2-CMakeLists.txt-32" class="line-number" href="#part2-CMakeLists.txt-32"></a>
+<a id="part2-CMakeLists.txt-33" class="line-number" href="#part2-CMakeLists.txt-33"></a>
+<a id="part2-CMakeLists.txt-34" class="line-number" href="#part2-CMakeLists.txt-34"></a><span class="nb">set</span><span class="p">(</span><span class="s">CONFIGURED_ONCE</span> <span class="s">TRUE</span> <span class="s">CACHE</span> <span class="s">INTERNAL</span>
+<a id="part2-CMakeLists.txt-35" class="line-number" href="#part2-CMakeLists.txt-35"></a>    <span class="s2">&quot;A flag showing that CMake has configured at least once.&quot;</span><span class="p">)</span>
+</pre></div>
+</section>  <dl>
+    <dt class="code">
+      list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+    </dt>
+    <dd>
+      Lists, finally! Okay not quite yet. Here we append the &#8220;Modules&#8221; directory
+      we created to CMake&#8217;s module path. This is the path CMake searches when
+      you include a module.
+    </dd>
+    <dd>
+      We set the include path because, in the future, we might want to include
+      modules from other <code>CMakeLists.txt</code> in other directories. This
+      allows us to include them without having to specify the full path every
+      time.
+    </dd>
+
+    <dt class="code">
+      include(gmock)
+    </dt>
+    <dd>
+      This includes the new module we created. When used this way CMake searches
+      the module path for the file <code>gmock.cmake</code> and when it finds
+      the file it is included. These includes are much like those done by the C
+      preprocessor. The code in the included file executes in the same scope as
+      the file that included it.
+    </dd>
+  </dl>
+
+  <dl>
+    <dt class="code">
+      list(APPEND
+           <span class="arg">list</span>
+           <span class="arg">elements&hellip;</span>)
+    </dt>
+    <dd>
+      Appends the elements to the list stored in the variable named
+
+      <code class="arg">list</code>. That&#8217;s correct, you pass in the
+      <em>name</em> of the list to be updated, you do not dereference it.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:list"><code>list()</code> documentation</a>      <time class="access" datetime="2013-06-04">(2013-06-04)</time>    </dd>
+
+    <dt class="code">
+      CMAKE_MODULE_PATH
+    </dt>
+    <dd>
+      When including modules CMake searches for the requested module in the
+      paths in this list. If this list is exhausted then CMake will look in the
+      directory containing the default modules that come with CMake. Because
+      these paths need to work anywhere in the build tree they must be absolute
+      paths. Since this is a list the <code>list()</code> command should be used
+      to manipulate it.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#variable:CMAKE_MODULE_PATH"><code>CMAKE_MODULE_PATH</code> documentation</a>      <time class="access" datetime="2013-06-04">(2013-06-04)</time>    </dd>
+
+    <dt class="code">
+      include(<span class="arg">module</span> | <span class="arg">file</span>)
+    </dt>
+    <dd>
+      Include the module or file in the current file being processed. If a
+
+      <span class="arg">module</span> name is provided CMake will search for the
+      file <code><span class="arg">module</span>.cmake</code> and included it if
+      found. Alternatively if a <code class="arg">file</code> name is provided
+      CMake will include that file directly; no module path searching is
+      required. If the file cannot be included either because it doesn&#8217;t exist
+      or wasn&#8217;t found CMake will issue a warning, but will continue processing.
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include"><code>include()</code> documentation</a>      <time class="access" datetime="2013-06-04">(2013-06-04)</time>    </dd>
+  </dl>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>ToDoCore/unit_test/CMakeLists.txt</h1>
+</header><div class="highlight"><pre><a id="part2-ToDoCore/unit_test/CMakeLists.txt-1-1" class="line-number" href="#part2-ToDoCore/unit_test/CMakeLists.txt-1-1"></a><span class="nb">add_gmock_test</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">ToDoTest.cc</span><span class="p">)</span>
+<a id="part2-ToDoCore/unit_test/CMakeLists.txt-1-2" class="line-number" href="#part2-ToDoCore/unit_test/CMakeLists.txt-1-2"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">ToDoTest</span> <span class="s">toDoCore</span><span class="p">)</span>
+</pre></div>
+</section>  <p>
+    This file has gone on a serious diet. After moving all general code for unit
+    testing with Google Mock into <code>gmock.cmake</code> this file became
+    quite simple.
+  </p>
+  <a class="sources" href="https://www.johnlamp.net/sources/chapter5-2.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a></section>
+
+<section>
+  <h1 id="section-Lists!">Lists!</h1>
+  <p>
+    At long last! You&#8217;ve been teased by lists for 2 chapters now, and most of
+    this one too. It is high time we discussed lists.
+  </p>
+  <p>
+    CMake has two data structures built in: strings and lists. Well, strictly
+    speaking that isn&#8217;t completely true; lists are semicolon delimited
+    strings. So an empty string is also an empty list and a regular string is a
+    list with only one item. The simplest way to make a list is
+    <code>set(myList a b c)</code> which is exactly the same as
+    <code>set(myList a;b;c)</code>. However <code>set(myList "a;b;c")</code>
+    creates a list with just one item. If a string begins with <code>"</code>
+    it is treated as a string literal and any spaces or quotes remain a part of
+    that string rather than causing it to be split into several list items.
+  </p>
+  <p>
+    Lists are important to understand not just because they are useful but also
+    because all arguments to commands, functions, and macros are processed as a
+    list. So just as <code>set(myList a b c)</code> is the same as
+    <code>set(myList a;b;c)</code> so too is
+    <code>set(myList;a;b;c)</code>. When CMake processes the call to the
+    <code>set()</code> command it collects all of the arguments into a single
+    list. This list <span class="subtle">(<code>ARGV</code>)</span> is the
+    separated into the first argument, the variable name
+    <span class="subtle">(<code>myList</code>)</span>, and the rest of the
+    items, the values <span class="subtle">(<code>a;b;c</code>)</span>. This can
+    cause trouble if you pass a quoted string containing semicolons to a
+    function that then passes it to another function without quoting it as your
+    string will become a list.
+  </p>
+  <p>
+    While you can create list with <code>set(myList a b c)</code> I&#8217;d strongly
+    recommend using <code>list(APPEND myList a b c)</code>. Using the
+    <code>list()</code> command shows that you are using the variable
+    <code>myList</code> as a list. Naturally the <code>list()</code> command
+    allows you to do other things with lists.
+  </p>
+  <p>
+    <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:list"><code>list()</code> documentation</a>    <time class="access" datetime="2013-06-04">(2013-06-04)</time>  </p>
+</section>
+
+<section>
+  <h1 id="section-AutoPlay">Auto Play</h1>
+  <p>
+    Well really automatic test running. So far in my experience it takes
+    significantly less time to run unit tests than it does to build them. For
+    this reason I think it is beneficial to run your unit tests every time they
+    are built. This also has the side effect of stopping your build if the unit
+    test fails.
+  </p>
+
+  <section class="code cmake">
+<header class="clear-after"><h1>cmake/Modules/gmock.cmake</h1>
+<div class="hll legend">New or modified lines in bold.</div></header><div class="highlight"><pre><a id="cmake/Modules/gmock.cmake-1-1" class="line-number" href="#cmake/Modules/gmock.cmake-1-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">GMOCK_DIR</span> <span class="s2">&quot;../../../gmock/gmock-1.6.0&quot;</span>
+<a id="cmake/Modules/gmock.cmake-1-2" class="line-number" href="#cmake/Modules/gmock.cmake-1-2"></a>    <span class="s">CACHE</span> <span class="s">PATH</span> <span class="s2">&quot;The path to the GoogleMock test framework.&quot;</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-3" class="line-number" href="#cmake/Modules/gmock.cmake-1-3"></a>
+<a id="cmake/Modules/gmock.cmake-1-4" class="line-number" href="#cmake/Modules/gmock.cmake-1-4"></a><span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;MSVC&quot;</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-5" class="line-number" href="#cmake/Modules/gmock.cmake-1-5"></a>    <span class="c"># force this option to ON so that Google Test will use /MD instead of /MT</span>
+<a id="cmake/Modules/gmock.cmake-1-6" class="line-number" href="#cmake/Modules/gmock.cmake-1-6"></a>    <span class="c"># /MD is now the default for Visual Studio, so it should be our default, too</span>
+<a id="cmake/Modules/gmock.cmake-1-7" class="line-number" href="#cmake/Modules/gmock.cmake-1-7"></a>    <span class="nb">option</span><span class="p">(</span><span class="s">gtest_force_shared_crt</span>
+<a id="cmake/Modules/gmock.cmake-1-8" class="line-number" href="#cmake/Modules/gmock.cmake-1-8"></a>           <span class="s2">&quot;Use shared (DLL) run-time lib even when Google Test is built as static lib.&quot;</span>
+<a id="cmake/Modules/gmock.cmake-1-9" class="line-number" href="#cmake/Modules/gmock.cmake-1-9"></a>           <span class="s">ON</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-10" class="line-number" href="#cmake/Modules/gmock.cmake-1-10"></a><span class="nb">elseif</span> <span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-11" class="line-number" href="#cmake/Modules/gmock.cmake-1-11"></a>    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DGTEST_USE_OWN_TR1_TUPLE=1</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-12" class="line-number" href="#cmake/Modules/gmock.cmake-1-12"></a><span class="nb">endif</span><span class="p">()</span>
+<a id="cmake/Modules/gmock.cmake-1-13" class="line-number" href="#cmake/Modules/gmock.cmake-1-13"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/gmock</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-14" class="line-number" href="#cmake/Modules/gmock.cmake-1-14"></a><span class="nb">set_property</span><span class="p">(</span><span class="s">TARGET</span> <span class="s">gtest</span> <span class="s">APPEND_STRING</span> <span class="s">PROPERTY</span> <span class="s">COMPILE_FLAGS</span> <span class="s2">&quot; -w&quot;</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-15" class="line-number" href="#cmake/Modules/gmock.cmake-1-15"></a>
+<a id="cmake/Modules/gmock.cmake-1-16" class="line-number" href="#cmake/Modules/gmock.cmake-1-16"></a><span class="nb">include_directories</span><span class="p">(</span><span class="s">SYSTEM</span> <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/gtest/include</span>
+<a id="cmake/Modules/gmock.cmake-1-17" class="line-number" href="#cmake/Modules/gmock.cmake-1-17"></a>                           <span class="o">${</span><span class="nv">GMOCK_DIR</span><span class="o">}</span><span class="s">/include</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-18" class="line-number" href="#cmake/Modules/gmock.cmake-1-18"></a>
+<a id="cmake/Modules/gmock.cmake-1-19" class="line-number" href="#cmake/Modules/gmock.cmake-1-19"></a>
+<a id="cmake/Modules/gmock.cmake-1-20" class="line-number" href="#cmake/Modules/gmock.cmake-1-20"></a><span class="c">#</span>
+<a id="cmake/Modules/gmock.cmake-1-21" class="line-number" href="#cmake/Modules/gmock.cmake-1-21"></a><span class="c"># add_gmock_test(&lt;target&gt; &lt;sources&gt;...)</span>
+<a id="cmake/Modules/gmock.cmake-1-22" class="line-number" href="#cmake/Modules/gmock.cmake-1-22"></a><span class="c">#</span>
+<a id="cmake/Modules/gmock.cmake-1-23" class="line-number" href="#cmake/Modules/gmock.cmake-1-23"></a><span class="c">#  Adds a Google Mock based test executable, &lt;target&gt;, built from &lt;sources&gt; and</span>
+<a id="cmake/Modules/gmock.cmake-1-24" class="line-number" href="#cmake/Modules/gmock.cmake-1-24"></a><span class="c">#  adds the test so that CTest will run it. Both the executable and the test</span>
+<a id="cmake/Modules/gmock.cmake-1-25" class="line-number" href="#cmake/Modules/gmock.cmake-1-25"></a><span class="c">#  will be named &lt;target&gt;.</span>
+<a id="cmake/Modules/gmock.cmake-1-26" class="line-number" href="#cmake/Modules/gmock.cmake-1-26"></a><span class="c">#</span>
+<a id="cmake/Modules/gmock.cmake-1-27" class="line-number" href="#cmake/Modules/gmock.cmake-1-27"></a><span class="nb">function</span><span class="p">(</span><span class="s">add_gmock_test</span> <span class="s">target</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-28" class="line-number" href="#cmake/Modules/gmock.cmake-1-28"></a>    <span class="nb">add_executable</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">ARGN</span><span class="o">}</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-29" class="line-number" href="#cmake/Modules/gmock.cmake-1-29"></a>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="s">gmock_main</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-30" class="line-number" href="#cmake/Modules/gmock.cmake-1-30"></a>
+<a id="cmake/Modules/gmock.cmake-1-31" class="line-number" href="#cmake/Modules/gmock.cmake-1-31"></a>    <span class="nb">add_test</span><span class="p">(</span><span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span><span class="p">)</span>
+<a id="cmake/Modules/gmock.cmake-1-32" class="line-number" href="#cmake/Modules/gmock.cmake-1-32"></a>
+<a id="cmake/Modules/gmock.cmake-1-33" class="line-number" href="#cmake/Modules/gmock.cmake-1-33"></a><span class="hll">    <span class="nb">add_custom_command</span><span class="p">(</span><span class="s">TARGET</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span>
+</span><a id="cmake/Modules/gmock.cmake-1-34" class="line-number" href="#cmake/Modules/gmock.cmake-1-34"></a><span class="hll">                       <span class="s">POST_BUILD</span>
+</span><a id="cmake/Modules/gmock.cmake-1-35" class="line-number" href="#cmake/Modules/gmock.cmake-1-35"></a><span class="hll">                       <span class="s">COMMAND</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span>
+</span><a id="cmake/Modules/gmock.cmake-1-36" class="line-number" href="#cmake/Modules/gmock.cmake-1-36"></a><span class="hll">                       <span class="s">WORKING_DIRECTORY</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span>
+</span><a id="cmake/Modules/gmock.cmake-1-37" class="line-number" href="#cmake/Modules/gmock.cmake-1-37"></a><span class="hll">                       <span class="s">COMMENT</span> <span class="s2">&quot;Running ${target}&quot;</span> <span class="s">VERBATIM</span><span class="p">)</span>
+</span><a id="cmake/Modules/gmock.cmake-1-38" class="line-number" href="#cmake/Modules/gmock.cmake-1-38"></a><span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</section>  <a class="sources" href="https://www.johnlamp.net/sources/chapter5-3.zip"><img src="https://www.johnlamp.net/images/zip.png" alt="[zip file] " />Source</a>
+  <dl>
+    <dt class="code">
+      <pre>
+add_custom_command(TARGET ${target}
+                   POST_BUILD
+                   COMMAND ./${target}
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                   COMMENT "Running ${target}" VERBATIM)</pre>
+    </dt>
+    <dd>
+      We use the <code>add_custom_command()</code> command to run each test
+      after each time it is built. Here we simply run the test and if it fails
+      the build will stop. However if you were to build again immediately the
+      failed test would <b>not</b> be run again and the build will
+      continue. Fixing that will be left for later.
+    </dd>
+  </dl>
+
+  <dl>
+    <dt class="code">
+      <pre>
+add_custom_command(TARGET <span class="arg">target</span>
+                   PRE_BUILD | PRE_LINK | POST_BUILD
+                   COMMAND <span class="arg">command</span> <span class="optional arg">arguments&hellip;</span>
+                   <span class="optional">COMMAND <span class="arg">command2</span> <span class="optional arg">arguments&hellip;</span> &hellip;</span>
+                   <span class="optional">WORKING_DIRECTORY <span class="arg">directory</span></span>
+                   <span class="optional">COMMENT <span class="arg">comment</span></span> <span class="optional">VERBATIM</span>)</pre>
+    </dt>
+    <dd>
+      <dl>
+        <dt class="code arg">
+          target
+        </dt>
+        <dd>
+          The name of the target to which we are adding the custom command.
+        </dd>
+
+        <dt class="code">
+          PRE_BUILD | PRE_LINK | POST_BUILD
+        </dt>
+        <dd>
+          When to run the custom command. <code>PRE_BUILD</code> will run the
+          command before any of the target&#8217;s other
+          dependencies. <code>PRE_LINK</code> runs the command after all other
+          dependencies. Lastly <code>POST_BUILD</code> runs the command after
+          the target has been built.
+        </dd>
+        <dd class="note">
+          <em>Note:</em> the <code>PRE_BUILD</code> option only works with Visual
+          Studio 7 or newer. For all other generators it is treated as
+          <code>PRE_LINK</code> instead.
+        </dd>
+
+        <dt class="code">
+          COMMAND <span class="arg">command</span> <span class="optional arg">arguments&hellip;</span>
+        </dt>
+        <dd>
+          The command to run and any arguments to be passed to it. If
+          <code class="arg">command</code> specifies an executable target,
+          i.e. one created with the <code>add_executable()</code> command, the
+          location of the actual built executable will replace the name;
+          additionally a target level dependency will be added so that the
+          executable target will be built before this custom command is run.
+        </dd>
+        <dd class="note">
+          <em>Note:</em> target level dependencies merely control the order in
+          which targets are build. If a target level dependency is rebuilt this
+          command will not be re-run.
+        </dd>
+        <dd>
+          Any number of commands can be listed using this syntax and they will
+          all be run in order each time.
+        </dd>
+
+        <dt class="code optional">
+          WORKING_DIRECTORY <span class="arg">directory</span>
+        </dt>
+        <dd>
+          Specify the working directory from which the listed commands will be
+          run.
+        </dd>
+
+        <dt class="code optional">
+          COMMENT <span class="arg">comment</span>
+        </dt>
+        <dd>
+          Provide a comment that will be displayed before the listed commands
+          are run.
+        </dd>
+
+        <dt class="code optional">
+          VERBATIM
+        </dt>
+        <dd>
+          This argument tells CMake to ensure that the commands and their
+          arguments are escaped appropriately for whichever build tool is being
+          used. If this argument is omitted the behavior is platform and tool
+          specific. Therefore it is <strong>strongly</strong> recommended that you
+          always provide the <code>VERBATIM</code> argument.
+        </dd>
+      </dl>
+    </dd>
+    <dd>
+      <a href="http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_custom_command"><code>add_custom_command()</code> documentation</a>      <time class="access" datetime="2013-06-15">(2013-06-15)</time>    </dd>
+  </dl>
+
+  <p>
+    Now it&#8217;s time to see our hard work in action.
+  </p>
+  <section class="terminal">
+    <pre>
+ <span class="ansiBold ansiForeground-blue">&gt;</span> mkdir build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cd build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> cmake -G &quot;Unix Makefiles&quot; ..
+-- The C compiler identification is Clang 4.2.0
+-- The CXX compiler identification is Clang 4.2.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found PythonInterp: /usr/local/bin/python (found version &quot;2.7.3&quot;)
+-- Looking for include file pthread.h
+-- Looking for include file pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - found
+-- Found Threads: TRUE
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Documents/Programming/CMake/CMake Tutorial/flavors/part5_step3/build
+ <span class="ansiBold ansiForeground-blue">&gt;</span> make
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDoCore
+</span>[ 14%] <span class="ansiForeground-green">Building CXX object ToDoCore/CMakeFiles/toDoCore.dir/ToDo.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libtoDoCore.a
+</span>[ 14%] Built target toDoCore
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target toDo
+</span>[ 28%] <span class="ansiForeground-green">Building CXX object CMakeFiles/toDo.dir/main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable toDo
+</span>[ 28%] Built target toDo
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gtest
+</span>[ 42%] <span class="ansiForeground-green">Building CXX object gmock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgtest.a
+</span>[ 42%] Built target gtest
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gmock
+</span>[ 57%] <span class="ansiForeground-green">Building CXX object gmock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgmock.a
+</span>[ 57%] Built target gmock
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gmock_main
+</span>[ 71%] <span class="ansiForeground-green">Building CXX object gmock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgmock_main.a
+</span>[ 71%] Built target gmock_main
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target gtest_main
+</span>[ 85%] <span class="ansiForeground-green">Building CXX object gmock/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX static library libgtest_main.a
+</span>[ 85%] Built target gtest_main
+<span class="ansiBold ansiForeground-magenta">Scanning dependencies of target ToDoTest
+</span>[100%] <span class="ansiForeground-green">Building CXX object ToDoCore/unit_test/CMakeFiles/ToDoTest.dir/ToDoTest.cc.o
+</span><span class="ansiBold ansiForeground-red">Linking CXX executable ToDoTest
+</span><span class="ansiBold ansiForeground-blue">Running ToDoTest
+</span>Running main() from gmock_main.cc
+<span class="ansiForeground-green">[==========] </span>Running 4 tests from 1 test case.
+<span class="ansiForeground-green">[----------] </span>Global test environment set-up.
+<span class="ansiForeground-green">[----------] </span>4 tests from ToDoTest
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.constructor_createsEmptyList
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.constructor_createsEmptyList (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.addTask_threeTimes_sizeIsThree
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.addTask_threeTimes_sizeIsThree (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.getTask_withOneTask_returnsCorrectString
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.getTask_withOneTask_returnsCorrectString (0 ms)
+<span class="ansiForeground-green">[ RUN      ] </span>ToDoTest.getTask_withThreeTasts_returnsCorrectStringForEachIndex
+<span class="ansiForeground-green">[       OK ] </span>ToDoTest.getTask_withThreeTasts_returnsCorrectStringForEachIndex (0 ms)
+<span class="ansiForeground-green">[----------] </span>4 tests from ToDoTest (0 ms total)
+<span class="ansiForeground-green">[----------] </span>Global test environment tear-down
+<span class="ansiForeground-green">[==========] </span>4 tests from 1 test case ran. (0 ms total)
+<span class="ansiForeground-green">[  PASSED  ] </span>4 tests.
+[100%] Built target ToDoTest
+</pre>
+  </section>
+  <p>
+    It still works, just it&#8217;s more automatic now.
+  </p>
+</section>
+
+<section id="revision-history"><span class="heading">Revision History</span><table summary="Revision History"><thead><tr><td>Version</td><td>Date</td><td>Comment</td></tr></thead><tbody><tr><td>1</td><td>2013-07-14</td><td>Original version.</td></tr><tr><td>2</td><td>2014-10-01</td><td>Added the work around for a problem with Google Test and newer versions of Mac OS X introduced in Chapter 4</td></tr></tbody></table></section>
+
+  </div>
+
+  <footer class="entry-meta">
+    This entry was tagged <a href="https://www.johnlamp.net/tag/cmake" rel="tag">CMake</a>, <a href="https://www.johnlamp.net/tag/long" rel="tag">long</a>, <a href="https://www.johnlamp.net/tag/tutorial" rel="tag">tutorial</a>. Bookmark the <a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html" title="Permalink to CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing" rel="bookmark">permalink</a>.     </footer>
+     <footer class="entry-license"><div class="license"><a class="no-decoration" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width: 0;" width="80" height="15" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/by-nc-sa-r.png" /></a>This entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing</span>," by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> is licensed under a <a rel="license" href="http://creativecommons.org/licensesby-nc-sa/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</div><div class="code-license"><span xmlns:dct="http://purl.org/dc/terms/"><a class="no-decoration" rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/ccImages/cc-zero-r.png" width="80" height="15" style="border-style: none;" alt="CC0" /></a>To the extent possible under law, <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">John Lamp</span> has waived all copyright and related or neighboring rights to the code samples in this entry, "<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing</span>".</span></div></footer></article>
+<nav role="navigation" id="nav-below" class="site-navigation post-navigation"><h1 class="assistive-text">Post navigation</h1><div class="nav-previous"><a href="https://www.johnlamp.net/cmake-tutorial-4-libraries-and-subdirectories.html" rel="prev"><span class="meta-nav">&larr;</span> CMake Tutorial &#8211; Chapter&nbsp;4: Libraries and Subdirectories</a></div><div class="nav-next"><a href="https://www.johnlamp.net/cmake-tutorial-6-realistically-getting-a-boost.html" rel="next">CMake Tutorial &#8211; Chapter&nbsp;6: Realistically Getting a Boost <span class="meta-nav">&rarr;</span></a></div></nav>
+<div id="comments" class="comments-area">
+          <h2 class="comments-title">
+          13 thoughts on &ldquo;<span>CMake Tutorial &#8211; Chapter&nbsp;5: Functionally Improved Testing</span>&rdquo;        </h2>
+
+        
+        <ol class="commentlist">
+          <li id="li-comment-374" class="comment even thread-even depth-1"><article id="comment-374" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-374"><time pubdate date-time="2014-05-24T06:17:49+00:00">2014-05-24 at 06:17:49</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/e80a2ca698fd12d7ecc7cb64cdb0afc5?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e80a2ca698fd12d7ecc7cb64cdb0afc5?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Misgana</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thanks, Perhaps this is the best cmake tutorial I&#8217;ve encountered so far.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=374#respond' onclick='return addComment.moveForm( "comment-374", "374", "respond", "29" )' aria-label='Reply to Misgana'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-648" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-648" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-648"><time pubdate date-time="2014-06-27T21:17:18+00:00">2014-06-27 at 21:17:18</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/52d5a92e855d52b66765f059feb975f1?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/52d5a92e855d52b66765f059feb975f1?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Peter</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Really great article. You clearly took your time with it and put some effort into it. Much appreciated!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=648#respond' onclick='return addComment.moveForm( "comment-648", "648", "respond", "29" )' aria-label='Reply to Peter'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-680" class="comment even thread-even depth-1"><article id="comment-680" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-680"><time pubdate date-time="2014-07-14T12:35:50+00:00">2014-07-14 at 12:35:50</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a5e0ab01b552291118d6ddd8b5332abb?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a5e0ab01b552291118d6ddd8b5332abb?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Theo</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thanks a lot.  This is 100% the best cmake tutorial ever.  I&#8217;m hoping for more in the future, this was really helpful.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=680#respond' onclick='return addComment.moveForm( "comment-680", "680", "respond", "29" )' aria-label='Reply to Theo'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-857" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-857" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-857"><time pubdate date-time="2014-10-15T16:51:52+00:00">2014-10-15 at 16:51:52</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/4f3bbeaf65fc5f89b1507b56b6b5d3ee?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4f3bbeaf65fc5f89b1507b56b6b5d3ee?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Mohammed Rahim</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Undoubtedly this is the best tutorial on the net to start on CMake. I wish every search engines bring it as the first search result. Thanks for spending your valuable skill to teach others like me in the easy way.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=857#respond' onclick='return addComment.moveForm( "comment-857", "857", "respond", "29" )' aria-label='Reply to Mohammed Rahim'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-926" class="comment even thread-even depth-1"><article id="comment-926" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-926"><time pubdate date-time="2014-11-19T06:56:00+00:00">2014-11-19 at 06:56:00</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/8001860abcc1d6a481e0fd7ec333f59c?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8001860abcc1d6a481e0fd7ec333f59c?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Jose Paulo</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>WoW! Really nice tutorial. I&#8217;m working with AIX and apart from small little tweaks it works great and gives the whole idea behind CMake. Really great job. I&#8217;m waiting for parts 6 to ∞ already.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=926#respond' onclick='return addComment.moveForm( "comment-926", "926", "respond", "29" )' aria-label='Reply to Jose Paulo'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-946" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-946" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-946"><time pubdate date-time="2014-12-11T17:30:53+00:00">2014-12-11 at 17:30:53</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/ea03b75137f4bbb7221f64603fb92b2b?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ea03b75137f4bbb7221f64603fb92b2b?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Ketil Wright</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I agree with all the positive comments. This is hands-down, the best explanation of cmake I&#8217;ve seen yet.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=946#respond' onclick='return addComment.moveForm( "comment-946", "946", "respond", "29" )' aria-label='Reply to Ketil Wright'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-961" class="comment even thread-even depth-1"><article id="comment-961" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-961"><time pubdate date-time="2015-01-10T11:34:48+00:00">2015-01-10 at 11:34:48</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/d155c59bf570403060f39918cfc8406f?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d155c59bf570403060f39918cfc8406f?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Michele Gubian</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I agree with all the positive comments too!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=961#respond' onclick='return addComment.moveForm( "comment-961", "961", "respond", "29" )' aria-label='Reply to Michele Gubian'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-981" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-981" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-981"><time pubdate date-time="2015-01-31T18:04:07+00:00">2015-01-31 at 18:04:07</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Sam</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Thanks to your tutorial now I can understand the ones from the official web-site!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=981#respond' onclick='return addComment.moveForm( "comment-981", "981", "respond", "29" )' aria-label='Reply to Sam'>Reply</a></div></article></li><!-- #comment-## -->
+<li id="li-comment-1049" class="comment even thread-even depth-1"><article id="comment-1049" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-1049"><time pubdate date-time="2015-04-15T13:59:56+00:00">2015-04-15 at 13:59:56</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Jake</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I am trying to follow along on a windows machine not using cygwin and so I am using the &#8220;Visual Studio 12 2013&#8221; generator in CMake. I keep getting this error:</p>
+<p>CMake Error at cmake/Modules/gmock.cmake:13 (add_subdirectory):<br />
+  add_subdirectory given source &#8220;../../../gmock-1.7.0&#8221; which is not an<br />
+  existing directory.<br />
+Call Stack (most recent call first):<br />
+  CMakeLists.txt:9 (include)</p>
+<p>But it is! My gmock folder is on the desktop, so this should work. I go up 2 levels to get to the root of my project then up one more to the desktop. No clue whats going on but this section is the most important to me as I am trying to learn about testing.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=1049#respond' onclick='return addComment.moveForm( "comment-1049", "1049", "respond", "29" )' aria-label='Reply to Jake'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1050" class="comment odd alt depth-2"><article id="comment-1050" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-1050"><time pubdate date-time="2015-04-15T14:15:34+00:00">2015-04-15 at 14:15:34</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Jake</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I fixed this by putting a full and absolute path rather than the ../ method. You can see how this would be problematic though. I am not sure why it generated just fine with a full C:/ path vs the ../</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=1050#respond' onclick='return addComment.moveForm( "comment-1050", "1050", "respond", "29" )' aria-label='Reply to Jake'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1051" class="comment even depth-3"><article id="comment-1051" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-1051"><time pubdate date-time="2015-04-15T14:26:43+00:00">2015-04-15 at 14:26:43</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/82f0d0e1ed88dd510596fac2d2eb2753?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Jake</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>Sorry, disregard my question. I was not understanding how cmake was looking for these files, the ../ must be relative to the file in which you call the module, not the module itself.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=1051#respond' onclick='return addComment.moveForm( "comment-1051", "1051", "respond", "29" )' aria-label='Reply to Jake'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<li id="li-comment-1086" class="comment odd alt thread-odd thread-alt depth-1"><article id="comment-1086" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-1086"><time pubdate date-time="2015-06-15T13:37:12+00:00">2015-06-15 at 13:37:12</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/0ef9ec90e6a8e976b9b0e74c485739d0?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0ef9ec90e6a8e976b9b0e74c485739d0?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn">Philip Joseph</cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>This is a great tutorial! Thanks.</p>
+<p>One observation that I noted though is that if a test fails, you see the failure, but the tests won&#8217;t run again on the next build. Do you know of a clean way to fix that?</p>
+<p>Thanks again!</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=1086#respond' onclick='return addComment.moveForm( "comment-1086", "1086", "respond", "29" )' aria-label='Reply to Philip Joseph'>Reply</a></div></article><ul class="children">
+<li id="li-comment-1090" class="comment byuser comment-author-john bypostauthor even depth-2"><article id="comment-1090" class="comment"><footer><div class="comment-meta commentmetadata"><a href="https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html#comment-1090"><time pubdate date-time="2015-06-21T11:09:58+00:00">2015-06-21 at 11:09:58</time></a></div><div class="comment-author vcard"><img alt='' src='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=40&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a148d7f6a3a99fbaf09dfb9a317e4380?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /><cite class="fn"><a href='http://JohnLamp.net' rel='external nofollow' class='url'>John Lamp</a></cite> <span class="says">said:</span></div></footer><div class="comment-content"><p>I&#8217;m afraid that I have not figured that one out yet. The test running step happens after linking as part of the linking step. So unless the build tool thinks the test needs to be linked the test won&#8217;t be run again. So, interestingly, some IDEs exhibit the behavior you asked for, at the expense of debugging. Some IDEs will not start an executable if the build fails, so if the test fails it won&#8217;t let you debug it. The simplest solution for <code>make</code> would be to delete the test if it fails, that will force it to be linked again the next time you run <kbd>make</kbd>, but again debugging isn&#8217;t possible because the test won&#8217;t exist. So the trick would be to force the build to always fail when a test fails, but not prevent debugging.</p>
+</div><div class="reply"><a rel='nofollow' class='comment-reply-link' href='https://www.johnlamp.net/cmake-tutorial-5-functionally-improved-testing.html?replytocom=1090#respond' onclick='return addComment.moveForm( "comment-1090", "1090", "respond", "29" )' aria-label='Reply to John Lamp'>Reply</a></div></article></li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+        </ol>
+
+        						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/cmake-tutorial-5-functionally-improved-testing.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="https://www.johnlamp.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="e5932-comment" cols="45" rows="8"  aria-required="true" required="required"></textarea><textarea name="comment" style="display:none" rows="1" cols="1"></textarea></p>						
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='29' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>					</form>
+							</div><!-- #respond -->
+			</div>
+
+  </div>
+</div>
+
+
+<div id="secondary" class="widget-area" role="complementary">
+  <aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+	<li><a href='https://www.johnlamp.net/2015/03'>March 2015</a></li>
+	<li><a href='https://www.johnlamp.net/2013/07'>July 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/05'>May 2013</a></li>
+	<li><a href='https://www.johnlamp.net/2013/03'>March 2013</a></li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-4"><a href="https://www.johnlamp.net/category/cmake-tutorial" >CMake Tutorial</a>
+</li>
+		</ul>
+</aside></div>
+
+<div id="tertiary" class="widget-area" role="supplementary">
+  <aside id="meta-2" class="widget widget_meta"><h1 class="widget-title">Meta</h1>			<ul>
+						<li><a rel="nofollow" href="https://www.johnlamp.net/wp-login.php">Log in</a></li>
+			<li><a href="https://www.johnlamp.net/feed">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://www.johnlamp.net/comments/feed">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+</aside></div>
+
+      </div> <!-- #main .site-main -->
+
+      <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="copyright">
+          Site Copyrighted &copy; 2013-2014 John Lamp all rights reserved.        </div>
+
+        <div class="site-info">
+          <a class="no-decoration" href="http://wordpress.org/" title="A Semantic Personal Publishing Platform" rel="generator"><img id="codeIsPoetry" src="https://www.johnlamp.net/wp-content/themes/tutorial-theme/images/codeIsPoetry.png" alt="Code is Poetry" /></a>        </div>
+
+        <nav class="footer-navigation">
+                    </nav>
+
+        <div class="cleared"></div>
+      </footer>
+    </div> <!-- #page .hfeed .site -->
+
+    <script type='text/javascript' src='https://www.johnlamp.net/wp-includes/js/comment-reply.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='https://www.johnlamp.net/wp-content/themes/tutorial-theme/js/navigation.js?ver=20120206'></script>
+
+  </body>
+</html>

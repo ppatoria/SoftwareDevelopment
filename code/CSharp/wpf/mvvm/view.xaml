@@ -1,0 +1,110 @@
+<!-- Header, referencing tweet view model, plus defining -->
+<!-- design DataContext -->
+<navigation:Page 
+  x:Class="MyTweet.Views.Views.SearchView"
+  (...)
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  xmlns:vm="clr-namespace:MyTweet.ViewModel;assembly=MyTweet.ViewModel"
+  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=vm:SearchViewModel}"
+  Title="SearchView Page">
+
+  <navigation:Page.Resources>
+    <!-- Here we define the layout of a single search result -->
+    <!-- Picture + Author + Message + Pub Date-->
+    <DataTemplate x:Key="SearchResultsTemplate">
+      <Grid Margin="4,0,4,8" 
+        d:DesignWidth="446" 
+        d:DesignHeight="68">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border VerticalAlignment="Top" 
+          Margin="8" Padding="2" 
+          Background="White">
+          <Image Width="40" Height="40" 
+            Source="{Binding Path=Avatar, Mode=OneWay}"/>
+        </Border>
+
+        <StackPanel Grid.Column="1" 
+          VerticalAlignment="Top" 
+          Margin="0,4,0,0">
+          <TextBlock x:Name="AuthorName" 
+            FontWeight="Bold" 
+            Text="{Binding Path=Author, Mode=OneWay}" />
+          <Grid Margin="0,6,0,0">
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock x:Name="TweetMessage" 
+            Text="{Binding Path=Tweet, Mode=OneWay}" 
+            TextWrapping="Wrap" />
+          <TextBlock x:Name="PublishDateLabel" 
+            Text="{Binding Path=PublishDate, StringFormat='dd-MMM-yyyy hh:mm tt'}" 
+            Grid.Row="2"  />
+          </Grid>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+  </navigation:Page.Resources>
+
+  <!-- We define two rows, first (fix height) one search area,-->
+  <!-- second one results pane-->
+  <Grid x:Name="LayoutRoot" Background="White">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="75"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <TextBlock HorizontalAlignment="Left" 
+      Margin="26,36,0,22" 
+      TextWrapping="Wrap" 
+      Text="Search Text:" 
+      d:LayoutOverrides="Height" 
+    VerticalAlignment="Top"/>
+    <!-- Bind the textBox to the SearchText ViewModel property -->
+    <TextBox Margin="112,32,99,0" TextWrapping="Wrap" 
+      Text="{Binding Path=SearchText, Mode=TwoWay}" 
+      d:LayoutOverrides="Width, HorizontalMargin" 
+      VerticalAlignment="Top" /> 
+    <Button Content="Search" 
+      HorizontalAlignment="Right" 
+      Margin="0,32,20,20" 
+      Width="75" 
+      d:LayoutOverrides="Height" 
+      VerticalAlignment="Top" />
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+      VerticalScrollBarVisibility="Auto" 
+      Margin="8" Grid.Row="1">
+    <!-- Bind the item's control to the -->
+    <!-- SearchResults ViewModel -->
+    <!-- ObservableCollection.The item -->
+    <!-- layout is defined in the -->
+    <!-- SearchResults Template-->
+    <ItemsControl x:Name="SearchResults" 
+      Margin="0,8,0,0" 
+      Grid.Row="1" 
+      ItemTemplate="{StaticResource SearchResultsTemplate}" 
+      ItemsSource="{Binding Path=Members}" />
+    </ScrollViewer>
+  </Grid>
+</navigation:Page>
+
+					  
+
+
+The page layout is now ready. We add the page to the main page of the application (MainPage.XAML):
+
+<UserControl x:Class="MyTweet.Views.MainPage"
+  (бн)
+  xmlns:vi="clr-namespace:MyTweet.Views.Views"
+  d:DesignHeight="300" d:DesignWidth="400">
+
+  <Grid x:Name="LayoutRoot" Background="White">
+    <vi:SearchView/>
+  </Grid>
+</UserControl>

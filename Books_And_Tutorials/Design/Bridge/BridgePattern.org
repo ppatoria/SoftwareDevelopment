@@ -1,0 +1,157 @@
+#+title: Bridge Pattern
+ 
+* What Is a Bridge Pattern?
+
+Another instance of where simple inheritance cannot meet the immediate needs of the programmer is one where abstraction is not desired. When you use abstraction or inheritance, you are tied to the exact definition of that abstraction. Sometimes you would like this to be more flexible. Some cases would require classes to not be inherited, but instead we would like to adapt other classes to act as the desired type without modifying either class.
+
+Usually an Adapter pattern would suffice to join different class types when inheritance is not desired. However, in some cases the actual implementation of the adapter needs to be more flexible. It is then that the adapter’s cousin, the Bridge pattern, comes into play. As we saw in the “Adapter Pattern” section, the adapter houses an instance variable of the desired type to adapt as an intrinsic variable, or a private instance variable. This instance variable is not changeable in the class. This means it is not set as an abstract or base variable but as a concrete type. We hide this instance variable’s methods, properties, and events behind overridden methods, properties, and events matching the adapter’s base, thus making it compatible with the expected class type the adapter is inheriting.
+
+In the Bridge pattern we expand on this, allowing the instance variable to be not a concrete type but an abstract type, thus giving us a variance on which class we wish to adapt, or bridge. We still inherit the bridge from the expected base type and override the methods, properties, and events of that type. The difference here is that we are dependent on which concrete implementation of the abstract instance inside the bridge we have selected. Let’s talk about the actual parts of the pattern and then we can find out more about this in detail.
+
+The Bridge pattern has four main parts. The first is the Abstraction, which is the base for the bridge that holds the abstracted instance variable for the class to be adapted. The next part is the Refined Abstraction, which is the concrete implementation of the abstracted bridge. This part of the pattern is where we define the methods, properties, and events for which we wish to provide a bridge. The other half of the pattern is the Abstract Implementor and the Cpponcrete Implementor. These two classes define the abstraction and concrete interface for the class for which we wish to bridge into the new type. The abstract implementor is the abstract instance variable to be set as the concrete implementor type at run time.
+
+So in short, we provide a way to encapsulate a desired implementation of a class from which we do not wish to inherit. We provide methods, properties, and events in the concrete bridge based on another base type. We encapsulate the methods, properties, and events of the desired implementation class inside the bridged methods, properties, and events. The instance of the internal abstract implementation is interchangeable because of its abstract status. This allows not only polymorphism of the bridge, but also of the desired encapsulated instance implementation class inside the bridge. 
+
+
+ 
+Figure 4-3. UML for Bridge pattern
+[[./bridgeuml.png][Bridge UML]]
+* Problem: We need to allow a class to use functionality from a series of class types without using direct inheritance
+
+For our functional problem, 
+** we have a class that has a single method and inherits a base. 
+This is a good starting point for making a bridge, because we can
+easily refactor the base class to be our bridge’s abstraction to hold
+our implementor. 
+** We have an instance where our implementor is another class type that we do not want to inherit, probably because the methods do not match exactly. 
+This is usually the case when using a bridge. 
+** You have two class types that have similar functionality, but the method, property, or event names, input parameters, etc., are slightly different. We call this an inexact match. Inexact matches occur when two class types are similar but not enough so for the compiler to recognize. This is a good case for refactoring into a bridge, as opposed to inheriting directly.
+
+Below we see our implementor class types. Notice the method ProcessRequest(). This method, as we will see in our next code example, is mirrored in the bridge class, but with a slightly different name. For this example, we don’t want to change any method names, and because of that the two class types cannot inherit directly. The reason for this is that compilers require that method names match in inherited instances.
+
+#+begin_src c++
+class HttpRequest
+{
+    public override void ProcessRequest(string request)
+    {
+        .......
+    }
+}
+class ISAPIRequest
+{
+    public override void ProcessRequest(string request)
+    {
+        .......
+    }
+}
+#+end_src 
+
+Here we see the class we have targeted to turn into our bridge. Notice this class has a method similar to the implementation class but named differently. For this example, the method’s internal functionality is similar, and so meets the requirements of the Bridge pattern:
+
+#+begin_src c++
+class RequestHandler : Request
+{
+    public override void Process(string request)
+    {
+        //some implementation code
+    }
+}
+#+end_src 
+
+What we wish to do is to make the RequestHandler class use our implementor handler types, without the overhead of actual inheritance from these types. Next, we will see how we can accomplish this and not have direct inheritance using the RequestHandler class as a bridge.
+
+ 
+* Solution: Cppreate a series of classes and allow a bridge class to hold the desired instance of the series and adapt its methods, properties, and events through the bridge’s methods, properties, and events
+
+The first step after deciding to use the pattern in our refactoring effort is to identify the classes that we wish to make implementors and the classes that will act as the bridge. Since we have done this in our problem section, we will start by refactoring our implementors. This is usually not a difficult task, as they only need to inherit from a common base. 
+
+ 
+Figure 4-4. UML for Bridge pattern example
+[[./bridgeimpl.png][Bridge Example]]
+Below, we add a base and make both implementors inherit from that base. This allows for the concrete instance, which we will house inside the bridge class. We provide an abstract method for inherited types to share: ProcessRequest(). This enables this method to be called from any concrete instance we select inside our bridge.
+
+#+begin_src c++
+abstract class RequestImplementor
+{
+    public abstract void ProcessRequest(string request);
+}
+#+end_src 
+
+Next, we refactor our implementor classes to have the abstract RequestImplementor class as their base. We override the RequestImplementor class’s abstract method ProcessRequest(), which gives us our polymorphic implementation: 
+
+#+begin_src  c++
+class HttpRequest : RequestImplementor
+{
+    public override void ProcessRequest(string request)
+    {
+        ......
+    }
+}
+class ISAPIRequest : RequestImplementor
+{
+    public override void ProcessRequest(string request)
+    {
+        ......
+    }
+}
+#+end_src 
+
+Next we need to refactor our bridge’s base class. We have determined that the Request class is a good case for this. We provide a private instance variable for the abstract implementor. We provide a getter and a way to set the actual concrete implementation of our abstract implementor to the instance variable. We also provide an abstract method, Process(), which will be used to allow the inherited instances of Request to have a common method. This method is refactored from the original method.
+
+#+begin_src c++
+abstract class Request
+{
+    private RequestImplementor _implementor;
+
+    public void SetImplementor(RequestImplementor implementor)
+    {
+        _implementor = implementor;
+    }
+
+    protected RequestImplementor Implementor
+    {
+        get{return _implementor;}
+    }
+    public abstract void Process(string request);
+
+}
+#+end_src
+ 
+In Request’s inherited classes we will then override the Process() method. Inside the method we will call the instance class of the implementor and pass our arguments from the Process() method to the implementor’s desired method to bridge to — ProcessRequest():
+
+#+begin_src c++ 
+//Refined Abstraction
+class RequestHandler : Request
+{
+    public override void Process(string request)
+    {
+        Implementor.ProcessRequest(request);
+    }
+}
+#+end_src
+
+
+Thus we have performed a complete refactoring of the implementor into our bridge class without using direct inheritance. Now we can call our bridge, set the desired implementor, and call the Process() method, which calls the implementor’s intrinsic method ProcessRequest(). This gives us a complete bridge between classes without the need for any direct inheritance.
+
+#+begin_src c++
+Request request = new RequestHandler();
+request.SetImplementor (new HttpRequest());
+request.Process ("This is a HTTP request stream..");
+
+request.SetImplementor(new ISAPIRequest());
+request.Process("This is a ISAPI request stream..");
+#+end_src 
+ 
+Comparison to Similar Patterns
+
+The Adapter pattern is most like the Bridge pattern, in that it uses a host class or facade class to house an instance of the actual desired class, calling the housed methods, properties, and events and hiding these events inside the corresponding methods, properties, and events that exist as public methods for the adapter. The main difference in the two patterns is the adapter’s lack of abstraction and inheritance in regard to its internal implementation and the outside adapter. A Bridge pattern might be more useful if several different types of classes or implementations are required for a particular problem. Proxies and facades are also very similar to bridges in that they house some functionality that external sources could not use easily. They basically act as an interface or adapter for subsets of functionality, expanding on the control of the scope and domain from a single class or class type as in the bridge and adapter to more complex subsets of classes and expanded domains.
+
+ 
+What We Have Learned
+
+The Bridge pattern is a useful pattern for making slightly incompatible classes and their subclasses more compatible. It gives us a way to do this without using inheritance and by minimizing the abstracted functionality between classes to expected methods, properties, and events. It takes a series of abstracted class types and adapts their functionality to another series of unrelated classes with a minimum of actual cohesion between the two class structures, while providing all the functionality between the two classes that is desired. 
+
+ 
+
+
+

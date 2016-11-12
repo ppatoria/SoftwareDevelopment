@@ -1,0 +1,86 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+#include "gtest/gtest.h"
+
+
+template <typename Type> 
+void println( Type arg )
+{
+    std::cout << arg << std::endl;
+}
+
+bool contains( const auto& container, const auto& key)
+{
+  return (std::find(container.begin(), container.end(), key )) != container.end();
+}
+
+template <typename Container>
+class functional
+{
+public:
+  functional( const Container& container ) : container_(container)
+  {}
+  bool contains(const auto& key) const 
+  {
+    auto result = std::find(container_.begin(),
+			    container_.end(),
+			    key );
+    return result != container_.end();
+  }
+
+  functional<Container> filter( auto predicate )
+  {
+    Container c;
+    std::copy_if( container_.begin(),
+		  container_.end(),
+		  std::back_inserter( c ),
+		  predicate);
+    return functional(c);
+  }
+
+  uint size()
+  {
+    container_.size();
+  }
+
+  void for_each( auto func )
+  {
+    std::for_each( container_.begin(), container_.end(), func );
+  }
+		    
+private:
+  const Container& container_;
+};
+
+class FunctionalContainerWrapperTest : public testing::Test
+{  
+public:
+  std::vector<int> vec{1,2,3,4,5};
+  
+};
+
+TEST( FunctionalTest, contains_ok )
+{
+  std::vector<int> v{1,2,3,4,5};
+  EXPECT_TRUE( contains(v, 1) ); 
+}
+
+TEST_F( FunctionalContainerWrapperTest, contains_ok )
+{
+  EXPECT_TRUE( functional<std::vector<int>>(vec).contains(1) );
+}
+
+TEST_F( FunctionalContainerWrapperTest, filter_ok )
+{
+   auto result = functional<std::vector<int>>( vec )
+     .filter( [] (int i){ return (i < 3); } );
+   
+   ASSERT_EQ( result.size(), 2 );
+   result.for_each([](int i){ println(i); });
+   ASSERT_TRUE( result.contains(2) );
+   ASSERT_FALSE( result.contains(4) );
+}
+

@@ -1,0 +1,184 @@
+#+BEGIN_HTML
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+#+END_HTML
+#+TITLE: Scenarios for Deadlock in C# 
+#+BEGIN_HTML
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 24-12-2013</p>
+</div>
+#+END_HTML
+#+OPTIONS: date:nil, creator:nil, author:nil				
+
+[TABLE-OF-CONTENTS]
+
+* Mutual Exclusion
+
+Example in case of UI, there is only one UI Thread if other non-ui threads
+wants to manipulate the UI controls they have to dispatch the task to
+the UI thread. If the task stucks/waits for something infinitely than
+deadlock can occur.
+
+* Reentrant
+
+*Example*
+
+#+begin_src csharp
+ThreadOne()
+  lock(a){
+    lock(b){
+      ..
+    }
+  }
+}
+       
+ThreadTwo()
+  lock(b){
+    lock(a){
+      ..
+    }
+  }
+}
+#+end_src
+
+
+If one thread enters into critical section acquiring  syncroot  a and try to
+enter another critical section by acquiring syncroot b while other thread has
+already entered his critical section by acquiring sychroot b and trying to
+enter another critical section by acquiring lock on sync root b 
+
+* Locking  /this/.
+
+If the class is publicly accessible deadlock can occur in scenario when
+it is locking using this in one function while other class is unaware
+and uses its instance as syncroot in other class for locking.
+
+#+begin_src csharp
+class A
+{
+   func()
+   {
+     lock(this){
+       .....
+     }
+   }
+} 
+
+class B
+{
+  A _instanceOfA = new A();
+  func()
+  {
+    lock(_instanceOfA){
+      .....
+    }
+  }
+} 
+#+end_src
+
+* Locking /typeof/.
+
+If the class say A is publicly accessible deadlock can occur in scenario when
+it is locking using typeof its type  in one function while other class
+is unaware and used the  type of class A to lock  .
+
+There is only one reference for typeof
+
+#+begin_src csharp 
+class A
+{
+   static func()
+   {
+     lock(typeof(A)){
+       .....
+     }
+   }
+} 
+
+static class B
+{  
+  func()
+  {
+    lock(typeof(A)){
+      .....
+    }
+  }
+}
+#+end_src
+
+
+* Locking /String/
+
+String are interned, i.e. single literal value and all the string instance
+referring it (through out the process). 
+So if there is
+string a = "mystr" and  string b = "mystr".
+both a and b will refer to same literal mystr.
+#+begin_src csharp
+string str1 = "mystr";
+string str2 = "mystr";
+Console.WriteLine(object.ReferenceEquals(str1, str2));
+#+end_src
+
+_output_
+
+True
+
+If some one locks on say string instance strFromA with literal string
+"syncString" and other class or function unawarely locks on its
+local string instance say strFromB with the same literal i.e
+"syncString". At this stage deadlock can occur and both are locking on
+literal "syncString".
+
+
+#+begin_src csharp
+class A
+{
+   func()
+   {
+     string strFromA = "syncString";
+     lock(this){strFromA)
+       .....
+     }
+   }
+} 
+
+class B
+{  
+  func()
+  {
+    string strFromB = "syncString";
+     lock(this){strFromB)
+       .....
+     }
+    }
+  }
+} 
+#+end_src
+
+ 
+* Circular Wait
+
+
+Thread X acquired lock locka and waiting to acquire lock lockb ,
+thread Y acquired lock lockb and waiting to acquire lock lockc, 
+thread Z acquired lock lockc and waiting to acquire lock locka.
+
+* When a thread terminated ungracefully after acquiring the monitor and without releasing  it.
+
+
+-----------------------

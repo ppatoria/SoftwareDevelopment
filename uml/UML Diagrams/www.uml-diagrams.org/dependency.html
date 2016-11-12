@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/dependency.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML dependency is directed, supplier-client relationship which shows that some element requires other model elements.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML Dependency is directed, supplier-client relationship which shows that some element requires (needs) other model elements." />
+<meta name="keywords" content="UML, UML 2, 2.4, relationship, dependency, directed, supplier - client relationship." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 131103 -->
+<div id="globalNav">
+<div>
+ <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+</div>
+<div>
+ <a href="uml-object-oriented-concepts.html" title="Object-oriented development concepts in UML"
+   >UML and OOAD</a>
+</div>
+<div>
+ <a href="uml-core.html" title="UML core elements"  >UML core elements</a>
+</div>
+<div>
+ <a href="frame.html" title="UML frame"  >Frame</a>
+</div>
+<div>
+ <a href="namespace.html" title="UML namespace"  >Namespace</a>
+</div>
+<div>
+ <a href="uml-core.html#type" title="UML type" >Type</a>
+</div>
+<div>
+ <a href="classifier.html" title="UML classifier"  >Classifier</a>
+</div>
+<div>
+ <a href="property.html"
+  title="UML property"  >Property</a>
+</div>
+<div>
+ <a href="multiplicity.html"
+  title="UML multiplicity"   >Multiplicity</a>
+</div>
+<div>
+ <a href="visibility.html"
+  title="UML visibility"  >Visibility</a>
+</div>
+<div>
+ <a href="constraint.html" title="UML constraint"  >Constraint</a>
+</div>
+<div>
+ <a href="association.html" title="UML association"  >Association</a>
+</div>
+<div>
+ <a href="generalization.html" title="UML generalization"  >Generalization</a>
+</div>
+<div>
+ <a href="dependency.html" title="UML dependency" class="active-nav" >Dependency</a>
+</div>
+<div>
+ <a href="abstraction.html" title="UML abstraction"  >Abstraction</a>
+</div>
+<div>
+ <a href="uml-core-reference.html" title="UML core elements graphical notation reference"  >UML core reference</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML Elements">UML Index</a>
+  </div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Dependency in UML</h1>
+
+<p>
+<strong>Dependency</strong> is 
+ a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>
+ which is used to show that some UML element or a set of elements requires, needs or depends on
+ other model elements for <strong>specification</strong> or <strong>implementation</strong>.
+ Because of this, dependency is called a <strong>supplier</strong> - <strong>client</strong> relationship,
+ where supplier provides something to the client, and thus the client is in some sense incomplete
+ while semantically or structurally dependent on the the supplier element(s).
+ Modification of the supplier may impact the client elements.
+</p>
+
+<p>
+Dependency is a relationship between
+ <a href="uml-core.html#named-element" class="ref-link">named elements</a>,
+ which in UML includes a lot of different elements, e.g.
+ <a href="class-diagrams.html#class" class="ref-link">classes</a>,
+ <a href="class-diagrams.html#interface" class="ref-link">interfaces</a>,
+ <a href="component-diagrams.html#component" class="ref-link">components</a>,
+ <a href="deployment-diagrams.html#artifact" class="ref-link">artifacts</a>,
+ <a href="package-diagrams.html#package" class="ref-link">packages</a>, etc.
+ There are several kinds of dependencies shown on the diagram below.
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/dependency-overview.png" width="700" height="519"
+ alt="UML Dependency relationship overview diagram - usage, abstraction, deployment." 
+ title="UML Dependency relationship overview diagram - usage, abstraction, deployment." />
+<p class="figure-text">
+<strong>Dependency</strong> relationship overview diagram - usage, abstraction, deployment.
+</p>
+</div>
+
+<p>
+<a href="dependency.html#usage" class="ref-link">Usage</a> is 
+ a dependency in which 
+ one <a href="uml-core.html#named-element" class="ref-link">named element</a>
+ (client) requires another named element (supplier)
+ for its full <strong>definition</strong> or <strong>implementation</strong>.
+</p>
+
+<p>
+The <a href="abstraction.html" class="ref-link">abstraction</a>
+ relates two elements representing the same concept but at different levels of abstraction.
+</p>
+
+<p>
+The <a href="deployment-diagrams.html#deployment" class="ref-link">deployment</a>
+ is a dependency which shows allocation (deployment) of an artifact to a deployment target.
+ (It is not very clear why UML 2.4.1 defines deployment as a dependency
+ but not as an <a href="association.html" class="ref-link">association</a>
+ or just a <a href="uml-core.html#directed-relationship" class="ref-link">directed relationship</a>.)
+</p>
+
+<p>
+Note, that <strong>UML 2.4.1</strong> specification has some confusing clarification that
+ <span class="citation">"the presence of dependency relationships in a model does not have any runtime semantics
+ implications, it is all given in terms of the model-elements that participate in the relationship,
+ not in terms of their instances."
+ </span>
+</p>
+
+<p>
+This clarification contradicts to the definition of 
+ <a href="dependency.html#usage" class="ref-link">usage</a> dependency
+ which is implementation dependency.
+ An experienced software developer knows what happens at runtime when some dependency is missing,
+ with application killed by LinkageError or ClassNotFoundException from the class loader.
+ So dependency could in fact have some grave runtime semantics implications.
+</p>
+
+<p>
+A dependency is generally shown as a dashed arrow pointing from the <strong>client</strong> (dependent)
+ at the tail to the <strong>supplier</strong> (provider) at the arrowhead.
+ The arrow may be labeled with an optional stereotype and an optional name.
+ Because the direction of the arrow goes opposite to what we would normally expect,
+ I usually stereotype it as client «depends on» supplier.
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/required-interface.png" width="280" height="59"
+ alt="Search Controller depends on (requires) Site Search interface." 
+ title="Search Controller depends on (requires) Site Search interface." />
+<p class="figure-text">
+Search Controller depends on (requires) Site Search interface.
+</p>
+</div>
+
+<p>
+For many years UML specifications provide contradictory example of the dependency shown below.
+ The explanation for the Figure 7.38 of UML 2.4.1 specification states: 
+ <span class="citation">"In the example below, the Car class has a dependency on the CarFactory class.
+ In this case, the dependency is an instantiate dependency, where the Car class is an instance
+ of the CarFactory class."</span>
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/instantiate.png" width="286" height="54"
+ alt="UML spec inferior example: Car class has an instantiate dependency on the CarFactory class." 
+ title="UML spec inferior example: Car class has an instantiate dependency on the CarFactory class." />
+<p class="figure-text">
+Wrong: Car class has a dependency on the CarFactory class.<br />
+Right: CarFactory class depends on the Car class.
+</p>
+</div>
+
+<p>
+This example in fact shows opposite to what UML specification states. CarFactory depends on the Car class.
+ Car class could be defined without the knowledge of CarFactory class, but CarFactory requires
+ Car for its definition because it produces Cars.
+ It is also wrong to say that
+ <span class="citation">"... the Car class is an instance of the CarFactory class."</span>
+ The Car class is <strong>instantiated</strong> by the CarFactory class.
+</p>
+
+<p>
+It is possible to have a set of elements for the client or supplier. In this case, one or more
+arrows with their tails on the clients are connected to the tails of one or more arrows with their heads on the suppliers. A
+small dot can be placed on the junction if desired. A note on the dependency should be attached at the junction point.
+</p>
+
+<p>
+Dependency could be used on several kinds of UML diagrams:
+</p>
+<ul>
+<li><a href="class-diagrams-overview.html" class="ref-link">class diagram</a></li>
+<li><a href="composite-structure-diagrams.html" class="ref-link">composite structure diagram</a></li>
+<li><a href="package-diagrams-overview.html" class="ref-link">package diagram</a></li>
+<li><a href="component-diagrams.html" class="ref-link">component diagram</a></li>
+<li><a href="deployment-diagrams-overview.html" class="ref-link">deployment diagram</a></li>
+</ul>
+
+<p>
+Here's some examples of dependencies:
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/use-package.png" width="300" height="76"
+ alt="Web Shopping package uses (depends on) Payment package." 
+ title="Web Shopping package uses (depends on) Payment package." />
+<p class="figure-text">
+Web Shopping package uses (depends on) Payment package.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="uml-core/class-interface-realization.png" width="270" height="56"
+ alt="Interface realization dependency from a classifier to an interface." 
+ title="Interface realization dependency from a classifier to an interface." />
+<p class="figure-text">
+<strong>Interface</strong> SiteSearch is <strong>realized</strong> (implemented) by SearchService.
+</p>
+</div>
+
+<p>
+Note, that <a href="abstraction.html" class="ref-link">abstraction</a>
+ dependency has a convention to have more abstract element as supplier and more specific or implementation
+ element as client but UML specification also allows to draw it the opposite way.
+</p>
+
+<div class="figure-left-80">
+<img src="component-diagrams/component-realization.png" width="260" height="167"
+ alt="Component realization notated in the same way as the realization dependency"
+ title="Component realization notated in the same way as the realization dependency" />
+<p class="figure-text">
+Component UserService realized by UserServlet and UserDAO.
+</p>
+</div>
+
+
+<!--
+************
+    Usage
+************
+-->
+ 
+<h2 id="usage">Usage</h2>
+
+<p>
+A <strong>usage</strong> is 
+ a <a href="dependency.html" class="ref-link">dependency</a> 
+ relationship in which one element (<strong>client</strong>) requires another element (or set of elements)
+ (<strong>supplier</strong>) for its full <strong>implementation</strong> or <strong>operation</strong>.
+</p>
+
+<p>
+The usage dependency does not specify how the client uses the supplier other than the fact that the supplier is used by the
+definition or implementation of the client. For example, it could mean that some method(s) within 
+a (<strong>client</strong>) class uses objects (e.g. parameters) of the another (<strong>supplier</strong>) class.
+</p>
+
+<p>
+A usage dependency is shown as a dependency with a <strong>«use»</strong> keyword attached to it.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/class-dependency-usage.png" width="270" height="48"
+ alt="Usage dependency shown as a dependency with a use keyword." 
+ title="Usage dependency shown as a dependency with a use keyword." />
+<p class="figure-text">
+Search Controller <strong>uses</strong> Search Engine
+</p>
+</div>
+
+
+<!--
+******************
+      Create
+******************
+-->
+ 
+<h3 id="create">Create</h3>
+
+<p>
+<strong>Create</strong> is 
+a <a href="dependency.html#usage" class="ref-link">usage dependency</a>
+ denoting that the client classifier creates instances of the supplier classifier.
+ It is denoted with the standard stereotype <strong>«create»</strong>.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/class-dependency-create.png" width="300" height="49"
+ alt="Client classifier creates instances of the supplier classifier." 
+ title="Client classifier creates instances of the supplier classifier." />
+<p class="figure-text">
+Data Source creates Connection
+</p>
+</div>
+
+<p>
+Create could also specify that the designated
+ <a href="uml-core.html#feature" class="ref-link">feature</a>
+ creates an instance of the classifier to which the feature is attached.
+ This dependency may be promoted to the classifier containing the feature.
+</p>
+
+<p>
+<strong>Create</strong> may relate an instance value to a constructor for a class,
+ describing the single value returned by the constructor operation.
+ The operation is the client, the created instance the supplier.
+ The instance value may reference parameters declared by the operation.
+</p>
+
+<div class="figure-left-80">
+<img src="uml-core/class-dependency-constructor.png" width="300" height="72"
+ alt="Create may relate an instance value to a constructor for a class." 
+ title="Create may relate an instance value to a constructor for a class." />
+<p class="figure-text">
+Account constructor creates new instance of Account
+</p>
+</div>
+
+
+<p>
+<strong>Instantiate</strong> is another
+ <a href="dependency.html#usage" class="ref-link">usage dependency</a>
+ among classifiers indicating that operations on the client create instances of the supplier.
+ It is denoted with the standard stereotype <strong>«instantiate»</strong>.
+</p>
+
+<p>
+It is not very clear why <strong>UML 2.4</strong> standard has both
+ <strong>«create»</strong> and <strong>«instantiate»</strong>.
+</p>
+
+
+<!--
+*************
+     Call
+*************
+-->
+ 
+<h3 id="call">Call</h3>
+
+<p>
+<strong>Call</strong> is 
+a <a href="dependency.html#usage" class="ref-link">usage dependency</a>
+ that specifies that the source operation invokes the target operation.
+ This dependency may connect a source operation to any target operation that is within the scope
+including, but not limited to, operations of the enclosing classifier and operations of other visible classifiers.
+</p>
+
+<p>
+<strong>Call</strong> is denoted with the standard stereotype <strong>«call»</strong> whose source is an 
+ <a href="class-diagrams.html#operation" class="ref-link">operation</a>
+ and whose target is also
+ an <a href="class-diagrams.html#operation" class="ref-link">operation</a>.
+</p>
+
+<p>
+This relationship may also be applied to
+ the <a href="class-diagrams.html#class" class="ref-link">class</a>
+ containing an operation, with the meaning that there exists an operation in the class
+ to which the dependency applies.
+</p>
+
+<!--
+***************
+     Send
+***************
+-->
+ 
+<h3 id="send">Send</h3>
+
+<p>
+<strong>Send</strong> is
+a <a href="dependency.html#usage" class="ref-link">usage dependency</a>
+ whose source is 
+ an <a href="class-diagrams.html#operation" class="ref-link">operation</a>
+ and whose target is 
+ a <a href="common-behaviors.html#signal" class="ref-link">signal</a>,
+ specifying that the source sends the target signal.
+</p>
+
+<p>
+<strong>Send</strong> is denoted with the standard stereotype <strong>«send»</strong>.
+</p>
+
+
+
+<!--
+**************************
+    Required Interface
+**************************
+-->
+ 
+<h3 id="required-interface">Required Interface</h3>
+
+<p>
+<strong>Required interface</strong> specifies services that a classifier needs in order to perform
+its function and fulfill its own obligations to its clients. It is specified by
+ a <a href="dependency.html#usage" class="ref-link">usage dependency</a> between the
+<a href="classifier.html" class="ref-link">classifier</a>
+ and the corresponding
+ <a href="class-diagrams.html#interface" class="ref-link">interface</a>.
+</p>
+
+<p>
+The <strong>usage dependency</strong> from a classifier to an interface is shown by representing the interface
+ by a half-circle or socket, labeled with the name of the interface, attached by a solid line
+ to the classifier that requires this interface.
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/required-interface-socket.png" width="196" height="65"
+ alt="Usage dependency from a classifier to an interface." 
+ title="Usage dependency from a classifier to an interface." />
+<p class="figure-text">
+<strong>Interface</strong> SiteSearch is <strong>used</strong> (required) by SearchController.
+</p>
+</div>
+
+<p>
+If interface is represented using the rectangle notation, <strong>interface usage</strong>
+dependency is denoted with dependency arrow. The classifier at the tail of the arrow
+<strong>uses</strong> (requires) the interface at the head of the arrow.
+</p>
+
+<div class="figure-left-80">
+<img src="dependency/required-interface.png" width="280" height="59"
+ alt="Usage dependency from a classifier to an interface." 
+ title="Usage dependency from a classifier to an interface." />
+<p class="figure-text">
+Interface Site Search is <strong>used</strong> (required) by Search Controller.
+</p>
+</div>
+
+<p>
+<img src="images/arrow-next.png" width="40" height="37"
+ align="middle" alt="Next" title="Next"></img>&nbsp;
+ <a href="abstraction.html" title="UML abstraction">Abstraction</a></p>
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="dependency.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/dependency.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

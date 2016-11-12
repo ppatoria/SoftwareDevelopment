@@ -1,0 +1,1694 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+  <HEAD>
+    <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+    <TITLE></TITLE>
+    <META NAME="GENERATOR" CONTENT="OpenOffice.org 3.1  (Win32)">
+    <META NAME="AUTHOR" CONTENT="Pralay  Patoira">
+    <META NAME="CREATED" CONTENT="20130908;21132700">
+    <META NAME="CHANGEDBY" CONTENT="Pralay  Patoira">
+    <META NAME="CHANGED" CONTENT="20130908;21223000">
+  </HEAD>
+  <BODY LANG="en-IN" DIR="LTR">
+
+
+
+	    <DIV ID="HtmlView" DIR="LTR">
+	      <H1><A NAME="generics"></A>Chapter&nbsp;12.&nbsp;Generics</H1>
+	      <P><STRONG>In this chapter</STRONG>:</P>
+	      <P><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generics_in_the_framework_class_library">Generics
+		  in the Framework Class Library</A></P>
+	      <P><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generics_infrastructure">Generics
+		  Infrastructure</A></P>
+	      <P><A NAME="idx-CHP-12-0785"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generic_interfaces">Generic
+		  Interfaces</A></P>
+	      <P><A NAME="idx-CHP-12-0786"></A><A NAME="idx-CHP-12-0787"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generic_delegates">Generic
+		  Delegates</A></P>
+	      <P><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#delegate_and_interface_contra-variant_an">Delegate
+		  and Interface Contra-variant and Covariant Generic Type
+		  Arguments</A></P>
+	      <P><A NAME="idx-CHP-12-0788"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generic_methods">Generic
+		  Methods</A></P>
+	      <P><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generics_and_other_members">Generics
+		  and Other Members</A></P>
+	      <P><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#verifiability_and_constraints">Verifiability
+		  and Constraints</A></P>
+	      <P>Developers who are familiar with object-oriented programming
+		know the benefits it offers. One of the big benefits that make
+		developers extremely productive is code reuse, which is the
+		ability to derive a class that inherits all of the capabilities
+		of a base class. The derived class can simply override virtual
+		methods or add some new methods to customize the behavior of the
+		base class to meet the developer&rsquo;s needs. <EM>Generics</EM>
+		is another mechanism offered by the common language runtime
+		(CLR) and programming languages that provides one more form of
+		code reuse: algorithm reuse.</P>
+	      <P>Basically, one developer defines an algorithm such as
+		sorting, searching, swapping, comparing, or converting. However,
+		the developer defining the algorithm doesn&rsquo;t specify what
+		data type(s) the algorithm operates on; the algorithm can be
+		generically applied to objects of different types. Another
+		developer can then use this existing algorithm as long as he or
+		she indicates the specific data type(s) the algorithm should
+		operate on, for example, a sorting algorithm that operates on
+		<CODE>Int32</CODE>s, <CODE>String</CODE>s, etc., or a comparing
+		algorithm that operates on <CODE>DateTime</CODE>s, <CODE>Version</CODE>s,
+		etc.</P>
+	      <P>Most algorithms are encapsulated in a type, and the CLR
+		allows the creation of generic reference types as well as
+		generic value types, but it does not allow the creation of
+		generic enumerated types. In addition, the CLR allows the
+		creation of generic interfaces and generic delegates.
+		Occasionally, a single method can encapsulate a useful
+		algorithm, and therefore, the CLR allows the creation of generic
+		methods that are defined in a reference type, value type, or
+		interface.</P>
+	      <P>Let&rsquo;s look at a quick example. The Framework Class
+		Library (FCL) defines a generic list algorithm that knows how to
+		manage a set of objects; the data type of these objects is not
+		specified by the generic algorithm. Someone wanting to use the
+		generic list algorithm can specify the exact data type to use
+		with it later.</P>
+	      <P><A NAME="idx-CHP-12-0789"></A><A NAME="idx-CHP-12-0790"></A><A NAME="idx-CHP-12-0791"></A>
+		The FCL class that encapsulates the generic list algorithm is
+		called <CODE>List&lt;T&gt;</CODE> (pronounced List of Tee), and
+		this class is defined in the <CODE>System.Collections.Generic</CODE>
+		namespace. Here is what this class definition looks like (the
+		code is severely abbreviated).</P>
+	      <PRE><A NAME="I_programlisting9_id364346"></A>[Serializable]
+                public class List&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IEnumerable&lt;T&gt;,
+                IList, ICollection, IEnumerable {
+
+                public List();
+                public void Add(T item);
+                public Int32 BinarySearch(T item);
+                public void Clear();
+                public Boolean Contains(T item);
+                public Int32 IndexOf(T item);
+                public Boolean Remove(T item);
+                public void Sort();
+                public void Sort(IComparer&lt;T&gt; comparer);
+                public void Sort(Comparison&lt;T&gt; comparison);
+                public T[] ToArray();
+
+                public Int32 Count { get; }
+                public T this[Int32 index] { get; set; }
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0792"></A><A NAME="idx-CHP-12-0793"></A>The
+		programmer who defined the generic <CODE>List</CODE> class
+		indicates that it works with an unspecified data type by placing
+		the <CODE>&lt;T&gt;</CODE> immediately after the class name.
+		When defining a generic type or method, any variables it
+		specifies for types (such as <CODE>T</CODE>) are called <EM>type
+		  parameters</EM>. <CODE>T</CODE> is a variable name that can be
+		used in source code anywhere a data type can be used. For
+		example, in the <CODE>List</CODE> class definition, you see <CODE>T</CODE>
+		being used for method parameters (the <CODE>Add</CODE> method
+		accepts a parameter of type <CODE>T</CODE>) and return types
+		(the <CODE>ToArray</CODE> method returns a single-dimension
+		array of type <CODE>T</CODE>). Another example is the indexer
+		method (called <CODE>this</CODE> in C#). The indexer has a <CODE>get</CODE>
+		accessor method that returns a value of type <CODE>T</CODE> and
+		a <CODE>set</CODE> accessor method that accepts a parameter of
+		type <CODE>T</CODE>. Because the <CODE>T</CODE> variable can be
+		used anywhere that a data type can be specified, it is also
+		possible to use <CODE>T</CODE> when defining local variables
+		inside a method or when defining fields inside a type.</P>
+	      <H3><A NAME="note-48"></A>Note</H3>
+	      <P>Microsoft&rsquo;s design guidelines state that generic
+		parameter variables should either be called <CODE>T</CODE> or at
+		least start with an uppercase <CODE>T</CODE> (as in <CODE>TKey</CODE>
+		and <CODE>TValue</CODE>). The uppercase <CODE>T</CODE> stands
+		for <EM>type</EM>, just as an uppercase <CODE>I</CODE> stands
+		for <EM>interface</EM> (as in <CODE>IComparable</CODE>).</P>
+	      <P><A NAME="idx-CHP-12-0794"></A>Now that the generic <CODE>List&lt;T&gt;</CODE>
+		type has been defined, other developers can use this generic
+		algorithm by specifying the exact data type they would like the
+		algorithm to operate on. When using a generic type or method,
+		the specified data types are referred to as <EM>type arguments</EM>.
+		For example, a developer might want to work with the <CODE>List</CODE>
+		algorithm by specifying a <CODE>DateTime</CODE> type argument.</P>
+	      <P>Here is some code that shows this.</P>
+	      <PRE><A NAME="I_programlisting9_id364520"></A>private static void SomeMethod() {
+                // Construct a List that operates on DateTime objects
+                List&lt;DateTime&gt; dtList = new List&lt;DateTime&gt;();
+
+                // Add a DateTime object to the list
+                dtList.Add(DateTime.Now);      // No boxing
+
+                // Add another DateTime object to the list
+                dtList.Add(DateTime.MinValue); // No boxing
+
+                // Attempt to add a String object to the list
+                dtList.Add(&quot;1/1/2004&quot;);        // Compile-time error
+
+                // Extract a DateTime object out of the list
+                DateTime dt = dtList[0];       // No cast required
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0795"></A>Generics provide the following big
+		benefits to developers as exhibited by the code just shown:</P>
+	      <UL>
+		<LI><P><A NAME="idx-CHP-12-0796"></A><STRONG>Source code
+		      protection</STRONG> The developer using a generic algorithm
+		    doesn&rsquo;t need to have access to the algorithm&rsquo;s
+		    source code. With C++ templates, however, the algorithm&rsquo;s
+		    source code must be available to the developer who is using the
+		    algorithm.</P>
+		<LI><P><A NAME="idx-CHP-12-0797"></A><STRONG>Type safety</STRONG>
+		    When a generic algorithm is used with a specific type, the
+		    compiler and the CLR understand this and ensure that only
+		    objects compatible with the specified data type are used with
+		    the algorithm. Attempting to use an object of an incompatible
+		    type will result in either a compiler error or a run-time
+		    exception being thrown. In the example, attempting to pass a
+		    <CODE>String</CODE> object to the <CODE>Add</CODE> method
+		    results in the compiler issuing an error.</P>
+		<LI><P><STRONG>Cleaner code</STRONG> Because the compiler
+		    enforces type safety, fewer casts are required in your source
+		    code, meaning that your code is easier to write and maintain.
+		    In the last line of <CODE>SomeMethod</CODE>, a developer
+		    doesn&rsquo;t need to use a (<CODE>DateTime</CODE>) cast to put
+		    the result of the indexer (querying element at index 0) into
+		    the <CODE>dt</CODE> variable.</P>
+		<LI><P><A NAME="idx-CHP-12-0798"></A><STRONG>Better performance</STRONG>
+		    Before generics, the way to define a generalized algorithm was
+		    to define all of its members to work with the <CODE>Object</CODE>
+		    data type. If you wanted to use the algorithm with value type
+		    instances, the CLR had to box the value type instance prior to
+		    calling the members of the algorithm. As discussed in
+		    <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch05_html">Chapter&nbsp;5</A>,
+		    boxing causes memory allocations on the managed heap, which
+		    causes more frequent garbage collections, which, in turn, hurt
+		    an application&rsquo;s performance. Because a generic algorithm
+		    can now be created to work with a specific value type, the
+		    instances of the value type can be passed by value, and the CLR
+		    no longer has to do any boxing. In addition, because casts are
+		    not necessary (see the previous bullet), the CLR doesn&rsquo;t
+		    have to check the type safety of the attempted cast, and this
+		    results in faster code too.</P>
+	      </UL>
+	      <P><A NAME="idx-CHP-12-0799"></A>To drive home the performance
+		benefits of generics, I wrote a program that tests the
+		performance of the generic <CODE>List</CODE> algorithm against
+		the FCL&rsquo;s non-generic <CODE>ArrayList</CODE> algorithm. In
+		fact, I tested the performance of these two algorithms by using
+		both value type objects and reference type objects. Here is the
+		program itself.</P>
+	      <PRE><A NAME="I_programlisting9_id364671"></A>using System;
+                using System.Collections;
+                using System.Collections.Generic;
+                using System.Diagnostics;
+
+                public static class Program {
+                public static void Main() {
+                ValueTypePerfTest();
+                ReferenceTypePerfTest();
+                }
+
+                private static void ValueTypePerfTest() {
+                const Int32 count = 100000000;
+
+                using (new OperationTimer(&quot;List&lt;Int32&gt;&quot;)) {
+                List&lt;Int32&gt; l = new List&lt;Int32&gt;();
+                for (Int32 n = 0; n &lt; count; n++) {
+                l.Add(n);                // No boxing
+                Int32 x = l[n];          // No unboxing
+                }
+                l = null;  // Make sure this gets garbage collected
+                }
+
+                using (new OperationTimer(&quot;ArrayList of Int32&quot;)) {
+                ArrayList a = new ArrayList();
+                for (Int32 n = 0; n &lt; count; n++) {
+                a.Add(n);                  // Boxing
+                Int32 x = (Int32) a[n];    // Unboxing
+                }
+                a = null;  // Make sure this gets garbage collected
+                }
+                }
+
+                private static void ReferenceTypePerfTest() {
+                const Int32 count = 100000000;
+
+                using (new OperationTimer(&quot;List&lt;String&gt;&quot;)) {
+                List&lt;String&gt; l = new List&lt;String&gt;();
+                for (Int32 n = 0; n &lt; count; n++) {
+                l.Add(&quot;X&quot;);                // Reference copy
+                String x = l[n];           // Reference copy
+                }
+                l = null;  // Make sure this gets garbage collected
+                }
+
+                using (new OperationTimer(&quot;ArrayList of String&quot;)) {
+                ArrayList a = new ArrayList();
+                for (Int32 n = 0; n &lt; count; n++) {
+                a.Add(&quot;X&quot;);                // Reference copy
+                String x = (String) a[n];  // Cast check &amp; reference copy
+                }
+                a = null;  // Make sure this gets garbage collected
+                }
+                }
+                }
+
+                // This class is useful for doing operation performance timing
+                internal sealed class OperationTimer : IDisposable {
+                private Stopwatch m_stopwatch;
+                private String m_text;
+                private Int32  m_collectionCount;
+
+                public OperationTimer(String text) {
+                PrepareForOperation();
+
+                m_text = text;
+                m_collectionCount = GC.CollectionCount(0);
+
+                // This should be the last statement in this
+                // method to keep timing as accurate as possible
+                m_stopwatch = Stopwatch.StartNew();
+                }
+
+                public void Dispose() {
+                Console.WriteLine(&quot;{0} (GCs={1,3}) {2}&quot;, (m_stopwatch.Elapsed),
+                GC.CollectionCount(0) - m_collectionCount, m_text);
+                }
+
+                private static void PrepareForOperation() {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                }
+                }</PRE><P>
+		When I compile and run a release build (with optimizations
+		turned on) of this program on my computer, I get the following
+		output.</P>
+	      <PRE><A NAME="I_programlisting9_id364700"></A>00:00:01.6246959 (GCs=  6) List&lt;Int32&gt;
+                00:00:10.8555008 (GCs=390) ArrayList of Int32
+                00:00:02.5427847 (GCs=  4) List&lt;String&gt;
+                00:00:02.7944831 (GCs=  7) ArrayList of String</PRE><P>
+		<A NAME="idx-CHP-12-0800"></A><A NAME="idx-CHP-12-0801"></A>The
+		output here shows that using the generic <CODE>List</CODE>
+		algorithm with the <CODE>Int32</CODE> type is much faster than
+		using the non-generic <CODE>ArrayList</CODE> algorithm with
+		<CODE>Int32</CODE>. In fact, the difference is phenomenal: 1.6
+		seconds versus almost 11 seconds. That&rsquo;s ~7 times faster!
+		In addition, using a value type (<CODE>Int32</CODE>) with
+		<CODE>ArrayList</CODE> causes a lot of boxing operations to
+		occur, which results in 390 garbage collections. Meanwhile, the
+		<CODE>List</CODE> algorithm required 6 garbage collections.</P>
+	      <P><A NAME="idx-CHP-12-0802"></A>The result of the test using
+		reference types is not as momentous. Here we see that the times
+		and number of garbage collections are about the same. So it
+		doesn&rsquo;t appear that the generic <CODE>List</CODE>
+		algorithm is of any benefit here. However, keep in mind that
+		when using a generic algorithm, you also get cleaner code and
+		compile-time type safety. So although the performance
+		improvement is not huge, the other benefits you get when using a
+		generic algorithm are usually an improvement.</P>
+	      <H3><A NAME="note-49"></A>Note</H3>
+	      <P>You do need to realize that the CLR generates native code for
+		each method the first time the method is called for a particular
+		data type. This will increase an application&rsquo;s working set
+		size, which will hurt performance. I will talk about this more
+		in the <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#generics_infrastructure">Generics
+		  Infrastructure</A> section of this chapter.</P>
+	      <H1><A NAME="generics_in_the_framework_class_library"></A>Generics
+		in the Framework Class Library</H1>
+	      <P><A NAME="idx-CHP-12-0803"></A><A NAME="idx-CHP-12-0804"></A><A NAME="idx-CHP-12-0805"></A><A NAME="idx-CHP-12-0806"></A><A NAME="idx-CHP-12-0807"></A><A NAME="idx-CHP-12-0808"></A>
+		Certainly, the most obvious use of generics is with collection
+		classes, and the FCL defines several generic collection classes
+		available for your use. Most of these classes can be found in
+		the <CODE>System.Collections.Generic</CODE> namespace and the
+		<CODE>System.Collections.ObjectModel</CODE> namespace. There are
+		also thread-safe generic collection classes available in the
+		<CODE>System.Collections.Concurrent</CODE> namespace. Microsoft
+		recommends that programmers use the generic collection classes
+		and now discourages use of the non-generic collection classes
+		for several reasons. First, the non-generic collection classes
+		are not generic, and so you don&rsquo;t get the type safety,
+		cleaner code, and better performance that you get when you use
+		generic collection classes. Second, the generic classes have a
+		better object model than the non-generic classes. For example,
+		fewer methods are virtual, resulting in better performance, and
+		new members have been added to the generic collections to
+		provide new functionality.</P>
+	      <P>The collection classes implement many interfaces, and the
+		objects that you place into the collections can implement
+		interfaces that the collection classes use for operations such
+		as sorting and searching. The FCL ships with many generic
+		interface definitions so that the benefits of generics can be
+		realized when working with interfaces as well. The commonly used
+		interfaces are contained in the <CODE>System.Collections.Generic</CODE>
+		namespace.</P>
+	      <P><A NAME="idx-CHP-12-0809"></A>The new generic interfaces are
+		not a replacement for the old non-generic interfaces; in many
+		scenarios, you will have to use both. The reason is backward
+		compatibility. For example, if the <CODE>List&lt;T&gt;</CODE>
+		class implemented only the <CODE>IList&lt;T&gt;</CODE>
+		interface, no code could consider a <CODE>List&lt;DateTime&gt;</CODE>
+		object an <CODE>IList</CODE>.</P>
+	      <P><A NAME="idx-CHP-12-0810"></A>I should also point out that
+		the <CODE>System.Array</CODE> class, the base class of all array
+		types, offers many static generic methods, such as <CODE>AsReadOnly,
+		  BinarySearch, ConvertAll, Exists, Find, FindAll, FindIndex,
+		  FindLast, FindLastIndex, ForEach, IndexOf, LastIndexOf, Resize,
+		  Sort</CODE>, and <CODE>TrueForAll</CODE>. Here are examples
+		showing what some of these methods look like.</P>
+	      <PRE><A NAME="I_programlisting9_id364940"></A>public abstract class Array : ICloneable, IList, ICollection, IEnumerable,
+                IStructuralComparable, IStructuralEquatable {
+
+                public static void  Sort&lt;T&gt;(T[] array);
+                public static void  Sort&lt;T&gt;(T[] array, IComparer&lt;T&gt; comparer);
+
+                public static Int32 BinarySearch&lt;T&gt;(T[] array, T value);
+                public static Int32 BinarySearch&lt;T&gt;(T[] array, T value,
+                IComparer&lt;T&gt; comparer);
+                ...
+                }</PRE><P>
+		Here is code that demonstrates how to use some of these methods.</P>
+	      <PRE><A NAME="I_programlisting9_id364951"></A>public static void Main() {
+                // Create &amp; initialize a byte array
+                Byte[] byteArray = new Byte[] { 5, 1, 4, 2, 3 };
+
+                // Call Byte[] sort algorithm
+                Array.Sort&lt;Byte&gt;(byteArray);
+
+                // Call Byte[] binary search algorithm
+                Int32 i = Array.BinarySearch&lt;Byte&gt;(byteArray, 1);
+                Console.WriteLine(i);   // Displays &quot;0&quot;
+                }</PRE><H1>
+		<A NAME="generics_infrastructure"></A>Generics Infrastructure</H1>
+	      <P><A NAME="idx-CHP-12-0811"></A>Generics were added to version
+		2.0 of the CLR, and it was a major task that required many
+		people working for quite some time. Specifically, to make
+		generics work, Microsoft had to do the following:</P>
+	      <UL>
+		<LI><P>Create new Intermediate Language (IL) instructions that
+		    are aware of type arguments.</P>
+		<LI><P>Modify the format of existing metadata tables so that
+		    type names and methods with generic parameters could be
+		    expressed.</P>
+		<LI><P>Modify the various programming languages (C#, Microsoft
+		    Visual Basic .NET, etc.) to support the new syntax, allowing
+		    developers to define and reference generic types and methods.</P>
+		<LI><P>Modify the compilers to emit the new IL instructions and
+		    the modified metadata format.</P>
+		<LI><P>Modify the just-in-time (JIT) compiler to process the
+		    new type-argument&ndash;aware IL instructions that produce the
+		    correct native code.</P>
+		<LI><P><A NAME="idx-CHP-12-0812"></A>Create new reflection
+		    members so that developers can query types and members to
+		    determine if they have generic parameters. Also, new reflection
+		    emit members had to be defined so that developers could create
+		    generic type and method definitions at run time.</P>
+		<LI><P>Modify the debugger to show and manipulate generic
+		    types, members, fields, and local variables.</P>
+		<LI><P>Modify the Microsoft Visual Studio IntelliSense feature
+		    to show specific member prototypes when using a generic type or
+		    a method with a specific data type.</P>
+	      </UL>
+	      <P>Now let&rsquo;s spend some time discussing how the CLR
+		handles generics internally. This information could impact how
+		you architect and design a generic algorithm. It could also
+		impact your decision to use an existing generic algorithm or
+		not.</P>
+	      <H2><A NAME="open_and_closed_types"></A>Open and Closed Types</H2>
+	      <P><A NAME="idx-CHP-12-0813"></A><A NAME="idx-CHP-12-0814"></A><A NAME="idx-CHP-12-0815"></A><A NAME="idx-CHP-12-0816"></A><A NAME="idx-CHP-12-0817"></A>
+		In various chapters throughout this book, I have discussed how
+		the CLR creates an internal data structure for each and every
+		type in use by an application. These data structures are called
+		<EM>type objects</EM>. Well, a type with generic type parameters
+		is still considered a type, and the CLR will create an internal
+		type object for each of these. This applies to reference types
+		(classes), value types (structs), interface types, and delegate
+		types. However, a type with generic type parameters is called an
+		open type, and the CLR does not allow any instance of an <EM>open
+		  type</EM> to be constructed (similar to how the CLR prevents an
+		instance of an interface type from being constructed).</P>
+	      <P>When code references a generic type, it can specify a set of
+		generic type arguments. If actual data types are passed in for
+		all of the type arguments, the type is called a <EM>closed type</EM>,
+		and the CLR does allow instances of a closed type to be
+		constructed. However, it is possible for code referencing a
+		generic type to leave some generic type arguments unspecified.
+		This creates a new open type object in the CLR, and instances of
+		this type cannot be created. The following code should make this
+		clear.</P>
+	      <PRE><A NAME="I_programlisting9_id365124"></A>using System;
+                using System.Collections.Generic;
+
+                // A partially specified open type
+                internal sealed class DictionaryStringKey&lt;TValue&gt; :
+                Dictionary&lt;String, TValue&gt; {
+                }
+
+                public static class Program {
+                public static void Main() {
+                Object o = null;
+
+                // Dictionary&lt;,&gt; is an open type having 2 type parameters
+                Type t = typeof(Dictionary&lt;,&gt;);
+
+                // Try to create an instance of this type (fails)
+                o = CreateInstance(t);
+                Console.WriteLine();
+
+                // DictionaryStringKey&lt;&gt; is an open type having 1 type parameter
+                t = typeof(DictionaryStringKey&lt;&gt;);
+
+                // Try to create an instance of this type (fails)
+                o = CreateInstance(t);
+                Console.WriteLine();
+
+                // DictionaryStringKey&lt;Guid&gt; is a closed type
+                t = typeof(DictionaryStringKey&lt;Guid&gt;);
+
+                // Try to create an instance of this type (succeeds)
+                o = CreateInstance(t);
+
+                // Prove it actually worked
+                Console.WriteLine(&quot;Object type=&quot; + o.GetType());
+                }
+
+                private static Object CreateInstance(Type t) {
+                Object o = null;
+                try {
+                o = Activator.CreateInstance(t);
+                Console.Write(&quot;Created instance of {0}&quot;, t.ToString());
+                }
+                catch (ArgumentException e) {
+                Console.WriteLine(e.Message);
+                }
+                return o;
+                }
+                }</PRE><P>
+		When I compile the preceding code and run it, I get the
+		following output.</P>
+	      <PRE><A NAME="I_programlisting9_id365141"></A>Cannot create an instance of System.Collections.Generic.
+                Dictionary`2[TKey,TValue] because Type.ContainsGenericParameters is true.
+
+                Cannot create an instance of DictionaryStringKey`1[TValue] because
+                Type.ContainsGenericParameters is true.
+
+                Created instance of DictionaryStringKey`1[System.Guid]
+                Object type=DictionaryStringKey`1[System.Guid]</PRE><P>
+		As you can see, <CODE>Activator</CODE>&rsquo;s <CODE>CreateInstance</CODE>
+		method throws an <CODE>ArgumentException</CODE> when you ask it
+		to construct an instance of an open type. In fact, the
+		exception&rsquo;s string message indicates that the type still
+		contains some generic parameters.</P>
+	      <P><A NAME="idx-CHP-12-0818"></A><A NAME="idx-CHP-12-0819"></A><A NAME="idx-CHP-12-0820"></A>
+		In the output, you&rsquo;ll notice that the type names end with
+		a backtick (`) followed by a number. The number indicates the
+		type&rsquo;s <EM>arity</EM>, which indicates the number of type
+		parameters required by the type. For example, the <CODE>Dictionary</CODE>
+		class has an arity of 2 because it requires that types be
+		specified for <CODE>TKey</CODE> and <CODE>TValue</CODE>. The
+		<CODE>DictionaryStringKey</CODE> class has an arity of 1 because
+		it requires just one type to be specified for <CODE>TValue</CODE>.</P>
+	      <P>I should also point out that the CLR allocates a type&rsquo;s
+		static fields inside the type object (as discussed in
+		<A HREF="http://techbus.safaribooksonline.com/9780735668737/ch04_html">Chapter&nbsp;4</A>).
+		So each closed type has its own static fields. In other words,
+		if <CODE>List&lt;T&gt;</CODE> defined any static fields, these
+		fields are not shared between a <CODE>List&lt;DateTime&gt;</CODE>
+		and a <CODE>List&lt;String&gt;</CODE>; each closed type object
+		has its own static fields. Also, if a generic type defines a
+		static constructor (discussed in <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch08_html">Chapter&nbsp;8</A>),
+		this constructor will execute once per closed type. Sometimes
+		people define a static constructor on a generic type to ensure
+		that the type arguments will meet certain criteria. For example,
+		if you wanted to define a generic type that can be used only
+		with enumerated types, you could do the following.</P>
+	      <PRE><A NAME="I_programlisting9_id365246"></A>internal sealed class GenericTypeThatRequiresAnEnum&lt;T&gt; {
+                static GenericTypeThatRequiresAnEnum() {
+                if (!typeof(T).IsEnum) {
+                throw new ArgumentException(&quot;T must be an enumerated type&quot;);
+                }
+                }
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0821"></A>The CLR has a feature called
+		constraints that offers a better way for you to define a generic
+		type indicating what type arguments are valid for it. I&rsquo;ll
+		discuss constraints later in this chapter. Unfortunately,
+		constraints do not support the ability to limit a type argument
+		to enumerated types only, which is why the previous example
+		requires a static constructor to ensure that the type is an
+		enumerated type.</P>
+	      <H2><A NAME="generic_types_and_inheritance"></A>Generic Types
+		and Inheritance</H2>
+	      <P><A NAME="idx-CHP-12-0822"></A>A generic type is a type, and
+		as such, it can be derived from any other type. When you use a
+		generic type and specify type arguments, you are defining a new
+		type object in the CLR, and the new type object is derived from
+		whatever type the generic type was derived from. In other words,
+		because <CODE>List&lt;T&gt;</CODE> is derived from <CODE>Object,
+		  List&lt;String&gt;</CODE> and <CODE>List&lt;Guid&gt;</CODE> are
+		also derived from <CODE>Object</CODE>. Similarly, because
+		<CODE>DictionaryStringKey&lt;TValue&gt;</CODE> is derived from
+		<CODE>Dictionary&lt;String, TValue&gt;,
+		  DictionaryStringKey&lt;Guid&gt;</CODE> is also derived from
+		<CODE>Dictionary&lt;String, Guid&gt;</CODE>. Understanding that
+		specifying type arguments doesn&rsquo;t have anything to do with
+		inheritance hierarchies will help you to recognize what kind of
+		casting you can and can&rsquo;t do.</P>
+	      <P>For example, if a linked-list node class is defined like
+		this:</P>
+	      <PRE><A NAME="I_programlisting9_id365324"></A>internal sealed class Node&lt;T&gt; {
+                <A NAME="idx-CHP-12-0823"></A>   public T m_data;
+                public Node&lt;T&gt; m_next;
+
+                public Node(T data) : this(data, null) {
+                }
+
+                public Node(T data, Node&lt;T&gt; next) {
+                m_data = data; m_next = next;
+                }
+
+                public override String ToString() {
+                return m_data.ToString() +
+                ((m_next != null) ? m_next.ToString() : String.Empty);
+                }
+                }</PRE><P>
+		then I can write some code to build up a linked list that would
+		look something like the following.</P>
+	      <PRE><A NAME="I_programlisting9_id365345"></A>private static void SameDataLinkedList() {
+                Node&lt;Char&gt; head = new Node&lt;Char&gt;('C');
+                head = new Node&lt;Char&gt;('B', head);
+                head = new Node&lt;Char&gt;('A', head);
+                Console.WriteLine(head.ToString());  // Displays &quot;ABC&quot;
+                }</PRE><P>
+		In the <CODE>Node</CODE> class just shown, the <CODE>m_next</CODE>
+		field must refer to another node that has the same kind of data
+		type in its <CODE>m_data</CODE> field. This means that the
+		linked list must contain nodes in which all data items are of
+		the same type (or derived type). For example, I can&rsquo;t use
+		the <CODE>Node</CODE> class to create a linked list in which one
+		element contains a <CODE>Char</CODE>, another element contains a
+		<CODE>DateTime</CODE>, and another element contains a <CODE>String</CODE>.
+		Well, I could if I use <CODE>Node&lt;Object&gt;</CODE>
+		everywhere, but then I would lose compile-time type safety, and
+		value types would get boxed.</P>
+	      <P>So a better way to go would be to define a non-generic <CODE>Node</CODE>
+		base class and then define a generic <CODE>TypedNode</CODE>
+		class (using the <CODE>Node</CODE> class as a base class). Now,
+		I can have a linked list in which each node can be of a specific
+		data type (not <CODE>Object</CODE>), get compile-time type
+		safety, and avoid the boxing of value types. Here are the new
+		class definitions.</P>
+	      <PRE><A NAME="I_programlisting9_id365406"></A>internal class Node {
+                protected Node m_next;
+
+                public Node(Node next) {
+                m_next = next;
+                }
+                }
+
+                internal sealed class TypedNode&lt;T&gt; : Node {
+                public T m_data;
+
+                public TypedNode(T data) : this(data, null) {
+                }
+
+                public TypedNode(T data, Node next) : base(next) {
+                m_data = data;
+                }
+
+                public override String ToString() {
+                return m_data.ToString() +
+                ((m_next != null) ? m_next.ToString() : String.Empty);
+                }
+                }</PRE><P>
+		I can now write code to create a linked list in which each node
+		is a different data type. The code could look something like the
+		following.</P>
+	      <PRE><A NAME="I_programlisting9_id365418"></A>private static void DifferentDataLinkedList() {
+                Node head = new TypedNode&lt;Char&gt;('.');
+                head = new TypedNode&lt;DateTime&gt;(DateTime.Now, head);
+                head = new TypedNode&lt;String&gt;(&quot;Today is &quot;, head);
+                Console.WriteLine(head.ToString());
+                }</PRE><H2>
+		<A NAME="generic_type_identity"></A>Generic Type Identity</H2>
+	      <P><A NAME="idx-CHP-12-0824"></A><A NAME="idx-CHP-12-0825"></A>Sometimes
+		generic syntax confuses developers. After all, there can be a
+		lot of less-than (<CODE>&lt;</CODE>) and greater-than (<CODE>&gt;</CODE>)
+		signs sprinkled throughout your source code, and this hurts
+		readability. To improve syntax, some developers define a new
+		non-generic class type that is derived from a generic type and
+		that specifies all of the type arguments. For example, to
+		simplify code like this:</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365466"></A>List&lt;DateTime&gt; dtl = new List&lt;DateTime&gt;();</PRE><P>
+		some developers might first define a class like the following.</P>
+	      <PRE><A NAME="I_programlisting9_id365474"></A>internal sealed class DateTimeList : List&lt;DateTime&gt; {
+                // No need to put any code in here!
+                }</PRE><P>
+		Now, the code that creates a list can be rewritten more simply
+		(without less-than and greater-than signs) like the following.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365483"></A>DateTimeList dtl = new DateTimeList();</PRE><P>
+		Although this seems like a convenience, especially if you use
+		the new type for parameters, local variables, and fields, you
+		should never define a new class explicitly for the purpose of
+		making your source code easier to read. The reason is because
+		you lose type identity and equivalence, as you can see in the
+		following code.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365493"></A>Boolean sameType = (typeof(List&lt;DateTime&gt;) == typeof(DateTimeList));</PRE><P>
+		When the preceding code runs, <CODE>sameType</CODE> will be
+		initialized to <CODE>false</CODE> because you are comparing two
+		different type objects. This also means that a method prototyped
+		as accepting a <CODE>DateTimeList</CODE> will not be able to
+		have a <CODE>List&lt;DateTime&gt;</CODE> passed to it. However,
+		a method prototyped as accepting a <CODE>List&lt;DateTime&gt;</CODE>
+		can have a <CODE>DateTimeList</CODE> passed to it because
+		<CODE>DateTimeList</CODE> is derived from <CODE>List&lt;DateTime&gt;</CODE>.
+		Programmers may become easily confused by all of this.</P>
+	      <P><A NAME="idx-CHP-12-0826"></A><A NAME="idx-CHP-12-0827"></A>Fortunately,
+		C# does offer a way to use simplified syntax to refer to a
+		generic closed type while not affecting type equivalence at all;
+		you can use the good-old <CODE>using</CODE> directive at the top
+		of your source code file. Here is an example.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365557"></A><A NAME="idx-CHP-12-0828"></A>using DateTimeList = System.Collections.Generic.List&lt;System.DateTime&gt;;</PRE><P>
+		<A NAME="idx-CHP-12-0829"></A>Here, the <CODE>using</CODE>
+		directive is really just defining a symbol called <CODE>DateTimeList</CODE>.
+		As the code compiles, the compiler substitutes all occurrences
+		of <CODE>DateTimeList</CODE> with
+		<CODE>System.Collections.Generic.List&lt;System.DateTime&gt;</CODE>.
+		This just allows developers to use a simplified syntax without
+		affecting the actual meaning of the code, and therefore, type
+		identity and equivalence are maintained. So now, when the
+		following line executes, <CODE>sameType</CODE> will be
+		initialized to <CODE>true</CODE>.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365607"></A>Boolean sameType = (typeof(List&lt;DateTime&gt;) == typeof(DateTimeList));</PRE><P>
+		As another convenience, you can use C#&rsquo;s implicitly typed
+		local variable feature, where the compiler infers the type of a
+		method&rsquo;s local variable from the type of the expression
+		you are assigning to it.</P>
+	      <PRE><A NAME="I_programlisting9_id365616"></A>using System;
+                using System.Collections.Generic;
+                ...
+                internal sealed class SomeType {
+                private static void SomeMethod () {
+
+                // Compiler infers that dtl is of type
+                // System.Collections.Generic.List&lt;System.DateTime&gt;
+                var dtl = new List&lt;DateTime&gt;();
+                ...
+                }
+
+                }</PRE><H2>
+		<A NAME="code_explosion"></A>Code Explosion</H2>
+	      <P><A NAME="idx-CHP-12-0830"></A><A NAME="idx-CHP-12-0831"></A><A NAME="idx-CHP-12-0832"></A>
+		When a method that uses generic type parameters is JIT-compiled,
+		the CLR takes the method&rsquo;s IL, substitutes the specified
+		type arguments, and then creates native code that is specific to
+		that method operating on the specified data types. This is
+		exactly what you want and is one of the main features of
+		generics. However, there is a downside to this: the CLR keeps
+		generating native code for every method/type combination. This
+		is referred to as <EM>code explosion</EM>. This can end up
+		increasing the application&rsquo;s working set substantially,
+		thereby hurting performance.</P>
+	      <P><A NAME="idx-CHP-12-0833"></A>Fortunately, the CLR has some
+		optimizations built into it to reduce code explosion. First, if
+		a method is called for a particular type argument, and later,
+		the method is called again using the same type argument, the CLR
+		will compile the code for this method/type combination just
+		once. So if one assembly uses <CODE>List&lt;DateTime&gt;</CODE>,
+		and a completely different assembly (loaded in the same
+		AppDomain) also uses <CODE>List&lt;DateTime&gt;</CODE>, the CLR
+		will compile the methods for <CODE>List&lt;DateTime&gt;</CODE>
+		just once. This reduces code explosion substantially.</P>
+	      <P>The CLR has another optimization: the CLR considers all
+		reference type arguments to be identical, and so again, the code
+		can be shared. For example, the code compiled by the CLR for
+		<CODE>List&lt;String&gt;</CODE>&rsquo;s methods can be used for
+		<CODE>List&lt;Stream&gt;</CODE>&rsquo;s methods, because <CODE>String</CODE>
+		and <CODE>Stream</CODE> are both reference types. In fact, for
+		any reference type, the same code will be used. The CLR can
+		perform this optimization because all reference type arguments
+		or variables are really just pointers (all 32 bits on a 32-bit
+		Windows system and 64 bits on a 64-bit Windows system) to
+		objects on the heap, and object pointers are all manipulated in
+		the same way.</P>
+	      <P><A NAME="idx-CHP-12-0834"></A><A NAME="idx-CHP-12-0835"></A>But
+		if any type argument is a value type, the CLR must produce
+		native code specifically for that value type. The reason is
+		because value types can vary in size. And even if two value
+		types are the same size (such as <CODE>Int32</CODE> and <CODE>UInt32</CODE>,
+		which are both 32 bits), the CLR still can&rsquo;t share the
+		code because different native CPU instructions can be used to
+		manipulate these values.</P>
+	      <H1><A NAME="generic_interfaces"></A>Generic Interfaces</H1>
+	      <P><A NAME="idx-CHP-12-0836"></A><A NAME="idx-CHP-12-0837"></A><A NAME="idx-CHP-12-0838"></A>
+		Obviously, the ability to define generic reference and value
+		types was the main feature of generics. However, it was critical
+		for the CLR to also allow generic interfaces. Without generic
+		interfaces, any time you tried to manipulate a value type by
+		using a non-generic interface (such as <CODE>IComparable</CODE>),
+		boxing and a loss of compile-time type safety would happen
+		again. This would severely limit the usefulness of generic
+		types. And so the CLR does support generic interfaces. A
+		reference or value type can implement a generic interface by
+		specifying type arguments, or a type can implement a generic
+		interface by leaving the type arguments unspecified. Let&rsquo;s
+		look at some examples.</P>
+	      <P>Here is the definition of a generic interface that ships as
+		part of the FCL (in the <CODE>System.Collections.Generic</CODE>
+		namespace).</P>
+	      <PRE><A NAME="I_programlisting9_id365804"></A>public interface IEnumerator&lt;T&gt; : IDisposable, IEnumerator {
+                T Current { get; }
+                }</PRE><P>
+		Here is an example of a type that implements this generic
+		interface and that specifies type arguments. Notice that a
+		<CODE>Triangle</CODE> object can enumerate a set of <CODE>Point</CODE>
+		objects. Also note that the <CODE>Current</CODE> property is of
+		the <CODE>Point</CODE> data type.</P>
+	      <PRE><A NAME="I_programlisting9_id365827"></A>internal sealed class Triangle : IEnumerator&lt;Point&gt; {
+                private Point[] m_vertices;
+
+                // IEnumerator&lt;Point&gt;'s Current property is of type Point
+                public Point Current { get { ... } }
+
+                ...
+                }</PRE><P>
+		Now let&rsquo;s look at an example of a type that implements the
+		same generic interface but with the type arguments left
+		unspecified.</P>
+	      <PRE><A NAME="I_programlisting9_id365837"></A><A NAME="idx-CHP-12-0839"></A>internal sealed class ArrayEnumerator&lt;T&gt; : IEnumerator&lt;T&gt; {
+                private T[] m_array;
+
+                // IEnumerator&lt;T&gt;'s Current property is of type T
+                public T Current { get { ... } }
+
+                ...
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0840"></A>Notice that an <CODE>ArrayEnumerator</CODE>
+		object can enumerate a set of <CODE>T</CODE> objects (where <CODE>T</CODE>
+		is unspecified allowing code using the generic <CODE>ArrayEnumerator</CODE>
+		type to specify a type for <CODE>T</CODE> later). Also note that
+		the <CODE>Current</CODE> property is now of the unspecified data
+		type <CODE>T</CODE>. Much more information about generic
+		interfaces is presented in <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch13_html">Chapter&nbsp;13</A>.</P>
+	      <H1><A NAME="generic_delegates"></A>Generic Delegates</H1>
+	      <P><A NAME="idx-CHP-12-0841"></A>The CLR supports generic
+		delegates to ensure that any type of object can be passed to a
+		callback method in a type-safe way. Furthermore, generic
+		delegates allow a value type instance to be passed to a callback
+		method without any boxing. As discussed in <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch17_html">Chapter&nbsp;17</A>,
+		a delegate is really just a class definition with four methods:
+		a constructor, an <CODE>Invoke</CODE> method, a <CODE>BeginInvoke</CODE>
+		method, and an <CODE>EndInvoke</CODE> method. When you define a
+		delegate type that specifies type parameters, the compiler
+		defines the delegate class&rsquo;s methods, and the type
+		parameters are applied to any methods having parameters/return
+		types of the specified type parameter.</P>
+	      <P>For example, if you define a generic delegate like this:</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id365941"></A>public delegate TReturn CallMe&lt;TReturn, TKey, TValue&gt;(TKey key, TValue value);</PRE><P>
+		the compiler turns that into a class that logically looks like
+		the following.</P>
+	      <PRE><A NAME="I_programlisting9_id365949"></A>public sealed class CallMe&lt;TReturn, TKey, TValue&gt; : MulticastDelegate {
+                public CallMe(Object object, IntPtr method);
+                public virtual TReturn Invoke(TKey key, TValue value);
+                public virtual IAsyncResult BeginInvoke(TKey key, TValue value,
+                AsyncCallback callback, Object object);
+                public virtual TReturn EndInvoke(IAsyncResult result);
+                }</PRE><H3>
+		<A NAME="note-50"></A>Note</H3>
+	      <P><A NAME="idx-CHP-12-0842"></A><A NAME="idx-CHP-12-0843"></A>It
+		is recommended that you use the generic <CODE>Action</CODE> and
+		<CODE>Func</CODE> delegates that come predefined in the
+		Framework Class Library (FCL) wherever possible. I describe
+		these delegate types in the <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch17_html#enough_with_the_delegate_definitions_alr">Enough
+		  with the Delegate Definitions Already (Generic Delegates)</A>
+		section of <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch17_html">Chapter&nbsp;17</A>.</P>
+	      <H1><A NAME="delegate_and_interface_contra-variant_an"></A>Delegate
+		and Interface Contra-variant and Covariant Generic Type
+		Arguments</H1>
+	      <P><A NAME="idx-CHP-12-0844"></A><A NAME="idx-CHP-12-0845"></A><A NAME="idx-CHP-12-0846"></A><A NAME="idx-CHP-12-0847"></A><A NAME="idx-CHP-12-0848"></A>
+		Each of a delegate&rsquo;s generic type parameters can be marked
+		as covariant or contra-variant. This feature allows you to cast
+		a variable of a generic delegate type to the <EM>same delegate
+		  type</EM> where the generic parameter types differ. A generic
+		type parameter can be any one of the following:</P>
+	      <UL>
+		<LI><P><A NAME="idx-CHP-12-0849"></A><STRONG>Invariant</STRONG>
+		    Meaning that the generic type parameter cannot be changed. I
+		    have shown only invariant generic type parameters so far in
+		    this chapter.</P>
+		<LI><P><STRONG>Contra-variant</STRONG> Meaning that the generic
+		    type parameter can change from a class to a class derived from
+		    it. In C#, you indicate contra-variant generic type parameters
+		    with the <CODE>in</CODE> keyword. Contra-variant generic type
+		    parameters can appear only in input positions such as a
+		    method&rsquo;s argument.</P>
+		<LI><P><STRONG>Covariant</STRONG> Meaning that the generic type
+		    argument can change from a class to one of its base classes. In
+		    C#, you indicate covariant generic type parameters with the <CODE>out</CODE>
+		    keyword. Covariant generic type parameters can appear only in
+		    output positions such as a method&rsquo;s return type.</P>
+	      </UL>
+	      <P>For example, let&rsquo;s say that the following delegate type
+		definition exists (which, by the way, it does).</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id366115"></A>public delegate TResult Func&lt;in T, out TResult&gt;(T arg);</PRE><P>
+		Here, the generic type parameter <CODE>T</CODE> is marked with
+		the <CODE>in</CODE> keyword, making it contra-variant; and the
+		generic type parameter <CODE>TResult</CODE> is marked with the
+		<CODE>out</CODE> keyword, making it covariant.</P>
+	      <P>So now, if I have a variable declared as follows.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id366142"></A>Func&lt;Object, ArgumentException&gt; fn1 = null;</PRE><P>
+		I can cast it to another <CODE>Func</CODE> type, where the
+		generic type parameters are different.</P>
+	      <PRE><A NAME="I_programlisting9_id366154"></A>Func &lt;String, Exception&gt; fn2 = fn1; // No explicit cast is required here
+                Exception e = fn2(&quot;&quot;);</PRE><P>
+		What this is saying is that <CODE>fn1</CODE> refers to a
+		function that accepts an <CODE>Object</CODE> and returns an
+		<CODE>ArgumentException</CODE>. The <CODE>fn2</CODE> variable
+		wants to refer to a method that takes a <CODE>String</CODE> and
+		returns an <CODE>Exception</CODE>. Because you can pass a <CODE>String</CODE>
+		to a method that wants an <CODE>Object</CODE> (because <CODE>String</CODE>
+		is derived from <CODE>Object</CODE>), and because you can take
+		the result of a method that returns an <CODE>ArgumentException</CODE>
+		and treat it as an <CODE>Exception</CODE> (because <CODE>Exception</CODE>
+		is a base class of <CODE>ArgumentException</CODE>), the code
+		above compiles and is known at compile time to preserve type
+		safety.</P>
+	      <H3><A NAME="note-51"></A>Note</H3>
+	      <P><A NAME="idx-CHP-12-0850"></A>Variance applies only if the
+		compiler can verify that a reference conversion exists between
+		types. In other words, variance is not possible for value types
+		because boxing would be required. In my opinion, this
+		restriction is what makes these variance features not that
+		useful. For example, if I have the following method.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id366234"></A>void ProcessCollection(IEnumerable&lt;Object&gt; collection) { ... }</PRE><P>
+		I can&rsquo;t call it passing in a reference to a <CODE>List&lt;DateTime&gt;</CODE>
+		object because a reference conversion doesn&rsquo;t exist
+		between the <CODE>DateTime</CODE> value type and <CODE>Object</CODE>
+		even though <CODE>DateTime</CODE> is derived from <CODE>Object</CODE>.
+		You solve this problem by declaring <CODE>ProcessCollection</CODE>
+		as follows.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id366265"></A>void ProcessCollection&lt;T&gt;(IEnumerable&lt;T&gt; collection) { ... }</PRE><P>
+		Plus, the big benefit of <CODE>ProcessCollection(IEnumerable&lt;Object&gt;</CODE>
+		collection) is that there is only one version of the JITted
+		code. However, with
+		<CODE>ProcessCollection&lt;T&gt;(IEnumerable&lt;T&gt;collection)</CODE>,
+		there is also only one version of the JITted code shared by all
+		Ts that are reference types. You do get other versions of JITted
+		code for <CODE>T</CODE>s that are value types, but now you can
+		at least call the method passing it a collection of value types.</P>
+	      <P>Also, variance is not allowed on a generic type parameter if
+		an argument of that type is passed to a method by using the <CODE>out</CODE>
+		or <CODE>ref</CODE> keyword. For example, the line of code below
+		causes the compiler to generate the following error message:
+		<CODE>Invalid variance: The type parameter &lsquo;T&rsquo; must
+		  be invariantly valid on &lsquo;SomeDelegate&lt;T&gt;.Invoke(ref
+		  T)&rsquo;. &lsquo;T&rsquo; is contravariant</CODE>.</P>
+	      <PRE STYLE="margin-bottom: 0.5cm"><A NAME="I_programlisting9_id366304"></A>delegate void SomeDelegate&lt;in T&gt;(ref T t);</PRE><P>
+		<A NAME="idx-CHP-12-0851"></A>When using delegates that take
+		generic arguments and return types, it is recommended to always
+		specify the <CODE>in</CODE> and <CODE>out</CODE> keywords for
+		contra-variance and covariance whenever possible, because doing
+		this has no ill effects and enables your delegate to be used in
+		more scenarios.</P>
+	      <P><A NAME="idx-CHP-12-0852"></A><A NAME="idx-CHP-12-0853"></A><A NAME="idx-CHP-12-0854"></A>
+		Like delegates, an interface with generic type parameters can
+		have its type parameters be contravariant or covariant. Here is
+		an example of an interface with a covariant generic type
+		parameter.</P>
+	      <PRE><A NAME="I_programlisting9_id366363"></A>public interface IEnumerator&lt;out T&gt; : IEnumerator {
+                Boolean MoveNext();
+                T Current { get; }
+                }</PRE><P>
+		Because <CODE>T</CODE> is covariant, it is possible to have the
+		following code compile and run successfully.</P>
+	      <PRE><A NAME="I_programlisting9_id366374"></A>// This method accepts an IEnumerable of any reference type
+                Int32 Count(IEnumerable&lt;Object&gt; collection) { ... }
+
+                ...
+                // The call below passes an IEnumerable&lt;String&gt; to Count
+                Int32 c = Count(new[] { &quot;Grant&quot; });</PRE><H3>
+		<A NAME="important-35"></A>Important</H3>
+	      <P><A NAME="idx-CHP-12-0855"></A>Sometimes developers ask why
+		they must explicitly put <CODE>in</CODE> or <CODE>out</CODE> on
+		generic type parameters. They think the compiler should be able
+		to examine the delegate or interface declaration and
+		automatically detect what generic type parameters can be
+		contra-variant and covariant. Although it is true that the
+		compiler could detect this automatically, the C# team believes
+		that you are declaring a contract and that you should be
+		explicit about what you want to allow. For example, it would be
+		bad if the compiler determined that a generic type parameter
+		could be contra-variant and then, in the future, you added a
+		member to an interface that had the type parameter used in an
+		output position. The next time you compile, the compiler would
+		determine that the type parameter should be invariant, but all
+		code sites that reference the other members might now produce
+		errors if they had used the fact that the type parameter had
+		been contra-variant.</P>
+	      <P>For this reason, the compiler team forces you to be explicit
+		when declaring a generic type parameter. Then, if you attempt to
+		use this type parameter in a context that doesn&rsquo;t match
+		how you declared it, the compiler issues an error letting you
+		know that you are attempting to break the contract. If you then
+		decide to break the contract by adding <CODE>in</CODE> or <CODE>out</CODE>
+		on generic type parameters, you should expect to have to modify
+		some of the code sites that were using the old contract.</P>
+	      <H1><A NAME="generic_methods"></A>Generic Methods</H1>
+	      <P><A NAME="idx-CHP-12-0856"></A>When you define a generic
+		class, <CODE>struct</CODE>, or interface, any methods defined in
+		these types can refer to a type parameter specified by the type.
+		A type parameter can be used as a method parameter&rsquo;s type,
+		a method&rsquo;s return type, or the type of a local variable
+		defined inside the method. However, the CLR also supports the
+		ability for a method to specify its very own type parameters.
+		And these type parameters can also be used for parameters,
+		return types, or local variables.</P>
+	      <P><A NAME="idx-CHP-12-0857"></A>Here is a somewhat contrived
+		example of a type that defines a type parameter and a method
+		that has its very own type parameter.</P>
+	      <PRE><A NAME="I_programlisting9_id366470"></A>internal sealed class GenericType&lt;T&gt; {
+                private T m_value;
+
+                public GenericType(T value) { m_value = value; }
+
+                public TOutput Converter&lt;TOutput&gt;() {
+                TOutput result = (TOutput) Convert.ChangeType(m_value, typeof(TOutput));
+                return result;
+                }
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0858"></A>On the last line, the C# compiler
+		emits an IL instruction to <CODE>GenericType</CODE> class
+		defines its own type parameter (<CODE>T</CODE>), and the
+		<CODE>Converter</CODE> method defines its own type parameter
+		(<CODE>TOutput</CODE>). This allows a <CODE>GenericType</CODE>
+		to be constructed to work with any type. The <CODE>Converter</CODE>
+		method can convert the object referred to by the <CODE>m_value</CODE>
+		field to various types depending on what type argument is passed
+		to it when called. The ability to have type parameters and
+		method parameters allows for phenomenal flexibility.</P>
+	      <P>A reasonably good example of a generic method is the <CODE>Swap</CODE>
+		method.</P>
+	      <PRE><A NAME="I_programlisting9_id366525"></A><A NAME="idx-CHP-12-0859"></A>private static void Swap&lt;T&gt;(ref T o1, ref T o2) {
+                T temp = o1;
+                o1 = o2;
+                o2 = temp;
+                }</PRE><P>
+		Code can now call <CODE>Swap</CODE> like as follows.</P>
+	      <PRE><A NAME="I_programlisting9_id366544"></A>private static void CallingSwap() {
+                Int32 n1 = 1, n2 = 2;
+                Console.WriteLine(&quot;n1={0}, n2={1}&quot;, n1, n2);
+                Swap&lt;Int32&gt;(ref n1, ref n2);
+                Console.WriteLine(&quot;n1={0}, n2={1}&quot;, n1, n2);
+
+                String s1 = &quot;Aidan&quot;, s2 = &quot;Grant&quot;;
+                Console.WriteLine(&quot;s1={0}, s2={1}&quot;, s1, s2);
+                Swap&lt;String&gt;(ref s1, ref s2);
+                Console.WriteLine(&quot;s1={0}, s2={1}&quot;, s1, s2);
+                }</PRE><P>
+		<A NAME="CHP-12-FNOTE-1"></A>Using generic types with methods
+		that take <CODE>out</CODE> and <CODE>ref</CODE> parameters can
+		be particularly interesting because the variable you pass as an
+		<CODE>out/ref</CODE> argument must be the same type as the
+		method&rsquo;s parameter to avoid a potential type safety
+		exploit. This issue related to <CODE>out/ref</CODE> parameters
+		is discussed toward the end of the <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch09_html#passing_parameters_by_reference_to_a_met">Passing
+		  Parameters by Reference to a Method</A> section in <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch09_html">Chapter&nbsp;9</A>.
+		In fact, the <CODE>Interlocked</CODE> class&rsquo;s <CODE>Exchange</CODE>
+		and <CODE>CompareExchange</CODE> methods offer generic overloads
+		for precisely this reason.<SUP>[<A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#ftn.CHP-12-FNOTE-1">9</A>]</SUP>.</P>
+	      <PRE><A NAME="I_programlisting9_id366556"></A>public static class Interlocked {
+                public static T Exchange&lt;T&gt;(ref T location1, T value) where T: class;
+                public static T CompareExchange&lt;T&gt;(
+                ref T location1, T value, T comparand) where T: class;
+                }</PRE><H2>
+		<A NAME="generic_methods_and_type_inference"></A>Generic Methods
+		and Type Inference</H2>
+	      <P><A NAME="idx-CHP-12-0862"></A><A NAME="idx-CHP-12-0863"></A><A NAME="idx-CHP-12-0864"></A>
+		For many developers, the C# generic syntax can be confusing with
+		all of its less-than and greater-than signs. To help improve
+		code creation, readability, and maintainability, the C# compiler
+		offers <EM>type inference</EM> when calling a generic method.
+		Type inference means that the compiler attempts to determine (or
+		infer) the type to use automatically when calling a generic
+		method. Here is some code that demonstrates type inference.</P>
+	      <PRE><A NAME="I_programlisting9_id366676"></A>private static void CallingSwapUsingInference() {
+                Int32 n1 = 1, n2 = 2;
+                Swap(ref n1, ref n2);// Calls Swap&lt;Int32&gt;
+
+                String s1 = &quot;Aidan&quot;;
+                Object s2 = &quot;Grant&quot;;
+                Swap(ref s1, ref s2);// Error, type can't be inferred
+                }</PRE><P>
+		In this code, notice that the calls to <CODE>Swap</CODE> do not
+		specify type arguments in less-than/greater-than signs. In the
+		first call to <CODE>Swap</CODE>, the C# compiler was able to
+		infer that <CODE>n1</CODE> and <CODE>n2</CODE> are <CODE>Int32</CODE>s,
+		and therefore, it should call <CODE>Swap</CODE> by using an
+		<CODE>Int32</CODE> type argument.</P>
+	      <P>When performing type inference, C# uses the variable&rsquo;s
+		data type, not the actual type of the object referred to by the
+		variable. So in the second call to <CODE>Swap</CODE>, C# sees
+		that <CODE>s1</CODE> is a <CODE>String</CODE> and <CODE>s2</CODE>
+		is an <CODE>Object</CODE> (even though it happens to refer to a
+		<CODE>String</CODE>). Because <CODE>s1</CODE> and <CODE>s2</CODE>
+		are variables of different data types, the compiler can&rsquo;t
+		accurately infer the type to use for <CODE>Swap</CODE>&rsquo;s
+		type argument, and it issues the following message: <CODE>error
+		  CS0411: The type arguments for method &lsquo;Program.Swap&lt;T&gt;(ref
+		  T, ref T)&rsquo; cannot be inferred from the usage. Try
+		  specifying the type arguments explicitly.</CODE></P>
+	      <P><A NAME="idx-CHP-12-0865"></A>A type can define multiple
+		methods with one of its methods taking a specific data type and
+		another taking a generic type parameter, as in the following
+		example.</P>
+	      <PRE><A NAME="I_programlisting9_id366769"></A><A NAME="idx-CHP-12-0866"></A>private static void Display(String s) {
+                Console.WriteLine(s);
+                }
+
+                private static void Display&lt;T&gt;(T o) {
+                Display(o.ToString());  // Calls Display(String)
+                }</PRE><P>
+		Here are some ways to call the <CODE>Display</CODE> method.</P>
+	      <PRE><A NAME="I_programlisting9_id366787"></A>Display(&quot;Jeff&quot;);           // Calls Display(String)
+                Display(123);              // Calls Display&lt;T&gt;(T)
+                Display&lt;String&gt;(&quot;Aidan&quot;);  // Calls Display&lt;T&gt;(T)</PRE><P>
+		<A NAME="idx-CHP-12-0867"></A>In the first call, the compiler
+		could actually call either the <CODE>Display</CODE> method that
+		takes a <CODE>String</CODE> or the generic <CODE>Display</CODE>
+		method (replacing <CODE>T</CODE> with <CODE>String</CODE>).
+		However, the C# compiler always prefers a more explicit match
+		over a generic match, and therefore, it generates a call to the
+		non-generic <CODE>Display</CODE> method that takes a <CODE>String</CODE>.
+		For the second call, the compiler can&rsquo;t call the
+		non-generic <CODE>Display</CODE> method that takes a <CODE>String</CODE>,
+		so it must call the generic <CODE>Display</CODE> method. By the
+		way, it is fortunate that the compiler always prefers the more
+		explicit match; if the compiler had preferred the generic
+		method, because the generic <CODE>Display</CODE> method calls
+		<CODE>Display</CODE> again (but with a <CODE>String</CODE>
+		returned by <CODE>ToString</CODE>), there would have been
+		infinite recursion.</P>
+	      <P>The third call to <CODE>Display</CODE> specifies a generic
+		type argument, <CODE>String</CODE>. This tells the compiler not
+		to try to infer type arguments but instead to use the type
+		arguments that I explicitly specified. In this case, the
+		compiler also assumes that I must really want to call the
+		generic <CODE>Display</CODE> method, so the generic <CODE>Display</CODE>
+		will be called. Internally, the generic <CODE>Display</CODE>
+		method will call <CODE>ToString</CODE> on the passed-in string,
+		which results in a string that is then passed to the non-generic
+		<CODE>Display</CODE> method.</P>
+	      <H1><A NAME="generics_and_other_members"></A>Generics and Other
+		Members</H1>
+	      <P><A NAME="idx-CHP-12-0868"></A><A NAME="idx-CHP-12-0869"></A>In
+		C#, properties, indexers, events, operator methods,
+		constructors, and finalizers cannot themselves have type
+		parameters. However, they can be defined within a generic type,
+		and the code in these members can use the type&rsquo;s type
+		parameters.</P>
+	      <P>C# doesn&rsquo;t allow these members to specify their own
+		generic type parameters because Microsoft&rsquo;s C# team
+		believes that developers would rarely have a need to use these
+		members as generic. Furthermore, the cost of adding generic
+		support to these members would be quite high in terms of
+		designing adequate syntax into the language. For example, when
+		you use a + operator in code, the compiler could call an
+		operator overload method. There is no way to indicate any type
+		arguments in your code along with the + operator.</P>
+	      <H1><A NAME="verifiability_and_constraints"></A>Verifiability
+		and Constraints</H1>
+	      <P><A NAME="idx-CHP-12-0870"></A>When compiling generic code,
+		the C# compiler analyzes it and ensures that the code will work
+		for any type that exists today or that may be defined in the
+		future. Let&rsquo;s look at the following method.</P>
+	      <PRE><A NAME="I_programlisting9_id366959"></A>private static Boolean MethodTakingAnyType&lt;T&gt;(T o) {
+                T temp = o;
+                Console.WriteLine(o.ToString());
+                Boolean b = temp.Equals(o);
+                return b;
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0871"></A>This method declares a temporary
+		variable (<CODE>temp</CODE>) of type <CODE>T</CODE>, and then
+		the method performs a couple of variable assignments and a few
+		method calls. This method works for any type. If <CODE>T</CODE>
+		is a reference type, it works. If <CODE>T</CODE> is a value or
+		enumeration type, it works. If <CODE>T</CODE> is an interface or
+		delegate type, it works. This method works for all types that
+		exist today or that will be defined tomorrow because every type
+		supports assignment and calls to methods defined by <CODE>Object</CODE>
+		(such as <CODE>ToString</CODE> and <CODE>Equals</CODE>).</P>
+	      <P>Now look at the following method.</P>
+	      <PRE><A NAME="I_programlisting9_id367011"></A>private static T Min&lt;T&gt;(T o1, T o2) {
+                if (o1.CompareTo(o2) &lt; 0) return o1;
+                return o2;
+                }</PRE><P>
+		The <CODE>Min</CODE> method attempts to use the <CODE>o1</CODE>
+		variable to call the <CODE>CompareTo</CODE> method. But there
+		are lots of types that do not offer a <CODE>CompareTo</CODE>
+		method, and therefore, the C# compiler can&rsquo;t compile this
+		code and guarantee that this method would work for all types. If
+		you attempt to compile the above code, the compiler issues the
+		following message: <CODE>error CS1061: &lsquo;T&rsquo; does not
+		  contain a definition for &lsquo;CompareTo&rsquo; accepting a
+		  first argument of type &lsquo;T&rsquo; could be found (are you
+		  missing a using directive or an assembly reference?)</CODE></P>
+	      <P><A NAME="idx-CHP-12-0872"></A><A NAME="idx-CHP-12-0873"></A>So
+		it would seem that when using generics, you can declare
+		variables of a generic type, perform some variable assignments,
+		call methods defined by <CODE>Object</CODE>, and that&rsquo;s
+		about it! This makes generics practically useless. Fortunately,
+		compilers and the CLR support a mechanism called constraints
+		that you can take advantage of to make generics useful again.</P>
+	      <P><A NAME="idx-CHP-12-0874"></A>A constraint is a way to limit
+		the number of types that can be specified for a generic
+		argument. Limiting the number of types allows you to do more
+		with those types. Here is a new version of the <CODE>Min</CODE>
+		method that specifies a constraint (in bold).</P>
+	      <PRE><A NAME="I_programlisting9_id367087"></A>public static T Min&lt;T&gt;(T o1, T o2) <STRONG><CODE>where T : IComparable</CODE></STRONG>
+                <STRONG><CODE>&lt;T&gt;</CODE></STRONG> {
+                if (o1.CompareTo(o2) &lt; 0) return o1;
+                return o2;
+                }</PRE><P>
+		The C# <CODE>where</CODE> token tells the compiler that any type
+		specified for <CODE>T</CODE> must implement the generic
+		<CODE>IComparable</CODE> interface of the same type (<CODE>T</CODE>).
+		Because of this constraint, the compiler now allows the method
+		to call the <CODE>CompareTo</CODE> method because this method is
+		defined by the <CODE>IComparable&lt;T&gt;</CODE> interface.</P>
+	      <P>Now, when code references a generic type or method, the
+		compiler is responsible for ensuring that a type argument that
+		meets the constraints is specified. For example, the following
+		code causes the compiler to issue the following message: <CODE>error
+		  CS0311: The type &lsquo;object&rsquo; cannot be used as type
+		  parameter &lsquo;T&rsquo; in the generic type or method
+		  &lsquo;SomeType.Min&lt;T&gt;(T, T)&rsquo;. There is no implicit
+		  reference conversion from &lsquo;object&rsquo; to
+		  &lsquo;System.IComparable&lt;object&gt;&rsquo;.</CODE></P>
+	      <PRE><A NAME="I_programlisting9_id367135"></A>private static void CallMin() {
+                Object o1 = &quot;Jeff&quot;, o2 = &quot;Richter&quot;;
+                Object oMin = Min&lt;Object&gt;(o1, o2);  // Error CS0311
+                }</PRE><P>
+		The compiler issues the error because <CODE>System.Object</CODE>
+		doesn&rsquo;t implement the <CODE>IComparable&lt;Object&gt;</CODE>
+		interface. In fact, <CODE>System.Object</CODE> doesn&rsquo;t
+		implement any interfaces at all.</P>
+	      <P><A NAME="idx-CHP-12-0875"></A><A NAME="idx-CHP-12-0876"></A><A NAME="idx-CHP-12-0877"></A><A NAME="idx-CHP-12-0878"></A>
+		Now that you have a sense of what constraints are and how they
+		work, we&rsquo;ll start to look a little deeper into them.
+		Constraints can be applied to a generic type&rsquo;s type
+		parameters as well as to a generic method&rsquo;s type
+		parameters (as shown in the <CODE>Min</CODE> method). The CLR
+		doesn&rsquo;t allow overloading based on type parameter names or
+		constraints; you can overload types or methods based only on
+		arity. The following examples show what I mean.</P>
+	      <PRE><A NAME="I_programlisting9_id367202"></A>// It is OK to define the following types:
+                internal sealed class AType {}
+                internal sealed class AType&lt;T&gt; {}
+                internal sealed class AType&lt;T1, T2&gt; {}
+
+                // Error: conflicts with AType&lt;T&gt; that has no constraints
+                internal sealed class AType&lt;T&gt; where T : IComparable&lt;T&gt; {}
+
+                // Error: conflicts with AType&lt;T1, T2&gt;
+                internal sealed class AType&lt;T3, T4&gt; {}
+
+                internal sealed class AnotherType {
+                // It is OK to define the following methods:
+                private static void M() {}
+                private static void M&lt;T&gt;() {}
+                private static void M&lt;T1, T2&gt;() {}
+
+                // Error: conflicts with M&lt;T&gt; that has no constraints
+                private static void M&lt;T&gt;() where T : IComparable&lt;T&gt; {}
+
+                // Error: conflicts with M&lt;T1, T2&gt;
+                private static void M&lt;T3, T4&gt;() {}
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0879"></A><A NAME="idx-CHP-12-0880"></A>When
+		overriding a virtual generic method, the overriding method must
+		specify the same number of type parameters, and these type
+		parameters will inherit the constraints specified on them by the
+		base class&rsquo;s method. In fact, the overriding method is not
+		allowed to specify any constraints on its type parameters at
+		all. However, it can change the names of the type parameters.
+		Similarly, when implementing an interface method, the method
+		must specify the same number of type parameters as the interface
+		method, and these type parameters will inherit the constraints
+		specified on them by the interface&rsquo;s method. Here is an
+		example that demonstrates this rule by using virtual methods.</P>
+	      <PRE><A NAME="I_programlisting9_id367238"></A>internal class Base {
+                public virtual void M&lt;T1, T2&gt;()
+                where T1 : struct
+                where T2 : class {
+                }
+                }
+
+                internal sealed class Derived : Base {
+                public override void M&lt;T3, T4&gt;()
+                where T3 : EventArgs  // Error
+                where T4 : class      // Error
+                { }
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0881"></A><A NAME="idx-CHP-12-0882"></A><A NAME="idx-CHP-12-0883"></A>
+		Attempting to compile the preceding code causes the compiler to
+		issue the following message: <CODE>error CS0460: Constraints for
+		  override and explicit interface implementation methods are
+		  inherited from the base method, so they cannot be specified
+		  directly.</CODE> If we remove the two <CODE>where</CODE> lines
+		from the <CODE>Derived</CODE> class&rsquo;s <CODE>M&lt;T3, T4&gt;</CODE>
+		method, the code will compile just fine. Notice that you can
+		change the names of the type parameters (as in the example: from
+		<CODE>T1</CODE> to <CODE>T3</CODE> and <CODE>T2</CODE> to <CODE>T4</CODE>);
+		however, you cannot change (or even specify) constraints.</P>
+	      <P><A NAME="idx-CHP-12-0884"></A>Now let&rsquo;s talk about the
+		different kinds of constraints the compiler/CLR allows you to
+		apply to a type parameter. A type parameter can be constrained
+		by using a <EM>primary constraint</EM>, a <EM>secondary
+		  constraint</EM>, and/or a <EM>constructor constraint</EM>. I&rsquo;ll
+		talk about these three kinds of constraints in the next three
+		sections.</P>
+	      <H2><A NAME="primary_constraints"></A>Primary Constraints</H2>
+	      <P><A NAME="idx-CHP-12-0885"></A><A NAME="idx-CHP-12-0886"></A><A NAME="idx-CHP-12-0887"></A>
+		A type parameter can specify zero primary constraints or one
+		primary constraint. A primary constraint can be a reference type
+		that identifies a class that is not sealed. You cannot specify
+		one of the following special reference types: <CODE>System.Object</CODE>,<CODE>
+		  System.Array</CODE>,<CODE> System.Delegate</CODE>,<CODE>
+		  System.MulticastDelegate</CODE>,<CODE> System.ValueType</CODE>,<CODE>
+		  System.Enum</CODE>, or <CODE>System.Void</CODE>.</P>
+	      <P>When specifying a reference type constraint, you are
+		promising the compiler that a specified type argument will
+		either be of the same type or of a type derived from the
+		constraint type. For example, see the following generic class.</P>
+	      <PRE><A NAME="I_programlisting9_id367404"></A>internal sealed class PrimaryConstraintOfStream&lt;T&gt; where T : Stream {
+                public void M(T stream) {
+                stream.Close();// OK
+                }
+                }</PRE><P>
+		In this class definition, the type parameter <CODE>T</CODE> has
+		a primary constraint of <CODE>Stream</CODE> (defined in the
+		<CODE>System.IO</CODE> namespace). This tells the compiler that
+		code using <CODE>PrimaryConstraintOfStream</CODE> must specify a
+		type argument of <CODE>Stream</CODE> or a type derived from
+		<CODE>Stream</CODE> (such as <CODE>FileStream</CODE>). If a type
+		parameter doesn&rsquo;t specify a primary constraint,
+		<CODE>System.Object</CODE> is assumed. However, the C# compiler
+		issues an error message (<CODE>error CS0702: Constraint cannot
+		  be special class &lsquo;object&rsquo;</CODE>) if you explicitly
+		specify <CODE>System.Object</CODE> in your source code.</P>
+	      <P><A NAME="idx-CHP-12-0888"></A>There are two special primary
+		constraints: <CODE>class</CODE> and <CODE>struct</CODE>. The
+		<CODE>class</CODE> constraint promises the compiler that a
+		specified type argument will be a reference type. Any class
+		type, interface type, delegate type, or array type satisfies
+		this constraint. For example, see the following generic class.</P>
+	      <PRE><A NAME="I_programlisting9_id367475"></A>internal sealed class PrimaryConstraintOfClass&lt;T&gt; where T : class {
+                public void M() {
+                T temp = null;// Allowed because T must be a reference type
+                }
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0889"></A>In this example, setting <CODE>temp</CODE>
+		to <CODE>null</CODE> is legal because <CODE>T</CODE> is known to
+		be a reference type, and all reference type variables can be set
+		to <CODE>null</CODE>. If <CODE>T</CODE> were unconstrained, the
+		preceding code would not compile because <CODE>T</CODE> could be
+		a value type, and value type variables cannot be set to <CODE>null</CODE>.</P>
+	      <P><A NAME="idx-CHP-12-0890"></A>The <CODE>struct</CODE>
+		constraint promises the compiler that a specified type argument
+		will be a value type. Any value type, including enumerations,
+		satisfies this constraint. However, the compiler and the CLR
+		treat any <CODE>System.Nullable&lt;T&gt;</CODE> value type as a
+		special type, and nullable types do not satisfy this constraint.
+		The reason is because the <CODE>Nullable&lt;T&gt;</CODE> type
+		constrains its type parameter to <CODE>struct</CODE>, and the
+		CLR wants to prohibit a recursive type such as
+		<CODE>Nullable&lt;Nullable&lt;T&gt;&gt;</CODE>. Nullable types
+		are discussed in <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch19_html">Chapter&nbsp;19</A>.</P>
+	      <P>Here is an example class that constrains its type parameter
+		by using the <CODE>struct</CODE> constraint.</P>
+	      <PRE><A NAME="I_programlisting9_id367562"></A>internal sealed class PrimaryConstraintOfStruct&lt;T&gt; where T : struct {
+                public static T Factory() {
+                // Allowed because all value types implicitly
+                // have a public, parameterless constructor
+                return new T();
+                }
+                }</PRE><P>
+		In this example, <CODE>new</CODE>ing up a <CODE>T</CODE> is
+		legal because <CODE>T</CODE> is known to be a value type, and
+		all value types implicitly have a public, parameterless
+		constructor. If <CODE>T</CODE> were unconstrained, constrained
+		to a reference type, or constrained to <CODE>class</CODE>, the
+		above code would not compile because some reference types do not
+		have public, parameterless constructors.</P>
+	      <H2><A NAME="secondary_constraints"></A>Secondary Constraints</H2>
+	      <P><A NAME="idx-CHP-12-0891"></A><A NAME="idx-CHP-12-0892"></A><A NAME="idx-CHP-12-0893"></A><A NAME="idx-CHP-12-0894"></A>
+		A type parameter can specify zero or more secondary constraints
+		where a secondary constraint represents an interface type. When
+		specifying an interface type constraint, you are promising the
+		compiler that a specified type argument will be a type that
+		implements the interface. And because you can specify multiple
+		interface constraints, the type argument must specify a type
+		that implements all of the interface constraints (and all of the
+		primary constraints too, if specified). <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch13_html">Chapter&nbsp;13</A>
+		discusses interface constraints in detail.</P>
+	      <P><A NAME="idx-CHP-12-0895"></A>There is another kind of
+		secondary constraint called a <EM>type parameter constraint</EM>
+		(sometimes referred to as a <EM>naked type constraint</EM>).
+		This kind of constraint is used much less often than an
+		interface constraint. It allows a generic type or method to
+		indicate that there must be a relationship between specified
+		type arguments. A type parameter can have zero or more type
+		constraints applied to it. Here is a generic method that
+		demonstrates the use of a type parameter constraint.</P>
+	      <PRE><A NAME="I_programlisting9_id367666"></A>private static List&lt;TBase&gt; ConvertIList&lt;T, TBase&gt;(IList&lt;T&gt; list)
+                where T : TBase {
+                List&lt;TBase&gt; baseList = new List&lt;TBase&gt;(list.Count);
+                for (Int32 index = 0; index &lt; list.Count; index++) {
+                baseList.Add(list[index]);
+                }
+                return baseList;
+                }</PRE><P>
+		<A NAME="idx-CHP-12-0896"></A>The <CODE>ConvertIList</CODE>
+		method specifies two type parameters in which the <CODE>T</CODE>
+		parameter is constrained by the <CODE>TBase</CODE> type
+		parameter. This means that whatever type argument is specified
+		for <CODE>T</CODE>, the type argument must be compatible with
+		whatever type argument is specified for <CODE>TBase</CODE>. Here
+		is a method showing some legal and illegal calls to
+		<CODE>ConvertIList</CODE>.</P>
+	      <PRE><A NAME="I_programlisting9_id367705"></A>private static void CallingConvertIList() {
+                // Construct and initialize a List&lt;String&gt; (which implements IList&lt;String&gt;)
+                IList&lt;String&gt; ls = new List&lt;String&gt;();
+                ls.Add(&quot;A String&quot;);
+
+                // Convert the IList&lt;String&gt; to an IList&lt;Object&gt;
+                IList&lt;Object&gt; lo = ConvertIList&lt;String, Object&gt;(ls);
+
+                // Convert the IList&lt;String&gt; to an IList&lt;IComparable&gt;
+                IList&lt;IComparable&gt; lc = ConvertIList&lt;String, IComparable&gt;(ls);
+
+                // Convert the IList&lt;String&gt; to an IList&lt;IComparable&lt;String&gt;&gt;
+                IList&lt;IComparable&lt;String&gt;&gt; lcs =
+                ConvertIList&lt;String, IComparable&lt;String&gt;&gt;(ls);
+
+                // Convert the IList&lt;String&gt; to an IList&lt;String&gt;
+                IList&lt;String&gt; ls2 = ConvertIList&lt;String, String&gt;(ls);
+
+                // Convert the IList&lt;String&gt; to an IList&lt;Exception&gt;
+                IList&lt;Exception&gt; le = ConvertIList&lt;String, Exception&gt;(ls);// Error
+                }</PRE><P>
+		In the first call to <CODE>ConvertIList</CODE>, the compiler
+		ensures that <CODE>String</CODE> is compatible with <CODE>Object</CODE>.
+		Because <CODE>String</CODE> is derived from <CODE>Object</CODE>,
+		the first call adheres to the type parameter constraint. In the
+		second call to <CODE>ConvertIList</CODE>, the compiler ensures
+		that <CODE>String</CODE> is compatible with <CODE>IComparable</CODE>.
+		Because <CODE>String</CODE> implements the <CODE>IComparable</CODE>
+		interface, the second call adheres to the type parameter
+		constraint. In the third call to <CODE>ConvertIList</CODE>, the
+		compiler ensures that <CODE>String</CODE> is compatible with
+		<CODE>IComparable&lt;String&gt;</CODE>. Because <CODE>String</CODE>
+		implements the <CODE>IComparable&lt;String&gt;</CODE> interface,
+		the third call adheres to the type parameter constraint. In the
+		fourth call to <CODE>ConvertIList</CODE>, the compiler knows
+		that <CODE>String</CODE> is compatible with itself. In the fifth
+		call to <CODE>ConvertIList</CODE>, the compiler ensures that
+		<CODE>String</CODE> is compatible with <CODE>Exception</CODE>.
+		Because <CODE>String</CODE> is not compatible with <CODE>Exception</CODE>,
+		the fifth call doesn&rsquo;t adhere to the type parameter
+		constraint, and the compiler issues the following message: <CODE>error
+		  CS0311: The type &lsquo;string&rsquo; cannot be used as type
+		  parameter &lsquo;T&rsquo; in the generic type or method
+		  Program.ConvertIList&lt;T,TBase&gt;(System.Collections.Generic.IList&lt;T&gt;)&rsquo;.
+		  There is no implicit reference conversion from &lsquo;string&rsquo;
+		  to &lsquo;System.Exception&rsquo;.</CODE></P>
+	      <H2><A NAME="constructor_constraints"></A>Constructor
+		Constraints</H2>
+	      <P><A NAME="idx-CHP-12-0897"></A><A NAME="idx-CHP-12-0898"></A><A NAME="idx-CHP-12-0899"></A><A NAME="idx-CHP-12-0900"></A>
+		A type parameter can specify zero constructor constraints or one
+		constructor constraint. When specifying a constructor
+		constraint, you are promising the compiler that a specified type
+		argument will be a non-abstract type that implements a public,
+		parameterless constructor. Note that the C# compiler considers
+		it an error to specify a constructor constraint with the <CODE>struct</CODE>
+		constraint because it is redundant; all value types implicitly
+		offer a public, parameterless constructor. Here is an example
+		class that constrains its type parameter by using the
+		constructor constraint.</P>
+	      <PRE><A NAME="I_programlisting9_id367862"></A>internal sealed class ConstructorConstraint&lt;T&gt; where T : new() {
+                public static T Factory() {
+                // Allowed because all value types implicitly
+                // have a public, parameterless constructor and because
+                // the constraint requires that any specified reference
+                // type also have a public, parameterless constructor
+                return new T();
+                }
+                }</PRE><P>
+		In this example, <CODE>new</CODE>ing up a <CODE>T</CODE> is
+		legal because <CODE>T</CODE> is known to be a type that has a
+		public, parameterless constructor. This is certainly true of all
+		value types, and the constructor constraint requires that it be
+		true of any reference type specified as a type argument.</P>
+	      <P>Sometimes developers would like to declare a type parameter
+		by using a constructor constraint whereby the constructor takes
+		various parameters itself. As of now, the CLR (and therefore the
+		C# compiler) supports only parameterless constructors. Microsoft
+		feels that this will be good enough for almost all scenarios,
+		and I agree.</P>
+	      <H2><A NAME="other_verifiability_issues"></A>Other Verifiability
+		Issues</H2>
+	      <P><A NAME="idx-CHP-12-0901"></A><A NAME="idx-CHP-12-0902"></A>In
+		the remainder of this section, I&rsquo;d like to point out a few
+		other code constructs that have unexpected behavior when used
+		with generics due to verifiability issues and how constraints
+		can be used to make the code verifiable again.</P>
+	      <H3><A NAME="casting_a_generic_type_variable"></A>Casting a
+		Generic Type Variable</H3>
+	      <P><A NAME="idx-CHP-12-0903"></A>Casting a generic type variable
+		to another type is illegal unless you are casting to a type
+		compatible with a constraint.</P>
+	      <PRE><A NAME="I_programlisting9_id367948"></A>private static void CastingAGenericTypeVariable1&lt;T&gt;(T obj) {
+                Int32  x = (Int32) obj;   // Error
+                String s = (String) obj;  // Error
+                }</PRE><P>
+		The compiler issues an error on both lines above because <CODE>T</CODE>
+		could be any type, and there is no guarantee that the casts will
+		succeed. You can modify this code to get it to compile by
+		casting to <CODE>Object</CODE> first.</P>
+	      <PRE><A NAME="I_programlisting9_id367965"></A>private static void CastingAGenericTypeVariable2&lt;T&gt;(T obj) {
+                Int32  x = (Int32) (Object) obj;   // No error
+                String s = (String) (Object) obj;  // No error
+                }</PRE><P>
+		Although this code will now compile, it is still possible for
+		the CLR to throw an <CODE>InvalidCastException</CODE> at run
+		time.</P>
+	      <P><A NAME="idx-CHP-12-0904"></A>If you are trying to cast to a
+		reference type, you can also use the C# <CODE>as</CODE>
+		operator. Here is code modified to use the <CODE>as</CODE>
+		operator with <CODE>String</CODE> (because <CODE>Int32</CODE> is
+		a value type).</P>
+	      <PRE><A NAME="I_programlisting9_id368004"></A>private static void CastingAGenericTypeVariable3&lt;T&gt;(T obj) {
+                String s = obj as String;  // No error
+                }</PRE><H3>
+		<A NAME="setting_a_generic_type_variable_to_a_def"></A>Setting a
+		Generic Type Variable to a Default Value</H3>
+	      <P><A NAME="idx-CHP-12-0905"></A>Setting a generic type variable
+		to <CODE>null</CODE> is illegal unless the generic type is
+		constrained to a reference type.</P>
+	      <PRE><A NAME="I_programlisting9_id368036"></A>private static void SettingAGenericTypeVariableToNull&lt;T&gt;() {
+                T temp = null;    // CS0403 - Cannot convert null to type parameter 'T' because it coul
+                d
+                // be a non-nullable value type. Consider using 'default(T)' instead
+                }</PRE><P>
+		Because <CODE>T</CODE> is unconstrained, it could be a value
+		type, and setting a variable of a value type to <CODE>null</CODE>
+		is not possible. If <CODE>T</CODE> were constrained to a
+		reference type, setting <CODE>temp</CODE> to <CODE>null</CODE>
+		would compile and run just fine.</P>
+	      <P>Microsoft&rsquo;s C# team felt that it would be useful to
+		give developers the ability to set a variable to a default
+		value. So the C# compiler allows you to use the <CODE>default</CODE>
+		keyword to accomplish this.</P>
+	      <PRE><A NAME="I_programlisting9_id368073"></A>private static void SettingAGenericTypeVariableToDefaultValue&lt;T&gt;() {
+                T temp = default(T);  // OK
+                }</PRE><P>
+		The use of the <CODE>default</CODE> keyword above tells the C#
+		compiler and the CLR&rsquo;s JIT compiler to produce code to set
+		<CODE>temp</CODE> to <CODE>null</CODE> if <CODE>T</CODE> is a
+		reference type and to set <CODE>temp</CODE> to all-bits-zero if
+		<CODE>T</CODE> is a value type.</P>
+	      <H3><A NAME="comparing_a_generic_type_variable_with_n"></A>Comparing
+		a Generic Type Variable with null</H3>
+	      <P><A NAME="idx-CHP-12-0906"></A><A NAME="idx-CHP-12-0907"></A>Comparing
+		a generic type variable to <CODE>null</CODE> by using the <CODE>==</CODE>
+		or <CODE>!=</CODE> operator is legal regardless of whether the
+		generic type is constrained.</P>
+	      <PRE><A NAME="I_programlisting9_id368147"></A>private static void ComparingAGenericTypeVariableWithNull&lt;T&gt;(T obj) {
+                if (obj == null) { /* Never executes for a value type */ }
+                }</PRE><P>
+		Because <CODE>T</CODE> is unconstrained, it could be a reference
+		type or a value type. If <CODE>T</CODE> is a value type, <CODE>obj</CODE>
+		can never be <CODE>null</CODE>. Normally, you&rsquo;d expect the
+		C# compiler to issue an error because of this. However, the C#
+		compiler does not issue an error; instead, it compiles the code
+		just fine. When this method is called using a type argument that
+		is a value type, the JIT compiler sees that the <CODE>if</CODE>
+		statement can never be true, and the JIT compiler will not emit
+		the native code for the <CODE>if</CODE> test or the code in the
+		braces. If I had used the <CODE>!=</CODE> operator, the JIT
+		compiler would not emit the code for the <CODE>if</CODE> test
+		(because it is always true), and it will emit the code inside
+		the <CODE>if</CODE>&rsquo;s braces.</P>
+	      <P>By the way, if <CODE>T</CODE> had been constrained to a
+		<CODE>struct</CODE>, the C# compiler would issue an error
+		because you shouldn&rsquo;t be writing code that compares a
+		value type variable with <CODE>null</CODE> because the result is
+		always the same.</P>
+	      <H3><A NAME="comparing_two_generic_type_variables_wit"></A>Comparing
+		Two Generic Type Variables with Each Other</H3>
+	      <P><A NAME="idx-CHP-12-0908"></A><A NAME="idx-CHP-12-0909"></A>Comparing
+		two variables of the same generic type is illegal if the generic
+		type parameter is not known to be a reference type.</P>
+	      <PRE><A NAME="I_programlisting9_id368240"></A>private static void ComparingTwoGenericTypeVariables&lt;T&gt;(T o1, T o2) {
+                if (o1 == o2) { }  // Error
+                }</PRE><P>
+		In this example, <CODE>T</CODE> is unconstrained, and whereas it
+		is legal to compare two reference type variables with one
+		another, it is not legal to compare two value type variables
+		with one another unless the value type overloads the <CODE>==</CODE>
+		operator. If <CODE>T</CODE> were constrained to <CODE>class</CODE>,
+		this code would compile, and the <CODE>==</CODE> operator would
+		return <CODE>true</CODE> if the variables referred to the same
+		object, checking for exact identity. Note that if <CODE>T</CODE>
+		were constrained to a reference type that overloaded the
+		<CODE>operator ==</CODE> method, the compiler would emit calls
+		to this method when it sees the <CODE>==</CODE> operator.
+		Obviously, this whole discussion applies to uses of the <CODE>!=</CODE>
+		operator too.</P>
+	      <P>When you write code to compare the primitive value
+		types&mdash;<CODE>Byte, Int32, Single, Decimal</CODE>, etc.&mdash;the
+		C# compiler knows how to emit the right code. However, for
+		non-primitive value types, the C# compiler doesn&rsquo;t know
+		how to emit the code to do comparisons. So if
+		<CODE>ComparingTwoGenericTypeVariables</CODE> method&rsquo;s <CODE>T</CODE>
+		were constrained to <CODE>struct</CODE>, the compiler would
+		issue an error. And you&rsquo;re not allowed to constrain a type
+		parameter to a specific value type because it is implicitly
+		sealed, and therefore no types exist that are derived from the
+		value type. Allowing this would make the generic method
+		constrained to a specific type, and the C# compiler doesn&rsquo;t
+		allow this because it is more efficient to just make a
+		non-generic method.</P>
+	      <H3><A NAME="using_generic_type_variables_as_operands"></A>Using
+		Generic Type Variables as Operands</H3>
+	      <P><A NAME="idx-CHP-12-0910"></A><A NAME="idx-CHP-12-0911"></A>Finally,
+		it should be noted that there are a lot of issues about using
+		operators with generic type operands. In <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch05_html">Chapter&nbsp;5</A>,
+		I talked about C# and how it handles its primitive types: <CODE>Byte,
+		  Int16, Int32, Int64, Decimal</CODE>, and so on. In particular, I
+		mentioned that C# knows how to interpret operators (such as <CODE>+</CODE>,<CODE>
+		  -</CODE>,<CODE> *</CODE>, and <CODE>/</CODE>) when applied to
+		the primitive types. Well, these operators can&rsquo;t be
+		applied to variables of a generic type because the compiler
+		doesn&rsquo;t know the type at compile time. This means that you
+		can&rsquo;t use any of these operators with variables of a
+		generic type. So it is impossible to write a mathematical
+		algorithm that works on an arbitrary numeric data type. Here is
+		an example of a generic method that I&rsquo;d like to write.</P>
+	      <PRE><A NAME="I_programlisting9_id368370"></A>private static T Sum&lt;T&gt;(T num) where T : struct {
+                T sum = default(T) ;
+                for (T n = default(T) ; n &lt; num ; n++)
+                sum += n;
+                return sum;
+                }</PRE><P>
+		I&rsquo;ve done everything possible to try to get this method to
+		compile. I&rsquo;ve constrained <CODE>T</CODE> to <CODE>struct</CODE>,
+		and I&rsquo;m using <CODE>default(T)</CODE> to initialize <CODE>sum</CODE>
+		and <CODE>n</CODE> to <CODE>0</CODE>. But when I compile this
+		code, I get the following three errors.</P>
+	      <UL>
+		<LI><P><CODE>error CS0019: Operator &lsquo;&lt;&rsquo; cannot
+		      be applied to operands of type &lsquo;T&rsquo; and &lsquo;T&rsquo;</CODE></P>
+		<LI><P><CODE>error CS0023: Operator &lsquo;++&rsquo; cannot be
+		      applied to operand of type &lsquo;T&rsquo;</CODE></P>
+		<LI><P><CODE>error CS0019: Operator &lsquo;+=&rsquo; cannot be
+		      applied to operands of type &lsquo;T&rsquo; and &lsquo;T&rsquo;</CODE></P>
+	      </UL>
+	      <P>This is a severe limitation on the CLR&rsquo;s generic
+		support, and many developers (especially in the scientific,
+		financial, and mathematical world) are very disappointed by this
+		limitation. Many people have tried to come up with techniques to
+		work around this limitation by using reflection (see
+		<A HREF="http://techbus.safaribooksonline.com/9780735668737/ch23_html">Chapter&nbsp;23</A>),
+		the <CODE>dynamic</CODE> primitive type (see <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch05_html">Chapter&nbsp;5</A>),
+		operator overloading, and so on. But all of these cause a severe
+		performance penalty or hurt readability of the code
+		substantially. Hopefully, this is an area that Microsoft will
+		address in a future version of the CLR and the compilers.</P>
+	      <P STYLE="margin-bottom: 0cm"><BR>
+	      </P>
+	      <HR>
+	      <P><A NAME="ftn.CHP-12-FNOTE-1"></A><A NAME="idx-CHP-12-0860"></A><A NAME="idx-CHP-12-0861"></A>
+		<SUP>[<A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#CHP-12-FNOTE-1">9</A>]
+		</SUP>The <CODE>where</CODE> clause will be explained in the
+		<A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html#verifiability_and_constraints">Verifiability
+		  and Constraints</A> section later in this chapter.</P>
+	    </DIV>
+	    <DIV ID="htmlthumbnail" DIR="LTR">
+	      <P STYLE="margin-bottom: 0cm"><BR>
+	      </P>
+	      <DIV ID="t_block_list" DIR="LTR">
+		<P STYLE="margin-bottom: 0cm"><BR>
+		</P>
+	      </DIV>
+	    </DIV>
+	  </DIV>
+	  <DIV ID="readertoolbar2" DIR="LTR">
+	    <P STYLE="margin-bottom: 0cm"><BR>
+	    </P>
+	    <DIV ID="topbuttons2" DIR="LTR">
+	      <UL>
+		<LI><P STYLE="margin-bottom: 0cm"><A NAME="toolbar_logo2"></A><IMG SRC="http://techbus.safaribooksonline.com/static/201309-7379-techbus/images/6.0/rdr_toolbar/logo_toolbar_full.gif" NAME="graphics11" ALT="Safari Books Online" ALIGN=BOTTOM WIDTH=87 HEIGHT=24 BORDER=0></P>
+		<LI><P STYLE="margin-bottom: 0cm"><A NAME="bookmark2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Create
+		      Bookmark (Key: b)</A>Create Bookmark</P>
+		<LI><P STYLE="margin-bottom: 0cm"><A NAME="note2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Create
+		      Note or Tag (Key: t)</A>Create Note or Tag</P>
+		<LI><P STYLE="margin-bottom: 0cm"><A NAME="download2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Download
+		      (Key: d)</A>Download</P>
+		<LI><P STYLE="margin-bottom: 0cm"><A NAME="email2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Email
+		      This Page (Key: e)</A>Email This Page</P>
+		<LI><P><A NAME="print2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Print</A>Print</P>
+	      </UL>
+	    </DIV>
+	    <UL>
+	      <LI><P STYLE="margin-bottom: 0cm"><A NAME="thumbs2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Thumbnail
+		    View (Key: v)</A></P>
+	      <LI><P STYLE="margin-bottom: 0cm"><A NAME="zoomOutBtns2"></A><A NAME="fontdn2"></A>
+		  <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Zoom
+		    Out (Key: -)</A>Zoom Out</P>
+	      <LI><P STYLE="margin-bottom: 0cm"><A NAME="zoomInBtns2"></A><A NAME="fontup2"></A>
+		  <A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Zoom
+		    In (Key: +)</A>Zoom In</P>
+	      <LI><P STYLE="margin-bottom: 0cm"><A NAME="fullscreenbtn2"></A><A HREF="http://techbus.safaribooksonline.com/9780735668737/ch12_html?percentage=38.13014727194103&amp;reader=html#">Toggle
+		    to Full Screen (Key: f)</A></P>
+	      <LI><P STYLE="margin-bottom: 0cm"><A NAME="prevBtns2"></A><A NAME="prev2"></A>
+		  <A HREF="http://techbus.safaribooksonline.com/book/software-engineering-and-development/9780735668737/iidot-designing-types/ch11_html">Previous
+		    (Key: p)</A>Previous</P>
+	      <LI><P><A NAME="nextBtns2"></A><A NAME="next2"></A><A HREF="http://techbus.safaribooksonline.com/book/software-engineering-and-development/9780735668737/iidot-designing-types/ch13_html">Next
+		    (Key: n)</A>Next</P>
+	    </UL>
+	  </DIV>
+	  <DIV ID="SomsView" DIR="LTR">
+	    <P STYLE="margin-bottom: 0cm"><BR>
+	    </P>
+	  </DIV>
+	</DIV>
+      </DIV>
+    </DIV>
+    <DIV ID="bvdfooter100" DIR="LTR">
+      <P STYLE="margin-bottom: 0cm"><BR>
+      </P>
+    </DIV>
+    <P STYLE="margin-bottom: 0cm"><A NAME="BowEndOfDocument"></A><BR>
+    </P>
+    <P><BR><BR>
+    </P>
+  </BODY>
+</HTML>

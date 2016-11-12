@@ -1,0 +1,1240 @@
+% Created 2015-06-07 Sun 15:06
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\date{}
+\title{Interview Questions}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+\setcounter{tocdepth}{5}
+\tableofcontents
+
+\setcounter{tocdepth}{5}
+\tableofcontents
+[TABLE-OF-CONTENTS]
+
+
+\section{Design and Architecture.}
+\label{sec-1}
+
+\subsection{\underline{Object Oriented Design and Architecture}}
+\label{sec-1-1}
+
+\subsubsection{\underline{Access Modifiers}}
+\label{sec-1-1-1}
+
+\begin{enumerate}
+\item Is private member of an instance accessible with other class with same type ?
+\label{sec-1-1-1-1}
+\begin{verbatim}
+using System;
+class cls {
+    private int i;
+    public int I {
+	get { return i;  } 
+	set { i = value; }
+    }
+    public cls() {}
+    public cls (cls right) { 
+	i = right.i;        // No Error: Private member of same type is accessible
+    }
+}
+class program {
+    public static void Main () {
+	cls a = new cls ();
+	a.I = 10;
+	cls b = new cls (a);
+	Console.WriteLine (b.I);            
+    }
+}
+\end{verbatim}
+Code Reference: \href{../../code/csharp/accessibility}{Access Modifier}
+\end{enumerate}
+
+\subsubsection{Static}
+\label{sec-1-1-2}
+
+\begin{enumerate}
+\item Can static class in C\#.NET can inherit from other class ? Can Static class be inherited by other classes ?
+\label{sec-1-1-2-1}
+ANS)
+\begin{itemize}
+\item Contains only static members.
+\item Cannot be instantiated.
+\item Is sealed.
+\item Cannot contain Instance Constructors.
+\item Static classes are sealed and therefore cannot be inherited. They cannot inherit from any class except Object. Static classes cannot contain an instance constructor; however, they can contain a static constructor. Non-static classes should also define a static constructor if the class contains static members that require non-trivial initialization.
+\item \url{http://msdn.microsoft.com/en-us/library/79b3xss3.aspx}
+\end{itemize}
+
+
+\item Singleton vs Static class .
+\label{sec-1-1-2-2}
+\href{file:///P:/Books_And_Tutorials/Design/Singleton_VS_Static_Class/Singleton_vs_Static_Class.html}{Singleton VS Static class}
+\end{enumerate}
+
+\subsubsection{Lazy Initialization}
+\label{sec-1-1-3}
+\begin{enumerate}
+\item What is Lazy Initialization ?
+\label{sec-1-1-3-1}
+\item What is Double-Checked-Locking ?
+\label{sec-1-1-3-2}
+\begin{enumerate}
+\item Why volatile is used with Double-Checked-Locking ?
+\label{sec-1-1-3-2-1}
+\href{http://en.wikipedia.org/wiki/Double-checked_locking}{Double-Checked$_{\text{Initialization}}$-Wikipedia-Online}
+\href{file://c:/Books_And_Tutorials/Design/Lazy\%20Initialization/Double-Checked-Initialization.htm}{Double Checked Initialization Wikipedia offline}
+\item What is difference between Lazy and LazyInitializer class ?
+\label{sec-1-1-3-2-2}
+\href{../..//Books_And_Tutorials/DotNet/books/Threading/threading.pdf}{Lazy Initialization Albahari}
+\url{file:///C:/Users/Pralay/Google\%20Drive/SoftwareDevelopment/Books_And_Tutorials/DotNet/books/Threading/Threading_by_Albahari/www.albahari.com/threading/part3.html#_Lazy_Initialization}
+\end{enumerate}
+\end{enumerate}
+
+
+
+\subsubsection{Inheritance}
+\label{sec-1-1-4}
+\begin{enumerate}
+\item What are the advantages and disadvantages of multiple inheritance ?
+\label{sec-1-1-4-1}
+\begin{enumerate}
+\item How can we achive this via delegation ?
+\label{sec-1-1-4-1-1}
+\end{enumerate}
+\end{enumerate}
+
+\subsection{\underline{Design Pattern}}
+\label{sec-1-2}
+
+\subsubsection{Explain Visitor design pattern.}
+\label{sec-1-2-1}
+\subsubsection{IOC.}
+\label{sec-1-2-2}
+\begin{enumerate}
+\item What are the benefits of IOC ?
+\label{sec-1-2-2-1}
+\item What is the difference between IOC and DI ?
+\label{sec-1-2-2-2}
+\item How IOC simplify unit testing ?
+\label{sec-1-2-2-3}
+\end{enumerate}
+\subsubsection{What is Observer pattern. How we can implement it in c\# if we don't have events ?}
+\label{sec-1-2-3}
+\begin{enumerate}
+\item What is difference between observer pattern and publisher subscriber pattern?
+\label{sec-1-2-3-1}
+\end{enumerate}
+\subsubsection{What is MVVM ?}
+\label{sec-1-2-4}
+\href{../../Books_and_Tutorials/Design/MVVM/MVVM.html}{MVVM Pattern}
+\subsubsection{What is MVC ?}
+\label{sec-1-2-5}
+\href{../../Books_and_Tutorials/Design/MVC/MVC.html}{MVC Pattern}
+\subsubsection{What is worker thread pattern ? \# TODO}
+\label{sec-1-2-6}
+\href{../../books_and_tutorials/design/workerthreadpattern/workerthreadpattern.pdf}{Worker Thread Pattern (Chapter from Book)}
+
+\subsection{Singleton Pattern}
+\label{sec-1-3}
+\subsubsection{\ref{sec-1-1-2-2}}
+\label{sec-1-3-1}
+\subsubsection{\ref{sec-1-1-3-1}}
+\label{sec-1-3-2}
+\subsubsection{\ref{sec-1-1-3-2}}
+\label{sec-1-3-3}
+
+\subsection{Design a website which provides pizza . It provides daily offer. How to implement Price class when there are dynamic Offers ?}
+\label{sec-1-4}
+\subsection{Write a code to represent Address Book with name,contact number and email. IT can be search able by all the members.}
+\label{sec-1-5}
+
+\subsection{\underline{Software Development Metodologies.}}
+\label{sec-1-6}
+
+\subsubsection{What are different types of Software Development Methodologies ? What is Agile Methodology ? What is TDD ? What is Scrum ?}
+\label{sec-1-6-1}
+\begin{itemize}
+\item References:  \href{../../sdlc/Agile_And_Other_Methodologies/Agile_And_Other_Methodologies.html}{Agile and other methodologies}
+\end{itemize}
+\subsubsection{What is continuous integration ?}
+\label{sec-1-6-2}
+\begin{itemize}
+\item Reference:  \href{../../sdlc/ContinousIntegration/ContinousIntegration.html}{Continuous Integration}
+\end{itemize}
+\subsubsection{What is TestDrivenDevelopment ?}
+\label{sec-1-6-3}
+\begin{itemize}
+\item Reference: \href{../../sdlc/TestDrivenDevelopment/TestDrivenDevelopment.html}{Test Driven Development}
+\end{itemize}
+
+\rule{\linewidth}{0.5pt}
+
+\section{C++ Questions}
+\label{sec-2}
+
+\subsection{Access Modifier}
+\label{sec-2-1}
+\href{http://stackoverflow.com/questions/3246761/protected-vs-private-destructor}{Stackoverflow article}
+\subsubsection{What is the use of private destructor ?}
+\label{sec-2-1-1}
+Ans) The class can't be instantiated.
+\subsubsection{What is the use of protected destructor ?}
+\label{sec-2-1-2}
+Ans) The class can't be instantiated only derived class can be instantiated.
+
+\subsection{\underline{Threading}}
+\label{sec-2-2}
+
+\subsubsection{\underline{Timer in C++.}}
+\label{sec-2-2-1}
+\begin{enumerate}
+\item What are the different timer classes provided in boost and standard c++ ?
+\label{sec-2-2-1-1}
+\item Does it has a separate timer thread as csharp ? How does it works ?
+\label{sec-2-2-1-2}
+\begin{itemize}
+\item Code Reference: \href{../../code/cpp/threading/timers}{Timers}
+\end{itemize}
+\end{enumerate}
+\subsubsection{\underline{Synchronization}}
+\label{sec-2-2-2}
+\begin{enumerate}
+\item \underline{Lock Free Algorithm}
+\label{sec-2-2-2-1}
+\begin{enumerate}
+\item What is lock free algorithm ? How can we implement it ?
+\label{sec-2-2-2-1-1}
+\item Implement a thread safe lock free queue.
+\label{sec-2-2-2-1-2}
+\begin{itemize}
+\item Reference: \href{../../Books_And_Tutorials/cpp/c++_concurrency_in_action/CConcurrencyinActionPracticalMultithreadingChapter7Designinglockfree.pdf}{Lock-Free}
+\item Code Samples: \href{../../Code/CPP/threading/lock_free}{Lock-Free}
+\end{itemize}
+\end{enumerate}
+\item What are different types of synchronization objects provided by windows and Linux ?
+\label{sec-2-2-2-2}
+\begin{itemize}
+\item Reference:\href{../../books_and_tutorials/win_and_linux/linux_vs_windows_sync_obj.html}{Windows and Linux Synchronization Objects}
+\end{itemize}
+
+\item \underline{Deadlock}
+\label{sec-2-2-2-3}
+
+\item What is a deadlock ? Explain the scenario(s) where you faced deadlock . How did you resolved it ?
+\label{sec-2-2-2-4}
+\begin{itemize}
+\item Reference: \href{../../books_and_tutorials/deadlock/deadlock.html}{Deadlock}
+\end{itemize}
+\end{enumerate}
+\subsubsection{Threading vs Parallel programming.}
+\label{sec-2-2-3}
+
+\subsection{\underline{Smart Pointers}}
+\label{sec-2-3}
+
+\subsubsection{What are different types of smart pointers ?}
+\label{sec-2-3-1}
+\begin{itemize}
+\item Reference \href{../../books_and_tutorials/cpp/smartpointers/smartpointers.html}{Smart Pointers in C++}
+\end{itemize}
+
+\subsection{\underline{Assignment Operator}}
+\label{sec-2-4}
+
+\subsubsection{What is difference between copy constructor and assignment operator ?}
+\label{sec-2-4-1}
+\subsubsection{What are the precautions developer need to to take while implementing assignment operator ?}
+\label{sec-2-4-2}
+\subsubsection{What is the signature of assignment operator ?}
+\label{sec-2-4-3}
+\begin{enumerate}
+\item What assignment operator returns ? Does it return reference or Pointer and Why ?
+\label{sec-2-4-3-1}
+\item Does it take pointer or reference as parameter ? Why ?
+\label{sec-2-4-3-2}
+\end{enumerate}
+\subsubsection{Implement assignment operator for MyString class.}
+\label{sec-2-4-4}
+\begin{itemize}
+\item Reference: \href{../../Code/CPP/assignment}{MyString class}
+\end{itemize}
+
+\subsection{\underline{Bind}}
+\label{sec-2-5}
+
+\subsubsection{What is the use of bind ?}
+\label{sec-2-5-1}
+\subsubsection{When we have functors why we have bind ?}
+\label{sec-2-5-2}
+
+\subsection{\underline{Constant and Internal linkage.}}
+\label{sec-2-6}
+\subsubsection{What is internal linkage ?}
+\label{sec-2-6-1}
+\subsubsection{What is mutable and immutable objects in cpp ?}
+\label{sec-2-6-2}
+\subsubsection{Are const static in c++ ?}
+\label{sec-2-6-3}
+\subsubsection{syntax and meaning for \emph{constant pointer} and \emph{pointer to constant} ?}
+\label{sec-2-6-4}
+\subsubsection{What is mutable  keyword in cpp ? How and when it is used ?}
+\label{sec-2-6-5}
+\subsubsection{How to remove constness using casting in cPP ?}
+\label{sec-2-6-6}
+\begin{itemize}
+\item Reference: \href{../../Books_and_Tutorials/cpp/const/const_internal_linkage.html}{Constant and Internal Linkage}
+\item Code Reference: \href{../../code/cpp/const}{const}
+\end{itemize}
+
+\subsection{\underline{Functors}}
+\label{sec-2-7}
+
+\subsubsection{What are functors or function objects ?}
+\label{sec-2-7-1}
+\subsubsection{What are the benefits compared to function pointers ?}
+\label{sec-2-7-2}
+\subsubsection{Bind vs Functors ?}
+\label{sec-2-7-3}
+
+\subsection{\underline{Lambda}}
+\label{sec-2-8}
+
+\subsubsection{What is the syntax of lambda in cpp ?}
+\label{sec-2-8-1}
+\subsubsection{What square bracket '[]' means in lambda ?}
+\label{sec-2-8-2}
+\subsubsection{Does lambda in c++ has closure property ?}
+\label{sec-2-8-3}
+\begin{itemize}
+\item Code Reference: \href{../../code/cpp/lambda}{lambda}
+\end{itemize}
+
+\subsection{\underline{asyn}}
+\label{sec-2-9}
+
+\subsubsection{What is async ?}
+\label{sec-2-9-1}
+Ans: async is a asynchronous callable objects. It runs as background task.
+Code Sample: \href{../../code/cpp/async}{async}
+
+\subsection{\underline{Templates}}
+\label{sec-2-10}
+
+\subsubsection{What is specialization and partial specialization ? Provide real time sample of both .}
+\label{sec-2-10-1}
+\begin{itemize}
+\item Code Samples: \href{../../code/cpp/templates}{templates}
+\end{itemize}
+
+\rule{\linewidth}{0.5pt}
+
+\section{.Net Questions}
+\label{sec-3}
+
+\subsection{\underline{AppDomain}}
+\label{sec-3-1}
+\subsubsection{What is AppDomain ?}
+\label{sec-3-1-1}
+\subsubsection{AppDomain and Thread ?}
+\label{sec-3-1-2}
+\subsubsection{AppDomain and Security ?}
+\label{sec-3-1-3}
+\subsubsection{Inter-AppDomain Communication ? InterProcess Communication and Appdomain ? Remoting ?}
+\label{sec-3-1-4}
+\begin{itemize}
+\item \href{../../code/csharp/appdomain}{AppDomain Code Samples}
+\end{itemize}
+
+\subsection{Why constant are static?}
+\label{sec-3-2}
+
+\subsection{\underline{Generics}}
+\label{sec-3-3}
+
+\subsubsection{What is the differenece between Covariance and Contra-variance ?}
+\label{sec-3-3-1}
+\begin{itemize}
+\item Given a Sample :
+\begin{itemize}
+\item We have Employee class and Manager class .
+\item Manager is derived from Employee.
+\item We have a method which takes a Employee list as parameter.
+\item Can List of Manager be passed to the above method ?
+\item What if we are dealing with array i.e. in the above methods we use array and not List ?
+\end{itemize}
+\end{itemize}
+Ans)  - References: \href{../../Books_and_Tutorials/DotNet/Variance_CSharp}{Covariance and Contra-variance} 
+
+\subsection{\underline{Object class}}
+\label{sec-3-4}
+
+\subsubsection{What are the different methods in object class?}
+\label{sec-3-4-1}
+\begin{enumerate}
+\item What are different non-virtual, protected, virtual and static methods ?
+\label{sec-3-4-1-1}
+\end{enumerate}
+\subsubsection{Is everything derived from object ?}
+\label{sec-3-4-2}
+\begin{enumerate}
+\item What about primitive types like int long etc ?
+\label{sec-3-4-2-1}
+\begin{itemize}
+\item Ans) Yes even primitive types.
+\end{itemize}
+\end{enumerate}
+
+\subsection{\underline{String}}
+\label{sec-3-5}
+
+\subsubsection{Describe efficient string builder implementation.}
+\label{sec-3-5-1}
+
+\subsection{\underline{Virtual Methods}}
+\label{sec-3-6}
+
+\subsubsection{If virtual method called in constructor ?}
+\label{sec-3-6-1}
+\begin{itemize}
+\item In C\# virtual method of derived will be called.
+\item It s is not safe as Derived class constructor is not called yet and this derived call is not properly initialized.
+\end{itemize}
+
+\subsection{static vs non-static method ?}
+\label{sec-3-7}
+\subsubsection{What are problems while unit testing static methods/classes ?}
+\label{sec-3-7-1}
+
+\subsection{Can a constructor be static ?}
+\label{sec-3-8}
+\url{http://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx}
+
+\subsection{Mutable vs Immutable objects.}
+\label{sec-3-9}
+\subsubsection{What are immutable objects in .Net ?}
+\label{sec-3-9-1}
+\subsubsection{What are the benefits of immutability ?}
+\label{sec-3-9-2}
+
+\subsection{\underline{Object Identity and Equality}}
+\label{sec-3-10}
+
+\subsubsection{What is difference between object equality and object identity ?}
+\label{sec-3-10-1}
+\begin{enumerate}
+\item If a = b that a.hash = b.hash and visa versa ?
+\label{sec-3-10-1-1}
+\item How to override equal functionality ?
+\label{sec-3-10-1-2}
+\item When we have to override GetHashCode ? Why ? Provide a sample .
+\label{sec-3-10-1-3}
+\item By default does Equals method check reference ? If yes than what is the use of ReferenceEqual ?
+\label{sec-3-10-1-4}
+\item Why operator== is not defined in object class ?
+\label{sec-3-10-1-5}
+\href{../../Books_And_Tutorials/DotNet/Object Equality and Identity}{Reference to 'Effective C\#' chapters}
+\end{enumerate}
+
+\subsection{How to create a deep copy og object in c\# ? What is ICloneable interface and its pitfall ?}
+\label{sec-3-11}
+\href{../../Books_And_Tutorials/DotNet/Object Cloning or Copying}{Reference to chapter from 'Effective C\#'}
+
+\subsection{\underline{Threading}}
+\label{sec-3-12}
+
+\subsubsection{What are uses of threading ? In Which scenario a thread need to be spawned ?}
+\label{sec-3-12-1}
+\begin{enumerate}
+\item \uline{Maintaining a responsive user interface}
+       By running time-consuming tasks on a parallel “worker” thread, the main UI thread is free to continue processing keyboard and mouse events.
+\item \uline{Making efficient use of an otherwise blocked CPU}
+       Multithreading is useful when a thread is awaiting a response from another computer or piece of hardware. While one thread is blocked while performing the task, other threads can take advantage of the otherwise unburdened computer.
+\item \uline{Parallel programming}
+       Code that performs intensive calculations can execute faster on multicore or multiprocessor computers if the workload is shared among multiple threads in a “divide-and-conquer” strategy (see Part 5).
+\item \uline{Speculative execution}
+       On multicore machines, you can sometimes improve performance by predicting something that might need to be done, and then doing it ahead of time. LINQPad uses this technique to speed up the creation of new queries. A variation is to run a number of different algorithms in parallel that all solve the same task. Whichever one finishes first “wins” — this is effective when you can’t know ahead of time which algorithm will execute fastest.
+\item \uline{Allowing requests to be processed simultaneously}
+       On a server, client requests can arrive concurrently and so need to be handled in parallel (the .NET Framework creates threads for this automatically if you use ASP.NET, WCF, Web Services, or Remoting). This can also be useful on a client (e.g., handling peer-to-peer networking — or even multiple requests from the user).
+\end{enumerate}
+\url{file:///C:/Users/Pralay/Google\%20Drive/SoftwareDevelopment/Books_And_Tutorials/DotNet/books/Threading/Threading_by_Albahari/www.albahari.com/threading/index.html#_Threadings_Uses_and_Misuses}
+
+
+\subsubsection{What preempted means ?}
+\label{sec-3-12-2}
+
+\subsubsection{What is Reentrancy ?}
+\label{sec-3-12-3}
+
+\subsubsection{Static method and Thread .}
+\label{sec-3-12-4}
+
+\subsubsection{What is the difference between Thread.Sleep(0) and Thread.Yield ?}
+\label{sec-3-12-5}
+\begin{enumerate}
+\item What are the uses of Thread.Yield ?
+\label{sec-3-12-5-1}
+\end{enumerate}
+
+
+\subsubsection{\underline{TPL}}
+\label{sec-3-12-6}
+\begin{itemize}
+\item \href{../../Books_And_Tutorials/DotNet/TPL/Task.html}{Task Summary}
+\item \href{../../Code/CSharp/Threading/TPL}{Code Samples}
+\end{itemize}
+\begin{enumerate}
+\item Task
+\label{sec-3-12-6-1}
+\begin{enumerate}
+\item What is task ?
+\label{sec-3-12-6-1-1}
+\end{enumerate}
+\item Task Factory/Group Tasks/Parent Child relationship.
+\label{sec-3-12-6-2}
+\item TaskScheduler
+\label{sec-3-12-6-3}
+\item ContinueWith
+\label{sec-3-12-6-4}
+\item Delay
+\label{sec-3-12-6-5}
+\item CancellationTokenSource/ConcellationContext.
+\label{sec-3-12-6-6}
+\begin{enumerate}
+\item How can we cancel a task ?
+\label{sec-3-12-6-6-1}
+\end{enumerate}
+\item Handle exceptions in thread.
+\label{sec-3-12-6-7}
+\item ExecutionContext
+\label{sec-3-12-6-8}
+\item Parallel ForEach
+\label{sec-3-12-6-9}
+\end{enumerate}
+
+
+\subsubsection{\underline{Timer}}
+\label{sec-3-12-7}
+\begin{itemize}
+\item Code Reference: \href{../../Code/CSharp/Threading/Timer}{Timer}
+\end{itemize}
+\begin{enumerate}
+\item What is delay?
+\label{sec-3-12-7-1}
+\item What is problem with the Threading.Timer which is resolved by delay ?
+\label{sec-3-12-7-2}
+\end{enumerate}
+
+
+\subsubsection{\underline{Threading vs Parallel programming.}}
+\label{sec-3-12-8}
+
+\subsubsection{What is Thread Affinity ?}
+\label{sec-3-12-9}
+
+\subsubsection{What is \underline{worker thread} ?}
+\label{sec-3-12-10}
+Ans) Wroker thread is a pattern. It has two variants.
+\begin{enumerate}
+\item Single thread listeneing to queue of task. Task are interted by client.
+\item Thread Pools listeneing to queue of task.
+\end{enumerate}
+\texttt{Worker Thread Pattern (Chapter from Book)}
+
+
+\subsubsection{What is the difference between UI and worker thread ?}
+\label{sec-3-12-11}
+
+\subsubsection{What is difference between \underline{foreground and background thread}?}
+\label{sec-3-12-12}
+\begin{enumerate}
+\item What will happen if in the main method we spawn a background thread  and without waiting main terminates ?
+\label{sec-3-12-12-1}
+\item What will happen if in the main method we spawn a foreground thread  and without waiting main terminates ?
+\label{sec-3-12-12-2}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Foreground Thread & Background Thread\\
+\hline
+Thread will run even after main goes out of control. & The thread will terminated once main goes out of scope.\\
+The application will not terminate. & The application will terminate and not wait for the foreground thread to complete.\\
+ & There will be no exception even if it terminates unexpectedly in-between when main finishes.\\
+ & Finally will not be called so resource (unmanaged if any) will not be released.\\
+\hline
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+
+\subsubsection{What is \underline{backgroung worker thread} ?}
+\label{sec-3-12-13}
+
+\href{../../code/csharp/threading/background_vs_foreground_thread.cs}{Code Sample: Background VS Foreground Threads}
+
+\subsubsection{When thread is deemed block ?}
+\label{sec-3-12-14}
+\begin{enumerate}
+\item What is the difference between \emph{Blocking} and \emph{Spinning} ?
+\label{sec-3-12-14-1}
+
+\href{file:///P:/books_and_tutorials/dotnet/books/threading/Threading_by_Albahari/www.albahari.com/threading/part2.html#_Blocking}{Blocking and Spinning}
+\end{enumerate}
+
+
+\subsubsection{\underline{Abort and interrupt:}}
+\label{sec-3-12-15}
+\begin{enumerate}
+\item What abort and interrupt does ?
+\label{sec-3-12-15-1}
+\item Does exception occurs in the thread when abort or interrupt is called  ? If yes what are the  name of the exception for abort and interrupt resp ?
+\label{sec-3-12-15-2}
+\item Is the abort or interrupt exception once handled thrown agian ? if yes why ?
+\label{sec-3-12-15-3}
+\item What happen if the thread is in suspended mode and abort or interrupt is called on the thread ?
+\label{sec-3-12-15-4}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Abort & Interrupt\\
+\hline
+It is used to release a blocked thread prematurely; for instance, when ending an application. & It is also used to release a blocked thread prematurely; for instance, when ending an application.\\
+The Abort method is also capable of ending a nonblocked thread. & Interrupt only works for \emph{blocked} thread.\\
+A blocked thread can also be forcibly released via its Abort method. This has an effect similar to calling Interrupt, except that a ThreadAbortException is thrown instead of a ThreadInterruptedException. & Interrupting a thread does not cause the thread to end, unless the \emph{ThreadInterruptedException} is unhandled. If Interrupt is called on a thread that's not blocked, the thread continues executing until it next blocks, at which point a ThreadInterruptedException is thrown.\\
+Furthermore, the exception will be rethrown at the end of the catch block (in an attempt to terminate the thread for good) unless Thread.ResetAbort is called within the catch block. In the interim, the thread has a ThreadState of AbortRequested. & It is safer to call thread when blocked by checking the ThreadState as followed . \emph{if ((worker.ThreadState \& ThreadState.WaitSleepJoin) > 0)  worker.Interrupt();}. But this is not thread-safe because of the possibility of preemption between the if statement and worker.Interrupt.\\
+There are two cases, though, where you can safely use Abort. One is if you are willing to tear down a thread's application domain after it is aborted. A good example of when you might do this is in writing a unit-testing framework. Another case where you can call Abort safely is on your own thread (because you know exactly where you are). Aborting your own thread throws an unswallowable exception: one that gets rethrown after each catch block. ASP.NET does exactly this when you call Redirect. & \\
+The big difference between Interrupt and Abort is what happens when it is called on a thread that is not blocked. Whereas Interrupt waits until the thread next blocks before doing anything, Abort throws an exception on the thread right where it is executing (unmanaged code excepted). This is a problem because .NET Framework code might be aborted  code that is not abort-safe. For example, if an abort occurs while a FileStream is being constructed, it is possible that an unmanaged file handle will remain open until the application domain ends. This rules out using Abort in almost any nontrivial context. & \\
+ThreadAbortException even unhandled never propogates to AppDomain.UnhandleExceptionEventHandler. & ThreadAbortException even unhandled never propogates to AppDomain.UnhandleExceptionEventHandler.\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\url{file://c:/P:/Books_And_Tutorials/DotNet/books/Threading/Threading_by_Albahari/www.albahari.com/threading/part3.html} and Abort
+
+
+\href{../..//Books_And_Tutorials/DotNet/books/Threading/threading.pdf}{Interrupt and Abort Introduction}
+\href{../..//Books_And_Tutorials/DotNet/books/Threading/threading.pdf}{Abort Thread details}
+\end{enumerate}
+
+
+\subsubsection{\underline{Synchronization}}
+\label{sec-3-12-16}
+
+\begin{enumerate}
+\item Blocking Methods
+\label{sec-3-12-16-1}
+\begin{enumerate}
+\item Wait
+\label{sec-3-12-16-1-1}
+\item Join
+\label{sec-3-12-16-1-2}
+\item Sleep
+\label{sec-3-12-16-1-3}
+\item What is \underline{IO bound asynchronous operation} ?
+\label{sec-3-12-16-1-4}
+\begin{enumerate}
+\item What is async and await ?
+\label{sec-3-12-16-1-4-1}
+\begin{itemize}
+\item Reference: \href{../../Books_And_Tutorials/DotNet/IO-BoundAsynchronous-Operations/IO-BoundAsynchronous-Operations.pdf}{IO-Bound-Asynchronous-Operations}
+\item Code Reference: \href{../../code/csharp/threading/asyncio}{IO-Bound-Async-Operations}
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+
+
+\item Locking constructs
+\label{sec-3-12-16-2}
+\begin{enumerate}
+\item Semaphore
+\label{sec-3-12-16-2-1}
+\item Simple Hybrid Lock
+\label{sec-3-12-16-2-2}
+\item What is SemphoreSlim ?
+\label{sec-3-12-16-2-3}
+\item What is ReaderWriterLock ?
+\label{sec-3-12-16-2-4}
+\item What is ReaderWriterLockSlim ?
+\label{sec-3-12-16-2-5}
+
+
+\item \href{file:///P:/Books_And_Tutorials/DotNet/books/Threading/Threading_by_Albahari/www.albahari.com/threading/part2.html#_Locking}{A Comparison of Locking Constructs}
+\label{sec-3-12-16-2-6}
+\item Monitor Class
+\label{sec-3-12-16-2-7}
+\begin{enumerate}
+\item What are the different methods in Monitor class ?
+\label{sec-3-12-16-2-7-1}
+\item What was the problem with lock (try-finally monitor) which is resolved new .Net version ?
+\label{sec-3-12-16-2-7-2}
+\item Can we give timeout using lock ?
+\label{sec-3-12-16-2-7-3}
+\item What is Pulse and PulseAll ? What is the difference ?
+\label{sec-3-12-16-2-7-4}
+\item Is pulse internally uses ResetEvent ? If not what it uses ?
+\label{sec-3-12-16-2-7-5}
+\item If pulse is lost (pulse from one thread occurs before wait is called by another thread) what will happen ? Will the another thread get the pulse or it is lost ? What will happen ?
+\label{sec-3-12-16-2-7-6}
+\end{enumerate}
+\end{enumerate}
+
+
+\item Signaling constructs
+\label{sec-3-12-16-3}
+\begin{enumerate}
+\item SpinWait
+\label{sec-3-12-16-3-1}
+\item Conditional Variable in C\#.
+\label{sec-3-12-16-3-2}
+\end{enumerate}
+
+
+\item Nonblocking synchronization constructs
+\label{sec-3-12-16-4}
+\begin{enumerate}
+\item InterLocked
+\label{sec-3-12-16-4-1}
+\item Volatile
+\label{sec-3-12-16-4-2}
+\item Memory Barrier
+\label{sec-3-12-16-4-3}
+\item \underline{Lock Free Algorithm}
+\label{sec-3-12-16-4-4}
+\begin{itemize}
+\item Reference: \texttt{Lock Free Algorithm}
+\end{itemize}
+
+\href{file://c:/Code/CSharp/Threading/SynchronizationObjects}{Code Samples}
+\end{enumerate}
+\end{enumerate}
+
+
+\subsubsection{\underline{Deadlock}}
+\label{sec-3-12-17}
+\begin{itemize}
+\item Reference: \href{../../books_and_tutorials/deadlock/deadlock.html}{Deadlock}
+\item Code Reference: \href{../../Code/CSharp/Threading/Deadlock}{Deadlock}
+\end{itemize}
+\begin{enumerate}
+\item What is a deadlock ? Explain the scenario(s) where you faced deadlock . How did you resolved it ?
+\label{sec-3-12-17-1}
+\item How can you detect deadlock ?
+\label{sec-3-12-17-2}
+\item How can you prevent deadlock ?
+\label{sec-3-12-17-3}
+Ans) Using Leveled lock (see Code Reference).
+\end{enumerate}
+
+\subsubsection{WPF Threading Model}
+\label{sec-3-12-18}
+\begin{enumerate}
+\item What is thread affinity ? How WPF used it ? What are the advantages ?
+\label{sec-3-12-18-1}
+\begin{enumerate}
+\item What is Dispacher ? What is DispacherObject ? What is Dispacher queue ?
+\label{sec-3-12-18-1-1}
+\href{../../Books_And_Tutorials/DotNet/WPF/WPF Threading Model/Threading Model.pdf}{MSDN atricle on WPF Threading Model}
+\href{../../Books_And_Tutorials/DotNet/WPF/books/Programming WPF. Windows Presentation Foundation (O'Reilly 2007.2.ed).pdf}{Programming WPF 2nd Ed: Asynchronous and Multithreaded WPF Programming}
+
+\rule{\linewidth}{0.5pt}
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Memory Management}
+\label{sec-3-13}
+\subsubsection{How .Net identify the object is still referenced ? What are Application roots ? How .Net create reachable graph ?}
+\label{sec-3-13-1}
+Ans) \href{../../Books_And_Tutorials/DotNet/books/Pro .NET Performance/Garbage Collection}{Reference to Garbase Collection chapter of book 'Pro .Net Performance'}
+\subsubsection{How to handle memory leak in .Net ?}
+\label{sec-3-13-2}
+\href{../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 2 Troubleshooting/Chapter 4 Common Memory Problems\Memory Leaks.pdf}{Capter Memory Leaks from Under the Hood of .NET Memory Management}
+\subsubsection{What is weak reference in .Net ?}
+\label{sec-3-13-3}
+\textbf{Ans:} Weak references are a supplementary mechanism for handling references
+to managed objects. The typical object reference (also known as
+strong reference) is very deterministic: as long as you have a
+reference to the object, the object will stay alive. This is the
+correctness promise of the garbage collector.
+
+However, in some scenarios, we would like to keep an invisible string
+attached to an object without interfering with the garbage collector's
+ability to reclaim that object's memory. If the GC reclaimed the
+memory, our string becomes unattached and we can detect this. If the
+GC hasn't touched the object yet, we can pull the string and retrieve
+a strong reference to the object to use it again.
+
+This facility is useful for various scenarios, of which the following are the most common:
+\begin{itemize}
+\item Providing an external service without keeping the object
+alive. Services such as timers and events can be provided to
+objects without keeping them referenced, which can solve many typical memory leaks.
+\item Automatically managing a cache or pool strategy. A cache can keep
+weak references to the least recently used objects without
+preventing them from being collected; a pool can be partitioned
+into a minimum size which contains strong references and an
+optional size which contains weak references.
+\item Keeping a large object alive with the hope that it will not be
+collected. The application can hold a weak reference to a large
+object that took a long time to create and initialize. The object
+might be collected, in which case the application will
+reinitialize it; otherwise, it can be used the next time it is
+needed.
+\end{itemize}
+
+\href{../../C:/Users/Pralay/Google Drive/SoftwareDevelopment/Books_And_Tutorials/DotNet\books/Pro .NET Performance/Garbage Collection/Weak References.pdf}{Chapter on Weak Reference from Pro .NET Performance}
+\href{../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 1 Introduction to DotNET Memory Management/Chapter3 A Little More Detail/Weak References.pdf}{Chapter on Weak References introduction from Under the Hood of .NET Memory Management}
+\href{../../Books_And_Tutorials/DotNet/books/Under the Hood of .NET Memory Management/Section 3 Deeper .NET/Chapter 6 A Few More Advanced Topics/Weak References.pdf}{Chapter on Weak Reference problems and usage from Under the Hood of .Net Memory Management} 
+\href{../../Code/CSharp/MemoryManagement/WeakReferences}{Code Sample for Weak Reference}
+
+\subsubsection{If there is a class with two members int and a reference type . Where will int be allocated in stack or heap ?}
+\label{sec-3-13-4}
+\begin{itemize}
+\item Ans) It will be allocated on heap.
+
+\item Reference: \href{../..//Books_And_Tutorials/DotNet/MemoryManagement/MemoryManagement.html}{Memory Management in .Net}
+\end{itemize}
+
+\subsection{LINQ}
+\label{sec-3-14}
+\begin{itemize}
+\item Code Reference \href{../../Code/CSharp/LINQ}{LINQ}
+\end{itemize}
+\subsubsection{What is difference between IQueriable and IEnumerable ?}
+\label{sec-3-14-1}
+\begin{itemize}
+\item References: \href{../../Books_And_Tutorials/DotNet/iqueryable_vs_ienumerable}{IQueryable vs IEnumerable}
+\end{itemize}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+IQueryable & IEnumerable\\
+\hline
+Used for querying databases. & Used for querying in-memory containers.\\
+It takes care of the conditions and include in the select query. & Retrieves all the rows in the table does not include constraints while generating select query. Apply condition later.\\
+\hline
+\end{tabular}
+\end{center}
+Refer: \href{../../Books_And_Tutorials/DotNet/IQueryable_vs_IEnumerable}{IQueryable$_{\text{vs}}$$_{\text{IEnumerable}}$}
+\subsubsection{What is \emph{Expression Tree} in c\# ?}
+\label{sec-3-14-2}
+
+\subsection{Dynamic Programming Concepts in .Net:}
+\label{sec-3-15}
+\begin{itemize}
+\item Code Reference: \href{../../Code/CSharp/DynamicProgramming}{Samples}
+\end{itemize}
+\subsubsection{What is \emph{dynamic} keyword in c\# ?}
+\label{sec-3-15-1}
+
+\subsection{Collections/Iterators/Algorithm}
+\label{sec-3-16}
+\subsubsection{What is difference between IEnumerator and IEnumerable ?}
+\label{sec-3-16-1}
+\subsubsection{What is yield ? What is the purpose ?}
+\label{sec-3-16-2}
+Code Reference: \href{../..//Code/CSharp/Enumerator}{Enumerator}
+
+\subsection{Unmanaged Programming}
+\label{sec-3-17}
+\subsubsection{What is pinvoke ?}
+\label{sec-3-17-1}
+\subsubsection{What is unsafe keyword ?}
+\label{sec-3-17-2}
+Code Reference: \href{../../Code/CSharp/pinvoke}{pinvoke and unsafe}
+\subsection{WPF/WinForm/GUI}
+\label{sec-3-18}
+\subsubsection{\ref{sec-1-2-4}}
+\label{sec-3-18-1}
+\subsubsection{\ref{sec-1-2-5}}
+\label{sec-3-18-2}
+\subsubsection{What is Dependency-Property ?}
+\label{sec-3-18-3}
+Ans) Dependency Property provides
+     . Change notification
+     . Property value inheritance
+     . Support for multiple providers
+     . Property which is registered with the WPF framework and is available to all the child components.
+     . child can override the property.
+\subsubsection{What is routed event ?}
+\label{sec-3-18-4}
+\begin{enumerate}
+\item Explain tunnelling and bubbleup event ?
+\label{sec-3-18-4-1}
+\end{enumerate}
+\subsubsection{Explain in brief ICommand.}
+\label{sec-3-18-5}
+\subsubsection{Explain in brief XAML.}
+\label{sec-3-18-6}
+\subsubsection{Explain in brief Binding.}
+\label{sec-3-18-7}
+\subsubsection{Explain in brief INotifyChange.}
+\label{sec-3-18-8}
+\subsubsection{Explain in brief Context.}
+\label{sec-3-18-9}
+\subsubsection{What is Prism ?}
+\label{sec-3-18-10}
+\begin{enumerate}
+\item What are the functionality Prism provides ?
+\label{sec-3-18-10-1}
+\begin{enumerate}
+\item What is IOC/DI ? How it is provided in Prism ?
+\label{sec-3-18-10-1-1}
+\item What is a Loader in Prism ?
+\label{sec-3-18-10-1-2}
+\item What is a Shell in Prism ?
+\label{sec-3-18-10-1-3}
+\item What are Events in Prism ? How are they different from .Net Events ?
+\label{sec-3-18-10-1-4}
+
+\rule{\linewidth}{0.5pt}
+\end{enumerate}
+\end{enumerate}
+
+\section{Data Structure Questions}
+\label{sec-4}
+\begin{itemize}
+\item \href{../../Code/datastructure}{Data Structure Code Samples}
+\end{itemize}
+\subsection{Create queue with two stacks .}
+\label{sec-4-1}
+\begin{itemize}
+\item one stack should be used at time in case of (TODO complete it)
+\end{itemize}
+\subsection{How hash table is implemented internally ?}
+\label{sec-4-2}
+\subsubsection{What are the different ways to resolve collision ?}
+\label{sec-4-2-1}
+
+\rule{\linewidth}{0.5pt}
+
+\section{Programming Logic and Computer Science fundamentals}
+\label{sec-5}
+\subsection{Write a program to give Fibonacci series ?}
+\label{sec-5-1}
+\subsubsection{Write both recursive and non-recursive method for this ?}
+\label{sec-5-1-1}
+\begin{enumerate}
+\item Which is mode optimal in terms of space and time ?
+\label{sec-5-1-1-1}
+\end{enumerate}
+\subsection{Write a code to represent int into binary.}
+\label{sec-5-2}
+\subsubsection{Implement it usung  bitwise operator ? Explain in detain the flow.}
+\label{sec-5-2-1}
+\subsection{What is Bitwise operations ?}
+\label{sec-5-3}
+\subsection{What are the different types of Bitwise operations ?}
+\label{sec-5-4}
+\subsection{Why are the advantages of Bitwise operations ?}
+\label{sec-5-5}
+\begin{itemize}
+\item Code Reference: \href{../../Code/BitwiseOperations}{Bitwise operation code samples}
+\end{itemize}
+
+\rule{\linewidth}{0.5pt}
+
+\section{Distributed programming and Inter-Process Communication.}
+\label{sec-6}
+\begin{itemize}
+\item Code Reference: \href{../../Code/CSharp/DistrubutedProgramming}{Samples}
+\end{itemize}
+\subsection{What is protobuf ?}
+\label{sec-6-1}
+\subsection{What is microsoft one message bus ?}
+\label{sec-6-2}
+\subsection{Implement a distributed cache.}
+\label{sec-6-3}
+\subsection{What are different inter-process communication methods ?}
+\label{sec-6-4}
+\subsubsection{What is Memory-Map.}
+\label{sec-6-4-1}
+\subsubsection{What is Shared Memory.}
+\label{sec-6-4-2}
+\subsubsection{What is difference between Memory-Map and Shared Memory ?}
+\label{sec-6-4-3}
+\begin{itemize}
+\item Code Reference: \href{../../code/CSharp/Cache_And_MMF}{Cache and Memory Mapped Files}
+\end{itemize}
+\subsection{How socket is implemented in Hermes ?}
+\label{sec-6-5}
+\subsection{What is the difference between Topic and Queue in EMS ?}
+\label{sec-6-6}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Topic & Queue\\
+\hline
+Topic is shared datastructure. Server pulish it into Topic. Clients fetches the copy  from the topic. & Each client has individual queue. Server create individual messages and sends to the clients. Client dequeue it.\\
+Message in Topic is removed once all the clients got the copy. Topic is transient. & Queue is persistant.\\
+ & Queue is point-to-point.\\
+If message is sent on topic,who ever subscribed at that time only get a copy each. & In queue case, each subscriber will not get a copy of same message but distinct messages.\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Two process sharing a file . Make sure they are synchronized and no one get starved if there is continues flow of data (both for read and write).}
+\label{sec-6-7}
+\subsection{What is Latency ? What is Throughput ? What is the difference between the two ?}
+\label{sec-6-8}
+\begin{itemize}
+\item Reference: \href{../../Networking/Latency_And_Throughput/low_latency_high_throughput.html}{Latency and Throughput}
+\end{itemize}
+
+\rule{\linewidth}{0.5pt}
+
+\section{SQL}
+\label{sec-7}
+\subsection{What are different types of joins ? What is cross/equi/inner/self/non-equi/natual join ?}
+\label{sec-7-1}
+\begin{itemize}
+\item Reference: \href{../../sql/join/join.html}{Join}
+\end{itemize}
+\subsection{What are Set commands in Sql ? What is Union/Union All ? What is difference between Union and Union All ?}
+\label{sec-7-2}
+\begin{itemize}
+\item Reference: \texttt{Set} (Incomplete)
+\end{itemize}
+
+\rule{\linewidth}{0.5pt}
+
+\section{Algorithms}
+\label{sec-8}
+
+\subsection{Recursion}
+\label{sec-8-1}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Recursive & Non-Recursive\\
+\hline
+\textbf{Concise, clear and  simple} & not so concise as recursive function and complex\\
+\textbf{Expensive:} Consumes more time and space: it has to allocate memory on the stack for arguments, return address, and local variables. It also costs time to push and pop data on & Less Expensive\\
+\textbf{Duplicate calculations:} Recursion has more negative impacts on performance if there are duplicated calculations. Recursion is essentially a technique to divide a problem into two or more subproblems. There are duplicated calculations if there are overlaps among subproblems. & No duplicte calculations.\\
+\textbf{Stack Overflow:} A more serious problem with recursion other than inefficiency is that it causes errors due to call stack overflows. As mentioned earlier, it consumes some memory on the stack for each recursive call, so it may use up all memory on the stack if recursive levels are very deep, and cause call stack overflow. & No problem of stack overflow.\\
+\hline
+\end{tabular}
+\end{center}
+
+\rule{\linewidth}{0.5pt}
+
+\section{Interview Questions Asked}
+\label{sec-9}
+\subsection{.Net Lead Poland Interview questions : (December 2013)}
+\label{sec-9-1}
+\subsubsection{\ref{sec-3-14-1}}
+\label{sec-9-1-1}
+\subsubsection{\texttt{Mutable vs Immutable objects}}
+\label{sec-9-1-2}
+\begin{enumerate}
+\item \ref{sec-3-10-1-1}
+\label{sec-9-1-2-1}
+\end{enumerate}
+\subsubsection{\ref{sec-1-2-1}}
+\label{sec-9-1-3}
+\subsubsection{\texttt{IOC}}
+\label{sec-9-1-4}
+\begin{enumerate}
+\item \ref{sec-1-2-2-3}
+\label{sec-9-1-4-1}
+\end{enumerate}
+\subsubsection{\ref{sec-3-7}}
+\label{sec-9-1-5}
+\begin{enumerate}
+\item \ref{sec-3-7-1}
+\label{sec-9-1-5-1}
+\end{enumerate}
+\subsubsection{\ref{sec-2-2-3}}
+\label{sec-9-1-6}
+\subsubsection{\ref{sec-3-15-1}}
+\label{sec-9-1-7}
+\subsubsection{\ref{sec-3-14-2}}
+\label{sec-9-1-8}
+
+
+\subsection{Intutive Banglore : Round I (December 2013)}
+\label{sec-9-2}
+\subsubsection{\ref{sec-2-2-2-4}}
+\label{sec-9-2-1}
+\subsubsection{\ref{sec-5-1}}
+\label{sec-9-2-2}
+\subsubsection{\ref{sec-1-1-4-1}}
+\label{sec-9-2-3}
+
+\subsection{Intutive Banglore : Round II (9th January 2014)}
+\label{sec-9-3}
+\subsubsection{What is External sort? If you have a records to sort which can not fit in the memory ? How you will sort it ?}
+\label{sec-9-3-1}
+Ans) \href{../../Books_And_Tutorials/DataStructure/EXTERNAL SORTING.pdf}{External Sort}
+\subsubsection{Design classes for chessboard ?}
+\label{sec-9-3-2}
+Ans) \href{../../Books_And_Tutorials/Design/DESIGNING A CHESS PROGRAM}{Design Chess Program}
+\subsubsection{\ref{sec-3-3-1}}
+\label{sec-9-3-3}
+\subsubsection{\ref{sec-3-12-6-1-1}}
+\label{sec-9-3-4}
+\begin{enumerate}
+\item \ref{sec-3-12-6-6-1}
+\label{sec-9-3-4-1}
+\end{enumerate}
+\subsubsection{Is their any issue you handled recently ? Describe .}
+\label{sec-9-3-5}
+\begin{enumerate}
+\item How you handled it ?
+\label{sec-9-3-5-1}
+\end{enumerate}
+\subsubsection{What are features in c++11 ?}
+\label{sec-9-3-6}
+\subsubsection{How Hermes/Agora maintain session ?}
+\label{sec-9-3-7}
+\subsubsection{How google search works ? How they give options for possible completion ?}
+\label{sec-9-3-8}
+
+
+\subsection{eCommerce .Net Developer Poland Round 1 (December 2013)}
+\label{sec-9-4}
+\subsubsection{What is protofix ?}
+\label{sec-9-4-1}
+\subsubsection{\ref{sec-6-1}}
+\label{sec-9-4-2}
+\subsubsection{\ref{sec-6-2}}
+\label{sec-9-4-3}
+\subsubsection{\ref{sec-2-2-2-1-2}}
+\label{sec-9-4-4}
+\subsubsection{\ref{sec-6-3}}
+\label{sec-9-4-5}
+\subsubsection{\ref{sec-6-4}}
+\label{sec-9-4-6}
+\subsubsection{\ref{sec-6-5}}
+\label{sec-9-4-7}
+
+\subsection{eCommerce .Net Developer Poland Round 2 (December 2013)}
+\label{sec-9-5}
+\subsubsection{How recovery works ?}
+\label{sec-9-5-1}
+\subsubsection{Which message format do you use ?}
+\label{sec-9-5-2}
+
+
+\subsection{Tool Development Credit-Suisse Mumbai (November 2013)}
+\label{sec-9-6}
+\subsubsection{\ref{sec-6-6}}
+\label{sec-9-6-1}
+
+
+\subsection{Morgan Stanley Interview for Equity Derivatives Trader Desktop Team (Position VP) : Round 1 (December 2013)}
+\label{sec-9-7}
+\subsubsection{\ref{sec-3-4-1}}
+\label{sec-9-7-1}
+\subsubsection{\ref{sec-3-4-2}}
+\label{sec-9-7-2}
+\begin{enumerate}
+\item \ref{sec-3-4-2-1}
+\label{sec-9-7-2-1}
+\end{enumerate}
+\subsubsection{\ref{sec-3-13-4}}
+\label{sec-9-7-3}
+\subsubsection{\ref{sec-3-5-1}}
+\label{sec-9-7-4}
+\subsubsection{\ref{sec-3-6-1}}
+\label{sec-9-7-5}
+\subsubsection{\ref{sec-4-1}}
+\label{sec-9-7-6}
+\subsubsection{\ref{sec-6-7}}
+\label{sec-9-7-7}
+
+\subsection{Morgan Stanley Interview for Equity Derivatives Trader Desktop Team (Position VP) : Round 2 (December 2013)}
+\label{sec-9-8}
+\subsubsection{\ref{sec-1-2-4}}
+\label{sec-9-8-1}
+\subsubsection{\ref{sec-3-3-1}}
+\label{sec-9-8-2}
+\begin{itemize}
+\item Given a Sample 
+\texttt{* we have Employee class and Manager class .}
+\texttt{* Manager is derived from Employee.}
+\texttt{* We have a method which takes a Employee list as parameter.}
+\texttt{* Can List of Manager be passed to the above method ?}
+\texttt{* What if we are dealing with array i.e. in the above methods we use array and not List ?}
+\end{itemize}
+\subsubsection{\texttt{How .Net identify the object is still referenced ?}}
+\label{sec-9-8-3}
+\subsubsection{\texttt{What is worker thread ?}}
+\label{sec-9-8-4}
+\subsubsection{\texttt{What is background thread ?}}
+\label{sec-9-8-5}
+\subsubsection{\texttt{What is difference between foreground and background ?}}
+\label{sec-9-8-6}
+\subsubsection{\ref{sec-3-12-12-1}}
+\label{sec-9-8-7}
+\subsubsection{\ref{sec-3-12-12-2}}
+\label{sec-9-8-8}
+\subsubsection{\ref{sec-3-13-2}}
+\label{sec-9-8-9}
+\subsubsection{\ref{sec-3-13-3}}
+\label{sec-9-8-10}
+\subsubsection{\ref{sec-4-2}}
+\label{sec-9-8-11}
+\begin{enumerate}
+\item \ref{sec-4-2-1}
+\label{sec-9-8-11-1}
+\end{enumerate}
+\subsubsection{\ref{sec-1-2-3}}
+\label{sec-9-8-12}
+\subsubsection{\ref{sec-1-4}}
+\label{sec-9-8-13}
+\subsubsection{\texttt{What is backgroung worker thread ?}}
+\label{sec-9-8-14}
+
+
+\subsection{1e Round I  (December 2013)}
+\label{sec-9-9}
+\subsubsection{What are  the issues if the key in hashtable is string ?}
+\label{sec-9-9-1}
+\begin{enumerate}
+\item How to resolve that ? How to make better hash function in this case ?
+\label{sec-9-9-1-1}
+\end{enumerate}
+\subsection{1e Round II (December 2013)}
+\label{sec-9-10}
+\subsubsection{\ref{sec-5-2}}
+\label{sec-9-10-1}
+\begin{enumerate}
+\item \ref{sec-5-2-1}
+\label{sec-9-10-1-1}
+\end{enumerate}
+\subsubsection{\ref{sec-1-5}}
+\label{sec-9-10-2}
+
+
+\subsection{Amazon (November 2013)}
+\label{sec-9-11}
+\subsubsection{Design a chess program for online gaming.}
+\label{sec-9-11-1}
+\subsubsection{Tell abount  difficult situation or issue you faced ? How you handled it ?}
+\label{sec-9-11-2}
+\subsubsection{What is your strength and weaknesses ?}
+\label{sec-9-11-3}
+\end{document}
+
+\end{document}

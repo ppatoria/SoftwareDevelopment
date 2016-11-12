@@ -1,0 +1,6 @@
+class test
+{
+    void func()
+	{
+	}
+};

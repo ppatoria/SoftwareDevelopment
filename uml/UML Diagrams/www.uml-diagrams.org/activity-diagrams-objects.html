@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-objects.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+<title>UML activity diagram object nodes - object, pin, parameter, central buffer, data store.</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="UML activity diagram object nodes - object, pin, parameter, central buffer, data store." />
+<meta name="keywords" content="UML, UML 2, UML 2.4, Activity diagram, object, pin, parameter, central buffer, data store." />
+<meta name="distribution" content="Global" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- google_analytics  -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15407117-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google_analytics  -->
+</head>
+<body>
+
+<div>
+
+<div class="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Top image ad - 728x90, created 8/1/09 */
+google_ad_slot = "5743134584";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="hosting-box">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5002105358288202";
+/* Half Banner 234 x 60 */
+google_ad_slot = "0061943500";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="../pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div class="search-box">
+<form action="http://www.uml-diagrams.org/search-results.html" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5002105358288202:d0i84p-o4pn" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="32" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+</div>
+
+<div style="clear:both;">
+</div>
+
+</div><!-- navigation 121220 -->
+<div id="globalNav">
+  <div>
+    <a href="index.html" title="UML graphical notation overview, examples, and reference." >UML diagrams</a>
+  </div>
+<div>
+<a href="activity-diagrams.html"
+  title="UML activity diagrams show flow of control or object flow with emphasis on the sequence and conditions of the flow."
+     >Activity diagrams</a>
+</div>
+<div>
+<a href="activity-diagrams-actions.html"
+  title="UML activity diagram actions - object, variable, invocation, structural, link, event actions."
+    >Actions</a>
+</div>
+<div>
+<a href="activity-diagrams-controls.html"
+ title="UML activity diagram controls - initial, flow final, activity final, decision, merge, fork, join."
+  >Controls</a>
+</div>
+<div>
+<a href="activity-diagrams-objects.html"
+  title="UML activity diagram object nodes - object, pin, parameter, central buffer, data store."
+ class="active-nav"  >Objects</a>
+</div>  
+<div>
+<a href="activity-diagrams-reference.html"
+ title="UML activity diagrams reference."  >Activity reference</a>
+</div>
+<div>
+<a href="activity-diagrams-examples.html"
+    title="UML activity diagrams examples.">Activity examples</a>
+</div>
+<div>
+    <a href="index-references.html" title="Index of UML elements">UML index</a>
+</div>
+</div>
+<!-- end navigation -->
+
+<!-- content -->
+<div id="mainContent">
+<h1>Object Nodes</h1>
+
+<p>
+An <strong>object</strong> node is an abstract activity node that is used to define
+ <a href="activity-diagrams.html#object-flow-edge" class="ref-link">object flows</a>
+ in an activity. Object nodes include
+ <a href="activity-diagrams-objects.html#pin" class="ref-link">pin</a>, 
+ <a href="activity-diagrams-objects.html#central-buffer" class="ref-link">central buffer</a>,
+ <strong>parameter</strong>,
+ <strong>expansion</strong> nodes.
+</p>
+
+<div class="figure-left-120">
+<img src="activity-diagrams/object-nodes-overview.png" width="648" height="428" 
+ alt="Activity object nodes include parameter, pin, central buffer, expansion nodes." 
+ title="Activity object nodes include parameter, pin, central buffer, expansion nodes." />
+<p class="figure-text">
+Activity object nodes include parameter, pin, central buffer, expansion nodes.
+</p>
+</div>
+
+<p>
+It is a bit strange that though object node is an <strong>abstract</strong> activity node,
+ it is directly used in objects flows using its own notation (see below).
+ It would make sense to have some separate concrete UML metaclass for data nodes.
+</p>
+
+
+<!--
+***********
+   Object
+***********
+-->
+ 
+<h2 id="object-node">Object Node</h2>
+
+<p>
+An <strong>object</strong> node is an abstract activity node that is used to define
+ <a href="activity-diagrams.html#object-flow-edge" class="ref-link">object flow</a>
+ in an activity. It indicates that an instance of a particular
+ <a href="classifier.html" class="ref-link">classifier</a>,
+ possibly in a particular state, may be available at a particular point in the activity.
+ Object nodes can be used in a variety of ways, depending on where objects are flowing from and to.
+</p>
+
+<p>
+Object nodes are notated as rectangles. A name labeling the node is placed inside the symbol,
+ where the name indicates the type of the object node, or the name and type of the node in
+ the format "name:type."
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/activity-edge-object-flow.png" width="260" height="113"
+ alt="Object flow edges are activity edges used to show data flow between action nodes." 
+ title="Object flow edges are activity edges used to show data flow between action nodes." />
+<p class="figure-text">
+<strong>Object flow</strong> of <strong>Orders</strong> between Fill Order and Review Order actions
+</p>
+</div>
+
+<p>
+The name can also be qualified by a state or states, which is to be written within brackets below
+ the name of the type.
+ Upper bounds, ordering, and control type other than the defaults are notated in braces underneath
+ the object node.
+</p>
+
+
+<!--
+***********
+   Pin
+***********
+-->
+ 
+<h2 id="pin">Pin</h2>
+
+<p>
+A <strong>pin</strong> is
+ an <a href="activity-diagrams-objects.html" class="ref-link">object node</a>
+ for inputs and outputs
+ to <a href="activity-diagrams-actions.html" class="ref-link">actions</a>.
+</p>
+
+<p>
+Pin is usually shown as a small rectangle attached to the action rectangle.
+The name of the pin can be displayed near the pin.
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/input-pin.png" width="184" height="58" 
+ alt="Item is input pin to the Add to Shopping Cart action." 
+ title="Item is input pin to the Add to Shopping Cart action." />
+<p class="figure-text">
+Item is <strong>input pin</strong> to the Add to Shopping Cart action.
+</p>
+</div>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/output-pin.png" width="182" height="58" 
+ alt="Invoice is output pin from the Create Invoice action." 
+ title="Invoice is output pin from the Create Invoice action." />
+<p class="figure-text">
+Invoice is <strong>output pin</strong> from the Create Invoice action.
+</p>
+</div>
+
+
+<!--
+*****************
+ Central buffer
+*****************
+-->
+ 
+<h2 id="central-buffer">Central Buffer</h2>
+
+<p>
+A <strong>central buffer</strong> node is
+ an <a href="activity-diagrams-objects.html" class="ref-link">object node</a>
+ for managing flows from multiple sources and destinations.
+ A central buffer node accepts tokens from multiple object in flows, buffers those and passes them along
+ to out flows.
+ Central buffers do not connect directly to actions.
+</p>
+
+<p>
+Note, that all object nodes have built-in capability of data buffering.
+ <a href="activity-diagrams-objects.html#pin" class="ref-link">Pins</a>
+ could buffer data for actions, while activity parameters - for activity.
+ Central buffer differs in that it is not tied to an action or to an activity.
+ It provides additional support for queuing and competition between object flows.
+</p>
+
+<p>
+Central buffer is notated as an object node with optional keyword «centralBuffer»
+ which allows to distinguish it from the standalone pin.
+</p>
+
+
+<!--
+*****************
+  Data Store
+*****************
+-->
+ 
+<h3 id="data-store">Data Store</h3>
+
+<p>
+A <strong>data store</strong> is
+ a <a href="activity-diagrams-objects.html#central-buffer" class="ref-link">central buffer</a> node
+ for non-transient information.
+</p>
+
+<p>
+All incoming tokens are stored by the data store.
+ A special rule is that if incoming token contains some particular object which is already stored in the data store,
+ then the new token will replace any tokens in the object node containing that object.
+</p>
+
+<p>
+Tokens which were chosen to go out ("move downstream") of data store are actually <strong>copied</strong>
+ while original token is kept and not deleted from the data store.
+</p>
+
+<p>
+The data store is notated as an object node with the keyword «datastore».
+</p>
+
+<div class="figure-left-80">
+<img src="activity-diagrams/data-store.png" width="300" height="60"
+ alt="Incoming Patient token is stored by the Patients data store." 
+ title="Incoming Patient token is stored by the Patients data store." />
+<p class="figure-text">
+Incoming Patient token is stored by the Patients data store.
+</p>
+</div>
+
+
+<br />
+
+</div><!-- main content -->
+<script type="text/javascript" src="orphus/orphus.js"></script>
+<p class="footer-author">
+Noticed a spelling error? Select the text using the mouse and press Ctrl + Enter.
+</p>
+<a href="activity-diagrams-objects.html#disqus_thread">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+ var disqus_developer=0; 
+ (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '../go.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=umldiagrams">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script type="text/javascript">
+var disqus_shortname = 'umldiagrams';
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = '../go.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+<div id="footer">
+
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fuml-diagramsorg%2F159692074079895&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=68" scrolling="no" frameborder="0" style="border-style:none;overflow:hidden;width:200px;height:68px;" allowTransparency="true"></iframe>
+
+&nbsp;
+
+<a rel="publisher" href="https://plus.google.com/u/0/100310735326224144303" title="www.uml-diagrams.org">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<script type="text/javascript" src="../apis.google.com/js/plusone.js"></script>
+<g:plusone size="tall"></g:plusone>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="https://plus.google.com/100310735326224144303" rel="author" title="Kirill Fakhroutdinov">
+<img src="../www.google.com/images/icons/ui/gprofile_button-44.png" width="44" height="44" style="border-style:none;"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://orphus.ru/" id="orphus" target="_blank">
+<img alt="Orphus system" src="orphus/orphus.png" border="0" width="52" height="32" /></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.ipage.com/green-certified/"
+ onClick="MyWindow=window.open('http://www.ipage.com/green-certified/uml-diagrams.org','greenCertified','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550,height=700,left=50,top=50'); return false;">
+<img src="../www.ipage.com/green-certified/hosting-badge-1.png" border="0" alt="Powered by 100% wind energy" title="Powered by 100% wind energy"></a>
+
+&nbsp;&nbsp;&nbsp;
+
+<img src="http://shield.sitelock.com/shield/www.uml-diagrams.org" id="sl_shield_image" style="border-style:none;cursor:pointer;" />
+<script id="sl_shield" src="../shield.sitelock.com/sitelock.js" language="javascript"></script>
+
+&nbsp;&nbsp;&nbsp;
+
+by <a href="https://plus.google.com/100310735326224144303?rel=author" title="Articles by Kirill Fakhroutdinov" >Kirill Fakhroutdinov</a>
+
+<p>&nbsp;</p>
+
+<p>
+This document describes <strong>UML 2.4</strong> and is based on
+ <strong>OMG&trade; Unified Modeling Language&trade; (OMG UML&reg;) 2.4</strong> specification 
+ <a href="references.html#ref-uml-24-super" class="external-ref" title="UML 2.4 - Superstructure">[UML 2.4 - Superstructure]</a>.
+</p>
+
+<p>
+All UML diagrams were created in <strong>Microsoft Visio</strong> 2007 or 2010 using 
+ <a href="http://softwarestencils.com/uml/index.html" class="external-ref" title="Visio Stencil and Template for UML 2.2">UML 2.2 stencils</a>.
+ You can send your comments and suggestions to <a href="mailto:webmaster@uml-diagrams.org">web master</a>
+ at <strong>webmaster@uml-diagrams.org</strong>.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+<em>Copyright &copy; 2009-2014 uml-diagrams.org. All rights reserved.</em>
+</p>
+
+</div><!-- end footer --></body>
+
+<!-- Mirrored from www.uml-diagrams.org/activity-diagrams-objects.html by HTTrack Website Copier/3.x [XR&CO'2008], Sat, 22 Mar 2014 15:15:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

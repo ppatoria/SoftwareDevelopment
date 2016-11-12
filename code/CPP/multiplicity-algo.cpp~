@@ -1,0 +1,70 @@
+void solution( std::vector<int>& A, std::vector<int>& B )
+{
+  if( !A.size() || !A.size() || (A.size() != B.size()) )
+    {
+      return -1;
+    }
+
+
+  std::vector<double> C = filter( A, B,
+				  [](int a, int b, double& c)
+				  {
+				    return c = b / 1000000 ? true : false;
+				  });
+		       
+    void filter( std::vector<int>& A, std::vector<int>& B )
+    {
+      for( int i = 0; i < A.size(); i ++ )
+	{
+	  double b = B[i] / 1000000; 
+          if( (A[i] +  b)  > 1 )
+	    return A[i] + b;
+        }
+    } 
+}
+
+    std::vector<int> filter( std::vector<int>& A, std::vector<int>& B, std::funcion<bool( int a, int b, double& c )> op )
+    {
+      std::vector<int> C;
+      for( int i = 0; i < A.size(); i ++ )
+	{
+	  double result = 0.0;
+	  if( op( A[i], B[i], result ))
+	    {
+	      C.push_back( result );
+	    }
+	}
+      return std::move( C );
+    }
+
+
+
+def solution(A, B):
+    # write your code in Python 2.7
+    if not len(A) or not len(B) or len(A) != len(B):
+        return -1
+ 
+    # make C and filter all values <= 1
+    C = [A[i]+float(B[i])/1000000 for i in range(len(A)) if A[i]+float(B[i])/1000000 > 1]
+    
+    C.sort()
+    result = 0
+    
+    p = 0  # position
+    l = len(C) - 1
+    
+    while l > p:
+        res = C[l] / (C[l] - 1)
+        while (p < l and C[p] < res):
+            p = p + 1
+        if p == l:
+            break
+        result = result + (l-p)
+        
+        if result > 1000000000:
+            return 1000000000
+        
+        l = l-1
+        
+ 
+    return result

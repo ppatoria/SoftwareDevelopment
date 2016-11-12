@@ -1,0 +1,497 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch23.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>C# 3.0 in a Nutshell - Code Listings</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+<style type="text/css">
+<!--
+a:visited.sidelink2, a:link.sidelink2 { color:black; }
+-->
+</style>
+
+<!--[if IE 6]>
+<link href="ie.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="ie7.css" rel="stylesheet" type="text/css" media="screen">
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="maincode">
+
+<div>
+	<h1>Code Listings</h1>
+	<h2>Chapter 23: Diagnostics</h2>
+	<p>Conditional compilation:</p><pre>#define TESTMODE            // #define directives must be at top of file
+                            // Symbol names are uppercase by convention.
+using System;
+
+class Program
+{
+  static void Main()
+  {
+    #if TESTMODE
+    Console.WriteLine (&quot;in test mode!&quot;);     // OUTPUT: in test mode!
+    #endif 
+  }
+}</pre>
+	<p>Conditional attribute:</p><pre>[Conditional (&quot;LOGGINGMODE&quot;)]
+static void LogStatus (string msg)
+{
+  ...
+}</pre>
+	<p>Debug and Trace classes:</p><pre>Debug.Write     (&quot;Data&quot;);
+Debug.WriteLine (23 * 34);
+int x = 5, y = 3; 
+Debug.WriteIf   (x &gt; y, &quot;x is greater than y&quot;);</pre>
+	<p>TraceListener:</p><pre>// Clear the default listener:
+Trace.Listeners.Clear();
+
+// Add a writer that appends to the trace.txt file:
+Trace.Listeners.Add (new TextWriterTraceListener (&quot;trace.txt&quot;));
+
+// Obtain the Console's output stream, then add that as a listener:
+System.IO.TextWriter tw = Console.Out;
+Trace.Listeners.Add (new TextWriterTraceListener (tw));
+
+// Set up a Windows Event log source and then create/add listener:
+if (!EventLog.SourceExists (&quot;DemoApp&quot;))
+  EventLog.CreateEventSource (&quot;DemoApp&quot;, &quot;Application&quot;);
+
+Trace.Listeners.Add (new EventLogTraceListener (&quot;DemoApp&quot;));</pre>
+
+
+	<p>Enumerating processes:</p>
+	<pre>foreach (Process p in Process.GetProcesses())
+{
+  Console.WriteLine (p.ProcessName);
+  Console.WriteLine (&quot;   PID:      &quot; + p.Id);
+  Console.WriteLine (&quot;   Started:  &quot; + p.StartTime);
+  Console.WriteLine (&quot;   Memory:   &quot; + p.WorkingSet64);
+  Console.WriteLine (&quot;   CPU time: &quot; + p.TotalProcessorTime);
+  Console.WriteLine (&quot;   Threads:  &quot; + p.Threads.Count);
+}</pre>
+	<p>Enumerating process threads:</p><pre>public void EnumerateThreads (Process p)
+{
+  foreach (ProcessThread pt in p.Threads)
+  {
+    Console.WriteLine (pt.Id);
+    Console.WriteLine (&quot;   State:    &quot; + pt.ThreadState);
+    Console.WriteLine (&quot;   Priority: &quot; + pt.PriorityLevel);
+    Console.WriteLine (&quot;   Started:  &quot; + pt.StartTime);
+    Console.WriteLine (&quot;   CPU time: &quot; + pt.TotalProcessorTime);
+  }    
+}</pre>
+	<p>StackTrace and StackFrame:</p><pre>static void Main() { A (); }
+static void A()    { B (); }
+static void B()    { C (); }
+static void C()
+{
+  StackTrace s = new StackTrace (true);
+
+  Console.WriteLine (&quot;Total frames:   &quot; + s.FrameCount);
+  Console.WriteLine (&quot;Current method: &quot; + s.GetFrame(0).GetMethod().Name);
+  Console.WriteLine (&quot;Calling method: &quot; + s.GetFrame(1).GetMethod().Name);
+  Console.WriteLine (&quot;Entry method:   &quot; + s.GetFrame
+                                       (s.FrameCount-1).GetMethod().Name);
+  Console.WriteLine (&quot;Call Stack:&quot;);
+  foreach (StackFrame f in s.GetFrames())
+    Console.WriteLine (
+      &quot;  File: &quot;   + f.GetFileName() +
+      &quot;  Line: &quot;   + f.GetFileLineNumber() +
+      &quot;  Col: &quot;    + f.GetFileColumnNumber() +
+      &quot;  Offset: &quot; + f.GetILOffset() +
+      &quot;  Method: &quot; + f.GetMethod().Name);
+}</pre>
+	<p>Writing to the Windows Event Log:</p><pre>const string SourceName = &quot;MyCompany.WidgetServer&quot;;
+
+if (!EventLog.SourceExists (SourceName))
+  EventLog.CreateEventSource (SourceName, &quot;Application&quot;);
+
+EventLog.WriteEntry (SourceName,
+  &quot;Service started; using configuration file=...&quot;,
+  EventLogEntryType.Information);</pre>
+	<p>Reading from the Windows Event Log:</p><pre>EventLog log = new EventLog (&quot;Application&quot;);
+
+Console.WriteLine (&quot;Total entries: &quot; + log.Entries.Count);
+
+EventLogEntry last = log.Entries [log.Entries.Count - 1];
+Console.WriteLine (&quot;Index:   &quot; + last.Index);
+Console.WriteLine (&quot;Source:  &quot; + last.Source);
+Console.WriteLine (&quot;Type:    &quot; + last.EntryType);
+Console.WriteLine (&quot;Time:    &quot; + last.TimeWritten);
+Console.WriteLine (&quot;Message: &quot; + last.Message);</pre>
+	<p>Monitoring the Windows Event Log:</p><pre>static void Main()
+{
+  EventLog log = new EventLog (&quot;Application&quot;);
+  log.EnableRaisingEvents = true;
+  log.EntryWritten += DisplayEntry;
+  Console.ReadLine();
+}
+
+static void DisplayEntry (object sender, EntryWrittenEventArgs e)
+{
+  EventLogEntry entry = e.Entry;
+  Console.WriteLine (entry.Message);
+}</pre>
+	<p>Enumerating performance counters:</p><pre>PerformanceCounterCategory[] cats =
+  PerformanceCounterCategory.GetCategories();
+
+foreach (PerformanceCounterCategory cat in cats)
+{
+  Console.WriteLine (&quot;Category: &quot; + cat.CategoryName);
+
+  string[] instances = cat.GetInstanceNames();
+  if (instances.Length == 0)
+  {
+    foreach (PerformanceCounter ctr in cat.GetCounters())
+      Console.WriteLine (&quot;  Counter: &quot; + ctr.CounterName);
+  }
+  else   // Dump counters with instances   
+  {
+    foreach (string instance in instances)
+    {
+      Console.WriteLine (&quot;  Instance: &quot; + instance);
+      if (cat.InstanceExists (instance))
+        foreach (PerformanceCounter ctr in cat.GetCounters (instance))
+          Console.WriteLine (&quot;    Counter: &quot; + ctr.CounterName);
+    }
+  }
+}</pre>
+	<p>Enumerating performance counters with LINQ to XML:</p><pre>var x =
+  new XElement (&quot;counters&quot;,
+    from PerformanceCounterCategory cat in
+         PerformanceCounterCategory.GetCategories()
+    where cat.CategoryName.StartsWith (&quot;.NET&quot;)
+    let instances = cat.GetInstanceNames()
+    select new XElement (&quot;category&quot;,
+      new XAttribute (&quot;name&quot;, cat.CategoryName),
+      instances.Length == 0
+      ?
+        from c in cat.GetCounters ()
+        select new XElement (&quot;counter&quot;,
+          new XAttribute (&quot;name&quot;, c.CounterName))
+      :
+        from i in instances
+        select new XElement (&quot;instance&quot;, new XAttribute (&quot;name&quot;, i),
+          !cat.InstanceExists (i)
+          ?
+            null
+          :
+            from c in cat.GetCounters (i)
+            select new XElement (&quot;counter&quot;,
+              new XAttribute (&quot;name&quot;, c.CounterName))
+        )
+    )
+  );
+x.Save (&quot;counters.xml&quot;);</pre>
+	<p>Reading performance counter data:</p><pre>using (PerformanceCounter pc = new PerformanceCounter (&quot;Processor&quot;,
+                                                       &quot;% Processor Time&quot;,
+                                                       &quot;_Total&quot;))
+  Console.WriteLine (pc.NextValue());
+
+
+string procName = Process.GetCurrentProcess().ProcessName;
+
+using (PerformanceCounter pc = new PerformanceCounter (&quot;Process&quot;,
+                                                       &quot;Private Bytes&quot;,
+                                                       procName))
+  Console.WriteLine (pc.NextValue());</pre>
+	<p>Polling performance counters:</p><pre>static void Monitor (string category, string counter, string instance,
+                     EventWaitHandle stopper)
+{
+  if (!PerformanceCounterCategory.Exists (category))
+    throw new InvalidOperationException (&quot;Category does not exist&quot;);
+
+  if (!PerformanceCounterCategory.CounterExists (counter, category))
+    throw new InvalidOperationException (&quot;Counter does not exist&quot;);
+
+  if (instance == null) instance = &quot;&quot;;   // &quot;&quot; == no instance (not null!)
+  if (instance != &quot;&quot; &amp;&amp;
+      !PerformanceCounterCategory.InstanceExists (instance, category))
+    throw new InvalidOperationException (&quot;Instance does not exist&quot;);
+
+  float lastValue = 0f;
+  using (PerformanceCounter pc = new PerformanceCounter (category,
+                                                      counter, instance))
+    while (!stopper.WaitOne (200, false))
+    {
+      float value = pc.NextValue();
+      if (value != lastValue)         // Only write out the value
+      {                               // if it has changed.
+        Console.WriteLine (value);
+        lastValue = value;
+      }
+    }
+}</pre>
+	<pre>static void Main()
+{
+  EventWaitHandle stopper = new ManualResetEvent (false);
+  new Thread (delegate()
+    { Monitor (&quot;Processor&quot;, &quot;% Processor Time&quot;, &quot;_Total&quot;, stopper); }
+  ).Start();
+  new Thread (delegate()
+    { Monitor (&quot;LogicalDisk&quot;, &quot;% Idle Time&quot;, &quot;C:&quot;, stopper); }
+  ).Start();
+  Console.WriteLine (&quot;Monitoring - press any key to quit&quot;);
+  Console.ReadKey();
+  stopper.Set();
+}</pre>
+	<p>Creating counters:</p><pre>string category = &quot;Nutshell Monitoring&quot;;
+
+// We'll create two counters in this category:
+string eatenPerMin = &quot;Macadamias eaten so far&quot;;
+string tooHard = &quot;Macadamias deemed too hard&quot;;
+
+if (!PerformanceCounterCategory.Exists (category))
+{
+  CounterCreationDataCollection cd = new CounterCreationDataCollection();
+
+  cd.Add (new CounterCreationData (eatenPerMin,
+          &quot;Number of macadamias consumed, including shelling time&quot;,
+          PerformanceCounterType.NumberOfItems32));
+
+  cd.Add (new CounterCreationData (tooHard,
+          &quot;Number of macadamias that will not crack, despite much effort&quot;,
+          PerformanceCounterType.NumberOfItems32));
+
+  PerformanceCounterCategory.Create (category, &quot;Test Category&quot;,
+    PerformanceCounterCategoryType.SingleInstance, cd);
+}</pre>
+	<p>Updating a counter value:</p><pre>string category = &quot;Nutshell Monitoring&quot;;
+string eatenPerMin = &quot;Macadamias eaten so far&quot;;
+
+using (PerformanceCounter pc = new PerformanceCounter (category,
+                                                       eatenPerMin, &quot;&quot;))
+{
+  pc.ReadOnly = false;
+  pc.RawValue = 1000;
+  pc.Increment();
+  pc.IncrementBy (10);
+  Console.WriteLine (pc.NextValue());    // 1011
+}</pre>
+</div>
+
+<p style="text-align:center">
+<span style="font-size: 80%">© 2007, O'Reilly Media, Inc. All rights reserved</span></p>
+
+</div>
+
+<!--webbot bot="Include" U-Include="sidecode.html" TAG="BODY" startspan -->
+
+<div id="side">
+<div id="sideinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td align="center" valign="top">
+				<a href="index.html">
+					<img src="animal.png" alt="C# 3.0 in a Nutshell" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="shadow">
+	<div class="shadowinner">
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="sidetable">
+	
+		<tr>
+			<td align="center" valign="middle" >
+				<a href="index.html">
+					<img src="cs30.png" alt="C# 3.0" />
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle" style="background: #BF2C19">
+				<a href="index.html">
+					<img src="inanutshell.png" alt="in a Nutshell"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="middle">
+				<a href="index.html">
+					<img src="authors.png" alt="Joseph Albahari &amp; Ben Albahari"/>
+				</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center"><p class="companionwebsite">Companion Website</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink1" href="about.html">About the Book</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent1" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%"  cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink2" href="code.html">Code Listings</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent2" -->
+				<table width="90%" cellpadding="0" cellspacing="0" class="subcontent">
+						<tr>
+							<td align="right"><a href="ch01.html" class="sublink">Chapter 1</a></td>
+							<td align="right"><a href="ch14.html" class="sublink">Chapter 14</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch02.html" class="sublink">Chapter 2</a></td>
+							<td align="right"><a href="ch15.html" class="sublink">Chapter 15</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch03.html" class="sublink">Chapter 3</a></td>
+							<td align="right"><a href="ch16.html" class="sublink">Chapter 16</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch04.html" class="sublink">Chapter 4</a></td>
+							<td align="right"><a href="ch17.html" class="sublink">Chapter 17</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch06.html" class="sublink">Chapter 6</a></td>
+							<td align="right"><a href="ch18.html" class="sublink">Chapter 18</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch07.html" class="sublink">Chapter 7</a></td>
+							<td align="right"><a href="ch19.html" class="sublink">Chapter 19</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch08.html" class="sublink">Chapter 8</a></td>
+							<td align="right"><a href="ch20.html" class="sublink">Chapter 20</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch09.html" class="sublink">Chapter 9</a></td>
+							<td align="right"><a href="ch21.html" class="sublink">Chapter 21</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch10.html" class="sublink">Chapter 10</a></td>
+							<td align="right"><a href="ch22.html" class="sublink">Chapter 22</a></td>
+						</tr>
+						<tr>
+							<td align="right"><a href="ch11.html" class="sublink">Chapter 11</a></td>
+							<td align="right"><a href="ch23.html" class="sublink">Chapter 23</a></td>
+						</tr>			
+						<tr>
+							<td align="right"><a href="ch13.html" class="sublink">Chapter 13</a></td>
+							<td align="right"><a href="ch24.html" class="sublink">Chapter 24</a></td>
+						</tr>
+				</table>
+				<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink3" href="extras.html">Extras</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">
+				<!-- #BeginEditable "subcontent3" -->
+				&nbsp;<!-- #EndEditable --></td>
+		</tr>
+		
+		<tr>
+			<td align="center" valign="top">	
+				<table width="90%" cellpadding="0" cellspacing="0" class="sidelink">
+					<tr>
+						<td align="left" valign="bottom">
+							<img src="animalsmall.png" alt=""/>
+						</td>
+						<td align="right" valign="bottom">
+							<a class="sidelink4" href="contact.html">Contact Authors</a>
+						</td>
+					</tr>
+				</table>
+				<br>
+			</td>
+		</tr>	
+		
+		
+				
+	</table>	
+	
+	</div>
+	</div>
+	
+	<div style="margin-top: 0.5em">
+	<table>
+		<tr>
+			<td>
+				<a href="amazon/index.html">
+					<img src="amazon.gif" alt="Buy from amazon.com"/>
+				</a>
+			</td>
+			<td>Available now</td>
+		</tr>
+	</table>
+	</div>
+
+</div>
+</div>
+
+	
+<!--webbot bot="Include" i-checksum="63534" endspan -->
+
+</body>
+
+
+<!-- Mirrored from www.albahari.com/nutshell/ch23.aspx by HTTrack Website Copier/3.x [XR&CO'2008], Thu, 02 Jan 2014 03:52:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

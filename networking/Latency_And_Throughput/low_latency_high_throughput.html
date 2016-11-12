@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Latency And Throughput</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-12-25 17:11:46 "/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Latency And Throughput</h1>
+
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" href="org-style.css" type="text/css" />
+<style type="text/css"/></style>
+
+
+<div id="postamble">
+<p class="author"> Author: Pralay Patoria
+<a href="mailto:ppatoria@gmail.com">&lt;ppatoria@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 25-12-2013</p>
+</div>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 <span style="text-decoration:underline;">Low Latency System</span> </a>
+<ul>
+<li><a href="#sec-1_1">1.1 Meaning: </a></li>
+<li><a href="#sec-1_2">1.2 How to measure: </a></li>
+<li><a href="#sec-1_3">1.3 What is the latency  of your current system ? </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 <span style="text-decoration:underline;">High Throughput System</span> </a>
+<ul>
+<li><a href="#sec-2_1">2.1 Meaning: </a></li>
+<li><a href="#sec-2_2">2.2 How to measure: </a></li>
+<li><a href="#sec-2_3">2.3 What is the throughput of your current system ? </a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 <span style="text-decoration:underline;">A simple generic example</span> </a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> <span style="text-decoration:underline;">Low Latency System</span> </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> Meaning: </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<p>Latency is the time required to perform some action or to produce some result. 
+Data latency may refer to the time between a query and the results arriving at the screen or the time between initiating a transaction that modifies one or more databases and its completion.
+Latency is measured in units of time &ndash; hours, minutes, seconds, nanoseconds or clock periods. 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> How to measure: </h3>
+<div class="outline-text-3" id="text-1_2">
+
+<ol>
+<li>
+<b>Latency of HermesAPI:</b> Time taken to process/enrich/convert client request and send/write to socket for Agora.
+</li>
+<li>
+<b>Latency of Agora:</b> Time taken to process client request and send/write acknowledgment/tisreply to socket.
+</li>
+<li>
+<b>Latency of Hermes + Agora:</b> Time taken to process/enrich/convert client request and send/write to socket and acknowledgment/tisreply received from Agora.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-1_3" class="outline-3">
+<h3 id="sec-1_3"><span class="section-number-3">1.3</span> What is the latency  of your current system ? </h3>
+<div class="outline-text-3" id="text-1_3">
+
+<p>Agora: 33 microseconds for 16 instances.
+</p>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <span style="text-decoration:underline;">High Throughput System</span> </h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+
+</div>
+
+<div id="outline-container-2_1" class="outline-3">
+<h3 id="sec-2_1"><span class="section-number-3">2.1</span> Meaning: </h3>
+<div class="outline-text-3" id="text-2_1">
+
+<p>Throughput is the number of such actions executed or results produced per unit of time. 
+This is measured in units of whatever is being produced (cars, motorcycles, I/O samples, memory words, iterations) per unit of time. 
+The term "memory bandwidth" is sometimes used to specify the throughput of memory systems. 
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2_2" class="outline-3">
+<h3 id="sec-2_2"><span class="section-number-3">2.2</span> How to measure: </h3>
+<div class="outline-text-3" id="text-2_2">
+
+<ol>
+<li>
+<b>Throughput of Hermes:</b> Number of messages Hermes process and send to agora per second.
+</li>
+<li>
+<b>Throughout of Agora:</b>  Number of messages agora process and send the reply back to Hermes.
+</li>
+<li>
+<b>Throughput clients perspective:</b> (a) + (b) 
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-2_3" class="outline-3">
+<h3 id="sec-2_3"><span class="section-number-3">2.3</span> What is the throughput of your current system ? </h3>
+<div class="outline-text-3" id="text-2_3">
+
+<p>30,000~ messages when there are 16 instances.
+</p>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <span style="text-decoration:underline;">A simple generic example</span> </h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+The following manufacturing example should clarify these two concepts: 
+An assembly line is manufacturing cars. It takes eight hours to manufacture a car and that the factory produces one hundred and twenty cars per day. 
+The latency is: 8 hours. 
+The throughput is: 120 cars / day or 5 cars / hour.
+</p></div>
+</div>
+<div id="postamble">
+<p class="date"> Date: 2013-12-25 17:11:46 </p>
+</div>
+</div>
+</body>
+</html>
